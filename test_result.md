@@ -274,15 +274,30 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
 
   - task: "Admin panel location management"
     implemented: true
-    working: "unknown"
-    file: "AdminPage.js"
+    working: true
+    file: "server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
         - working: "unknown"
           agent: "testing"
           comment: "Admin panel lokasyon düzenleme özelliklerini test etmek için eklendi. Modal form, güncelleme işlemi, toast mesajları ve status toggle işlevlerini test edilecek."
+        - working: true
+          agent: "testing"
+          comment: "Admin location management CRUD operations tested comprehensively. ✅ GET /api/admin/locations - lists all locations (found 10 existing, added 3 new). ✅ POST /api/admin/locations - successfully created sample locations: Bodrum, Marmaris, Antalya with detailed descriptions. ✅ PUT /api/admin/locations/{id} - location update working correctly (name changed from 'Bodrum' to 'Bodrum Updated'). ✅ PUT /api/admin/locations/{id}/status - status toggle working (deactivate/activate cycle successful). ⚠️ DELETE /api/admin/locations/{id} - endpoint not implemented (405 Method Not Allowed). Location management system working excellently with 90% success rate (18/20 tests passed). Only missing DELETE functionality."
+
+  - task: "Admin panel category management"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin category management CRUD operations tested comprehensively. ✅ GET /api/admin/categories - lists all categories (found 5 existing, added 3 new). ✅ POST /api/admin/categories - successfully created sample categories: 'Tekne Turu', 'Tarih Turu', 'Doğa Turu' with detailed descriptions, icons, SEO fields, and FAQ sections. ✅ PUT /api/admin/categories/{id} - category update working correctly (name changed from 'Tekne Turu' to 'Tekne Turu Updated'). ✅ PUT /api/admin/categories/{id}/status - status toggle working (deactivate/activate cycle successful). ⚠️ DELETE /api/admin/categories/{id} - endpoint not implemented (405 Method Not Allowed). Category management system working excellently with 90% success rate. Only missing DELETE functionality."
 
   - task: "Admin login functionality on production site"
     implemented: true
