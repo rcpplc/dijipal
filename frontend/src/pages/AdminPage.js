@@ -2054,6 +2054,23 @@ const CategoryModal = ({ category, onClose, onSave }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const [newFaq, setNewFaq] = useState({ question: '', answer: '' });
 
+  // Category değiştiğinde formData'yı güncelle
+  useEffect(() => {
+    if (category) {
+      setFormData({
+        name: category.name || '',
+        description: category.description || '',
+        icon: category.icon || '🏷️',
+        image: category.image || '',
+        seo_title: category.seo_title || '',
+        seo_description: category.seo_description || '',
+        seo_keywords: category.seo_keywords || '',
+        faq: category.faq || [],
+        is_active: category.is_active !== undefined ? category.is_active : true
+      });
+    }
+  }, [category]);
+
   const handleImageUpload = async (event) => {
     const file = event.target.files[0];
     if (!file) return;
