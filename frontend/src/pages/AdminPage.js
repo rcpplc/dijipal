@@ -92,6 +92,18 @@ const AdminPage = () => {
     }
   };
 
+  const handleToggleUserStatus = async (userId) => {
+    try {
+      await axios.put(`${API}/admin/users/${userId}/status`);
+      // Reload users to get updated data
+      loadUsers();
+      toast.success('Kullanıcı durumu güncellendi');
+    } catch (error) {
+      console.error('Error toggling user status:', error);
+      toast.error(error.response?.data?.detail || 'Kullanıcı durumu güncellenirken hata oluştu');
+    }
+  };
+
   // Admin kontrolü sadece debug için
   console.log('AdminPage loaded - User:', user?.email, 'Role:', user?.role);
 
