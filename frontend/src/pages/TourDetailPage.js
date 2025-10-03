@@ -365,10 +365,7 @@ const TourDetailPage = () => {
                   )}
                 </div>
 
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Users className="w-4 h-4" />
-                  <span>Max {tour.max_participants} kişi</span>
-                </div>
+                {/* Max participants removed per user request */}
               </div>
 
               {/* Description */}
