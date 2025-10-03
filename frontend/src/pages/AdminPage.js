@@ -1745,7 +1745,30 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       return;
     }
     
-    console.log('Starting tour submission...');
+    console.log('🚀 Starting tour submission...');
+    console.log('📋 FormData being submitted:', JSON.stringify(formData, null, 2));
+    console.log('📅 Tour dates detail:', JSON.stringify(formData.tour_dates, null, 2));
+    
+    // Validate required fields
+    if (!formData.title || !formData.description) {
+      toast.error('Başlık ve açıklama alanları zorunludur');
+      return;
+    }
+    
+    // Validate tour dates
+    if (formData.tour_dates.length === 0) {
+      toast.error('En az bir tarih eklemelisiniz');
+      return;
+    }
+    
+    // Validate each tour date
+    for (let i = 0; i < formData.tour_dates.length; i++) {
+      const date = formData.tour_dates[i];
+      if (!date.date || !date.capacity || !date.single_cabin_price || !date.double_cabin_price) {
+        toast.error(`${i + 1}. tarihte eksik bilgi var: tarih, kapasite ve kabin fiyatları gereklidir`);
+        return;
+      }
+    }
     
     setLoading(true);
 
