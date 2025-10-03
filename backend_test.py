@@ -430,13 +430,55 @@ class TourPlatformAPITester:
         except Exception as e:
             print(f"\n⚠️  Could not save results file: {e}")
 
+    def run_specific_admin_tests(self):
+        """Run specific tests requested in the review"""
+        print("🎯 Running Specific Admin Tests as Requested")
+        print("=" * 70)
+        
+        # Test 1: GET /api/tours - tur listesi
+        print("\n📋 Test 1: GET /api/tours - Tour List")
+        self.test_get_tours()
+        
+        # Test 2: GET /api/tours/{tour_id} - tur detayları
+        print("\n📋 Test 2: GET /api/tours/{tour_id} - Tour Details")
+        tours_success, tours_response = self.test_get_tours()
+        if tours_success and tours_response and len(tours_response) > 0:
+            tour_id = tours_response[0].get('id')
+            if tour_id:
+                self.test_get_single_tour(tour_id)
+                # Test 5: GET /api/tours/{tour_id}/dates - tour dates
+                print("\n📋 Test 5: GET /api/tours/{tour_id}/dates - Tour Dates")
+                self.test_get_tour_dates(tour_id)
+        
+        # Test 3: POST /api/auth/login - admin girişi
+        print("\n📋 Test 3: POST /api/auth/login - Admin Login")
+        admin_success = self.test_admin_login()
+        
+        if admin_success:
+            # Test 4: GET /api/admin/tours - admin tur listesi
+            print("\n📋 Test 4: GET /api/admin/tours - Admin Tour List")
+            self.test_admin_tours()
+            
+            # Test admin dashboard
+            print("\n📋 Test Extra: GET /api/admin/dashboard - Admin Dashboard")
+            self.test_admin_dashboard()
+        
+        # Test 6: POST /api/add-sample-data - örnek veri ekleme
+        print("\n📋 Test 6: POST /api/add-sample-data - Sample Data Loading")
+        self.test_add_sample_data()
+        
+        # Print final results
+        self.print_final_results()
+
 def main():
     """Main test execution"""
     print("🇹🇷 Turkish Tour Platform - Backend API Testing")
     print("Testing URL: https://pakettour.preview.emergentagent.com")
     
     tester = TourPlatformAPITester()
-    tester.run_comprehensive_test()
+    
+    # Run specific tests as requested
+    tester.run_specific_admin_tests()
     
     # Return exit code based on success rate
     success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
