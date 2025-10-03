@@ -356,8 +356,13 @@ async def get_tours(
     
     tours = await db.tours.find(filter_query).skip(skip).limit(limit).to_list(length=None)
     
-    # Add tour_dates to each tour for price calculation
+    # Convert and add tour_dates to each tour for price calculation
+    result_tours = []
     for tour in tours:
+        # Remove MongoDB _id to avoid serialization issues
+        if "_id" in tour:
+            del tour["_id"]
+            
         tour_dates = await db.tour_dates.find({
             "tour_id": tour["id"],
             "is_active": True
@@ -366,6 +371,8 @@ async def get_tours(
         # Convert tour_dates for frontend
         tour["tour_dates"] = []
         for date in tour_dates:
+            if "_id" in date:
+                del date["_id"]
             tour["tour_dates"].append({
                 "id": date["id"],
                 "date": date["start_date"],
@@ -373,8 +380,10 @@ async def get_tours(
                 "capacity": date["available_spots"],
                 "is_active": date.get("is_active", True)
             })
+        
+        result_tours.append(tour)
     
-    return tours
+    return result_tours
 
 @api_router.get("/tours/{tour_id}", response_model=Tour)
 async def get_tour(tour_id: str = FastAPIPath(...)):
