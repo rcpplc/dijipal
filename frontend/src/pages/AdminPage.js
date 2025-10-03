@@ -254,25 +254,25 @@ const AdminPage = () => {
                     <StatCard
                       title="Toplam Tur"
                       value={dashboardData.total_tours}
-                      icon="🚌"
+                      icon="▲"
                       color="blue"
                     />
                     <StatCard
                       title="Toplam Rezervasyon"
                       value={dashboardData.total_bookings}
-                      icon="📅"
+                      icon="◇"
                       color="green"
                     />
                     <StatCard
                       title="Toplam Kullanıcı"
                       value={dashboardData.total_users}
-                      icon="👥"
+                      icon="◆"
                       color="purple"
                     />
                     <StatCard
                       title="Toplam Gelir"
                       value={`₺${dashboardData.total_revenue || 0}`}
-                      icon="💰"
+                      icon="●"
                       color="yellow"
                     />
                   </div>
