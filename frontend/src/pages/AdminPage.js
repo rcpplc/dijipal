@@ -143,13 +143,13 @@ const AdminPage = () => {
   console.log('AdminPage loaded - User:', user?.email, 'Role:', user?.role);
 
   const tabs = [
-    { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
-    { id: 'tours', label: 'Turlar', icon: MapPin },
-    { id: 'users', label: 'Kullanıcılar', icon: Users },
-    { id: 'locations', label: 'Lokasyonlar', icon: MapPin },
-    { id: 'categories', label: 'Kategoriler', icon: Users },
-    { id: 'bookings', label: 'Rezervasyonlar', icon: Calendar },
-    { id: 'reviews', label: 'Değerlendirmeler', icon: Eye }
+    { id: 'dashboard', label: 'Dashboard', icon: '📊' },
+    { id: 'tours', label: 'Turlar', icon: '🚌' },
+    { id: 'users', label: 'Kullanıcılar', icon: '👥' },
+    { id: 'locations', label: 'Lokasyonlar', icon: '📍' },
+    { id: 'categories', label: 'Kategoriler', icon: '🏷️' },
+    { id: 'bookings', label: 'Rezervasyonlar', icon: '📅' },
+    { id: 'reviews', label: 'Değerlendirmeler', icon: '⭐' }
   ];
 
   const StatCard = ({ title, value, icon: Icon, change, color = "blue" }) => (
