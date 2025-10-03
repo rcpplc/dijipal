@@ -4,9 +4,9 @@ import { X, Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
 import axios from 'axios';
 
-const LoginModal = () => {
+const LoginModal = ({ initialMode = 'login' }) => {
   const { setShowLoginModal, login, register } = useAuth();
-  const [isLogin, setIsLogin] = useState(true);
+  const [isLogin, setIsLogin] = useState(initialMode === 'login');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
