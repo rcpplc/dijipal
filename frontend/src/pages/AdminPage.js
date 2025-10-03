@@ -792,8 +792,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
       case 2:
         return true; // Images optional
       case 3:
-        return true; // Services optional
+        return formData.tour_dates.length > 0; // At least one tour date
       case 4:
+        return true; // Services optional
+      case 5:
         return true; // Final validation
       default:
         return true;
