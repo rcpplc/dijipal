@@ -7,8 +7,31 @@ const Header = () => {
   const { user, logout, setShowLoginModal } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
+
+  // Sepet sayısını güncelle
+  useEffect(() => {
+    const updateCartCount = () => {
+      const savedCart = localStorage.getItem('tour_cart');
+      if (savedCart) {
+        const cartItems = JSON.parse(savedCart);
+        setCartCount(cartItems.length);
+      } else {
+        setCartCount(0);
+      }
+    };
+
+    updateCartCount();
+    
+    // Storage event listener
+    window.addEventListener('storage', updateCartCount);
+    
+    return () => {
+      window.removeEventListener('storage', updateCartCount);
+    };
+  }, []);
 
   const handleLogout = () => {
     logout();
