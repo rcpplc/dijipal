@@ -20,12 +20,14 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const ToursPage = () => {
+  const { user, setShowLoginModal } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [showFilters, setShowFilters] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
+  const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
     location: '',
