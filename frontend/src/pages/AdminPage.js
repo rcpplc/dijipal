@@ -1722,15 +1722,25 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
 
   const editTourDate = (index) => {
     const tourDate = formData.tour_dates[index];
+    console.log('✏️ Editing tour date:', tourDate);
+    
     setNewTourDate({
       date: tourDate.date,
       single_cabin_price: (tourDate.single_cabin_price || tourDate.price || '').toString(),
       double_cabin_price: (tourDate.double_cabin_price || tourDate.price || '').toString(),
       capacity: tourDate.capacity.toString()
     });
+    
+    console.log('📝 Loaded to form:', {
+      date: tourDate.date,
+      single_cabin_price: (tourDate.single_cabin_price || tourDate.price || '').toString(),
+      double_cabin_price: (tourDate.double_cabin_price || tourDate.price || '').toString(),
+      capacity: tourDate.capacity.toString()
+    });
+    
     // Remove the old one so user can add the edited version
     removeTourDate(index);
-    toast.info('Tarih bilgileri düzenleme için forma yüklendi');
+    toast.info('📝 Tarih bilgileri düzenleme için forma yüklendi - değiştirdikten sonra "Tarih Ekle" butonuna tıklayın');
   };
 
   const toggleTourDateStatus = (index) => {
