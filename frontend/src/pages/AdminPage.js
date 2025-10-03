@@ -1231,8 +1231,123 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
               </div>
             )}
 
-            {/* Step 3: Services & Details */}
+            {/* Step 3: Tour Dates & Pricing */}
             {currentStep === 3 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Tur Tarihleri & Fiyatlandırma</h3>
+                
+                {/* Add Tour Date */}
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-medium text-gray-900 mb-3">Yeni Tarih Ekle</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Tarih *
+                      </label>
+                      <input
+                        type="date"
+                        value={newTourDate.date}
+                        onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Fiyat (₺) *
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={newTourDate.price}
+                        onChange={(e) => setNewTourDate({...newTourDate, price: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="0.00"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Kapasite *
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        value={newTourDate.capacity}
+                        onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Maksimum kişi sayısı"
+                        required
+                      />
+                    </div>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={addTourDate}
+                    disabled={!newTourDate.date || !newTourDate.price || !newTourDate.capacity}
+                    className={`mt-3 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 ${
+                      newTourDate.date && newTourDate.price && newTourDate.capacity
+                        ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                    }`}
+                  >
+                    Tarih Ekle
+                  </button>
+                </div>
+
+                {/* Tour Dates List */}
+                {formData.tour_dates.length > 0 && (
+                  <div>
+                    <h4 className="font-medium text-gray-900 mb-3">Eklenen Tarihlerde ({formData.tour_dates.length})</h4>
+                    <div className="space-y-3">
+                      {formData.tour_dates.map((tourDate, index) => (
+                        <div key={tourDate.id} className="flex items-center justify-between bg-white p-4 border border-gray-200 rounded-lg">
+                          <div className="flex items-center space-x-4">
+                            <div className="text-sm">
+                              <div className="font-medium text-gray-900">
+                                {new Date(tourDate.date).toLocaleDateString('tr-TR', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </div>
+                              <div className="text-gray-600">
+                                {tourDate.capacity} kişi • ₺{tourDate.price}
+                              </div>
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setFormData(prev => ({
+                                ...prev,
+                                tour_dates: prev.tour_dates.filter((_, i) => i !== index)
+                              }));
+                            }}
+                            className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-all duration-200"
+                            title="Tarihi sil"
+                          >
+                            🗑️
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {formData.tour_dates.length === 0 && (
+                  <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg">
+                    <div className="text-4xl mb-2">📅</div>
+                    <p>Henüz tur tarihi eklenmedi</p>
+                    <p className="text-sm">Yukarıdaki formu kullanarak tarih ekleyin</p>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Step 4: Services & Details */}
+            {currentStep === 4 && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Hizmetler & Detaylar</h3>
                 
