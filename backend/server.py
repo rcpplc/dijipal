@@ -638,7 +638,57 @@ async def seed_sample_data():
             if not existing_date:
                 await db.tour_dates.insert_one(tour_date)
     
-    return {"message": "Sample data and tour dates added successfully"}
+    # Create sample reviews
+    sample_reviews = []
+    if tour_ids:
+        for i, tour_id in enumerate(tour_ids[:2]):  # İlk 2 tur için
+            for j in range(3):  # Her tur için 3 yorum
+                review_id = str(uuid.uuid4())
+                user_id = f"sample_user_{i}_{j}"
+                
+                # Sample user oluştur
+                sample_user = {
+                    "id": user_id,
+                    "email": f"user{i}{j}@example.com",
+                    "full_name": f"Kullanıcı {i+1}{j+1}",
+                    "phone": f"055123456{i}{j}",
+                    "role": "customer",
+                    "is_active": True,
+                    "created_at": datetime.utcnow(),
+                    "hashed_password": hash_password("123456")
+                }
+                
+                # Kullanıcı yoksa ekle
+                existing_user = await db.users.find_one({"email": sample_user["email"]})
+                if not existing_user:
+                    await db.users.insert_one(sample_user)
+                
+                sample_review = {
+                    "id": review_id,
+                    "user_id": user_id,
+                    "tour_id": tour_id,
+                    "booking_id": str(uuid.uuid4()),
+                    "rating": 4 + (j % 2),  # 4 veya 5 yıldız
+                    "title": ["Harika deneyim!", "Mükemmel tur!", "Çok keyifli"][j],
+                    "comment": [
+                        "Gerçekten unutulmaz bir deneyim yaşadık. Rehber çok bilgiliydi ve grup küçük olduğu için herkes rahat etti.",
+                        "Organizasyon mükemmeldi. Zamanında başladık, her şey planlandığı gibi gitti. Kesinlikle tavsiye ederim.",
+                        "Ailecek katıldık ve herkesten tam not aldı. Özellikle çocuklar çok eğlendi. Tekrar katılacağız."
+                    ][j],
+                    "images": [],
+                    "is_verified": True,
+                    "created_at": datetime.utcnow() - timedelta(days=(j+1)*5)
+                }
+                
+                # Yorum yoksa ekle
+                existing_review = await db.reviews.find_one({
+                    "user_id": user_id,
+                    "tour_id": tour_id
+                })
+                if not existing_review:
+                    await db.reviews.insert_one(sample_review)
+
+    return {"message": "Sample data, tour dates, and reviews added successfully"}
 
 # Include router
 app.include_router(api_router)
