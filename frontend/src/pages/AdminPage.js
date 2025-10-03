@@ -152,7 +152,7 @@ const AdminPage = () => {
     { id: 'reviews', label: 'Değerlendirmeler', icon: '⭐' }
   ];
 
-  const StatCard = ({ title, value, icon: Icon, change, color = "blue" }) => (
+  const StatCard = ({ title, value, icon, change, color = "blue" }) => (
     <div className="bg-white rounded-xl p-6 shadow-lg border border-gray-100">
       <div className="flex items-center justify-between">
         <div>
@@ -168,7 +168,7 @@ const AdminPage = () => {
           )}
         </div>
         <div className={`w-12 h-12 bg-${color}-100 rounded-lg flex items-center justify-center`}>
-          <Icon className={`w-6 h-6 text-${color}-600`} />
+          <span className="text-2xl">{icon}</span>
         </div>
       </div>
     </div>
