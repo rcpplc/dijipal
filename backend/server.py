@@ -551,6 +551,70 @@ async def admin_dashboard(current_user: User = Depends(get_current_user)):
         "total_revenue": total_revenue[0]["total"] if total_revenue else 0
     }
 
+# Admin endpoints
+@api_router.get("/admin/tours", response_model=List[Tour])
+async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    tours = await db.tours.find().to_list(length=None)
+    return [Tour(**tour) for tour in tours]
+
+@api_router.put("/admin/tours/{tour_id}", response_model=Tour)
+async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Update tour
+    tour_dict = tour_data.dict()
+    tour_dict["updated_at"] = datetime.utcnow()
+    
+    result = await db.tours.update_one(
+        {"id": tour_id},
+        {"$set": tour_dict}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Tour not found")
+    
+    updated_tour = await db.tours.find_one({"id": tour_id})
+    return Tour(**updated_tour)
+
+@api_router.delete("/admin/tours/{tour_id}")
+async def admin_delete_tour(tour_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if tour has active bookings
+    active_bookings = await db.bookings.find({
+        "tour_id": tour_id,
+        "booking_status": {"$in": ["confirmed", "paid"]}
+    }).to_list(length=1)
+    
+    if active_bookings:
+        raise HTTPException(status_code=400, detail="Cannot delete tour with active bookings")
+    
+    result = await db.tours.delete_one({"id": tour_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Tour not found")
+    
+    # Also delete related tour dates and reviews
+    await db.tour_dates.delete_many({"tour_id": tour_id})
+    await db.reviews.delete_many({"tour_id": tour_id})
+    
+    return {"message": "Tour deleted successfully"}
+
+@api_router.post("/admin/tours", response_model=Tour)
+async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Create new tour
+    tour = Tour(**tour_data.dict(), vendor_id=current_user.id)
+    await db.tours.insert_one(tour.dict())
+    return tour
+
 # Sample data endpoint
 @api_router.post("/seed-data")
 async def seed_sample_data():
