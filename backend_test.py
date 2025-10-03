@@ -252,6 +252,31 @@ class TourPlatformAPITester:
             200
         )
 
+    def test_admin_login(self):
+        """Test admin login with provided credentials"""
+        admin_login_data = {
+            "email": "admin@example.com",
+            "password": "admin123"
+        }
+        
+        success, response = self.run_test(
+            "Admin Login",
+            "POST",
+            "auth/login",
+            200,
+            data=admin_login_data
+        )
+        
+        if success and 'token' in response:
+            self.token = response['token']
+            if 'user' in response:
+                self.user_id = response['user'].get('id')
+                user_role = response['user'].get('role')
+                print(f"   ✅ Admin login successful, role: {user_role}, token: {self.token[:20]}...")
+            return True
+        
+        return False
+
     def test_admin_dashboard(self):
         """Test admin dashboard (might fail if user is not admin)"""
         if not self.token:
@@ -270,6 +295,19 @@ class TourPlatformAPITester:
             print("   ℹ️  Admin access denied (expected for regular users)")
         
         return success
+
+    def test_admin_tours(self):
+        """Test admin tours endpoint"""
+        if not self.token:
+            self.log_test("Admin Tours", False, "", "No authentication token available")
+            return False
+
+        return self.run_test(
+            "Admin Tours List",
+            "GET",
+            "admin/tours",
+            200
+        )
 
     def run_comprehensive_test(self):
         """Run all tests in sequence"""
