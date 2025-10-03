@@ -33,6 +33,18 @@ const AdminPage = () => {
   const [categories, setCategories] = useState([]);
   const [tourLoading, setTourLoading] = useState(false);
   const [editingTour, setEditingTour] = useState(null);
+  
+  // Location management
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [showDeleteLocationConfirm, setShowDeleteLocationConfirm] = useState(false);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [editingLocation, setEditingLocation] = useState(null);
+  
+  // Category management
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'dashboard') {
