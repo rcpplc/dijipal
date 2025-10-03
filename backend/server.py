@@ -191,21 +191,26 @@ class TourCreate(BaseModel):
     description: str
     short_description: str
     location: str
-    duration_days: int
-    duration_hours: Optional[int] = 0
-    base_price: float
-    max_participants: int
+    pickup_time: Optional[str] = "09:00"
+    dropoff_time: Optional[str] = "18:00"
     category: TourCategory
+    classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
     images: List[str] = []
     included_services: List[str] = []
     excluded_services: List[str] = []
     meeting_point: Optional[str] = None
     languages: List[str] = ["Turkish"]
-    difficulty_level: Optional[str] = "Easy"
     cancellation_policy: Optional[str] = None
     tags: List[str] = []
     tour_dates: List[TourDateCreate] = []
+    
+    # Backward compatibility fields
+    duration_days: Optional[int] = 1
+    duration_hours: Optional[int] = 0
+    base_price: Optional[float] = 0
+    max_participants: Optional[int] = 1
+    difficulty_level: Optional[str] = "Easy"
 
 class BookingCreate(BaseModel):
     tour_id: str
