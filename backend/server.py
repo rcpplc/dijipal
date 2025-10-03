@@ -644,8 +644,13 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
     
     tours = await db.tours.find().to_list(length=None)
     
-    # Add tour_dates to each tour
+    # Convert and add tour_dates to each tour
+    result_tours = []
     for tour in tours:
+        # Remove MongoDB _id to avoid serialization issues
+        if "_id" in tour:
+            del tour["_id"]
+            
         tour_dates = await db.tour_dates.find({
             "tour_id": tour["id"],
             "is_active": True
@@ -654,6 +659,8 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
         # Convert tour_dates for frontend
         tour["tour_dates"] = []
         for date in tour_dates:
+            if "_id" in date:
+                del date["_id"]
             tour["tour_dates"].append({
                 "id": date["id"],
                 "date": date["start_date"],
@@ -661,8 +668,10 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
                 "capacity": date["available_spots"],
                 "is_active": date.get("is_active", True)
             })
+        
+        result_tours.append(tour)
     
-    return tours
+    return result_tours
 
 @api_router.put("/admin/tours/{tour_id}", response_model=Tour)
 async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: User = Depends(get_current_user)):
