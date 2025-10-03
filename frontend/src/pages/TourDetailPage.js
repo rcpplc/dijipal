@@ -864,18 +864,17 @@ const TourDetailPage = () => {
                 <div className="grid grid-cols-2 gap-3 mb-4">
                   <button
                     onClick={() => setCabinType('single')}
-                    className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                    className={`p-3 rounded-md border transition-all duration-200 ${
                       cabinType === 'single'
-                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-gray-800 bg-gray-800 text-white'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                     }`}
                   >
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">🛏️</div>
-                      <div className="font-semibold text-gray-900">Tek Kişilik</div>
-                      <div className="text-sm text-gray-600">1 kişi</div>
+                    <div className="text-left">
+                      <div className="font-medium text-sm">Tek Kişilik Kabin</div>
+                      <div className="text-xs opacity-75 mt-1">1 kişi kapasiteli</div>
                       {selectedDate && selectedDate.single_cabin_price && (
-                        <div className="text-sm font-medium text-blue-600 mt-1">
+                        <div className="text-xs font-medium mt-2">
                           ₺{selectedDate.single_cabin_price.toLocaleString('tr-TR')}
                         </div>
                       )}
@@ -884,18 +883,17 @@ const TourDetailPage = () => {
                   
                   <button
                     onClick={() => setCabinType('double')}
-                    className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                    className={`p-3 rounded-md border transition-all duration-200 ${
                       cabinType === 'double'
-                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
-                        : 'border-gray-200 hover:border-gray-300'
+                        ? 'border-gray-800 bg-gray-800 text-white'
+                        : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
                     }`}
                   >
-                    <div className="text-center">
-                      <div className="text-2xl mb-1">🛏️🛏️</div>
-                      <div className="font-semibold text-gray-900">Çift Kişilik</div>
-                      <div className="text-sm text-gray-600">2 kişi</div>
+                    <div className="text-left">
+                      <div className="font-medium text-sm">Çift Kişilik Kabin</div>
+                      <div className="text-xs opacity-75 mt-1">2 kişi kapasiteli</div>
                       {selectedDate && selectedDate.double_cabin_price && (
-                        <div className="text-sm font-medium text-blue-600 mt-1">
+                        <div className="text-xs font-medium mt-2">
                           ₺{selectedDate.double_cabin_price.toLocaleString('tr-TR')}
                         </div>
                       )}
