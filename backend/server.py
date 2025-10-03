@@ -1448,6 +1448,56 @@ async def add_test_reviews():
     
     return {"message": f"Test reviews added successfully. Inserted {inserted_count} new reviews for tour {tour_id}"}
 
+@api_router.post("/add-test-cabin-pricing/{tour_id}")
+async def add_test_cabin_pricing(tour_id: str):
+    """Add test cabin pricing for specified tour"""
+    
+    # Delete existing tour dates for this tour
+    await db.tour_dates.delete_many({"tour_id": tour_id})
+    
+    # Add new tour dates with different cabin pricing
+    test_dates = [
+        {
+            "id": str(uuid.uuid4()),
+            "tour_id": tour_id,
+            "start_date": "2025-01-15",
+            "available_spots": 8,
+            "price": 12000,  # Fallback price
+            "single_cabin_price": 12000,  # 1 kişilik kabin
+            "double_cabin_price": 20000,  # 2 kişilik kabin
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "tour_id": tour_id,
+            "start_date": "2025-01-20",
+            "available_spots": 10,
+            "price": 14000,  # Fallback price
+            "single_cabin_price": 14000,  # 1 kişilik kabin
+            "double_cabin_price": 25000,  # 2 kişilik kabin
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "tour_id": tour_id,
+            "start_date": "2025-02-10", 
+            "available_spots": 12,
+            "price": 15000,  # Fallback price
+            "single_cabin_price": 15000,  # 1 kişilik kabin
+            "double_cabin_price": 28000,  # 2 kişilik kabin
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc).isoformat()
+        }
+    ]
+    
+    # Insert test tour dates
+    for date in test_dates:
+        await db.tour_dates.insert_one(date)
+    
+    return {"message": f"Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with different pricing."}
+
 # Reviews Management
 class ReviewCreate(BaseModel):
     tour_id: str
