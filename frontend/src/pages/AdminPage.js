@@ -494,7 +494,7 @@ const AdminPage = () => {
                           </div>
                         </td>
                         <td className="py-4 px-4 text-gray-700">
-                          {tour.location}
+                          {getLocationDisplayName(tour.location)}
                         </td>
                         <td className="py-4 px-4">
                           <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
