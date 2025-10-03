@@ -1572,7 +1572,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                           </tr>
                         </thead>
                         <tbody className="bg-white divide-y divide-gray-200">
-                          {formData.tour_dates.map((tourDate, index) => (
+                          {formData.tour_dates
+                            .sort((a, b) => new Date(a.date) - new Date(b.date))
+                            .map((tourDate, index) => (
                             <tr key={tourDate.id || index} className="hover:bg-gray-50">
                               <td className="py-3 px-4 text-gray-900">
                                 {new Date(tourDate.date).toLocaleDateString('tr-TR', {
