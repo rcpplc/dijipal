@@ -513,10 +513,11 @@ class ReviewWithUser(BaseModel):
 @api_router.get("/tours/{tour_id}/dates", response_model=List[TourDate])
 async def get_tour_dates(tour_id: str):
     """Get available dates for a tour"""
+    today = datetime.now(timezone.utc).date().isoformat()
     tour_dates = await db.tour_dates.find({
         "tour_id": tour_id,
         "is_active": True,
-        "start_date": {"$gte": datetime.utcnow().date()}
+        "start_date": {"$gte": today}
     }).sort("start_date", 1).to_list(length=None)
     
     return [TourDate(**date) for date in tour_dates]
