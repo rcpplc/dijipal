@@ -678,7 +678,47 @@ const TourDetailPage = () => {
                 )}
               </div>
 
-              {/* Old participants selector removed - moved above date selection */}
+              {/* Participants Selection - Moved below date selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Katılımcı Sayısı
+                </label>
+                <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                  <button
+                    onClick={() => setParticipants(Math.max(1, participants - 1))}
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                    disabled={participants <= 1}
+                  >
+                    -
+                  </button>
+                  <div className="flex-1 text-center">
+                    <div className="text-xl font-bold text-gray-900">
+                      {participants} kişi
+                    </div>
+                    {selectedDate && (
+                      <div className="text-sm text-gray-600">
+                        ₺{(selectedDate.price * participants).toLocaleString('tr-TR')} toplam
+                      </div>
+                    )}
+                  </div>
+                  <button
+                    onClick={() => setParticipants(Math.min(
+                      selectedDate ? selectedDate.available_spots : 20, 
+                      participants + 1
+                    ))}
+                    className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                    disabled={participants >= (selectedDate ? selectedDate.available_spots : 20)}
+                  >
+                    +
+                  </button>
+                </div>
+                <p className="text-xs text-gray-500 mt-2 text-center">
+                  {selectedDate 
+                    ? `Bu tarih için maksimum ${selectedDate.available_spots} kişi seçebilirsiniz` 
+                    : 'Önce tarih seçin, sonra katılımcı sayısını belirleyin'
+                  }
+                </p>
+              </div>
 
               {/* Total Price */}
               <div className="mb-6 p-4 bg-blue-50 rounded-lg">
