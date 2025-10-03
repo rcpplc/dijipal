@@ -792,6 +792,30 @@ const AdminPage = () => {
         />
       )}
 
+      {/* Location Modal */}
+      {showLocationModal && (
+        <LocationModal
+          location={editingLocation}
+          onClose={() => {
+            setShowLocationModal(false);
+            setEditingLocation(null);
+          }}
+          onSave={loadLocations}
+        />
+      )}
+
+      {/* Category Modal */}
+      {showCategoryModal && (
+        <CategoryModal
+          category={editingCategory}
+          onClose={() => {
+            setShowCategoryModal(false);
+            setEditingCategory(null);
+          }}
+          onSave={loadCategories}
+        />
+      )}
+
       {/* Delete Confirmation Modal */}
       {showDeleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
