@@ -1766,7 +1766,26 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       onSave();
     } catch (error) {
       console.error('❌ Error saving tour:', error);
-      toast.error(error.response?.data?.detail || 'Tur kaydedilirken hata oluştu');
+      
+      // Handle different error response formats
+      let errorMessage = 'Tur kaydedilirken hata oluştu';
+      
+      if (error.response?.data) {
+        if (typeof error.response.data === 'string') {
+          errorMessage = error.response.data;
+        } else if (error.response.data.detail) {
+          if (typeof error.response.data.detail === 'string') {
+            errorMessage = error.response.data.detail;
+          } else {
+            // Handle Pydantic validation errors
+            errorMessage = 'Veri doğrulama hatası oluştu. Lütfen tüm alanları kontrol edin.';
+          }
+        } else if (error.response.data.message) {
+          errorMessage = error.response.data.message;
+        }
+      }
+      
+      toast.error(errorMessage);
     } finally {
       setLoading(false);
     }
