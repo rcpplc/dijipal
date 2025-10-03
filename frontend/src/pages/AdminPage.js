@@ -32,6 +32,10 @@ const AdminPage = () => {
   const [locations, setLocations] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tourLoading, setTourLoading] = useState(false);
+  const [showLocationModal, setShowLocationModal] = useState(false);
+  const [editingLocation, setEditingLocation] = useState(null);
+  const [showCategoryModal, setShowCategoryModal] = useState(false);
+  const [editingCategory, setEditingCategory] = useState(null);
 
   useEffect(() => {
     if (activeTab === 'dashboard') {
