@@ -12,7 +12,7 @@ import ToursPage from './pages/ToursPage';
 import TourDetailPage from './pages/TourDetailPage';
 import BookingPage from './pages/BookingPage';
 import ProfilePage from './pages/ProfilePage';
-import AdminPage from './pages/AdminPage';
+import AdminPage from './pages/AdminPageSimple';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
 import MyBookingsPage from './pages/MyBookingsPage';
