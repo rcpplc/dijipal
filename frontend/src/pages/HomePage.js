@@ -265,23 +265,26 @@ const HomePage = () => {
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            {categories.map((category) => (
-              <Link
-                key={category.value}
-                to={`/category/${category.value}`}
-                className="group bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
-              >
-                <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">
-                  {category.icon}
-                </div>
-                <h3 className="font-semibold text-gray-900 mb-2 text-sm">
-                  {category.name}
-                </h3>
-                <p className="text-xs text-gray-600">
-                  {category.description}
-                </p>
-              </Link>
-            ))}
+            {categories.map((category) => {
+              const IconComponent = eval(category.icon);
+              return (
+                <Link
+                  key={category.value}
+                  to={`/category/${category.value}`}
+                  className="group bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                >
+                  <div className={`w-12 h-12 bg-${category.color}-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}>
+                    <IconComponent className={`w-6 h-6 text-${category.color}-600`} />
+                  </div>
+                  <h3 className="font-semibold text-gray-900 mb-2 text-sm">
+                    {category.name}
+                  </h3>
+                  <p className="text-xs text-gray-600">
+                    {category.description}
+                  </p>
+                </Link>
+              );
+            })}
           </div>
         </div>
       </section>
