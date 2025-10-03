@@ -290,6 +290,34 @@ async def login(login_data: UserLogin):
 async def get_current_user_profile(current_user: User = Depends(get_current_user)):
     return current_user
 
+@api_router.post("/auth/google")
+async def google_auth(google_token: dict):
+    """Google OAuth authentication - Mock implementation"""
+    # Mock Google authentication
+    # In real implementation, verify Google token here
+    
+    email = google_token.get("email", "google_user@gmail.com")
+    name = google_token.get("name", "Google User")
+    
+    # Check if user exists
+    user_doc = await db.users.find_one({"email": email})
+    
+    if user_doc:
+        user = User(**user_doc)
+    else:
+        # Create new user
+        user = User(
+            email=email,
+            full_name=name,
+            role=UserRole.CUSTOMER
+        )
+        user_dict = user.dict()
+        user_dict["hashed_password"] = hash_password("google_oauth_user")  # Dummy password
+        await db.users.insert_one(user_dict)
+    
+    token = create_access_token({"sub": user.id})
+    return {"token": token, "user": user}
+
 # Tour endpoints
 @api_router.get("/tours", response_model=List[Tour])
 async def get_tours(
