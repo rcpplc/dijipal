@@ -200,9 +200,11 @@ const ToursPage = () => {
 
         <div className="flex items-center justify-between">
           <div className="text-2xl font-bold text-blue-600">
-            ₺{tour.base_price}
+            {tour.tour_dates && tour.tour_dates.length > 0 
+              ? `₺${Math.min(...tour.tour_dates.map(date => date.price))}` 
+              : `₺${tour.base_price || 0}`}
             <span className="text-sm font-normal text-gray-600 ml-1">
-              /kişi
+              {tour.tour_dates && tour.tour_dates.length > 0 ? ' den başlayan' : '/kişi'}
             </span>
           </div>
 
