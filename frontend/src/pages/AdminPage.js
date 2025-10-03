@@ -1731,6 +1731,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
     
     console.log('Starting tour submission...');
+    console.log('FormData being sent:', formData);
+    console.log('Tour dates in formData:', formData.tour_dates);
     setLoading(true);
 
     try {
