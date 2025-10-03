@@ -394,8 +394,130 @@ const AdminPage = () => {
             </div>
           )}
 
+          {/* Users Tab */}
+          {activeTab === 'users' && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Kullanıcı Yönetimi</h2>
+              </div>
+
+              {loading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="animate-pulse bg-gray-50 rounded-xl p-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="bg-gray-200 w-12 h-12 rounded-full"></div>
+                        <div className="flex-1 space-y-2">
+                          <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                          <div className="bg-gray-200 h-3 w-1/3 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Kullanıcı</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Email</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Telefon</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Rol</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Durum</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Kayıt Tarihi</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {users.length === 0 ? (
+                        <tr>
+                          <td colSpan="7" className="text-center py-8 text-gray-500">
+                            Henüz kullanıcı yok
+                          </td>
+                        </tr>
+                      ) : (
+                        users.map((user) => (
+                          <tr key={user.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-4 px-4">
+                              <div className="flex items-center space-x-3">
+                                <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center">
+                                  <span className="text-white font-semibold text-sm">
+                                    {user.full_name?.charAt(0)?.toUpperCase() || 'U'}
+                                  </span>
+                                </div>
+                                <div>
+                                  <div className="font-medium text-gray-900">{user.full_name}</div>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-4 px-4 text-gray-700">{user.email}</td>
+                            <td className="py-4 px-4 text-gray-700">{user.phone || '-'}</td>
+                            <td className="py-4 px-4">
+                              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                                user.role === 'admin' 
+                                  ? 'bg-purple-100 text-purple-800'
+                                  : user.role === 'vendor'
+                                  ? 'bg-orange-100 text-orange-800'
+                                  : 'bg-blue-100 text-blue-800'
+                              }`}>
+                                {user.role === 'admin' ? 'Yönetici' :
+                                 user.role === 'vendor' ? 'Operatör' : 'Müşteri'}
+                              </span>
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className={`px-3 py-1 rounded-full text-sm font-medium ${
+                                user.is_active 
+                                  ? 'bg-green-100 text-green-800'
+                                  : 'bg-red-100 text-red-800'
+                              }`}>
+                                {user.is_active ? 'Aktif' : 'Pasif'}
+                              </span>
+                            </td>
+                            <td className="py-4 px-4 text-gray-700">
+                              {new Date(user.created_at).toLocaleDateString('tr-TR')}
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => {
+                                    // Toggle user status
+                                    console.log('Toggle user status:', user.id);
+                                  }}
+                                  className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                                  title={user.is_active ? 'Deaktif Et' : 'Aktif Et'}
+                                >
+                                  {user.is_active ? '🔒' : '🔓'}
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    console.log('Edit user:', user.id);
+                                  }}
+                                  className="p-2 text-gray-600 hover:bg-gray-50 rounded-lg transition-colors duration-200"
+                                  title="Düzenle"
+                                >
+                                  ✏️
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                  
+                  {users.length > 0 && (
+                    <div className="mt-4 text-sm text-gray-600 text-center">
+                      Toplam {users.length} kullanıcı bulundu
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Other tabs content */}
-          {activeTab !== 'dashboard' && activeTab !== 'tours' && (
+          {activeTab !== 'dashboard' && activeTab !== 'tours' && activeTab !== 'users' && (
             <div className="text-center py-16">
               <div className="text-4xl mb-4">🚧</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
