@@ -594,41 +594,6 @@ const TourDetailPage = () => {
                 <p className="text-sm text-gray-500">Vergiler dahil • Kişi başı fiyat</p>
               </div>
 
-              {/* Participants Selection */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-3">
-                  Katılımcı Sayısı
-                </label>
-                <div className="flex items-center space-x-4 p-3 border border-gray-200 rounded-lg bg-gray-50">
-                  <button
-                    onClick={() => setParticipants(Math.max(1, participants - 1))}
-                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                    disabled={participants <= 1}
-                  >
-                    -
-                  </button>
-                  <span className="font-medium min-w-[40px] text-center">
-                    {participants} kişi
-                  </span>
-                  <button
-                    onClick={() => setParticipants(Math.min(
-                      selectedDate ? selectedDate.available_spots : 20, 
-                      participants + 1
-                    ))}
-                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
-                    disabled={participants >= (selectedDate ? selectedDate.available_spots : 20)}
-                  >
-                    +
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 mt-2 text-center">
-                  {selectedDate 
-                    ? `Bu tarih için maksimum ${selectedDate.available_spots} kişi` 
-                    : 'Tarih seçtikten sonra maksimum katılımcı sayısını görebilirsiniz'
-                  }
-                </p>
-              </div>
-
               {/* Date Selection */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-3">
