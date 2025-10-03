@@ -713,11 +713,22 @@ const TourDetailPage = () => {
               <div className="mb-6 p-4 bg-blue-50 rounded-lg">
                 <div className="flex justify-between items-center">
                   <span className="text-gray-700">Toplam Tutar:</span>
-                  <span className="text-2xl font-bold text-blue-600">₺{totalPrice}</span>
+                  <span className="text-2xl font-bold text-blue-600">
+                    ₺{selectedDate ? (selectedDate.price * participants).toLocaleString('tr-TR') : (tour.base_price * participants).toLocaleString('tr-TR')}
+                  </span>
                 </div>
                 <p className="text-xs text-gray-500 mt-1">
-                  {participants} kişi × ₺{tour.base_price}
+                  {participants} kişi × ₺{selectedDate ? selectedDate.price.toLocaleString('tr-TR') : tour.base_price.toLocaleString('tr-TR')}
                 </p>
+                {selectedDate && (
+                  <p className="text-xs text-green-600 mt-1">
+                    📅 {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+                      weekday: 'long',
+                      day: 'numeric',
+                      month: 'long'
+                    })}
+                  </p>
+                )}
               </div>
 
               {/* Booking Buttons */}
