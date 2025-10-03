@@ -749,11 +749,48 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
-      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
+        {/* Wizard Header */}
         <div className="p-6 border-b border-gray-200">
-          <h2 className="text-2xl font-bold text-gray-900">
-            {isEdit ? 'Tur Düzenle' : 'Yeni Tur Ekle'}
-          </h2>
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-2xl font-bold text-gray-900">
+              {isEdit ? 'Tur Düzenle' : 'Yeni Tur Sihirbazı'}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-2xl"
+            >
+              ×
+            </button>
+          </div>
+          
+          {/* Step Indicator */}
+          <div className="flex items-center justify-between">
+            {steps.map((step, index) => (
+              <div key={step.id} className="flex items-center">
+                <div className={`flex items-center justify-center w-10 h-10 rounded-full text-sm font-medium ${
+                  currentStep >= step.id 
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-200 text-gray-600'
+                }`}>
+                  {currentStep > step.id ? '✓' : step.icon}
+                </div>
+                <div className="ml-3 hidden md:block">
+                  <div className={`text-sm font-medium ${
+                    currentStep >= step.id ? 'text-blue-600' : 'text-gray-500'
+                  }`}>
+                    {step.title}
+                  </div>
+                </div>
+                {index < steps.length - 1 && (
+                  <div className={`hidden md:block w-16 h-0.5 ml-4 ${
+                    currentStep > step.id ? 'bg-blue-600' : 'bg-gray-200'
+                  }`}></div>
+                )}
+              </div>
+            ))}
+          </div>
         </div>
 
         <form onSubmit={handleSubmit} className="p-6 space-y-6">
