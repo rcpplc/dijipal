@@ -957,7 +957,7 @@ async def admin_toggle_user_status(user_id: str, current_user: User = Depends(ge
     return {"message": f"User {'activated' if new_status else 'deactivated'} successfully"}
 
 # Sample data endpoint
-@api_router.post("/seed-data")
+# @api_router.post("/seed-data") # TEMPORARILY DISABLED
 async def seed_sample_data():
     """Add sample data for testing"""
     
