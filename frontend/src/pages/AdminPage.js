@@ -254,6 +254,15 @@ const AdminPage = () => {
     return category ? category.name : categoryValue;
   };
 
+  // Helper function to get location name with country from admin locations
+  const getLocationDisplayName = (locationValue) => {
+    const location = locations.find(loc => 
+      loc.name.toLowerCase() === locationValue.toLowerCase() || 
+      loc.id === locationValue
+    );
+    return location ? `${location.name}, ${location.country}` : locationValue;
+  };
+
   // Helper function to get minimum price from tour dates
   const getMinimumPrice = (tour) => {
     if (tour.tour_dates && tour.tour_dates.length > 0) {
