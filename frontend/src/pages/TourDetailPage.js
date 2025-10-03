@@ -918,7 +918,7 @@ const TourDetailPage = () => {
                   </button>
                   <div className="flex-1 text-center">
                     <div className="text-xl font-bold text-gray-900">
-                      {Number(participants)} kabin
+                      {participants || 1} kabin
                     </div>
                     {selectedDate && (
                       <div className="text-sm text-gray-600">
