@@ -214,7 +214,14 @@ const HomePage = () => {
               </Link>
               {!user && (
                 <button
-                  onClick={() => setShowLoginModal(true)}
+                  onClick={() => {
+                    setShowLoginModal(true);
+                    // Kayıt modunu aktif et
+                    setTimeout(() => {
+                      const signupBtn = document.querySelector('button:has-text("Hesap oluştur")');
+                      if (signupBtn) signupBtn.click();
+                    }, 100);
+                  }}
                   className="bg-transparent border-2 border-white text-white hover:bg-white hover:text-gray-800 px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
                 >
                   Üye Ol
