@@ -152,7 +152,8 @@ class Booking(BaseModel):
     user_id: str
     tour_id: str
     tour_date_id: str
-    participants: int
+    participants: int  # Kabin sayısı
+    cabin_type: str = "single"  # "single" or "double"
     total_price: float
     customer_info: Dict[str, Any]
     special_requests: Optional[str] = None
