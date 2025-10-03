@@ -47,11 +47,6 @@ const TourDetailPage = () => {
   const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
 
   useEffect(() => {
-    // Ensure participants is always at least 1
-    if (!participants || isNaN(participants) || participants < 1) {
-      setParticipants(1);
-    }
-    
     loadTour();
     loadReviews();
     if (tourId) {
