@@ -1716,13 +1716,14 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     
     setNewTourDate({
       date: tourDate.date,
-      price: (tourDate.price || '').toString(),
-      capacity: tourDate.capacity.toString()
+      capacity: tourDate.capacity.toString(),
+      single_cabin_price: (tourDate.single_cabin_price || '').toString(),
+      double_cabin_price: (tourDate.double_cabin_price || '').toString()
     });
     
     // Remove the old one so user can add the edited version
     removeTourDate(index);
-    toast.info('Tarih bilgileri düzenleme için forma yüklendi');
+    toast.info('Kabin fiyatları düzenleme için forma yüklendi');
   };
 
   const toggleTourDateStatus = (index) => {
