@@ -1111,6 +1111,20 @@ async def seed_sample_data():
 
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
+@api_router.post("/cleanup-data")
+async def cleanup_data(current_user: User = Depends(get_admin_user)):
+    """Clean all tours, bookings, and tour_dates for fresh start"""
+    try:
+        # Delete all tours, bookings, tour_dates
+        await db.tours.delete_many({})
+        await db.bookings.delete_many({})
+        await db.tour_dates.delete_many({})
+        await db.reviews.delete_many({})
+        
+        return {"message": "All tours, bookings, tour_dates and reviews cleaned successfully"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
+
 # Mount static files for images
 app.mount("/uploads", StaticFiles(directory="/tmp/uploads"), name="uploads")
 
