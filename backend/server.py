@@ -286,6 +286,10 @@ async def login(login_data: UserLogin):
     
     return {"token": token, "user": user}
 
+@api_router.get("/users/me", response_model=User)
+async def get_current_user_profile(current_user: User = Depends(get_current_user)):
+    return current_user
+
 # Tour endpoints
 @api_router.get("/tours", response_model=List[Tour])
 async def get_tours(
