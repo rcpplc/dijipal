@@ -27,8 +27,16 @@ db = client[os.environ.get('DB_NAME', 'tour_platform')]
 
 # Security
 security = HTTPBearer()
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+import hashlib
 SECRET_KEY = os.environ.get("SECRET_KEY", "your-secret-key-here")
+
+def hash_password(password: str) -> str:
+    """Simple password hashing using SHA256"""
+    return hashlib.sha256((password + SECRET_KEY).encode()).hexdigest()
+
+def verify_password(password: str, hashed: str) -> bool:
+    """Verify password against hash"""
+    return hash_password(password) == hashed
 
 # Create the main app
 app = FastAPI(title="Paket Tur Satış Platformu", version="1.0.0")
