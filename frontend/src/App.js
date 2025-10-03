@@ -36,6 +36,7 @@ function App() {
   const [token, setToken] = useState(localStorage.getItem('token'));
   const [loading, setLoading] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const [loginMode, setLoginMode] = useState('login'); // 'login' or 'register'
 
   // Set up axios defaults
   useEffect(() => {
