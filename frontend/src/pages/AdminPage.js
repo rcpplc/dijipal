@@ -991,21 +991,42 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
                   {/* Image Upload Section */}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Kategori *
-              </label>
-              <select
-                value={formData.category}
-                onChange={(e) => setFormData({...formData, category: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              >
-                {categories.map(cat => (
-                  <option key={cat.value} value={cat.value}>{cat.label}</option>
-                ))}
-              </select>
-            </div>
+                  <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
+                    <div className="text-center">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        multiple
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="image-upload"
+                        disabled={uploadLoading}
+                      />
+                      <label
+                        htmlFor="image-upload"
+                        className={`cursor-pointer inline-flex items-center space-x-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                          uploadLoading 
+                            ? 'bg-gray-400 cursor-not-allowed' 
+                            : 'bg-blue-600 hover:bg-blue-700'
+                        } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200`}
+                      >
+                        {uploadLoading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                            <span>Yükleniyor...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>📸</span>
+                            <span>Resim Yükle</span>
+                          </>
+                        )}
+                      </label>
+                      <p className="mt-2 text-sm text-gray-600">
+                        Birden fazla resim seçebilirsiniz • JPG, PNG, WebP
+                      </p>
+                    </div>
+                  </div>
 
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
