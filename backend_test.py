@@ -1140,6 +1140,400 @@ class TourPlatformAPITester:
         # Print final results
         self.print_final_results()
 
+    def test_add_test_reviews(self):
+        """Test adding test reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55"""
+        return self.run_test(
+            "Add Test Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+            "POST",
+            "add-test-reviews",
+            200
+        )
+
+    def test_public_reviews_listing(self):
+        """Test public reviews listing (GET /api/reviews)"""
+        # Test without filters
+        success1, response1 = self.run_test(
+            "Get Public Reviews (No Filters)",
+            "GET",
+            "reviews",
+            200
+        )
+        
+        # Test with tour_id filter
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        success2, response2 = self.run_test(
+            f"Get Public Reviews for Tour {tour_id}",
+            "GET",
+            f"reviews?tour_id={tour_id}",
+            200
+        )
+        
+        # Test with verified_only filter
+        success3, response3 = self.run_test(
+            "Get Public Reviews (Verified Only)",
+            "GET",
+            "reviews?verified_only=true",
+            200
+        )
+        
+        # Test with both filters
+        success4, response4 = self.run_test(
+            f"Get Public Reviews for Tour {tour_id} (Verified Only)",
+            "GET",
+            f"reviews?tour_id={tour_id}&verified_only=true",
+            200
+        )
+        
+        return success1 and success2 and success3 and success4
+
+    def test_create_review_authenticated(self):
+        """Test creating a review as authenticated user"""
+        if not self.token:
+            self.log_test("Create Review (Authenticated)", False, "", "No authentication token available")
+            return False, None
+        
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        review_data = {
+            "tour_id": tour_id,
+            "rating": 5,
+            "title": "Harika bir deneyim!",
+            "comment": "Bu tur gerçekten mükemmeldi. Rehber çok bilgiliydi ve organizasyon harikaydı. Kesinlikle tavsiye ederim!",
+            "images": []
+        }
+        
+        success, response = self.run_test(
+            "Create Review (Authenticated User)",
+            "POST",
+            "reviews",
+            200,
+            data=review_data
+        )
+        
+        if success and response and 'id' in response:
+            return True, response['id']
+        
+        return False, None
+
+    def test_create_review_unauthenticated(self):
+        """Test creating a review without authentication (should fail)"""
+        # Temporarily remove token
+        original_token = self.token
+        self.token = None
+        
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        review_data = {
+            "tour_id": tour_id,
+            "rating": 4,
+            "title": "Test Review",
+            "comment": "This should fail without authentication"
+        }
+        
+        success, response = self.run_test(
+            "Create Review (Unauthenticated - Should Fail)",
+            "POST",
+            "reviews",
+            401,  # Expecting 401 Unauthorized
+            data=review_data
+        )
+        
+        # Restore token
+        self.token = original_token
+        
+        return success
+
+    def test_admin_reviews_listing(self):
+        """Test admin reviews listing with different filters"""
+        if not self.token:
+            self.log_test("Admin Reviews Listing", False, "", "No authentication token available")
+            return False
+        
+        # Test all reviews
+        success1, response1 = self.run_test(
+            "Admin Get All Reviews",
+            "GET",
+            "admin/reviews",
+            200
+        )
+        
+        # Test pending reviews
+        success2, response2 = self.run_test(
+            "Admin Get Pending Reviews",
+            "GET",
+            "admin/reviews?status=pending",
+            200
+        )
+        
+        # Test approved reviews
+        success3, response3 = self.run_test(
+            "Admin Get Approved Reviews",
+            "GET",
+            "admin/reviews?status=approved",
+            200
+        )
+        
+        # Test rejected reviews
+        success4, response4 = self.run_test(
+            "Admin Get Rejected Reviews",
+            "GET",
+            "admin/reviews?status=rejected",
+            200
+        )
+        
+        # Test with tour_id filter
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        success5, response5 = self.run_test(
+            f"Admin Get Reviews for Tour {tour_id}",
+            "GET",
+            f"admin/reviews?tour_id={tour_id}",
+            200
+        )
+        
+        # Test with limit
+        success6, response6 = self.run_test(
+            "Admin Get Reviews with Limit",
+            "GET",
+            "admin/reviews?limit=10",
+            200
+        )
+        
+        return success1 and success2 and success3 and success4 and success5 and success6
+
+    def test_admin_review_update(self, review_id):
+        """Test admin review update"""
+        if not self.token or not review_id:
+            self.log_test("Admin Update Review", False, "", "No authentication token or review ID available")
+            return False
+        
+        update_data = {
+            "rating": 4,
+            "title": "Updated Review Title",
+            "comment": "This review has been updated by admin",
+            "is_verified": True
+        }
+        
+        return self.run_test(
+            "Admin Update Review",
+            "PUT",
+            f"admin/reviews/{review_id}",
+            200,
+            data=update_data
+        )
+
+    def test_admin_review_approve(self, review_id):
+        """Test admin review approval"""
+        if not self.token or not review_id:
+            self.log_test("Admin Approve Review", False, "", "No authentication token or review ID available")
+            return False
+        
+        return self.run_test(
+            "Admin Approve Review",
+            "PUT",
+            f"admin/reviews/{review_id}/approve",
+            200
+        )
+
+    def test_admin_review_reject(self, review_id):
+        """Test admin review rejection"""
+        if not self.token or not review_id:
+            self.log_test("Admin Reject Review", False, "", "No authentication token or review ID available")
+            return False
+        
+        return self.run_test(
+            "Admin Reject Review",
+            "PUT",
+            f"admin/reviews/{review_id}/reject",
+            200
+        )
+
+    def test_admin_review_delete(self, review_id):
+        """Test admin review deletion"""
+        if not self.token or not review_id:
+            self.log_test("Admin Delete Review", False, "", "No authentication token or review ID available")
+            return False
+        
+        return self.run_test(
+            "Admin Delete Review",
+            "DELETE",
+            f"admin/reviews/{review_id}",
+            200
+        )
+
+    def test_review_error_handling(self):
+        """Test error handling for review endpoints"""
+        if not self.token:
+            self.log_test("Review Error Handling", False, "", "No authentication token available")
+            return False
+        
+        # Test non-existent review ID
+        fake_review_id = "non-existent-review-id"
+        
+        success1, response1 = self.run_test(
+            "Admin Update Non-existent Review (Should Fail)",
+            "PUT",
+            f"admin/reviews/{fake_review_id}",
+            404,  # Expecting 404 Not Found
+            data={"rating": 5}
+        )
+        
+        success2, response2 = self.run_test(
+            "Admin Approve Non-existent Review (Should Fail)",
+            "PUT",
+            f"admin/reviews/{fake_review_id}/approve",
+            404  # Expecting 404 Not Found
+        )
+        
+        success3, response3 = self.run_test(
+            "Admin Reject Non-existent Review (Should Fail)",
+            "PUT",
+            f"admin/reviews/{fake_review_id}/reject",
+            404  # Expecting 404 Not Found
+        )
+        
+        success4, response4 = self.run_test(
+            "Admin Delete Non-existent Review (Should Fail)",
+            "DELETE",
+            f"admin/reviews/{fake_review_id}",
+            404  # Expecting 404 Not Found
+        )
+        
+        return success1 and success2 and success3 and success4
+
+    def test_review_data_enrichment(self):
+        """Test that review responses include enriched data (user names, tour titles)"""
+        # Test public reviews for data enrichment
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        success, response = self.run_test(
+            "Test Review Data Enrichment (Public)",
+            "GET",
+            f"reviews?tour_id={tour_id}",
+            200
+        )
+        
+        if success and response and len(response) > 0:
+            review = response[0]
+            if 'user_name' in review:
+                print(f"   ✅ Public reviews include user_name: {review['user_name']}")
+            else:
+                print("   ❌ Public reviews missing user_name enrichment")
+                return False
+        
+        # Test admin reviews for data enrichment
+        if not self.token:
+            return success
+        
+        admin_success, admin_response = self.run_test(
+            "Test Review Data Enrichment (Admin)",
+            "GET",
+            f"admin/reviews?tour_id={tour_id}",
+            200
+        )
+        
+        if admin_success and admin_response and len(admin_response) > 0:
+            admin_review = admin_response[0]
+            enrichment_fields = ['user_name', 'user_email', 'tour_title']
+            missing_fields = []
+            
+            for field in enrichment_fields:
+                if field in admin_review:
+                    print(f"   ✅ Admin reviews include {field}: {admin_review[field]}")
+                else:
+                    missing_fields.append(field)
+            
+            if missing_fields:
+                print(f"   ❌ Admin reviews missing enrichment fields: {missing_fields}")
+                return False
+        
+        return success and admin_success
+
+    def run_reviews_management_tests(self):
+        """Run comprehensive reviews management system tests"""
+        print("🎯 Testing Reviews Management System Backend APIs")
+        print("=" * 70)
+        
+        # Setup: Add test reviews first
+        print("\n📊 SETUP: Adding Test Reviews")
+        self.test_add_test_reviews()
+        
+        # Test 1: Public reviews listing (no auth required)
+        print("\n📋 PHASE 1: Public Reviews Listing")
+        self.test_public_reviews_listing()
+        
+        # Test 2: Review creation (requires authentication)
+        print("\n📋 PHASE 2: Review Creation")
+        
+        # First test with regular user authentication
+        reg_success, user_data = self.test_user_registration()
+        if reg_success:
+            self.test_user_login(user_data)
+            
+            # Test authenticated review creation
+            create_success, new_review_id = self.test_create_review_authenticated()
+            
+            # Test unauthenticated review creation (should fail)
+            self.test_create_review_unauthenticated()
+        
+        # Test 3: Admin authentication and review management
+        print("\n📋 PHASE 3: Admin Authentication")
+        admin_success = self.test_admin_login()
+        
+        if not admin_success:
+            print("❌ Admin login failed, cannot proceed with admin review tests")
+            self.print_final_results()
+            return
+        
+        # Test 4: Admin review listing with filters
+        print("\n📋 PHASE 4: Admin Review Listing")
+        self.test_admin_reviews_listing()
+        
+        # Test 5: Admin review management operations
+        print("\n📋 PHASE 5: Admin Review Management Operations")
+        
+        # Get a review ID for testing admin operations
+        admin_reviews_success, admin_reviews_response = self.run_test(
+            "Get Admin Reviews for Management Testing",
+            "GET",
+            "admin/reviews?limit=5",
+            200
+        )
+        
+        if admin_reviews_success and admin_reviews_response and len(admin_reviews_response) > 0:
+            # Use first review for testing admin operations
+            test_review_id = admin_reviews_response[0].get('id')
+            
+            if test_review_id:
+                # Test admin update
+                print("\n   🔧 Testing Admin Review Update")
+                self.test_admin_review_update(test_review_id)
+                
+                # Test admin approval
+                print("\n   ✅ Testing Admin Review Approval")
+                self.test_admin_review_approve(test_review_id)
+                
+                # Get another review for rejection test
+                if len(admin_reviews_response) > 1:
+                    reject_review_id = admin_reviews_response[1].get('id')
+                    if reject_review_id:
+                        print("\n   ❌ Testing Admin Review Rejection")
+                        self.test_admin_review_reject(reject_review_id)
+                
+                # Get another review for deletion test (if available)
+                if len(admin_reviews_response) > 2:
+                    delete_review_id = admin_reviews_response[2].get('id')
+                    if delete_review_id:
+                        print("\n   🗑️  Testing Admin Review Deletion")
+                        self.test_admin_review_delete(delete_review_id)
+        
+        # Test 6: Error handling
+        print("\n📋 PHASE 6: Error Handling")
+        self.test_review_error_handling()
+        
+        # Test 7: Data enrichment verification
+        print("\n📋 PHASE 7: Data Enrichment Verification")
+        self.test_review_data_enrichment()
+        
+        # Print final results
+        self.print_final_results()
+
 def main():
     """Main test execution"""
     print("🇹🇷 Turkish Tour Platform - Backend API Testing")
