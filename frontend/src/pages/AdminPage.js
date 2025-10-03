@@ -1111,6 +1111,40 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newImage, setNewImage] = useState('');
   const [newTourDate, setNewTourDate] = useState({ date: '', price: '', capacity: '' });
 
+  // Load tour dates when editing existing tour
+  useEffect(() => {
+    if (isEdit && tour?.id) {
+      loadTourDates();
+    }
+  }, [isEdit, tour?.id]);
+
+  const loadTourDates = async () => {
+    if (!tour?.id) return;
+    
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      const response = await axios.get(`${API}/tours/${tour.id}/dates`);
+      console.log('Loaded tour dates:', response.data);
+      
+      // Convert backend format to form format
+      const tourDates = response.data.map(date => ({
+        id: date.id,
+        date: date.start_date,
+        price: date.price,
+        capacity: date.available_spots,
+        is_active: date.is_active !== false
+      }));
+      
+      setFormData(prev => ({
+        ...prev,
+        tour_dates: tourDates
+      }));
+    } catch (error) {
+      console.error('Error loading tour dates:', error);
+      // Don't show error to user, just log it
+    }
+  };
+
   const steps = [
     { id: 1, title: 'Temel Bilgiler', icon: '●' },
     { id: 2, title: 'Görsel & Medya', icon: '◆' },
