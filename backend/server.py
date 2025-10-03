@@ -436,9 +436,9 @@ async def create_review(
         user_id=current_user.id,
         tour_id=tour_id,
         booking_id=booking["id"],
-        rating=rating,
-        title=title,
-        comment=comment
+        rating=review_data.rating,
+        title=review_data.title,
+        comment=review_data.comment
     )
     
     await db.reviews.insert_one(review.dict())
