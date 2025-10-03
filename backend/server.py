@@ -181,9 +181,10 @@ class CabinPricing(BaseModel):
 
 class TourDateCreate(BaseModel):
     date: str  # ISO date string
-    price: float  # Varsayılan fiyat (geriye uyumluluk için)
-    capacity: int
-    cabin_pricing: Optional[CabinPricing] = None
+    capacity: int  # Available cabins count
+    single_cabin_price: float  # Price for single occupancy cabin
+    double_cabin_price: float  # Price for double occupancy cabin
+    is_active: Optional[bool] = True
 
 class TourCreate(BaseModel):
     title: str
