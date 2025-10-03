@@ -1184,7 +1184,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
                       required
                     >
                       <option value="">Kategori seçin...</option>
-                      {availableCategories.map(cat => (
+                      {availableCategories.filter(cat => cat.is_active).map(cat => (
                         <option key={cat.id} value={cat.name}>{cat.name}</option>
                       ))}
                     </select>
