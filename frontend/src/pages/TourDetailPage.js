@@ -35,6 +35,10 @@ const TourDetailPage = () => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [isFavorited, setIsFavorited] = useState(false);
+  
+  // Month filter for dates
+  const [selectedMonth, setSelectedMonth] = useState('');
+  const [filteredDates, setFilteredDates] = useState([]);
 
   useEffect(() => {
     loadTour();
