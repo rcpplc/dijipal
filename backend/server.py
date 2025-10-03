@@ -1502,6 +1502,32 @@ async def add_test_cabin_pricing(tour_id: str):
     
     return {"message": f"Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with different pricing."}
 
+@api_router.post("/create-admin-user")
+async def create_admin_user():
+    """Create admin user for testing purposes"""
+    
+    # Check if admin already exists
+    existing_admin = await db.users.find_one({"email": "admin@example.com"})
+    if existing_admin:
+        return {"message": "Admin user already exists", "email": "admin@example.com"}
+    
+    # Create admin user
+    admin_user = {
+        "id": str(uuid.uuid4()),
+        "email": "admin@example.com",
+        "password": "admin123",  # In production, this should be hashed
+        "full_name": "Test Admin User",
+        "phone": "05551234568",
+        "role": "admin",
+        "is_active": True,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "profile_image": None
+    }
+    
+    await db.users.insert_one(admin_user)
+    
+    return {"message": "Admin user created successfully", "email": "admin@example.com", "password": "admin123"}
+
 # Reviews Management
 class ReviewCreate(BaseModel):
     tour_id: str
