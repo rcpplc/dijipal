@@ -2231,28 +2231,16 @@ const CategoryModal = ({ category, onClose, onSave }) => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Kategori Açıklaması
                   </label>
-                  <ReactQuill
+                  <textarea
                     value={formData.description}
-                    onChange={(value) => setFormData({...formData, description: value})}
-                    modules={{
-                      toolbar: [
-                        [{ 'header': [1, 2, 3, false] }],
-                        ['bold', 'italic', 'underline', 'strike'],
-                        ['blockquote', 'code-block'],
-                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                        [{ 'color': [] }, { 'background': [] }],
-                        ['link', 'image'],
-                        ['clean']
-                      ],
-                    }}
-                    formats={[
-                      'header', 'bold', 'italic', 'underline', 'strike',
-                      'blockquote', 'code-block', 'list', 'bullet',
-                      'color', 'background', 'link', 'image'
-                    ]}
+                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    rows={6}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-vertical"
                     placeholder="Kategori hakkında detaylı açıklama yazın..."
-                    className="bg-white"
                   />
+                  <p className="text-sm text-gray-500 mt-1">
+                    Markdown formatı destekleniyor (gelecekte rich editor eklenecek)
+                  </p>
                 </div>
 
                 <div className="flex items-center space-x-3">
