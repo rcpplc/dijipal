@@ -269,6 +269,18 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
           agent: "testing"
           comment: "Admin panel lokasyon düzenleme özelliklerini test etmek için eklendi. Modal form, güncelleme işlemi, toast mesajları ve status toggle işlevlerini test edilecek."
 
+  - task: "Admin login functionality on production site"
+    implemented: true
+    working: true
+    file: "App.js, LoginModal.js, Header.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Production admin login test completed successfully. ✅ Login modal opens/closes properly, ✅ Admin credentials (admin@example.com/admin123) work, ✅ API returns 200 status, ✅ User state set correctly with admin role, ✅ Admin panel accessible via user dropdown menu, ✅ Admin dashboard loads with proper data (3 tours, 2 bookings, 14 users, ₺1196 revenue), ✅ No console errors. Login flow working perfectly as designed."
+
 ## agent_communication:
     - agent: "main"
       message: "Sepet ve rezervasyon sayfalarında tarih bilgisi gösterilmemesi sorununu çözdüm. TourDetailPage'de tarih seçimi zorunlu hale getirdim, CartPage'de seçilen tarihi gösteriyorum, BookingPage'de URL parametrelerinden tarih bilgisini alıp rezervasyon özetinde gösteriyorum. Şimdi test edilmesi gerekiyor."
@@ -280,3 +292,5 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
       message: "Admin panel iyileştirmeleri tamamlandı: ✅ Tur durumu (taslak/aktif/pasif/arşiv) düzeltildi, ✅ Kullanıcı yönetimi sayfası eklendi (user listesi, status toggle), ✅ Resim upload sistemi eklendi (file upload + URL), ✅ Backend API endpoints eklendi (/admin/users, /upload/image, /admin/users/{id}/status). Test edilmeye hazır."
     - agent: "testing"
       message: "Admin panel lokasyon düzenleme özelliklerini test etmeye başlıyorum. Test senaryoları: admin girişi, lokasyonlar tab'ına gitme, düzenle butonu, modal form kontrolü, güncelleme işlemi, toast mesajları ve status toggle."
+    - agent: "testing"
+      message: "Production admin login test completed successfully! ✅ All login functionality working perfectly: modal opens/closes, credentials accepted, API responds correctly (200), user state properly set with admin role, admin panel accessible via user dropdown, dashboard loads with correct data. No critical issues found - login flow is working as designed."
