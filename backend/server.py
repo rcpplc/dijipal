@@ -136,7 +136,7 @@ class TourDate(BaseModel):
     end_date: Optional[date] = None
     start_time: Optional[str] = None
     available_spots: int
-    price: Optional[Decimal] = None
+    price: Optional[float] = None
     is_active: bool = True
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
