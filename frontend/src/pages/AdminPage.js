@@ -1552,6 +1552,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     dropoff_time: tour?.dropoff_time || '18:00',
     category: tour?.category || '',
     classification: tour?.classification || 'standart',
+    duration_days: tour?.duration_days || 1,
     status: tour?.status || 'draft',
     images: tour?.images || [],
     included_services: tour?.included_services || [],
