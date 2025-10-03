@@ -825,7 +825,7 @@ const TourDetailPage = () => {
                   </button>
                   <div className="flex-1 text-center">
                     <div className="text-xl font-bold text-gray-900">
-                      {participants} kişi
+                      {Math.max(1, participants || 1)} kişi
                     </div>
                     {selectedDate && (
                       <div className="text-sm text-gray-600">
