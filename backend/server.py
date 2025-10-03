@@ -667,6 +667,32 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     await db.tours.insert_one(tour.dict())
     return tour
 
+# File Upload
+@api_router.post("/upload/image")
+async def upload_image(file: UploadFile = File(...), current_user: User = Depends(get_current_user)):
+    if not file.content_type.startswith('image/'):
+        raise HTTPException(status_code=400, detail="File must be an image")
+    
+    # Create uploads directory if not exists
+    import os
+    upload_dir = "/tmp/uploads"
+    os.makedirs(upload_dir, exist_ok=True)
+    
+    # Generate unique filename
+    import time
+    filename = f"{int(time.time())}_{file.filename}"
+    file_path = os.path.join(upload_dir, filename)
+    
+    # Save file
+    with open(file_path, "wb") as buffer:
+        content = await file.read()
+        buffer.write(content)
+    
+    # Return URL - in production this would be a proper CDN URL
+    file_url = f"https://pakettour.preview.emergentagent.com/uploads/{filename}"
+    
+    return {"url": file_url, "filename": filename}
+
 # Admin Users Management
 @api_router.get("/admin/users", response_model=List[User])
 async def admin_get_users(current_user: User = Depends(get_current_user)):
