@@ -138,13 +138,13 @@ class Tour(BaseModel):
 class TourDate(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     tour_id: str
-    start_date: date
-    end_date: Optional[date] = None
+    start_date: str  # Changed to string for MongoDB compatibility
+    end_date: Optional[str] = None
     start_time: Optional[str] = None
     available_spots: int
     price: Optional[float] = None
     is_active: bool = True
-    created_at: datetime = Field(default_factory=datetime.utcnow)
+    created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
 class Booking(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
