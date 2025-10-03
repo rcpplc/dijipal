@@ -596,6 +596,19 @@ const BookingPage = () => {
                   </div>
                 </div>
 
+                {/* Seçilen Tarih */}
+                {formattedSelectedDate && (
+                  <div className="border-t border-gray-100 pt-3 mt-3">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Calendar className="w-4 h-4 text-blue-600" />
+                      <span className="text-gray-600">Seçilen Tarih:</span>
+                    </div>
+                    <div className="text-sm font-medium text-gray-900 mt-1">
+                      {formattedSelectedDate}
+                    </div>
+                  </div>
+                )}
+
                 <div className="border-t border-gray-100 pt-4 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">
