@@ -200,8 +200,8 @@ const TourDetailPage = () => {
           
           console.log(`Önerilen katılımcı sayısı: ${similarAvg} (${similarTours.length} benzer tura dayanarak)`);
         } else if (avgParticipants && avgParticipants !== 1) {
-          setSuggestedParticipants(avgParticipants);
-          setParticipants(avgParticipants);
+          setSuggestedParticipants(Math.max(1, avgParticipants || 1));
+          setParticipants(Math.max(1, avgParticipants || 1));
           
           console.log(`Önerilen katılımcı sayısı: ${avgParticipants} (geçmiş aramalarınıza dayanarak)`);
         }
