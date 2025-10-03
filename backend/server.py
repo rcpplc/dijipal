@@ -512,7 +512,7 @@ async def seed_sample_data():
             "location": "Nevşehir, Kapadokya",
             "duration_days": 1,
             "duration_hours": 3,
-            "base_price": Decimal("450.00"),
+            "base_price": 450.00,
             "max_participants": 8,
             "category": TourCategory.ADVENTURE,
             "status": TourStatus.ACTIVE,
