@@ -697,35 +697,7 @@ const TourDetailPage = () => {
                 )}
               </div>
 
-              {/* Participants Selector */}
-              <div className="mb-6">
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Katılımcı Sayısı
-                </label>
-                <div className="flex items-center justify-center space-x-4 bg-gray-50 rounded-lg p-4">
-                  <button
-                    onClick={() => setParticipants(Math.max(1, participants - 1))}
-                    className="w-10 h-10 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    -
-                  </button>
-                  <span className="text-xl font-semibold text-gray-900 min-w-[3rem] text-center">
-                    {participants}
-                  </span>
-                  <button
-                    onClick={() => setParticipants(Math.min(selectedDate ? selectedDate.available_spots : tour.max_participants, participants + 1))}
-                    className="w-10 h-10 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
-                  >
-                    +
-                  </button>
-                </div>
-                <p className="text-xs text-gray-500 text-center mt-2">
-                  {selectedDate 
-                    ? `Bu tarih için en fazla ${selectedDate.available_spots} kişi`
-                    : `En fazla ${tour.max_participants} kişi`
-                  }
-                </p>
-              </div>
+              {/* Old participants selector removed - moved above date selection */}
 
               {/* Total Price */}
               <div className="mb-6 p-4 bg-blue-50 rounded-lg">
