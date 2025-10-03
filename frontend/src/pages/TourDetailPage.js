@@ -715,7 +715,7 @@ const TourDetailPage = () => {
                         onChange={(e) => setSelectedMonth(e.target.value)}
                         className="w-full p-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium appearance-none cursor-pointer transition-all duration-200 hover:border-gray-400"
                       >
-                        <option value="" className="font-medium">📅 Tüm Ayları Göster ({availableDates.length} tarih)</option>
+                        <option value="" className="font-medium">◦ Tüm Ayları Göster ({availableDates.length} tarih)</option>
                         {getAvailableMonths().map((month) => {
                           const monthDatesCount = availableDates.filter(date => {
                             const dateObj = new Date(date.start_date);
@@ -725,7 +725,7 @@ const TourDetailPage = () => {
                           
                           return (
                             <option key={month.value} value={month.value} className="font-medium">
-                              📅 {month.label} ({monthDatesCount} tarih)
+                              ◦ {month.label} ({monthDatesCount} tarih)
                             </option>
                           );
                         })}
