@@ -266,15 +266,39 @@ const HomePage = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
             {categories.map((category) => {
-              const IconComponent = eval(category.icon);
+              let IconComponent;
+              switch(category.icon) {
+                case 'MapPin': IconComponent = MapPin; break;
+                case 'Trees': IconComponent = Trees; break;
+                case 'Mountain': IconComponent = Mountain; break;
+                case 'Building': IconComponent = Building; break;
+                case 'Castle': IconComponent = Castle; break;
+                case 'UtensilsCrossed': IconComponent = UtensilsCrossed; break;
+                default: IconComponent = MapPin;
+              }
+              
               return (
                 <Link
                   key={category.value}
                   to={`/category/${category.value}`}
-                  className="group bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
+                  className="group bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-1 border border-gray-100"
                 >
-                  <div className={`w-12 h-12 bg-${category.color}-100 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200`}>
-                    <IconComponent className={`w-6 h-6 text-${category.color}-600`} />
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200 ${
+                    category.color === 'blue' ? 'bg-blue-100' :
+                    category.color === 'green' ? 'bg-green-100' :
+                    category.color === 'orange' ? 'bg-orange-100' :
+                    category.color === 'purple' ? 'bg-purple-100' :
+                    category.color === 'amber' ? 'bg-amber-100' :
+                    'bg-red-100'
+                  }`}>
+                    <IconComponent className={`w-6 h-6 ${
+                      category.color === 'blue' ? 'text-blue-600' :
+                      category.color === 'green' ? 'text-green-600' :
+                      category.color === 'orange' ? 'text-orange-600' :
+                      category.color === 'purple' ? 'text-purple-600' :
+                      category.color === 'amber' ? 'text-amber-600' :
+                      'text-red-600'
+                    }`} />
                   </div>
                   <h3 className="font-semibold text-gray-900 mb-2 text-sm">
                     {category.name}
