@@ -1167,7 +1167,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
                       required
                     >
                       <option value="">Lokasyon seçin...</option>
-                      {availableLocations.map(loc => (
+                      {availableLocations.filter(loc => loc.is_active).map(loc => (
                         <option key={loc.id} value={loc.name}>{loc.name}</option>
                       ))}
                     </select>
