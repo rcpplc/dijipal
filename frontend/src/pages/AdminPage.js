@@ -151,6 +151,18 @@ const AdminPage = () => {
     }
   };
 
+  const handleToggleCategoryStatus = async (categoryId) => {
+    try {
+      await axios.put(`${API}/admin/categories/${categoryId}/status`);
+      // Reload categories to get updated data
+      loadCategories();
+      toast.success('Kategori durumu güncellendi');
+    } catch (error) {
+      console.error('Error toggling category status:', error);
+      toast.error(error.response?.data?.detail || 'Kategori durumu güncellenirken hata oluştu');
+    }
+  };
+
   // Admin kontrolü sadece debug için
   console.log('AdminPage loaded - User:', user?.email, 'Role:', user?.role);
 
