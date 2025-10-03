@@ -65,7 +65,7 @@ const TourDetailPage = () => {
   const loadReviews = async () => {
     setReviewsLoading(true);
     try {
-      const response = await axios.get(`${API}/tours/${tourId}/reviews`);
+      const response = await axios.get(`${API}/reviews?tour_id=${tourId}&verified_only=true&limit=20`);
       setReviews(response.data);
     } catch (error) {
       console.error('Error loading reviews:', error);
