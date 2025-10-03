@@ -597,14 +597,59 @@ const TourDetailPage = () => {
                 <p className="text-sm text-gray-500">Vergiler dahil</p>
               </div>
 
+              {/* Participants Selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Katılımcı Sayısı
+                </label>
+                <div className="flex items-center space-x-4 p-3 border border-gray-200 rounded-lg bg-gray-50">
+                  <button
+                    onClick={() => setParticipants(Math.max(1, participants - 1))}
+                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
+                    disabled={participants <= 1}
+                  >
+                    -
+                  </button>
+                  <span className="font-medium min-w-[40px] text-center">
+                    {participants} kişi
+                  </span>
+                  <button
+                    onClick={() => setParticipants(Math.min(20, participants + 1))}
+                    className="w-8 h-8 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50"
+                    disabled={participants >= 20}
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
               {/* Date Selection */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-3">
                   Tarih Seçin
                 </label>
-                {availableDates.length > 0 ? (
+                
+                {/* Month Filter */}
+                {availableDates.length > 0 && getAvailableMonths().length > 1 && (
+                  <div className="mb-4">
+                    <select
+                      value={selectedMonth}
+                      onChange={(e) => setSelectedMonth(e.target.value)}
+                      className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
+                    >
+                      <option value="">Tüm Aylar</option>
+                      {getAvailableMonths().map((month) => (
+                        <option key={month.value} value={month.value}>
+                          {month.label}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+                
+                {filteredDates.length > 0 ? (
                   <div className="space-y-2 max-h-40 overflow-y-auto">
-                    {availableDates.map((date) => (
+                    {filteredDates.map((date) => (
                       <button
                         key={date.id}
                         onClick={() => setSelectedDate(date)}
