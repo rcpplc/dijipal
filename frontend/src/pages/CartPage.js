@@ -230,10 +230,20 @@ const CartPage = () => {
                       {/* Price */}
                       <div className="text-right">
                         <div className="text-sm text-gray-600 mb-1">
-                          ₺{item.price} × {item.participants}
+                          ₺{(() => {
+                            const cabinPrice = item.cabinType === 'double' 
+                              ? (item.double_cabin_price || item.price || 0)
+                              : (item.single_cabin_price || item.price || 0);
+                            return cabinPrice.toLocaleString();
+                          })()} × {item.participants} kabin
                         </div>
                         <div className="text-xl font-bold text-blue-600">
-                          ₺{(item.price * item.participants).toLocaleString()}
+                          ₺{(() => {
+                            const cabinPrice = item.cabinType === 'double' 
+                              ? (item.double_cabin_price || item.price || 0)
+                              : (item.single_cabin_price || item.price || 0);
+                            return (cabinPrice * item.participants).toLocaleString();
+                          })()}
                         </div>
                       </div>
                     </div>
