@@ -492,10 +492,7 @@ const AdminPage = () => {
                             <td className="py-4 px-4">
                               <div className="flex items-center space-x-2">
                                 <button
-                                  onClick={() => {
-                                    // Toggle user status
-                                    console.log('Toggle user status:', user.id);
-                                  }}
+                                  onClick={() => handleToggleUserStatus(user.id)}
                                   className="p-2 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                                   title={user.is_active ? 'Deaktif Et' : 'Aktif Et'}
                                 >
