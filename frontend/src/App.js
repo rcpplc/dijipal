@@ -16,6 +16,7 @@ import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
 import MyBookingsPage from './pages/MyBookingsPage';
+import FavoritesPage from './pages/FavoritesPage';
 import LoginModal from './components/LoginModal';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
