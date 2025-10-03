@@ -919,9 +919,14 @@ const TourDetailPage = () => {
                 <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <button
                     onClick={() => {
-                      const current = participants || 1;
+                      console.log('- BUTTON CLICKED');
+                      const current = typeof participants === 'number' ? participants : parseInt(participants) || 1;
+                      console.log('Current for minus:', current);
+                      
                       if (current > 1) {
-                        setParticipants(current - 1);
+                        const newValue = current - 1;
+                        console.log('Setting minus new value:', newValue);
+                        debugSetParticipants(newValue);
                       }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
