@@ -2028,105 +2028,141 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
               </div>
             )}
 
-            {/* Step 3: Tour Dates & Pricing */}
+            {/* Step 3: Tour Dates & Pricing - Enhanced Version */}
             {currentStep === 3 && (
-              <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">📅 Tur Tarihleri & Fiyatlandırma</h3>
+              <div className="space-y-8">
+                <div className="text-center">
+                  <h3 className="text-2xl font-bold text-gray-900 mb-2">📅 Tur Tarihleri & Kabin Fiyatlandırması</h3>
+                  <p className="text-gray-600">Turlarınız için tarihler ekleyin ve kabin tiplerinde farklı fiyatlandırma yapın</p>
+                </div>
                 
-                {/* Add Tour Date */}
-                <div className="bg-gray-50 p-4 rounded-lg">
-                  <h4 className="font-medium text-gray-900 mb-3">Yeni Tarih Ekle</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Tarih *
-                      </label>
-                      <input
-                        type="date"
-                        value={newTourDate.date}
-                        onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
+                {/* Elegant Add Tour Date Form */}
+                <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-xl p-6">
+                  <div className="flex items-center mb-4">
+                    <div className="bg-blue-100 p-2 rounded-lg mr-3">
+                      <Calendar className="w-5 h-5 text-blue-600" />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Kapasite (Maksimum Kabin) *
-                      </label>
-                      <input
-                        type="number"
-                        min="1"
-                        value={newTourDate.capacity}
-                        onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Maksimum kabin sayısı"
-                      />
+                    <h4 className="font-semibold text-gray-900">Yeni Tarih & Fiyat Ekle</h4>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    {/* Left Column */}
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          📅 Tur Tarihi *
+                        </label>
+                        <input
+                          type="date"
+                          value={newTourDate.date}
+                          onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          🏠 Maksimum Kabin Kapasitesi *
+                        </label>
+                        <input
+                          type="number"
+                          min="1"
+                          max="50"
+                          value={newTourDate.capacity}
+                          onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
+                          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                          placeholder="Örn: 12 kabin"
+                        />
+                      </div>
+                    </div>
+                    
+                    {/* Right Column - Cabin Pricing */}
+                    <div className="space-y-4">
+                      <div className="bg-white rounded-lg p-4 border border-gray-200">
+                        <h5 className="font-medium text-gray-800 mb-3">💰 Kabin Fiyatlandırması</h5>
+                        <div className="space-y-3">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              👤 Tek Kişilik Kabin Fiyatı (₺) *
+                            </label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-3 text-gray-500">₺</span>
+                              <input
+                                type="number"
+                                min="0"
+                                step="100"
+                                value={newTourDate.single_cabin_price}
+                                onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
+                                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="12000"
+                              />
+                            </div>
+                          </div>
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">
+                              👫 Çift Kişilik Kabin Fiyatı (₺) *
+                            </label>
+                            <div className="relative">
+                              <span className="absolute left-3 top-3 text-gray-500">₺</span>
+                              <input
+                                type="number"
+                                min="0"
+                                step="100"
+                                value={newTourDate.double_cabin_price}
+                                onChange={(e) => setNewTourDate({...newTourDate, double_cabin_price: e.target.value})}
+                                className="w-full pl-8 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                placeholder="18000"
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Tek Kişilik Kabin Fiyatı (₺) *
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={newTourDate.single_cabin_price}
-                        onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="1 kişilik kabin fiyatı"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Çift Kişilik Kabin Fiyatı (₺) *
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={newTourDate.double_cabin_price}
-                        onChange={(e) => setNewTourDate({...newTourDate, double_cabin_price: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="2 kişilik kabin fiyatı"
-                      />
-                    </div>
+                  <div className="flex justify-end mt-6">
+                    <button
+                      type="button"
+                      onClick={addTourDate}
+                      className="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
+                    >
+                      ✚ Tarih Ekle
+                    </button>
                   </div>
-                  <button
-                    type="button"
-                    onClick={addTourDate}
-                    className="mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-sm font-medium transition-colors duration-200"
-                  >
-                    Tarih Ekle
-                  </button>
                 </div>
 
-                {/* Tour Dates Table */}
+                {/* Enhanced Tour Dates Table */}
                 {formData.tour_dates.length > 0 && (
-                  <div>
-                    <h4 className="font-medium text-gray-900 mb-3">Eklenen Tarihler ({formData.tour_dates.length})</h4>
-                    <div className="bg-white shadow rounded-lg overflow-hidden">
+                  <div className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-200">
+                    <div className="bg-gray-50 px-6 py-4 border-b border-gray-200">
+                      <h4 className="font-semibold text-gray-900 flex items-center">
+                        📋 Eklenen Tarihler 
+                        <span className="ml-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                          {formData.tour_dates.length} tarih
+                        </span>
+                      </h4>
+                    </div>
+                    
+                    <div className="overflow-x-auto">
                       <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-50">
                           <tr>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Tarih
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              📅 Tarih
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Tek Kabin
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              👤 Tek Kabin
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Çift Kabin
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              👫 Çift Kabin
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Kapasite
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              🏠 Kapasite
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Durum
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              🔥 Durum
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              İşlemler
+                            <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              ⚙️ İşlemler
                             </th>
                           </tr>
                         </thead>
@@ -2134,38 +2170,47 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                           {formData.tour_dates
                             .sort((a, b) => new Date(a.date) - new Date(b.date))
                             .map((tourDate, index) => (
-                            <tr key={tourDate.id || index} className="hover:bg-gray-50">
-                              <td className="py-3 px-4 text-gray-900">
-                                {new Date(tourDate.date).toLocaleDateString('tr-TR', {
-                                  year: 'numeric',
-                                  month: 'long',
-                                  day: 'numeric'
-                                })}
+                            <tr key={tourDate.id || index} className="hover:bg-blue-50 transition-colors duration-150">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="font-medium text-gray-900">
+                                  {new Date(tourDate.date).toLocaleDateString('tr-TR', {
+                                    year: 'numeric',
+                                    month: 'long',
+                                    day: 'numeric',
+                                    weekday: 'short'
+                                  })}
+                                </div>
                               </td>
-                              <td className="py-3 px-4 text-gray-900">
-                                ₺{(tourDate.single_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-lg font-semibold text-green-600">
+                                  ₺{(tourDate.single_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
+                                </div>
                               </td>
-                              <td className="py-3 px-4 text-gray-900">
-                                ₺{(tourDate.double_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-lg font-semibold text-indigo-600">
+                                  ₺{(tourDate.double_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
+                                </div>
                               </td>
-                              <td className="py-3 px-4 text-gray-900">
-                                {tourDate.capacity} kabin
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="bg-gray-100 px-3 py-1 rounded-full text-sm font-medium text-gray-800">
+                                  {tourDate.capacity} kabin
+                                </div>
                               </td>
-                              <td className="py-3 px-4">
-                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <span className={`inline-flex px-3 py-1 rounded-full text-xs font-medium ${
                                   tourDate.is_active !== false 
-                                    ? 'bg-green-100 text-green-800'
-                                    : 'bg-red-100 text-red-800'
+                                    ? 'bg-green-100 text-green-800 border border-green-200'
+                                    : 'bg-red-100 text-red-800 border border-red-200'
                                 }`}>
-                                  {tourDate.is_active !== false ? 'Aktif' : 'Pasif'}
+                                  {tourDate.is_active !== false ? '✅ Aktif' : '❌ Pasif'}
                                 </span>
                               </td>
-                              <td className="py-3 px-4">
-                                <div className="flex space-x-2">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex space-x-3">
                                   <button
                                     type="button"
                                     onClick={() => editTourDate(index)}
-                                    className="text-indigo-600 hover:text-indigo-700 p-1 rounded transition-colors duration-200"
+                                    className="bg-yellow-100 hover:bg-yellow-200 text-yellow-700 p-2 rounded-lg transition-colors duration-200"
                                     title="Düzenle"
                                   >
                                     <Edit className="w-4 h-4" />
@@ -2173,18 +2218,18 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                                   <button
                                     type="button"
                                     onClick={() => toggleTourDateStatus(index)}
-                                    className={`px-3 py-1 rounded text-xs font-medium transition-colors duration-200 ${
+                                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors duration-200 ${
                                       tourDate.is_active !== false
-                                        ? 'bg-red-100 text-red-800 hover:bg-red-200'
-                                        : 'bg-green-100 text-green-800 hover:bg-green-200'
+                                        ? 'bg-red-100 text-red-700 hover:bg-red-200'
+                                        : 'bg-green-100 text-green-700 hover:bg-green-200'
                                     }`}
                                   >
-                                    {tourDate.is_active !== false ? 'Pasif Et' : 'Aktif Et'}
+                                    {tourDate.is_active !== false ? '⏸️ Pasif Et' : '▶️ Aktif Et'}
                                   </button>
                                   <button
                                     type="button"
                                     onClick={() => removeTourDate(index)}
-                                    className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                                    className="bg-red-100 hover:bg-red-200 text-red-700 p-2 rounded-lg transition-colors duration-200"
                                     title="Sil"
                                   >
                                     <Trash2 className="w-4 h-4" />
@@ -2196,8 +2241,39 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         </tbody>
                       </table>
                     </div>
+                    
+                    {formData.tour_dates.length === 0 && (
+                      <div className="text-center py-12">
+                        <Calendar className="mx-auto h-12 w-12 text-gray-400" />
+                        <h3 className="mt-2 text-sm font-medium text-gray-900">Henüz tarih eklenmemiş</h3>
+                        <p className="mt-1 text-sm text-gray-500">
+                          Yukarıdaki formu kullanarak ilk tarihinizi ekleyin.
+                        </p>
+                      </div>
+                    )}
                   </div>
                 )}
+
+                {/* Helpful Tips */}
+                <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="flex">
+                    <div className="flex-shrink-0">
+                      <div className="bg-blue-100 p-1 rounded-full">
+                        <span className="text-blue-600">💡</span>
+                      </div>
+                    </div>
+                    <div className="ml-3">
+                      <h3 className="text-sm font-medium text-blue-900">Fiyatlandırma İpuçları</h3>
+                      <div className="mt-2 text-sm text-blue-700">
+                        <ul className="list-disc pl-5 space-y-1">
+                          <li>Tek kişilik kabinler genellikle daha düşük fiyatlıdır</li>
+                          <li>Çift kişilik kabinler daha geniş ve konforlu olduğu için premium fiyatlandırılabilir</li>
+                          <li>Sezon dönemlerinde fiyatları artırmayı düşünün</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             )}
 
