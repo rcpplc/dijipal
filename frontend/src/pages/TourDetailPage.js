@@ -42,6 +42,9 @@ const TourDetailPage = () => {
   
   // User behavior tracking
   const [suggestedParticipants, setSuggestedParticipants] = useState(null);
+  
+  // Cabin system
+  const [cabinType, setCabinType] = useState('double'); // 'single' or 'double'
 
   useEffect(() => {
     // Ensure participants is always at least 1
