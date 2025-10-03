@@ -826,8 +826,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
         <form onSubmit={handleSubmit} className="p-6">
           {/* Step Content */}
           <div className="min-h-[400px]">
-          {/* Basic Info */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Step 1: Basic Information */}
+            {currentStep === 1 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">📝 Temel Bilgiler</h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Tur Başlığı *
