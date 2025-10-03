@@ -241,7 +241,8 @@ const TourDetailPage = () => {
     }
 
     // Save user behavior before booking
-    const cabinCount = participants || 1;
+    const cabinCount = typeof participants === 'number' ? participants : 1;
+    console.log('Booking with cabin count:', cabinCount);
     saveSearchBehavior(tourId, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
 
     // Navigate to booking page with tour and date info
