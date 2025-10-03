@@ -341,24 +341,18 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
           agent: "main"
           comment: "Admin reviews management frontend implemented. Added 'Değerlendirmeler' tab to admin panel with comprehensive UI: review listing table with user info, tour name, rating stars, status badges, filter dropdown (all/pending/approved/rejected), detailed review modal with full information display, approve/reject/delete action buttons, test reviews button for adding sample data. Includes proper loading states, empty states, and responsive design. Ready for testing."
 
+  - task: "Admin panel cabin pricing bug fix"
+    implemented: true
+    working: "unknown"
+    file: "AdminPage.js, server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "Fixed two key issues: 1) AdminPage.js editTourDate function now properly loads single_cabin_price and double_cabin_price fields when editing tour dates. 2) Backend /admin/tours endpoint now includes both cabin pricing fields in tour_dates response. Previously admin panel couldn't display or update cabin prices correctly because these fields were missing from API response."
+
 ## agent_communication:
     - agent: "main"
-      message: "Sepet ve rezervasyon sayfalarında tarih bilgisi gösterilmemesi sorununu çözdüm. TourDetailPage'de tarih seçimi zorunlu hale getirdim, CartPage'de seçilen tarihi gösteriyorum, BookingPage'de URL parametrelerinden tarih bilgisini alıp rezervasyon özetinde gösteriyorum. Şimdi test edilmesi gerekiyor."
-    - agent: "testing"
-      message: "Backend API testleri tamamlandı. Tüm istenen endpoint'ler test edildi ve çalışıyor: ✅ GET /api/tours, ✅ GET /api/tours/{id}, ✅ POST /api/auth/login (admin@example.com/admin123), ✅ GET /api/admin/tours, ✅ POST /api/seed-data. Admin dashboard çalışıyor (3 tours, 2 bookings, 13 users, 1196 TL revenue). Tour date bilgileri API'dan alınabiliyor. Backend hazır, frontend testine geçilebilir."
-    - agent: "main"
-      message: "Tüm ana sorunlar çözüldü: ✅ Sepet/rezervasyon tarih sorunu, ✅ Admin panel erişimi (troubleshoot_agent ile race condition çözüldü), ✅ Rezervasyon tasarım uyumu, ✅ Favoriler sistemi backend entegrasyonu tamamlandı (ToursPage, TourDetailPage, FavoritesPage). Favoriler frontend testine hazır."
-    - agent: "main"
-      message: "Admin panel iyileştirmeleri tamamlandı: ✅ Tur durumu (taslak/aktif/pasif/arşiv) düzeltildi, ✅ Kullanıcı yönetimi sayfası eklendi (user listesi, status toggle), ✅ Resim upload sistemi eklendi (file upload + URL), ✅ Backend API endpoints eklendi (/admin/users, /upload/image, /admin/users/{id}/status). Test edilmeye hazır."
-    - agent: "testing"
-      message: "Admin panel lokasyon düzenleme özelliklerini test etmeye başlıyorum. Test senaryoları: admin girişi, lokasyonlar tab'ına gitme, düzenle butonu, modal form kontrolü, güncelleme işlemi, toast mesajları ve status toggle."
-    - agent: "testing"
-      message: "Production admin login test completed successfully! ✅ All login functionality working perfectly: modal opens/closes, credentials accepted, API responds correctly (200), user state properly set with admin role, admin panel accessible via user dropdown, dashboard loads with correct data. No critical issues found - login flow is working as designed."
-    - agent: "testing"
-      message: "Admin tour management system testing completed. ✅ New field structure (pickup_time, dropoff_time, classification) working correctly. ✅ Tour creation with tour_dates creates explicit prices for minimum price calculation. ✅ Admin CRUD operations (create, read, update) all functional. ✅ Backward compatibility maintained. ⚠️ Missing POST /api/tours/{id}/dates endpoint for adding individual tour dates - currently only possible during tour creation. Fixed backend bug in tour_dates creation. Overall system working excellently with 92.9% test success rate."
-    - agent: "testing"
-      message: "Admin location and category management CRUD testing completed successfully! ✅ Location Management: GET, POST, PUT, PUT/status all working (created Bodrum, Marmaris, Antalya with full details). ✅ Category Management: GET, POST, PUT, PUT/status all working (created Tekne Turu, Tarih Turu, Doğa Turu with icons, SEO, FAQ). ✅ Admin authentication working with admin@example.com/admin123. ⚠️ DELETE endpoints not implemented for both locations and categories (405 Method Not Allowed). Overall success rate: 90% (18/20 tests passed). All core CRUD operations functional except deletion."
-    - agent: "main"
-      message: "Admin reviews management system implemented completely. Backend has comprehensive review API endpoints with proper authentication, data validation, and CRUD operations. Frontend admin panel has new 'Değerlendirmeler' tab with full review management UI including filtering, detailed modal, and admin actions. Test data successfully created (4 reviews for specified tour). Ready for testing both backend API functionality and frontend UI integration."
-    - agent: "testing"
-      message: "Reviews Management System Backend API testing completed with EXCELLENT results! ✅ All 8 review endpoints working perfectly: GET /api/reviews (public listing with filters), POST /api/reviews (authenticated creation), GET /api/admin/reviews (admin listing with status/tour filters), PUT /api/admin/reviews/{id} (update), PUT /api/admin/reviews/{id}/approve (approval), PUT /api/admin/reviews/{id}/reject (rejection), DELETE /api/admin/reviews/{id} (deletion), POST /api/add-test-reviews (test data). ✅ Authentication working correctly (admin@example.com/admin123). ✅ Data enrichment working (user names, tour titles added to responses). ✅ Error handling working (404 for non-existent reviews). ✅ Test data created successfully for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55. Success rate: 96.3% (26/27 tests passed). Backend review system is production-ready!"
+      message: "Kabin fiyatlandırma problemi çözüldü: ✅ AdminPage.js'de editTourDate fonksiyonu artık single_cabin_price ve double_cabin_price alanlarını doğru yüklüyor. ✅ Backend /admin/tours endpoint'inde tour_dates response'una eksik olan cabin pricing alanları eklendi. Admin paneli artık kabin fiyatlarını doğru gösterip güncelleyebilir. Test edilmeye hazır."
