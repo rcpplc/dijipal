@@ -1204,6 +1204,134 @@ async def seed_sample_data():
 
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
+@api_router.post("/add-test-reviews")
+async def add_test_reviews():
+    """Add specific test reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55"""
+    tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+    
+    # Create test users for reviews if they don't exist
+    test_users = [
+        {
+            "id": str(uuid.uuid4()),
+            "email": "ahmet.yilmaz@example.com",
+            "full_name": "Ahmet Yılmaz",
+            "phone": "05551111111",
+            "role": UserRole.CUSTOMER,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("123456")
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "email": "elif.kaya@example.com", 
+            "full_name": "Elif Kaya",
+            "phone": "05552222222",
+            "role": UserRole.CUSTOMER,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("123456")
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "email": "mehmet.demir@example.com",
+            "full_name": "Mehmet Demir", 
+            "phone": "05553333333",
+            "role": UserRole.CUSTOMER,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("123456")
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "email": "ayse.ozkan@example.com",
+            "full_name": "Ayşe Özkan",
+            "phone": "05554444444", 
+            "role": UserRole.CUSTOMER,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("123456")
+        }
+    ]
+    
+    # Insert test users
+    user_ids = []
+    for user in test_users:
+        existing_user = await db.users.find_one({"email": user["email"]})
+        if not existing_user:
+            await db.users.insert_one(user)
+            user_ids.append(user["id"])
+        else:
+            user_ids.append(existing_user["id"])
+    
+    # Create 4 test reviews
+    test_reviews = [
+        {
+            "id": str(uuid.uuid4()),
+            "user_id": user_ids[0],
+            "tour_id": tour_id,
+            "booking_id": str(uuid.uuid4()),
+            "rating": 5,
+            "title": "Muhteşem bir deneyim!",
+            "comment": "Gerçekten harika bir turdu. Rehberimiz çok bilgiliydi ve grup atmosferi mükemmeldi. Kesinlikle tavsiye ederim. Her şey mükemmel organizeydi, zamanında başladık ve beklediğimizden çok daha keyifli geçti.",
+            "images": [],
+            "is_verified": True,
+            "status": "approved",
+            "created_at": datetime.utcnow() - timedelta(days=5)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "user_id": user_ids[1],
+            "tour_id": tour_id,
+            "booking_id": str(uuid.uuid4()),
+            "rating": 4,
+            "title": "Çok güzel vakit geçirdik",
+            "comment": "Ailecek katıldık ve herkes çok memnun kaldı. Özellikle çocuklar çok eğlendi. Organizasyon güzeldi, sadece yemek konusunda biraz daha çeşit olabilirdi. Genel olarak çok başarılı bir tur.",
+            "images": [],
+            "is_verified": False,
+            "status": "pending",
+            "created_at": datetime.utcnow() - timedelta(days=3)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "user_id": user_ids[2],
+            "tour_id": tour_id,
+            "booking_id": str(uuid.uuid4()),
+            "rating": 5,
+            "title": "Harika bir gün geçirdik!",
+            "comment": "Profesyonel ekip, mükemmel organizasyon. Her detay düşünülmüş. Fotoğraf çekim noktaları harikaydı. Rehber çok samimi ve bilgiliydi. Para vermeye değdi kesinlikle.",
+            "images": [],
+            "is_verified": True,  
+            "status": "approved",
+            "created_at": datetime.utcnow() - timedelta(days=8)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "user_id": user_ids[3],
+            "tour_id": tour_id,
+            "booking_id": str(uuid.uuid4()),
+            "rating": 3,
+            "title": "İdare eder",
+            "comment": "Tur genel olarak iyiydi ama bazı beklentilerimiz karşılanmadı. Grup biraz kalabalıktı ve rehber zaman zaman yetersiz kalıyordu. Manzaralar güzeldi tabii ki ama organizasyon daha iyi olabilirdi.",
+            "images": [],
+            "is_verified": False,
+            "status": "pending", 
+            "created_at": datetime.utcnow() - timedelta(days=1)
+        }
+    ]
+    
+    # Insert test reviews
+    inserted_count = 0
+    for review in test_reviews:
+        existing_review = await db.reviews.find_one({
+            "user_id": review["user_id"],
+            "tour_id": tour_id
+        })
+        if not existing_review:
+            await db.reviews.insert_one(review)
+            inserted_count += 1
+    
+    return {"message": f"Test reviews added successfully. Inserted {inserted_count} new reviews for tour {tour_id}"}
+
 # Reviews Management
 class ReviewCreate(BaseModel):
     tour_id: str
