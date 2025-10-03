@@ -749,27 +749,27 @@ const TourDetailPage = () => {
                 </p>
               </div>
 
-              {/* Total Price */}
-              <div className="mb-6 p-4 bg-blue-50 rounded-lg">
-                <div className="flex justify-between items-center">
-                  <span className="text-gray-700">Toplam Tutar:</span>
-                  <span className="text-2xl font-bold text-blue-600">
-                    ₺{selectedDate ? (selectedDate.price * participants).toLocaleString('tr-TR') : (tour.base_price * participants).toLocaleString('tr-TR')}
-                  </span>
+              {/* Booking Summary */}
+              {selectedDate && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+                  <div className="text-center">
+                    <div className="text-lg font-semibold text-gray-800 mb-2">
+                      📅 {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      })}
+                    </div>
+                    <div className="text-2xl font-bold text-blue-700">
+                      ₺{(selectedDate.price * participants).toLocaleString('tr-TR')}
+                    </div>
+                    <p className="text-sm text-gray-600 mt-1">
+                      {participants} kişi × ₺{selectedDate.price.toLocaleString('tr-TR')} + Vergiler
+                    </p>
+                  </div>
                 </div>
-                <p className="text-xs text-gray-500 mt-1">
-                  {participants} kişi × ₺{selectedDate ? selectedDate.price.toLocaleString('tr-TR') : tour.base_price.toLocaleString('tr-TR')}
-                </p>
-                {selectedDate && (
-                  <p className="text-xs text-green-600 mt-1">
-                    📅 {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
-                      weekday: 'long',
-                      day: 'numeric',
-                      month: 'long'
-                    })}
-                  </p>
-                )}
-              </div>
+              )}
 
               {/* Booking Buttons */}
               <div className="space-y-3">
