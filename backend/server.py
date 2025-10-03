@@ -176,6 +176,11 @@ class Review(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Create models
+class TourDateCreate(BaseModel):
+    date: str  # ISO date string
+    price: float
+    capacity: int
+
 class TourCreate(BaseModel):
     title: str
     description: str
@@ -195,6 +200,7 @@ class TourCreate(BaseModel):
     difficulty_level: Optional[str] = "Easy"
     cancellation_policy: Optional[str] = None
     tags: List[str] = []
+    tour_dates: List[TourDateCreate] = []
 
 class BookingCreate(BaseModel):
     tour_id: str
