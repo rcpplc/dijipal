@@ -101,3 +101,75 @@
 #====================================================================================================
 # Testing Data - Main Agent and testing sub agent both should log testing data below this section
 #====================================================================================================
+
+## user_problem_statement: 
+Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bildirdi. Ayrıca admin panel giriş bilgileri istedi ve favoriler sistemi backend entegrasyonu istendi.
+
+## backend:
+  - task: "Tour date information in cart and booking"
+    implemented: true
+    working: false
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "Cart ve booking sayfalarında tarih bilgisi gösterilmesi için frontend güncellemeleri yapıldı, backend testine ihtiyaç var"
+
+## frontend:
+  - task: "Cart page tour date display"
+    implemented: true
+    working: "unknown"
+    file: "CartPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "Sepete ekleme sırasında selectedDate bilgisi kaydetme ve cart sayfasında gösterim eklendi"
+
+  - task: "Booking page tour date display"
+    implemented: true
+    working: "unknown"
+    file: "BookingPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "URL parametrelerinden tarih bilgisi alma ve rezervasyon özetinde gösterim eklendi"
+
+  - task: "Tour detail date selection validation"
+    implemented: true
+    working: "unknown"
+    file: "TourDetailPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "Sepete ekleme öncesi tarih seçim zorunluluğu eklendi"
+
+## metadata:
+  created_by: "main_agent"
+  version: "1.0"
+  test_sequence: 1
+  run_ui: true
+
+## test_plan:
+  current_focus:
+    - "Cart page tour date display"
+    - "Booking page tour date display"
+    - "Tour detail date selection validation"
+  stuck_tasks: []
+  test_all: false
+  test_priority: "high_first"
+
+## agent_communication:
+    - agent: "main"
+      message: "Sepet ve rezervasyon sayfalarında tarih bilgisi gösterilmemesi sorununu çözdüm. TourDetailPage'de tarih seçimi zorunlu hale getirdim, CartPage'de seçilen tarihi gösteriyorum, BookingPage'de URL parametrelerinden tarih bilgisini alıp rezervasyon özetinde gösteriyorum. Şimdi test edilmesi gerekiyor."
