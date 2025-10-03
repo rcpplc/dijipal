@@ -502,6 +502,17 @@ class ReviewWithUser(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
     user_name: Optional[str] = None
 
+@api_router.get("/tours/{tour_id}/dates", response_model=List[TourDate])
+async def get_tour_dates(tour_id: str):
+    """Get available dates for a tour"""
+    tour_dates = await db.tour_dates.find({
+        "tour_id": tour_id,
+        "is_active": True,
+        "start_date": {"$gte": datetime.utcnow().date()}
+    }).sort("start_date", 1).to_list(length=None)
+    
+    return [TourDate(**date) for date in tour_dates]
+
 @api_router.get("/tours/{tour_id}/reviews", response_model=List[ReviewWithUser])
 async def get_tour_reviews(tour_id: str):
     reviews = await db.reviews.find({"tour_id": tour_id}).to_list(length=None)
