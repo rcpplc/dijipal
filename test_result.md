@@ -103,7 +103,7 @@
 #====================================================================================================
 
 ## user_problem_statement: 
-Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bildirdi. Ayrıca admin panel giriş bilgileri istedi ve favoriler sistemi backend entegrasyonu istendi.
+Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm değerlendirmelerin listelenmesi, görüntüleme, düzenleme, onay ve silme işlevselliği ile birlikte test olarak belirtilen tur ID'sine 4 adet yorum eklenmesi ve kullanıcı detay sayfalarında entegrasyonu.
 
 ## backend:
   - task: "Tour date information in cart and booking"
