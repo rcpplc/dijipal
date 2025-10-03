@@ -681,6 +681,36 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
     }));
   };
 
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setUploadLoading(true);
+    try {
+      const formData = new FormData();
+      formData.append('file', file);
+
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload/image`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      // Add uploaded image URL to images array
+      setFormData(prev => ({
+        ...prev,
+        images: [...prev.images, response.data.url]
+      }));
+
+      toast.success('Resim başarıyla yüklendi');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Resim yüklenirken hata oluştu');
+    } finally {
+      setUploadLoading(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
