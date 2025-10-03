@@ -926,7 +926,8 @@ const TourDetailPage = () => {
                           const cabinPrice = cabinType === 'single' 
                             ? (selectedDate.single_cabin_price || selectedDate.price)
                             : (selectedDate.double_cabin_price || selectedDate.price);
-                          return (cabinPrice * Number(participants)).toLocaleString('tr-TR');
+                          const cabinCount = participants || 1;
+                        return (cabinPrice * cabinCount).toLocaleString('tr-TR');
                         })()} toplam
                       </div>
                     )}
@@ -970,7 +971,8 @@ const TourDetailPage = () => {
                         const cabinPrice = cabinType === 'single' 
                           ? (selectedDate.single_cabin_price || selectedDate.price)
                           : (selectedDate.double_cabin_price || selectedDate.price);
-                        return (cabinPrice * Number(participants)).toLocaleString('tr-TR');
+                        const cabinCount = participants || 1;
+                        return (cabinPrice * cabinCount).toLocaleString('tr-TR');
                       })()}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
