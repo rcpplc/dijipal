@@ -73,6 +73,21 @@ const HomePage = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      // Track search behavior
+      try {
+        const history = JSON.parse(localStorage.getItem('tourSearchHistory') || '[]');
+        const searchData = {
+          searchQuery: searchQuery.trim(),
+          timestamp: new Date().toISOString(),
+          searchLocation: 'homepage'
+        };
+        
+        const updatedHistory = [searchData, ...history.slice(0, 19)];
+        localStorage.setItem('tourSearchHistory', JSON.stringify(updatedHistory));
+      } catch (error) {
+        console.error('Error tracking search:', error);
+      }
+      
       navigate(`/tours?search=${encodeURIComponent(searchQuery.trim())}`);
     }
   };
