@@ -243,7 +243,8 @@ const MyBookingsPage = () => {
                         <div>
                           <span className="font-medium text-gray-700">Rezervasyon Detayı:</span>
                           <div className="mt-1 text-gray-600">
-                            <p>Katılımcı: {booking.participants} kişi</p>
+                            <p>Kabin Sayısı: {booking.participants} kabin</p>
+                            <p>Kabin Tipi: {booking.cabin_type === 'double' ? 'Çift Kişilik Kabin' : 'Tek Kişilik Kabin'}</p>
                             <p>Toplam: ₺{booking.total_price?.toLocaleString()}</p>
                             {booking.payment_status === 'success' && (
                               <span className="inline-flex items-center text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mt-1">
