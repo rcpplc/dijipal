@@ -1227,13 +1227,15 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     
     // Only allow submit on step 5
     if (currentStep !== 5) {
+      console.log('Submit blocked - not on step 5, current step:', currentStep);
       return;
     }
     
+    console.log('Starting tour submission...');
     setLoading(true);
 
     try {
