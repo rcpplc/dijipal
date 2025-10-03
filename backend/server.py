@@ -185,6 +185,7 @@ class TourCreate(BaseModel):
     base_price: float
     max_participants: int
     category: TourCategory
+    status: TourStatus = TourStatus.DRAFT
     images: List[str] = []
     included_services: List[str] = []
     excluded_services: List[str] = []
