@@ -44,6 +44,11 @@ const TourDetailPage = () => {
   const [suggestedParticipants, setSuggestedParticipants] = useState(null);
 
   useEffect(() => {
+    // Ensure participants is always at least 1
+    if (!participants || isNaN(participants) || participants < 1) {
+      setParticipants(1);
+    }
+    
     loadTour();
     loadReviews();
     if (tourId) {
@@ -56,6 +61,14 @@ const TourDetailPage = () => {
       loadUserPreferences();
     }
   }, [tourId, user]);
+  
+  // Additional safety check for participants
+  useEffect(() => {
+    if (!participants || isNaN(participants) || participants < 1) {
+      console.log('Fixing invalid participants value:', participants);
+      setParticipants(1);
+    }
+  }, [participants]);
 
   // Filter dates when availableDates or selectedMonth changes
   useEffect(() => {
