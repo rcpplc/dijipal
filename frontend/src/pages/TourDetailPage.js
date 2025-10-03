@@ -229,14 +229,15 @@ const TourDetailPage = () => {
     }
 
     // Save user behavior before booking
-    saveSearchBehavior(tourId, participants, selectedDate.price);
+    const cabinCount = participants || 1;
+    saveSearchBehavior(tourId, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
 
     // Navigate to booking page with tour and date info
     navigate('/booking', {
       state: {
         tour: tour,
         selectedDate: selectedDate,
-        participants: participants
+        participants: cabinCount
       }
     });
   };
