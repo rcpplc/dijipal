@@ -1450,55 +1450,48 @@ async def add_test_reviews():
 
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
-    """Add test cabin pricing for specified tour"""
+    """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
     
     # Delete existing tour dates for this tour
-    result = await db.tour_dates.delete_many({"tour_id": tour_id})
-    print(f"Deleted {result.deleted_count} existing tour dates for tour {tour_id}")
+    await db.tour_dates.delete_many({"tour_id": tour_id})
     
-    # Add new tour dates with different cabin pricing
+    # Test data with new cabin system
     test_dates = [
         {
-            "id": str(uuid.uuid4()),
             "tour_id": tour_id,
             "start_date": "2025-01-15",
-            "available_spots": 8,
-            "price": 12000,  # Fallback price
-            "single_cabin_price": 12000,  # 1 kişilik kabin
-            "double_cabin_price": 20000,  # 2 kişilik kabin
+            "available_cabins": 8,
+            "single_cabin_price": 12000.0,
+            "double_cabin_price": 18000.0,
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
-            "id": str(uuid.uuid4()),
             "tour_id": tour_id,
-            "start_date": "2025-01-20",
-            "available_spots": 10,
-            "price": 14000,  # Fallback price
-            "single_cabin_price": 14000,  # 1 kişilik kabin
-            "double_cabin_price": 25000,  # 2 kişilik kabin
+            "start_date": "2025-01-20", 
+            "available_cabins": 10,
+            "single_cabin_price": 15000.0,
+            "double_cabin_price": 25000.0,
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         },
         {
-            "id": str(uuid.uuid4()),
             "tour_id": tour_id,
-            "start_date": "2025-02-10", 
-            "available_spots": 12,
-            "price": 15000,  # Fallback price
-            "single_cabin_price": 15000,  # 1 kişilik kabin
-            "double_cabin_price": 28000,  # 2 kişilik kabin
+            "start_date": "2025-02-10",
+            "available_cabins": 12,
+            "single_cabin_price": 18000.0,
+            "double_cabin_price": 32000.0,
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
     ]
     
-    # Insert test tour dates
     for date in test_dates:
-        print(f"Inserting date: {date['start_date']} - Single: {date['single_cabin_price']} - Double: {date['double_cabin_price']}")
+        date["id"] = str(uuid.uuid4())
+        print(f"Inserting NEW CABIN DATE: {date['start_date']} - Single Cabin: ₺{date['single_cabin_price']} - Double Cabin: ₺{date['double_cabin_price']}")
         await db.tour_dates.insert_one(date)
     
-    return {"message": f"Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with different pricing."}
+    return {"message": f"NEW CABIN SYSTEM: Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with cabin pricing."}
 
 @api_router.post("/reset-database")
 async def reset_database():
