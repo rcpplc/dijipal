@@ -1155,70 +1155,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
               </div>
             )}
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Fiyat (₺) *
-              </label>
-              <input
-                type="number"
-                min="0"
-                step="0.01"
-                value={formData.base_price}
-                onChange={(e) => setFormData({...formData, base_price: parseFloat(e.target.value)})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Max Katılımcı *
-              </label>
-              <input
-                type="number"
-                min="1"
-                value={formData.max_participants}
-                onChange={(e) => setFormData({...formData, max_participants: parseInt(e.target.value)})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                required
-              />
-            </div>
-          </div>
-
-          {/* Descriptions */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Kısa Açıklama *
-            </label>
-            <input
-              type="text"
-              value={formData.short_description}
-              onChange={(e) => setFormData({...formData, short_description: e.target.value})}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Tur hakkında kısa açıklama"
-              required
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Detaylı Açıklama *
-            </label>
-            <textarea
-              value={formData.description}
-              onChange={(e) => setFormData({...formData, description: e.target.value})}
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-              placeholder="Tur hakkında detaylı bilgi"
-              required
-            />
-          </div>
-
-          {/* Images */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Görsel URL'leri
-            </label>
+            {/* Step 3: Services & Details */}
+            {currentStep === 3 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Hizmetler & Detaylar</h3>
             
             {/* Image Upload */}
             <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
