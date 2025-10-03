@@ -648,13 +648,17 @@ const BookingPage = () => {
                     </span>
                     <span className="font-medium">₺{parseFloat(totalPrice).toLocaleString('tr-TR')}</span>
                   </div>
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>KDV Hariç Tutar</span>
+                    <span>₺{priceWithoutKdv.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>KDV (%20)</span>
+                    <span>₺{kdvAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Hizmet bedeli</span>
                     <span className="font-medium">₺0</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Vergiler</span>
-                    <span className="font-medium">Dahil</span>
                   </div>
                 </div>
 
