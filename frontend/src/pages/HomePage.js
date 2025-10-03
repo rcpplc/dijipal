@@ -152,7 +152,7 @@ const HomePage = () => {
                 alt={`Hero ${index + 1}`}
                 className="w-full h-full object-cover"
               />
-              <div className="absolute inset-0 bg-black bg-opacity-40"></div>
+              <div className="absolute inset-0 bg-black bg-opacity-50"></div>
             </div>
           ))}
         </div>
@@ -160,13 +160,13 @@ const HomePage = () => {
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center text-white px-4 max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in-up">
+            <h1 className="text-5xl md:text-7xl font-bold mb-6">
               Türkiye'yi
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-cyan-400">
+              <span className="block text-blue-300">
                 Keşfedin
               </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-200 animate-fade-in-up">
+            <p className="text-xl md:text-2xl mb-8 text-gray-100">
               Binlerce destinasyon, güvenilir operatörler ve unutulmaz anılar
             </p>
 
