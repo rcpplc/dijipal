@@ -775,11 +775,12 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
     tour_dict = tour_data.dict()
     
     # Debug: Log incoming tour_dates
-    print(f"DEBUG: Updating tour {tour_id}")
-    print(f"DEBUG: tour_dates in request: {tour_dict.get('tour_dates', [])}")
+    print(f"🔄 UPDATING TOUR {tour_id}")
+    print(f"📋 Complete tour_update received: {json.dumps(tour_dict, indent=2, default=str)}")
     
-    # Extract tour_dates for separate handling
+    # Extract tour_dates from the update
     tour_dates_data = tour_dict.pop("tour_dates", [])
+    print(f"📅 tour_dates data: {json.dumps(tour_dates_data, indent=2, default=str)}")
     
     tour_dict["updated_at"] = datetime.utcnow()
     
