@@ -487,7 +487,7 @@ async def seed_sample_data():
             "location": "İstanbul, Türkiye",
             "duration_days": 1,
             "duration_hours": 6,
-            "base_price": Decimal("299.00"),
+            "base_price": 299.00,
             "max_participants": 15,
             "category": TourCategory.HISTORICAL,
             "status": TourStatus.ACTIVE,
