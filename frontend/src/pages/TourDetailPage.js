@@ -417,13 +417,22 @@ const TourDetailPage = () => {
                 </p>
               </div>
 
-              {/* Booking Button */}
-              <button
-                onClick={handleBooking}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] mb-4"
-              >
-                {user ? 'Rezervasyon Yap' : 'Giriş Yaparak Rezervasyon Yap'}
-              </button>
+              {/* Booking Buttons */}
+              <div className="space-y-3">
+                <button
+                  onClick={handleBooking}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  {user ? 'Rezervasyon Yap' : 'Giriş Yaparak Rezervasyon Yap'}
+                </button>
+                
+                <button
+                  onClick={addToCart}
+                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] border-2 border-gray-200 hover:border-gray-300"
+                >
+                  Sepete Ekle
+                </button>
+              </div>
 
               <p className="text-xs text-gray-500 text-center mb-4">
                 Ücretsiz iptal • 24 saat öncesine kadar
