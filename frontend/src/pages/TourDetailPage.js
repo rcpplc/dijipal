@@ -879,20 +879,24 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Booking Buttons */}
+              {/* Booking Buttons - Corporate Style */}
               <div className="space-y-3">
                 <button
                   onClick={handleBooking}
-                  className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98]"
+                  disabled={!selectedDate}
+                  className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 disabled:from-gray-400 disabled:to-gray-500 text-white font-bold py-4 px-6 rounded-lg transition-all duration-200 shadow-lg hover:shadow-xl disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
-                  {user ? 'Rezervasyon Yap' : 'Giriş Yaparak Rezervasyon Yap'}
+                  <span>🎫</span>
+                  <span>{user ? 'Rezervasyon Tamamla' : 'Giriş Yapın & Rezervasyon Yapın'}</span>
                 </button>
                 
                 <button
                   onClick={addToCart}
-                  className="w-full bg-gray-100 hover:bg-gray-200 text-gray-800 font-semibold py-4 px-6 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] border-2 border-gray-200 hover:border-gray-300"
+                  disabled={!selectedDate}
+                  className="w-full bg-white hover:bg-gray-50 text-gray-800 font-semibold py-4 px-6 rounded-lg transition-all duration-200 border-2 border-gray-300 hover:border-blue-500 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed flex items-center justify-center space-x-2"
                 >
-                  Sepete Ekle
+                  <span>🛒</span>
+                  <span>Sepete Ekle</span>
                 </button>
               </div>
 
