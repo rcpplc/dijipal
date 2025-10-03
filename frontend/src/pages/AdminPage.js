@@ -84,6 +84,31 @@ const AdminPage = () => {
       setLoading(false);
     }
   };
+  const loadLocations = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/locations`);
+      setLocations(response.data);
+    } catch (error) {
+      console.error('Error loading locations:', error);
+      toast.error('Lokasyonlar yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadCategories = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/categories`);
+      setCategories(response.data);
+    } catch (error) {
+      console.error('Error loading categories:', error);
+      toast.error('Kategoriler yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteTour = async (tourId) => {
     try {
