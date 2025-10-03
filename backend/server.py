@@ -618,13 +618,32 @@ async def check_favorite_status(tour_id: str, current_user: User = Depends(get_c
     return {"is_favorited": favorite is not None}
 
 # Admin endpoints
-@api_router.get("/admin/tours", response_model=List[Tour])
+@api_router.get("/admin/tours")
 async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
     tours = await db.tours.find().to_list(length=None)
-    return [Tour(**tour) for tour in tours]
+    
+    # Add tour_dates to each tour
+    for tour in tours:
+        tour_dates = await db.tour_dates.find({
+            "tour_id": tour["id"],
+            "is_active": True
+        }).sort("start_date", 1).to_list(length=None)
+        
+        # Convert tour_dates for frontend
+        tour["tour_dates"] = []
+        for date in tour_dates:
+            tour["tour_dates"].append({
+                "id": date["id"],
+                "date": date["start_date"],
+                "price": date["price"],
+                "capacity": date["available_spots"],
+                "is_active": date.get("is_active", True)
+            })
+    
+    return tours
 
 @api_router.put("/admin/tours/{tour_id}", response_model=Tour)
 async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: User = Depends(get_current_user)):
