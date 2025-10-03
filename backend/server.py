@@ -783,6 +783,8 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
                 start_date=date_data.get("date", date_data.get("start_date")),
                 available_spots=date_data.get("capacity", date_data.get("available_spots", 10)),
                 price=float(date_data.get("price", 0)),
+                single_cabin_price=float(date_data.get("single_cabin_price", date_data.get("price", 0))),
+                double_cabin_price=float(date_data.get("double_cabin_price", date_data.get("price", 0))),
                 is_active=date_data.get("is_active", True)
             )
             
