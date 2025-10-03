@@ -308,7 +308,7 @@ async def get_tours(
     return [Tour(**tour) for tour in tours]
 
 @api_router.get("/tours/{tour_id}", response_model=Tour)
-async def get_tour(tour_id: str = Path(...)):
+async def get_tour(tour_id: str = FastAPIPath(...)):
     tour = await db.tours.find_one({"id": tour_id})
     if not tour:
         raise HTTPException(status_code=404, detail="Tour not found")
