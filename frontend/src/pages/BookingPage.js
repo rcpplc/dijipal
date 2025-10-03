@@ -28,12 +28,16 @@ const BookingPage = () => {
   const [bookingLoading, setBookingLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [participants, setParticipants] = useState(
-    parseInt(searchParams.get('participants')) || 2
+    parseInt(searchParams.get('participants')) || 1
   );
   
-  // URL'den tarih ve fiyat bilgilerini al
+  // URL'den tarih ve kabin bilgilerini al
   const selectedDate = searchParams.get('date');
-  const selectedPrice = searchParams.get('price');
+  const cabinType = searchParams.get('cabinType') || 'single';
+  const singleCabinPrice = parseFloat(searchParams.get('single_cabin_price')) || 0;
+  const doubleCabinPrice = parseFloat(searchParams.get('double_cabin_price')) || 0;
+  
+  const selectedPrice = cabinType === 'single' ? singleCabinPrice : doubleCabinPrice;
   const formattedSelectedDate = selectedDate ? 
     new Date(selectedDate).toLocaleDateString('tr-TR', {
       year: 'numeric',
