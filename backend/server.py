@@ -681,8 +681,10 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
         tour_date = {
             "id": str(uuid.uuid4()),
             "tour_id": tour.id,
-            "start_date": date_data["date"],
+            "date": date_data["date"],  # Use 'date' field instead of 'start_date' 
+            "start_date": date_data["date"],  # Keep both for compatibility
             "price": date_data["price"],
+            "capacity": date_data["capacity"],
             "available_spots": date_data["capacity"],
             "is_active": True,
             "created_at": datetime.now(timezone.utc)
