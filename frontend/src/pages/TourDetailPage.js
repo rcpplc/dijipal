@@ -977,7 +977,7 @@ const TourDetailPage = () => {
                       })()}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {participants} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+                      {Number(participants)} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       ₺{(() => {
