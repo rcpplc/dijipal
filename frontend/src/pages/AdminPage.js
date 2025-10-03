@@ -28,6 +28,7 @@ const AdminPage = () => {
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
   const [selectedTour, setSelectedTour] = useState(null);
   const [tours, setTours] = useState([]);
+  const [users, setUsers] = useState([]);
   const [tourLoading, setTourLoading] = useState(false);
 
   useEffect(() => {
