@@ -1743,20 +1743,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       return;
     }
     
-    console.log('🚀 Starting tour submission...');
-    console.log('📋 Complete FormData being sent:', formData);
-    console.log('📅 Tour dates in formData (detailed):', JSON.stringify(formData.tour_dates, null, 2));
-    
-    // Validate tour dates have cabin pricing
-    const invalidDates = formData.tour_dates.filter(date => 
-      !date.single_cabin_price || !date.double_cabin_price
-    );
-    
-    if (invalidDates.length > 0) {
-      toast.error('Tüm tarihlerde tek ve çift kabin fiyatları eksiksiz olmalıdır');
-      console.error('❌ Invalid dates found:', invalidDates);
-      return;
-    }
+    console.log('Starting tour submission...');
     
     setLoading(true);
 
