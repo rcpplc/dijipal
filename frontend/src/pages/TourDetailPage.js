@@ -131,9 +131,9 @@ const TourDetailPage = () => {
       participants: participants,
       image: tour.images[0] || '/placeholder-tour.jpg',
       selectedDate: {
-        date: selectedDate.date,
+        date: selectedDate.start_date, // API'den gelen field adı
         price: selectedDate.price,
-        formattedDate: new Date(selectedDate.date).toLocaleDateString('tr-TR', {
+        formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
