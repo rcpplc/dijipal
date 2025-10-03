@@ -131,22 +131,12 @@ const TourDetailPage = () => {
     try {
       if (isFavorited) {
         // Remove from favorites
-        await axios.delete(`${API}/users/favorites/${tourId}`, {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
-        });
+        await axios.delete(`${API}/favorites/${tourId}`);
         setIsFavorited(false);
         toast.success('Favorilerden çıkarıldı');
       } else {
         // Add to favorites
-        await axios.post(`${API}/users/favorites`, {
-          tour_id: tourId
-        }, {
-          headers: {
-            Authorization: `Bearer ${user.token}`
-          }
-        });
+        await axios.post(`${API}/favorites/${tourId}`);
         setIsFavorited(true);
         toast.success('Favorilere eklendi');
       }
