@@ -1,0 +1,151 @@
+{
+  "summary": {
+    "total_tests": 20,
+    "passed_tests": 18,
+    "failed_tests": 2,
+    "success_rate": 90.0,
+    "test_date": "2025-10-03T14:03:23.611519"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Sample data, tour dates, reviews and admin user added successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:22.841146"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmYyNTJiMC01NWE1LTQxMWYtYWE5MC1hZDY2Mjc3OGU4YTYifQ.jfCuAB9ieuOKeD4sdhZMpiLtsUL0WH7m2gw8kHlUKQE\",\n  \"user\": {\n    \"id\": \"2ff252b0-55a5-411...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:22.922021"
+    },
+    {
+      "test_name": "List All Locations",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"name\": \"Istanbul\",\n    \"description\": \"G\\u00fcncellenmi\\u015f a\\u00e7\\u0131klama\",\n    \"country\": \"Turkey\",\n    \"is_active\": true,\n    \"id\": \"5a3b069c-defc-445f-a505-3369dcef889d\",\n    \"cre...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:22.959210"
+    },
+    {
+      "test_name": "Create Location: Bodrum",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Bodrum\",\n  \"description\": \"Ege Denizi'nin incisi, tarihi ve do\\u011fal g\\u00fczellikleriyle \\u00fcnl\\u00fc tatil beldesi\",\n  \"country\": \"Turkey\",\n  \"is_active\": true,\n  \"id\": \"2f3e974d-19...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.001096"
+    },
+    {
+      "test_name": "Create Location: Marmaris",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Marmaris\",\n  \"description\": \"Akdeniz ve Ege'nin bulu\\u015ftu\\u011fu noktada muhte\\u015fem koylar\\u0131 ile \\u00fcnl\\u00fc tatil merkezi\",\n  \"country\": \"Turkey\",\n  \"is_active\": true,\n  \"id...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.040085"
+    },
+    {
+      "test_name": "Create Location: Antalya",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Antalya\",\n  \"description\": \"T\\u00fcrkiye'nin turizm ba\\u015fkenti, antik \\u015fehirler ve muhte\\u015fem plajlar\",\n  \"country\": \"Turkey\",\n  \"is_active\": true,\n  \"id\": \"144058fc-a9db-4e7a-a...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.077740"
+    },
+    {
+      "test_name": "Verify Location Creation",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"name\": \"Istanbul\",\n    \"description\": \"G\\u00fcncellenmi\\u015f a\\u00e7\\u0131klama\",\n    \"country\": \"Turkey\",\n    \"is_active\": true,\n    \"id\": \"5a3b069c-defc-445f-a505-3369dcef889d\",\n    \"cre...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.116515"
+    },
+    {
+      "test_name": "Update Location",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Bodrum Updated\",\n  \"description\": \"G\\u00fcncellenmi\\u015f Bodrum a\\u00e7\\u0131klamas\\u0131 - Ege'nin parlayan y\\u0131ld\\u0131z\\u0131\",\n  \"country\": \"Turkey\",\n  \"is_active\": true,\n  \"id\": ...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.160337"
+    },
+    {
+      "test_name": "Toggle Location Status (Deactivate)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Location deactivated successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.194360"
+    },
+    {
+      "test_name": "Toggle Location Status (Activate)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Location activated successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.231840"
+    },
+    {
+      "test_name": "Delete Location (Expected to Fail - Endpoint Not Implemented)",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 405. Response: {'detail': 'Method Not Allowed'}",
+      "timestamp": "2025-10-03T14:03:23.267593"
+    },
+    {
+      "test_name": "List All Categories",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"name\": \"K\\u00fclt\\u00fcrel  tur\",\n    \"description\": \"K\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  ...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.311143"
+    },
+    {
+      "test_name": "Create Category: Tekne Turu",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Tekne Turu\",\n  \"description\": \"Denizde tekne ile yap\\u0131lan turlar, mavi yolculuk deneyimleri\",\n  \"icon\": \"\\ud83d\\udea2\",\n  \"image\": \"https://example.com/boat-tour.jpg\",\n  \"seo_title\": ...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.349331"
+    },
+    {
+      "test_name": "Create Category: Tarih Turu",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Tarih Turu\",\n  \"description\": \"Antik \\u015fehirler, m\\u00fczeler ve tarihi mekanlar\\u0131 kapsayan k\\u00fclt\\u00fcr turlar\\u0131\",\n  \"icon\": \"\\ud83c\\udfdb\\ufe0f\",\n  \"image\": \"https://exam...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.389742"
+    },
+    {
+      "test_name": "Create Category: Do\u011fa Turu",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Do\\u011fa Turu\",\n  \"description\": \"Milli parklar, do\\u011fa y\\u00fcr\\u00fcy\\u00fc\\u015fleri ve ekoturizm aktiviteleri\",\n  \"icon\": \"\\ud83c\\udf32\",\n  \"image\": \"https://example.com/nature-to...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.430290"
+    },
+    {
+      "test_name": "Verify Category Creation",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"name\": \"K\\u00fclt\\u00fcrel  tur\",\n    \"description\": \"K\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  turK\\u00fclt\\u00fcrel  ...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.466307"
+    },
+    {
+      "test_name": "Update Category",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"name\": \"Tekne Turu Updated\",\n  \"description\": \"G\\u00fcncellenmi\\u015f tekne turu a\\u00e7\\u0131klamas\\u0131 - L\\u00fcks yat turlar\\u0131 dahil\",\n  \"icon\": \"\\u26f5\",\n  \"image\": \"https://example.com...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.500212"
+    },
+    {
+      "test_name": "Toggle Category Status (Deactivate)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Category deactivated successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.537932"
+    },
+    {
+      "test_name": "Toggle Category Status (Activate)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Category activated successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T14:03:23.576259"
+    },
+    {
+      "test_name": "Delete Category (Expected to Fail - Endpoint Not Implemented)",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 405. Response: {'detail': 'Method Not Allowed'}",
+      "timestamp": "2025-10-03T14:03:23.610612"
+    }
+  ]
+}
