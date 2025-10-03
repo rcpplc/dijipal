@@ -489,7 +489,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   const statusOptions = [
     { value: 'draft', label: 'Taslak' },
     { value: 'active', label: 'Aktif' },
-    { value: 'inactive', label: 'Pasif' }
+    { value: 'inactive', label: 'Pasif' },
+    { value: 'archived', label: 'Arşiv' }
   ];
 
   const handleSubmit = async (e) => {
