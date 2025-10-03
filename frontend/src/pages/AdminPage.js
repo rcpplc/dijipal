@@ -2022,7 +2022,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                 {/* Add Tour Date */}
                 <div className="bg-gray-50 p-4 rounded-lg">
                   <h4 className="font-medium text-gray-900 mb-3">Yeni Tarih Ekle</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
                         Tarih *
@@ -2036,21 +2036,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     </div>
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Fiyat (₺) *
-                      </label>
-                      <input
-                        type="number"
-                        min="0"
-                        step="0.01"
-                        value={newTourDate.price}
-                        onChange={(e) => setNewTourDate({...newTourDate, price: e.target.value})}
-                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="0.00"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Kapasite *
+                        Kapasite (Maksimum Kabin) *
                       </label>
                       <input
                         type="number"
@@ -2058,7 +2044,38 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         value={newTourDate.capacity}
                         onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
                         className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                        placeholder="Maksimum kişi sayısı"
+                        placeholder="Maksimum kabin sayısı"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Tek Kişilik Kabin Fiyatı (₺) *
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={newTourDate.single_cabin_price}
+                        onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="1 kişilik kabin fiyatı"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Çift Kişilik Kabin Fiyatı (₺) *
+                      </label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        value={newTourDate.double_cabin_price}
+                        onChange={(e) => setNewTourDate({...newTourDate, double_cabin_price: e.target.value})}
+                        className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="2 kişilik kabin fiyatı"
                       />
                     </div>
                   </div>
