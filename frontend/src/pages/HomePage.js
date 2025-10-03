@@ -313,6 +313,84 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Regions Section */}
+      <section className="py-16 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Bölgelere Göre Keşfet
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Türkiye'nin her köşesinde sizi bekleyen eşsiz deneyimler
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              {
+                name: 'İstanbul & Marmara',
+                image: 'https://images.unsplash.com/photo-1613381234024-4e0bdcaf86ce',
+                tourCount: 15,
+                description: 'Tarihi yarımada, Boğaz turları'
+              },
+              {
+                name: 'Kapadokya',
+                image: 'https://images.pexels.com/photos/34020240/pexels-photo-34020240.jpeg',
+                tourCount: 12,
+                description: 'Balon turları, peribacaları'
+              },
+              {
+                name: 'Antalya & Akdeniz',
+                image: 'https://images.unsplash.com/photo-1563999774341-62c6656086cb',
+                tourCount: 18,
+                description: 'Deniz, güneş, antik şehirler'
+              },
+              {
+                name: 'Ege Bölgesi',
+                image: 'https://images.unsplash.com/photo-1605640840605-14ac1855827b',
+                tourCount: 10,
+                description: 'Antik şehirler, doğal güzellikler'
+              },
+              {
+                name: 'Karadeniz',
+                image: 'https://images.unsplash.com/photo-1578662996442-48f60103fc96',
+                tourCount: 8,
+                description: 'Yaylalar, yeşil doğa'
+              },
+              {
+                name: 'Doğu Anadolu',
+                image: 'https://images.unsplash.com/photo-1566737236500-c8ac43014a8e',
+                tourCount: 6,
+                description: 'Dağlar, göller, kültür'
+              }
+            ].map((region, index) => (
+              <Link
+                key={index}
+                to={`/tours?region=${region.name}`}
+                className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
+              >
+                <div className="aspect-video">
+                  <img
+                    src={region.image}
+                    alt={region.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
+                <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+                  <h3 className="text-xl font-bold mb-2">{region.name}</h3>
+                  <p className="text-sm text-gray-200 mb-2">{region.description}</p>
+                  <div className="flex items-center space-x-2 text-sm">
+                    <MapPin className="w-4 h-4" />
+                    <span>{region.tourCount} tur</span>
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Featured Tours Section */}
       <section className="py-16 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
