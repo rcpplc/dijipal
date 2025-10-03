@@ -53,6 +53,8 @@ const AdminPage = () => {
       loadTours();
     } else if (activeTab === 'users') {
       loadUsers();
+    } else if (activeTab === 'reviews') {
+      loadReviews();
     } else if (activeTab === 'locations') {
       loadLocations();
     } else if (activeTab === 'categories') {
