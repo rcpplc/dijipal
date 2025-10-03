@@ -114,7 +114,7 @@ class Tour(BaseModel):
     location: str
     duration_days: int
     duration_hours: Optional[int] = 0
-    base_price: Decimal
+    base_price: float
     max_participants: int
     category: TourCategory
     status: TourStatus = TourStatus.DRAFT
@@ -175,7 +175,7 @@ class TourCreate(BaseModel):
     location: str
     duration_days: int
     duration_hours: Optional[int] = 0
-    base_price: Decimal
+    base_price: float
     max_participants: int
     category: TourCategory
     images: List[str] = []
