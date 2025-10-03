@@ -742,6 +742,10 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
     
     # Update tour
     tour_dict = tour_data.dict()
+    
+    # Extract tour_dates for separate handling
+    tour_dates_data = tour_dict.pop("tour_dates", [])
+    
     tour_dict["updated_at"] = datetime.utcnow()
     
     result = await db.tours.update_one(
@@ -751,6 +755,28 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
     
     if result.matched_count == 0:
         raise HTTPException(status_code=404, detail="Tour not found")
+    
+    # Handle tour dates update - delete existing and create new ones
+    if tour_dates_data:
+        # Delete existing tour dates
+        await db.tour_dates.delete_many({"tour_id": tour_id})
+        
+        # Create new tour dates
+        for date_data in tour_dates_data:
+            tour_date = TourDate(
+                tour_id=tour_id,
+                start_date=date_data.get("date", date_data.get("start_date")),
+                available_spots=date_data.get("capacity", date_data.get("available_spots", 10)),
+                price=float(date_data.get("price", 0)),
+                is_active=date_data.get("is_active", True)
+            )
+            
+            # Convert to dict and handle datetime serialization
+            tour_date_dict = tour_date.dict()
+            if isinstance(tour_date_dict.get("created_at"), datetime):
+                tour_date_dict["created_at"] = tour_date_dict["created_at"].isoformat()
+            
+            await db.tour_dates.insert_one(tour_date_dict)
     
     updated_tour = await db.tours.find_one({"id": tour_id})
     return Tour(**updated_tour)
