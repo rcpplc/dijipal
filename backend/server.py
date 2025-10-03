@@ -260,9 +260,8 @@ async def register(user_data: UserCreate):
     if existing_user:
         raise HTTPException(status_code=400, detail="User already exists")
     
-    # Hash password (truncate to 72 bytes for bcrypt compatibility)
-    password_bytes = user_data.password.encode('utf-8')[:72]
-    hashed_password = pwd_context.hash(password_bytes.decode('utf-8'))
+    # Hash password
+    hashed_password = hash_password(user_data.password)
     
     # Create user
     user = User(**user_data.dict(exclude={"password"}))
