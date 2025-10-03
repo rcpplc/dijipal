@@ -1211,26 +1211,43 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Biniş Saati
+                      Biniş Saati *
                     </label>
                     <input
                       type="time"
-                      value={formData.departure_time || '09:00'}
-                      onChange={(e) => setFormData({...formData, departure_time: e.target.value})}
+                      value={formData.pickup_time}
+                      onChange={(e) => setFormData({...formData, pickup_time: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      İniş Saati
+                      İniş Saati *
                     </label>
                     <input
                       type="time"
-                      value={formData.arrival_time || '18:00'}
-                      onChange={(e) => setFormData({...formData, arrival_time: e.target.value})}
+                      value={formData.dropoff_time}
+                      onChange={(e) => setFormData({...formData, dropoff_time: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
                     />
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Sınıflandırma
+                    </label>
+                    <select
+                      value={formData.classification}
+                      onChange={(e) => setFormData({...formData, classification: e.target.value})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      {classificationOptions.map(option => (
+                        <option key={option.value} value={option.value}>{option.label}</option>
+                      ))}
+                    </select>
                   </div>
                 </div>
 
