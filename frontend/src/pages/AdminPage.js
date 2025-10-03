@@ -33,6 +33,8 @@ const AdminPage = () => {
   useEffect(() => {
     if (activeTab === 'dashboard') {
       loadDashboard();
+    } else if (activeTab === 'tours') {
+      loadTours();
     }
   }, [activeTab]);
 
