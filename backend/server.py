@@ -695,6 +695,78 @@ async def upload_image(file: UploadFile = File(...), current_user: User = Depend
     
     return {"url": file_url, "filename": filename}
 
+# Location Management
+class LocationCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    country: str = "Turkey"
+    is_active: bool = True
+
+class Location(LocationCreate):
+    id: str
+    created_at: datetime
+
+@api_router.get("/admin/locations", response_model=List[Location])
+async def admin_get_locations(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    locations = await db.locations.find().to_list(length=None)
+    return [Location(**location) for location in locations]
+
+@api_router.post("/admin/locations", response_model=Location)
+async def admin_create_location(location_data: LocationCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    location = {
+        "id": str(uuid.uuid4()),
+        "name": location_data.name,
+        "description": location_data.description,
+        "country": location_data.country,
+        "is_active": location_data.is_active,
+        "created_at": datetime.now(timezone.utc)
+    }
+    
+    await db.locations.insert_one(location)
+    return Location(**location)
+
+# Category Management
+class CategoryCreate(BaseModel):
+    name: str
+    description: Optional[str] = None
+    icon: Optional[str] = None
+    is_active: bool = True
+
+class Category(CategoryCreate):
+    id: str
+    created_at: datetime
+
+@api_router.get("/admin/categories", response_model=List[Category])
+async def admin_get_categories(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    categories = await db.categories.find().to_list(length=None)
+    return [Category(**category) for category in categories]
+
+@api_router.post("/admin/categories", response_model=Category)
+async def admin_create_category(category_data: CategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    category = {
+        "id": str(uuid.uuid4()),
+        "name": category_data.name,
+        "description": category_data.description,
+        "icon": category_data.icon,
+        "is_active": category_data.is_active,
+        "created_at": datetime.now(timezone.utc)
+    }
+    
+    await db.categories.insert_one(category)
+    return Category(**category)
+
 # Admin Users Management
 @api_router.get("/admin/users", response_model=List[User])
 async def admin_get_users(current_user: User = Depends(get_current_user)):
