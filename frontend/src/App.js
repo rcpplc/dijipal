@@ -170,6 +170,7 @@ function App() {
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
+              <Route path="/favorites" element={<FavoritesPage />} />
               <Route 
                 path="/booking/:tourId" 
                 element={
