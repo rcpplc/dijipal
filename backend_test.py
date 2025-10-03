@@ -1445,6 +1445,340 @@ class TourPlatformAPITester:
         
         return success and admin_success
 
+    def test_add_test_cabin_pricing(self, tour_id):
+        """Test adding cabin pricing data for a specific tour"""
+        return self.run_test(
+            f"Add Test Cabin Pricing for Tour {tour_id}",
+            "POST",
+            f"add-test-cabin-pricing/{tour_id}",
+            200
+        )
+
+    def test_admin_tours_cabin_pricing_response(self):
+        """Test that GET /api/admin/tours returns cabin pricing fields in tour_dates"""
+        if not self.token:
+            self.log_test("Admin Tours Cabin Pricing Response", False, "", "No authentication token available")
+            return False, None
+
+        success, response = self.run_test(
+            "Admin Tours List with Cabin Pricing Fields",
+            "GET",
+            "admin/tours",
+            200
+        )
+
+        if success and response:
+            print(f"   ✅ Retrieved {len(response)} tours from admin endpoint")
+            
+            # Check if tours have tour_dates with cabin pricing fields
+            tours_with_cabin_pricing = []
+            tours_without_cabin_pricing = []
+            
+            for tour in response:
+                tour_id = tour.get('id')
+                title = tour.get('title', 'Unknown')
+                tour_dates = tour.get('tour_dates', [])
+                
+                if tour_dates:
+                    # Check if tour_dates contain cabin pricing fields
+                    has_cabin_pricing = False
+                    for date in tour_dates:
+                        if 'single_cabin_price' in date and 'double_cabin_price' in date:
+                            has_cabin_pricing = True
+                            break
+                    
+                    if has_cabin_pricing:
+                        tours_with_cabin_pricing.append({
+                            'tour_id': tour_id,
+                            'title': title,
+                            'date_count': len(tour_dates),
+                            'sample_date': tour_dates[0]
+                        })
+                    else:
+                        tours_without_cabin_pricing.append({
+                            'tour_id': tour_id,
+                            'title': title,
+                            'date_count': len(tour_dates),
+                            'sample_date': tour_dates[0]
+                        })
+            
+            if tours_with_cabin_pricing:
+                print(f"   ✅ Found {len(tours_with_cabin_pricing)} tours with cabin pricing fields")
+                for tour_info in tours_with_cabin_pricing[:3]:
+                    sample_date = tour_info['sample_date']
+                    print(f"      • {tour_info['title']}: single_cabin_price={sample_date.get('single_cabin_price')}, double_cabin_price={sample_date.get('double_cabin_price')}")
+                return True, tours_with_cabin_pricing[0]['tour_id']
+            else:
+                print(f"   ❌ No tours found with cabin pricing fields in tour_dates")
+                if tours_without_cabin_pricing:
+                    print(f"   ℹ️  Found {len(tours_without_cabin_pricing)} tours without cabin pricing")
+                    for tour_info in tours_without_cabin_pricing[:2]:
+                        sample_date = tour_info['sample_date']
+                        print(f"      • {tour_info['title']}: fields={list(sample_date.keys())}")
+                return False, None
+        
+        return False, None
+
+    def test_admin_tour_update_cabin_pricing(self, tour_id):
+        """Test that PUT /api/admin/tours/{tour_id} correctly updates cabin pricing"""
+        if not self.token or not tour_id:
+            self.log_test("Admin Tour Update Cabin Pricing", False, "", "No authentication token or tour ID available")
+            return False
+
+        # First get the current tour data
+        get_success, get_response = self.run_test(
+            f"Get Tour {tour_id} for Update Test",
+            "GET",
+            f"tours/{tour_id}",
+            200
+        )
+
+        if not get_success or not get_response:
+            self.log_test("Admin Tour Update Cabin Pricing", False, "", "Could not retrieve tour for update test")
+            return False
+
+        # Prepare update data with new cabin pricing
+        update_data = {
+            "title": get_response.get('title', 'Test Tour'),
+            "description": get_response.get('description', 'Test description'),
+            "short_description": get_response.get('short_description', 'Test short description'),
+            "location": get_response.get('location', 'Test Location'),
+            "pickup_time": get_response.get('pickup_time', '09:00'),
+            "dropoff_time": get_response.get('dropoff_time', '18:00'),
+            "category": get_response.get('category', 'cultural'),
+            "classification": get_response.get('classification', 'standart'),
+            "status": get_response.get('status', 'active'),
+            "images": get_response.get('images', []),
+            "included_services": get_response.get('included_services', []),
+            "excluded_services": get_response.get('excluded_services', []),
+            "meeting_point": get_response.get('meeting_point', ''),
+            "languages": get_response.get('languages', ['Turkish']),
+            "cancellation_policy": get_response.get('cancellation_policy', ''),
+            "tags": get_response.get('tags', []),
+            "tour_dates": [
+                {
+                    "date": "2025-01-25",
+                    "price": 18000,
+                    "single_cabin_price": 18000,
+                    "double_cabin_price": 32000,
+                    "capacity": 8,
+                    "is_active": True
+                },
+                {
+                    "date": "2025-02-15",
+                    "price": 20000,
+                    "single_cabin_price": 20000,
+                    "double_cabin_price": 36000,
+                    "capacity": 10,
+                    "is_active": True
+                }
+            ]
+        }
+
+        success, response = self.run_test(
+            "Admin Update Tour with Cabin Pricing",
+            "PUT",
+            f"admin/tours/{tour_id}",
+            200,
+            data=update_data
+        )
+
+        if success:
+            print("   ✅ Tour update request successful")
+            
+            # Verify the update by checking admin tours endpoint
+            verify_success, verify_response = self.test_admin_tours_cabin_pricing_response()
+            
+            if verify_success:
+                # Find our updated tour in the response
+                for tour in verify_response if isinstance(verify_response, list) else []:
+                    if tour.get('id') == tour_id:
+                        tour_dates = tour.get('tour_dates', [])
+                        if tour_dates:
+                            # Check if cabin pricing was saved correctly
+                            found_correct_pricing = False
+                            for date in tour_dates:
+                                if (date.get('single_cabin_price') in [18000, 20000] and 
+                                    date.get('double_cabin_price') in [32000, 36000]):
+                                    found_correct_pricing = True
+                                    print(f"   ✅ Cabin pricing updated correctly: single={date.get('single_cabin_price')}, double={date.get('double_cabin_price')}")
+                                    break
+                            
+                            if not found_correct_pricing:
+                                print("   ❌ Cabin pricing not updated correctly in tour_dates")
+                                return False
+                        else:
+                            print("   ❌ No tour_dates found after update")
+                            return False
+                        break
+                else:
+                    print(f"   ❌ Updated tour {tour_id} not found in admin tours response")
+                    return False
+            
+            return True
+        
+        return False
+
+    def test_create_tour_with_cabin_pricing(self):
+        """Test creating a new tour with cabin pricing data"""
+        if not self.token:
+            self.log_test("Create Tour with Cabin Pricing", False, "", "No authentication token available")
+            return False, None
+
+        tour_data = {
+            "title": "Kabin Fiyatlı Test Turu",
+            "description": "Bu tur kabin fiyatlandırması test etmek için oluşturulmuştur. Farklı kabin tiplerinde farklı fiyatlar bulunmaktadır.",
+            "short_description": "Kabin fiyatlı test turu",
+            "location": "Bodrum, Türkiye",
+            "pickup_time": "08:00",
+            "dropoff_time": "20:00",
+            "category": "boat",
+            "classification": "lux",
+            "status": "active",
+            "images": ["https://example.com/cabin-tour.jpg"],
+            "included_services": ["Kabin konaklama", "3 öğün yemek", "Rehber hizmeti"],
+            "excluded_services": ["Alkollü içecekler", "Kişisel harcamalar"],
+            "meeting_point": "Bodrum Marina",
+            "languages": ["Turkish", "English"],
+            "cancellation_policy": "48 saat öncesinden ücretsiz iptal",
+            "tags": ["kabin", "tekne", "lux", "test"],
+            "tour_dates": [
+                {
+                    "date": "2025-03-15",
+                    "price": 25000,  # Fallback price
+                    "single_cabin_price": 25000,  # 1 kişilik kabin
+                    "double_cabin_price": 45000,  # 2 kişilik kabin
+                    "capacity": 6
+                },
+                {
+                    "date": "2025-03-22",
+                    "price": 28000,  # Fallback price
+                    "single_cabin_price": 28000,  # 1 kişilik kabin
+                    "double_cabin_price": 50000,  # 2 kişilik kabin
+                    "capacity": 8
+                },
+                {
+                    "date": "2025-04-05",
+                    "price": 30000,  # Fallback price
+                    "single_cabin_price": 30000,  # 1 kişilik kabin
+                    "double_cabin_price": 55000,  # 2 kişilik kabin
+                    "capacity": 10
+                }
+            ]
+        }
+
+        success, response = self.run_test(
+            "Create Tour with Cabin Pricing",
+            "POST",
+            "admin/tours",
+            200,
+            data=tour_data
+        )
+
+        if success and response and 'id' in response:
+            tour_id = response['id']
+            print(f"   ✅ Tour created with cabin pricing, ID: {tour_id}")
+            
+            # Verify the tour was created with correct cabin pricing
+            verify_success, verify_response = self.run_test(
+                f"Verify Created Tour {tour_id} Cabin Pricing",
+                "GET",
+                f"tours/{tour_id}",
+                200
+            )
+            
+            if verify_success and verify_response:
+                tour_dates = verify_response.get('tour_dates', [])
+                if tour_dates:
+                    print(f"   ✅ Created tour has {len(tour_dates)} tour dates")
+                    for i, date in enumerate(tour_dates):
+                        single_price = date.get('single_cabin_price')
+                        double_price = date.get('double_cabin_price')
+                        if single_price and double_price:
+                            print(f"      Date {i+1}: single={single_price}, double={double_price}")
+                        else:
+                            print(f"      Date {i+1}: Missing cabin pricing fields")
+                            return False, tour_id
+                else:
+                    print("   ❌ Created tour has no tour_dates")
+                    return False, tour_id
+            
+            return True, tour_id
+        
+        return False, None
+
+    def run_admin_cabin_pricing_tests(self):
+        """Run comprehensive admin cabin pricing bug fix tests"""
+        print("🎯 Testing Admin Panel Cabin Pricing Bug Fix")
+        print("=" * 70)
+        
+        # Setup: Ensure we have sample data
+        print("\n📊 SETUP: Ensuring Sample Data")
+        self.test_seed_data()
+        
+        # Admin Authentication
+        print("\n🔐 PHASE 1: Admin Authentication")
+        admin_success = self.test_admin_login()
+        
+        if not admin_success:
+            print("❌ Admin login failed (admin@example.com/admin123), cannot proceed with admin tests")
+            self.print_final_results()
+            return
+        
+        print("   ✅ Admin authentication successful with admin@example.com/admin123")
+        
+        # Test 1: GET /api/admin/tours endpoint returns cabin pricing fields
+        print("\n🏢 PHASE 2: Test GET /api/admin/tours Cabin Pricing Fields")
+        admin_tours_success, existing_tour_id = self.test_admin_tours_cabin_pricing_response()
+        
+        # Test 2: Create a tour with cabin pricing to ensure we have test data
+        print("\n🆕 PHASE 3: Create Tour with Cabin Pricing")
+        create_success, new_tour_id = self.test_create_tour_with_cabin_pricing()
+        
+        # Use the new tour ID for further testing if creation was successful
+        test_tour_id = new_tour_id if create_success else existing_tour_id
+        
+        if test_tour_id:
+            # Test 3: Add additional cabin pricing test data
+            print(f"\n📊 PHASE 4: Add Test Cabin Pricing Data for Tour {test_tour_id}")
+            self.test_add_test_cabin_pricing(test_tour_id)
+            
+            # Test 4: PUT /api/admin/tours/{tour_id} updates cabin pricing correctly
+            print(f"\n✏️  PHASE 5: Test PUT /api/admin/tours/{test_tour_id} Cabin Pricing Update")
+            self.test_admin_tour_update_cabin_pricing(test_tour_id)
+            
+            # Test 5: Verify admin tours endpoint still returns correct cabin pricing after update
+            print("\n🔍 PHASE 6: Verify Admin Tours Endpoint After Update")
+            self.test_admin_tours_cabin_pricing_response()
+        else:
+            print("❌ No tour ID available for cabin pricing update tests")
+        
+        # Test 6: Test regular tour endpoint also returns cabin pricing
+        print("\n🌐 PHASE 7: Test Public Tour Endpoints with Cabin Pricing")
+        tours_success, tours_response = self.test_get_tours()
+        
+        if tours_success and tours_response:
+            # Test a specific tour detail endpoint
+            for tour in tours_response[:2]:  # Test first 2 tours
+                tour_id = tour.get('id')
+                if tour_id:
+                    detail_success, detail_response = self.test_get_single_tour(tour_id)
+                    if detail_success and detail_response:
+                        tour_dates = detail_response.get('tour_dates', [])
+                        if tour_dates:
+                            cabin_pricing_found = False
+                            for date in tour_dates:
+                                if 'single_cabin_price' in date and 'double_cabin_price' in date:
+                                    cabin_pricing_found = True
+                                    print(f"   ✅ Tour {tour.get('title', 'Unknown')} has cabin pricing: single={date.get('single_cabin_price')}, double={date.get('double_cabin_price')}")
+                                    break
+                            
+                            if not cabin_pricing_found:
+                                print(f"   ⚠️  Tour {tour.get('title', 'Unknown')} tour_dates missing cabin pricing fields")
+        
+        # Print final results
+        self.print_final_results()
+
     def run_reviews_management_tests(self):
         """Run comprehensive reviews management system tests"""
         print("🎯 Testing Reviews Management System Backend APIs")
