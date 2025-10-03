@@ -158,10 +158,10 @@ const Header = () => {
                     {user.role === 'admin' && (
                       <Link
                         to="/admin"
-                        className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 border-t border-gray-100 mt-2 pt-2"
+                        className="flex items-center space-x-2 px-4 py-2 text-sm text-blue-700 hover:bg-blue-50 border-t border-gray-100 mt-2 pt-2 font-medium"
                         onClick={() => setShowUserMenu(false)}
                       >
-                        <span>Admin Panel</span>
+                        <span>🛠️ Admin Panel</span>
                       </Link>
                     )}
                     <button
