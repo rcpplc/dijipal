@@ -878,6 +878,227 @@ const AdminPage = () => {
           </div>
         )}
 
+        {/* Reviews Tab */}
+        {activeTab === 'reviews' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Değerlendirme Yönetimi</h2>
+              <div className="flex items-center space-x-4">
+                <select
+                  value={reviewFilter}
+                  onChange={(e) => {
+                    setReviewFilter(e.target.value);
+                    // Trigger reload with new filter
+                    setTimeout(loadReviews, 100);
+                  }}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                >
+                  <option value="all">Tüm Yorumlar</option>
+                  <option value="pending">Bekleyenler</option>
+                  <option value="approved">Onaylananlar</option>
+                  <option value="rejected">Reddedilenler</option>
+                </select>
+                <button
+                  onClick={() => {
+                    // Add test reviews for specific tour
+                    axios.post(`${API}/add-test-reviews`)
+                      .then(() => {
+                        toast.success('Test yorumları eklendi');
+                        loadReviews();
+                      })
+                      .catch(error => {
+                        console.error('Error adding test reviews:', error);
+                        toast.error('Test yorumları eklenirken hata oluştu');
+                      });
+                  }}
+                  className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                >
+                  Test Yorumları Ekle
+                </button>
+              </div>
+            </div>
+
+            {reviewsLoading ? (
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow">
+                    <div className="flex items-start space-x-4">
+                      <div className="bg-gray-200 w-12 h-12 rounded-full"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-3/4 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white shadow rounded-lg overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Kullanıcı & Tur
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Yorum
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Puan
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Durum
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Tarih
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          İşlemler
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {reviews.map((review) => (
+                        <tr key={review.id} className="hover:bg-gray-50">
+                          <td className="py-4 px-4">
+                            <div>
+                              <p className="font-medium text-gray-900">{review.user_name}</p>
+                              <p className="text-sm text-gray-600">{review.user_email}</p>
+                              <p className="text-sm text-blue-600 mt-1">{review.tour_title}</p>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <div>
+                              {review.title && (
+                                <p className="font-medium text-gray-900 mb-1">{review.title}</p>
+                              )}
+                              <p className="text-sm text-gray-600 max-w-xs truncate">
+                                {review.comment || 'Yorum yok'}
+                              </p>
+                              <button
+                                onClick={() => {
+                                  setSelectedReview(review);
+                                  setShowReviewModal(true);
+                                }}
+                                className="text-blue-600 hover:text-blue-800 text-sm mt-1"
+                              >
+                                Detayları Görüntüle
+                              </button>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center">
+                              <div className="flex text-yellow-400">
+                                {[1, 2, 3, 4, 5].map((star) => (
+                                  <span key={star}>
+                                    {star <= review.rating ? '★' : '☆'}
+                                  </span>
+                                ))}
+                              </div>
+                              <span className="ml-2 text-sm text-gray-600">{review.rating}/5</span>
+                            </div>
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              review.is_verified 
+                                ? 'bg-green-100 text-green-800'
+                                : review.status === 'rejected'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-yellow-100 text-yellow-800'
+                            }`}>
+                              {review.is_verified ? 'Onaylı' : 
+                               review.status === 'rejected' ? 'Reddedildi' : 'Bekliyor'}
+                            </span>
+                          </td>
+                          <td className="py-4 px-4 text-gray-700 text-sm">
+                            {new Date(review.created_at).toLocaleDateString('tr-TR')}
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex space-x-2">
+                              <button 
+                                onClick={() => {
+                                  setSelectedReview(review);
+                                  setShowReviewModal(true);
+                                }}
+                                className="text-indigo-600 hover:text-indigo-700 p-1 rounded transition-colors duration-200"
+                                title="Görüntüle"
+                              >
+                                <Eye className="w-4 h-4" />
+                              </button>
+                              
+                              {!review.is_verified && review.status !== 'rejected' && (
+                                <button
+                                  onClick={() => handleApproveReview(review.id)}
+                                  className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-sm font-medium transition-colors duration-200"
+                                >
+                                  Onayla
+                                </button>
+                              )}
+                              
+                              {review.is_verified && (
+                                <button
+                                  onClick={() => handleRejectReview(review.id)}
+                                  className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded text-sm font-medium transition-colors duration-200"
+                                >
+                                  Reddet
+                                </button>
+                              )}
+                              
+                              <button 
+                                onClick={() => handleDeleteReview(review.id)}
+                                className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                                title="Sil"
+                              >
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {reviews.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4">💬</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {reviewFilter === 'all' ? 'Henüz değerlendirme yok' : 
+                       reviewFilter === 'pending' ? 'Bekleyen değerlendirme yok' :
+                       reviewFilter === 'approved' ? 'Onaylanmış değerlendirme yok' :
+                       'Reddedilmiş değerlendirme yok'}
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      {reviewFilter === 'all' ? 'Kullanıcılar tur deneyimleri hakkında yorum yapmaya başladığında burada görünecek.' :
+                       'Bu kategoride henüz değerlendirme bulunmuyor.'}
+                    </p>
+                    {reviewFilter === 'all' && (
+                      <button
+                        onClick={() => {
+                          axios.post(`${API}/add-test-reviews`)
+                            .then(() => {
+                              toast.success('Test yorumları eklendi');
+                              loadReviews();
+                            })
+                            .catch(error => {
+                              console.error('Error adding test reviews:', error);
+                              toast.error('Test yorumları eklenirken hata oluştu');
+                            });
+                        }}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                      >
+                        Test Yorumları Ekle
+                      </button>
+                    )}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Categories Tab */}
         {activeTab === 'categories' && (
           <div>
