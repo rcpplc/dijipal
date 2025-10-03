@@ -1513,36 +1513,91 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   </button>
                 </div>
 
-                {/* Tour Dates List */}
+                {/* Tour Dates Table */}
                 {formData.tour_dates.length > 0 && (
                   <div>
                     <h4 className="font-medium text-gray-900 mb-3">Eklenen Tarihler ({formData.tour_dates.length})</h4>
-                    <div className="space-y-3">
-                      {formData.tour_dates.map((tourDate, index) => (
-                        <div key={tourDate.id || index} className="flex items-center justify-between bg-white p-4 border border-gray-200 rounded-lg">
-                          <div className="flex items-center space-x-4">
-                            <div className="text-sm">
-                              <div className="font-medium text-gray-900">
+                    <div className="bg-white shadow rounded-lg overflow-hidden">
+                      <table className="min-w-full divide-y divide-gray-200">
+                        <thead className="bg-gray-50">
+                          <tr>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Tarih
+                            </th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Fiyat
+                            </th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Kapasite
+                            </th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Durum
+                            </th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              İşlemler
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className="bg-white divide-y divide-gray-200">
+                          {formData.tour_dates.map((tourDate, index) => (
+                            <tr key={tourDate.id || index} className="hover:bg-gray-50">
+                              <td className="py-3 px-4 text-gray-900">
                                 {new Date(tourDate.date).toLocaleDateString('tr-TR', {
                                   year: 'numeric',
                                   month: 'long',
                                   day: 'numeric'
                                 })}
-                              </div>
-                              <div className="text-gray-600">
-                                {tourDate.capacity} kişi • ₺{tourDate.price}
-                              </div>
-                            </div>
-                          </div>
-                          <button
-                            type="button"
-                            onClick={() => removeTourDate(index)}
-                            className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
-                          >
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      ))}
+                              </td>
+                              <td className="py-3 px-4 text-gray-900">
+                                ₺{tourDate.price}
+                              </td>
+                              <td className="py-3 px-4 text-gray-900">
+                                {tourDate.capacity} kişi
+                              </td>
+                              <td className="py-3 px-4">
+                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                  tourDate.is_active !== false 
+                                    ? 'bg-green-100 text-green-800'
+                                    : 'bg-red-100 text-red-800'
+                                }`}>
+                                  {tourDate.is_active !== false ? 'Aktif' : 'Pasif'}
+                                </span>
+                              </td>
+                              <td className="py-3 px-4">
+                                <div className="flex space-x-2">
+                                  <button
+                                    type="button"
+                                    onClick={() => editTourDate(index)}
+                                    className="text-indigo-600 hover:text-indigo-700 p-1 rounded transition-colors duration-200"
+                                    title="Düzenle"
+                                  >
+                                    <Edit className="w-4 h-4" />
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => toggleTourDateStatus(index)}
+                                    className={`px-3 py-1 rounded text-xs font-medium transition-colors duration-200 ${
+                                      tourDate.is_active !== false
+                                        ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                                        : 'bg-green-100 text-green-800 hover:bg-green-200'
+                                    }`}
+                                  >
+                                    {tourDate.is_active !== false ? 'Pasif Et' : 'Aktif Et'}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => removeTourDate(index)}
+                                    className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                                    title="Sil"
+                                  >
+                                    <Trash2 className="w-4 h-4" />
+                                  </button>
+                                </div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
                     </div>
                   </div>
                 )}
