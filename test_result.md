@@ -103,7 +103,7 @@
 #====================================================================================================
 
 ## user_problem_statement: 
-Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm değerlendirmelerin listelenmesi, görüntüleme, düzenleme, onay ve silme işlevselliği ile birlikte test olarak belirtilen tur ID'sine 4 adet yorum eklenmesi ve kullanıcı detay sayfalarında entegrasyonu.
+Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin, Çift Kabin= çift kişilik kabin. fiyat girince güncellenmiyor adminde ve kullanıcı detay sayfasına doğru gelmiyor" problemi çözülmesi istendi.
 
 ## backend:
   - task: "Tour date information in cart and booking"
