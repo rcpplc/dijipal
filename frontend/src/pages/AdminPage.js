@@ -167,7 +167,7 @@ const AdminPage = () => {
             </div>
           )}
         </div>
-        <div className={`w-12 h-12 bg-${color}-100 rounded-lg flex items-center justify-center`}>
+        <div className={`w-12 h-12 bg-gray-100 rounded-lg flex items-center justify-center`}>
           <span className="text-2xl">{icon}</span>
         </div>
       </div>
