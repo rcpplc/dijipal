@@ -657,6 +657,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   const [newExcludedService, setNewExcludedService] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
+  const [availableLocations, setAvailableLocations] = useState([]);
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [newTourDate, setNewTourDate] = useState({ date: '', price: '', capacity: '' });
 
   const steps = [
     { id: 1, title: 'Temel Bilgiler', icon: '📝' },
