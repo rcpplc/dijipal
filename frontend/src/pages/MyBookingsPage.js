@@ -200,7 +200,7 @@ const MyBookingsPage = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <Users className="w-4 h-4" />
-                          <span>{booking.participants} kişi</span>
+                          <span>{booking.participants} kabin</span>
                         </div>
                       </div>
                     </div>
