@@ -383,6 +383,20 @@ async def get_tours(
                 "is_active": date.get("is_active", True)
             })
         
+        # Add review statistics
+        reviews = await db.reviews.find({
+            "tour_id": tour["id"],
+            "is_verified": True
+        }).to_list(length=None)
+        
+        if reviews:
+            ratings = [review["rating"] for review in reviews]
+            tour["rating"] = sum(ratings) / len(ratings)
+            tour["review_count"] = len(reviews)
+        else:
+            tour["rating"] = 0
+            tour["review_count"] = 0
+        
         result_tours.append(tour)
     
     return result_tours
