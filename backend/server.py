@@ -551,6 +551,58 @@ async def admin_dashboard(current_user: User = Depends(get_current_user)):
         "total_revenue": total_revenue[0]["total"] if total_revenue else 0
     }
 
+# Favorites system
+class Favorite(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str
+    tour_id: str
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+
+@api_router.post("/favorites/{tour_id}")
+async def add_to_favorites(tour_id: str, current_user: User = Depends(get_current_user)):
+    # Check if tour exists
+    tour = await db.tours.find_one({"id": tour_id})
+    if not tour:
+        raise HTTPException(status_code=404, detail="Tour not found")
+    
+    # Check if already favorited
+    existing = await db.favorites.find_one({"user_id": current_user.id, "tour_id": tour_id})
+    if existing:
+        raise HTTPException(status_code=400, detail="Tour already in favorites")
+    
+    # Add to favorites
+    favorite = Favorite(user_id=current_user.id, tour_id=tour_id)
+    await db.favorites.insert_one(favorite.dict())
+    
+    return {"message": "Tour added to favorites"}
+
+@api_router.delete("/favorites/{tour_id}")
+async def remove_from_favorites(tour_id: str, current_user: User = Depends(get_current_user)):
+    result = await db.favorites.delete_one({"user_id": current_user.id, "tour_id": tour_id})
+    
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Favorite not found")
+    
+    return {"message": "Tour removed from favorites"}
+
+@api_router.get("/favorites", response_model=List[Tour])
+async def get_user_favorites(current_user: User = Depends(get_current_user)):
+    # Get user's favorite tour IDs
+    favorites = await db.favorites.find({"user_id": current_user.id}).to_list(length=None)
+    tour_ids = [fav["tour_id"] for fav in favorites]
+    
+    if not tour_ids:
+        return []
+    
+    # Get the actual tours
+    tours = await db.tours.find({"id": {"$in": tour_ids}}).to_list(length=None)
+    return [Tour(**tour) for tour in tours]
+
+@api_router.get("/favorites/check/{tour_id}")
+async def check_favorite_status(tour_id: str, current_user: User = Depends(get_current_user)):
+    favorite = await db.favorites.find_one({"user_id": current_user.id, "tour_id": tour_id})
+    return {"is_favorited": favorite is not None}
+
 # Admin endpoints
 @api_router.get("/admin/tours", response_model=List[Tour])
 async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
