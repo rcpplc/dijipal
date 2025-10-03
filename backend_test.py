@@ -171,6 +171,15 @@ class TourPlatformAPITester:
             200
         )
 
+    def test_get_tour_dates(self, tour_id):
+        """Test getting tour dates"""
+        return self.run_test(
+            "Get Tour Dates",
+            "GET",
+            f"tours/{tour_id}/dates",
+            200
+        )
+
     def test_create_booking(self, tour_id):
         """Test creating a booking"""
         if not self.token:
@@ -179,9 +188,14 @@ class TourPlatformAPITester:
 
         # First, get available tour dates for this tour
         try:
-            # We'll create a mock tour date ID since there's no endpoint to get tour dates
-            # In a real scenario, we'd have an endpoint to get available dates
-            tour_date_id = f"date_{tour_id}_1"  # Simple mock ID
+            dates_success, dates_response = self.test_get_tour_dates(tour_id)
+            
+            if not dates_success or not dates_response or len(dates_response) == 0:
+                self.log_test("Create Booking", False, "", "No tour dates available for booking")
+                return False, None
+            
+            # Use the first available date
+            tour_date_id = dates_response[0]['id']
             
             booking_data = {
                 "tour_id": tour_id,
