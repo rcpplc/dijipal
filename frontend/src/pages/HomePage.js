@@ -427,7 +427,7 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 bg-gradient-to-r from-blue-600 to-indigo-700">
+      <section className="py-16 bg-blue-600">
         <div className="max-w-4xl mx-auto text-center px-4 sm:px-6 lg:px-8">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
             Hayalinizdeki Tatili Planlamaya Hazır Mısınız?
