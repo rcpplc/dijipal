@@ -82,7 +82,12 @@ const AdminPage = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Erişim Reddedildi</h2>
-          <p className="text-gray-600">Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+          <p className="text-gray-600 mb-4">Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
+          <div className="text-sm text-gray-500 bg-gray-100 p-3 rounded">
+            <p>Mevcut kullanıcı: {user?.email || 'Giriş yapılmamış'}</p>
+            <p>Rol: {user?.role || 'Rol bilgisi yok'}</p>
+            <p>Beklenen rol: admin</p>
+          </div>
         </div>
       </div>
     );
