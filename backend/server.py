@@ -903,6 +903,9 @@ async def seed_sample_data():
 
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
+# Mount static files for images
+app.mount("/uploads", StaticFiles(directory="/tmp/uploads"), name="uploads")
+
 # Include router
 app.include_router(api_router)
 
