@@ -74,7 +74,16 @@ const CartPage = () => {
 
     // İlk tur için rezervasyon sayfasına git
     const firstTour = cartItems[0];
-    navigate(`/booking/${firstTour.tourId}?participants=${firstTour.participants}`);
+    const queryParams = new URLSearchParams({
+      participants: firstTour.participants.toString()
+    });
+    
+    if (firstTour.selectedDate) {
+      queryParams.append('date', firstTour.selectedDate.date);
+      queryParams.append('price', firstTour.selectedDate.price.toString());
+    }
+    
+    navigate(`/booking/${firstTour.tourId}?${queryParams.toString()}`);
   };
 
   const clearCart = () => {
