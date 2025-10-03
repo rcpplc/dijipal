@@ -1592,14 +1592,13 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       const response = await axios.get(`${API}/tours/${tour.id}/dates`);
       console.log('Loaded tour dates:', response.data);
       
-      // Convert backend format to form format
+      // Convert backend format to form format (NEW CABIN SYSTEM)
       const tourDates = response.data.map(date => ({
         id: date.id,
         date: date.start_date,
-        price: date.price,
-        single_cabin_price: date.single_cabin_price || date.price,
-        double_cabin_price: date.double_cabin_price || date.price,
-        capacity: date.available_spots,
+        capacity: date.available_cabins,
+        single_cabin_price: date.single_cabin_price || 0,
+        double_cabin_price: date.double_cabin_price || 0,
         is_active: date.is_active !== false
       }));
       
