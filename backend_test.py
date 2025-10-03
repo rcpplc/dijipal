@@ -1057,7 +1057,7 @@ class TourPlatformAPITester:
             category_id = created_category_ids[2]  # Delete third category
             
             delete_success, delete_response = self.run_test(
-                "Delete Category",
+                "Delete Category (Expected to Fail - Endpoint Not Implemented)",
                 "DELETE",
                 f"admin/categories/{category_id}",
                 200
@@ -1066,7 +1066,8 @@ class TourPlatformAPITester:
             if delete_success:
                 print("   ✅ Category deleted successfully")
             else:
-                print("   ⚠️  Category deletion failed (may have tours using it)")
+                print("   ⚠️  DELETE /api/admin/categories/{id} endpoint not implemented (404/405 expected)")
+                print("   ℹ️  Category deletion functionality needs to be implemented in backend")
         
         return True
 
