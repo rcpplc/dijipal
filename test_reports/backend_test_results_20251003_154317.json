@@ -1,0 +1,200 @@
+{
+  "summary": {
+    "total_tests": 27,
+    "passed_tests": 26,
+    "failed_tests": 1,
+    "success_rate": 96.29629629629629,
+    "test_date": "2025-10-03T15:43:17.897645"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Add Test Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Test reviews added successfully. Inserted 0 new reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:16.841134"
+    },
+    {
+      "test_name": "Get Public Reviews (No Filters)",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"32300599-582a-490a-889e-42abd73b8c71\",\n    \"user_id\": \"aa1c00d4-0faf-4b71-bd8f-789c59c3f037\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"41bc1b4d-f1d1-4...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:16.878642"
+    },
+    {
+      "test_name": "Get Public Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"32300599-582a-490a-889e-42abd73b8c71\",\n    \"user_id\": \"aa1c00d4-0faf-4b71-bd8f-789c59c3f037\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"41bc1b4d-f1d1-4...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:16.919675"
+    },
+    {
+      "test_name": "Get Public Reviews (Verified Only)",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"32300599-582a-490a-889e-42abd73b8c71\",\n    \"user_id\": \"aa1c00d4-0faf-4b71-bd8f-789c59c3f037\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"41bc1b4d-f1d1-4...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:16.958225"
+    },
+    {
+      "test_name": "Get Public Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55 (Verified Only)",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"32300599-582a-490a-889e-42abd73b8c71\",\n    \"user_id\": \"aa1c00d4-0faf-4b71-bd8f-789c59c3f037\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"41bc1b4d-f1d1-4...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:16.996401"
+    },
+    {
+      "test_name": "User Registration",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"User created successfully\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0YjI2NmU3Zi0zMzhhLTQxYmMtOGZhMC02NmI2ODcyYTk3NDMifQ.hsM3ffGS-YGCgmkOByymPToqVnZGGEh18cS5oBPN6_U\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.038562"
+    },
+    {
+      "test_name": "User Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI0YjI2NmU3Zi0zMzhhLTQxYmMtOGZhMC02NmI2ODcyYTk3NDMifQ.hsM3ffGS-YGCgmkOByymPToqVnZGGEh18cS5oBPN6_U\",\n  \"user\": {\n    \"id\": \"4b266e7f-338a-41b...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.071366"
+    },
+    {
+      "test_name": "Create Review (Authenticated User)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n  \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n  \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n  \"booking_id\": \"\",\n  \"rating\": 5,\n  \"title\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.114033"
+    },
+    {
+      "test_name": "Create Review (Unauthenticated - Should Fail)",
+      "success": false,
+      "details": "",
+      "error": "Expected 401, got 403. Response: {'detail': 'Not authenticated'}",
+      "timestamp": "2025-10-03T15:43:17.153694"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmYyNTJiMC01NWE1LTQxMWYtYWE5MC1hZDY2Mjc3OGU4YTYifQ.jfCuAB9ieuOKeD4sdhZMpiLtsUL0WH7m2gw8kHlUKQE\",\n  \"user\": {\n    \"id\": \"2ff252b0-55a5-411...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.189483"
+    },
+    {
+      "test_name": "Admin Get All Reviews",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.231429"
+    },
+    {
+      "test_name": "Admin Get Pending Reviews",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.268469"
+    },
+    {
+      "test_name": "Admin Get Approved Reviews",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"32300599-582a-490a-889e-42abd73b8c71\",\n    \"user_id\": \"aa1c00d4-0faf-4b71-bd8f-789c59c3f037\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"41bc1b4d-f1d1-4...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.304480"
+    },
+    {
+      "test_name": "Admin Get Rejected Reviews",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.341908"
+    },
+    {
+      "test_name": "Admin Get Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.383431"
+    },
+    {
+      "test_name": "Admin Get Reviews with Limit",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.427006"
+    },
+    {
+      "test_name": "Get Admin Reviews for Management Testing",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.474639"
+    },
+    {
+      "test_name": "Admin Update Review",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Review updated successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.512195"
+    },
+    {
+      "test_name": "Admin Approve Review",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Review approved successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.549324"
+    },
+    {
+      "test_name": "Admin Reject Review",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Review rejected successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.586702"
+    },
+    {
+      "test_name": "Admin Delete Review",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Review deleted successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.664348"
+    },
+    {
+      "test_name": "Admin Update Non-existent Review (Should Fail)",
+      "success": true,
+      "details": "Status: 404, Response: {\n  \"detail\": \"Review not found\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.703552"
+    },
+    {
+      "test_name": "Admin Approve Non-existent Review (Should Fail)",
+      "success": true,
+      "details": "Status: 404, Response: {\n  \"detail\": \"Review not found\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.741850"
+    },
+    {
+      "test_name": "Admin Reject Non-existent Review (Should Fail)",
+      "success": true,
+      "details": "Status: 404, Response: {\n  \"detail\": \"Review not found\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.780961"
+    },
+    {
+      "test_name": "Admin Delete Non-existent Review (Should Fail)",
+      "success": true,
+      "details": "Status: 404, Response: {\n  \"detail\": \"Review not found\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.816358"
+    },
+    {
+      "test_name": "Test Review Data Enrichment (Public)",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.854836"
+    },
+    {
+      "test_name": "Test Review Data Enrichment (Admin)",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"b3d3a824-8b36-41ef-b180-69d0fa2b2f2c\",\n    \"user_id\": \"4b266e7f-338a-41bc-8fa0-66b6872a9743\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"\",\n    \"rating\"...",
+      "error": "",
+      "timestamp": "2025-10-03T15:43:17.896718"
+    }
+  ]
+}
