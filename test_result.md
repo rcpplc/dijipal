@@ -343,11 +343,11 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
 
   - task: "Admin panel cabin pricing bug fix"
     implemented: true
-    working: true
-    file: "AdminPage.js, server.py"
-    stuck_count: 0
+    working: false
+    file: "AdminPage.js, server.py, LoginModal.js"
+    stuck_count: 1
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
         - working: "unknown"
           agent: "main"
@@ -355,6 +355,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "testing"
           comment: "Admin panel cabin pricing bug fix SUCCESSFULLY TESTED (92.3% success rate, 12/13 tests passed). ✅ GET /api/admin/tours endpoint now correctly returns single_cabin_price and double_cabin_price fields in tour_dates. ✅ PUT /api/admin/tours/{tour_id} endpoint successfully updates tour dates with cabin pricing. ✅ Admin authentication works perfectly (admin@example.com/admin123). ✅ Created test tour with different cabin prices: Date 1: single=25000, double=45000; Date 2: single=28000, double=50000; Date 3: single=30000, double=55000. ✅ Existing tour shows correct cabin pricing: single=15000-23000, double=15000-23000. ✅ Public tour endpoints also return cabin pricing correctly. ✅ Tour update functionality works - cabin prices are properly saved and retrieved. The cabin pricing bug fix is working correctly - admin panel can now display and update cabin prices as expected."
+        - working: false
+          agent: "testing"
+          comment: "❌ CRITICAL FRONTEND LOGIN FAILURE: Cannot test admin panel cabin pricing due to broken frontend authentication. Login form submission does not trigger /api/auth/login API calls, no token/user data stored in localStorage, admin panel inaccessible. Backend login API works correctly (curl test successful), but frontend LoginModal.js is not functioning. User dropdown appears but is empty. This completely blocks admin panel access and cabin pricing testing. Frontend authentication system requires immediate repair."
 
 ## agent_communication:
     - agent: "main"
