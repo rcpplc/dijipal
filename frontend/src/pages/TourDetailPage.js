@@ -908,12 +908,12 @@ const TourDetailPage = () => {
                 <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <button
                     onClick={() => {
-                      console.log('MINUS: Current participants before:', participants);
-                      const newValue = Math.max(1, (participants || 1) - 1);
-                      console.log('MINUS: Calculated new value:', newValue);
-                      setParticipants(newValue);
+                      if (participants > 1) {
+                        setParticipants(participants - 1);
+                      }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                    disabled={participants <= 1}
                   >
                     -
                   </button>
