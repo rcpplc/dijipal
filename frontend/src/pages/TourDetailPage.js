@@ -490,9 +490,15 @@ const TourDetailPage = () => {
             <div className="bg-white rounded-xl p-6 shadow-lg sticky top-8">
               <div className="text-center mb-6">
                 <div className="text-3xl font-bold text-blue-600 mb-1">
-                  ₺{tour.base_price}
+                  ₺{currentPrice}
                   <span className="text-lg font-normal text-gray-600 ml-1">/kişi</span>
                 </div>
+                {selectedDate?.price && selectedDate.price !== tour.base_price && (
+                  <div className="text-sm text-gray-500 mb-1">
+                    <span className="line-through">₺{tour.base_price}</span>
+                    <span className="ml-2 text-green-600 font-medium">Özel Fiyat!</span>
+                  </div>
+                )}
                 <p className="text-sm text-gray-500">Vergiler dahil</p>
               </div>
 
