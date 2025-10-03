@@ -761,6 +761,11 @@ class CategoryCreate(BaseModel):
     name: str
     description: Optional[str] = None
     icon: Optional[str] = None
+    image: Optional[str] = None
+    seo_title: Optional[str] = None
+    seo_description: Optional[str] = None
+    seo_keywords: Optional[str] = None
+    faq: List[Dict[str, str]] = []  # [{"question": "...", "answer": "..."}]
     is_active: bool = True
 
 class Category(CategoryCreate):
