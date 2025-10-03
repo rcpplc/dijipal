@@ -870,7 +870,7 @@ const TourDetailPage = () => {
                 <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
                   <div className="text-center">
                     <div className="text-lg font-semibold text-gray-800 mb-2">
-                      📅 {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+                      ◦ {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
                         weekday: 'long',
                         day: 'numeric',
                         month: 'long',
