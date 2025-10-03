@@ -660,8 +660,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   const steps = [
     { id: 1, title: 'Temel Bilgiler', icon: '📝' },
     { id: 2, title: 'Görsel & Medya', icon: '📸' },
-    { id: 3, title: 'Hizmetler & Detaylar', icon: '⚙️' },
-    { id: 4, title: 'Ayarlar & Onay', icon: '✅' }
+    { id: 3, title: 'Tarih & Fiyat', icon: '📅' },
+    { id: 4, title: 'Hizmetler & Detaylar', icon: '⚙️' },
+    { id: 5, title: 'Ayarlar & Onay', icon: '✅' }
   ];
 
   const categories = [
