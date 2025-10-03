@@ -799,16 +799,21 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
         
         # Create new tour dates with cabin system
         for date_data in tour_dates_data:
-            print(f"Processing cabin date: {date_data}")
-            tour_date = TourDate(
-                tour_id=tour_id,
-                start_date=date_data.get("date", date_data.get("start_date")),
-                available_cabins=date_data.get("capacity", date_data.get("available_cabins", 10)),
-                single_cabin_price=float(date_data.get("single_cabin_price", 0)),
-                double_cabin_price=float(date_data.get("double_cabin_price", 0)),
-                is_active=date_data.get("is_active", True)
-            )
-            print(f"Created tour_date: {tour_date.dict()}")
+            print(f"🔍 Processing cabin date: {date_data}")
+            try:
+                tour_date = TourDate(
+                    tour_id=tour_id,
+                    start_date=date_data.get("date", date_data.get("start_date")),
+                    available_cabins=date_data.get("capacity", date_data.get("available_cabins", 10)),
+                    single_cabin_price=float(date_data.get("single_cabin_price", 0)),
+                    double_cabin_price=float(date_data.get("double_cabin_price", 0)),
+                    is_active=date_data.get("is_active", True)
+                )
+                print(f"✅ Created tour_date: {tour_date.dict()}")
+            except Exception as e:
+                print(f"❌ ERROR creating tour_date: {e}")
+                print(f"❌ Date data causing error: {date_data}")
+                raise HTTPException(status_code=422, detail=f"Invalid tour date data: {str(e)}")
             
             # Convert to dict and handle datetime serialization
             tour_date_dict = tour_date.dict()
