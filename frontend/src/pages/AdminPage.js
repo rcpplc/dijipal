@@ -1680,17 +1680,21 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
+    console.log('DEBUG - newTourDate before adding:', newTourDate);
     if (newTourDate.date && newTourDate.single_cabin_price && newTourDate.double_cabin_price && newTourDate.capacity) {
+      const newDate = {
+        ...newTourDate, 
+        id: Date.now().toString(),
+        price: parseFloat(newTourDate.single_cabin_price), // Backwards compatibility
+        single_cabin_price: parseFloat(newTourDate.single_cabin_price),
+        double_cabin_price: parseFloat(newTourDate.double_cabin_price),
+        capacity: parseInt(newTourDate.capacity)
+      };
+      console.log('DEBUG - newDate object:', newDate);
+      
       setFormData(prev => ({
         ...prev,
-        tour_dates: [...prev.tour_dates, { 
-          ...newTourDate, 
-          id: Date.now().toString(),
-          price: parseFloat(newTourDate.single_cabin_price), // Backwards compatibility
-          single_cabin_price: parseFloat(newTourDate.single_cabin_price),
-          double_cabin_price: parseFloat(newTourDate.double_cabin_price),
-          capacity: parseInt(newTourDate.capacity)
-        }]
+        tour_dates: [...prev.tour_dates, newDate]
       }));
       setNewTourDate({ date: '', single_cabin_price: '', double_cabin_price: '', capacity: '' });
     } else {
