@@ -305,6 +305,7 @@ const AdminPage = () => {
               { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
               { id: 'tours', label: 'Turlar', icon: MapPin },
               { id: 'users', label: 'Kullanıcılar', icon: Users },
+              { id: 'reviews', label: 'Değerlendirmeler', icon: Eye },
               { id: 'locations', label: 'Lokasyonlar', icon: MapPin },
               { id: 'categories', label: 'Kategoriler', icon: Calendar }
             ].map((tab) => {
