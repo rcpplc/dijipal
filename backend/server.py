@@ -284,8 +284,8 @@ async def login(login_data: UserLogin):
 async def get_tours(
     category: Optional[TourCategory] = None,
     location: Optional[str] = None,
-    min_price: Optional[Decimal] = None,
-    max_price: Optional[Decimal] = None,
+    min_price: Optional[float] = None,
+    max_price: Optional[float] = None,
     duration_days: Optional[int] = None,
     skip: int = Query(0, ge=0),
     limit: int = Query(20, le=100)
