@@ -268,6 +268,9 @@ const TourDetailPage = () => {
       return;
     }
 
+    // Save user behavior before adding to cart
+    saveSearchBehavior(tourId, participants, selectedDate.price);
+
     const cartItem = {
       tourId: tour.id,
       title: tour.title,
