@@ -1495,6 +1495,16 @@ async def add_test_cabin_pricing(tour_id: str):
     
     return {"message": f"Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with different pricing."}
 
+@api_router.post("/reset-database")
+async def reset_database():
+    """Reset tour_dates collection for new cabin system"""
+    try:
+        # Clear all tour dates
+        result = await db.tour_dates.delete_many({})
+        return {"message": f"Database reset complete. Deleted {result.deleted_count} tour dates."}
+    except Exception as e:
+        return {"error": str(e)}
+
 @api_router.post("/create-admin-user")
 async def create_admin_user():
     """Create admin user for testing purposes"""
