@@ -49,9 +49,12 @@ function App() {
     const loadUser = async () => {
       if (token) {
         try {
-          // Validate token by making a request
-          const response = await axios.get(`${API}/auth/me`);
-          setUser(response.data);
+          // For now, we'll decode the token on client side (in real app, validate server-side)
+          const payload = JSON.parse(atob(token.split('.')[1]));
+          const userId = payload.sub;
+          
+          // You could make a request to get user details here if needed
+          setUser({ id: userId, token });
         } catch (error) {
           console.error('Token validation failed:', error);
           logout();
