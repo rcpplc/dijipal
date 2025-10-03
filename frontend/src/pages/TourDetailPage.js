@@ -65,13 +65,7 @@ const TourDetailPage = () => {
     }
   }, [tourId, user]);
   
-  // Additional safety check for participants
-  useEffect(() => {
-    if (!participants || isNaN(participants) || participants < 1) {
-      console.log('Fixing invalid participants value:', participants);
-      setParticipants(1);
-    }
-  }, [participants]);
+  // Safety check removed - causing infinite loop
 
   // Filter dates when availableDates or selectedMonth changes
   useEffect(() => {
