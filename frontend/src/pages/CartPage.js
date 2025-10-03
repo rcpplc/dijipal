@@ -184,17 +184,28 @@ const CartPage = () => {
                             <span>{item.duration} gün</span>
                           </div>
                         </div>
-                        {/* Seçilen Tarih */}
-                        {item.selectedDate && (
-                          <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
-                            <div className="flex items-center space-x-2 text-sm">
-                              <Calendar className="w-4 h-4 text-blue-600" />
-                              <span className="font-medium text-blue-800">
-                                Seçilen Tarih: {item.selectedDate.formattedDate}
-                              </span>
+                        {/* Seçilen Tarih ve Kabin Tipi */}
+                        <div className="mt-2 space-y-2">
+                          {item.selectedDate && (
+                            <div className="p-2 bg-blue-50 border border-blue-200 rounded-lg">
+                              <div className="flex items-center space-x-2 text-sm">
+                                <Calendar className="w-4 h-4 text-blue-600" />
+                                <span className="font-medium text-blue-800">
+                                  Seçilen Tarih: {item.selectedDate.formattedDate}
+                                </span>
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
+                          {item.cabinType && (
+                            <div className="p-2 bg-green-50 border border-green-200 rounded-lg">
+                              <div className="flex items-center space-x-2 text-sm">
+                                <span className="font-medium text-green-800">
+                                  Kabin Tipi: {item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <button
                         onClick={() => removeItem(item.tourId)}
