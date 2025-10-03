@@ -68,15 +68,8 @@ class TourStatus(str, Enum):
     INACTIVE = "inactive"
     ARCHIVED = "archived"
 
-class TourCategory(str, Enum):
-    CULTURAL = "cultural"
-    NATURE = "nature"
-    ADVENTURE = "adventure"
-    CITY = "city"
-    BEACH = "beach"
-    HISTORICAL = "historical"
-    FOOD = "food"
-    WELLNESS = "wellness"
+# TourCategory will be dynamic, no longer an enum
+# Categories will come from admin/categories collection
 
 # Models
 class User(BaseModel):
