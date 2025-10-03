@@ -868,7 +868,7 @@ const TourDetailPage = () => {
                       ₺{(selectedDate.price * Math.max(1, participants || 1)).toLocaleString('tr-TR')}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {participants} kişi × ₺{selectedDate.price.toLocaleString('tr-TR')} + Vergiler
+                      {Math.max(1, participants || 1)} kişi × ₺{selectedDate.price.toLocaleString('tr-TR')} + Vergiler
                     </p>
                   </div>
                 </div>
