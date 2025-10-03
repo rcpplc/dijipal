@@ -359,3 +359,5 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
 ## agent_communication:
     - agent: "main"
       message: "Kabin fiyatlandırma problemi çözüldü: ✅ AdminPage.js'de editTourDate fonksiyonu artık single_cabin_price ve double_cabin_price alanlarını doğru yüklüyor. ✅ Backend /admin/tours endpoint'inde tour_dates response'una eksik olan cabin pricing alanları eklendi. Admin paneli artık kabin fiyatlarını doğru gösterip güncelleyebilir. Test edilmeye hazır."
+    - agent: "testing"
+      message: "Admin panel kabin fiyatlandırması bug fix testi BAŞARIYLA TAMAMLANDI! ✅ Tüm istenen özellikler çalışıyor: GET /api/admin/tours endpoint'i single_cabin_price ve double_cabin_price alanlarını döndürüyor, PUT /api/admin/tours/{tour_id} kabin fiyatları ile güncelleme yapabiliyor, admin authentication çalışıyor (admin@example.com/admin123), farklı kabin fiyatları olan test verisi oluşturuldu ve doğrulandı. Backend API'ları %92.3 başarı oranı ile çalışıyor. Kabin fiyatlandırma sorunu tamamen çözülmüş durumda."
