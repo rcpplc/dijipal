@@ -213,7 +213,8 @@ class TourCreate(BaseModel):
 class BookingCreate(BaseModel):
     tour_id: str
     tour_date_id: str
-    participants: int
+    participants: int  # Kabin sayısı
+    cabin_type: str = "single"  # "single" or "double"
     customer_info: Dict[str, Any]
     special_requests: Optional[str] = None
 
