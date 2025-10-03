@@ -804,7 +804,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
   const nextStep = () => {
     if (validateStep(currentStep)) {
-      setCurrentStep(Math.min(currentStep + 1, 4));
+      setCurrentStep(Math.min(currentStep + 1, 5));
     } else {
       toast.error('Lütfen zorunlu alanları doldurun');
     }
