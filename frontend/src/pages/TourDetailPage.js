@@ -973,11 +973,11 @@ const TourDetailPage = () => {
                         const cabinPrice = cabinType === 'single' 
                           ? (selectedDate.single_cabin_price || selectedDate.price)
                           : (selectedDate.double_cabin_price || selectedDate.price);
-                        return (cabinPrice * Math.max(1, participants || 1)).toLocaleString('tr-TR');
+                        return (cabinPrice * participants).toLocaleString('tr-TR');
                       })()}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {Math.max(1, participants || 1)} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+                      {participants} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
                       ₺{(() => {
@@ -985,7 +985,7 @@ const TourDetailPage = () => {
                           ? (selectedDate.single_cabin_price || selectedDate.price)
                           : (selectedDate.double_cabin_price || selectedDate.price);
                         return cabinPrice.toLocaleString('tr-TR');
-                      })()} × {Math.max(1, participants || 1)} kabin + Vergiler dahil
+                      })()} × {participants} kabin + Vergiler dahil
                     </p>
                   </div>
                 </div>
