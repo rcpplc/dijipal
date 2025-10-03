@@ -24,7 +24,11 @@ const AdminPage = () => {
   const [dashboardData, setDashboardData] = useState(null);
   const [loading, setLoading] = useState(false);
   const [showAddTour, setShowAddTour] = useState(false);
+  const [showEditTour, setShowEditTour] = useState(false);
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [selectedTour, setSelectedTour] = useState(null);
   const [tours, setTours] = useState([]);
+  const [tourLoading, setTourLoading] = useState(false);
 
   useEffect(() => {
     if (activeTab === 'dashboard') {
