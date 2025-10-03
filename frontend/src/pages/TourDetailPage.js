@@ -934,9 +934,15 @@ const TourDetailPage = () => {
                   </div>
                   <button
                     onClick={() => {
+                      alert(`+ clicked! participants: ${participants}, type: ${typeof participants}`);
                       const maxCapacity = selectedDate ? selectedDate.capacity : 20;
+                      alert(`maxCapacity: ${maxCapacity}, participants < maxCapacity: ${participants < maxCapacity}`);
                       if (participants < maxCapacity) {
-                        setParticipants((participants || 1) + 1);
+                        const newVal = (participants || 1) + 1;
+                        alert(`Setting new value: ${newVal}`);
+                        setParticipants(newVal);
+                      } else {
+                        alert('Cannot increase - at maximum');
                       }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
