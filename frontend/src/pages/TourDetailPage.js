@@ -856,8 +856,53 @@ const TourDetailPage = () => {
                 )}
               </div>
 
-              {/* Participants Selection - Moved below date selection */}
+              {/* Cabin Selection */}
               <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Kabin Tipi
+                </label>
+                <div className="grid grid-cols-2 gap-3 mb-4">
+                  <button
+                    onClick={() => setCabinType('single')}
+                    className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                      cabinType === 'single'
+                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-2xl mb-1">🛏️</div>
+                      <div className="font-semibold text-gray-900">Tek Kişilik</div>
+                      <div className="text-sm text-gray-600">1 kişi</div>
+                      {selectedDate && selectedDate.single_cabin_price && (
+                        <div className="text-sm font-medium text-blue-600 mt-1">
+                          ₺{selectedDate.single_cabin_price.toLocaleString('tr-TR')}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                  
+                  <button
+                    onClick={() => setCabinType('double')}
+                    className={`p-4 rounded-lg border-2 transition-all duration-200 ${
+                      cabinType === 'double'
+                        ? 'border-blue-500 bg-blue-50 ring-2 ring-blue-200'
+                        : 'border-gray-200 hover:border-gray-300'
+                    }`}
+                  >
+                    <div className="text-center">
+                      <div className="text-2xl mb-1">🛏️🛏️</div>
+                      <div className="font-semibold text-gray-900">Çift Kişilik</div>
+                      <div className="text-sm text-gray-600">2 kişi</div>
+                      {selectedDate && selectedDate.double_cabin_price && (
+                        <div className="text-sm font-medium text-blue-600 mt-1">
+                          ₺{selectedDate.double_cabin_price.toLocaleString('tr-TR')}
+                        </div>
+                      )}
+                    </div>
+                  </button>
+                </div>
+                
                 <div className="mb-3">
                   <label className="block text-sm font-medium text-gray-700">
                     Kabin Sayısı
