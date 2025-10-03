@@ -522,8 +522,11 @@ async def get_tour_dates(tour_id: str):
 @api_router.get("/debug/tour_dates")
 async def debug_all_tour_dates():
     """Debug endpoint to see all tour dates"""
-    all_dates = await db.tour_dates.find({}).to_list(length=None)
-    return {"count": len(all_dates), "dates": all_dates}
+    try:
+        all_dates = await db.tour_dates.find({}).to_list(length=None)
+        return {"count": len(all_dates), "dates": all_dates}
+    except Exception as e:
+        return {"error": str(e), "count": 0, "dates": []}
 
 @api_router.get("/tours/{tour_id}/reviews", response_model=List[ReviewWithUser])
 async def get_tour_reviews(tour_id: str):
