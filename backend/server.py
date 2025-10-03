@@ -667,6 +667,32 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     await db.tours.insert_one(tour.dict())
     return tour
 
+# Admin Users Management
+@api_router.get("/admin/users", response_model=List[User])
+async def admin_get_users(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    users = await db.users.find().to_list(length=None)
+    return [User(**user) for user in users]
+
+@api_router.put("/admin/users/{user_id}/status")
+async def admin_toggle_user_status(user_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    new_status = not user.get("is_active", True)
+    await db.users.update_one(
+        {"id": user_id}, 
+        {"$set": {"is_active": new_status}}
+    )
+    
+    return {"message": f"User {'activated' if new_status else 'deactivated'} successfully"}
+
 # Sample data endpoint
 @api_router.post("/seed-data")
 async def seed_sample_data():
