@@ -476,7 +476,7 @@ const HomePage = () => {
 
                     <div className="flex items-center space-x-2 text-sm text-gray-600">
                       <Calendar className="w-4 h-4" />
-                      <span>{tour.duration_days} gün</span>
+                      <span>{tour.duration_days || 1} gün</span>
                     </div>
                   </div>
 
