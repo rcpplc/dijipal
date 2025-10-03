@@ -488,7 +488,7 @@ const AdminPage = () => {
                                 {tour.title}
                               </p>
                               <p className="text-sm text-gray-600">
-                                {tour.pickup_time || '09:00'} - {tour.dropoff_time || '18:00'} • {tour.classification || 'Standart'}
+                                Biniş Saati: {tour.pickup_time || '09:00'} İniş Saati: {tour.dropoff_time || '18:00'} • {tour.classification || 'Standart'}
                               </p>
                             </div>
                           </div>
