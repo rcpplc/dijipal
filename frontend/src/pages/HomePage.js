@@ -28,7 +28,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const HomePage = () => {
-  const { user, setShowLoginModal } = useAuth();
+  const { user, setShowLoginModal, setLoginMode } = useAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredTours, setFeaturedTours] = useState([]);
