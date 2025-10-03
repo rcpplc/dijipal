@@ -430,6 +430,299 @@ class TourPlatformAPITester:
         except Exception as e:
             print(f"\n⚠️  Could not save results file: {e}")
 
+    def test_admin_create_tour_new_fields(self):
+        """Test admin tour creation with new fields (pickup_time, dropoff_time, classification)"""
+        if not self.token:
+            self.log_test("Admin Create Tour with New Fields", False, "", "No authentication token available")
+            return False, None
+
+        # Create test tour with new field structure
+        tour_data = {
+            "title": "Test Tur",
+            "description": "Bu bir test turu açıklamasıdır. Yeni alan yapısını test etmek için oluşturulmuştur.",
+            "short_description": "Test turu kısa açıklama",
+            "location": "İstanbul, Türkiye",
+            "pickup_time": "09:00",
+            "dropoff_time": "18:00",
+            "category": "cultural",
+            "classification": "lux",
+            "status": "active",
+            "images": ["https://example.com/test-image.jpg"],
+            "included_services": ["Profesyonel rehber", "Öğle yemeği"],
+            "excluded_services": ["Ulaşım", "Kişisel harcamalar"],
+            "meeting_point": "Test Buluşma Noktası",
+            "languages": ["Turkish", "English"],
+            "cancellation_policy": "24 saat öncesinden iptal edilebilir",
+            "tags": ["test", "yeni", "alan"],
+            "tour_dates": [
+                {
+                    "date": "2025-02-15",
+                    "price": 299.0,
+                    "capacity": 15
+                },
+                {
+                    "date": "2025-02-20",
+                    "price": 349.0,
+                    "capacity": 12
+                }
+            ]
+        }
+
+        success, response = self.run_test(
+            "Admin Create Tour with New Fields",
+            "POST",
+            "admin/tours",
+            200,
+            data=tour_data
+        )
+
+        if success and 'id' in response:
+            # Verify the tour was created with correct fields
+            tour_id = response['id']
+            print(f"   ✅ Tour created with ID: {tour_id}")
+            
+            # Verify pickup_time, dropoff_time, classification fields
+            if (response.get('pickup_time') == "09:00" and 
+                response.get('dropoff_time') == "18:00" and 
+                response.get('classification') == "lux"):
+                print("   ✅ New fields (pickup_time, dropoff_time, classification) saved correctly")
+                return True, tour_id
+            else:
+                self.log_test("Admin Create Tour - Field Verification", False, "", 
+                            f"New fields not saved correctly. Got: pickup_time={response.get('pickup_time')}, dropoff_time={response.get('dropoff_time')}, classification={response.get('classification')}")
+                return False, tour_id
+        
+        return False, None
+
+    def test_tour_dates_management(self, tour_id):
+        """Test tour date creation and management"""
+        if not tour_id:
+            self.log_test("Tour Dates Management", False, "", "No tour ID provided")
+            return False
+
+        # Test adding tour dates
+        tour_date_data = {
+            "date": "2025-03-01",
+            "price": 399.0,
+            "capacity": 20
+        }
+
+        success, response = self.run_test(
+            "Add Tour Date",
+            "POST",
+            f"tours/{tour_id}/dates",
+            200,
+            data=tour_date_data
+        )
+
+        if success:
+            print("   ✅ Tour date added successfully")
+            
+            # Test getting tour dates
+            dates_success, dates_response = self.test_get_tour_dates(tour_id)
+            
+            if dates_success and dates_response:
+                print(f"   ✅ Retrieved {len(dates_response)} tour dates")
+                
+                # Verify the date we just added is in the list
+                added_date_found = any(date.get('start_date') == '2025-03-01' for date in dates_response)
+                if added_date_found:
+                    print("   ✅ Added tour date found in the list")
+                    return True
+                else:
+                    self.log_test("Tour Date Verification", False, "", "Added tour date not found in the list")
+                    return False
+            else:
+                self.log_test("Get Tour Dates After Adding", False, "", "Could not retrieve tour dates after adding")
+                return False
+        
+        return False
+
+    def test_tour_listing_minimum_price(self):
+        """Test tour listing API returns tours with proper minimum price calculation from tour_dates"""
+        success, response = self.run_test(
+            "Tour Listing with Minimum Price Calculation",
+            "GET",
+            "tours",
+            200
+        )
+
+        if success and response:
+            print(f"   ✅ Retrieved {len(response)} tours")
+            
+            # Check if tours have price information
+            tours_with_prices = []
+            for tour in response:
+                tour_id = tour.get('id')
+                if tour_id:
+                    # Get tour dates to check price calculation
+                    dates_success, dates_response = self.test_get_tour_dates(tour_id)
+                    if dates_success and dates_response:
+                        # Calculate minimum price from tour dates
+                        prices = [date.get('price') for date in dates_response if date.get('price')]
+                        if prices:
+                            min_price = min(prices)
+                            tours_with_prices.append({
+                                'tour_id': tour_id,
+                                'title': tour.get('title'),
+                                'base_price': tour.get('base_price'),
+                                'calculated_min_price': min_price
+                            })
+            
+            if tours_with_prices:
+                print(f"   ✅ Found {len(tours_with_prices)} tours with price data")
+                for tour_info in tours_with_prices[:3]:  # Show first 3
+                    print(f"      • {tour_info['title']}: base_price={tour_info['base_price']}, min_date_price={tour_info['calculated_min_price']}")
+                return True
+            else:
+                self.log_test("Minimum Price Calculation", False, "", "No tours found with tour date prices")
+                return False
+        
+        return False
+
+    def test_backward_compatibility(self):
+        """Test backward compatibility with existing tours that may have old field structure"""
+        # First get existing tours
+        success, response = self.run_test(
+            "Get Existing Tours for Compatibility Test",
+            "GET",
+            "tours",
+            200
+        )
+
+        if success and response:
+            compatibility_issues = []
+            
+            for tour in response:
+                tour_id = tour.get('id')
+                title = tour.get('title', 'Unknown')
+                
+                # Check for old fields
+                has_old_fields = (
+                    'duration_days' in tour or 
+                    'base_price' in tour or 
+                    'max_participants' in tour or 
+                    'difficulty_level' in tour
+                )
+                
+                # Check for new fields
+                has_new_fields = (
+                    'pickup_time' in tour or 
+                    'dropoff_time' in tour or 
+                    'classification' in tour
+                )
+                
+                if has_old_fields and not has_new_fields:
+                    print(f"   ℹ️  Tour '{title}' has old field structure (backward compatibility)")
+                elif has_new_fields and not has_old_fields:
+                    print(f"   ✅ Tour '{title}' has new field structure")
+                elif has_old_fields and has_new_fields:
+                    print(f"   ✅ Tour '{title}' has both old and new fields (hybrid compatibility)")
+                else:
+                    compatibility_issues.append(f"Tour '{title}' missing both old and new field structures")
+            
+            if compatibility_issues:
+                self.log_test("Backward Compatibility", False, "", f"Issues found: {'; '.join(compatibility_issues)}")
+                return False
+            else:
+                print("   ✅ All tours have compatible field structures")
+                return True
+        
+        return False
+
+    def test_admin_update_tour(self, tour_id):
+        """Test admin tour update with new fields"""
+        if not self.token or not tour_id:
+            self.log_test("Admin Update Tour", False, "", "No authentication token or tour ID available")
+            return False
+
+        # Update tour with new field values
+        update_data = {
+            "title": "Updated Test Tur",
+            "description": "Güncellenmiş test turu açıklaması",
+            "short_description": "Güncellenmiş kısa açıklama",
+            "location": "Ankara, Türkiye",
+            "pickup_time": "10:00",
+            "dropoff_time": "19:00",
+            "category": "nature",
+            "classification": "delux",
+            "status": "active",
+            "images": ["https://example.com/updated-image.jpg"],
+            "included_services": ["Profesyonel rehber", "Akşam yemeği", "Ulaşım"],
+            "excluded_services": ["Kişisel harcamalar"],
+            "meeting_point": "Güncellenmiş Buluşma Noktası",
+            "languages": ["Turkish"],
+            "cancellation_policy": "48 saat öncesinden iptal edilebilir",
+            "tags": ["güncellenmiş", "test"]
+        }
+
+        success, response = self.run_test(
+            "Admin Update Tour",
+            "PUT",
+            f"admin/tours/{tour_id}",
+            200,
+            data=update_data
+        )
+
+        if success:
+            # Verify the update
+            if (response.get('pickup_time') == "10:00" and 
+                response.get('dropoff_time') == "19:00" and 
+                response.get('classification') == "delux"):
+                print("   ✅ Tour updated successfully with new field values")
+                return True
+            else:
+                self.log_test("Tour Update Verification", False, "", "Updated fields not saved correctly")
+                return False
+        
+        return False
+
+    def run_admin_tour_management_tests(self):
+        """Run comprehensive admin tour management tests with new field changes"""
+        print("🎯 Testing Updated Admin Tour Management System")
+        print("=" * 70)
+        
+        # Setup: Ensure we have sample data
+        print("\n📊 SETUP: Ensuring Sample Data")
+        self.test_seed_data()
+        
+        # Admin Authentication
+        print("\n🔐 PHASE 1: Admin Authentication")
+        admin_success = self.test_admin_login()
+        
+        if not admin_success:
+            print("❌ Admin login failed, cannot proceed with admin tests")
+            self.print_final_results()
+            return
+        
+        # Test 1: Admin tour creation with new fields
+        print("\n🆕 PHASE 2: Admin Tour Creation with New Fields")
+        create_success, new_tour_id = self.test_admin_create_tour_new_fields()
+        
+        # Test 2: Tour date management
+        if new_tour_id:
+            print("\n📅 PHASE 3: Tour Date Management")
+            self.test_tour_dates_management(new_tour_id)
+            
+            # Test 3: Admin tour update
+            print("\n✏️  PHASE 4: Admin Tour Update")
+            self.test_admin_update_tour(new_tour_id)
+        
+        # Test 4: Tour listing with minimum price calculation
+        print("\n💰 PHASE 5: Tour Listing with Minimum Price Calculation")
+        self.test_tour_listing_minimum_price()
+        
+        # Test 5: Backward compatibility
+        print("\n🔄 PHASE 6: Backward Compatibility Test")
+        self.test_backward_compatibility()
+        
+        # Test 6: Admin tours listing
+        print("\n📋 PHASE 7: Admin Tours Listing")
+        self.test_admin_tours()
+        
+        # Print final results
+        self.print_final_results()
+
     def run_specific_admin_tests(self):
         """Run specific tests requested in the review"""
         print("🎯 Running Specific Admin Tests as Requested")
