@@ -684,9 +684,7 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     await db.tours.insert_one(tour.dict())
     
     # Create tour dates
-    logger.info(f"Creating {len(tour_dates_data)} tour dates for tour {tour.id}")
     for date_data in tour_dates_data:
-        logger.info(f"Processing tour date: {date_data}")
         tour_date = {
             "id": str(uuid.uuid4()),
             "tour_id": tour.id,
@@ -696,13 +694,7 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
             "is_active": True,
             "created_at": datetime.now(timezone.utc)
         }
-        logger.info(f"Inserting tour date: {tour_date}")
-        try:
-            result = await db.tour_dates.insert_one(tour_date)
-            logger.info(f"Tour date inserted successfully: {result.inserted_id}")
-        except Exception as e:
-            logger.error(f"Error inserting tour date: {e}")
-            raise
+        await db.tour_dates.insert_one(tour_date)
     
     return tour
 
