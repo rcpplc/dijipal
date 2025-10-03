@@ -1502,8 +1502,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
               </div>
             )}
 
-            {/* Step 4: Settings & Confirmation */}
-            {currentStep === 4 && (
+            {/* Step 5: Settings & Confirmation */}
+            {currentStep === 5 && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">✅ Ayarlar & Onay</h3>
                 
