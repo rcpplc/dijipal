@@ -32,18 +32,6 @@ const TourDetailPage = () => {
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [participants, setParticipants] = useState(1);
-  
-  // Debug setParticipants wrapper
-  const debugSetParticipants = (value) => {
-    console.log('🔍 setParticipants called with:', value, typeof value);
-    if (typeof value === 'number' && !isNaN(value) && value > 0) {
-      console.log('✅ Setting valid participants:', value);
-      setParticipants(value);
-    } else {
-      console.log('❌ Invalid participants value, defaulting to 1:', value);
-      setParticipants(1);
-    }
-  };
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [isFavorited, setIsFavorited] = useState(false);
