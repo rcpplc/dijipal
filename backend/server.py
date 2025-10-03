@@ -461,10 +461,34 @@ async def create_review(
     await db.reviews.insert_one(review.dict())
     return review
 
-@api_router.get("/tours/{tour_id}/reviews", response_model=List[Review])
+class ReviewWithUser(BaseModel):
+    id: str
+    user_id: str
+    tour_id: str
+    booking_id: str
+    rating: int = Field(ge=1, le=5)
+    title: Optional[str] = None
+    comment: Optional[str] = None
+    images: List[str] = []
+    is_verified: bool = False
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    user_name: Optional[str] = None
+
+@api_router.get("/tours/{tour_id}/reviews", response_model=List[ReviewWithUser])
 async def get_tour_reviews(tour_id: str):
     reviews = await db.reviews.find({"tour_id": tour_id}).to_list(length=None)
-    return [Review(**review) for review in reviews]
+    
+    # Kullanıcı bilgilerini ekle
+    review_list = []
+    for review in reviews:
+        user = await db.users.find_one({"id": review["user_id"]})
+        review_with_user = ReviewWithUser(
+            **review,
+            user_name=user.get("full_name", "Anonim") if user else "Anonim"
+        )
+        review_list.append(review_with_user)
+    
+    return review_list
 
 # Admin endpoints
 @api_router.get("/admin/dashboard")
