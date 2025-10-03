@@ -895,7 +895,7 @@ async def upload_image(file: UploadFile = File(...), current_user: User = Depend
         buffer.write(content)
     
     # Return URL - in production this would be a proper CDN URL
-    file_url = f"https://tourwiz-system.preview.emergentagent.com/uploads/{filename}"
+    file_url = f"https://paketsafari.preview.emergentagent.com/uploads/{filename}"
     
     return {"url": file_url, "filename": filename}
 
