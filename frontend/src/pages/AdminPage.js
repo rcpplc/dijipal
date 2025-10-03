@@ -754,7 +754,7 @@ const AdminPage = () => {
 
               {!loading && categories.length === 0 && (
                 <div className="text-center py-16">
-                  <div className="text-4xl mb-4">🏷️</div>
+                  <div className="text-4xl mb-4">◈</div>
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     Henüz kategori yok
                   </h3>
