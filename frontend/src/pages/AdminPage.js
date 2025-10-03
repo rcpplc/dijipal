@@ -2191,209 +2191,304 @@ const CategoryModal = ({ category, onClose, onSave }) => {
         <form onSubmit={handleSubmit} className="p-6">
           {/* Tab Content */}
           <div className="min-h-[500px]">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {/* Basic Info */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Kategori Adı *
-                </label>
-                <input
-                  type="text"
-                  value={formData.name}
-                  onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  required
-                />
-              </div>
+            
+            {/* Tab 1: Temel Bilgiler */}
+            {activeTab === 1 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">●</span>
+                  Temel Kategori Bilgileri
+                </h3>
+                
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Kategori Adı *
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.name}
+                      onChange={(e) => setFormData({...formData, name: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Kategori adını giriniz"
+                      required
+                    />
+                  </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Icon/Emoji
-                </label>
-                <input
-                  type="text"
-                  value={formData.icon}
-                  onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="🏷️"
-                />
-              </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Kategori İkonu
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.icon}
+                      onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="◈"
+                    />
+                  </div>
+                </div>
 
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Açıklama
-                </label>
-                <textarea
-                  value={formData.description}
-                  onChange={(e) => setFormData({...formData, description: e.target.value})}
-                  rows={3}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-
-              <div className="flex items-center">
-                <input
-                  type="checkbox"
-                  checked={formData.is_active}
-                  onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
-                  className="mr-2"
-                />
-                <label className="text-sm text-gray-700">Aktif</label>
-              </div>
-            </div>
-
-            {/* Image */}
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Kategori Görseli
-                </label>
-                <div className="space-y-3">
-                  {formData.image && (
-                    <div className="relative">
-                      <img
-                        src={formData.image}
-                        alt="Kategori"
-                        className="w-full h-32 object-cover rounded-lg"
-                      />
-                      <button
-                        type="button"
-                        onClick={() => setFormData({...formData, image: ''})}
-                        className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full text-xs"
-                      >
-                        🗑️
-                      </button>
-                    </div>
-                  )}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    onChange={handleImageUpload}
-                    className="hidden"
-                    id="category-image-upload"
-                    disabled={uploadLoading}
-                  />
-                  <label
-                    htmlFor="category-image-upload"
-                    className={`cursor-pointer inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 ${
-                      uploadLoading ? 'opacity-50 cursor-not-allowed' : ''
-                    }`}
-                  >
-                    {uploadLoading ? (
-                      <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
-                        <span>Yükleniyor...</span>
-                      </>
-                    ) : (
-                      <>
-                        <span>📸</span>
-                        <span>Resim Yükle</span>
-                      </>
-                    )}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Kategori Açıklaması
                   </label>
+                  <ReactQuill
+                    value={formData.description}
+                    onChange={(value) => setFormData({...formData, description: value})}
+                    modules={{
+                      toolbar: [
+                        [{ 'header': [1, 2, 3, false] }],
+                        ['bold', 'italic', 'underline', 'strike'],
+                        ['blockquote', 'code-block'],
+                        [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                        [{ 'color': [] }, { 'background': [] }],
+                        ['link', 'image'],
+                        ['clean']
+                      ],
+                    }}
+                    formats={[
+                      'header', 'bold', 'italic', 'underline', 'strike',
+                      'blockquote', 'code-block', 'list', 'bullet',
+                      'color', 'background', 'link', 'image'
+                    ]}
+                    placeholder="Kategori hakkında detaylı açıklama yazın..."
+                    className="bg-white"
+                  />
+                </div>
+
+                <div className="flex items-center space-x-3">
+                  <div className="flex items-center">
+                    <input
+                      type="checkbox"
+                      id="is_active"
+                      checked={formData.is_active}
+                      onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    <label htmlFor="is_active" className="ml-2 text-sm font-medium text-gray-700">
+                      Kategoriyi Aktif Et
+                    </label>
+                  </div>
                 </div>
               </div>
-            </div>
-          </div>
+            )}
 
-          {/* SEO Section */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">SEO Ayarları</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  SEO Başlık
-                </label>
-                <input
-                  type="text"
-                  value={formData.seo_title}
-                  onChange={(e) => setFormData({...formData, seo_title: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  SEO Anahtar Kelimeler
-                </label>
-                <input
-                  type="text"
-                  value={formData.seo_keywords}
-                  onChange={(e) => setFormData({...formData, seo_keywords: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="kelime1, kelime2, kelime3"
-                />
-              </div>
-            </div>
-            <div className="mt-4">
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                SEO Açıklama
-              </label>
-              <textarea
-                value={formData.seo_description}
-                onChange={(e) => setFormData({...formData, seo_description: e.target.value})}
-                rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-              />
-            </div>
-          </div>
-
-          {/* FAQ Section */}
-          <div className="border-t border-gray-200 pt-6">
-            <h3 className="text-lg font-medium text-gray-900 mb-4">Sık Sorulan Sorular (SSS)</h3>
-            
-            {/* Add FAQ */}
-            <div className="bg-gray-50 p-4 rounded-lg mb-4">
-              <div className="grid grid-cols-1 gap-3">
-                <input
-                  type="text"
-                  value={newFaq.question}
-                  onChange={(e) => setNewFaq({...newFaq, question: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="Soru"
-                />
-                <textarea
-                  value={newFaq.answer}
-                  onChange={(e) => setNewFaq({...newFaq, answer: e.target.value})}
-                  rows={2}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
-                  placeholder="Cevap"
-                />
-                <button
-                  type="button"
-                  onClick={addFaq}
-                  disabled={!newFaq.question || !newFaq.answer}
-                  className={`px-4 py-2 rounded-lg text-sm font-medium ${
-                    newFaq.question && newFaq.answer
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  SSS Ekle
-                </button>
-              </div>
-            </div>
-
-            {/* FAQ List */}
-            {formData.faq.length > 0 && (
-              <div className="space-y-3">
-                {formData.faq.map((faq, index) => (
-                  <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
-                    <div className="flex justify-between items-start">
-                      <div className="flex-1">
-                        <div className="font-medium text-gray-900 mb-2">{faq.question}</div>
-                        <div className="text-gray-600 text-sm">{faq.answer}</div>
+            {/* Tab 2: Görsel & Medya */}
+            {activeTab === 2 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">◆</span>
+                  Görsel & Medya Yönetimi
+                </h3>
+                
+                <div className="bg-gray-50 p-6 rounded-lg">
+                  <div className="text-center">
+                    {formData.image ? (
+                      <div className="relative inline-block">
+                        <img
+                          src={formData.image}
+                          alt="Kategori Görseli"
+                          className="w-64 h-40 object-cover rounded-lg shadow-lg"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setFormData({...formData, image: ''})}
+                          className="absolute -top-2 -right-2 bg-red-600 text-white p-2 rounded-full hover:bg-red-700 transition-colors"
+                          title="Görseli Kaldır"
+                        >
+                          <span className="text-sm">✕</span>
+                        </button>
                       </div>
-                      <button
-                        type="button"
-                        onClick={() => removeFaq(index)}
-                        className="text-red-600 hover:text-red-700 p-1"
+                    ) : (
+                      <div className="w-64 h-40 mx-auto bg-gray-200 rounded-lg flex items-center justify-center">
+                        <span className="text-gray-500 text-lg">◆</span>
+                      </div>
+                    )}
+                    
+                    <div className="mt-4">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="hidden"
+                        id="category-image-upload"
+                        disabled={uploadLoading}
+                      />
+                      <label
+                        htmlFor="category-image-upload"
+                        className={`cursor-pointer inline-flex items-center space-x-2 px-6 py-3 border-2 border-dashed border-blue-300 rounded-lg text-blue-600 hover:bg-blue-50 transition-colors ${
+                          uploadLoading ? 'opacity-50 cursor-not-allowed' : ''
+                        }`}
                       >
-                        🗑️
-                      </button>
+                        {uploadLoading ? (
+                          <>
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-blue-600"></div>
+                            <span>Yükleniyor...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>◆</span>
+                            <span className="font-medium">Kategori Görseli Yükle</span>
+                          </>
+                        )}
+                      </label>
+                      <p className="text-sm text-gray-500 mt-2">
+                        JPG, PNG veya WebP formatında, maksimum 5MB
+                      </p>
                     </div>
                   </div>
-                ))}
+                </div>
+              </div>
+            )}
+
+            {/* Tab 3: SEO Ayarları */}
+            {activeTab === 3 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">◇</span>
+                  SEO ve Meta Bilgileri
+                </h3>
+                
+                <div className="grid grid-cols-1 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      SEO Başlık
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.seo_title}
+                      onChange={(e) => setFormData({...formData, seo_title: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Arama motorları için başlık"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Google'da görünecek başlık (50-60 karakter önerilir)
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      SEO Açıklama
+                    </label>
+                    <textarea
+                      value={formData.seo_description}
+                      onChange={(e) => setFormData({...formData, seo_description: e.target.value})}
+                      rows={3}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="Arama sonuçlarında görünecek açıklama"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Meta açıklama (150-160 karakter önerilir)
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Anahtar Kelimeler
+                    </label>
+                    <input
+                      type="text"
+                      value={formData.seo_keywords}
+                      onChange={(e) => setFormData({...formData, seo_keywords: e.target.value})}
+                      className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      placeholder="kelime1, kelime2, kelime3"
+                    />
+                    <p className="text-sm text-gray-500 mt-1">
+                      Virgülle ayırarak anahtar kelimeleri girin
+                    </p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Tab 4: SSS Yönetimi */}
+            {activeTab === 4 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
+                  <span className="mr-2">◈</span>
+                  Sık Sorulan Sorular
+                </h3>
+                
+                {/* Add FAQ */}
+                <div className="bg-blue-50 p-6 rounded-lg border border-blue-200">
+                  <h4 className="font-medium text-gray-900 mb-4">Yeni SSS Ekle</h4>
+                  <div className="space-y-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Soru
+                      </label>
+                      <input
+                        type="text"
+                        value={newFaq.question}
+                        onChange={(e) => setNewFaq({...newFaq, question: e.target.value})}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Sık sorulan soruyu yazın"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Cevap
+                      </label>
+                      <textarea
+                        value={newFaq.answer}
+                        onChange={(e) => setNewFaq({...newFaq, answer: e.target.value})}
+                        rows={3}
+                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Sorunun cevabını yazın"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      onClick={addFaq}
+                      disabled={!newFaq.question || !newFaq.answer}
+                      className={`px-6 py-3 rounded-lg font-medium transition-colors ${
+                        newFaq.question && newFaq.answer
+                          ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                          : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                      }`}
+                    >
+                      SSS Ekle
+                    </button>
+                  </div>
+                </div>
+
+                {/* FAQ List */}
+                {formData.faq.length > 0 ? (
+                  <div className="space-y-4">
+                    <h4 className="font-medium text-gray-900">
+                      Eklenen SSS'ler ({formData.faq.length})
+                    </h4>
+                    {formData.faq.map((faq, index) => (
+                      <div key={index} className="bg-white p-6 border border-gray-200 rounded-lg shadow-sm">
+                        <div className="flex justify-between items-start">
+                          <div className="flex-1">
+                            <div className="font-medium text-gray-900 mb-2">
+                              S: {faq.question}
+                            </div>
+                            <div className="text-gray-600">
+                              C: {faq.answer}
+                            </div>
+                          </div>
+                          <button
+                            type="button"
+                            onClick={() => removeFaq(index)}
+                            className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-colors"
+                            title="SSS'yi Sil"
+                          >
+                            <span className="text-lg">✕</span>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12 text-gray-500">
+                    <span className="text-4xl block mb-4">◈</span>
+                    <p>Henüz SSS eklenmedi</p>
+                    <p className="text-sm">Yukarıdaki formu kullanarak SSS ekleyin</p>
+                  </div>
+                )}
               </div>
             )}
           </div>
