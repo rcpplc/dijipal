@@ -291,19 +291,27 @@ const TourDetailPage = () => {
     }
 
     // Save user behavior before adding to cart
-    saveSearchBehavior(tourId, participants, selectedDate.price);
+    const currentCabinPrice = cabinType === 'single' 
+      ? selectedDate.single_cabin_price
+      : selectedDate.double_cabin_price;
+    
+    saveSearchBehavior(tourId, participants, currentCabinPrice);
 
     const cartItem = {
       tourId: tour.id,
       title: tour.title,
       location: tour.location,
       duration: tour.duration_days,
-      price: currentPrice, // Seçilen tarihin fiyatı
+      price: currentCabinPrice, // Seçilen kabin tipinin fiyatı
+      single_cabin_price: selectedDate.single_cabin_price,
+      double_cabin_price: selectedDate.double_cabin_price,
+      cabinType: cabinType, // 'single' veya 'double'
       participants: participants,
       image: tour.images[0] || '/placeholder-tour.jpg',
       selectedDate: {
         date: selectedDate.start_date, // API'den gelen field adı
-        price: selectedDate.price,
+        single_cabin_price: selectedDate.single_cabin_price,
+        double_cabin_price: selectedDate.double_cabin_price,
         formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
           year: 'numeric',
           month: 'long',
