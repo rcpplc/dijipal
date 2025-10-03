@@ -355,7 +355,26 @@ async def get_tours(
         filter_query["duration_days"] = duration_days
     
     tours = await db.tours.find(filter_query).skip(skip).limit(limit).to_list(length=None)
-    return [Tour(**tour) for tour in tours]
+    
+    # Add tour_dates to each tour for price calculation
+    for tour in tours:
+        tour_dates = await db.tour_dates.find({
+            "tour_id": tour["id"],
+            "is_active": True
+        }).sort("start_date", 1).to_list(length=None)
+        
+        # Convert tour_dates for frontend
+        tour["tour_dates"] = []
+        for date in tour_dates:
+            tour["tour_dates"].append({
+                "id": date["id"],
+                "date": date["start_date"],
+                "price": date["price"],
+                "capacity": date["available_spots"],
+                "is_active": date.get("is_active", True)
+            })
+    
+    return tours
 
 @api_router.get("/tours/{tour_id}", response_model=Tour)
 async def get_tour(tour_id: str = FastAPIPath(...)):
