@@ -1906,6 +1906,22 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       required
                     />
                   </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Tur Süresi (Gün) *
+                    </label>
+                    <input
+                      type="number"
+                      min="1"
+                      max="30"
+                      value={formData.duration_days}
+                      onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value) || 1})}
+                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      required
+                    />
+                    <p className="text-sm text-gray-500 mt-1">Turun kaç gün süreceğini belirtin (1-30 gün)</p>
+                  </div>
                 </div>
 
                 <div className="space-y-4">
