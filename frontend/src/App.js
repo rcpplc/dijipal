@@ -139,7 +139,7 @@ function App() {
 
   return (
     <AuthContext.Provider value={authValue}>
-      <div className="App min-h-screen flex flex-col">
+      <div className="App min-h-screen flex flex-col bg-gray-50">
         <BrowserRouter>
           <Header />
           
