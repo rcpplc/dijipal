@@ -199,7 +199,7 @@ const AdminPage = () => {
                 <span className="text-lg">{tab.icon}</span>
                 <span>{tab.label}</span>
               </button>
-            ))
+            ))}
           </nav>
         </div>
 
