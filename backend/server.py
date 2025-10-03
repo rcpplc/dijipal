@@ -1112,7 +1112,7 @@ async def seed_sample_data():
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
 @api_router.post("/cleanup-data")
-async def cleanup_data(current_user: User = Depends(get_admin_user)):
+async def cleanup_data(current_user: User = Depends(get_current_user)):
     """Clean all tours, bookings, and tour_dates for fresh start"""
     try:
         # Delete all tours, bookings, tour_dates
