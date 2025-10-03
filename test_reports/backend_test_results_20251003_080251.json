@@ -1,0 +1,74 @@
+{
+  "summary": {
+    "total_tests": 9,
+    "passed_tests": 7,
+    "failed_tests": 2,
+    "success_rate": 77.77777777777779,
+    "test_date": "2025-10-03T08:02:51.809757"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Sample data added successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.399062"
+    },
+    {
+      "test_name": "User Registration",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"User created successfully\",\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjE5YzhkYy1kMDVhLTRhOTYtOTY3ZS1mOTFhYjZiYzMzODYifQ.SJKDMn3JREpFy75II8sFhv69iQ1u4duD_kbZb3gltnU\"...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.491745"
+    },
+    {
+      "test_name": "User Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI3NjE5YzhkYy1kMDVhLTRhOTYtOTY3ZS1mOTFhYjZiYzMzODYifQ.SJKDMn3JREpFy75II8sFhv69iQ1u4duD_kbZb3gltnU\",\n  \"user\": {\n    \"id\": \"7619c8dc-d05a-4a9...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.533526"
+    },
+    {
+      "test_name": "Get Tours List",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n    \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, A...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.570872"
+    },
+    {
+      "test_name": "Get Tours with Category Filter",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n    \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, A...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.612773"
+    },
+    {
+      "test_name": "Get Single Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n  \"vendor_id\": \"vendor1\",\n  \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n  \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, Ayasofya ve K...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.653514"
+    },
+    {
+      "test_name": "Create Booking",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 404. Response: {'detail': 'Tour date not found'}",
+      "timestamp": "2025-10-03T08:02:51.737022"
+    },
+    {
+      "test_name": "Get User Bookings",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-03T08:02:51.772655"
+    },
+    {
+      "test_name": "Admin Dashboard",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 403. Response: {'detail': 'Admin access required'}",
+      "timestamp": "2025-10-03T08:02:51.808884"
+    }
+  ]
+}
