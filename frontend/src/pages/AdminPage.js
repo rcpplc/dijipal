@@ -583,18 +583,278 @@ const AdminPage = () => {
           </div>
         )}
 
-        {/* Locations & Categories tabs would go here - simplified for now */}
+        {/* Locations Tab */}
         {activeTab === 'locations' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Lokasyon Yönetimi</h2>
-            <p className="text-gray-600">Lokasyon yönetimi burada olacak...</p>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Lokasyon Yönetimi</h2>
+              <button
+                onClick={() => setShowLocationModal(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Yeni Lokasyon</span>
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow">
+                    <div className="flex items-center space-x-4">
+                      <div className="bg-gray-200 w-16 h-16 rounded-lg"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white shadow rounded-lg overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Lokasyon
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Ülke
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Durum
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Oluşturulma
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        İşlemler
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {locations.map((location) => (
+                      <tr key={location.id} className="hover:bg-gray-50">
+                        <td className="py-4 px-4">
+                          <div>
+                            <p className="font-medium text-gray-900">{location.name}</p>
+                            <p className="text-sm text-gray-600">{location.description}</p>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4 text-gray-700">
+                          {location.country}
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            location.is_active
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {location.is_active ? 'Aktif' : 'Pasif'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-gray-700">
+                          {new Date(location.created_at).toLocaleDateString('tr-TR')}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex space-x-2">
+                            <button 
+                              onClick={() => openLocationModal(location)}
+                              className="text-indigo-600 hover:text-indigo-700 p-1 rounded transition-colors duration-200"
+                              title="Düzenle"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleToggleLocationStatus(location.id)}
+                              className={`px-3 py-1 rounded text-sm font-medium transition-colors duration-200 ${
+                                location.is_active
+                                  ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                                  : 'bg-green-100 text-green-800 hover:bg-green-200'
+                              }`}
+                            >
+                              {location.is_active ? 'Deaktif Et' : 'Aktif Et'}
+                            </button>
+                            <button 
+                              onClick={() => {
+                                setSelectedLocation(location);
+                                setShowDeleteLocationConfirm(true);
+                              }}
+                              className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                              title="Sil"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                
+                {locations.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4">📍</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Henüz lokasyon yok
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      İlk lokasyonunuzu ekleyerek başlayın
+                    </p>
+                    <button
+                      onClick={() => setShowLocationModal(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                    >
+                      Lokasyon Ekle
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
 
+        {/* Categories Tab */}
         {activeTab === 'categories' && (
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Kategori Yönetimi</h2>
-            <p className="text-gray-600">Kategori yönetimi burada olacak...</p>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Kategori Yönetimi</h2>
+              <button
+                onClick={() => setShowCategoryModal(true)}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Yeni Kategori</span>
+              </button>
+            </div>
+
+            {loading ? (
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow">
+                    <div className="flex items-center space-x-4">
+                      <div className="bg-gray-200 w-16 h-16 rounded-lg"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white shadow rounded-lg overflow-hidden">
+                <table className="min-w-full divide-y divide-gray-200">
+                  <thead className="bg-gray-50">
+                    <tr>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Kategori
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        İkon
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Durum
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Oluşturulma
+                      </th>
+                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        İşlemler
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="bg-white divide-y divide-gray-200">
+                    {categories.map((category) => (
+                      <tr key={category.id} className="hover:bg-gray-50">
+                        <td className="py-4 px-4">
+                          <div className="flex items-center">
+                            {category.image && (
+                              <div className="flex-shrink-0 w-12 h-12 mr-4">
+                                <img
+                                  src={category.image}
+                                  alt={category.name}
+                                  className="w-12 h-12 object-cover rounded-lg"
+                                />
+                              </div>
+                            )}
+                            <div>
+                              <p className="font-medium text-gray-900">{category.name || 'İsimsiz Kategori'}</p>
+                              <p className="text-sm text-gray-600">{category.description}</p>
+                            </div>
+                          </div>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className="text-2xl">{category.icon || '📂'}</span>
+                        </td>
+                        <td className="py-4 px-4">
+                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                            category.is_active
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {category.is_active ? 'Aktif' : 'Pasif'}
+                          </span>
+                        </td>
+                        <td className="py-4 px-4 text-gray-700">
+                          {new Date(category.created_at).toLocaleDateString('tr-TR')}
+                        </td>
+                        <td className="py-4 px-4">
+                          <div className="flex space-x-2">
+                            <button 
+                              onClick={() => openCategoryModal(category)}
+                              className="text-indigo-600 hover:text-indigo-700 p-1 rounded transition-colors duration-200"
+                              title="Düzenle"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => handleToggleCategoryStatus(category.id)}
+                              className={`px-3 py-1 rounded text-sm font-medium transition-colors duration-200 ${
+                                category.is_active
+                                  ? 'bg-red-100 text-red-800 hover:bg-red-200'
+                                  : 'bg-green-100 text-green-800 hover:bg-green-200'
+                              }`}
+                            >
+                              {category.is_active ? 'Deaktif Et' : 'Aktif Et'}
+                            </button>
+                            <button 
+                              onClick={() => {
+                                setSelectedCategory(category);
+                                setShowDeleteCategoryConfirm(true);
+                              }}
+                              className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                              title="Sil"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+                
+                {categories.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4">📂</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Henüz kategori yok
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      İlk kategorinizi ekleyerek başlayın
+                    </p>
+                    <button
+                      onClick={() => setShowCategoryModal(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                    >
+                      Kategori Ekle
+                    </button>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
         )}
       </div>
