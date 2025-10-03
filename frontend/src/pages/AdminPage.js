@@ -1682,25 +1682,34 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
-    console.log('DEBUG - newTourDate before adding:', newTourDate);
+    console.log('🔍 addTourDate - newTourDate:', newTourDate);
+    
     if (newTourDate.date && newTourDate.single_cabin_price && newTourDate.double_cabin_price && newTourDate.capacity) {
       const newDate = {
-        ...newTourDate, 
         id: Date.now().toString(),
-        price: parseFloat(newTourDate.single_cabin_price), // Backwards compatibility
+        date: newTourDate.date,
         single_cabin_price: parseFloat(newTourDate.single_cabin_price),
         double_cabin_price: parseFloat(newTourDate.double_cabin_price),
-        capacity: parseInt(newTourDate.capacity)
+        capacity: parseInt(newTourDate.capacity),
+        price: parseFloat(newTourDate.single_cabin_price), // Backwards compatibility
+        is_active: true
       };
-      console.log('DEBUG - newDate object:', newDate);
       
-      setFormData(prev => ({
-        ...prev,
-        tour_dates: [...prev.tour_dates, newDate]
-      }));
+      console.log('✅ newDate object created:', newDate);
+      
+      setFormData(prev => {
+        const updatedFormData = {
+          ...prev,
+          tour_dates: [...prev.tour_dates, newDate]
+        };
+        console.log('📝 Updated formData.tour_dates:', updatedFormData.tour_dates);
+        return updatedFormData;
+      });
+      
       setNewTourDate({ date: '', single_cabin_price: '', double_cabin_price: '', capacity: '' });
+      toast.success('Tarih başarıyla eklendi!');
     } else {
-      toast.error('Lütfen tüm tarih ve fiyat bilgilerini doldurun');
+      toast.error('Lütfen tüm alanları doldurun: tarih, kabin kapasitesi ve her iki kabin fiyatı gereklidir');
     }
   };
 
