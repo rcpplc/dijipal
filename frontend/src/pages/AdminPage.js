@@ -77,7 +77,16 @@ const AdminPage = () => {
     }
   };
 
-  if (user?.role !== 'admin') {
+  // Admin kontrolü - hem user hem de localStorage'dan kontrol et
+  const isAdmin = user?.role === 'admin';
+  const savedUser = localStorage.getItem('user');
+  const isAdminFromStorage = savedUser ? JSON.parse(savedUser)?.role === 'admin' : false;
+  
+  console.log('AdminPage - User:', user);
+  console.log('AdminPage - isAdmin:', isAdmin);
+  console.log('AdminPage - isAdminFromStorage:', isAdminFromStorage);
+  
+  if (!isAdmin && !isAdminFromStorage) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
@@ -86,6 +95,7 @@ const AdminPage = () => {
           <div className="text-sm text-gray-500 bg-gray-100 p-3 rounded">
             <p>Mevcut kullanıcı: {user?.email || 'Giriş yapılmamış'}</p>
             <p>Rol: {user?.role || 'Rol bilgisi yok'}</p>
+            <p>LocalStorage Rol: {savedUser ? JSON.parse(savedUser)?.role : 'Yok'}</p>
             <p>Beklenen rol: admin</p>
           </div>
         </div>
