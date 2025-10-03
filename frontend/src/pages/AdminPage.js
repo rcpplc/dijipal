@@ -1872,4 +1872,441 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   );
 };
 
+//Location Modal Component
+const LocationModal = ({ location, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: location?.name || '',
+    description: location?.description || '',
+    country: location?.country || 'Turkey',
+    is_active: location?.is_active !== undefined ? location.is_active : true
+  });
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      if (location) {
+        await axios.put(`${API}/admin/locations/${location.id}`, formData);
+        toast.success('Lokasyon güncellendi');
+      } else {
+        await axios.post(`${API}/admin/locations`, formData);
+        toast.success('Lokasyon eklendi');
+      }
+      onSave();
+      onClose();
+    } catch (error) {
+      console.error('Error saving location:', error);
+      toast.error(error.response?.data?.detail || 'Hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg max-w-md w-full">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-900">
+            {location ? 'Lokasyon Düzenle' : 'Yeni Lokasyon'}
+          </h2>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Lokasyon Adı *
+            </label>
+            <input
+              type="text"
+              value={formData.name}
+              onChange={(e) => setFormData({...formData, name: e.target.value})}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Açıklama
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              rows={3}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Ülke
+            </label>
+            <input
+              type="text"
+              value={formData.country}
+              onChange={(e) => setFormData({...formData, country: e.target.value})}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+            />
+          </div>
+
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={formData.is_active}
+              onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
+              className="mr-2"
+            />
+            <label className="text-sm text-gray-700">Aktif</label>
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-4 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+            >
+              İptal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg"
+            >
+              {loading ? 'Kaydediliyor...' : (location ? 'Güncelle' : 'Ekle')}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Category Modal Component
+const CategoryModal = ({ category, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: category?.name || '',
+    description: category?.description || '',
+    icon: category?.icon || '🏷️',
+    image: category?.image || '',
+    seo_title: category?.seo_title || '',
+    seo_description: category?.seo_description || '',
+    seo_keywords: category?.seo_keywords || '',
+    faq: category?.faq || [],
+    is_active: category?.is_active !== undefined ? category.is_active : true
+  });
+  const [loading, setLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [newFaq, setNewFaq] = useState({ question: '', answer: '' });
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    setUploadLoading(true);
+    try {
+      const formDataToUpload = new FormData();
+      formDataToUpload.append('file', file);
+
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload/image`, formDataToUpload, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+
+      setFormData(prev => ({
+        ...prev,
+        image: response.data.url
+      }));
+
+      toast.success('Resim başarıyla yüklendi');
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      toast.error('Resim yüklenirken hata oluştu');
+    } finally {
+      setUploadLoading(false);
+    }
+  };
+
+  const addFaq = () => {
+    if (newFaq.question && newFaq.answer) {
+      setFormData(prev => ({
+        ...prev,
+        faq: [...prev.faq, newFaq]
+      }));
+      setNewFaq({ question: '', answer: '' });
+    }
+  };
+
+  const removeFaq = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      faq: prev.faq.filter((_, i) => i !== index)
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      if (category) {
+        await axios.put(`${API}/admin/categories/${category.id}`, formData);
+        toast.success('Kategori güncellendi');
+      } else {
+        await axios.post(`${API}/admin/categories`, formData);
+        toast.success('Kategori eklendi');
+      }
+      onSave();
+      onClose();
+    } catch (error) {
+      console.error('Error saving category:', error);
+      toast.error(error.response?.data?.detail || 'Hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-xl font-bold text-gray-900">
+            {category ? 'Kategori Düzenle' : 'Yeni Kategori'}
+          </h2>
+        </div>
+        
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Basic Info */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kategori Adı *
+                </label>
+                <input
+                  type="text"
+                  value={formData.name}
+                  onChange={(e) => setFormData({...formData, name: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Icon/Emoji
+                </label>
+                <input
+                  type="text"
+                  value={formData.icon}
+                  onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="🏷️"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Açıklama
+                </label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({...formData, description: e.target.value})}
+                  rows={3}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+
+              <div className="flex items-center">
+                <input
+                  type="checkbox"
+                  checked={formData.is_active}
+                  onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
+                  className="mr-2"
+                />
+                <label className="text-sm text-gray-700">Aktif</label>
+              </div>
+            </div>
+
+            {/* Image */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kategori Görseli
+                </label>
+                <div className="space-y-3">
+                  {formData.image && (
+                    <div className="relative">
+                      <img
+                        src={formData.image}
+                        alt="Kategori"
+                        className="w-full h-32 object-cover rounded-lg"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setFormData({...formData, image: ''})}
+                        className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full text-xs"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    accept="image/*"
+                    onChange={handleImageUpload}
+                    className="hidden"
+                    id="category-image-upload"
+                    disabled={uploadLoading}
+                  />
+                  <label
+                    htmlFor="category-image-upload"
+                    className={`cursor-pointer inline-flex items-center space-x-2 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 ${
+                      uploadLoading ? 'opacity-50 cursor-not-allowed' : ''
+                    }`}
+                  >
+                    {uploadLoading ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-gray-600"></div>
+                        <span>Yükleniyor...</span>
+                      </>
+                    ) : (
+                      <>
+                        <span>📸</span>
+                        <span>Resim Yükle</span>
+                      </>
+                    )}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* SEO Section */}
+          <div className="border-t border-gray-200 pt-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">SEO Ayarları</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  SEO Başlık
+                </label>
+                <input
+                  type="text"
+                  value={formData.seo_title}
+                  onChange={(e) => setFormData({...formData, seo_title: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  SEO Anahtar Kelimeler
+                </label>
+                <input
+                  type="text"
+                  value={formData.seo_keywords}
+                  onChange={(e) => setFormData({...formData, seo_keywords: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="kelime1, kelime2, kelime3"
+                />
+              </div>
+            </div>
+            <div className="mt-4">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                SEO Açıklama
+              </label>
+              <textarea
+                value={formData.seo_description}
+                onChange={(e) => setFormData({...formData, seo_description: e.target.value})}
+                rows={3}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="border-t border-gray-200 pt-6">
+            <h3 className="text-lg font-medium text-gray-900 mb-4">Sık Sorulan Sorular (SSS)</h3>
+            
+            {/* Add FAQ */}
+            <div className="bg-gray-50 p-4 rounded-lg mb-4">
+              <div className="grid grid-cols-1 gap-3">
+                <input
+                  type="text"
+                  value={newFaq.question}
+                  onChange={(e) => setNewFaq({...newFaq, question: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Soru"
+                />
+                <textarea
+                  value={newFaq.answer}
+                  onChange={(e) => setNewFaq({...newFaq, answer: e.target.value})}
+                  rows={2}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                  placeholder="Cevap"
+                />
+                <button
+                  type="button"
+                  onClick={addFaq}
+                  disabled={!newFaq.question || !newFaq.answer}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium ${
+                    newFaq.question && newFaq.answer
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  SSS Ekle
+                </button>
+              </div>
+            </div>
+
+            {/* FAQ List */}
+            {formData.faq.length > 0 && (
+              <div className="space-y-3">
+                {formData.faq.map((faq, index) => (
+                  <div key={index} className="bg-white p-4 border border-gray-200 rounded-lg">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <div className="font-medium text-gray-900 mb-2">{faq.question}</div>
+                        <div className="text-gray-600 text-sm">{faq.answer}</div>
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => removeFaq(index)}
+                        className="text-red-600 hover:text-red-700 p-1"
+                      >
+                        🗑️
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
+            >
+              İptal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg"
+            >
+              {loading ? 'Kaydediliyor...' : (category ? 'Güncelle' : 'Ekle')}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default AdminPage;
