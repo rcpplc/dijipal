@@ -963,10 +963,23 @@ const TourDetailPage = () => {
                       })}
                     </div>
                     <div className="text-2xl font-bold text-blue-700">
-                      ₺{(selectedDate.price * Math.max(1, participants || 1)).toLocaleString('tr-TR')}
+                      ₺{(() => {
+                        const cabinPrice = cabinType === 'single' 
+                          ? (selectedDate.single_cabin_price || selectedDate.price)
+                          : (selectedDate.double_cabin_price || selectedDate.price);
+                        return (cabinPrice * Math.max(1, participants || 1)).toLocaleString('tr-TR');
+                      })()}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {Math.max(1, participants || 1)} kabin × ₺{selectedDate.price.toLocaleString('tr-TR')} + Vergiler
+                      {Math.max(1, participants || 1)} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+                    </p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      ₺{(() => {
+                        const cabinPrice = cabinType === 'single' 
+                          ? (selectedDate.single_cabin_price || selectedDate.price)
+                          : (selectedDate.double_cabin_price || selectedDate.price);
+                        return cabinPrice.toLocaleString('tr-TR');
+                      })()} × {Math.max(1, participants || 1)} kabin + Vergiler dahil
                     </p>
                   </div>
                 </div>
