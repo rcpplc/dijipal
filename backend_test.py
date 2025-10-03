@@ -502,7 +502,7 @@ class TourPlatformAPITester:
 
         # Test adding tour dates - this endpoint is expected to not exist
         tour_date_data = {
-            "date": "2025-03-01",
+            "date": "2025-12-25",
             "price": 399.0,
             "capacity": 20
         }
