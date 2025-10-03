@@ -959,7 +959,7 @@ const TourDetailPage = () => {
                       if (current < max) {
                         const newValue = current + 1;
                         console.log('Setting new participants value:', newValue);
-                        setParticipants(newValue);
+                        debugSetParticipants(newValue);
                       } else {
                         console.log('Cannot increase - at maximum:', current, '>=', max);
                       }
