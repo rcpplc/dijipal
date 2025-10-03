@@ -984,7 +984,7 @@ const TourDetailPage = () => {
                           ? (selectedDate.single_cabin_price || selectedDate.price)
                           : (selectedDate.double_cabin_price || selectedDate.price);
                         return cabinPrice.toLocaleString('tr-TR');
-                      })()} × {Number(participants)} kabin + Vergiler dahil
+                      })()} × {participants || 1} kabin + Vergiler dahil
                     </p>
                   </div>
                 </div>
