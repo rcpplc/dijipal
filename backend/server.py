@@ -412,12 +412,15 @@ async def pay_booking(booking_id: str, current_user: User = Depends(get_current_
     raise HTTPException(status_code=400, detail="Payment failed")
 
 # Review endpoints
+class ReviewCreate(BaseModel):
+    rating: int = Field(ge=1, le=5)
+    title: Optional[str] = None
+    comment: Optional[str] = None
+
 @api_router.post("/tours/{tour_id}/reviews")
 async def create_review(
     tour_id: str,
-    rating: int = Field(ge=1, le=5),
-    title: Optional[str] = None,
-    comment: Optional[str] = None,
+    review_data: ReviewCreate,
     current_user: User = Depends(get_current_user)
 ):
     # Check if user has booked this tour
