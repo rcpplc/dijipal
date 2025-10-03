@@ -195,8 +195,8 @@ const TourDetailPage = () => {
           const similarAvg = Math.round(
             similarTours.reduce((sum, search) => sum + search.participants, 0) / similarTours.length
           );
-          setSuggestedParticipants(similarAvg);
-          setParticipants(similarAvg);
+          setSuggestedParticipants(Math.max(1, similarAvg || 1));
+          setParticipants(Math.max(1, similarAvg || 1));
           
           console.log(`Önerilen katılımcı sayısı: ${similarAvg} (${similarTours.length} benzer tura dayanarak)`);
         } else if (avgParticipants && avgParticipants !== 1) {
