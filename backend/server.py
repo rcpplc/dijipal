@@ -940,7 +940,7 @@ async def seed_sample_data():
             "duration_hours": 6,
             "base_price": 299.00,
             "max_participants": 15,
-            "category": TourCategory.HISTORICAL,
+            "category": "historical",
             "status": TourStatus.ACTIVE,
             "images": [
                 "https://images.unsplash.com/photo-1613381234024-4e0bdcaf86ce",
