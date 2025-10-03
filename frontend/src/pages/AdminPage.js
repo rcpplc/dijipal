@@ -1562,11 +1562,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     program_details: tour?.program_details || '',
     cancellation_policy: tour?.cancellation_policy || '',
     tags: tour?.tags || [],
-    tour_dates: tour?.tour_dates ? tour.tour_dates.map(date => ({
-      ...date,
-      single_cabin_price: date.single_cabin_price || date.price || 0,
-      double_cabin_price: date.double_cabin_price || date.price || 0
-    })) : []
+    tour_dates: tour?.tour_dates || []
   });
   
   const [loading, setLoading] = useState(false);
