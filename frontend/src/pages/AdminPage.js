@@ -682,33 +682,61 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   };
 
   const handleImageUpload = async (event) => {
-    const file = event.target.files[0];
-    if (!file) return;
+    const files = Array.from(event.target.files);
+    if (!files.length) return;
 
     setUploadLoading(true);
     try {
-      const formData = new FormData();
-      formData.append('file', file);
+      const uploadPromises = files.map(async (file) => {
+        const formDataToUpload = new FormData();
+        formDataToUpload.append('file', file);
 
-      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload/image`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
+        const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/upload/image`, formDataToUpload, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        return {
+          url: response.data.url,
+          filename: file.name,
+          isPrimary: false
+        };
       });
 
-      // Add uploaded image URL to images array
+      const uploadedImages = await Promise.all(uploadPromises);
+      
+      // Add uploaded images to images array
       setFormData(prev => ({
         ...prev,
-        images: [...prev.images, response.data.url]
+        images: [...prev.images, ...uploadedImages.map(img => img.url)]
       }));
 
-      toast.success('Resim başarıyla yüklendi');
+      toast.success(`${uploadedImages.length} resim başarıyla yüklendi`);
+      
+      // Reset file input
+      event.target.value = '';
     } catch (error) {
-      console.error('Error uploading image:', error);
-      toast.error('Resim yüklenirken hata oluştu');
+      console.error('Error uploading images:', error);
+      toast.error('Resimler yüklenirken hata oluştu');
     } finally {
       setUploadLoading(false);
     }
+  };
+
+  const moveImage = (fromIndex, toIndex) => {
+    const newImages = [...formData.images];
+    const [movedImage] = newImages.splice(fromIndex, 1);
+    newImages.splice(toIndex, 0, movedImage);
+    setFormData({...formData, images: newImages});
+  };
+
+  const setAsPrimaryImage = (index) => {
+    const newImages = [...formData.images];
+    const [primaryImage] = newImages.splice(index, 1);
+    newImages.unshift(primaryImage);
+    setFormData({...formData, images: newImages});
+    toast.success('Ana resim olarak ayarlandı');
   };
 
   return (
