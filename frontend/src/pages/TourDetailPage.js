@@ -922,7 +922,12 @@ const TourDetailPage = () => {
                     </div>
                     {selectedDate && (
                       <div className="text-sm text-gray-600">
-                        ₺{(selectedDate.price * Math.max(1, participants || 1)).toLocaleString('tr-TR')} toplam
+                        ₺{(() => {
+                          const cabinPrice = cabinType === 'single' 
+                            ? (selectedDate.single_cabin_price || selectedDate.price)
+                            : (selectedDate.double_cabin_price || selectedDate.price);
+                          return (cabinPrice * Math.max(1, participants || 1)).toLocaleString('tr-TR');
+                        })()} toplam
                       </div>
                     )}
                   </div>
