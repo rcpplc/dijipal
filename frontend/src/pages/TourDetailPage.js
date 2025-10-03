@@ -39,8 +39,13 @@ const TourDetailPage = () => {
   useEffect(() => {
     loadTour();
     loadReviews();
-    loadAvailableDates();
-  }, [tourId]);
+    if (tourId) {
+      loadAvailableDates();
+      if (user) {
+        checkIfFavorited();
+      }
+    }
+  }, [tourId, user]);
 
   const loadTour = async () => {
     try {
