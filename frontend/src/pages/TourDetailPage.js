@@ -697,7 +697,7 @@ const TourDetailPage = () => {
                   }
                   <span className="text-lg font-normal text-gray-600 ml-1"> den başlayan</span>
                 </div>
-                <p className="text-sm text-gray-500">Vergiler dahil • Kişi başı fiyat</p>
+                <p className="text-sm text-gray-500">Vergiler dahil • Kabin başı fiyat</p>
               </div>
 
               {/* Date Selection */}
