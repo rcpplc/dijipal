@@ -144,6 +144,22 @@ const TourDetailPage = () => {
     }
   };
 
+  const loadUserPreferences = async () => {
+    try {
+      const response = await axios.get(`${API}/user/preferences`);
+      const preferences = response.data;
+      
+      // Suggest participants based on user's booking history
+      if (preferences.average_participants) {
+        setSuggestedParticipants(preferences.average_participants);
+        setParticipants(preferences.average_participants);
+      }
+    } catch (error) {
+      console.error('Error loading user preferences:', error);
+      // Silently fail - this is not critical functionality
+    }
+  };
+
   const handleBooking = () => {
     if (!user) {
       setShowLoginModal(true);
