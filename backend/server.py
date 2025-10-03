@@ -498,12 +498,17 @@ async def create_booking(booking_data: BookingCreate, current_user: User = Depen
     if not tour_date:
         raise HTTPException(status_code=404, detail="Tour date not found")
     
-    # Check availability
-    if tour_date["available_spots"] < booking_data.participants:
-        raise HTTPException(status_code=400, detail="Not enough spots available")
+    # Check cabin availability  
+    if tour_date["available_cabins"] < booking_data.participants:
+        raise HTTPException(status_code=400, detail="Not enough cabins available")
     
-    # Calculate price
-    total_price = (tour_date.get("price") or tour["base_price"]) * booking_data.participants
+    # Calculate price based on cabin type
+    if booking_data.cabin_type == "double":
+        cabin_price = tour_date.get("double_cabin_price") or tour["base_price"]
+    else:
+        cabin_price = tour_date.get("single_cabin_price") or tour["base_price"]
+    
+    total_price = cabin_price * booking_data.participants
     
     # Create booking
     booking = Booking(
