@@ -259,6 +259,18 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
           agent: "main"
           comment: "Rezervasyon sayfasında seçilen tarih tasarımı sepetteki gibi mavi kutu içine alındı. Tasarım tutarlılığı sağlandı."
 
+  - task: "Admin panel location management"
+    implemented: true
+    working: "unknown"
+    file: "AdminPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "testing"
+          comment: "Admin panel lokasyon düzenleme özelliklerini test etmek için eklendi. Modal form, güncelleme işlemi, toast mesajları ve status toggle işlevlerini test edilecek."
+
 ## agent_communication:
     - agent: "main"
       message: "Sepet ve rezervasyon sayfalarında tarih bilgisi gösterilmemesi sorununu çözdüm. TourDetailPage'de tarih seçimi zorunlu hale getirdim, CartPage'de seçilen tarihi gösteriyorum, BookingPage'de URL parametrelerinden tarih bilgisini alıp rezervasyon özetinde gösteriyorum. Şimdi test edilmesi gerekiyor."
@@ -268,3 +280,5 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
       message: "Tüm ana sorunlar çözüldü: ✅ Sepet/rezervasyon tarih sorunu, ✅ Admin panel erişimi (troubleshoot_agent ile race condition çözüldü), ✅ Rezervasyon tasarım uyumu, ✅ Favoriler sistemi backend entegrasyonu tamamlandı (ToursPage, TourDetailPage, FavoritesPage). Favoriler frontend testine hazır."
     - agent: "main"
       message: "Admin panel iyileştirmeleri tamamlandı: ✅ Tur durumu (taslak/aktif/pasif/arşiv) düzeltildi, ✅ Kullanıcı yönetimi sayfası eklendi (user listesi, status toggle), ✅ Resim upload sistemi eklendi (file upload + URL), ✅ Backend API endpoints eklendi (/admin/users, /upload/image, /admin/users/{id}/status). Test edilmeye hazır."
+    - agent: "testing"
+      message: "Admin panel lokasyon düzenleme özelliklerini test etmeye başlıyorum. Test senaryoları: admin girişi, lokasyonlar tab'ına gitme, düzenle butonu, modal form kontrolü, güncelleme işlemi, toast mesajları ve status toggle."
