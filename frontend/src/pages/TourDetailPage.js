@@ -26,7 +26,9 @@ const TourDetailPage = () => {
   const { user, setShowLoginModal } = useAuth();
   const navigate = useNavigate();
   const [tour, setTour] = useState(null);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
   const [participants, setParticipants] = useState(2);
   const [isFavorited, setIsFavorited] = useState(false);
