@@ -224,7 +224,15 @@ const AdminPage = () => {
     }
   };
 
-  const openTourModal = (tour = null) => {
+  const openTourModal = async (tour = null) => {
+    // Ensure locations and categories are loaded before opening modal
+    if (!locations || locations.length === 0) {
+      await loadLocations();
+    }
+    if (!categories || categories.length === 0) {
+      await loadCategories();
+    }
+    
     setEditingTour(tour);
     setShowTourModal(true);
   };
