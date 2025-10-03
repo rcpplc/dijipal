@@ -144,19 +144,71 @@ const TourDetailPage = () => {
     }
   };
 
-  const loadUserPreferences = async () => {
+  // User behavior tracking functions
+  const getUserSearchHistory = () => {
     try {
-      const response = await axios.get(`${API}/user/preferences`);
-      const preferences = response.data;
+      const history = localStorage.getItem('tourSearchHistory');
+      return history ? JSON.parse(history) : [];
+    } catch (error) {
+      console.error('Error reading search history:', error);
+      return [];
+    }
+  };
+
+  const saveSearchBehavior = (tourId, participants, priceRange) => {
+    try {
+      const history = getUserSearchHistory();
+      const searchData = {
+        tourId,
+        participants,
+        priceRange,
+        timestamp: new Date().toISOString(),
+        category: tour?.category,
+        location: tour?.location
+      };
       
-      // Suggest participants based on user's booking history
-      if (preferences.average_participants) {
-        setSuggestedParticipants(preferences.average_participants);
-        setParticipants(preferences.average_participants);
+      // Keep last 20 searches
+      const updatedHistory = [searchData, ...history.slice(0, 19)];
+      localStorage.setItem('tourSearchHistory', JSON.stringify(updatedHistory));
+    } catch (error) {
+      console.error('Error saving search behavior:', error);
+    }
+  };
+
+  const loadUserPreferences = () => {
+    try {
+      const history = getUserSearchHistory();
+      
+      if (history.length > 0) {
+        // Calculate average participants from recent searches
+        const recentSearches = history.slice(0, 10); // Last 10 searches
+        const avgParticipants = Math.round(
+          recentSearches.reduce((sum, search) => sum + search.participants, 0) / recentSearches.length
+        );
+        
+        // Similar tours preference (same category or location)
+        const similarTours = history.filter(search => 
+          search.category === tour?.category || search.location === tour?.location
+        ).slice(0, 5);
+        
+        if (similarTours.length > 0) {
+          const similarAvg = Math.round(
+            similarTours.reduce((sum, search) => sum + search.participants, 0) / similarTours.length
+          );
+          setSuggestedParticipants(similarAvg);
+          setParticipants(similarAvg);
+          
+          console.log(`Önerilen katılımcı sayısı: ${similarAvg} (${similarTours.length} benzer tura dayanarak)`);
+        } else if (avgParticipants && avgParticipants !== 1) {
+          setSuggestedParticipants(avgParticipants);
+          setParticipants(avgParticipants);
+          
+          console.log(`Önerilen katılımcı sayısı: ${avgParticipants} (geçmiş aramalarınıza dayanarak)`);
+        }
       }
     } catch (error) {
       console.error('Error loading user preferences:', error);
-      // Silently fail - this is not critical functionality
+      // Silently fail - default to 1 participant
     }
   };
 
