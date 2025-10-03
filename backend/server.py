@@ -1453,7 +1453,8 @@ async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for specified tour"""
     
     # Delete existing tour dates for this tour
-    await db.tour_dates.delete_many({"tour_id": tour_id})
+    result = await db.tour_dates.delete_many({"tour_id": tour_id})
+    print(f"Deleted {result.deleted_count} existing tour dates for tour {tour_id}")
     
     # Add new tour dates with different cabin pricing
     test_dates = [
