@@ -817,9 +817,9 @@ const TourDetailPage = () => {
                 </div>
                 <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <button
-                    onClick={() => setParticipants(Math.max(1, participants - 1))}
+                    onClick={() => setParticipants(Math.max(1, Math.max(1, participants || 1) - 1))}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                    disabled={participants <= 1}
+                    disabled={Math.max(1, participants || 1) <= 1}
                   >
                     -
                   </button>
