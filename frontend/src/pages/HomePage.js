@@ -497,11 +497,25 @@ const HomePage = () => {
 
                   <div className="flex items-center justify-between">
                     <div className="text-2xl font-bold text-blue-600">
-                      {tour.tour_dates && tour.tour_dates.length > 0 
-                        ? `₺${Math.min(...tour.tour_dates.map(date => date.price))}` 
-                        : `₺${tour.base_price || 0}`}
+                      {(() => {
+                        if (tour.minimum_price) {
+                          return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+                        } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+                          // Fallback: calculate from tour dates
+                          const allPrices = tour.tour_dates.flatMap(date => [
+                            date.single_cabin_price || 0,
+                            date.double_cabin_price || 0
+                          ]).filter(price => price > 0);
+                          
+                          return allPrices.length > 0 
+                            ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
+                            : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+                        } else {
+                          return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+                        }
+                      })()}
                       <span className="text-sm font-normal text-gray-600 ml-1">
-                        /kabin
+                        den başlayan
                       </span>
                     </div>
 
