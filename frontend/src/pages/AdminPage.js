@@ -872,6 +872,44 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Görsel URL'leri
             </label>
+            
+            {/* Image Upload */}
+            <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg">
+              <div className="text-center">
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleImageUpload}
+                  className="hidden"
+                  id="image-upload"
+                  disabled={uploadLoading}
+                />
+                <label
+                  htmlFor="image-upload"
+                  className={`cursor-pointer inline-flex items-center space-x-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
+                    uploadLoading 
+                      ? 'bg-gray-400 cursor-not-allowed' 
+                      : 'bg-blue-600 hover:bg-blue-700'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                >
+                  {uploadLoading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Yükleniyor...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>📁</span>
+                      <span>Resim Yükle</span>
+                    </>
+                  )}
+                </label>
+                <p className="mt-2 text-sm text-gray-600">
+                  veya URL ile ekle
+                </p>
+              </div>
+            </div>
+
             <div className="space-y-2">
               {formData.images.map((image, index) => (
                 <div key={index} className="flex items-center space-x-2">
