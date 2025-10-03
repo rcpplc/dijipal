@@ -183,9 +183,21 @@ function App() {
               />
               <Route 
                 path="/admin" 
-                element={
-                  user && user.role === 'admin' ? <AdminPage /> : <Navigate to="/" replace />
-                } 
+                element={(() => {
+                  const isAdminFromState = user && user.role === 'admin';
+                  const savedUser = localStorage.getItem('user');
+                  const isAdminFromStorage = savedUser ? JSON.parse(savedUser)?.role === 'admin' : false;
+                  
+                  console.log('Admin Route Check:', {
+                    user: user?.email,
+                    role: user?.role,
+                    isAdminFromState,
+                    isAdminFromStorage,
+                    token: !!token
+                  });
+                  
+                  return (isAdminFromState || isAdminFromStorage) ? <AdminPage /> : <Navigate to="/" replace />;
+                })()}
               />
             </Routes>
           </main>
