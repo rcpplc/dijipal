@@ -169,6 +169,18 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
           agent: "testing"
           comment: "Favorites system backend endpoints mevcut: POST /api/favorites/{tour_id} (add), DELETE /api/favorites/{tour_id} (remove), GET /api/favorites (list), GET /api/favorites/check/{tour_id} (check status). Authentication gerekli."
 
+  - task: "Admin tour management with new fields"
+    implemented: true
+    working: true
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "testing"
+          comment: "Admin tour management system tested comprehensively. ✅ Admin tour creation with new fields (pickup_time, dropoff_time, classification) works correctly. ✅ Tour dates are created successfully during tour creation with explicit prices. ✅ Admin tour update (PUT /api/admin/tours/{id}) works with new field structure. ✅ Tour listing shows proper minimum price calculation from tour_dates. ✅ Backward compatibility maintained - tours support both old and new field structures. ⚠️ POST /api/tours/{id}/dates endpoint not implemented (405 Method Not Allowed) - tour dates can only be added during tour creation. Fixed minor bug in tour_dates creation (removed invalid max_participants field). Success rate: 92.9% (13/14 tests passed)."
+
 ## frontend:
   - task: "Cart page tour date display"
     implemented: true
