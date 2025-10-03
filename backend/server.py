@@ -404,6 +404,24 @@ async def get_tours(
             tour["rating"] = 0
             tour["review_count"] = 0
         
+        # Calculate minimum price from all cabin options
+        if tour_dates:
+            all_prices = []
+            for date in tour_dates:
+                if date.get("single_cabin_price"):
+                    all_prices.append(date["single_cabin_price"])
+                if date.get("double_cabin_price"):
+                    all_prices.append(date["double_cabin_price"])
+                if date.get("price") and not date.get("single_cabin_price"):
+                    all_prices.append(date["price"])  # Fallback for old data
+            
+            if all_prices:
+                tour["minimum_price"] = min(all_prices)
+            else:
+                tour["minimum_price"] = tour.get("base_price", 0)
+        else:
+            tour["minimum_price"] = tour.get("base_price", 0)
+        
         result_tours.append(tour)
     
     return result_tours
