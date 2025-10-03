@@ -1682,12 +1682,13 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
-    if (newTourDate.date && newTourDate.price && newTourDate.capacity) {
+    if (newTourDate.date && newTourDate.capacity && newTourDate.single_cabin_price && newTourDate.double_cabin_price) {
       const newDate = {
         id: Date.now().toString(),
         date: newTourDate.date,
-        price: parseFloat(newTourDate.price),
         capacity: parseInt(newTourDate.capacity),
+        single_cabin_price: parseFloat(newTourDate.single_cabin_price),
+        double_cabin_price: parseFloat(newTourDate.double_cabin_price),
         is_active: true
       };
       
@@ -1696,10 +1697,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
         tour_dates: [...prev.tour_dates, newDate]
       }));
       
-      setNewTourDate({ date: '', price: '', capacity: '' });
-      toast.success('Tarih başarıyla eklendi!');
+      setNewTourDate({ date: '', capacity: '', single_cabin_price: '', double_cabin_price: '' });
+      toast.success('Kabin fiyatları başarıyla eklendi!');
     } else {
-      toast.error('Lütfen tüm alanları doldurun: tarih, fiyat ve kapasite gereklidir');
+      toast.error('Lütfen tüm alanları doldurun: tarih, kabin kapasitesi, tek kabin fiyatı ve çift kabin fiyatı');
     }
   };
 
