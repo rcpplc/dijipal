@@ -760,6 +760,8 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
                 "id": date["id"],
                 "date": date["start_date"],
                 "price": date["price"],
+                "single_cabin_price": date.get("single_cabin_price", date.get("price", 0)),
+                "double_cabin_price": date.get("double_cabin_price", date.get("price", 0)),
                 "capacity": date["available_spots"],
                 "is_active": date.get("is_active", True)
             })
