@@ -343,9 +343,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
 
   - task: "Admin panel cabin pricing bug fix"
     implemented: true
-    working: true
+    working: false
     file: "AdminPage.js, server.py, LoginModal.js"
-    stuck_count: 1
+    stuck_count: 2
     priority: "high"
     needs_retesting: false
     status_history:
@@ -361,6 +361,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "testing"
           comment: "✅ FRONTEND LOGIN ISSUE RESOLVED: Admin panel cabin pricing functionality is now working correctly. Minimal test completed successfully: ✅ Admin login (admin@example.com/admin123) works properly - login form submission triggers /api/auth/login API calls, user data and token stored in localStorage correctly. ✅ Admin panel (/admin URL) loads successfully showing dashboard with proper admin navigation tabs. ✅ Tours tab is accessible and functional. ✅ Admin panel shows 'Test Admin User' in header, confirming authentication. ✅ Console logs show proper authentication flow: 'Login Response - User Data: {role: admin}', 'Admin Route Check: {isAdminFromState: true, isAdminFromStorage: true}'. The previous login failure was likely a temporary session issue. Admin panel cabin pricing functionality is accessible and ready for use."
+        - working: false
+          agent: "testing"
+          comment: "🚨 KABIN FİYAT SORUNU REPRODUCE EDİLDİ: Kullanıcının bildirdiği sorun doğrulandı. API testi ile tespit edilen durum: GET /api/admin/tours endpoint'inden dönen tour_dates verisinde single_cabin_price ve double_cabin_price alanları aynı değeri gösteriyor (örnek: single_cabin_price: 14000, double_cabin_price: 14000). Bu, kullanıcının bahsettiği 'Tek kabin ₺12,000, Çift kabin ₺18,000 girdiğinde her ikisinin de ₺12,000 olarak görünme' sorununu doğruluyor. ✅ Admin panel erişimi çalışıyor, ✅ Login sistemi çalışıyor, ❌ Kabin fiyat ayrımı çalışmıyor - her iki kabin tipi için aynı fiyat gösteriliyor. Sorun backend'de tour_dates oluşturma/güncelleme sırasında double_cabin_price değerinin single_cabin_price ile aynı değere set edilmesi."
 
 ## agent_communication:
     - agent: "main"
