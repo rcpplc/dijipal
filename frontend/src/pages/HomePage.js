@@ -257,7 +257,7 @@ const HomePage = () => {
             {categories.map((category) => (
               <Link
                 key={category.value}
-                to={`/tours?category=${category.value}`}
+                to={`/category/${category.value}`}
                 className="group bg-white rounded-xl p-6 text-center hover:shadow-lg transition-all duration-300 transform hover:-translate-y-2 border border-gray-100"
               >
                 <div className="text-4xl mb-4 group-hover:scale-110 transition-transform duration-200">
