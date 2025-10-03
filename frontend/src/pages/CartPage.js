@@ -37,9 +37,15 @@ const CartPage = () => {
     localStorage.setItem('tour_cart', JSON.stringify(items));
   };
 
-  const updateQuantity = (tourId, newQuantity) => {
+  const updateQuantity = (tourId, newQuantity, maxCapacity = 20) => {
     if (newQuantity <= 0) {
       removeItem(tourId);
+      return;
+    }
+
+    // Kapasite kontrolü
+    if (newQuantity > maxCapacity) {
+      toast.error(`Maksimum ${maxCapacity} kabin seçebilirsiniz`);
       return;
     }
 
