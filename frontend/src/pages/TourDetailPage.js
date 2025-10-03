@@ -51,6 +51,9 @@ const TourDetailPage = () => {
       if (user) {
         checkIfFavorited();
       }
+      
+      // Load user preferences and suggest participants
+      loadUserPreferences();
     }
   }, [tourId, user]);
 
