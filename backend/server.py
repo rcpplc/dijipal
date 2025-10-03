@@ -763,7 +763,23 @@ async def seed_sample_data():
                 if not existing_review:
                     await db.reviews.insert_one(sample_review)
 
-    return {"message": "Sample data, tour dates, and reviews added successfully"}
+    # Create admin user
+    admin_email = "admin@turplatform.com"
+    existing_admin = await db.users.find_one({"email": admin_email})
+    if not existing_admin:
+        admin_user = {
+            "id": str(uuid.uuid4()),
+            "email": admin_email,
+            "full_name": "Admin Kullanıcı",
+            "phone": "05551234567",
+            "role": UserRole.ADMIN,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("admin123")
+        }
+        await db.users.insert_one(admin_user)
+
+    return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
 # Include router
 app.include_router(api_router)
