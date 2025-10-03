@@ -612,7 +612,7 @@ const BookingPage = () => {
                 <div className="border-t border-gray-100 pt-4 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">
-                      {participants} × ₺{tour.base_price}
+                      {participants} × ₺{unitPrice}
                     </span>
                     <span className="font-medium">₺{totalPrice}</span>
                   </div>
