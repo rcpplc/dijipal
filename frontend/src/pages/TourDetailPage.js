@@ -808,7 +808,7 @@ const TourDetailPage = () => {
                   </label>
                   {suggestedParticipants && suggestedParticipants !== participants && (
                     <button
-                      onClick={() => setParticipants(suggestedParticipants)}
+                      onClick={() => setParticipants(Math.max(1, suggestedParticipants || 1))}
                       className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full hover:bg-blue-200 transition-colors"
                     >
                       🤖 Önerilen: {suggestedParticipants} kişi
