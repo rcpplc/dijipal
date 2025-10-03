@@ -537,12 +537,46 @@ async def seed_sample_data():
     ]
     
     # Insert sample data
+    tour_ids = []
     for tour in sample_tours:
         existing = await db.tours.find_one({"title": tour["title"]})
         if not existing:
             await db.tours.insert_one(tour)
+            tour_ids.append(tour["id"])
+        else:
+            tour_ids.append(existing["id"])
     
-    return {"message": "Sample data added successfully"}
+    # Create sample tour dates for each tour
+    from datetime import date, timedelta
+    today = date.today()
+    
+    for tour_id in tour_ids:
+        # Create dates for the next 30 days
+        for i in range(0, 30, 3):  # Every 3 days
+            tour_date_id = str(uuid.uuid4())
+            start_date = today + timedelta(days=i+1)
+            
+            tour_date = {
+                "id": tour_date_id,
+                "tour_id": tour_id,
+                "start_date": start_date.isoformat(),
+                "end_date": None,
+                "start_time": "09:00",
+                "available_spots": 10,
+                "price": None,  # Will use tour base price
+                "is_active": True,
+                "created_at": datetime.utcnow()
+            }
+            
+            # Check if tour date already exists
+            existing_date = await db.tour_dates.find_one({
+                "tour_id": tour_id,
+                "start_date": start_date.isoformat()
+            })
+            if not existing_date:
+                await db.tour_dates.insert_one(tour_date)
+    
+    return {"message": "Sample data and tour dates added successfully"}
 
 # Include router
 app.include_router(api_router)
