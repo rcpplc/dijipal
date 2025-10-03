@@ -146,7 +146,7 @@ class Booking(BaseModel):
     tour_id: str
     tour_date_id: str
     participants: int
-    total_price: Decimal
+    total_price: float
     customer_info: Dict[str, Any]
     special_requests: Optional[str] = None
     booking_status: BookingStatus = BookingStatus.DRAFT
