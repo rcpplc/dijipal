@@ -15,7 +15,7 @@ from enum import Enum
 import jwt
 from passlib.context import CryptContext
 import asyncio
-from decimal import Decimal
+# from decimal import Decimal
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
