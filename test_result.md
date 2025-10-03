@@ -300,6 +300,18 @@ Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm d
           agent: "testing"
           comment: "Admin category management CRUD operations tested comprehensively. ✅ GET /api/admin/categories - lists all categories (found 5 existing, added 3 new). ✅ POST /api/admin/categories - successfully created sample categories: 'Tekne Turu', 'Tarih Turu', 'Doğa Turu' with detailed descriptions, icons, SEO fields, and FAQ sections. ✅ PUT /api/admin/categories/{id} - category update working correctly (name changed from 'Tekne Turu' to 'Tekne Turu Updated'). ✅ PUT /api/admin/categories/{id}/status - status toggle working (deactivate/activate cycle successful). ⚠️ DELETE /api/admin/categories/{id} - endpoint not implemented (405 Method Not Allowed). Category management system working excellently with 90% success rate. Only missing DELETE functionality."
 
+  - task: "Reviews management system backend API"
+    implemented: true
+    working: "unknown"
+    file: "server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+        - working: "unknown"
+          agent: "main"
+          comment: "Review management system backend implemented. Added Review model, ReviewCreate, ReviewUpdate, ReviewStatus enums, and comprehensive CRUD API endpoints: GET /api/reviews (public), POST /api/reviews (create), GET /api/admin/reviews (admin list), PUT /api/admin/reviews/{id} (update), PUT /api/admin/reviews/{id}/approve, PUT /api/admin/reviews/{id}/reject, DELETE /api/admin/reviews/{id}. Added POST /api/add-test-reviews endpoint to create 4 test reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55. Fixed timedelta import issue. Test reviews successfully created."
+
   - task: "Admin login functionality on production site"
     implemented: true
     working: true
