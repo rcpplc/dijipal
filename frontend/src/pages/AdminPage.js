@@ -1201,6 +1201,29 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }));
   };
 
+  const editTourDate = (index) => {
+    const tourDate = formData.tour_dates[index];
+    setNewTourDate({
+      date: tourDate.date,
+      price: tourDate.price.toString(),
+      capacity: tourDate.capacity.toString()
+    });
+    // Remove the old one so user can add the edited version
+    removeTourDate(index);
+    toast.info('Tarih bilgileri düzenleme için forma yüklendi');
+  };
+
+  const toggleTourDateStatus = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      tour_dates: prev.tour_dates.map((date, i) => 
+        i === index 
+          ? { ...date, is_active: date.is_active === false ? true : false }
+          : date
+      )
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
