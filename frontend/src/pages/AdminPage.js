@@ -29,6 +29,8 @@ const AdminPage = () => {
   const [selectedTour, setSelectedTour] = useState(null);
   const [tours, setTours] = useState([]);
   const [users, setUsers] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [categories, setCategories] = useState([]);
   const [tourLoading, setTourLoading] = useState(false);
 
   useEffect(() => {
