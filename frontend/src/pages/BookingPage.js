@@ -600,9 +600,9 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                {/* Seçilen Tarih */}
-                {formattedSelectedDate && (
-                  <div className="border-t border-gray-100 pt-3 mt-3">
+                {/* Seçilen Tarih ve Kabin */}
+                <div className="border-t border-gray-100 pt-3 mt-3 space-y-2">
+                  {formattedSelectedDate && (
                     <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
                       <div className="flex items-center space-x-2 text-sm">
                         <Calendar className="w-4 h-4 text-blue-600" />
@@ -611,8 +611,17 @@ const BookingPage = () => {
                         </span>
                       </div>
                     </div>
+                  )}
+                  
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Users className="w-4 h-4 text-green-600" />
+                      <span className="font-medium text-green-800">
+                        {participants} × {cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
+                      </span>
+                    </div>
                   </div>
-                )}
+                </div>
 
                 <div className="border-t border-gray-100 pt-4 space-y-2">
                   <div className="flex justify-between text-sm">
