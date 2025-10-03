@@ -1204,6 +1204,232 @@ async def seed_sample_data():
 
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
+# Reviews Management
+class ReviewCreate(BaseModel):
+    tour_id: str
+    rating: int = Field(ge=1, le=5)
+    title: Optional[str] = None
+    comment: Optional[str] = None
+    images: List[str] = []
+
+class ReviewUpdate(BaseModel):
+    rating: Optional[int] = Field(None, ge=1, le=5)
+    title: Optional[str] = None
+    comment: Optional[str] = None
+    is_verified: Optional[bool] = None
+
+class ReviewStatus(str, Enum):
+    PENDING = "pending"
+    APPROVED = "approved"
+    REJECTED = "rejected"
+
+class ReviewWithDetails(BaseModel):
+    id: str
+    user_id: str
+    tour_id: str
+    booking_id: Optional[str] = None
+    rating: int
+    title: Optional[str] = None
+    comment: Optional[str] = None
+    images: List[str] = []
+    is_verified: bool
+    status: str = "pending"
+    created_at: datetime
+    
+    # Additional details
+    user_name: Optional[str] = None
+    user_email: Optional[str] = None
+    tour_title: Optional[str] = None
+
+# Review endpoints
+@api_router.get("/reviews")
+async def get_reviews(
+    tour_id: Optional[str] = Query(None),
+    verified_only: bool = Query(True),
+    limit: int = Query(10, ge=1, le=100)
+):
+    """Get public reviews for a tour"""
+    query = {}
+    if tour_id:
+        query["tour_id"] = tour_id
+    if verified_only:
+        query["is_verified"] = True
+    
+    reviews = await db.reviews.find(query).sort("created_at", -1).limit(limit).to_list(length=None)
+    
+    # Add user names to reviews
+    enriched_reviews = []
+    for review in reviews:
+        user = await db.users.find_one({"id": review["user_id"]})
+        review_data = Review(**review)
+        review_dict = review_data.dict()
+        review_dict["user_name"] = user.get("full_name", "Anonim") if user else "Anonim"
+        enriched_reviews.append(review_dict)
+    
+    return enriched_reviews
+
+@api_router.post("/reviews", response_model=Review)
+async def create_review(review_data: ReviewCreate, current_user: User = Depends(get_current_user)):
+    """Create a new review"""
+    # Check if tour exists
+    tour = await db.tours.find_one({"id": review_data.tour_id})
+    if not tour:
+        raise HTTPException(status_code=404, detail="Tour not found")
+    
+    # Check if user has already reviewed this tour
+    existing_review = await db.reviews.find_one({
+        "user_id": current_user.id,
+        "tour_id": review_data.tour_id
+    })
+    if existing_review:
+        raise HTTPException(status_code=400, detail="You have already reviewed this tour")
+    
+    review = Review(
+        user_id=current_user.id,
+        tour_id=review_data.tour_id,
+        booking_id="",  # Will be set if from booking
+        rating=review_data.rating,
+        title=review_data.title,
+        comment=review_data.comment,
+        images=review_data.images,
+        is_verified=False  # Admin needs to verify
+    )
+    
+    review_dict = review.dict()
+    review_dict["status"] = "pending"
+    await db.reviews.insert_one(review_dict)
+    
+    return review
+
+# Admin Review Management
+@api_router.get("/admin/reviews")
+async def admin_get_all_reviews(
+    current_user: User = Depends(get_current_user),
+    status: Optional[str] = Query(None),
+    tour_id: Optional[str] = Query(None),
+    limit: int = Query(50, ge=1, le=200)
+):
+    """Get all reviews for admin management"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    query = {}
+    if status:
+        if status == "pending":
+            query["is_verified"] = False
+            query["status"] = {"$ne": "rejected"}
+        elif status == "approved":
+            query["is_verified"] = True
+        elif status == "rejected":
+            query["status"] = "rejected"
+    
+    if tour_id:
+        query["tour_id"] = tour_id
+    
+    reviews = await db.reviews.find(query).sort("created_at", -1).limit(limit).to_list(length=None)
+    
+    # Enrich with user and tour details
+    enriched_reviews = []
+    for review in reviews:
+        user = await db.users.find_one({"id": review["user_id"]})
+        tour = await db.tours.find_one({"id": review["tour_id"]})
+        
+        review_with_details = ReviewWithDetails(
+            **review,
+            user_name=user.get("full_name", "Unknown") if user else "Unknown",
+            user_email=user.get("email", "") if user else "",
+            tour_title=tour.get("title", "Unknown Tour") if tour else "Unknown Tour"
+        )
+        enriched_reviews.append(review_with_details)
+    
+    return enriched_reviews
+
+@api_router.put("/admin/reviews/{review_id}")
+async def admin_update_review(
+    review_id: str, 
+    review_data: ReviewUpdate, 
+    current_user: User = Depends(get_current_user)
+):
+    """Update review details (admin only)"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    review = await db.reviews.find_one({"id": review_id})
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    update_data = {}
+    if review_data.rating is not None:
+        update_data["rating"] = review_data.rating
+    if review_data.title is not None:
+        update_data["title"] = review_data.title
+    if review_data.comment is not None:
+        update_data["comment"] = review_data.comment
+    if review_data.is_verified is not None:
+        update_data["is_verified"] = review_data.is_verified
+        update_data["status"] = "approved" if review_data.is_verified else "pending"
+    
+    if update_data:
+        update_data["updated_at"] = datetime.now(timezone.utc)
+        await db.reviews.update_one({"id": review_id}, {"$set": update_data})
+    
+    return {"message": "Review updated successfully"}
+
+@api_router.put("/admin/reviews/{review_id}/approve")
+async def admin_approve_review(review_id: str, current_user: User = Depends(get_current_user)):
+    """Approve a review"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    review = await db.reviews.find_one({"id": review_id})
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    await db.reviews.update_one(
+        {"id": review_id}, 
+        {"$set": {
+            "is_verified": True,
+            "status": "approved",
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    return {"message": "Review approved successfully"}
+
+@api_router.put("/admin/reviews/{review_id}/reject")
+async def admin_reject_review(review_id: str, current_user: User = Depends(get_current_user)):
+    """Reject a review"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    review = await db.reviews.find_one({"id": review_id})
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    await db.reviews.update_one(
+        {"id": review_id}, 
+        {"$set": {
+            "is_verified": False,
+            "status": "rejected",
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    return {"message": "Review rejected successfully"}
+
+@api_router.delete("/admin/reviews/{review_id}")
+async def admin_delete_review(review_id: str, current_user: User = Depends(get_current_user)):
+    """Delete a review permanently"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    review = await db.reviews.find_one({"id": review_id})
+    if not review:
+        raise HTTPException(status_code=404, detail="Review not found")
+    
+    await db.reviews.delete_one({"id": review_id})
+    return {"message": "Review deleted successfully"}
+
 @api_router.post("/cleanup-data")
 async def cleanup_data(current_user: User = Depends(get_current_user)):
     """Clean all tours, bookings, and tour_dates for fresh start"""
