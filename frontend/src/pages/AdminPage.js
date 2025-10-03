@@ -218,7 +218,10 @@ const AdminPage = () => {
             <div>
               <div className="flex justify-between items-center mb-6">
                 <h2 className="text-xl font-bold text-gray-900">Tur Yönetimi</h2>
-                <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2">
+                <button 
+                  onClick={() => setShowAddTour(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2"
+                >
                   <Plus className="w-4 h-4" />
                   <span>Yeni Tur</span>
                 </button>
