@@ -604,6 +604,10 @@ async def debug_all_tour_dates():
     """Debug endpoint to see all tour dates"""
     try:
         all_dates = await db.tour_dates.find({}).to_list(length=None)
+        # Remove MongoDB _id to avoid serialization issues
+        for date in all_dates:
+            if "_id" in date:
+                del date["_id"]
         return {"count": len(all_dates), "dates": all_dates}
     except Exception as e:
         return {"error": str(e), "count": 0, "dates": []}
