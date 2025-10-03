@@ -57,6 +57,33 @@ const LoginModal = () => {
     });
   };
 
+  const handleGoogleLogin = async () => {
+    setLoading(true);
+    try {
+      // Mock Google login - in real app, use Google OAuth SDK
+      const mockGoogleData = {
+        email: 'google.user@gmail.com',
+        name: 'Google Kullanıcı'
+      };
+
+      const result = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`, mockGoogleData);
+      
+      if (result.data.token) {
+        localStorage.setItem('token', result.data.token);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${result.data.token}`;
+        
+        // Auth context'i güncelle (parent component'den gelmeli)
+        setShowLoginModal(false);
+        toast.success('Google ile giriş başarılı!');
+        window.location.reload(); // Basit çözüm - normalde auth state'i güncellenir
+      }
+    } catch (error) {
+      toast.error('Google giriş başarısız');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div 
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
