@@ -90,6 +90,44 @@ const ToursPage = () => {
     handleFilterChange('location', searchQuery);
   };
 
+  const loadFavorites = async () => {
+    try {
+      const response = await axios.get(`${API}/favorites`);
+      const favoriteIds = new Set(response.data.map(tour => tour.id));
+      setFavorites(favoriteIds);
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    }
+  };
+
+  const toggleFavorite = async (tourId) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      const isFavorited = favorites.has(tourId);
+      
+      if (isFavorited) {
+        await axios.delete(`${API}/favorites/${tourId}`);
+        setFavorites(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(tourId);
+          return newSet;
+        });
+        toast.success('Favorilerden çıkarıldı');
+      } else {
+        await axios.post(`${API}/favorites/${tourId}`);
+        setFavorites(prev => new Set([...prev, tourId]));
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      toast.error('Bir hata oluştu');
+    }
+  };
+
   const TourCard = ({ tour, isListView = false }) => (
     <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex' : ''}`}>
       <div className={`relative overflow-hidden ${isListView ? 'w-1/3' : ''}`}>
