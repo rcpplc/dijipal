@@ -332,7 +332,7 @@ async def google_auth(google_token: dict):
 # Tour endpoints
 @api_router.get("/tours", response_model=List[Tour])
 async def get_tours(
-    category: Optional[TourCategory] = None,
+    category: Optional[str] = None,
     location: Optional[str] = None,
     min_price: Optional[float] = None,
     max_price: Optional[float] = None,
