@@ -175,10 +175,6 @@ class Review(BaseModel):
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
 # Create models
-class CabinPricing(BaseModel):
-    single_cabin_price: float  # 1 kişilik kabin fiyatı
-    double_cabin_price: float  # 2 kişilik kabin fiyatı
-
 class TourDateCreate(BaseModel):
     date: str  # ISO date string
     capacity: int  # Available cabins count
