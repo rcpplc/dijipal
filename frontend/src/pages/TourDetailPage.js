@@ -125,13 +125,38 @@ const TourDetailPage = () => {
     }
   };
 
-  const toggleFavorite = () => {
+  const toggleFavorite = async () => {
     if (!user) {
       setShowLoginModal(true);
       return;
     }
-    setIsFavorited(!isFavorited);
-    toast.success(isFavorited ? 'Favorilerden çıkarıldı' : 'Favorilere eklendi');
+
+    try {
+      if (isFavorited) {
+        // Remove from favorites
+        await axios.delete(`${API}/users/favorites/${tourId}`, {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
+        setIsFavorited(false);
+        toast.success('Favorilerden çıkarıldı');
+      } else {
+        // Add to favorites
+        await axios.post(`${API}/users/favorites`, {
+          tour_id: tourId
+        }, {
+          headers: {
+            Authorization: `Bearer ${user.token}`
+          }
+        });
+        setIsFavorited(true);
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
+    }
   };
 
   const addToCart = () => {
