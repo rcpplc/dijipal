@@ -53,9 +53,19 @@ function App() {
     const loadUser = async () => {
       if (token) {
         try {
+          // Önce localStorage'dan user verisini al
+          const savedUser = localStorage.getItem('user');
+          if (savedUser) {
+            const userData = JSON.parse(savedUser);
+            setUser(userData);
+            console.log('Loaded user from localStorage:', userData);
+          }
+          
           // Validate token by making a request to get user details
           const response = await axios.get(`${API}/users/me`);
           setUser(response.data);
+          localStorage.setItem('user', JSON.stringify(response.data));
+          console.log('Updated user from API:', response.data);
         } catch (error) {
           console.error('Token validation failed:', error);
           logout();
