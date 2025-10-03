@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../App';
-import { Search, Menu, X, User, LogOut, MapPin, Calendar, Heart } from 'lucide-react';
+import { Search, Menu, X, User, LogOut, MapPin, Calendar, Heart, ShoppingCart } from 'lucide-react';
 
 const Header = () => {
   const { user, logout, setShowLoginModal } = useAuth();
