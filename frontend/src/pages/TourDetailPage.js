@@ -735,8 +735,16 @@ const TourDetailPage = () => {
               <div className="text-center mb-6">
                 <div className="text-3xl font-bold text-blue-600 mb-1">
                   ₺{availableDates.length > 0 
-                    ? Math.min(...availableDates.map(date => date.price)).toLocaleString('tr-TR')
-                    : (tour.base_price?.toLocaleString('tr-TR') || '0')
+                    ? (() => {
+                        const allPrices = [];
+                        availableDates.forEach(date => {
+                          if (date.single_cabin_price) allPrices.push(date.single_cabin_price);
+                          if (date.double_cabin_price) allPrices.push(date.double_cabin_price);
+                          if (!date.single_cabin_price && date.price) allPrices.push(date.price);
+                        });
+                        return allPrices.length > 0 ? Math.min(...allPrices).toLocaleString('tr-TR') : '0';
+                      })()
+                    : (tour.minimum_price?.toLocaleString('tr-TR') || tour.base_price?.toLocaleString('tr-TR') || '0')
                   }
                   <span className="text-lg font-normal text-gray-600 ml-1"> den başlayan</span>
                 </div>
