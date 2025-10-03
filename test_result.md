@@ -224,3 +224,5 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
 ## agent_communication:
     - agent: "main"
       message: "Sepet ve rezervasyon sayfalarında tarih bilgisi gösterilmemesi sorununu çözdüm. TourDetailPage'de tarih seçimi zorunlu hale getirdim, CartPage'de seçilen tarihi gösteriyorum, BookingPage'de URL parametrelerinden tarih bilgisini alıp rezervasyon özetinde gösteriyorum. Şimdi test edilmesi gerekiyor."
+    - agent: "testing"
+      message: "Backend API testleri tamamlandı. Tüm istenen endpoint'ler test edildi ve çalışıyor: ✅ GET /api/tours, ✅ GET /api/tours/{id}, ✅ POST /api/auth/login (admin@example.com/admin123), ✅ GET /api/admin/tours, ✅ POST /api/seed-data. Admin dashboard çalışıyor (3 tours, 2 bookings, 13 users, 1196 TL revenue). Tour date bilgileri API'dan alınabiliyor. Backend hazır, frontend testine geçilebilir."
