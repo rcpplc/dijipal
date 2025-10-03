@@ -1099,6 +1099,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     excluded_services: tour?.excluded_services || [],
     meeting_point: tour?.meeting_point || '',
     languages: tour?.languages || ['Türkçe'],
+    program_details: tour?.program_details || '',
     cancellation_policy: tour?.cancellation_policy || '',
     tags: tour?.tags || [],
     tour_dates: tour?.tour_dates || []
