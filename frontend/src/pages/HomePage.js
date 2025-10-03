@@ -137,7 +137,7 @@ const HomePage = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen overflow-hidden">
+      <section className="relative h-[70vh] overflow-hidden">
         {/* Background Images */}
         <div className="absolute inset-0">
           {heroImages.map((image, index) => (
