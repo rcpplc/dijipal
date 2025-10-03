@@ -34,6 +34,13 @@ const AdminPage = () => {
   const [tourLoading, setTourLoading] = useState(false);
   const [editingTour, setEditingTour] = useState(null);
   
+  // Reviews management
+  const [reviews, setReviews] = useState([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [showReviewModal, setShowReviewModal] = useState(false);
+  const [selectedReview, setSelectedReview] = useState(null);
+  const [reviewFilter, setReviewFilter] = useState('all'); // all, pending, approved, rejected
+  
   // Location management
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showDeleteLocationConfirm, setShowDeleteLocationConfirm] = useState(false);
