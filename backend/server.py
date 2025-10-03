@@ -115,7 +115,7 @@ class Tour(BaseModel):
     location: str
     pickup_time: Optional[str] = "09:00"
     dropoff_time: Optional[str] = "18:00"
-    category: TourCategory
+    category: str
     classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
     images: List[str] = []
@@ -186,7 +186,7 @@ class TourCreate(BaseModel):
     location: str
     pickup_time: Optional[str] = "09:00"
     dropoff_time: Optional[str] = "18:00"
-    category: TourCategory
+    category: str
     classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
     images: List[str] = []
