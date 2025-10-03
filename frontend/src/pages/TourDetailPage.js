@@ -35,6 +35,7 @@ const TourDetailPage = () => {
 
   useEffect(() => {
     loadTour();
+    loadReviews();
   }, [tourId]);
 
   const loadTour = async () => {
@@ -49,6 +50,18 @@ const TourDetailPage = () => {
       }
     } finally {
       setLoading(false);
+    }
+  };
+
+  const loadReviews = async () => {
+    setReviewsLoading(true);
+    try {
+      const response = await axios.get(`${API}/tours/${tourId}/reviews`);
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+    } finally {
+      setReviewsLoading(false);
     }
   };
 
