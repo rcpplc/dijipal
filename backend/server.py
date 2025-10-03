@@ -913,6 +913,23 @@ async def admin_toggle_category_status(category_id: str, current_user: User = De
     
     return {"message": f"Category {'activated' if new_status else 'deactivated'} successfully"}
 
+@api_router.delete("/admin/categories/{category_id}")
+async def admin_delete_category(category_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if category is being used by any tours
+    tours_using_category = await db.tours.find_one({"category": {"$regex": f".*{category_id}.*", "$options": "i"}})
+    if tours_using_category:
+        raise HTTPException(status_code=400, detail="Cannot delete category that is being used by tours")
+    
+    category = await db.categories.find_one({"id": category_id})
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    await db.categories.delete_one({"id": category_id})
+    return {"message": "Category deleted successfully"}
+
 # Admin Users Management
 @api_router.get("/admin/users", response_model=List[User])
 async def admin_get_users(current_user: User = Depends(get_current_user)):
