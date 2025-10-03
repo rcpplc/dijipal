@@ -591,7 +591,7 @@ const AdminPage = () => {
                   onClick={() => setShowLocationModal(true)}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
                 >
-                  <span>📍</span>
+                  <span>◐</span>
                   <span>Yeni Lokasyon</span>
                 </button>
               </div>
