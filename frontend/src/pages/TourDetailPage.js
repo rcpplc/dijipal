@@ -935,10 +935,21 @@ const TourDetailPage = () => {
                   </div>
                   <button
                     onClick={() => {
-                      const current = participants || 1;
+                      console.log('+ BUTTON CLICKED');
+                      console.log('Current participants:', participants, typeof participants);
+                      console.log('selectedDate:', selectedDate);
+                      
+                      const current = typeof participants === 'number' ? participants : parseInt(participants) || 1;
                       const max = selectedDate ? selectedDate.capacity : 20;
+                      
+                      console.log('Calculated current:', current, 'max:', max);
+                      
                       if (current < max) {
-                        setParticipants(current + 1);
+                        const newValue = current + 1;
+                        console.log('Setting new participants value:', newValue);
+                        setParticipants(newValue);
+                      } else {
+                        console.log('Cannot increase - at maximum:', current, '>=', max);
                       }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
