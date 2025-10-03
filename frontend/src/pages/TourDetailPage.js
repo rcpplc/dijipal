@@ -907,8 +907,13 @@ const TourDetailPage = () => {
                 <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <button
                     onClick={() => {
+                      alert(`- clicked! participants: ${participants}, participants > 1: ${participants > 1}`);
                       if (participants > 1) {
-                        setParticipants(participants - 1);
+                        const newVal = participants - 1;
+                        alert(`Setting minus value: ${newVal}`);
+                        setParticipants(newVal);
+                      } else {
+                        alert('Cannot decrease - at minimum');
                       }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
