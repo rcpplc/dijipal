@@ -217,7 +217,23 @@ const TourDetailPage = () => {
       setShowLoginModal(true);
       return;
     }
-    navigate(`/booking/${tourId}?participants=${participants}`);
+    
+    if (!selectedDate) {
+      toast.error('Lütfen bir tarih seçin');
+      return;
+    }
+
+    // Save user behavior before booking
+    saveSearchBehavior(tourId, participants, selectedDate.price);
+
+    // Navigate to booking page with tour and date info
+    navigate('/booking', {
+      state: {
+        tour: tour,
+        selectedDate: selectedDate,
+        participants: participants
+      }
+    });
   };
 
   const handleShare = async () => {
