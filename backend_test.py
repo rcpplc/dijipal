@@ -92,6 +92,23 @@ class TourPlatformAPITester:
             200
         )
 
+    def test_add_sample_data(self):
+        """Test add-sample-data endpoint (alias for seed-data)"""
+        # First try the endpoint mentioned in the request
+        success, response = self.run_test(
+            "Add Sample Data",
+            "POST",
+            "add-sample-data",
+            200
+        )
+        
+        # If that fails, it might be the seed-data endpoint
+        if not success:
+            print("   ℹ️  add-sample-data endpoint not found, trying seed-data...")
+            return self.test_seed_data()
+        
+        return success, response
+
     def test_user_registration(self):
         """Test user registration"""
         timestamp = int(time.time())
