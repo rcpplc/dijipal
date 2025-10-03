@@ -823,7 +823,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6">
+          {/* Step Content */}
+          <div className="min-h-[400px]">
           {/* Basic Info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
