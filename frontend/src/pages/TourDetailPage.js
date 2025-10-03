@@ -31,7 +31,7 @@ const TourDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [participants, setParticipants] = useState(2);
+  const [participants, setParticipants] = useState(1);
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [isFavorited, setIsFavorited] = useState(false);
