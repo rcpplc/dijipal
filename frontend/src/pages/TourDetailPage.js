@@ -417,6 +417,21 @@ const TourDetailPage = () => {
                 )}
               </div>
 
+              {/* Program Details */}
+              {tour.program_details && (
+                <div className="py-6 border-t border-gray-100">
+                  <h4 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                    <Calendar className="w-5 h-5 text-blue-500" />
+                    <span>Tur Programı</span>
+                  </h4>
+                  <div className="prose prose-sm max-w-none">
+                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                      {tour.program_details}
+                    </div>
+                  </div>
+                </div>
+              )}
+
               {/* Additional Info */}
               {(tour.meeting_point || tour.languages || tour.difficulty_level) && (
                 <div className="py-6 border-t border-gray-100">
