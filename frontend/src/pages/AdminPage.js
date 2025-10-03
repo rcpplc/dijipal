@@ -1159,44 +1159,256 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
             {currentStep === 3 && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">⚙️ Hizmetler & Detaylar</h3>
-            
-            {/* Image Upload */}
-            <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
-              <div className="text-center">
-                <input
-                  type="file"
-                  accept="image/*"
-                  multiple
-                  onChange={handleImageUpload}
-                  className="hidden"
-                  id="image-upload"
-                  disabled={uploadLoading}
-                />
-                <label
-                  htmlFor="image-upload"
-                  className={`cursor-pointer inline-flex items-center space-x-2 px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white ${
-                    uploadLoading 
-                      ? 'bg-gray-400 cursor-not-allowed' 
-                      : 'bg-blue-600 hover:bg-blue-700'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200`}
-                >
-                  {uploadLoading ? (
-                    <>
-                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
-                      <span>Yükleniyor...</span>
-                    </>
-                  ) : (
-                    <>
-                      <span>📸</span>
-                      <span>Resim Yükle</span>
-                    </>
-                  )}
-                </label>
-                <p className="mt-2 text-sm text-gray-600">
-                  Birden fazla resim seçebilirsiniz • JPG, PNG, WebP
-                </p>
+                
+                {/* Included Services */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Dahil Olan Hizmetler
+                  </label>
+                  <div className="space-y-2">
+                    {formData.included_services.map((service, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <input
+                          type="text"
+                          value={service}
+                          onChange={(e) => {
+                            const newServices = [...formData.included_services];
+                            newServices[index] = e.target.value;
+                            setFormData({...formData, included_services: newServices});
+                          }}
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Örn: Rehber eşliği"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeFromList('included_services', index)}
+                          className="text-red-600 hover:text-red-700 p-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={newIncludedService}
+                        onChange={(e) => setNewIncludedService(e.target.value)}
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Yeni hizmet ekle"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => addToList('included_services', newIncludedService, setNewIncludedService)}
+                        className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      >
+                        Ekle
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Excluded Services */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Dahil Olmayan Hizmetler
+                  </label>
+                  <div className="space-y-2">
+                    {formData.excluded_services.map((service, index) => (
+                      <div key={index} className="flex items-center space-x-2">
+                        <input
+                          type="text"
+                          value={service}
+                          onChange={(e) => {
+                            const newServices = [...formData.excluded_services];
+                            newServices[index] = e.target.value;
+                            setFormData({...formData, excluded_services: newServices});
+                          }}
+                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          placeholder="Örn: Öğle yemeği"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => removeFromList('excluded_services', index)}
+                          className="text-red-600 hover:text-red-700 p-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </button>
+                      </div>
+                    ))}
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={newExcludedService}
+                        onChange={(e) => setNewExcludedService(e.target.value)}
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Yeni hariç tutulan hizmet ekle"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => addToList('excluded_services', newExcludedService, setNewExcludedService)}
+                        className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      >
+                        Ekle
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Meeting Point */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Buluşma Noktası
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.meeting_point}
+                    onChange={(e) => setFormData({...formData, meeting_point: e.target.value})}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Örn: Sultanahmet Meydanı"
+                  />
+                </div>
+
+                {/* Languages */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Diller
+                  </label>
+                  <select
+                    multiple
+                    value={formData.languages}
+                    onChange={(e) => {
+                      const selectedLanguages = Array.from(e.target.selectedOptions, option => option.value);
+                      setFormData({...formData, languages: selectedLanguages});
+                    }}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="Turkish">Türkçe</option>
+                    <option value="English">İngilizce</option>
+                    <option value="German">Almanca</option>
+                    <option value="French">Fransızca</option>
+                    <option value="Spanish">İspanyolca</option>
+                    <option value="Russian">Rusça</option>
+                  </select>
+                  <p className="text-sm text-gray-600 mt-1">Ctrl/Cmd tuşu ile birden fazla dil seçebilirsiniz</p>
+                </div>
+
+                {/* Difficulty Level */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Zorluk Seviyesi
+                  </label>
+                  <select
+                    value={formData.difficulty_level}
+                    onChange={(e) => setFormData({...formData, difficulty_level: e.target.value})}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  >
+                    <option value="Easy">Kolay</option>
+                    <option value="Moderate">Orta</option>
+                    <option value="Hard">Zor</option>
+                    <option value="Expert">Uzman</option>
+                  </select>
+                </div>
               </div>
-            </div>
+            )}
+
+            {/* Step 4: Settings & Confirmation */}
+            {currentStep === 4 && (
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">✅ Ayarlar & Onay</h3>
+                
+                {/* Cancellation Policy */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    İptal Politikası
+                  </label>
+                  <textarea
+                    value={formData.cancellation_policy}
+                    onChange={(e) => setFormData({...formData, cancellation_policy: e.target.value})}
+                    rows={3}
+                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="İptal koşulları ve politikası"
+                  />
+                </div>
+
+                {/* Tags */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Etiketler
+                  </label>
+                  <div className="space-y-2">
+                    <div className="flex flex-wrap gap-2">
+                      {formData.tags.map((tag, index) => (
+                        <span key={index} className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm flex items-center space-x-1">
+                          <span>{tag}</span>
+                          <button
+                            type="button"
+                            onClick={() => removeFromList('tags', index)}
+                            className="text-blue-600 hover:text-blue-800"
+                          >
+                            ×
+                          </button>
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center space-x-2">
+                      <input
+                        type="text"
+                        value={newTag}
+                        onChange={(e) => setNewTag(e.target.value)}
+                        className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        placeholder="Yeni etiket ekle"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => addToList('tags', newTag, setNewTag)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                      >
+                        Ekle
+                      </button>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Final Review */}
+                <div className="bg-gray-50 rounded-lg p-6">
+                  <h4 className="font-medium text-gray-900 mb-4">Tur Özeti</h4>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                    <div>
+                      <span className="font-medium text-gray-700">Başlık:</span>
+                      <span className="ml-2 text-gray-900">{formData.title || 'Belirtilmemiş'}</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Lokasyon:</span>
+                      <span className="ml-2 text-gray-900">{formData.location || 'Belirtilmemiş'}</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Kategori:</span>
+                      <span className="ml-2 text-gray-900">{categories.find(c => c.value === formData.category)?.label || 'Belirtilmemiş'}</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Fiyat:</span>
+                      <span className="ml-2 text-gray-900">₺{formData.base_price || '0'}</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Süre:</span>
+                      <span className="ml-2 text-gray-900">{formData.duration_days} gün {formData.duration_hours ? `${formData.duration_hours} saat` : ''}</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Katılımcı:</span>
+                      <span className="ml-2 text-gray-900">Max {formData.max_participants} kişi</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Görsel:</span>
+                      <span className="ml-2 text-gray-900">{formData.images.length} resim</span>
+                    </div>
+                    <div>
+                      <span className="font-medium text-gray-700">Durum:</span>
+                      <span className="ml-2 text-gray-900">{statusOptions.find(s => s.value === formData.status)?.label || 'Belirtilmemiş'}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* Image Gallery Preview */}
             {formData.images.length > 0 && (
