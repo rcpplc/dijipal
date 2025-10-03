@@ -780,6 +780,23 @@ async def admin_update_location(location_id: str, location_data: LocationCreate,
     updated_location = await db.locations.find_one({"id": location_id})
     return Location(**updated_location)
 
+@api_router.put("/admin/locations/{location_id}/status")
+async def admin_toggle_location_status(location_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    location = await db.locations.find_one({"id": location_id})
+    if not location:
+        raise HTTPException(status_code=404, detail="Location not found")
+    
+    new_status = not location.get("is_active", True)
+    await db.locations.update_one(
+        {"id": location_id}, 
+        {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    return {"message": f"Location {'activated' if new_status else 'deactivated'} successfully"}
+
 # Category Management
 class CategoryCreate(BaseModel):
     name: str
