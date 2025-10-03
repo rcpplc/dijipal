@@ -582,18 +582,16 @@ const TourDetailPage = () => {
           {/* Booking Sidebar */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl p-6 shadow-lg sticky top-8">
+              {/* Pricing - Show minimum available price */}
               <div className="text-center mb-6">
                 <div className="text-3xl font-bold text-blue-600 mb-1">
-                  ₺{currentPrice}
-                  <span className="text-lg font-normal text-gray-600 ml-1">/kişi</span>
+                  ₺{availableDates.length > 0 
+                    ? Math.min(...availableDates.map(date => date.price)).toLocaleString('tr-TR')
+                    : (tour.base_price?.toLocaleString('tr-TR') || '0')
+                  }
+                  <span className="text-lg font-normal text-gray-600 ml-1"> den başlayan</span>
                 </div>
-                {selectedDate?.price && selectedDate.price !== tour.base_price && (
-                  <div className="text-sm text-gray-500 mb-1">
-                    <span className="line-through">₺{tour.base_price}</span>
-                    <span className="ml-2 text-green-600 font-medium">Özel Fiyat!</span>
-                  </div>
-                )}
-                <p className="text-sm text-gray-500">Vergiler dahil</p>
+                <p className="text-sm text-gray-500">Vergiler dahil • Kişi başı fiyat</p>
               </div>
 
               {/* Participants Selection */}
