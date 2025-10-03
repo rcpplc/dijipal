@@ -117,22 +117,38 @@ const TourDetailPage = () => {
   };
 
   const addToCart = () => {
+    if (!selectedDate) {
+      toast.error('Lütfen önce bir tarih seçin');
+      return;
+    }
+
     const cartItem = {
       tourId: tour.id,
       title: tour.title,
       location: tour.location,
       duration: tour.duration_days,
-      price: tour.base_price,
+      price: currentPrice, // Seçilen tarihin fiyatı
       participants: participants,
-      image: tour.images[0] || '/placeholder-tour.jpg'
+      image: tour.images[0] || '/placeholder-tour.jpg',
+      selectedDate: {
+        date: selectedDate.date,
+        price: selectedDate.price,
+        formattedDate: new Date(selectedDate.date).toLocaleDateString('tr-TR', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric'
+        })
+      }
     };
 
     // Mevcut sepeti al
     const savedCart = localStorage.getItem('tour_cart');
     let cartItems = savedCart ? JSON.parse(savedCart) : [];
 
-    // Tur zaten sepette var mı kontrol et
-    const existingItemIndex = cartItems.findIndex(item => item.tourId === tour.id);
+    // Aynı tur ve tarih kombinasyonu var mı kontrol et
+    const existingItemIndex = cartItems.findIndex(item => 
+      item.tourId === tour.id && item.selectedDate?.date === selectedDate.date
+    );
     
     if (existingItemIndex >= 0) {
       // Varsa katılımcı sayısını güncelle
