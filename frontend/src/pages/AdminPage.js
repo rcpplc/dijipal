@@ -923,6 +923,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
     { value: 'archived', label: 'Arşiv' }
   ];
 
+  const classificationOptions = [
+    { value: 'standart', label: 'Standart' },
+    { value: 'lux', label: 'Lux' },
+    { value: 'delux', label: 'Delux' }
+  ];
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
