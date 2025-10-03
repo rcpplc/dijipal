@@ -401,7 +401,9 @@ const AdminPage = () => {
                               </span>
                             </td>
                             <td className="py-4 px-4 text-gray-700">
-                              ₺{tour.base_price}
+                              {tour.tour_dates && tour.tour_dates.length > 0 
+                                ? `₺${Math.min(...tour.tour_dates.map(date => date.price))}` 
+                                : '₺0'} <span className="text-xs text-gray-500">den başlayan</span>
                             </td>
                             <td className="py-4 px-4">
                               <span className={`px-2 py-1 rounded-full text-xs font-medium ${
