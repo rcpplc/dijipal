@@ -177,31 +177,40 @@ class TourPlatformAPITester:
             self.log_test("Create Booking", False, "", "No authentication token available")
             return False, None
 
-        booking_data = {
-            "tour_id": tour_id,
-            "tour_date_id": "mock_date_id",  # This might need to be created first
-            "participants": 2,
-            "customer_info": {
-                "full_name": "Test Customer",
-                "email": "test@example.com",
-                "phone": "+90 555 123 4567",
-                "id_number": "12345678901"
-            },
-            "special_requests": "Test booking request"
-        }
-        
-        success, response = self.run_test(
-            "Create Booking",
-            "POST",
-            "bookings",
-            200,  # Might be 201 for created
-            data=booking_data
-        )
-        
-        if success and 'id' in response:
-            return True, response['id']
-        
-        return False, None
+        # First, get available tour dates for this tour
+        try:
+            # We'll create a mock tour date ID since there's no endpoint to get tour dates
+            # In a real scenario, we'd have an endpoint to get available dates
+            tour_date_id = f"date_{tour_id}_1"  # Simple mock ID
+            
+            booking_data = {
+                "tour_id": tour_id,
+                "tour_date_id": tour_date_id,
+                "participants": 2,
+                "customer_info": {
+                    "full_name": "Test Customer",
+                    "email": "test@example.com",
+                    "phone": "+90 555 123 4567",
+                    "id_number": "12345678901"
+                },
+                "special_requests": "Test booking request"
+            }
+            
+            success, response = self.run_test(
+                "Create Booking",
+                "POST",
+                "bookings",
+                200,  # Might be 201 for created
+                data=booking_data
+            )
+            
+            if success and 'id' in response:
+                return True, response['id']
+            
+            return False, None
+        except Exception as e:
+            self.log_test("Create Booking", False, "", f"Exception during booking: {str(e)}")
+            return False, None
 
     def test_get_user_bookings(self):
         """Test getting user bookings"""
