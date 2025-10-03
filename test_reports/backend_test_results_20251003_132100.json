@@ -1,0 +1,109 @@
+{
+  "summary": {
+    "total_tests": 14,
+    "passed_tests": 13,
+    "failed_tests": 1,
+    "success_rate": 92.85714285714286,
+    "test_date": "2025-10-03T13:21:00.968703"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Sample data, tour dates, reviews and admin user added successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.480570"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmYyNTJiMC01NWE1LTQxMWYtYWE5MC1hZDY2Mjc3OGU4YTYifQ.jfCuAB9ieuOKeD4sdhZMpiLtsUL0WH7m2gw8kHlUKQE\",\n  \"user\": {\n    \"id\": \"2ff252b0-55a5-411...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.521273"
+    },
+    {
+      "test_name": "Admin Create Tour with New Fields",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"e17fdda8-6770-44a1-9185-e0eda0fd99cb\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Test Tur\",\n  \"description\": \"Bu bir test turu a\\u00e7\\u0131klamas\\u0131d\\u0131r. Ye...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.561970"
+    },
+    {
+      "test_name": "Add Tour Date (Expected to Fail - Endpoint Not Implemented)",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 405. Response: {'detail': 'Method Not Allowed'}",
+      "timestamp": "2025-10-03T13:21:00.600405"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"7625ae35-c56a-45e5-a674-59925b6bab83\",\n    \"tour_id\": \"e17fdda8-6770-44a1-9185-e0eda0fd99cb\",\n    \"start_date\": \"2025-12-15\",\n    \"end_date\": null,\n    \"start_time\": null,\n    \"availa...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.636262"
+    },
+    {
+      "test_name": "Admin Update Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"e17fdda8-6770-44a1-9185-e0eda0fd99cb\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Updated Test Tur\",\n  \"description\": \"G\\u00fcncellenmi\\u015f test turu a\\u00e7\\u0131...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.673579"
+    },
+    {
+      "test_name": "Tour Listing with Minimum Price Calculation",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"6068498e-1c1d-451b-b941-6ad3dfeec6a3\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"Kapadokya Balon Turu\",\n    \"description\": \"Kapadokya'n\\u0131n e\\u015fsiz manzaralar\\u0131n\\u0131 s\\u01...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.712128"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"745b7b60-f91d-4dac-a6bf-15ce90fa7f06\",\n    \"tour_id\": \"6068498e-1c1d-451b-b941-6ad3dfeec6a3\",\n    \"start_date\": \"2025-10-04\",\n    \"end_date\": null,\n    \"start_time\": \"09:00\",\n    \"ava...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.754415"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.791374"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.826593"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.858424"
+    },
+    {
+      "test_name": "Get Tour Dates",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"7625ae35-c56a-45e5-a674-59925b6bab83\",\n    \"tour_id\": \"e17fdda8-6770-44a1-9185-e0eda0fd99cb\",\n    \"start_date\": \"2025-12-15\",\n    \"end_date\": null,\n    \"start_time\": null,\n    \"availa...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.895097"
+    },
+    {
+      "test_name": "Get Existing Tours for Compatibility Test",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"6068498e-1c1d-451b-b941-6ad3dfeec6a3\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"Kapadokya Balon Turu\",\n    \"description\": \"Kapadokya'n\\u0131n e\\u015fsiz manzaralar\\u0131n\\u0131 s\\u01...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.930905"
+    },
+    {
+      "test_name": "Admin Tours List",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n    \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, A...",
+      "error": "",
+      "timestamp": "2025-10-03T13:21:00.967846"
+    }
+  ]
+}
