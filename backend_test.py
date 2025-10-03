@@ -1875,8 +1875,8 @@ def main():
     
     tester = TourPlatformAPITester()
     
-    # Run the reviews management system tests as requested in the review
-    tester.run_reviews_management_tests()
+    # Run the admin cabin pricing tests as requested in the review
+    tester.run_admin_cabin_pricing_tests()
     
     # Return exit code based on success rate
     success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
