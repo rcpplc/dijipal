@@ -815,18 +815,10 @@ const TourDetailPage = () => {
 
               {/* Participants Selection - Moved below date selection */}
               <div className="mb-6">
-                <div className="flex items-center justify-between mb-3">
+                <div className="mb-3">
                   <label className="block text-sm font-medium text-gray-700">
-                    Katılımcı Sayısı
+                    Kabin Sayısı
                   </label>
-                  {suggestedParticipants && suggestedParticipants !== participants && (
-                    <button
-                      onClick={() => setParticipants(Math.max(1, suggestedParticipants || 1))}
-                      className="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded-full hover:bg-blue-200 transition-colors"
-                    >
-                      🤖 Önerilen: {Math.max(1, suggestedParticipants || 1)} kişi
-                    </button>
-                  )}
                 </div>
                 <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                   <button
