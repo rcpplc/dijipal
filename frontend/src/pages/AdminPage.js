@@ -1753,25 +1753,39 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       return;
     }
     
-    console.log('Starting tour submission...');
-    console.log('FormData being sent:', formData);
-    console.log('Tour dates in formData:', formData.tour_dates);
+    console.log('🚀 Starting tour submission...');
+    console.log('📋 Complete FormData being sent:', formData);
+    console.log('📅 Tour dates in formData (detailed):', JSON.stringify(formData.tour_dates, null, 2));
+    
+    // Validate tour dates have cabin pricing
+    const invalidDates = formData.tour_dates.filter(date => 
+      !date.single_cabin_price || !date.double_cabin_price
+    );
+    
+    if (invalidDates.length > 0) {
+      toast.error('Tüm tarihlerde tek ve çift kabin fiyatları eksiksiz olmalıdır');
+      console.error('❌ Invalid dates found:', invalidDates);
+      return;
+    }
+    
     setLoading(true);
 
     try {
       const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
       
       if (isEdit) {
+        console.log(`🔄 Updating tour ${tour.id}...`);
         await axios.put(`${API}/admin/tours/${tour.id}`, formData);
         toast.success('Tur başarıyla güncellendi');
       } else {
+        console.log('✨ Creating new tour...');
         await axios.post(`${API}/admin/tours`, formData);
         toast.success('Tur başarıyla oluşturuldu');
       }
       
       onSave();
     } catch (error) {
-      console.error('Error saving tour:', error);
+      console.error('❌ Error saving tour:', error);
       toast.error(error.response?.data?.detail || 'Tur kaydedilirken hata oluştu');
     } finally {
       setLoading(false);
