@@ -69,6 +69,13 @@ const AdminPage = () => {
     }
   }, [activeTab]);
 
+  // Reload reviews when filter changes
+  useEffect(() => {
+    if (activeTab === 'reviews') {
+      loadReviews();
+    }
+  }, [reviewFilter]);
+
   const loadDashboard = async () => {
     setLoading(true);
     try {
