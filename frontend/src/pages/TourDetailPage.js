@@ -44,7 +44,7 @@ const TourDetailPage = () => {
   const [suggestedParticipants, setSuggestedParticipants] = useState(null);
   
   // Cabin system
-  const [cabinType, setCabinType] = useState('double'); // 'single' or 'double'
+  const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
 
   useEffect(() => {
     // Ensure participants is always at least 1
