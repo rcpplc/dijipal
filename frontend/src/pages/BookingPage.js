@@ -177,7 +177,9 @@ const BookingPage = () => {
     );
   }
 
-  const totalPrice = (tour.base_price * participants).toFixed(2);
+  // Seçilen tarih fiyatını kullan, yoksa base price
+  const unitPrice = selectedPrice ? parseFloat(selectedPrice) : tour.base_price;
+  const totalPrice = (unitPrice * participants).toFixed(2);
 
   return (
     <div className="min-h-screen bg-gray-50">
