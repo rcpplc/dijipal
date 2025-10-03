@@ -740,10 +740,7 @@ const AdminPage = () => {
                             Düzenle
                           </button>
                           <button
-                            onClick={() => {
-                              // Toggle category status
-                              console.log('Toggle category:', category.id);
-                            }}
+                            onClick={() => handleToggleCategoryStatus(category.id)}
                             className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm transition-colors duration-200"
                           >
                             {category.is_active ? 'Deaktif Et' : 'Aktif Et'}
