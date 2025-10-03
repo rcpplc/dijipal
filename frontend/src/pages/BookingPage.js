@@ -183,8 +183,25 @@ const BookingPage = () => {
   }
 
   // Seçilen tarih fiyatını kullan, yoksa base price
-  const unitPrice = selectedPrice ? parseFloat(selectedPrice) : tour.base_price;
-  const totalPrice = (unitPrice * participants).toFixed(2);
+  // Debug fiyat hesaplama
+  console.log('Booking Price Debug:', {
+    selectedDate,
+    cabinType,
+    singleCabinPrice,
+    doubleCabinPrice,
+    selectedPrice,
+    participants
+  });
+
+  const unitPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
+  const subTotal = unitPrice * participants;
+  
+  // KDV %20 fiyata dahil hesaplama (fiyat KDV dahil, KDV'yi ayır)
+  const kdvRate = 0.20;
+  const priceWithoutKdv = subTotal / (1 + kdvRate);
+  const kdvAmount = subTotal - priceWithoutKdv;
+  
+  const totalPrice = subTotal.toFixed(2);
 
   return (
     <div className="min-h-screen bg-gray-50">
