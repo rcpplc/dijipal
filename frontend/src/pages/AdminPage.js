@@ -1680,19 +1680,21 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
-    if (newTourDate.date && newTourDate.price && newTourDate.capacity) {
+    if (newTourDate.date && newTourDate.single_cabin_price && newTourDate.double_cabin_price && newTourDate.capacity) {
       setFormData(prev => ({
         ...prev,
         tour_dates: [...prev.tour_dates, { 
           ...newTourDate, 
           id: Date.now().toString(),
-          price: parseFloat(newTourDate.price),
+          price: parseFloat(newTourDate.single_cabin_price), // Backwards compatibility
+          single_cabin_price: parseFloat(newTourDate.single_cabin_price),
+          double_cabin_price: parseFloat(newTourDate.double_cabin_price),
           capacity: parseInt(newTourDate.capacity)
         }]
       }));
-      setNewTourDate({ date: '', price: '', capacity: '' });
+      setNewTourDate({ date: '', single_cabin_price: '', double_cabin_price: '', capacity: '' });
     } else {
-      toast.error('Lütfen tüm tarih bilgilerini doldurun');
+      toast.error('Lütfen tüm tarih ve fiyat bilgilerini doldurun');
     }
   };
 
