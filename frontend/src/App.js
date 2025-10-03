@@ -153,6 +153,7 @@ function App() {
               <Route path="/tours/:tourId" element={<TourDetailPage />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
               <Route 
                 path="/booking/:tourId" 
                 element={
