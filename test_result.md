@@ -233,6 +233,8 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
+  completed_tests:
+    - "Admin tour management with new fields"
 
   - task: "Favorites system frontend integration"
     implemented: true
