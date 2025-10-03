@@ -278,8 +278,6 @@ const TourDetailPage = () => {
     );
   }
 
-  const currentPrice = selectedDate?.price || tour.base_price;
-  const totalPrice = (currentPrice * participants).toFixed(2);
   const images = tour.images && tour.images.length > 0 ? tour.images : ['/placeholder-tour.jpg'];
 
   return (
