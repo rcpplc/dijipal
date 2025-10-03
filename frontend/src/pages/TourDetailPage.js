@@ -939,18 +939,18 @@ const TourDetailPage = () => {
                   </div>
                   <button
                     onClick={() => setParticipants(Math.min(
-                      selectedDate ? selectedDate.available_spots : 20, 
-                      Math.max(1, participants || 1) + 1
+                      selectedDate ? selectedDate.capacity : 20, 
+                      participants + 1
                     ))}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                    disabled={Math.max(1, participants || 1) >= (selectedDate ? selectedDate.available_spots : 20)}
+                    disabled={participants >= (selectedDate ? selectedDate.capacity : 20)}
                   >
                     +
                   </button>
                 </div>
                 <p className="text-xs text-gray-500 mt-2 text-center">
                   {selectedDate 
-                    ? `Bu tarih için maksimum ${selectedDate.available_spots || 0} kabin rezerve edebilirsiniz` 
+                    ? `Bu tarih için maksimum ${selectedDate.capacity || 0} kabin rezerve edebilirsiniz` 
                     : 'Önce tarih seçin, sonra kabin sayısını belirleyin'
                   }
                 </p>
