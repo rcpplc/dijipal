@@ -48,7 +48,10 @@ const ToursPage = () => {
 
   useEffect(() => {
     loadTours();
-  }, [searchParams]);
+    if (user) {
+      loadFavorites();
+    }
+  }, [searchParams, user]);
 
   const loadTours = async () => {
     setLoading(true);
