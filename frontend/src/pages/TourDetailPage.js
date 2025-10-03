@@ -495,6 +495,61 @@ const TourDetailPage = () => {
                 <p className="text-sm text-gray-500">Vergiler dahil</p>
               </div>
 
+              {/* Date Selection */}
+              <div className="mb-6">
+                <label className="block text-sm font-medium text-gray-700 mb-3">
+                  Tarih Seçin
+                </label>
+                {availableDates.length > 0 ? (
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {availableDates.map((date) => (
+                      <button
+                        key={date.id}
+                        onClick={() => setSelectedDate(date)}
+                        className={`w-full p-3 text-left rounded-lg border transition-all duration-200 ${
+                          selectedDate?.id === date.id
+                            ? 'border-blue-600 bg-blue-50 text-blue-800'
+                            : 'border-gray-200 hover:border-gray-300 bg-white'
+                        }`}
+                      >
+                        <div className="flex justify-between items-center">
+                          <div>
+                            <div className="font-medium">
+                              {new Date(date.start_date).toLocaleDateString('tr-TR', {
+                                weekday: 'long',
+                                year: 'numeric',
+                                month: 'long',
+                                day: 'numeric'
+                              })}
+                            </div>
+                            {date.start_time && (
+                              <div className="text-sm text-gray-600">
+                                Saat: {date.start_time}
+                              </div>
+                            )}
+                          </div>
+                          <div className="text-right">
+                            <div className="text-sm text-gray-600">
+                              {date.available_spots} yer
+                            </div>
+                            {date.price && (
+                              <div className="font-semibold text-blue-600">
+                                ₺{date.price}
+                              </div>
+                            )}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-4 text-gray-500">
+                    <Calendar className="w-8 h-8 mx-auto mb-2" />
+                    <p className="text-sm">Uygun tarih bulunamadı</p>
+                  </div>
+                )}
+              </div>
+
               {/* Participants Selector */}
               <div className="mb-6">
                 <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -511,14 +566,17 @@ const TourDetailPage = () => {
                     {participants}
                   </span>
                   <button
-                    onClick={() => setParticipants(Math.min(tour.max_participants, participants + 1))}
+                    onClick={() => setParticipants(Math.min(selectedDate ? selectedDate.available_spots : tour.max_participants, participants + 1))}
                     className="w-10 h-10 bg-white border border-gray-300 rounded-full flex items-center justify-center hover:bg-gray-50 transition-colors duration-200"
                   >
                     +
                   </button>
                 </div>
                 <p className="text-xs text-gray-500 text-center mt-2">
-                  En fazla {tour.max_participants} kişi
+                  {selectedDate 
+                    ? `Bu tarih için en fazla ${selectedDate.available_spots} kişi`
+                    : `En fazla ${tour.max_participants} kişi`
+                  }
                 </p>
               </div>
 
