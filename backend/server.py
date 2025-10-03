@@ -1495,6 +1495,7 @@ async def add_test_cabin_pricing(tour_id: str):
     
     # Insert test tour dates
     for date in test_dates:
+        print(f"Inserting date: {date['start_date']} - Single: {date['single_cabin_price']} - Double: {date['double_cabin_price']}")
         await db.tour_dates.insert_one(date)
     
     return {"message": f"Test cabin pricing added for tour {tour_id}. Added {len(test_dates)} dates with different pricing."}
