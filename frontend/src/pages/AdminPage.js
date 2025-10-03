@@ -2136,10 +2136,13 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                                 })}
                               </td>
                               <td className="py-3 px-4 text-gray-900">
-                                ₺{tourDate.price}
+                                ₺{(tourDate.single_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
                               </td>
                               <td className="py-3 px-4 text-gray-900">
-                                {tourDate.capacity} kişi
+                                ₺{(tourDate.double_cabin_price || tourDate.price || 0).toLocaleString('tr-TR')}
+                              </td>
+                              <td className="py-3 px-4 text-gray-900">
+                                {tourDate.capacity} kabin
                               </td>
                               <td className="py-3 px-4">
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
