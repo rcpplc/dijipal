@@ -2493,21 +2493,64 @@ const CategoryModal = ({ category, onClose, onSave }) => {
             )}
           </div>
 
-          <div className="flex justify-end space-x-3 pt-6 border-t border-gray-200">
-            <button
-              type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50"
-            >
-              İptal
-            </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg"
-            >
-              {loading ? 'Kaydediliyor...' : (category ? 'Güncelle' : 'Ekle')}
-            </button>
+          {/* Modal Navigation & Actions */}
+          <div className="flex justify-between items-center pt-6 border-t border-gray-200">
+            <div className="flex space-x-3">
+              <button
+                type="button"
+                onClick={() => setActiveTab(Math.max(activeTab - 1, 1))}
+                disabled={activeTab === 1}
+                className={`px-4 py-2 border border-gray-300 rounded-lg transition-colors ${
+                  activeTab === 1 
+                    ? 'text-gray-400 cursor-not-allowed' 
+                    : 'text-gray-700 hover:bg-gray-50'
+                }`}
+              >
+                ← Önceki
+              </button>
+              
+              {activeTab < modalTabs.length && (
+                <button
+                  type="button"
+                  onClick={() => setActiveTab(Math.min(activeTab + 1, modalTabs.length))}
+                  className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                >
+                  Sonraki →
+                </button>
+              )}
+            </div>
+
+            <div className="text-sm text-gray-500">
+              {activeTab} / {modalTabs.length}
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+              >
+                İptal
+              </button>
+              
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors flex items-center space-x-2"
+              >
+                {loading ? (
+                  <>
+                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                    <span>Kaydediliyor...</span>
+                  </>
+                ) : (
+                  <>
+                    <span>◈</span>
+                    <span>{category ? 'Kategoriyi Güncelle' : 'Kategori Oluştur'}</span>
+                  </>
+                )}
+              </button>
+            </div>
           </div>
         </form>
       </div>
