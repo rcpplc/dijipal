@@ -356,13 +356,7 @@ const TourDetailPage = () => {
 
                 <div className="flex items-center space-x-2 text-sm text-gray-600">
                   <Calendar className="w-4 h-4" />
-                  <span>{tour.duration_days} gün</span>
-                  {tour.duration_hours > 0 && (
-                    <>
-                      <Clock className="w-4 h-4 ml-2" />
-                      <span>{tour.duration_hours} saat</span>
-                    </>
-                  )}
+                  <span>{tour.duration_days || 1} gün</span>
                 </div>
 
                 {/* Max participants removed per user request */}
