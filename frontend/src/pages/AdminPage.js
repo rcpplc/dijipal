@@ -618,6 +618,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   });
   
   const [loading, setLoading] = useState(false);
+  const [uploadLoading, setUploadLoading] = useState(false);
   const [newIncludedService, setNewIncludedService] = useState('');
   const [newExcludedService, setNewExcludedService] = useState('');
   const [newTag, setNewTag] = useState('');
