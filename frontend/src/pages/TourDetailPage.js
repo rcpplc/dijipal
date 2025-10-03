@@ -237,7 +237,8 @@ const TourDetailPage = () => {
       state: {
         tour: tour,
         selectedDate: selectedDate,
-        participants: cabinCount
+        participants: cabinCount,
+        cabinType: cabinType
       }
     });
   };
