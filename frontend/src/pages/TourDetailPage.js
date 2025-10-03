@@ -39,6 +39,7 @@ const TourDetailPage = () => {
   useEffect(() => {
     loadTour();
     loadReviews();
+    loadAvailableDates();
   }, [tourId]);
 
   const loadTour = async () => {
@@ -65,6 +66,18 @@ const TourDetailPage = () => {
       console.error('Error loading reviews:', error);
     } finally {
       setReviewsLoading(false);
+    }
+  };
+
+  const loadAvailableDates = async () => {
+    try {
+      const response = await axios.get(`${API}/tours/${tourId}/dates`);
+      setAvailableDates(response.data);
+      if (response.data.length > 0) {
+        setSelectedDate(response.data[0]);
+      }
+    } catch (error) {
+      console.error('Error loading dates:', error);
     }
   };
 
