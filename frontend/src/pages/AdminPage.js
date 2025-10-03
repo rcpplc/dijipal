@@ -647,7 +647,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
     difficulty_level: tour?.difficulty_level || 'Easy',
     cancellation_policy: tour?.cancellation_policy || '',
     tags: tour?.tags || [],
-    status: tour?.status || 'draft'
+    status: tour?.status || 'draft',
+    tour_dates: tour?.tour_dates || []
   });
   
   const [loading, setLoading] = useState(false);
