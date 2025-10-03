@@ -902,11 +902,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
             </label>
             
             {/* Image Upload */}
-            <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg">
+            <div className="mb-4 p-4 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-400 transition-colors">
               <div className="text-center">
                 <input
                   type="file"
                   accept="image/*"
+                  multiple
                   onChange={handleImageUpload}
                   className="hidden"
                   id="image-upload"
@@ -918,7 +919,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
                     uploadLoading 
                       ? 'bg-gray-400 cursor-not-allowed' 
                       : 'bg-blue-600 hover:bg-blue-700'
-                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-all duration-200`}
                 >
                   {uploadLoading ? (
                     <>
@@ -927,16 +928,98 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
                     </>
                   ) : (
                     <>
-                      <span>📁</span>
+                      <span>📸</span>
                       <span>Resim Yükle</span>
                     </>
                   )}
                 </label>
                 <p className="mt-2 text-sm text-gray-600">
-                  veya URL ile ekle
+                  Birden fazla resim seçebilirsiniz • JPG, PNG, WebP
                 </p>
               </div>
             </div>
+
+            {/* Image Gallery Preview */}
+            {formData.images.length > 0 && (
+              <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                  <span>📷</span>
+                  <span className="ml-2">Yüklenen Resimler ({formData.images.length})</span>
+                  {formData.images.length > 0 && (
+                    <span className="ml-2 text-sm text-blue-600">• İlk resim ana resimdir</span>
+                  )}
+                </h4>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                  {formData.images.map((imageUrl, index) => (
+                    <div key={index} className="relative group">
+                      <div className={`relative rounded-lg overflow-hidden ${index === 0 ? 'ring-2 ring-blue-500' : ''}`}>
+                        <img
+                          src={imageUrl}
+                          alt={`Tur resmi ${index + 1}`}
+                          className="w-full h-24 object-cover"
+                          onError={(e) => {
+                            e.target.src = '/placeholder-tour.jpg';
+                          }}
+                        />
+                        {index === 0 && (
+                          <div className="absolute top-1 left-1 bg-blue-500 text-white text-xs px-2 py-1 rounded">
+                            Ana Resim
+                          </div>
+                        )}
+                        
+                        {/* Overlay with controls */}
+                        <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-50 transition-all duration-200 flex items-center justify-center">
+                          <div className="opacity-0 group-hover:opacity-100 flex space-x-1">
+                            {index !== 0 && (
+                              <button
+                                type="button"
+                                onClick={() => setAsPrimaryImage(index)}
+                                className="bg-blue-600 hover:bg-blue-700 text-white p-1 rounded text-xs"
+                                title="Ana resim yap"
+                              >
+                                ⭐
+                              </button>
+                            )}
+                            {index > 0 && (
+                              <button
+                                type="button"
+                                onClick={() => moveImage(index, index - 1)}
+                                className="bg-gray-600 hover:bg-gray-700 text-white p-1 rounded text-xs"
+                                title="Yukarı taşı"
+                              >
+                                ↑
+                              </button>
+                            )}
+                            {index < formData.images.length - 1 && (
+                              <button
+                                type="button"
+                                onClick={() => moveImage(index, index + 1)}
+                                className="bg-gray-600 hover:bg-gray-700 text-white p-1 rounded text-xs"
+                                title="Aşağı taşı"
+                              >
+                                ↓
+                              </button>
+                            )}
+                            <button
+                              type="button"
+                              onClick={() => removeFromList('images', index)}
+                              className="bg-red-600 hover:bg-red-700 text-white p-1 rounded text-xs"
+                              title="Sil"
+                            >
+                              🗑️
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Manual URL Input */}
+            <div className="border-t border-gray-200 pt-4">
+              <h4 className="font-medium text-gray-900 mb-3">Manuel URL Ekleme</h4>
 
             <div className="space-y-2">
               {formData.images.map((image, index) => (
