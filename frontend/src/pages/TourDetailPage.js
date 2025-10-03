@@ -147,7 +147,7 @@ const TourDetailPage = () => {
 
     // Aynı tur ve tarih kombinasyonu var mı kontrol et
     const existingItemIndex = cartItems.findIndex(item => 
-      item.tourId === tour.id && item.selectedDate?.date === selectedDate.date
+      item.tourId === tour.id && item.selectedDate?.date === selectedDate.start_date
     );
     
     if (existingItemIndex >= 0) {
