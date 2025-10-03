@@ -1709,7 +1709,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     const tourDate = formData.tour_dates[index];
     setNewTourDate({
       date: tourDate.date,
-      price: tourDate.price.toString(),
+      single_cabin_price: (tourDate.single_cabin_price || tourDate.price || '').toString(),
+      double_cabin_price: (tourDate.double_cabin_price || tourDate.price || '').toString(),
       capacity: tourDate.capacity.toString()
     });
     // Remove the old one so user can add the edited version
