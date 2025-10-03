@@ -1034,6 +1034,17 @@ const AdminPage = () => {
                               >
                                 <Eye className="w-4 h-4" />
                               </button>
+
+                              <button 
+                                onClick={() => {
+                                  setSelectedReview(review);
+                                  setShowReviewModal(true);
+                                }}
+                                className="text-blue-600 hover:text-blue-700 p-1 rounded transition-colors duration-200"
+                                title="Düzenle"
+                              >
+                                <Edit className="w-4 h-4" />
+                              </button>
                               
                               {!review.is_verified && review.status !== 'rejected' && (
                                 <button
