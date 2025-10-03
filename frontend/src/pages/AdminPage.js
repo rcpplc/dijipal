@@ -126,6 +126,41 @@ const AdminPage = () => {
     }
   };
 
+  const handleApproveReview = async (reviewId) => {
+    try {
+      await axios.put(`${API}/admin/reviews/${reviewId}/approve`);
+      toast.success('Yorum onaylandı');
+      loadReviews();
+    } catch (error) {
+      console.error('Error approving review:', error);
+      toast.error('Yorum onaylanırken hata oluştu');
+    }
+  };
+
+  const handleRejectReview = async (reviewId) => {
+    try {
+      await axios.put(`${API}/admin/reviews/${reviewId}/reject`);
+      toast.success('Yorum reddedildi');
+      loadReviews();
+    } catch (error) {
+      console.error('Error rejecting review:', error);
+      toast.error('Yorum reddedilirken hata oluştu');
+    }
+  };
+
+  const handleDeleteReview = async (reviewId) => {
+    if (window.confirm('Bu yorumu kalıcı olarak silmek istediğinizden emin misiniz?')) {
+      try {
+        await axios.delete(`${API}/admin/reviews/${reviewId}`);
+        toast.success('Yorum silindi');
+        loadReviews();
+      } catch (error) {
+        console.error('Error deleting review:', error);
+        toast.error('Yorum silinirken hata oluştu');
+      }
+    }
+  };
+
   const loadLocations = async () => {
     setLoading(true);
     try {
