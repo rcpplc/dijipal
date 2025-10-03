@@ -14,7 +14,12 @@ import {
   Phone,
   ChevronLeft,
   ChevronRight,
-  Heart
+  Heart,
+  Trees,
+  Mountain,
+  Building,
+  Castle,
+  UtensilsCrossed
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
