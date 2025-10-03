@@ -620,12 +620,28 @@ const BookingPage = () => {
 
                 {/* Seçilen Tarih ve Kabin */}
                 <div className="border-t border-gray-100 pt-3 mt-3 space-y-2">
-                  {formattedSelectedDate && (
+                  {(formattedSelectedDate || selectedDate) && (
                     <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
                       <div className="flex items-center space-x-2 text-sm">
                         <Calendar className="w-4 h-4 text-blue-600" />
                         <span className="font-medium text-blue-800">
-                          Seçilen Tarih: {formattedSelectedDate}
+                          Seçilen Tarih: {formattedSelectedDate || 
+                            (selectedDate?.start_date ? 
+                              new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+                                year: 'numeric',
+                                month: 'long', 
+                                day: 'numeric'
+                              }) : 
+                              (selectedDate?.date ? 
+                                new Date(selectedDate.date).toLocaleDateString('tr-TR', {
+                                  year: 'numeric',
+                                  month: 'long',
+                                  day: 'numeric'
+                                }) : 
+                                'Tarih seçilmedi'
+                              )
+                            )
+                          }
                         </span>
                       </div>
                     </div>
