@@ -220,11 +220,12 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
 
 ## metadata:
   created_by: "main_agent"
-  version: "1.1"
-  test_sequence: 2
+  version: "1.2"
+  test_sequence: 3
   run_ui: true
   backend_tested: true
-  backend_test_date: "2025-01-03T10:08:00Z"
+  backend_test_date: "2025-10-03T13:21:00Z"
+  admin_tour_management_tested: true
 
 ## test_plan:
   current_focus:
