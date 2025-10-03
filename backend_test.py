@@ -878,7 +878,7 @@ class TourPlatformAPITester:
             location_id = created_location_ids[2]  # Delete third location
             
             delete_success, delete_response = self.run_test(
-                "Delete Location",
+                "Delete Location (Expected to Fail - Endpoint Not Implemented)",
                 "DELETE",
                 f"admin/locations/{location_id}",
                 200
@@ -887,7 +887,8 @@ class TourPlatformAPITester:
             if delete_success:
                 print("   ✅ Location deleted successfully")
             else:
-                print("   ⚠️  Location deletion failed (may have tours using it)")
+                print("   ⚠️  DELETE /api/admin/locations/{id} endpoint not implemented (404/405 expected)")
+                print("   ℹ️  Location deletion functionality needs to be implemented in backend")
         
         return True
 
