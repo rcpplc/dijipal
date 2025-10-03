@@ -448,8 +448,12 @@ async def get_tour(tour_id: str = FastAPIPath(...)):
             del date["_id"]
         tour["tour_dates"].append({
             "id": date["id"],
+            "start_date": date["start_date"],
             "date": date["start_date"],
-            "price": date["price"],
+            "price": date.get("price", 0),
+            "single_cabin_price": date.get("single_cabin_price", date.get("price", 0)),
+            "double_cabin_price": date.get("double_cabin_price", date.get("price", 0)),
+            "available_spots": date.get("available_spots", 0),
             "capacity": date["available_spots"],
             "is_active": date.get("is_active", True)
         })
