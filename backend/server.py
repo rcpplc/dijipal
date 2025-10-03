@@ -143,9 +143,7 @@ class TourDate(BaseModel):
     end_date: Optional[str] = None
     start_time: Optional[str] = None
     available_spots: int
-    price: Optional[float] = None
-    single_cabin_price: Optional[float] = None  # 1 kişilik kabin fiyatı
-    double_cabin_price: Optional[float] = None  # 2 kişilik kabin fiyatı
+    price: float
     is_active: bool = True
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
