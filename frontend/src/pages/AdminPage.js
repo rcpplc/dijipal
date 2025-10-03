@@ -747,6 +747,36 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
     toast.success('Ana resim olarak ayarlandı');
   };
 
+  const validateStep = (step) => {
+    switch (step) {
+      case 1:
+        return formData.title && formData.location && formData.category && 
+               formData.duration_days && formData.base_price && formData.max_participants;
+      case 2:
+        return true; // Images optional
+      case 3:
+        return true; // Services optional
+      case 4:
+        return true; // Final validation
+      default:
+        return true;
+    }
+  };
+
+  const nextStep = () => {
+    if (validateStep(currentStep)) {
+      setCurrentStep(Math.min(currentStep + 1, 4));
+    } else {
+      toast.error('Lütfen zorunlu alanları doldurun');
+    }
+  };
+
+  const prevStep = () => {
+    setCurrentStep(Math.max(currentStep - 1, 1));
+  };
+
+  const canProceed = validateStep(currentStep);
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
