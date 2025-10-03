@@ -36,6 +36,8 @@ const AdminPage = () => {
       loadDashboard();
     } else if (activeTab === 'tours') {
       loadTours();
+    } else if (activeTab === 'users') {
+      loadUsers();
     }
   }, [activeTab]);
 
