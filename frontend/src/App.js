@@ -134,7 +134,9 @@ function App() {
     register,
     logout,
     showLoginModal,
-    setShowLoginModal
+    setShowLoginModal,
+    loginMode,
+    setLoginMode
   };
 
   return (
