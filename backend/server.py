@@ -123,6 +123,7 @@ class Tour(BaseModel):
     excluded_services: List[str] = []
     meeting_point: Optional[str] = None
     languages: List[str] = ["Turkish"]
+    program_details: Optional[str] = None  # Daily program and itinerary information
     cancellation_policy: Optional[str] = None
     tags: List[str] = []
     created_at: datetime = Field(default_factory=datetime.utcnow)
@@ -194,6 +195,7 @@ class TourCreate(BaseModel):
     excluded_services: List[str] = []
     meeting_point: Optional[str] = None
     languages: List[str] = ["Turkish"]
+    program_details: Optional[str] = None  # Daily program and itinerary information
     cancellation_policy: Optional[str] = None
     tags: List[str] = []
     tour_dates: List[TourDateCreate] = []
