@@ -78,9 +78,11 @@ const CartPage = () => {
       participants: firstTour.participants.toString()
     });
     
-    if (firstTour.selectedDate) {
+    if (firstTour.selectedDate && firstTour.selectedDate.date) {
       queryParams.append('date', firstTour.selectedDate.date);
-      queryParams.append('price', firstTour.selectedDate.price.toString());
+      if (firstTour.selectedDate.price) {
+        queryParams.append('price', firstTour.selectedDate.price.toString());
+      }
     }
     
     navigate(`/booking/${firstTour.tourId}?${queryParams.toString()}`);
