@@ -1032,7 +1032,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
     switch (step) {
       case 1:
         return formData.title && formData.location && formData.category && 
-               formData.duration_days && formData.base_price && formData.max_participants;
+               formData.pickup_time && formData.dropoff_time && formData.short_description;
       case 2:
         return true; // Images optional
       case 3:
