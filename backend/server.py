@@ -686,7 +686,9 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     await db.tours.insert_one(tour.dict())
     
     # Create tour dates
-    for date_data in tour_dates_data:
+    print(f"Creating {len(tour_dates_data)} tour dates for tour {tour.id}")
+    for i, date_data in enumerate(tour_dates_data):
+        print(f"Processing date {i+1}: {date_data}")
         tour_date = {
             "id": str(uuid.uuid4()),
             "tour_id": tour.id,
@@ -696,7 +698,9 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
-        await db.tour_dates.insert_one(tour_date)
+        print(f"Inserting tour_date: {tour_date}")
+        result = await db.tour_dates.insert_one(tour_date)
+        print(f"Insert result: {result.inserted_id}")
     
     return tour
 
