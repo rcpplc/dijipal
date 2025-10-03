@@ -1788,4 +1788,322 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   );
 };
 
+// Location Modal Component
+const LocationModal = ({ location, isEdit, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: location?.name || '',
+    description: location?.description || '',
+    country: location?.country || 'Türkiye',
+    is_active: location?.is_active !== undefined ? location.is_active : true
+  });
+  
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      
+      if (isEdit) {
+        await axios.put(`${API}/admin/locations/${location.id}`, formData);
+        toast.success('Lokasyon başarıyla güncellendi');
+      } else {
+        await axios.post(`${API}/admin/locations`, formData);
+        toast.success('Lokasyon başarıyla oluşturuldu');
+      }
+      
+      onSave();
+    } catch (error) {
+      console.error('Error saving location:', error);
+      toast.error(error.response?.data?.detail || 'Lokasyon kaydedilirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-lg max-w-md w-full">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-900">
+              {isEdit ? 'Lokasyon Düzenle' : 'Yeni Lokasyon'}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-2xl"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="p-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Lokasyon Adı *
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Açıklama
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                rows={3}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Ülke *
+              </label>
+              <input
+                type="text"
+                value={formData.country}
+                onChange={(e) => setFormData({...formData, country: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="location_active"
+                checked={formData.is_active}
+                onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="location_active" className="ml-2 text-sm text-gray-700">
+                Aktif
+              </label>
+            </div>
+          </div>
+
+          <div className="p-6 border-t border-gray-200">
+            <div className="flex justify-end space-x-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                İptal
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
+              >
+                {loading ? 'Kaydediliyor...' : (isEdit ? 'Güncelle' : 'Oluştur')}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
+// Category Modal Component
+const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    name: category?.name || '',
+    description: category?.description || '',
+    icon: category?.icon || '📂',
+    image: category?.image || '',
+    seo_title: category?.seo_title || '',
+    seo_description: category?.seo_description || '',
+    seo_keywords: category?.seo_keywords || '',
+    is_active: category?.is_active !== undefined ? category.is_active : true
+  });
+  
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      
+      if (isEdit) {
+        await axios.put(`${API}/admin/categories/${category.id}`, formData);
+        toast.success('Kategori başarıyla güncellendi');
+      } else {
+        await axios.post(`${API}/admin/categories`, formData);
+        toast.success('Kategori başarıyla oluşturuldu');
+      }
+      
+      onSave();
+    } catch (error) {
+      console.error('Error saving category:', error);
+      toast.error(error.response?.data?.detail || 'Kategori kaydedilirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-lg w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-900">
+              {isEdit ? 'Kategori Düzenle' : 'Yeni Kategori'}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="text-gray-400 hover:text-gray-600 text-2xl"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div className="p-6 space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Kategori Adı *
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={(e) => setFormData({...formData, name: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Açıklama
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData({...formData, description: e.target.value})}
+                rows={3}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  İkon
+                </label>
+                <input
+                  type="text"
+                  value={formData.icon}
+                  onChange={(e) => setFormData({...formData, icon: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="📂"
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Resim URL
+                </label>
+                <input
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => setFormData({...formData, image: e.target.value})}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://..."
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                SEO Başlık
+              </label>
+              <input
+                type="text"
+                value={formData.seo_title}
+                onChange={(e) => setFormData({...formData, seo_title: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                SEO Açıklama
+              </label>
+              <textarea
+                value={formData.seo_description}
+                onChange={(e) => setFormData({...formData, seo_description: e.target.value})}
+                rows={2}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                SEO Anahtar Kelimeler
+              </label>
+              <input
+                type="text"
+                value={formData.seo_keywords}
+                onChange={(e) => setFormData({...formData, seo_keywords: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="kelime1, kelime2, kelime3"
+              />
+            </div>
+
+            <div className="flex items-center">
+              <input
+                type="checkbox"
+                id="category_active"
+                checked={formData.is_active}
+                onChange={(e) => setFormData({...formData, is_active: e.target.checked})}
+                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+              />
+              <label htmlFor="category_active" className="ml-2 text-sm text-gray-700">
+                Aktif
+              </label>
+            </div>
+          </div>
+
+          <div className="p-6 border-t border-gray-200">
+            <div className="flex justify-end space-x-4">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                İptal
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg transition-colors duration-200 disabled:opacity-50"
+              >
+                {loading ? 'Kaydediliyor...' : (isEdit ? 'Güncelle' : 'Oluştur')}
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default AdminPage;
