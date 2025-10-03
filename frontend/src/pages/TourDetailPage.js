@@ -692,7 +692,17 @@ const TourDetailPage = () => {
                 ) : (
                   <div className="text-center py-4 text-gray-500">
                     <Calendar className="w-8 h-8 mx-auto mb-2" />
-                    <p className="text-sm">Uygun tarih bulunamadı</p>
+                    <p className="text-sm">
+                      {selectedMonth ? 'Seçilen ayda uygun tarih bulunamadı' : 'Uygun tarih bulunamadı'}
+                    </p>
+                    {selectedMonth && (
+                      <button
+                        onClick={() => setSelectedMonth('')}
+                        className="text-blue-600 hover:text-blue-700 text-sm mt-2 underline"
+                      >
+                        Tüm ayları göster
+                      </button>
+                    )}
                   </div>
                 )}
               </div>
