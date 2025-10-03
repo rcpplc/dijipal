@@ -1,0 +1,102 @@
+{
+  "summary": {
+    "total_tests": 13,
+    "passed_tests": 12,
+    "failed_tests": 1,
+    "success_rate": 92.3076923076923,
+    "test_date": "2025-10-03T18:46:48.738599"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 404. Response: {'detail': 'Not Found'}",
+      "timestamp": "2025-10-03T18:46:48.225886"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmYyNTJiMC01NWE1LTQxMWYtYWE5MC1hZDY2Mjc3OGU4YTYifQ.jfCuAB9ieuOKeD4sdhZMpiLtsUL0WH7m2gw8kHlUKQE\",\n  \"user\": {\n    \"id\": \"2ff252b0-55a5-411...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.273595"
+    },
+    {
+      "test_name": "Admin Tours List with Cabin Pricing Fields",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n    \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n    \"description...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.323887"
+    },
+    {
+      "test_name": "Create Tour with Cabin Pricing",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"a863e810-3098-4ebc-a2f3-115371cb4a95\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Kabin Fiyatl\\u0131 Test Turu\",\n  \"description\": \"Bu tur kabin fiyatland\\u0131rmas\\u...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.370525"
+    },
+    {
+      "test_name": "Verify Created Tour a863e810-3098-4ebc-a2f3-115371cb4a95 Cabin Pricing",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"a863e810-3098-4ebc-a2f3-115371cb4a95\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Kabin Fiyatl\\u0131 Test Turu\",\n  \"description\": \"Bu tur kabin fiyatland\\u0131rmas\\u...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.414238"
+    },
+    {
+      "test_name": "Add Test Cabin Pricing for Tour a863e810-3098-4ebc-a2f3-115371cb4a95",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Test cabin pricing added for tour a863e810-3098-4ebc-a2f3-115371cb4a95. Added 3 dates with different pricing.\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.452939"
+    },
+    {
+      "test_name": "Get Tour a863e810-3098-4ebc-a2f3-115371cb4a95 for Update Test",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"a863e810-3098-4ebc-a2f3-115371cb4a95\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Kabin Fiyatl\\u0131 Test Turu\",\n  \"description\": \"Bu tur kabin fiyatland\\u0131rmas\\u...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.495452"
+    },
+    {
+      "test_name": "Admin Update Tour with Cabin Pricing",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"a863e810-3098-4ebc-a2f3-115371cb4a95\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Kabin Fiyatl\\u0131 Test Turu\",\n  \"description\": \"Bu tur kabin fiyatland\\u0131rmas\\u...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.539826"
+    },
+    {
+      "test_name": "Admin Tours List with Cabin Pricing Fields",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n    \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n    \"description...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.578305"
+    },
+    {
+      "test_name": "Admin Tours List with Cabin Pricing Fields",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n    \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n    \"description...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.617909"
+    },
+    {
+      "test_name": "Get Tours List",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n    \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n    \"description...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.655941"
+    },
+    {
+      "test_name": "Get Single Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n  \"description\": \"Fethiye ...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.693637"
+    },
+    {
+      "test_name": "Get Single Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"a863e810-3098-4ebc-a2f3-115371cb4a95\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Kabin Fiyatl\\u0131 Test Turu\",\n  \"description\": \"Bu tur kabin fiyatland\\u0131rmas\\u...",
+      "error": "",
+      "timestamp": "2025-10-03T18:46:48.737687"
+    }
+  ]
+}
