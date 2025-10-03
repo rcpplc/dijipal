@@ -1031,12 +1031,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   const validateStep = (step) => {
     switch (step) {
       case 1:
-        return formData.title && formData.location && formData.category && 
-               formData.pickup_time && formData.dropoff_time && formData.short_description;
+        return formData.title.trim() && formData.location && formData.category && 
+               formData.pickup_time && formData.dropoff_time && formData.short_description.trim();
       case 2:
         return true; // Images optional
       case 3:
-        return formData.tour_dates.length > 0; // At least one tour date
+        return true; // Tour dates optional for now, can be added later
       case 4:
         return true; // Services optional
       case 5:
