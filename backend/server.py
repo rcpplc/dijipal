@@ -377,12 +377,6 @@ async def create_tour(tour_data: TourCreate, current_user: User = Depends(get_cu
     await db.tours.insert_one(tour.dict())
     return tour
 
-@api_router.get("/tours/{tour_id}/dates", response_model=List[TourDate])
-async def get_tour_dates(tour_id: str = FastAPIPath(...)):
-    """Get available dates for a tour"""
-    tour_dates = await db.tour_dates.find({"tour_id": tour_id, "is_active": True}).to_list(length=None)
-    return [TourDate(**date) for date in tour_dates]
-
 # Booking endpoints
 @api_router.post("/bookings", response_model=Booking)
 async def create_booking(booking_data: BookingCreate, current_user: User = Depends(get_current_user)):
