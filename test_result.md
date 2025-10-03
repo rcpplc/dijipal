@@ -216,9 +216,7 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
 
 ## test_plan:
   current_focus:
-    - "Cart page tour date display"
-    - "Booking page tour date display"
-    - "Tour detail date selection validation"
+    - "Admin panel location management"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
