@@ -88,14 +88,11 @@ const TourDetailPage = () => {
 
   const checkIfFavorited = async () => {
     try {
-      const response = await axios.get(`${API}/users/favorites/${tourId}`, {
-        headers: {
-          Authorization: `Bearer ${user.token}`
-        }
-      });
+      const response = await axios.get(`${API}/favorites/check/${tourId}`);
       setIsFavorited(response.data.is_favorited);
     } catch (error) {
       console.error('Error checking favorite status:', error);
+      setIsFavorited(false);
     }
   };
 
