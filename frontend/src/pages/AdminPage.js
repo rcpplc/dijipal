@@ -1820,12 +1820,18 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       onChange={(e) => setFormData({...formData, location: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       required
+                      disabled={!locations || locations.length === 0}
                     >
-                      <option value="">Lokasyon seçin...</option>
-                      {locations.filter(loc => loc.is_active).map(loc => (
+                      <option value="">
+                        {!locations || locations.length === 0 ? "Lokasyonlar yükleniyor..." : "Lokasyon seçin..."}
+                      </option>
+                      {locations && locations.filter(loc => loc.is_active).map(loc => (
                         <option key={loc.id} value={loc.name}>{loc.name}</option>
                       ))}
                     </select>
+                    {(!locations || locations.length === 0) && (
+                      <p className="text-sm text-gray-500 mt-1">Lokasyonlar yükleniyor...</p>
+                    )}
                   </div>
 
                   <div>
@@ -1837,12 +1843,18 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                       required
+                      disabled={!categories || categories.length === 0}
                     >
-                      <option value="">Kategori seçin...</option>
-                      {categories.filter(cat => cat.is_active).map(cat => (
+                      <option value="">
+                        {!categories || categories.length === 0 ? "Kategoriler yükleniyor..." : "Kategori seçin..."}
+                      </option>
+                      {categories && categories.filter(cat => cat.is_active).map(cat => (
                         <option key={cat.id} value={cat.name}>{cat.name}</option>
                       ))}
                     </select>
+                    {(!categories || categories.length === 0) && (
+                      <p className="text-sm text-gray-500 mt-1">Kategoriler yükleniyor...</p>
+                    )}
                   </div>
 
                   <div>
