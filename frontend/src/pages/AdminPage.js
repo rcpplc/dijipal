@@ -814,6 +814,38 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
   const canProceed = validateStep(currentStep);
 
+  // Load locations and categories on mount
+  useEffect(() => {
+    const loadOptions = async () => {
+      try {
+        const [locationsRes, categoriesRes] = await Promise.all([
+          axios.get(`${API}/admin/locations`),
+          axios.get(`${API}/admin/categories`)
+        ]);
+        setAvailableLocations(locationsRes.data);
+        setAvailableCategories(categoriesRes.data);
+      } catch (error) {
+        console.error('Error loading options:', error);
+      }
+    };
+    loadOptions();
+  }, []);
+
+  const addTourDate = () => {
+    if (newTourDate.date && newTourDate.price && newTourDate.capacity) {
+      setFormData(prev => ({
+        ...prev,
+        tour_dates: [...prev.tour_dates, { 
+          ...newTourDate, 
+          id: Date.now().toString(),
+          price: parseFloat(newTourDate.price),
+          capacity: parseInt(newTourDate.capacity)
+        }]
+      }));
+      setNewTourDate({ date: '', price: '', capacity: '' });
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
       <div className="bg-white rounded-lg max-w-5xl w-full max-h-[90vh] overflow-y-auto">
