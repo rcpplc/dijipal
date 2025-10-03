@@ -1804,7 +1804,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
                     </div>
                     <div>
                       <span className="font-medium text-gray-700">Süre:</span>
-                      <span className="ml-2 text-gray-900">{formData.duration_days} gün {formData.duration_hours ? `${formData.duration_hours} saat` : ''}</span>
+                      <span className="ml-2 text-gray-900">
+                        {formData.duration_days} gün {formData.duration_hours > 0 && `${formData.duration_hours} saat`}
+                      </span>
                     </div>
                     <div>
                       <span className="font-medium text-gray-700">Katılımcı:</span>
