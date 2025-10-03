@@ -596,6 +596,7 @@ const AdminPage = () => {
 
 // Tour Modal Component
 const TourModal = ({ tour, isEdit, onClose, onSave }) => {
+  const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: tour?.title || '',
     description: tour?.description || '',
@@ -623,6 +624,13 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
   const [newExcludedService, setNewExcludedService] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
+
+  const steps = [
+    { id: 1, title: 'Temel Bilgiler', icon: '📝' },
+    { id: 2, title: 'Görsel & Medya', icon: '📸' },
+    { id: 3, title: 'Hizmetler & Detaylar', icon: '⚙️' },
+    { id: 4, title: 'Ayarlar & Onay', icon: '✅' }
+  ];
 
   const categories = [
     { value: 'cultural', label: 'Kültürel' },
