@@ -266,3 +266,5 @@ Kullanıcı sepette ve rezervasyon yaparken tur tarihi gözükmemesi sorunu bild
       message: "Backend API testleri tamamlandı. Tüm istenen endpoint'ler test edildi ve çalışıyor: ✅ GET /api/tours, ✅ GET /api/tours/{id}, ✅ POST /api/auth/login (admin@example.com/admin123), ✅ GET /api/admin/tours, ✅ POST /api/seed-data. Admin dashboard çalışıyor (3 tours, 2 bookings, 13 users, 1196 TL revenue). Tour date bilgileri API'dan alınabiliyor. Backend hazır, frontend testine geçilebilir."
     - agent: "main"
       message: "Tüm ana sorunlar çözüldü: ✅ Sepet/rezervasyon tarih sorunu, ✅ Admin panel erişimi (troubleshoot_agent ile race condition çözüldü), ✅ Rezervasyon tasarım uyumu, ✅ Favoriler sistemi backend entegrasyonu tamamlandı (ToursPage, TourDetailPage, FavoritesPage). Favoriler frontend testine hazır."
+    - agent: "main"
+      message: "Admin panel iyileştirmeleri tamamlandı: ✅ Tur durumu (taslak/aktif/pasif/arşiv) düzeltildi, ✅ Kullanıcı yönetimi sayfası eklendi (user listesi, status toggle), ✅ Resim upload sistemi eklendi (file upload + URL), ✅ Backend API endpoints eklendi (/admin/users, /upload/image, /admin/users/{id}/status). Test edilmeye hazır."
