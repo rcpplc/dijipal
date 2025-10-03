@@ -831,6 +831,22 @@ async def seed_sample_data():
         }
         await db.users.insert_one(admin_user)
 
+    # Create requested admin user for testing
+    requested_admin_email = "admin@example.com"
+    existing_requested_admin = await db.users.find_one({"email": requested_admin_email})
+    if not existing_requested_admin:
+        requested_admin_user = {
+            "id": str(uuid.uuid4()),
+            "email": requested_admin_email,
+            "full_name": "Test Admin User",
+            "phone": "05551234568",
+            "role": UserRole.ADMIN,
+            "is_active": True,
+            "created_at": datetime.utcnow(),
+            "hashed_password": hash_password("admin123")
+        }
+        await db.users.insert_one(requested_admin_user)
+
     return {"message": "Sample data, tour dates, reviews and admin user added successfully"}
 
 # Include router
