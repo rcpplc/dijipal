@@ -110,9 +110,10 @@ const AdminPage = () => {
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
     { id: 'tours', label: 'Turlar', icon: MapPin },
-    { id: 'bookings', label: 'Rezervasyonlar', icon: Calendar },
     { id: 'users', label: 'Kullanıcılar', icon: Users },
-    { id: 'vendors', label: 'Operatörler', icon: Users },
+    { id: 'locations', label: 'Lokasyonlar', icon: MapPin },
+    { id: 'categories', label: 'Kategoriler', icon: Users },
+    { id: 'bookings', label: 'Rezervasyonlar', icon: Calendar },
     { id: 'reviews', label: 'Değerlendirmeler', icon: Eye }
   ];
 
