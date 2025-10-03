@@ -937,12 +937,16 @@ const TourDetailPage = () => {
                   </div>
                   <button
                     onClick={() => {
-                      alert('+ BUTTON CLICKED!');
-                      setParticipants(prev => {
-                        const newValue = (prev || 1) + 1;
-                        alert(`New value: ${newValue}`);
-                        return newValue;
-                      });
+                      console.log('Current participants before:', participants);
+                      const newValue = (participants || 1) + 1;
+                      console.log('Calculated new value:', newValue);
+                      setParticipants(newValue);
+                      console.log('setParticipants called with:', newValue);
+                      
+                      // Force re-render check after a delay
+                      setTimeout(() => {
+                        console.log('Participants after timeout:', participants);
+                      }, 100);
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
                   >
