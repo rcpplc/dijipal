@@ -14,6 +14,8 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
