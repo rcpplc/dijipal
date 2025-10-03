@@ -1144,22 +1144,69 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+          </div>
+
+          {/* Navigation Buttons */}
+          <div className="flex justify-between items-center pt-6 border-t border-gray-200">
             <button
               type="button"
-              onClick={onClose}
-              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              onClick={prevStep}
+              disabled={currentStep === 1}
+              className={`px-6 py-2 border border-gray-300 rounded-lg transition-colors duration-200 ${
+                currentStep === 1 
+                  ? 'text-gray-400 cursor-not-allowed' 
+                  : 'text-gray-700 hover:bg-gray-50'
+              }`}
             >
-              İptal
+              ← Önceki
             </button>
-            <button
-              type="submit"
-              disabled={loading}
-              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200"
-            >
-              {loading ? 'Kaydediliyor...' : (isEdit ? 'Güncelle' : 'Oluştur')}
-            </button>
+
+            <div className="text-sm text-gray-500">
+              {currentStep} / {steps.length}
+            </div>
+
+            <div className="flex space-x-3">
+              <button
+                type="button"
+                onClick={onClose}
+                className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                İptal
+              </button>
+              
+              {currentStep < steps.length ? (
+                <button
+                  type="button"
+                  onClick={nextStep}
+                  disabled={!canProceed}
+                  className={`px-6 py-2 rounded-lg transition-colors duration-200 ${
+                    canProceed 
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white' 
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  Sonraki →
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={loading || !canProceed}
+                  className="px-6 py-2 bg-green-600 hover:bg-green-700 disabled:bg-gray-400 text-white rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                >
+                  {loading ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                      <span>Kaydediliyor...</span>
+                    </>
+                  ) : (
+                    <>
+                      <span>✓</span>
+                      <span>{isEdit ? 'Güncelle' : 'Tur Oluştur'}</span>
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
           </div>
         </form>
       </div>
