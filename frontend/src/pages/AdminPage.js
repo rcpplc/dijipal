@@ -2188,7 +2188,9 @@ const CategoryModal = ({ category, onClose, onSave }) => {
           </div>
         </div>
         
-        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+        <form onSubmit={handleSubmit} className="p-6">
+          {/* Tab Content */}
+          <div className="min-h-[500px]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {/* Basic Info */}
             <div className="space-y-4">
