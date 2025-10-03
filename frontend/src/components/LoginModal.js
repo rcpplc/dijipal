@@ -102,8 +102,11 @@ const LoginModal = ({ initialMode = 'login' }) => {
             {isLogin ? 'Giriş Yap' : 'Hesap Oluştur'}
           </h2>
           <button
-            onClick={() => setShowLoginModal(false)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200"
+            onClick={() => !loading && setShowLoginModal(false)}
+            disabled={loading}
+            className={`p-2 hover:bg-gray-100 rounded-lg transition-colors duration-200 ${
+              loading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
           >
             <X className="w-5 h-5 text-gray-500" />
           </button>
