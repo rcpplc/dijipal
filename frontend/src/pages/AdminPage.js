@@ -261,56 +261,129 @@ const AdminPage = () => {
                 </button>
               </div>
 
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b border-gray-200">
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Tur</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Lokasyon</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Fiyat</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">Durum</th>
-                      <th className="text-left py-3 px-4 font-medium text-gray-600">İşlemler</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="border-b border-gray-100">
-                      <td className="py-4 px-4">
-                        <div className="flex items-center space-x-3">
-                          <img
-                            src="/placeholder-tour.jpg"
-                            alt="Tour"
-                            className="w-12 h-12 object-cover rounded-lg"
-                          />
-                          <div>
-                            <p className="font-medium text-gray-900">İstanbul Tarihi Tur</p>
-                            <p className="text-sm text-gray-600">Kültürel</p>
-                          </div>
+              {tourLoading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="animate-pulse border-b border-gray-100 py-4">
+                      <div className="flex items-center space-x-4">
+                        <div className="bg-gray-200 w-12 h-12 rounded-lg"></div>
+                        <div className="flex-1 space-y-2">
+                          <div className="bg-gray-200 h-4 w-48 rounded"></div>
+                          <div className="bg-gray-200 h-3 w-32 rounded"></div>
                         </div>
-                      </td>
-                      <td className="py-4 px-4 text-gray-700">İstanbul</td>
-                      <td className="py-4 px-4 text-gray-700">₺299</td>
-                      <td className="py-4 px-4">
-                        <span className="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs font-medium">
-                          Aktif
-                        </span>
-                      </td>
-                      <td className="py-4 px-4">
-                        <div className="flex space-x-2">
-                          <button className="text-blue-600 hover:text-blue-700 p-1 rounded">
-                            <Eye className="w-4 h-4" />
-                          </button>
-                          <button className="text-gray-600 hover:text-gray-700 p-1 rounded">
-                            <Edit className="w-4 h-4" />
-                          </button>
-                          <button className="text-red-600 hover:text-red-700 p-1 rounded">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                        <div className="bg-gray-200 h-6 w-20 rounded-full"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="w-full border-collapse">
+                    <thead>
+                      <tr className="border-b border-gray-200">
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Tur</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Lokasyon</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Kategori</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Fiyat</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">Durum</th>
+                        <th className="text-left py-3 px-4 font-medium text-gray-600">İşlemler</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {tours.length === 0 ? (
+                        <tr>
+                          <td colSpan="6" className="text-center py-8 text-gray-500">
+                            Henüz tur eklenmemiş
+                          </td>
+                        </tr>
+                      ) : (
+                        tours.map((tour) => (
+                          <tr key={tour.id} className="border-b border-gray-100 hover:bg-gray-50">
+                            <td className="py-4 px-4">
+                              <div className="flex items-center space-x-3">
+                                <img
+                                  src={tour.images[0] || '/placeholder-tour.jpg'}
+                                  alt={tour.title}
+                                  className="w-12 h-12 object-cover rounded-lg"
+                                />
+                                <div>
+                                  <p className="font-medium text-gray-900 max-w-xs truncate">
+                                    {tour.title}
+                                  </p>
+                                  <p className="text-sm text-gray-600">
+                                    {tour.duration_days} gün • {tour.max_participants} kişi
+                                  </p>
+                                </div>
+                              </div>
+                            </td>
+                            <td className="py-4 px-4 text-gray-700">
+                              {tour.location}
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
+                                {tour.category}
+                              </span>
+                            </td>
+                            <td className="py-4 px-4 text-gray-700">
+                              ₺{tour.base_price}
+                            </td>
+                            <td className="py-4 px-4">
+                              <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                                tour.status === 'active' 
+                                  ? 'bg-green-100 text-green-800'
+                                  : tour.status === 'draft'
+                                  ? 'bg-yellow-100 text-yellow-800'
+                                  : 'bg-gray-100 text-gray-800'
+                              }`}>
+                                {tour.status === 'active' ? 'Aktif' :
+                                 tour.status === 'draft' ? 'Taslak' : 
+                                 tour.status === 'inactive' ? 'Pasif' : 'Arşiv'}
+                              </span>
+                            </td>
+                            <td className="py-4 px-4">
+                              <div className="flex space-x-2">
+                                <button 
+                                  onClick={() => window.open(`/tours/${tour.id}`, '_blank')}
+                                  className="text-blue-600 hover:text-blue-700 p-1 rounded transition-colors duration-200"
+                                  title="Görüntüle"
+                                >
+                                  <Eye className="w-4 h-4" />
+                                </button>
+                                <button 
+                                  onClick={() => {
+                                    setSelectedTour(tour);
+                                    setShowEditTour(true);
+                                  }}
+                                  className="text-green-600 hover:text-green-700 p-1 rounded transition-colors duration-200"
+                                  title="Düzenle"
+                                >
+                                  <Edit className="w-4 h-4" />
+                                </button>
+                                <button 
+                                  onClick={() => {
+                                    setSelectedTour(tour);
+                                    setShowDeleteConfirm(true);
+                                  }}
+                                  className="text-red-600 hover:text-red-700 p-1 rounded transition-colors duration-200"
+                                  title="Sil"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                    </tbody>
+                  </table>
+                  
+                  {tours.length > 0 && (
+                    <div className="mt-4 text-sm text-gray-600 text-center">
+                      Toplam {tours.length} tur bulundu
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           )}
 
