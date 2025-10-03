@@ -85,6 +85,41 @@ const TourDetailPage = () => {
     toast.success(isFavorited ? 'Favorilerden çıkarıldı' : 'Favorilere eklendi');
   };
 
+  const addToCart = () => {
+    const cartItem = {
+      tourId: tour.id,
+      title: tour.title,
+      location: tour.location,
+      duration: tour.duration_days,
+      price: tour.base_price,
+      participants: participants,
+      image: tour.images[0] || '/placeholder-tour.jpg'
+    };
+
+    // Mevcut sepeti al
+    const savedCart = localStorage.getItem('tour_cart');
+    let cartItems = savedCart ? JSON.parse(savedCart) : [];
+
+    // Tur zaten sepette var mı kontrol et
+    const existingItemIndex = cartItems.findIndex(item => item.tourId === tour.id);
+    
+    if (existingItemIndex >= 0) {
+      // Varsa katılımcı sayısını güncelle
+      cartItems[existingItemIndex].participants = participants;
+      toast.success('Sepetteki tur güncellendi');
+    } else {
+      // Yoksa sepete ekle
+      cartItems.push(cartItem);
+      toast.success('Tur sepete eklendi');
+    }
+
+    // Sepeti kaydet
+    localStorage.setItem('tour_cart', JSON.stringify(cartItems));
+    
+    // Storage event'i tetikle (Header'daki cart count'u güncellemek için)
+    window.dispatchEvent(new Event('storage'));
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 animate-pulse">
