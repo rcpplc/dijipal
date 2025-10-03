@@ -401,6 +401,368 @@ const AdminPage = () => {
           )}
         </div>
       </div>
+
+      {/* Tour Add/Edit Modal */}
+      {(showAddTour || showEditTour) && (
+        <TourModal
+          tour={selectedTour}
+          isEdit={showEditTour}
+          onClose={() => {
+            setShowAddTour(false);
+            setShowEditTour(false);
+            setSelectedTour(null);
+          }}
+          onSave={() => {
+            loadTours();
+            setShowAddTour(false);
+            setShowEditTour(false);
+            setSelectedTour(null);
+          }}
+        />
+      )}
+
+      {/* Delete Confirmation Modal */}
+      {showDeleteConfirm && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-md w-full p-6">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Turu Sil
+            </h3>
+            <p className="text-gray-600 mb-6">
+              "{selectedTour?.title}" adlı turu silmek istediğinizden emin misiniz? 
+              Bu işlem geri alınamaz.
+            </p>
+            <div className="flex space-x-3 justify-end">
+              <button
+                onClick={() => {
+                  setShowDeleteConfirm(false);
+                  setSelectedTour(null);
+                }}
+                className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                İptal
+              </button>
+              <button
+                onClick={() => handleDeleteTour(selectedTour.id)}
+                className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-200"
+              >
+                Sil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+// Tour Modal Component
+const TourModal = ({ tour, isEdit, onClose, onSave }) => {
+  const [formData, setFormData] = useState({
+    title: tour?.title || '',
+    description: tour?.description || '',
+    short_description: tour?.short_description || '',
+    location: tour?.location || '',
+    duration_days: tour?.duration_days || 1,
+    duration_hours: tour?.duration_hours || 0,
+    base_price: tour?.base_price || '',
+    max_participants: tour?.max_participants || 1,
+    category: tour?.category || 'cultural',
+    images: tour?.images || [],
+    included_services: tour?.included_services || [],
+    excluded_services: tour?.excluded_services || [],
+    meeting_point: tour?.meeting_point || '',
+    languages: tour?.languages || ['Turkish'],
+    difficulty_level: tour?.difficulty_level || 'Easy',
+    cancellation_policy: tour?.cancellation_policy || '',
+    tags: tour?.tags || [],
+    status: tour?.status || 'draft'
+  });
+  
+  const [loading, setLoading] = useState(false);
+  const [newIncludedService, setNewIncludedService] = useState('');
+  const [newExcludedService, setNewExcludedService] = useState('');
+  const [newTag, setNewTag] = useState('');
+  const [newImage, setNewImage] = useState('');
+
+  const categories = [
+    { value: 'cultural', label: 'Kültürel' },
+    { value: 'nature', label: 'Doğa' },
+    { value: 'adventure', label: 'Macera' },
+    { value: 'city', label: 'Şehir' },
+    { value: 'historical', label: 'Tarihi' },
+    { value: 'food', label: 'Gastronomi' }
+  ];
+
+  const statusOptions = [
+    { value: 'draft', label: 'Taslak' },
+    { value: 'active', label: 'Aktif' },
+    { value: 'inactive', label: 'Pasif' }
+  ];
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+
+    try {
+      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      
+      if (isEdit) {
+        await axios.put(`${API}/admin/tours/${tour.id}`, formData);
+        toast.success('Tur başarıyla güncellendi');
+      } else {
+        await axios.post(`${API}/admin/tours`, formData);
+        toast.success('Tur başarıyla oluşturuldu');
+      }
+      
+      onSave();
+    } catch (error) {
+      console.error('Error saving tour:', error);
+      toast.error(error.response?.data?.detail || 'Tur kaydedilirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const addToList = (listName, newItem, setNewItem) => {
+    if (newItem.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        [listName]: [...prev[listName], newItem.trim()]
+      }));
+      setNewItem('');
+    }
+  };
+
+  const removeFromList = (listName, index) => {
+    setFormData(prev => ({
+      ...prev,
+      [listName]: prev[listName].filter((_, i) => i !== index)
+    }));
+  };
+
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 overflow-y-auto">
+      <div className="bg-white rounded-lg max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <div className="p-6 border-b border-gray-200">
+          <h2 className="text-2xl font-bold text-gray-900">
+            {isEdit ? 'Tur Düzenle' : 'Yeni Tur Ekle'}
+          </h2>
+        </div>
+
+        <form onSubmit={handleSubmit} className="p-6 space-y-6">
+          {/* Basic Info */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Tur Başlığı *
+              </label>
+              <input
+                type="text"
+                value={formData.title}
+                onChange={(e) => setFormData({...formData, title: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Lokasyon *
+              </label>
+              <input
+                type="text"
+                value={formData.location}
+                onChange={(e) => setFormData({...formData, location: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Kategori *
+              </label>
+              <select
+                value={formData.category}
+                onChange={(e) => setFormData({...formData, category: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              >
+                {categories.map(cat => (
+                  <option key={cat.value} value={cat.value}>{cat.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Durum
+              </label>
+              <select
+                value={formData.status}
+                onChange={(e) => setFormData({...formData, status: e.target.value})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              >
+                {statusOptions.map(status => (
+                  <option key={status.value} value={status.value}>{status.label}</option>
+                ))}
+              </select>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Süre (Gün) *
+              </label>
+              <input
+                type="number"
+                min="1"
+                value={formData.duration_days}
+                onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value)})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Süre (Saat)
+              </label>
+              <input
+                type="number"
+                min="0"
+                max="24"
+                value={formData.duration_hours}
+                onChange={(e) => setFormData({...formData, duration_hours: parseInt(e.target.value)})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Fiyat (₺) *
+              </label>
+              <input
+                type="number"
+                min="0"
+                step="0.01"
+                value={formData.base_price}
+                onChange={(e) => setFormData({...formData, base_price: parseFloat(e.target.value)})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Max Katılımcı *
+              </label>
+              <input
+                type="number"
+                min="1"
+                value={formData.max_participants}
+                onChange={(e) => setFormData({...formData, max_participants: parseInt(e.target.value)})}
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                required
+              />
+            </div>
+          </div>
+
+          {/* Descriptions */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Kısa Açıklama *
+            </label>
+            <input
+              type="text"
+              value={formData.short_description}
+              onChange={(e) => setFormData({...formData, short_description: e.target.value})}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Tur hakkında kısa açıklama"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Detaylı Açıklama *
+            </label>
+            <textarea
+              value={formData.description}
+              onChange={(e) => setFormData({...formData, description: e.target.value})}
+              rows={4}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              placeholder="Tur hakkında detaylı bilgi"
+              required
+            />
+          </div>
+
+          {/* Images */}
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">
+              Görsel URL'leri
+            </label>
+            <div className="space-y-2">
+              {formData.images.map((image, index) => (
+                <div key={index} className="flex items-center space-x-2">
+                  <input
+                    type="url"
+                    value={image}
+                    onChange={(e) => {
+                      const newImages = [...formData.images];
+                      newImages[index] = e.target.value;
+                      setFormData({...formData, images: newImages});
+                    }}
+                    className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="https://example.com/image.jpg"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => removeFromList('images', index)}
+                    className="text-red-600 hover:text-red-700 p-2"
+                  >
+                    <Trash2 className="w-4 h-4" />
+                  </button>
+                </div>
+              ))}
+              <div className="flex items-center space-x-2">
+                <input
+                  type="url"
+                  value={newImage}
+                  onChange={(e) => setNewImage(e.target.value)}
+                  className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Yeni görsel URL'si ekle"
+                />
+                <button
+                  type="button"
+                  onClick={() => addToList('images', newImage, setNewImage)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                >
+                  Ekle
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex justify-end space-x-4 pt-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-6 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+            >
+              İptal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-6 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors duration-200"
+            >
+              {loading ? 'Kaydediliyor...' : (isEdit ? 'Güncelle' : 'Oluştur')}
+            </button>
+          </div>
+        </form>
+      </div>
     </div>
   );
 };
