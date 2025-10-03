@@ -175,7 +175,7 @@ function App() {
           
           <Footer />
           
-          {showLoginModal && <LoginModal />}
+          {showLoginModal && <LoginModal initialMode={loginMode} />}
           <Toaster 
             position="top-right"
             toastOptions={{
