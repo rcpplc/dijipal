@@ -843,6 +843,57 @@ async def admin_create_category(category_data: CategoryCreate, current_user: Use
     await db.categories.insert_one(category)
     return Category(**category)
 
+@api_router.put("/admin/categories/{category_id}", response_model=Category)
+async def admin_update_category(category_id: str, category_data: CategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Kategorinin varlığını kontrol et
+    existing_category = await db.categories.find_one({"id": category_id})
+    if not existing_category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    # Güncelleme verilerini hazırla
+    updated_data = {
+        "name": category_data.name,
+        "description": category_data.description,
+        "icon": category_data.icon,
+        "image": category_data.image,
+        "seo_title": category_data.seo_title,
+        "seo_description": category_data.seo_description,
+        "seo_keywords": category_data.seo_keywords,
+        "faq": category_data.faq,
+        "is_active": category_data.is_active,
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    # Kategoriyi güncelle
+    await db.categories.update_one(
+        {"id": category_id}, 
+        {"$set": updated_data}
+    )
+    
+    # Güncellenmiş kategoriyi getir ve döndür
+    updated_category = await db.categories.find_one({"id": category_id})
+    return Category(**updated_category)
+
+@api_router.put("/admin/categories/{category_id}/status")
+async def admin_toggle_category_status(category_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    category = await db.categories.find_one({"id": category_id})
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    new_status = not category.get("is_active", True)
+    await db.categories.update_one(
+        {"id": category_id}, 
+        {"$set": {"is_active": new_status, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    return {"message": f"Category {'activated' if new_status else 'deactivated'} successfully"}
+
 # Admin Users Management
 @api_router.get("/admin/users", response_model=List[User])
 async def admin_get_users(current_user: User = Depends(get_current_user)):
