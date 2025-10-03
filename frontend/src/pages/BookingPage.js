@@ -33,11 +33,10 @@ const BookingPage = () => {
     parseInt(searchParams.get('participants')) || 1
   );
   
-  // URL'den tarih ve kabin bilgilerini al
-  const selectedDate = searchParams.get('date');
-  const cabinType = searchParams.get('cabinType') || 'single';
-  const singleCabinPrice = parseFloat(searchParams.get('single_cabin_price')) || 0;
-  const doubleCabinPrice = parseFloat(searchParams.get('double_cabin_price')) || 0;
+  // State veya URL'den kabin tipini al
+  const cabinType = stateCabinType || searchParams.get('cabinType') || 'single';
+  const singleCabinPrice = selectedDate?.single_cabin_price || parseFloat(searchParams.get('single_cabin_price')) || 0;
+  const doubleCabinPrice = selectedDate?.double_cabin_price || parseFloat(searchParams.get('double_cabin_price')) || 0;
   
   const selectedPrice = cabinType === 'single' ? singleCabinPrice : doubleCabinPrice;
   const formattedSelectedDate = selectedDate ? 
