@@ -790,6 +790,11 @@ async def admin_create_category(category_data: CategoryCreate, current_user: Use
         "name": category_data.name,
         "description": category_data.description,
         "icon": category_data.icon,
+        "image": category_data.image,
+        "seo_title": category_data.seo_title,
+        "seo_description": category_data.seo_description,
+        "seo_keywords": category_data.seo_keywords,
+        "faq": category_data.faq,
         "is_active": category_data.is_active,
         "created_at": datetime.now(timezone.utc)
     }
