@@ -213,7 +213,7 @@ async def get_current_user(token_data = Depends(verify_token)):
 
 # Mock Services
 class MockPaymentService:
-    async def process_payment(self, amount: Decimal, currency: str = "TRY") -> Dict[str, Any]:
+    async def process_payment(self, amount: float, currency: str = "TRY") -> Dict[str, Any]:
         # Mock iyzico payment processing
         await asyncio.sleep(1)  # Simulate processing time
         return {
