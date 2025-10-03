@@ -13,7 +13,8 @@ import {
   Share2,
   Phone,
   Mail,
-  ArrowLeft
+  ArrowLeft,
+  User
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
