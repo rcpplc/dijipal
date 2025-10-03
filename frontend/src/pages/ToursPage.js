@@ -204,7 +204,7 @@ const ToursPage = () => {
               ? `₺${Math.min(...tour.tour_dates.map(date => date.price))}` 
               : `₺${tour.base_price || 0}`}
             <span className="text-sm font-normal text-gray-600 ml-1">
-              {tour.tour_dates && tour.tour_dates.length > 0 ? ' den başlayan' : '/kişi'}
+              {tour.tour_dates && tour.tour_dates.length > 0 ? ' den başlayan' : '/kabin'}
             </span>
           </div>
 
