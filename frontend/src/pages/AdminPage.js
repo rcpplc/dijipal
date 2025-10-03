@@ -109,6 +109,23 @@ const AdminPage = () => {
     }
   };
 
+  const loadReviews = async () => {
+    setReviewsLoading(true);
+    try {
+      let url = `${API}/admin/reviews`;
+      if (reviewFilter !== 'all') {
+        url += `?status=${reviewFilter}`;
+      }
+      const response = await axios.get(url);
+      setReviews(response.data);
+    } catch (error) {
+      console.error('Error loading reviews:', error);
+      toast.error('Değerlendirmeler yüklenemedi');
+    } finally {
+      setReviewsLoading(false);
+    }
+  };
+
   const loadLocations = async () => {
     setLoading(true);
     try {
