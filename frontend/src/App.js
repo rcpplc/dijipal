@@ -76,6 +76,9 @@ function App() {
       
       const { token: newToken, user: userData } = response.data;
       
+      console.log('Login Response - User Data:', userData);
+      console.log('User Role:', userData?.role);
+      
       setToken(newToken);
       setUser(userData);
       localStorage.setItem('token', newToken);
