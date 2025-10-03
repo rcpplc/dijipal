@@ -349,7 +349,8 @@ const TourDetailPage = () => {
                     ))}
                   </div>
                   <span className="text-sm text-gray-600">
-                    {tour.rating > 0 ? tour.rating.toFixed(1) : '0.0'} ({tour.review_count || 0} değerlendirme)
+                    {tour.rating > 0 ? tour.rating.toFixed(1) : 'Henüz değerlendirilmemiş'} 
+                    {tour.rating > 0 && ` (${tour.review_count || 0} değerlendirme)`}
                   </span>
                 </div>
 
