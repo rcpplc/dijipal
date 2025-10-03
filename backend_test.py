@@ -456,12 +456,12 @@ class TourPlatformAPITester:
             "tags": ["test", "yeni", "alan"],
             "tour_dates": [
                 {
-                    "date": "2025-02-15",
+                    "date": "2025-12-15",
                     "price": 299.0,
                     "capacity": 15
                 },
                 {
-                    "date": "2025-02-20",
+                    "date": "2025-12-20",
                     "price": 349.0,
                     "capacity": 12
                 }
