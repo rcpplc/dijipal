@@ -382,8 +382,9 @@ async def get_tours(
             tour["tour_dates"].append({
                 "id": date["id"],
                 "date": date["start_date"],
-                "price": date["price"],
-                "capacity": date["available_spots"],
+                "capacity": date["available_cabins"],
+                "single_cabin_price": date["single_cabin_price"],
+                "double_cabin_price": date["double_cabin_price"],
                 "is_active": date.get("is_active", True)
             })
         
@@ -756,8 +757,9 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
             tour["tour_dates"].append({
                 "id": date["id"],
                 "date": date["start_date"],
-                "price": date["price"],
-                "capacity": date["available_spots"],
+                "capacity": date["available_cabins"],
+                "single_cabin_price": date["single_cabin_price"],
+                "double_cabin_price": date["double_cabin_price"],
                 "is_active": date.get("is_active", True)
             })
         
