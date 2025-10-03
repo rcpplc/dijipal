@@ -347,9 +347,19 @@ const AdminPage = () => {
 
   // Helper function to get minimum price from tour dates
   const getMinimumPrice = (tour) => {
-    if (tour.tour_dates && tour.tour_dates.length > 0) {
-      const minPrice = Math.min(...tour.tour_dates.map(date => date.price));
-      return `₺${minPrice}`;
+    if (tour.minimum_price) {
+      return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+    } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+      // Calculate from cabin prices
+      const allPrices = tour.tour_dates.flatMap(date => [
+        date.single_cabin_price || 0,
+        date.double_cabin_price || 0
+      ]).filter(price => price > 0);
+      
+      if (allPrices.length > 0) {
+        const minPrice = Math.min(...allPrices);
+        return `₺${minPrice.toLocaleString('tr-TR')}`;
+      }
     }
     return '₺0';
   };
