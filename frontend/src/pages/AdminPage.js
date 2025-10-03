@@ -1207,57 +1207,24 @@ const TourModal = ({ tour, isEdit, onClose, onSave }) => {
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Süre (Gün) *
+                      Biniş Saati
                     </label>
                     <input
-                      type="number"
-                      min="1"
-                      value={formData.duration_days}
-                      onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value)})}
+                      type="time"
+                      value={formData.departure_time || '09:00'}
+                      onChange={(e) => setFormData({...formData, departure_time: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      required
                     />
                   </div>
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Fiyat (₺) *
+                      İniş Saati
                     </label>
                     <input
-                      type="number"
-                      min="0"
-                      step="0.01"
-                      value={formData.base_price}
-                      onChange={(e) => setFormData({...formData, base_price: parseFloat(e.target.value)})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Maksimum Katılımcı *
-                    </label>
-                    <input
-                      type="number"
-                      min="1"
-                      value={formData.max_participants}
-                      onChange={(e) => setFormData({...formData, max_participants: parseInt(e.target.value)})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      required
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Süre (Saat)
-                    </label>
-                    <input
-                      type="number"
-                      min="0"
-                      max="24"
-                      value={formData.duration_hours}
-                      onChange={(e) => setFormData({...formData, duration_hours: parseInt(e.target.value)})}
+                      type="time"
+                      value={formData.arrival_time || '18:00'}
+                      onChange={(e) => setFormData({...formData, arrival_time: e.target.value})}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     />
                   </div>
