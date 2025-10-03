@@ -66,6 +66,18 @@ const AdminPage = () => {
       setTourLoading(false);
     }
   };
+  const loadUsers = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/users`);
+      setUsers(response.data);
+    } catch (error) {
+      console.error('Error loading users:', error);
+      toast.error('Kullanıcılar yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleDeleteTour = async (tourId) => {
     try {
