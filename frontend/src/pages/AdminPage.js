@@ -1570,7 +1570,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newExcludedService, setNewExcludedService] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
-  const [newTourDate, setNewTourDate] = useState({ date: '', price: '', capacity: '' });
+  const [newTourDate, setNewTourDate] = useState({ 
+    date: '', 
+    single_cabin_price: '', 
+    double_cabin_price: '', 
+    capacity: '' 
+  });
 
   // Load tour dates when editing existing tour
   useEffect(() => {
