@@ -799,6 +799,23 @@ async def admin_toggle_location_status(location_id: str, current_user: User = De
     
     return {"message": f"Location {'activated' if new_status else 'deactivated'} successfully"}
 
+@api_router.delete("/admin/locations/{location_id}")
+async def admin_delete_location(location_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if location is being used by any tours
+    tours_using_location = await db.tours.find_one({"location": {"$regex": f".*{location_id}.*", "$options": "i"}})
+    if tours_using_location:
+        raise HTTPException(status_code=400, detail="Cannot delete location that is being used by tours")
+    
+    location = await db.locations.find_one({"id": location_id})
+    if not location:
+        raise HTTPException(status_code=404, detail="Location not found")
+    
+    await db.locations.delete_one({"id": location_id})
+    return {"message": "Location deleted successfully"}
+
 # Category Management
 class CategoryCreate(BaseModel):
     name: str
