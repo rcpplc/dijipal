@@ -846,7 +846,7 @@ const TourDetailPage = () => {
                 </div>
                 <p className="text-xs text-gray-500 mt-2 text-center">
                   {selectedDate 
-                    ? `Bu tarih için maksimum ${selectedDate.available_spots} kişi seçebilirsiniz` 
+                    ? `Bu tarih için maksimum ${selectedDate.available_spots || 0} kişi seçebilirsiniz` 
                     : 'Önce tarih seçin, sonra katılımcı sayısını belirleyin'
                   }
                 </p>
