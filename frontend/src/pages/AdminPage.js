@@ -1226,6 +1226,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Only allow submit on step 5
+    if (currentStep !== 5) {
+      return;
+    }
+    
     setLoading(true);
 
     try {
