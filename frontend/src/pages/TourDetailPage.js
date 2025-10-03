@@ -39,6 +39,9 @@ const TourDetailPage = () => {
   // Month filter for dates
   const [selectedMonth, setSelectedMonth] = useState('');
   const [filteredDates, setFilteredDates] = useState([]);
+  
+  // User behavior tracking
+  const [suggestedParticipants, setSuggestedParticipants] = useState(null);
 
   useEffect(() => {
     loadTour();
