@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../App';
 import { X, Mail, Lock, User, Phone, Eye, EyeOff } from 'lucide-react';
 import { toast } from 'sonner';
+import axios from 'axios';
 
 const LoginModal = () => {
   const { setShowLoginModal, login, register } = useAuth();
