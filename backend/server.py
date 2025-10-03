@@ -795,15 +795,18 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
         # Delete existing tour dates
         await db.tour_dates.delete_many({"tour_id": tour_id})
         
-        # Create new tour dates
+        # Create new tour dates with cabin system
         for date_data in tour_dates_data:
+            print(f"Processing cabin date: {date_data}")
             tour_date = TourDate(
                 tour_id=tour_id,
                 start_date=date_data.get("date", date_data.get("start_date")),
-                available_spots=date_data.get("capacity", date_data.get("available_spots", 10)),
-                price=float(date_data.get("price", 0)),
+                available_cabins=date_data.get("capacity", date_data.get("available_cabins", 10)),
+                single_cabin_price=float(date_data.get("single_cabin_price", 0)),
+                double_cabin_price=float(date_data.get("double_cabin_price", 0)),
                 is_active=date_data.get("is_active", True)
             )
+            print(f"Created tour_date: {tour_date.dict()}")
             
             # Convert to dict and handle datetime serialization
             tour_date_dict = tour_date.dict()
