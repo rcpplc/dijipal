@@ -600,21 +600,50 @@ const TourDetailPage = () => {
                   Tarih Seçin
                 </label>
                 
-                {/* Month Filter */}
+                {/* Month Filter - Enhanced */}
                 {availableDates.length > 0 && getAvailableMonths().length > 1 && (
                   <div className="mb-4">
-                    <select
-                      value={selectedMonth}
-                      onChange={(e) => setSelectedMonth(e.target.value)}
-                      className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-white"
-                    >
-                      <option value="">Tüm Aylar</option>
-                      {getAvailableMonths().map((month) => (
-                        <option key={month.value} value={month.value}>
-                          {month.label}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="relative">
+                      <select
+                        value={selectedMonth}
+                        onChange={(e) => setSelectedMonth(e.target.value)}
+                        className="w-full p-3 pr-8 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium appearance-none cursor-pointer transition-all duration-200 hover:border-gray-400"
+                      >
+                        <option value="" className="font-medium">📅 Tüm Ayları Göster ({availableDates.length} tarih)</option>
+                        {getAvailableMonths().map((month) => {
+                          const monthDatesCount = availableDates.filter(date => {
+                            const dateObj = new Date(date.start_date);
+                            const monthYear = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}`;
+                            return monthYear === month.value;
+                          }).length;
+                          
+                          return (
+                            <option key={month.value} value={month.value} className="font-medium">
+                              📅 {month.label} ({monthDatesCount} tarih)
+                            </option>
+                          );
+                        })}
+                      </select>
+                      {/* Custom dropdown arrow */}
+                      <div className="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
+                        <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                        </svg>
+                      </div>
+                    </div>
+                    {selectedMonth && (
+                      <div className="mt-2 flex items-center justify-between">
+                        <span className="text-sm text-gray-600">
+                          Seçili: {getAvailableMonths().find(m => m.value === selectedMonth)?.label}
+                        </span>
+                        <button
+                          onClick={() => setSelectedMonth('')}
+                          className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                        >
+                          Filtreyi Temizle
+                        </button>
+                      </div>
+                    )}
                   </div>
                 )}
                 
