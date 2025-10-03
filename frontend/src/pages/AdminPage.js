@@ -51,6 +51,32 @@ const AdminPage = () => {
     }
   };
 
+  const loadTours = async () => {
+    setTourLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/tours`);
+      setTours(response.data);
+    } catch (error) {
+      console.error('Error loading tours:', error);
+      toast.error('Turlar yüklenemedi');
+    } finally {
+      setTourLoading(false);
+    }
+  };
+
+  const handleDeleteTour = async (tourId) => {
+    try {
+      await axios.delete(`${API}/admin/tours/${tourId}`);
+      toast.success('Tur başarıyla silindi');
+      loadTours();
+      setShowDeleteConfirm(false);
+      setSelectedTour(null);
+    } catch (error) {
+      console.error('Error deleting tour:', error);
+      toast.error(error.response?.data?.detail || 'Tur silinirken hata oluştu');
+    }
+  };
+
   if (user?.role !== 'admin') {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
