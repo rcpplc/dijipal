@@ -212,12 +212,12 @@ const TourDetailPage = () => {
             similarTours.reduce((sum, search) => sum + search.participants, 0) / similarTours.length
           );
           setSuggestedParticipants(Math.max(1, similarAvg || 1));
-          setParticipants(Math.max(1, similarAvg || 1));
+          // Don't auto-set participants, keep default 1
           
           console.log(`Önerilen katılımcı sayısı: ${similarAvg} (${similarTours.length} benzer tura dayanarak)`);
         } else if (avgParticipants && avgParticipants !== 1) {
           setSuggestedParticipants(Math.max(1, avgParticipants || 1));
-          setParticipants(Math.max(1, avgParticipants || 1));
+          // Don't auto-set participants, keep default 1
           
           console.log(`Önerilen katılımcı sayısı: ${avgParticipants} (geçmiş aramalarınıza dayanarak)`);
         }
