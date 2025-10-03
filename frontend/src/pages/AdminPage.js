@@ -53,6 +53,12 @@ const AdminPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
 
+  // Load locations and categories immediately for tour modal
+  useEffect(() => {
+    loadLocations();
+    loadCategories();
+  }, []);
+
   useEffect(() => {
     if (activeTab === 'dashboard') {
       loadDashboard();
@@ -63,9 +69,9 @@ const AdminPage = () => {
     } else if (activeTab === 'reviews') {
       loadReviews();
     } else if (activeTab === 'locations') {
-      loadLocations();
+      // Already loaded on component mount
     } else if (activeTab === 'categories') {
-      loadCategories();
+      // Already loaded on component mount
     }
   }, [activeTab]);
 
