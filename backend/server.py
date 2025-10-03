@@ -751,6 +751,35 @@ async def admin_create_location(location_data: LocationCreate, current_user: Use
     await db.locations.insert_one(location)
     return Location(**location)
 
+@api_router.put("/admin/locations/{location_id}", response_model=Location)
+async def admin_update_location(location_id: str, location_data: LocationCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Lokasyonun varlığını kontrol et
+    existing_location = await db.locations.find_one({"id": location_id})
+    if not existing_location:
+        raise HTTPException(status_code=404, detail="Location not found")
+    
+    # Güncelleme verilerini hazırla
+    updated_data = {
+        "name": location_data.name,
+        "description": location_data.description,
+        "country": location_data.country,
+        "is_active": location_data.is_active,
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    # Lokasyonu güncelle
+    await db.locations.update_one(
+        {"id": location_id}, 
+        {"$set": updated_data}
+    )
+    
+    # Güncellenmiş lokasyonu getir ve döndür
+    updated_location = await db.locations.find_one({"id": location_id})
+    return Location(**updated_location)
+
 # Category Management
 class CategoryCreate(BaseModel):
     name: str
