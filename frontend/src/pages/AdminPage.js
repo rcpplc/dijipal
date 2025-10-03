@@ -139,6 +139,18 @@ const AdminPage = () => {
     }
   };
 
+  const handleToggleLocationStatus = async (locationId) => {
+    try {
+      await axios.put(`${API}/admin/locations/${locationId}/status`);
+      // Reload locations to get updated data
+      loadLocations();
+      toast.success('Lokasyon durumu güncellendi');
+    } catch (error) {
+      console.error('Error toggling location status:', error);
+      toast.error(error.response?.data?.detail || 'Lokasyon durumu güncellenirken hata oluştu');
+    }
+  };
+
   // Admin kontrolü sadece debug için
   console.log('AdminPage loaded - User:', user?.email, 'Role:', user?.role);
 
