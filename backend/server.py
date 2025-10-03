@@ -678,18 +678,18 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     
     # Create tour dates
     for date_data in tour_dates_data:
-        tour_date = {
-            "id": str(uuid.uuid4()),
-            "tour_id": tour.id,
-            "date": date_data["date"],  # Use 'date' field instead of 'start_date' 
-            "start_date": date_data["date"],  # Keep both for compatibility
-            "price": date_data["price"],
-            "capacity": date_data["capacity"],
-            "available_spots": date_data["capacity"],
-            "is_active": True,
-            "created_at": datetime.now(timezone.utc)
-        }
-        await db.tour_dates.insert_one(tour_date)
+        # Parse date string to date object
+        from datetime import datetime
+        date_obj = datetime.fromisoformat(date_data["date"]).date()
+        
+        tour_date = TourDate(
+            tour_id=tour.id,
+            start_date=date_obj,
+            available_spots=date_data["capacity"],
+            price=date_data["price"],
+            is_active=True
+        )
+        await db.tour_dates.insert_one(tour_date.dict())
     
     return tour
 
