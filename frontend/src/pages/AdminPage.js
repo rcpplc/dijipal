@@ -2107,7 +2107,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                               Tarih
                             </th>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                              Fiyat
+                              Tek Kabin
+                            </th>
+                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              Çift Kabin
                             </th>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Kapasite
