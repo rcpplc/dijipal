@@ -272,7 +272,10 @@ async def register(user_data: UserCreate):
 async def login(login_data: UserLogin):
     # Find user
     user_doc = await db.users.find_one({"email": login_data.email})
-    if not user_doc or not pwd_context.verify(login_data.password, user_doc["hashed_password"]):
+    # Truncate password to 72 bytes for bcrypt compatibility
+    password_bytes = login_data.password.encode('utf-8')[:72]
+    password_to_verify = password_bytes.decode('utf-8')
+    if not user_doc or not pwd_context.verify(password_to_verify, user_doc["hashed_password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     user = User(**user_doc)
