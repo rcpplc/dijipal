@@ -344,9 +344,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
 
   - task: "Admin panel cabin pricing bug fix"
     implemented: true
-    working: true
+    working: false
     file: "AdminPage.js, server.py, LoginModal.js"
-    stuck_count: 2
+    stuck_count: 3
     priority: "high"
     needs_retesting: false
     status_history:
@@ -368,6 +368,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "testing"
           comment: "✅ KABIN FİYAT SORUNU ÇÖZÜLDÜ - BACKEND API TEST BAŞARILI: Backend API testi ile doğrulandı: GET /api/admin/tours endpoint'i artık farklı kabin fiyatları döndürüyor: 15 Ocak 2025: single_cabin_price=12000, double_cabin_price=20000; 20 Ocak 2025: single_cabin_price=14000, double_cabin_price=25000; 10 Şubat 2025: single_cabin_price=15000, double_cabin_price=28000. ✅ Backend kabin fiyat ayrımı çalışıyor, ✅ Admin panel erişimi çalışıyor (manual auth bypass ile test edildi), ✅ Tours tab erişilebilir, ✅ Edit modal açılıyor. ❌ Frontend login form submission API çağrısı yapmıyor (network monitoring ile doğrulandı), ancak backend login API'ı çalışıyor (curl test başarılı). Minor: Frontend login sorunu var ama kabin fiyatlandırma sorunu backend'de çözülmüş durumda."
+        - working: false
+          agent: "testing"
+          comment: "❌ KABIN FİYAT SORUNU HALA MEVCUT - COMPREHENSIVE TEST SONUCU: Kullanıcının test talebi doğrultusunda kapsamlı test yapıldı. ✅ Backend login API çalışıyor (admin@example.com/admin123). ❌ Frontend login form API çağrısı yapmıyor - form submission network request tetiklemiyor. ✅ Manual authentication bypass ile admin panel erişimi sağlandı. ❌ CRITICAL: API test sonucu mevcut tour verisinde single_cabin_price=15000, double_cabin_price=15000 - aynı değerler! Bu kullanıcının bildirdiği 'Tek kabin ₺12,000, Çift kabin ₺18,000 girdiğinde her ikisinin de ₺12,000 olarak görünme' sorununu doğruluyor. Sorun hala çözülmemiş durumda. Frontend login sorunu da devam ediyor. İki kritik sorun var: 1) Frontend login çalışmıyor, 2) Kabin fiyat ayrımı backend'de hala aynı değerleri döndürüyor."
 
 ## agent_communication:
     - agent: "main"
