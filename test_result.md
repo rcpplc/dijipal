@@ -228,7 +228,9 @@ Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm d
   admin_tour_management_tested: true
 
 ## test_plan:
-  current_focus: []
+  current_focus:
+    - "Reviews management system backend API"
+    - "Admin reviews management frontend UI"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
