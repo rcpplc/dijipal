@@ -147,6 +147,7 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/tours" element={<ToursPage />} />
               <Route path="/tours/:tourId" element={<TourDetailPage />} />
+              <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route 
                 path="/booking/:tourId" 
