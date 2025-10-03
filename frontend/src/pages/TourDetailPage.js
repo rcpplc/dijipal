@@ -924,7 +924,7 @@ const TourDetailPage = () => {
                   </button>
                   <div className="flex-1 text-center">
                     <div className="text-xl font-bold text-gray-900">
-                      {Math.max(1, participants || 1)} kabin
+                      {participants} kabin
                     </div>
                     {selectedDate && (
                       <div className="text-sm text-gray-600">
@@ -932,7 +932,7 @@ const TourDetailPage = () => {
                           const cabinPrice = cabinType === 'single' 
                             ? (selectedDate.single_cabin_price || selectedDate.price)
                             : (selectedDate.double_cabin_price || selectedDate.price);
-                          return (cabinPrice * Math.max(1, participants || 1)).toLocaleString('tr-TR');
+                          return (cabinPrice * participants).toLocaleString('tr-TR');
                         })()} toplam
                       </div>
                     )}
