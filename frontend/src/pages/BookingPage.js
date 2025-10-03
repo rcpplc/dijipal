@@ -31,6 +31,16 @@ const BookingPage = () => {
     parseInt(searchParams.get('participants')) || 2
   );
   
+  // URL'den tarih ve fiyat bilgilerini al
+  const selectedDate = searchParams.get('date');
+  const selectedPrice = searchParams.get('price');
+  const formattedSelectedDate = selectedDate ? 
+    new Date(selectedDate).toLocaleDateString('tr-TR', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    }) : null;
+  
   const [customerInfo, setCustomerInfo] = useState({
     full_name: user?.full_name || '',
     email: user?.email || '',
