@@ -1081,6 +1081,8 @@ const AdminPage = () => {
 
 // Tour Modal Component
 const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => {
+  console.log('TourModal Debug - Locations:', locations?.length || 0, locations);
+  console.log('TourModal Debug - Categories:', categories?.length || 0, categories);
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
     title: tour?.title || '',
