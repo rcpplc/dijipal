@@ -747,6 +747,10 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
     # Update tour
     tour_dict = tour_data.dict()
     
+    # Debug: Log incoming tour_dates
+    print(f"DEBUG: Updating tour {tour_id}")
+    print(f"DEBUG: tour_dates in request: {tour_dict.get('tour_dates', [])}")
+    
     # Extract tour_dates for separate handling
     tour_dates_data = tour_dict.pop("tour_dates", [])
     
