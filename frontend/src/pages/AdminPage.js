@@ -2039,10 +2039,11 @@ const LocationModal = ({ location, onClose, onSave }) => {
 
 // Category Modal Component
 const CategoryModal = ({ category, onClose, onSave }) => {
+  const [activeTab, setActiveTab] = useState(1);
   const [formData, setFormData] = useState({
     name: category?.name || '',
     description: category?.description || '',
-    icon: category?.icon || '🏷️',
+    icon: category?.icon || '◈',
     image: category?.image || '',
     seo_title: category?.seo_title || '',
     seo_description: category?.seo_description || '',
@@ -2054,13 +2055,20 @@ const CategoryModal = ({ category, onClose, onSave }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const [newFaq, setNewFaq] = useState({ question: '', answer: '' });
 
+  const modalTabs = [
+    { id: 1, title: 'Temel Bilgiler', icon: '●' },
+    { id: 2, title: 'Görsel & Medya', icon: '◆' },
+    { id: 3, title: 'SEO Ayarları', icon: '◇' },
+    { id: 4, title: 'SSS Yönetimi', icon: '◈' }
+  ];
+
   // Category değiştiğinde formData'yı güncelle
   useEffect(() => {
     if (category) {
       setFormData({
         name: category.name || '',
         description: category.description || '',
-        icon: category.icon || '🏷️',
+        icon: category.icon || '◈',
         image: category.image || '',
         seo_title: category.seo_title || '',
         seo_description: category.seo_description || '',
