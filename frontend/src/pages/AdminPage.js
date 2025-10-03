@@ -557,8 +557,205 @@ const AdminPage = () => {
             </div>
           )}
 
+          {/* Locations Tab */}
+          {activeTab === 'locations' && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Lokasyon Yönetimi</h2>
+                <button
+                  onClick={() => setShowLocationModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                >
+                  <span>📍</span>
+                  <span>Yeni Lokasyon</span>
+                </button>
+              </div>
+
+              {loading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="animate-pulse bg-gray-50 rounded-xl p-6">
+                      <div className="flex items-center space-x-4">
+                        <div className="bg-gray-200 w-16 h-16 rounded-lg"></div>
+                        <div className="flex-1 space-y-2">
+                          <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                          <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {locations.map((location) => (
+                    <div key={location.id} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                      <div className="flex justify-between items-start mb-4">
+                        <h3 className="text-lg font-bold text-gray-900">{location.name}</h3>
+                        <span className={`px-2 py-1 rounded-full text-sm font-medium ${
+                          location.is_active 
+                            ? 'bg-green-100 text-green-800'
+                            : 'bg-red-100 text-red-800'
+                        }`}>
+                          {location.is_active ? 'Aktif' : 'Pasif'}
+                        </span>
+                      </div>
+                      {location.description && (
+                        <p className="text-gray-600 text-sm mb-3">{location.description}</p>
+                      )}
+                      <div className="text-sm text-gray-500 mb-4">
+                        <span>🌍 {location.country}</span>
+                      </div>
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => {
+                            setEditingLocation(location);
+                            setShowLocationModal(true);
+                          }}
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm transition-colors duration-200"
+                        >
+                          Düzenle
+                        </button>
+                        <button
+                          onClick={() => {
+                            // Toggle location status
+                            console.log('Toggle location:', location.id);
+                          }}
+                          className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm transition-colors duration-200"
+                        >
+                          {location.is_active ? 'Deaktif Et' : 'Aktif Et'}
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {!loading && locations.length === 0 && (
+                <div className="text-center py-16">
+                  <div className="text-4xl mb-4">📍</div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Henüz lokasyon yok
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    İlk lokasyonunuzu ekleyerek başlayın
+                  </p>
+                  <button
+                    onClick={() => setShowLocationModal(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                  >
+                    Lokasyon Ekle
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* Categories Tab */}
+          {activeTab === 'categories' && (
+            <div>
+              <div className="flex justify-between items-center mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Kategori Yönetimi</h2>
+                <button
+                  onClick={() => setShowCategoryModal(true)}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+                >
+                  <span>🏷️</span>
+                  <span>Yeni Kategori</span>
+                </button>
+              </div>
+
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="animate-pulse bg-gray-50 rounded-xl p-6">
+                      <div className="bg-gray-200 w-full h-32 rounded-lg mb-4"></div>
+                      <div className="space-y-2">
+                        <div className="bg-gray-200 h-4 w-3/4 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-full rounded"></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {categories.map((category) => (
+                    <div key={category.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
+                      <div className="h-32 bg-gradient-to-r from-blue-400 to-purple-500 relative">
+                        {category.image ? (
+                          <img
+                            src={category.image}
+                            alt={category.name}
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="flex items-center justify-center h-full">
+                            <span className="text-4xl text-white">{category.icon || '🏷️'}</span>
+                          </div>
+                        )}
+                        <div className="absolute top-2 right-2">
+                          <span className={`px-2 py-1 rounded-full text-sm font-medium ${
+                            category.is_active 
+                              ? 'bg-green-100 text-green-800'
+                              : 'bg-red-100 text-red-800'
+                          }`}>
+                            {category.is_active ? 'Aktif' : 'Pasif'}
+                          </span>
+                        </div>
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-lg font-bold text-gray-900 mb-2">{category.name}</h3>
+                        {category.description && (
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-2">{category.description}</p>
+                        )}
+                        <div className="flex space-x-2">
+                          <button
+                            onClick={() => {
+                              setEditingCategory(category);
+                              setShowCategoryModal(true);
+                            }}
+                            className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-sm transition-colors duration-200"
+                          >
+                            Düzenle
+                          </button>
+                          <button
+                            onClick={() => {
+                              // Toggle category status
+                              console.log('Toggle category:', category.id);
+                            }}
+                            className="px-3 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 text-sm transition-colors duration-200"
+                          >
+                            {category.is_active ? 'Deaktif Et' : 'Aktif Et'}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {!loading && categories.length === 0 && (
+                <div className="text-center py-16">
+                  <div className="text-4xl mb-4">🏷️</div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Henüz kategori yok
+                  </h3>
+                  <p className="text-gray-600 mb-4">
+                    İlk kategorinizi ekleyerek başlayın
+                  </p>
+                  <button
+                    onClick={() => setShowCategoryModal(true)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                  >
+                    Kategori Ekle
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+
           {/* Other tabs content */}
-          {activeTab !== 'dashboard' && activeTab !== 'tours' && activeTab !== 'users' && (
+          {activeTab !== 'dashboard' && activeTab !== 'tours' && activeTab !== 'users' && 
+           activeTab !== 'locations' && activeTab !== 'categories' && (
             <div className="text-center py-16">
               <div className="text-4xl mb-4">🚧</div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">
