@@ -935,18 +935,13 @@ const TourDetailPage = () => {
                   </div>
                   <button
                     onClick={() => {
-                      console.log('Current participants before:', participants);
-                      const newValue = (participants || 1) + 1;
-                      console.log('Calculated new value:', newValue);
-                      setParticipants(newValue);
-                      console.log('setParticipants called with:', newValue);
-                      
-                      // Force re-render check after a delay
-                      setTimeout(() => {
-                        console.log('Participants after timeout:', participants);
-                      }, 100);
+                      const maxCapacity = selectedDate ? selectedDate.capacity : 20;
+                      if (participants < maxCapacity) {
+                        setParticipants((participants || 1) + 1);
+                      }
                     }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                    disabled={participants >= (selectedDate ? selectedDate.capacity : 20)}
                   >
                     +
                   </button>
