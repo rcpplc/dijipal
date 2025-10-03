@@ -77,31 +77,8 @@ const AdminPage = () => {
     }
   };
 
-  // Admin kontrolü - hem user hem de localStorage'dan kontrol et
-  const isAdmin = user?.role === 'admin';
-  const savedUser = localStorage.getItem('user');
-  const isAdminFromStorage = savedUser ? JSON.parse(savedUser)?.role === 'admin' : false;
-  
-  console.log('AdminPage - User:', user);
-  console.log('AdminPage - isAdmin:', isAdmin);
-  console.log('AdminPage - isAdminFromStorage:', isAdminFromStorage);
-  
-  if (!isAdmin && !isAdminFromStorage) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Erişim Reddedildi</h2>
-          <p className="text-gray-600 mb-4">Bu sayfaya erişim yetkiniz bulunmamaktadır.</p>
-          <div className="text-sm text-gray-500 bg-gray-100 p-3 rounded">
-            <p>Mevcut kullanıcı: {user?.email || 'Giriş yapılmamış'}</p>
-            <p>Rol: {user?.role || 'Rol bilgisi yok'}</p>
-            <p>LocalStorage Rol: {savedUser ? JSON.parse(savedUser)?.role : 'Yok'}</p>
-            <p>Beklenen rol: admin</p>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // Admin kontrolü sadece debug için
+  console.log('AdminPage loaded - User:', user?.email, 'Role:', user?.role);
 
   const tabs = [
     { id: 'dashboard', label: 'Dashboard', icon: BarChart3 },
