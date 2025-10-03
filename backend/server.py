@@ -802,15 +802,21 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
         
         # Create new tour dates
         for date_data in tour_dates_data:
+            print(f"DEBUG - Processing date_data: {date_data}")
+            single_price = float(date_data.get("single_cabin_price", date_data.get("price", 0)))
+            double_price = float(date_data.get("double_cabin_price", date_data.get("price", 0)))
+            print(f"DEBUG - single_price: {single_price}, double_price: {double_price}")
+            
             tour_date = TourDate(
                 tour_id=tour_id,
                 start_date=date_data.get("date", date_data.get("start_date")),
                 available_spots=date_data.get("capacity", date_data.get("available_spots", 10)),
                 price=float(date_data.get("price", 0)),
-                single_cabin_price=float(date_data.get("single_cabin_price", date_data.get("price", 0))),
-                double_cabin_price=float(date_data.get("double_cabin_price", date_data.get("price", 0))),
+                single_cabin_price=single_price,
+                double_cabin_price=double_price,
                 is_active=date_data.get("is_active", True)
             )
+            print(f"DEBUG - Created tour_date: {tour_date.dict()}")
             
             # Convert to dict and handle datetime serialization
             tour_date_dict = tour_date.dict()
