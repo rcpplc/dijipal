@@ -1914,6 +1914,18 @@ const LocationModal = ({ location, onClose, onSave }) => {
   });
   const [loading, setLoading] = useState(false);
 
+  // Location değiştiğinde formData'yı güncelle
+  useEffect(() => {
+    if (location) {
+      setFormData({
+        name: location.name || '',
+        description: location.description || '',
+        country: location.country || 'Turkey',
+        is_active: location.is_active !== undefined ? location.is_active : true
+      });
+    }
+  }, [location]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
