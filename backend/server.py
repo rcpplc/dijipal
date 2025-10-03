@@ -965,7 +965,7 @@ async def seed_sample_data():
             "duration_hours": 3,
             "base_price": 450.00,
             "max_participants": 8,
-            "category": TourCategory.ADVENTURE,
+            "category": "adventure",
             "status": TourStatus.ACTIVE,
             "images": [
                 "https://images.pexels.com/photos/34020240/pexels-photo-34020240.jpeg"
