@@ -1597,6 +1597,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
         id: date.id,
         date: date.start_date,
         price: date.price,
+        single_cabin_price: date.single_cabin_price || date.price,
+        double_cabin_price: date.double_cabin_price || date.price,
         capacity: date.available_spots,
         is_active: date.is_active !== false
       }));
