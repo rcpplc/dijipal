@@ -670,9 +670,28 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
+    # Create tour data without tour_dates 
+    tour_dict = tour_data.dict()
+    tour_dates_data = tour_dict.pop('tour_dates', [])
+    
     # Create new tour
-    tour = Tour(**tour_data.dict(), vendor_id=current_user.id)
+    tour = Tour(**tour_dict, vendor_id=current_user.id)
     await db.tours.insert_one(tour.dict())
+    
+    # Create tour dates
+    for date_data in tour_dates_data:
+        tour_date = {
+            "id": str(uuid.uuid4()),
+            "tour_id": tour.id,
+            "start_date": date_data["date"],
+            "price": date_data["price"],
+            "max_participants": date_data["capacity"],
+            "available_spots": date_data["capacity"],
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc)
+        }
+        await db.tour_dates.insert_one(tour_date)
+    
     return tour
 
 # File Upload
