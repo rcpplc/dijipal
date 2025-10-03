@@ -927,12 +927,15 @@ const TourDetailPage = () => {
                     )}
                   </div>
                   <button
-                    onClick={() => setParticipants(Math.min(
-                      selectedDate ? selectedDate.capacity : 20, 
-                      Number(participants) + 1
-                    ))}
+                    onClick={() => {
+                      const current = participants || 1;
+                      const max = selectedDate ? selectedDate.capacity : 20;
+                      if (current < max) {
+                        setParticipants(current + 1);
+                      }
+                    }}
                     className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                    disabled={Number(participants) >= (selectedDate ? selectedDate.capacity : 20)}
+                    disabled={participants >= (selectedDate ? selectedDate.capacity : 20)}
                   >
                     +
                   </button>
