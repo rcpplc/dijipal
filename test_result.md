@@ -229,8 +229,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
 
 ## test_plan:
   current_focus:
-    - "Admin reviews management frontend UI"
-  stuck_tasks: []
+    - "Admin panel cabin pricing bug fix"
+  stuck_tasks:
+    - "Admin panel cabin pricing bug fix"
   test_all: false
   test_priority: "high_first"
   completed_tests:
