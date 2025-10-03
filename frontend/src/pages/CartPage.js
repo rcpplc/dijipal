@@ -166,6 +166,17 @@ const CartPage = () => {
                             <span>{item.duration} gün</span>
                           </div>
                         </div>
+                        {/* Seçilen Tarih */}
+                        {item.selectedDate && (
+                          <div className="mt-2 p-2 bg-blue-50 border border-blue-200 rounded-lg">
+                            <div className="flex items-center space-x-2 text-sm">
+                              <Calendar className="w-4 h-4 text-blue-600" />
+                              <span className="font-medium text-blue-800">
+                                Seçilen Tarih: {item.selectedDate.formattedDate}
+                              </span>
+                            </div>
+                          </div>
+                        )}
                       </div>
                       <button
                         onClick={() => removeItem(item.tourId)}
