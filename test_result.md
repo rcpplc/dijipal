@@ -229,7 +229,6 @@ Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm d
 
 ## test_plan:
   current_focus:
-    - "Reviews management system backend API"
     - "Admin reviews management frontend UI"
   stuck_tasks: []
   test_all: false
@@ -238,6 +237,7 @@ Admin panelde değerlendirmeler (reviews) yönetim sistemi istendi. Gelen tüm d
     - "Admin tour management with new fields"
     - "Admin panel location management"
     - "Admin panel category management"
+    - "Reviews management system backend API"
 
   - task: "Favorites system frontend integration"
     implemented: true
