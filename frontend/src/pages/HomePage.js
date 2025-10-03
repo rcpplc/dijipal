@@ -74,40 +74,46 @@ const HomePage = () => {
 
   const categories = [
     {
-      name: 'Kültürel Turlar',
-      icon: '🏛️',
+      name: 'Kültürel',
+      icon: 'MapPin',
       value: 'cultural',
-      description: 'Tarihi yerler ve müzeler'
+      description: 'Tarihi yerler ve müzeler',
+      color: 'blue'
     },
     {
-      name: 'Doğa Turları',
-      icon: '🌲',
+      name: 'Doğa',
+      icon: 'Trees',
       value: 'nature',
-      description: 'Doğal güzellikler'
+      description: 'Doğal güzellikler',
+      color: 'green'
     },
     {
-      name: 'Macera Turları',
-      icon: '🏔️',
+      name: 'Macera',
+      icon: 'Mountain',
       value: 'adventure',
-      description: 'Adrenalin ve heyecan'
+      description: 'Adrenalin ve heyecan',
+      color: 'orange'
     },
     {
-      name: 'Şehir Turları',
-      icon: '🏙️',
+      name: 'Şehir',
+      icon: 'Building',
       value: 'city',
-      description: 'Şehir keşfi'
+      description: 'Şehir keşfi',
+      color: 'purple'
     },
     {
-      name: 'Tarihi Turlar',
-      icon: '🏺',
+      name: 'Tarihi',
+      icon: 'Castle',
       value: 'historical',
-      description: 'Antik medeniyetler'
+      description: 'Antik medeniyetler',
+      color: 'amber'
     },
     {
       name: 'Gastronomi',
-      icon: '🍽️',
+      icon: 'UtensilsCrossed',
       value: 'food',
-      description: 'Lezzet turları'
+      description: 'Lezzet turları',
+      color: 'red'
     }
   ];
 
