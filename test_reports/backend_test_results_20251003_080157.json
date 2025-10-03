@@ -1,0 +1,53 @@
+{
+  "summary": {
+    "total_tests": 6,
+    "passed_tests": 4,
+    "failed_tests": 2,
+    "success_rate": 66.66666666666666,
+    "test_date": "2025-10-03T08:01:57.773006"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Sample data added successfully\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-03T08:01:57.611594"
+    },
+    {
+      "test_name": "User Registration",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 500. Response: Internal Server Error",
+      "timestamp": "2025-10-03T08:01:57.654745"
+    },
+    {
+      "test_name": "Get Tours List",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n    \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, A...",
+      "error": "",
+      "timestamp": "2025-10-03T08:01:57.694756"
+    },
+    {
+      "test_name": "Get Tours with Category Filter",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n    \"vendor_id\": \"vendor1\",\n    \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n    \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, A...",
+      "error": "",
+      "timestamp": "2025-10-03T08:01:57.733028"
+    },
+    {
+      "test_name": "Get Single Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"2c891143-b92f-4049-b5ae-84a08096e097\",\n  \"vendor_id\": \"vendor1\",\n  \"title\": \"\\u0130stanbul Tarihi Yar\\u0131mada Turu\",\n  \"description\": \"Sultanahmet, Topkap\\u0131 Saray\\u0131, Ayasofya ve K...",
+      "error": "",
+      "timestamp": "2025-10-03T08:01:57.772163"
+    },
+    {
+      "test_name": "Admin Dashboard",
+      "success": false,
+      "details": "",
+      "error": "No authentication token available",
+      "timestamp": "2025-10-03T08:01:57.772731"
+    }
+  ]
+}
