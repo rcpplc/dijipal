@@ -744,6 +744,360 @@ class TourPlatformAPITester:
         # Print final results
         self.print_final_results()
 
+    def test_admin_locations_crud(self):
+        """Test admin location management CRUD operations"""
+        if not self.token:
+            self.log_test("Admin Locations CRUD", False, "", "No authentication token available")
+            return False
+        
+        print("\n🏢 Testing Admin Location Management CRUD Operations")
+        
+        # Test 1: GET /api/admin/locations - list all locations
+        print("\n📋 Test 1: GET /api/admin/locations - List All Locations")
+        list_success, locations_response = self.run_test(
+            "List All Locations",
+            "GET",
+            "admin/locations",
+            200
+        )
+        
+        initial_location_count = len(locations_response) if locations_response else 0
+        print(f"   ℹ️  Found {initial_location_count} existing locations")
+        
+        # Test 2: POST /api/admin/locations - create new locations
+        print("\n📋 Test 2: POST /api/admin/locations - Create New Locations")
+        
+        # Create sample locations: "Bodrum", "Marmaris", "Antalya"
+        sample_locations = [
+            {
+                "name": "Bodrum",
+                "description": "Ege Denizi'nin incisi, tarihi ve doğal güzellikleriyle ünlü tatil beldesi",
+                "country": "Turkey",
+                "is_active": True
+            },
+            {
+                "name": "Marmaris",
+                "description": "Akdeniz ve Ege'nin buluştuğu noktada muhteşem koyları ile ünlü tatil merkezi",
+                "country": "Turkey", 
+                "is_active": True
+            },
+            {
+                "name": "Antalya",
+                "description": "Türkiye'nin turizm başkenti, antik şehirler ve muhteşem plajlar",
+                "country": "Turkey",
+                "is_active": True
+            }
+        ]
+        
+        created_location_ids = []
+        for location_data in sample_locations:
+            success, response = self.run_test(
+                f"Create Location: {location_data['name']}",
+                "POST",
+                "admin/locations",
+                200,
+                data=location_data
+            )
+            
+            if success and response and 'id' in response:
+                created_location_ids.append(response['id'])
+                print(f"   ✅ Location '{location_data['name']}' created with ID: {response['id']}")
+            else:
+                print(f"   ❌ Failed to create location '{location_data['name']}'")
+        
+        # Test 3: GET /api/admin/locations again to verify creation
+        print("\n📋 Test 3: Verify Location Creation")
+        verify_success, updated_locations = self.run_test(
+            "Verify Location Creation",
+            "GET", 
+            "admin/locations",
+            200
+        )
+        
+        if verify_success and updated_locations:
+            new_location_count = len(updated_locations)
+            print(f"   ✅ Total locations after creation: {new_location_count}")
+            if new_location_count > initial_location_count:
+                print(f"   ✅ Successfully added {new_location_count - initial_location_count} new locations")
+        
+        # Test 4: PUT /api/admin/locations/{id} - update location
+        print("\n📋 Test 4: PUT /api/admin/locations/{id} - Update Location")
+        if created_location_ids:
+            location_id = created_location_ids[0]  # Update first created location
+            update_data = {
+                "name": "Bodrum Updated",
+                "description": "Güncellenmiş Bodrum açıklaması - Ege'nin parlayan yıldızı",
+                "country": "Turkey",
+                "is_active": True
+            }
+            
+            update_success, update_response = self.run_test(
+                "Update Location",
+                "PUT",
+                f"admin/locations/{location_id}",
+                200,
+                data=update_data
+            )
+            
+            if update_success and update_response:
+                if update_response.get('name') == "Bodrum Updated":
+                    print("   ✅ Location updated successfully")
+                else:
+                    print("   ❌ Location update failed - name not changed")
+        
+        # Test 5: PUT /api/admin/locations/{id}/status - toggle active status
+        print("\n📋 Test 5: PUT /api/admin/locations/{id}/status - Toggle Status")
+        if created_location_ids and len(created_location_ids) > 1:
+            location_id = created_location_ids[1]  # Toggle second location status
+            
+            # First toggle to inactive
+            toggle_success1, toggle_response1 = self.run_test(
+                "Toggle Location Status (Deactivate)",
+                "PUT",
+                f"admin/locations/{location_id}/status",
+                200
+            )
+            
+            if toggle_success1:
+                print("   ✅ Location status toggled to inactive")
+                
+                # Toggle back to active
+                toggle_success2, toggle_response2 = self.run_test(
+                    "Toggle Location Status (Activate)",
+                    "PUT",
+                    f"admin/locations/{location_id}/status",
+                    200
+                )
+                
+                if toggle_success2:
+                    print("   ✅ Location status toggled back to active")
+        
+        # Test 6: DELETE /api/admin/locations/{id} - delete location (if no tours using it)
+        print("\n📋 Test 6: DELETE /api/admin/locations/{id} - Delete Location")
+        if created_location_ids and len(created_location_ids) > 2:
+            location_id = created_location_ids[2]  # Delete third location
+            
+            delete_success, delete_response = self.run_test(
+                "Delete Location",
+                "DELETE",
+                f"admin/locations/{location_id}",
+                200
+            )
+            
+            if delete_success:
+                print("   ✅ Location deleted successfully")
+            else:
+                print("   ⚠️  Location deletion failed (may have tours using it)")
+        
+        return True
+
+    def test_admin_categories_crud(self):
+        """Test admin category management CRUD operations"""
+        if not self.token:
+            self.log_test("Admin Categories CRUD", False, "", "No authentication token available")
+            return False
+        
+        print("\n🏷️  Testing Admin Category Management CRUD Operations")
+        
+        # Test 1: GET /api/admin/categories - list all categories
+        print("\n📋 Test 1: GET /api/admin/categories - List All Categories")
+        list_success, categories_response = self.run_test(
+            "List All Categories",
+            "GET",
+            "admin/categories",
+            200
+        )
+        
+        initial_category_count = len(categories_response) if categories_response else 0
+        print(f"   ℹ️  Found {initial_category_count} existing categories")
+        
+        # Test 2: POST /api/admin/categories - create new categories
+        print("\n📋 Test 2: POST /api/admin/categories - Create New Categories")
+        
+        # Create sample categories: "Tekne Turu", "Tarih Turu", "Doğa Turu"
+        sample_categories = [
+            {
+                "name": "Tekne Turu",
+                "description": "Denizde tekne ile yapılan turlar, mavi yolculuk deneyimleri",
+                "icon": "🚢",
+                "image": "https://example.com/boat-tour.jpg",
+                "seo_title": "Tekne Turları - Mavi Yolculuk",
+                "seo_description": "En güzel tekne turları ve mavi yolculuk deneyimleri",
+                "seo_keywords": "tekne turu, mavi yolculuk, deniz turu",
+                "faq": [
+                    {"question": "Tekne turunda neler dahil?", "answer": "Öğle yemeği, içecekler ve rehber hizmeti dahildir."},
+                    {"question": "Yüzme molası var mı?", "answer": "Evet, temiz koylardan yüzme molaları verilir."}
+                ],
+                "is_active": True
+            },
+            {
+                "name": "Tarih Turu",
+                "description": "Antik şehirler, müzeler ve tarihi mekanları kapsayan kültür turları",
+                "icon": "🏛️",
+                "image": "https://example.com/history-tour.jpg",
+                "seo_title": "Tarihi Turlar - Kültür Gezileri",
+                "seo_description": "Antik şehirler ve tarihi mekanları keşfedin",
+                "seo_keywords": "tarih turu, antik şehir, müze, kültür",
+                "faq": [
+                    {"question": "Rehber eşliğinde mi?", "answer": "Evet, uzman rehberler eşliğinde gerçekleşir."},
+                    {"question": "Müze giriş ücretleri dahil mi?", "answer": "Evet, tüm müze giriş ücretleri dahildir."}
+                ],
+                "is_active": True
+            },
+            {
+                "name": "Doğa Turu",
+                "description": "Milli parklar, doğa yürüyüşleri ve ekoturizm aktiviteleri",
+                "icon": "🌲",
+                "image": "https://example.com/nature-tour.jpg",
+                "seo_title": "Doğa Turları - Ekoturizm",
+                "seo_description": "Doğayla iç içe unutulmaz deneyimler",
+                "seo_keywords": "doğa turu, trekking, ekoturizm, milli park",
+                "faq": [
+                    {"question": "Zorluk seviyesi nedir?", "answer": "Farklı zorluk seviyelerinde turlar mevcuttur."},
+                    {"question": "Ekipman gerekli mi?", "answer": "Temel ekipmanlar tur operatörü tarafından sağlanır."}
+                ],
+                "is_active": True
+            }
+        ]
+        
+        created_category_ids = []
+        for category_data in sample_categories:
+            success, response = self.run_test(
+                f"Create Category: {category_data['name']}",
+                "POST",
+                "admin/categories",
+                200,
+                data=category_data
+            )
+            
+            if success and response and 'id' in response:
+                created_category_ids.append(response['id'])
+                print(f"   ✅ Category '{category_data['name']}' created with ID: {response['id']}")
+            else:
+                print(f"   ❌ Failed to create category '{category_data['name']}'")
+        
+        # Test 3: GET /api/admin/categories again to verify creation
+        print("\n📋 Test 3: Verify Category Creation")
+        verify_success, updated_categories = self.run_test(
+            "Verify Category Creation",
+            "GET",
+            "admin/categories", 
+            200
+        )
+        
+        if verify_success and updated_categories:
+            new_category_count = len(updated_categories)
+            print(f"   ✅ Total categories after creation: {new_category_count}")
+            if new_category_count > initial_category_count:
+                print(f"   ✅ Successfully added {new_category_count - initial_category_count} new categories")
+        
+        # Test 4: PUT /api/admin/categories/{id} - update category
+        print("\n📋 Test 4: PUT /api/admin/categories/{id} - Update Category")
+        if created_category_ids:
+            category_id = created_category_ids[0]  # Update first created category
+            update_data = {
+                "name": "Tekne Turu Updated",
+                "description": "Güncellenmiş tekne turu açıklaması - Lüks yat turları dahil",
+                "icon": "⛵",
+                "image": "https://example.com/luxury-boat-tour.jpg",
+                "seo_title": "Lüks Tekne Turları - Premium Mavi Yolculuk",
+                "seo_description": "Lüks yatlar ile premium mavi yolculuk deneyimi",
+                "seo_keywords": "lüks tekne turu, yat turu, premium mavi yolculuk",
+                "faq": [
+                    {"question": "Lüks yat turunda neler var?", "answer": "Gourmet yemekler, premium içecekler ve özel hizmet."}
+                ],
+                "is_active": True
+            }
+            
+            update_success, update_response = self.run_test(
+                "Update Category",
+                "PUT",
+                f"admin/categories/{category_id}",
+                200,
+                data=update_data
+            )
+            
+            if update_success and update_response:
+                if update_response.get('name') == "Tekne Turu Updated":
+                    print("   ✅ Category updated successfully")
+                else:
+                    print("   ❌ Category update failed - name not changed")
+        
+        # Test 5: PUT /api/admin/categories/{id}/status - toggle active status
+        print("\n📋 Test 5: PUT /api/admin/categories/{id}/status - Toggle Status")
+        if created_category_ids and len(created_category_ids) > 1:
+            category_id = created_category_ids[1]  # Toggle second category status
+            
+            # First toggle to inactive
+            toggle_success1, toggle_response1 = self.run_test(
+                "Toggle Category Status (Deactivate)",
+                "PUT",
+                f"admin/categories/{category_id}/status",
+                200
+            )
+            
+            if toggle_success1:
+                print("   ✅ Category status toggled to inactive")
+                
+                # Toggle back to active
+                toggle_success2, toggle_response2 = self.run_test(
+                    "Toggle Category Status (Activate)",
+                    "PUT",
+                    f"admin/categories/{category_id}/status",
+                    200
+                )
+                
+                if toggle_success2:
+                    print("   ✅ Category status toggled back to active")
+        
+        # Test 6: DELETE /api/admin/categories/{id} - delete category (if no tours using it)
+        print("\n📋 Test 6: DELETE /api/admin/categories/{id} - Delete Category")
+        if created_category_ids and len(created_category_ids) > 2:
+            category_id = created_category_ids[2]  # Delete third category
+            
+            delete_success, delete_response = self.run_test(
+                "Delete Category",
+                "DELETE",
+                f"admin/categories/{category_id}",
+                200
+            )
+            
+            if delete_success:
+                print("   ✅ Category deleted successfully")
+            else:
+                print("   ⚠️  Category deletion failed (may have tours using it)")
+        
+        return True
+
+    def run_admin_location_category_tests(self):
+        """Run comprehensive admin location and category management tests"""
+        print("🎯 Testing Admin Panel Location and Category Management CRUD Operations")
+        print("=" * 70)
+        
+        # Setup: Ensure we have sample data
+        print("\n📊 SETUP: Ensuring Sample Data")
+        self.test_seed_data()
+        
+        # Admin Authentication
+        print("\n🔐 PHASE 1: Admin Authentication")
+        admin_success = self.test_admin_login()
+        
+        if not admin_success:
+            print("❌ Admin login failed, cannot proceed with admin tests")
+            self.print_final_results()
+            return
+        
+        # Test Location Management
+        print("\n🏢 PHASE 2: Location Management CRUD Operations")
+        self.test_admin_locations_crud()
+        
+        # Test Category Management  
+        print("\n🏷️  PHASE 3: Category Management CRUD Operations")
+        self.test_admin_categories_crud()
+        
+        # Print final results
+        self.print_final_results()
+
     def run_specific_admin_tests(self):
         """Run specific tests requested in the review"""
         print("🎯 Running Specific Admin Tests as Requested")
