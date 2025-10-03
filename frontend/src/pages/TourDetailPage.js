@@ -51,6 +51,44 @@ const TourDetailPage = () => {
     }
   }, [tourId, user]);
 
+  // Filter dates when availableDates or selectedMonth changes
+  useEffect(() => {
+    if (availableDates.length > 0) {
+      if (selectedMonth === '') {
+        setFilteredDates(availableDates);
+      } else {
+        const filtered = availableDates.filter(date => {
+          const dateObj = new Date(date.start_date);
+          const monthYear = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}`;
+          return monthYear === selectedMonth;
+        });
+        setFilteredDates(filtered);
+      }
+    }
+  }, [availableDates, selectedMonth]);
+
+  // Generate available months from dates
+  const getAvailableMonths = () => {
+    const months = [];
+    availableDates.forEach(date => {
+      const dateObj = new Date(date.start_date);
+      const monthYear = `${dateObj.getFullYear()}-${(dateObj.getMonth() + 1).toString().padStart(2, '0')}`;
+      const monthName = dateObj.toLocaleDateString('tr-TR', { 
+        year: 'numeric', 
+        month: 'long' 
+      });
+      
+      if (!months.find(m => m.value === monthYear)) {
+        months.push({
+          value: monthYear,
+          label: monthName
+        });
+      }
+    });
+    
+    return months.sort((a, b) => a.value.localeCompare(b.value));
+  };
+
   const loadTour = async () => {
     try {
       const response = await axios.get(`${API}/tours/${tourId}`);
