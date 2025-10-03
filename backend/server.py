@@ -401,12 +401,49 @@ async def get_tours(
     
     return result_tours
 
-@api_router.get("/tours/{tour_id}", response_model=Tour)
+@api_router.get("/tours/{tour_id}")
 async def get_tour(tour_id: str = FastAPIPath(...)):
     tour = await db.tours.find_one({"id": tour_id})
     if not tour:
         raise HTTPException(status_code=404, detail="Tour not found")
-    return Tour(**tour)
+    
+    # Remove MongoDB _id to avoid serialization issues
+    if "_id" in tour:
+        del tour["_id"]
+    
+    # Add tour dates
+    tour_dates = await db.tour_dates.find({
+        "tour_id": tour["id"],
+        "is_active": True
+    }).sort("start_date", 1).to_list(length=None)
+    
+    tour["tour_dates"] = []
+    for date in tour_dates:
+        if "_id" in date:
+            del date["_id"]
+        tour["tour_dates"].append({
+            "id": date["id"],
+            "date": date["start_date"],
+            "price": date["price"],
+            "capacity": date["available_spots"],
+            "is_active": date.get("is_active", True)
+        })
+    
+    # Add review statistics
+    reviews = await db.reviews.find({
+        "tour_id": tour["id"],
+        "is_verified": True
+    }).to_list(length=None)
+    
+    if reviews:
+        ratings = [review["rating"] for review in reviews]
+        tour["rating"] = sum(ratings) / len(ratings)
+        tour["review_count"] = len(reviews)
+    else:
+        tour["rating"] = 0
+        tour["review_count"] = 0
+    
+    return tour
 
 @api_router.post("/tours", response_model=Tour)
 async def create_tour(tour_data: TourCreate, current_user: User = Depends(get_current_user)):
