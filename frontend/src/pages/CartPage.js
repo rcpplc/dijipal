@@ -58,7 +58,14 @@ const CartPage = () => {
   };
 
   const getTotalPrice = () => {
-    return cartItems.reduce((total, item) => total + (item.price * item.participants), 0);
+    return cartItems.reduce((total, item) => {
+      // Kabin sistemi: cabin type'a göre fiyat hesapla
+      const cabinPrice = item.cabinType === 'double' 
+        ? (item.double_cabin_price || item.price || 0)
+        : (item.single_cabin_price || item.price || 0);
+      
+      return total + (cabinPrice * item.participants);
+    }, 0);
   };
 
   const handleCheckout = () => {
