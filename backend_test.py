@@ -355,6 +355,16 @@ class TourPlatformAPITester:
         print("\n🔧 PHASE 6: Admin Features")
         self.test_admin_dashboard()
         
+        # Test 6: Admin-specific tests with provided credentials
+        print("\n👑 PHASE 7: Admin Authentication & Features")
+        admin_login_success = self.test_admin_login()
+        
+        if admin_login_success:
+            self.test_admin_dashboard()
+            self.test_admin_tours()
+        else:
+            print("❌ Admin login failed, skipping admin-specific tests")
+        
         # Print final results
         self.print_final_results()
 
