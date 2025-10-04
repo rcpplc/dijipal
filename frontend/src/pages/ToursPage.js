@@ -8,8 +8,6 @@ import {
   Users, 
   Star,
   Heart,
-  Grid,
-  List,
   SlidersHorizontal,
   ChevronDown,
   Mountain,
