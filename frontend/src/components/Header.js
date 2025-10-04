@@ -204,7 +204,7 @@ const Header = () => {
 
         {/* Mobile Menu */}
         {isMenuOpen && (
-          <div className="md:hidden border-t border-gray-100 py-4 space-y-2">
+          <div className="lg:hidden border-t border-gray-100 py-4 space-y-2">
             <Link
               to="/"
               className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
