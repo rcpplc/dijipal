@@ -72,8 +72,9 @@ const HomePage = () => {
 
   const handleSearch = (e) => {
     e.preventDefault();
+    
+    // Track search behavior if there's a query
     if (searchQuery.trim()) {
-      // Track search behavior
       try {
         const history = JSON.parse(localStorage.getItem('tourSearchHistory') || '[]');
         const searchData = {
@@ -89,6 +90,9 @@ const HomePage = () => {
       }
       
       navigate(`/tours?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      // If no search query, show all tours
+      navigate('/tours');
     }
   };
 
