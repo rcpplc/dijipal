@@ -380,3 +380,22 @@ body {
     display: none !important;
   }
 }
+
+/* Hide Emergent watermark/branding */
+[aria-label*="Made with Emergent"], 
+[title*="Made with Emergent"],
+*[class*="emergent"],
+*[class*="watermark"],
+*[class*="branding"],
+div:has-text("Made with Emergent") {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Alternative approach - hide by content */
+div:contains("Made with Emergent"),
+span:contains("Made with Emergent"),
+a:contains("Made with Emergent") {
+  display: none !important;
+}
