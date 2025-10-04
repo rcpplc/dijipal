@@ -681,11 +681,11 @@ const TourDetailPage = () => {
                     </div>
                     {tour.cancellation_policy && tour.cancellation_policy.split('\n').length > 5 && (
                       <button
-                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        onClick={() => setShowFullCancellation(!showFullCancellation)}
                         className="mt-3 flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
                       >
-                        <span>{showFullDescription ? 'Daha az göster' : 'Devamını gör'}</span>
-                        {showFullDescription ? 
+                        <span>{showFullCancellation ? 'Daha az göster' : 'Devamını gör'}</span>
+                        {showFullCancellation ? 
                           <ChevronUp className="w-4 h-4" /> : 
                           <ChevronDown className="w-4 h-4" />
                         }
