@@ -346,6 +346,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ Sepet sayfası güncellemeleri tamamlandı: 1) +/- butonları seçilen tur tarihinin kabin kapasitesine göre sınırlandırıldı (available_cabins kontrolü eklendi), 2) Sipariş özeti KDV %20 olarak hesaplanıyor (Ara Toplam ₺10,000, KDV %2,000, Toplam ₺12,000), 3) Hizmet bedeli tamamen kaldırıldı, 4) Seçilen tarih ve kabin tipi bilgileri düzgün gösteriliyor. Kullanıcının istediği tüm özellikler implement edildi ve test edildi."
+        - working: true
+          agent: "main"
+          comment: "✅ Kabin sayısı ve stok sınırı güncellemeleri tamamlandı: 1) 'Katılımcı:' etiketi 'Kabin Sayısı:' olarak değiştirildi, 2) Kabin stok sınırı görünümü eklendi (Maks: 8 kabin), 3) Fiyat gösterimi güncellendi (₺12,000 / kabin × 1), 4) +/- butonları kabin stok sınırına göre disable oluyor, 5) Kapasite aşımında uyarı toast mesajı gösteriliyor. Kullanıcının son istekleri de başarıyla implement edildi."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
