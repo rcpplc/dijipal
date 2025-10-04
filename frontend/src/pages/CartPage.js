@@ -82,7 +82,9 @@ const CartPage = () => {
     
     // Başarı mesajı
     const dateStr = new Date(selectedDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
-    toast.success(`${dateStr} tarihli kabin sayısı ${newQuantity} olarak güncellendi`);
+    const cabinTypeStr = cabinType === 'single' ? 'Tek kişilik' : 'Çift kişilik';
+    const totalUsed = otherCabinsOnSameDate + newQuantity;
+    toast.success(`${dateStr} - ${cabinTypeStr}: ${newQuantity} kabin (Toplam kullanılan: ${totalUsed}/${maxCapacity})`);
   };
 
   const removeItem = (tourId, selectedDate = null, cabinType = null) => {
