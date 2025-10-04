@@ -1147,6 +1147,87 @@ const TourDetailPage = () => {
           </div>
         </div>
       </div>
+
+      {/* Reviews Modal */}
+      {showReviewsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b border-gray-200">
+              <h3 className="text-xl font-semibold text-gray-900">
+                Tüm Değerlendirmeler ({reviews.length})
+              </h3>
+              <button
+                onClick={() => setShowReviewsModal(false)}
+                className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="p-6 overflow-y-auto max-h-[60vh]">
+              {reviews.length === 0 ? (
+                <div className="text-center py-8 text-gray-500">
+                  <Star className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                  <p>Henüz değerlendirme yok</p>
+                </div>
+              ) : (
+                <div className="space-y-6">
+                  {reviews.map((review) => (
+                    <div key={review.id} className="border-b border-gray-100 pb-6 last:border-b-0">
+                      <div className="flex items-start space-x-4">
+                        <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0">
+                          <User className="w-5 h-5 text-white" />
+                        </div>
+                        
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <div>
+                              <h4 className="font-semibold text-gray-900">
+                                {review.user_name}
+                              </h4>
+                              <div className="flex items-center space-x-2">
+                                <div className="flex items-center">
+                                  {[...Array(5)].map((_, i) => (
+                                    <Star
+                                      key={i}
+                                      className={`w-4 h-4 ${
+                                        i < review.rating
+                                          ? 'text-yellow-400 fill-current'
+                                          : 'text-gray-300'
+                                      }`}
+                                    />
+                                  ))}
+                                </div>
+                                <span className="text-sm text-gray-500">
+                                  {new Date(review.created_at).toLocaleDateString('tr-TR')}
+                                </span>
+                                {review.is_verified && (
+                                  <CheckCircle className="w-4 h-4 text-green-500" />
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {review.title && (
+                            <h5 className="font-medium text-gray-900 mb-2">
+                              {review.title}
+                            </h5>
+                          )}
+                          
+                          {review.comment && (
+                            <p className="text-gray-700 leading-relaxed">
+                              {review.comment}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
