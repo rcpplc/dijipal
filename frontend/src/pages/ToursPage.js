@@ -65,6 +65,20 @@ const ToursPage = () => {
     loadTours();
   }, [filters, searchQuery]);
 
+  // Close location dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (showLocationDropdown && !event.target.closest('.location-dropdown')) {
+        setShowLocationDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showLocationDropdown]);
+
   const loadFilterData = async () => {
     try {
       // Get all tours to calculate ranges
