@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "total_tests": 3,
+    "passed_tests": 3,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "test_date": "2025-10-04T08:20:16.353316"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Check Initial Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"892045ae-6543-43a3-ab6a-5226397a19aa\",\n    \"user_id\": \"7d080965-e045-4913-b13a-36275716f8e1\",\n    \"tour_id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"booking_id\": \"c5f7ecbb-26ac-4...",
+      "error": "",
+      "timestamp": "2025-10-04T08:20:16.276635"
+    },
+    {
+      "test_name": "Remove Test Reviews for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"message\": \"Successfully removed 4 reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55\"\n}...",
+      "error": "",
+      "timestamp": "2025-10-04T08:20:16.316763"
+    },
+    {
+      "test_name": "Verify Reviews Removed for Tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, Response: []...",
+      "error": "",
+      "timestamp": "2025-10-04T08:20:16.352531"
+    }
+  ]
+}
