@@ -1172,13 +1172,13 @@ const TourDetailPage = () => {
         </div>
       </div>
 
-      {/* Reviews Modal */}
+      {/* Reviews Modal with Pagination */}
       {showReviewsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white rounded-xl max-w-2xl w-full max-h-[80vh] overflow-hidden">
+          <div className="bg-white rounded-xl max-w-3xl w-full max-h-[80vh] overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b border-gray-200">
               <h3 className="text-xl font-semibold text-gray-900">
-                Tüm Değerlendirmeler ({reviews.length})
+                Tüm Değerlendirmeler ({totalReviews})
               </h3>
               <button
                 onClick={() => setShowReviewsModal(false)}
@@ -1187,8 +1187,24 @@ const TourDetailPage = () => {
                 <X className="w-5 h-5" />
               </button>
             </div>
-            <div className="p-6 overflow-y-auto max-h-[60vh]">
-              {reviews.length === 0 ? (
+            <div className="p-6 overflow-y-auto max-h-[50vh]">
+              {modalLoading ? (
+                <div className="space-y-4">
+                  {[...Array(5)].map((_, i) => (
+                    <div key={i} className="animate-pulse">
+                      <div className="flex items-center space-x-3 mb-3">
+                        <div className="bg-gray-200 w-10 h-10 rounded-full"></div>
+                        <div>
+                          <div className="bg-gray-200 h-4 w-24 rounded mb-1"></div>
+                          <div className="bg-gray-200 h-3 w-16 rounded"></div>
+                        </div>
+                      </div>
+                      <div className="bg-gray-200 h-4 w-full rounded mb-2"></div>
+                      <div className="bg-gray-200 h-4 w-3/4 rounded"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : modalReviews.length === 0 ? (
                 <div className="text-center py-8 text-gray-500">
                   <Star className="w-12 h-12 text-gray-300 mx-auto mb-3" />
                   <p>Henüz değerlendirme yok</p>
