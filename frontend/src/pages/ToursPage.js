@@ -549,8 +549,8 @@ const ToursPage = () => {
                         <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
                         <input
                           type="number"
-                          value={filters.min_price}
-                          onChange={(e) => handleFilterChange('min_price', e.target.value)}
+                          value={filters.minPrice}
+                          onChange={(e) => handleFilterChange('minPrice', e.target.value)}
                           placeholder={priceRange.min.toLocaleString()}
                           min={priceRange.min}
                           max={priceRange.max}
