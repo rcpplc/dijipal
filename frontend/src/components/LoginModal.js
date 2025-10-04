@@ -242,14 +242,8 @@ const LoginModal = ({ initialMode = 'login' }) => {
           )}
 
           <button
-            type="button"
+            type="submit"
             disabled={loading}
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              console.log('🖱️ Submit button clicked - calling handleSubmit manually');
-              handleSubmit(e);
-            }}
             className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-3 px-4 rounded-lg transition-all duration-200 transform hover:scale-[1.02] active:scale-[0.98] disabled:transform-none"
           >
             {loading ? (
