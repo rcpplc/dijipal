@@ -48,24 +48,6 @@ const TourDetailPage = () => {
       comment: "Genel olarak memnun kaldık. Sadece beklediğimizden biraz daha kalabalıktı. Ama manzaralar çok güzeldi.",
       created_at: "2024-02-10T14:20:00Z",
       is_verified: false
-    },
-    {
-      id: 3,
-      user_name: "Murat Demir",
-      rating: 5,
-      title: "Mükemmel hizmet",
-      comment: "Personel çok ilgili ve yardımseverdi. Tekne konforlu, yemekler tazeydi. Ailecek çok keyif aldık.",
-      created_at: "2024-02-05T16:45:00Z",
-      is_verified: true
-    },
-    {
-      id: 4,
-      user_name: "Selin Öz",
-      rating: 4,
-      title: "Tavsiye ederim",
-      comment: "Güzel bir deneyimdi. Özellikle gün batımı manzarası unutulmazdı. Fotoğraf çekmek için harika fırsatlar var.",
-      created_at: "2024-01-28T11:15:00Z",
-      is_verified: true
     }
   ]);
   const [loading, setLoading] = useState(true);
