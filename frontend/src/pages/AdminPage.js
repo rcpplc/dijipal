@@ -2108,8 +2108,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                          🏠 Toplam Kabin Kapasitesi *
+                        <label className="block text-sm font-semibold text-gray-800 mb-2">
+                          Toplam Kabin Kapasitesi *
                         </label>
                         <input
                           type="number"
