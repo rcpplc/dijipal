@@ -2152,8 +2152,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                 {/* Tour Dates Table */}
                 {formData.tour_dates.length > 0 && (
                   <div>
-                    <h4 className="text-sm font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">Eklenen Kabin Tarihleri ({formData.tour_dates.length})</h4>
-                    <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Eklenen Tarihi ({formData.tour_dates.length})</h4>
+                    <div className="border border-gray-200 rounded overflow-hidden">
                       <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-100">
                           <tr>
