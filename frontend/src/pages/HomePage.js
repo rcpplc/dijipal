@@ -186,14 +186,14 @@ const HomePage = () => {
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
-              Türkiye'yi
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
+              <span className="block">Kabin Kiralama ile</span>
               <span className="block text-blue-300">
-                Keşfedin
+                Mavi Yolculuğun Keyfini Çıkarın
               </span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 px-2">
-              Binlerce destinasyon, güvenilir operatörler ve unutulmaz anılar
+              Akdeniz ve Ege'nin eşsiz koylarında unutulmaz bir deniz tatili yapın
             </p>
 
             {/* Search Bar */}
