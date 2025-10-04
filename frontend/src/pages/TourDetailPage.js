@@ -419,7 +419,7 @@ const TourDetailPage = () => {
               </div>
               
               {/* Action Buttons */}
-              <div className="absolute top-4 right-4 flex space-x-2">
+              <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex space-x-1 sm:space-x-2">
                 <button
                   onClick={toggleFavorite}
                   className={`p-3 rounded-full backdrop-blur-sm transition-all duration-200 ${
