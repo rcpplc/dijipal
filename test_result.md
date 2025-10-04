@@ -361,6 +361,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ PAYLAŞILAN KAPASİTE SİSTEMİ TAMAMLANDI - Aynı tarihte toplam kabin stoku paylaşımı: updateQuantity fonksiyonunda aynı tarihteki tüm kabin tiplerinin toplam kapasiteyi paylaşması sağlandı. Test başarılı: 20 Ocak 2025 (toplam 10 kabin) - Tek Kişilik 1 kabin + Çift Kişilik 1 kabin = Toplam kullanılan 2/10 kabin. React key problemi çözüldü (unique key: tourId-date-cabinType-index). Kapasite kontrol mesajları güncellendi. Sistem: ₺40,000 toplam (₺15K tek + ₺25K çift + KDV). Kullanıcının istediği tam sistem tamamlandı."
+        - working: true
+          agent: "main"
+          comment: "✅ REZERVASYON SAYFASI TÜM SORUNLARI ÇÖZÜLDÜ - BookingPage.js güncellemeleri: 1) Tur tarihi Rezervasyon Özeti'nde görünüyor (formattedSelectedDate düzeltildi), 2) Ödeme bilgileri doğru geliyor (1 kabin × ₺15,000 = ₺15,000, KDV Hariç ₺12,500 + KDV ₺2,500 = Toplam ₺15,000), 3) Hizmet bedeli kaldırıldı, 4) CartPage handleCheckout navigate state ile tam veri gönderimi sağlandı, 5) Debug console logları eklendi (selectedPrice: 15000 doğru). Login sistemi de çalışıyor (admin@example.com/admin123). Cart→Booking flow tamamen functional."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
