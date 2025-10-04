@@ -2036,8 +2036,8 @@ def main():
     
     tester = TourPlatformAPITester()
     
-    # Run the admin cabin pricing tests as requested in the review
-    tester.run_admin_cabin_pricing_tests()
+    # Run the specific tour creation fix test as requested in the review
+    tester.run_tour_creation_fix_test()
     
     # Return exit code based on success rate
     success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
