@@ -10,7 +10,8 @@ import {
   Heart,
   Grid,
   List,
-  SlidersHorizontal
+  SlidersHorizontal,
+  X
 } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '../App';
