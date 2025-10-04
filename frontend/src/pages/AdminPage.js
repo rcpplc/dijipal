@@ -2129,7 +2129,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     </div>
                     
                     {/* Right Side - Cabin Prices */}
-                    <div className="bg-white p-4 rounded-lg border border-gray-200">
+                    <div className="bg-white p-4 rounded-md border border-gray-200">
                       <h5 className="text-sm font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
                         Kabin Tip Fiyatları
                       </h5>
