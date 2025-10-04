@@ -73,8 +73,10 @@ const CartPage = () => {
     toast.success(`${dateStr} tarihli kabin sayısı ${newQuantity} olarak güncellendi`);
   };
 
-  const removeItem = (tourId) => {
-    const updatedItems = cartItems.filter(item => item.tourId !== tourId);
+  const removeItem = (tourId, selectedDate = null) => {
+    const updatedItems = selectedDate 
+      ? cartItems.filter(item => !(item.tourId === tourId && item.selectedDate?.date === selectedDate))
+      : cartItems.filter(item => item.tourId !== tourId);
     updateCartItems(updatedItems);
     toast.success('Tur sepetten kaldırıldı');
   };
