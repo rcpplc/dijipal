@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "total_tests": 2,
+    "passed_tests": 2,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "test_date": "2025-10-04T10:08:55.135437"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Get All Tours for Location Analysis",
+      "success": true,
+      "details": "Status: 200, Response: [\n  {\n    \"id\": \"3ded39ad-36a4-47d1-87b9-7baeb5f00f55\",\n    \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n    \"title\": \"Fethiye \\u2013 G\\u00f6cek 3 Gece 4 G\\u00fcn Kabin Turu\",\n    \"description...",
+      "error": "",
+      "timestamp": "2025-10-04T10:08:55.134595"
+    },
+    {
+      "test_name": "Location Verification Analysis",
+      "success": true,
+      "details": "Found 2 unique locations: Mu\u011fla, Fethiye, Mu\u011fla, G\u00f6cek",
+      "error": "",
+      "timestamp": "2025-10-04T10:08:55.135162"
+    }
+  ]
+}
