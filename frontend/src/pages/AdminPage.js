@@ -1885,7 +1885,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       type="text"
                       value={formData.title}
                       onChange={(e) => setFormData({...formData, title: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                     />
                   </div>
@@ -1897,7 +1897,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     <select
                       value={formData.location}
                       onChange={(e) => setFormData({...formData, location: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                       disabled={!locations || locations.length === 0}
                     >
@@ -1920,7 +1920,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     <select
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                       disabled={!categories || categories.length === 0}
                     >
@@ -1943,7 +1943,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     <select
                       value={formData.classification}
                       onChange={(e) => setFormData({...formData, classification: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     >
                       {classificationOptions.map(option => (
                         <option key={option.value} value={option.value}>{option.label}</option>
@@ -1959,7 +1959,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       type="time"
                       value={formData.pickup_time}
                       onChange={(e) => setFormData({...formData, pickup_time: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                     />
                   </div>
@@ -1972,7 +1972,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       type="time"
                       value={formData.dropoff_time}
                       onChange={(e) => setFormData({...formData, dropoff_time: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                     />
                   </div>
@@ -1987,7 +1987,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       max="30"
                       value={formData.duration_days}
                       onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value) || 1})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                     />
                     <p className="text-sm text-gray-500 mt-1">Turun kaç gün süreceğini belirtin (1-30 gün)</p>
@@ -2003,7 +2003,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       type="text"
                       value={formData.short_description}
                       onChange={(e) => setFormData({...formData, short_description: e.target.value})}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       placeholder="Tur hakkında kısa açıklama"
                       required
                     />
@@ -2017,7 +2017,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       value={formData.description}
                       onChange={(e) => setFormData({...formData, description: e.target.value})}
                       rows={4}
-                      className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       placeholder="Tur hakkında detaylı bilgi"
                       required
                     />
@@ -2103,7 +2103,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                           type="date"
                           value={newTourDate.date}
                           onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                         />
                       </div>
                       
@@ -2117,7 +2117,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                           max="50"
                           value={newTourDate.capacity}
                           onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
-                          className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                           placeholder="Örn: 12 kabin"
                         />
                       </div>
@@ -2388,7 +2388,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     type="text"
                     value={formData.meeting_point}
                     onChange={(e) => setFormData({...formData, meeting_point: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     placeholder="Buluşma noktası adresi"
                   />
                 </div>
@@ -2402,7 +2402,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     value={formData.program_details}
                     onChange={(e) => setFormData({...formData, program_details: e.target.value})}
                     rows={6}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     placeholder="Günlük program detayları, ziyaret edilecek yerler, aktiviteler ve tur akışı hakkında bilgi..."
                   />
                   <p className="text-sm text-gray-500 mt-1">
@@ -2425,7 +2425,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   <select
                     value={formData.status}
                     onChange={(e) => setFormData({...formData, status: e.target.value})}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   >
                     {statusOptions.map(status => (
                       <option key={status.value} value={status.value}>{status.label}</option>
@@ -2442,7 +2442,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     value={formData.cancellation_policy}
                     onChange={(e) => setFormData({...formData, cancellation_policy: e.target.value})}
                     rows={3}
-                    className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                     placeholder="İptal koşulları ve politikası"
                   />
                 </div>
@@ -2625,7 +2625,7 @@ const LocationModal = ({ location, isEdit, onClose, onSave }) => {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 required
               />
             </div>
@@ -2638,7 +2638,7 @@ const LocationModal = ({ location, isEdit, onClose, onSave }) => {
                 value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
             </div>
 
@@ -2650,7 +2650,7 @@ const LocationModal = ({ location, isEdit, onClose, onSave }) => {
                 type="text"
                 value={formData.country}
                 onChange={(e) => setFormData({...formData, country: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 required
               />
             </div>
@@ -2760,7 +2760,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                 type="text"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 required
               />
             </div>
@@ -2773,7 +2773,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                 value={formData.description}
                 onChange={(e) => setFormData({...formData, description: e.target.value})}
                 rows={3}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
             </div>
 
@@ -2786,7 +2786,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                   type="text"
                   value={formData.icon}
                   onChange={(e) => setFormData({...formData, icon: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="📂"
                 />
               </div>
@@ -2799,7 +2799,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                   type="url"
                   value={formData.image}
                   onChange={(e) => setFormData({...formData, image: e.target.value})}
-                  className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                   placeholder="https://..."
                 />
               </div>
@@ -2813,7 +2813,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                 type="text"
                 value={formData.seo_title}
                 onChange={(e) => setFormData({...formData, seo_title: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
             </div>
 
@@ -2825,7 +2825,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                 value={formData.seo_description}
                 onChange={(e) => setFormData({...formData, seo_description: e.target.value})}
                 rows={2}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
             </div>
 
@@ -2837,7 +2837,7 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
                 type="text"
                 value={formData.seo_keywords}
                 onChange={(e) => setFormData({...formData, seo_keywords: e.target.value})}
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                 placeholder="kelime1, kelime2, kelime3"
               />
             </div>
