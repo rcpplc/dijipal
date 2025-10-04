@@ -266,7 +266,7 @@ const ToursPage = () => {
             <div className="flex items-center space-x-2 sm:space-x-4">
               <button
                 onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 px-4 py-3 rounded-lg transition-colors duration-200"
+                className="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-gray-200 px-2 sm:px-4 py-2 sm:py-3 rounded-lg transition-colors duration-200 text-sm sm:text-base"
               >
                 <SlidersHorizontal className="w-5 h-5" />
                 <span>Filtreler</span>
