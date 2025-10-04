@@ -204,10 +204,10 @@ const ToursPage = () => {
       if (filters.category) params.append('category', filters.category);
       if (filters.location) params.append('location', filters.location);
       if (filters.classification) params.append('classification', filters.classification);
-      if (filters.min_price) params.append('min_price', filters.min_price);
-      if (filters.max_price) params.append('max_price', filters.max_price);
-      if (filters.duration_days) params.append('duration_days', filters.duration_days);
-      if (filters.min_rating) params.append('min_rating', filters.min_rating);
+      if (filters.minPrice) params.append('min_price', filters.minPrice);
+      if (filters.maxPrice) params.append('max_price', filters.maxPrice);
+      if (filters.duration) params.append('duration_days', filters.duration);
+      if (filters.minRating) params.append('min_rating', filters.minRating);
       
       const response = await axios.get(`${API}/tours?${params.toString()}`);
       setTours(response.data);
