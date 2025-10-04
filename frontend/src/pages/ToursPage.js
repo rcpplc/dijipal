@@ -451,153 +451,112 @@ const ToursPage = () => {
             </div>
           </div>
 
-          {/* Filters Panel */}
-          {showFilters && (
-            <div className="mt-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-              <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
-                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
+        {/* Minimal ve Modern Filtreler */}
+        {showFilters && (
+          <div className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+            {/* Filtre Başlığı */}
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="text-xl font-bold text-gray-900">Filtreler</h3>
+              <button
+                onClick={clearFilters}
+                className="text-gray-400 hover:text-red-500 transition-colors duration-200 flex items-center space-x-1 text-sm"
+              >
+                <X className="w-4 h-4" />
+                <span>Temizle</span>
+              </button>
+            </div>
+            
+            {/* Ana Filtreler - 2 Satır Düzeni */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+              {/* Kategori */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Kategori</label>
+                <select
+                  value={filters.category}
+                  onChange={(e) => handleFilterChange('category', e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  {categories.map(cat => (
+                    <option key={cat.value} value={cat.value}>{cat.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Sınıflandırma */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Sınıf</label>
+                <select
+                  value={filters.classification}
+                  onChange={(e) => handleFilterChange('classification', e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  {classifications.map(cls => (
+                    <option key={cls.value} value={cls.value}>{cls.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Süre */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Süre</label>
+                <select
+                  value={filters.duration}
+                  onChange={(e) => handleFilterChange('duration', e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  {durations.map(dur => (
+                    <option key={dur.value} value={dur.value}>{dur.label}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Minimum Puan */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700">Min. Puan</label>
+                <select
+                  value={filters.minRating}
+                  onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  {minRatings.map(rating => (
+                    <option key={rating.value} value={rating.value}>{rating.label}</option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {/* Fiyat Aralığı - Özel Bölüm */}
+            <div className="bg-gray-50 rounded-xl p-4">
+              <div className="flex items-center justify-between mb-3">
+                <label className="text-sm font-medium text-gray-700">Fiyat Aralığı</label>
+                <span className="text-xs text-gray-500">
+                  ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
+                </span>
               </div>
               
-              <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                  {/* Kategori */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Kategori
-                    </label>
-                    <select
-                      value={filters.category}
-                      onChange={(e) => handleFilterChange('category', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                    >
-                      {categories.map((cat) => (
-                        <option key={cat.value} value={cat.value}>
-                          {cat.label}
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Sınıflandırma */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Sınıflandırma
-                    </label>
-                    <select
-                      value={filters.classification}
-                      onChange={(e) => handleFilterChange('classification', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                    >
-                      <option value="">Tüm Sınıflar</option>
-                      <option value="standart">Standart</option>
-                      <option value="lux">Lux</option>
-                      <option value="delux">Delux</option>
-                    </select>
-                  </div>
-
-                  {/* Süre */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Süre
-                    </label>
-                    <select
-                      value={filters.duration}
-                      onChange={(e) => handleFilterChange('duration', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                    >
-                      <option value="">Tüm Süreler</option>
-                      {Array.from(
-                        { length: durationRange.max - durationRange.min + 1 }, 
-                        (_, i) => durationRange.min + i
-                      ).map(day => (
-                        <option key={day} value={day}>
-                          {day} Gün
-                        </option>
-                      ))}
-                    </select>
-                  </div>
-
-                  {/* Min Puan */}
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-3">
-                      Minimum Puan
-                    </label>
-                    <select
-                      value={filters.minRating}
-                      onChange={(e) => handleFilterChange('minRating', e.target.value)}
-                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                    >
-                      <option value="">Tüm Puanlar</option>
-                      {[1, 2, 3, 4, 5].map(rating => (
-                        <option key={rating} value={rating}>
-                          {rating}+ Yıldız
-                        </option>
-                      ))}
-                    </select>
-                  </div>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <input
+                    type="number"
+                    value={filters.minPrice}
+                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                    placeholder="Min fiyat"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  />
                 </div>
-
-                {/* Fiyat Aralığı - Basit ve Çalışan */}
-                <div className="mt-6 pt-6 border-t border-gray-200">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    {/* Min Fiyat */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Min Fiyat
-                      </label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
-                        <input
-                          type="number"
-                          value={filters.minPrice}
-                          onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                          placeholder={priceRange.min.toLocaleString()}
-                          min={priceRange.min}
-                          max={priceRange.max}
-                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Max Fiyat */}
-                    <div>
-                      <label className="block text-sm font-medium text-gray-700 mb-3">
-                        Max Fiyat
-                      </label>
-                      <div className="relative">
-                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
-                        <input
-                          type="number"
-                          value={filters.maxPrice}
-                          onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                          placeholder={priceRange.max.toLocaleString()}
-                          min={priceRange.min}
-                          max={priceRange.max}
-                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  
-                  {/* Filtre Temizle */}
-                  <div className="flex justify-end items-center mt-4">
-                    <button
-                      onClick={() => {
-                        clearFilters();
-                        setSearchParams(new URLSearchParams());
-                      }}
-                      className="flex items-center space-x-2 px-3 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors duration-200 rounded-md"
-                      title="Filtreleri Temizle"
-                    >
-                      <span className="text-sm font-medium">Filtreyi temizle</span>
-                      <X className="w-4 h-4" />
-                    </button>
-                  </div>
+                <div>
+                  <input
+                    type="number"
+                    value={filters.maxPrice}
+                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                    placeholder="Max fiyat"
+                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  />
                 </div>
               </div>
             </div>
-          )}
+          </div>
+        )}
         </div>
       </div>
 
