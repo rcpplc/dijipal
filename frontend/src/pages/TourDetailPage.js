@@ -696,28 +696,17 @@ const TourDetailPage = () => {
               )}
             </div>
 
-            {/* Reviews Section - Only Modal Button */}
-            <div className="py-6 border-t border-gray-100">
-              <div className="flex items-center justify-between">
-                <h4 className="font-semibold text-gray-900 flex items-center space-x-2">
-                  <Star className="w-5 h-5 text-yellow-500" />
-                  <span>Değerlendirmeler</span>
-                  {reviews.length > 0 && (
-                    <span className="text-sm text-gray-500">({reviews.length})</span>
-                  )}
-                </h4>
-                {reviews.length > 0 ? (
-                  <button
-                    onClick={() => setShowReviewsModal(true)}
-                    className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
-                  >
-                    Tüm değerlendirmeleri gör
-                  </button>
-                ) : (
-                  <p className="text-sm text-gray-500">Henüz değerlendirme yapılmamış</p>
-                )}
+            {/* Reviews Section - Only Button */}
+            {reviews.length > 0 && (
+              <div className="py-4 border-t border-gray-100">
+                <button
+                  onClick={() => setShowReviewsModal(true)}
+                  className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                >
+                  Tüm değerlendirmeleri gör
+                </button>
               </div>
-            </div>
+            )}
             <div className="bg-white rounded-xl p-6 shadow-lg mt-8">
               <h3 className="text-xl font-semibold text-gray-900 mb-6">
                 Değerlendirmeler ({reviews.length})
