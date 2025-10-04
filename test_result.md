@@ -349,6 +349,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ Kabin sayısı ve stok sınırı güncellemeleri tamamlandı: 1) 'Katılımcı:' etiketi 'Kabin Sayısı:' olarak değiştirildi, 2) Kabin stok sınırı görünümü eklendi (Maks: 8 kabin), 3) Fiyat gösterimi güncellendi (₺12,000 / kabin × 1), 4) +/- butonları kabin stok sınırına göre disable oluyor, 5) Kapasite aşımında uyarı toast mesajı gösteriliyor. Kullanıcının son istekleri de başarıyla implement edildi."
+        - working: true
+          agent: "main"
+          comment: "✅ Gerçek kapasite sınırı düzeltildi: TourDetailPage.js'de addToCart fonksiyonuna capacity ve available_cabins alanları eklendi, CartPage.js'de öncelik sırası capacity → available_cabins olarak düzenlendi. 20 Ocak tarihli tur için veritabanındaki gerçek kapasite (10 kabin) doğru şekilde gösteriliyor. Hardcoded sınırlar kaldırıldı, her tur tarihinin kendi gerçek kapasitesi kullanılıyor. Test edildi: 'Maks: 10 kabin' doğru görünüyor."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
