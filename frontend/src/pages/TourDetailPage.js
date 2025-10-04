@@ -30,7 +30,44 @@ const TourDetailPage = () => {
   const { user, setShowLoginModal } = useAuth();
   const navigate = useNavigate();
   const [tour, setTour] = useState(null);
-  const [reviews, setReviews] = useState([]);
+  const [reviews, setReviews] = useState([
+    {
+      id: 1,
+      user_name: "Ahmet Yılmaz",
+      rating: 5,
+      title: "Harika bir deneyim!",
+      comment: "Bu tur gerçekten muhteşemdi. Kaptanımız çok bilgiliydi ve tekne çok temizdi. Yemekler de lezzetliydi. Kesinlikle tavsiye ederim!",
+      created_at: "2024-02-15T10:30:00Z",
+      is_verified: true
+    },
+    {
+      id: 2,
+      user_name: "Elif Kaya",
+      rating: 4,
+      title: "Güzel bir gün geçirdik",
+      comment: "Genel olarak memnun kaldık. Sadece beklediğimizden biraz daha kalabalıktı. Ama manzaralar çok güzeldi.",
+      created_at: "2024-02-10T14:20:00Z",
+      is_verified: false
+    },
+    {
+      id: 3,
+      user_name: "Murat Demir",
+      rating: 5,
+      title: "Mükemmel hizmet",
+      comment: "Personel çok ilgili ve yardımseverdi. Tekne konforlu, yemekler tazeydi. Ailecek çok keyif aldık.",
+      created_at: "2024-02-05T16:45:00Z",
+      is_verified: true
+    },
+    {
+      id: 4,
+      user_name: "Selin Öz",
+      rating: 4,
+      title: "Tavsiye ederim",
+      comment: "Güzel bir deneyimdi. Özellikle gün batımı manzarası unutulmazdı. Fotoğraf çekmek için harika fırsatlar var.",
+      created_at: "2024-01-28T11:15:00Z",
+      is_verified: true
+    }
+  ]);
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
