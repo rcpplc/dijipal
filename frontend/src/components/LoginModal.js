@@ -24,15 +24,20 @@ const LoginModal = ({ initialMode = 'login' }) => {
   };
 
   const handleSubmit = async (e) => {
+    console.log('🎯 handleSubmit called', { isLogin, formData });
     e.preventDefault();
     setLoading(true);
 
     try {
       let result;
       if (isLogin) {
+        console.log('🔑 Calling login function with:', formData.email);
         result = await login(formData.email, formData.password);
+        console.log('📡 Login result:', result);
       } else {
+        console.log('📝 Calling register function with:', formData);
         result = await register(formData);
+        console.log('📡 Register result:', result);
       }
 
       if (result.success) {
@@ -42,6 +47,7 @@ const LoginModal = ({ initialMode = 'login' }) => {
         toast.error(result.error);
       }
     } catch (error) {
+      console.error('❌ Login/Register error:', error);
       toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
     } finally {
       setLoading(false);
