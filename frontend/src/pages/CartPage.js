@@ -261,7 +261,7 @@ const CartPage = () => {
                         <span className="text-sm font-medium text-gray-700">Kabin Sayısı:</span>
                         <div className="flex items-center space-x-2">
                           <button
-                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.participants - 1)}
+                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
                             disabled={item.participants <= 1}
                             className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
                           >
@@ -271,7 +271,7 @@ const CartPage = () => {
                             {item.participants}
                           </span>
                           <button
-                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.participants + 1)}
+                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
                             disabled={item.participants >= (item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20)}
                             className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
                           >
