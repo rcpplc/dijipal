@@ -41,6 +41,21 @@ const HomePage = () => {
     "https://images.unsplash.com/photo-1727715220090-8e05aaa5b4fa" // Bodrum Bay crystal waters
   ];
 
+  const heroTitles = [
+    {
+      main: "Kabin Kiralama ile",
+      subtitle: "Mavi Yolculuğun Keyfini Çıkarın"
+    },
+    {
+      main: "Kabin Kiralama ile", 
+      subtitle: "Göcek Koylarının Keyfini Çıkarın"
+    },
+    {
+      main: "Kabin Kiralama ile",
+      subtitle: "Rüzgarın Keyfini Çıkarın"
+    }
+  ];
+
   useEffect(() => {
     loadFeaturedTours();
     seedSampleData();
