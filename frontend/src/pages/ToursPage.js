@@ -309,7 +309,7 @@ const ToursPage = () => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className={`${isListView ? 'text-base sm:text-lg' : 'text-lg sm:text-xl'} font-bold text-blue-600`}>
+          <div className={`${isListView ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'} font-bold text-blue-600`}>
             {(() => {
               if (tour.minimum_price) {
                 return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
@@ -327,14 +327,14 @@ const ToursPage = () => {
                 return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
               }
             })()}
-            <span className={`${isListView ? 'text-xs' : 'text-xs'} font-normal text-gray-600 ml-1`}>
+            <span className={`${isListView ? 'text-sm' : 'text-sm'} font-normal text-gray-600 ml-1`}>
               den başlayan
             </span>
           </div>
 
           <Link
             to={`/tours/${tour.id}`}
-            className={`bg-blue-600 hover:bg-blue-700 text-white ${isListView ? 'px-2.5 py-1 text-xs' : 'px-3 py-1.5 text-sm'} rounded font-medium transition-colors duration-200`}
+            className={`bg-blue-600 hover:bg-blue-700 text-white ${isListView ? 'px-4 py-2 text-sm' : 'px-4 py-2 text-sm'} rounded font-medium transition-colors duration-200`}
           >
             Detaylar
           </Link>
