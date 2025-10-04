@@ -60,7 +60,7 @@ const Header = () => {
           </Link>
 
           {/* Navigation - Desktop */}
-          <nav className="hidden md:flex items-center space-x-8">
+          <nav className="hidden lg:flex items-center space-x-6">
             <Link 
               to="/" 
               className={`font-medium transition-colors duration-200 ${
