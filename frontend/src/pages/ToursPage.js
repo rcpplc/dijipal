@@ -433,8 +433,7 @@ const ToursPage = () => {
                           </div>
                         );
                       })}
-                    </div>
-                  )}
+                  </div>
                 </div>
                 <button
                   type="submit"
