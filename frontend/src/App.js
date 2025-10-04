@@ -87,6 +87,72 @@ function App() {
     loadUser();
   }, [token]);
 
+  // Remove Emergent watermark
+  useEffect(() => {
+    const removeWatermark = () => {
+      // Remove by content
+      const elements = document.querySelectorAll('*');
+      elements.forEach(el => {
+        if (el.textContent && el.textContent.includes('Made with Emergent')) {
+          el.style.display = 'none';
+          el.style.visibility = 'hidden';
+          el.style.opacity = '0';
+        }
+      });
+
+      // Remove by position (bottom right corner)
+      const bottomRightElements = document.querySelectorAll('[style*="position: fixed"], [style*="position: absolute"]');
+      bottomRightElements.forEach(el => {
+        const style = el.style.cssText.toLowerCase();
+        if ((style.includes('right') && style.includes('bottom')) || 
+            (style.includes('z-index') && (style.includes('999') || style.includes('9999')))) {
+          if (el.textContent && el.textContent.includes('Made with Emergent')) {
+            el.style.display = 'none';
+          }
+        }
+      });
+
+      // Remove by class patterns
+      const watermarkClasses = [
+        '[class*="emergent"]', 
+        '[class*="watermark"]', 
+        '[class*="branding"]',
+        '.fixed.bottom-0.right-0',
+        '.fixed.bottom-4.right-4',
+        '.absolute.bottom-0.right-0',
+        '.absolute.bottom-4.right-4'
+      ];
+      
+      watermarkClasses.forEach(selector => {
+        try {
+          const els = document.querySelectorAll(selector);
+          els.forEach(el => {
+            if (el.textContent && el.textContent.includes('Made with Emergent')) {
+              el.style.display = 'none';
+            }
+          });
+        } catch (e) {
+          // Ignore selector errors
+        }
+      });
+    };
+
+    // Run immediately
+    removeWatermark();
+
+    // Run periodically to catch dynamically added watermarks
+    const interval = setInterval(removeWatermark, 1000);
+
+    // Run on DOM changes
+    const observer = new MutationObserver(removeWatermark);
+    observer.observe(document.body, { childList: true, subtree: true });
+
+    return () => {
+      clearInterval(interval);
+      observer.disconnect();
+    };
+  }, []);
+
   const login = async (email, password) => {
     console.log('🚀 Login function called with:', { email, API });
     try {
