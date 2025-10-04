@@ -46,13 +46,16 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-blue-600 rounded-xl flex items-center justify-center">
-              <MapPin className="w-6 h-6 text-white" />
+          <Link to="/" className="flex items-center space-x-2">
+            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+              <MapPin className="w-5 h-5 text-white" />
             </div>
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">TurPlatform</h1>
+            <div className="hidden sm:block">
+              <h1 className="text-lg font-bold text-gray-900">TurPlatform</h1>
               <p className="text-xs text-gray-500">Keşfet & Rezervasyon Yap</p>
+            </div>
+            <div className="sm:hidden">
+              <h1 className="text-lg font-bold text-gray-900">TurPlatform</h1>
             </div>
           </Link>
 
