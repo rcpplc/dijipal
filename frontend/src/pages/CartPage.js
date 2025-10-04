@@ -207,8 +207,8 @@ const CartPage = () => {
               </button>
             </div>
 
-            {cartItems.map((item) => (
-              <div key={item.tourId} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+            {cartItems.map((item, index) => (
+              <div key={`${item.tourId}-${item.selectedDate?.date}-${item.cabinType}-${index}`} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
                 <div className="flex flex-col md:flex-row gap-6">
                   {/* Tour Image */}
                   <div className="md:w-48 flex-shrink-0">
