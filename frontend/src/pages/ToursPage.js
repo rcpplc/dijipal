@@ -264,17 +264,17 @@ const ToursPage = () => {
         )}
       </div>
 
-      <div className={`p-3 sm:p-4 ${isListView ? 'flex-1' : ''}`}>
-        <div className="flex items-center space-x-1 text-xs text-gray-600 mb-1">
+      <div className={`${isListView ? 'p-2 sm:p-3 flex-1' : 'p-3 sm:p-4'}`}>
+        <div className={`flex items-center space-x-1 ${isListView ? 'text-xs' : 'text-xs'} text-gray-600 ${isListView ? 'mb-0.5' : 'mb-1'}`}>
           <MapPin className="w-3 h-3" />
           <span>{tour.location}</span>
         </div>
 
-        <h3 className="font-bold text-sm sm:text-base text-gray-900 mb-1 line-clamp-2 leading-tight">
+        <h3 className={`font-bold ${isListView ? 'text-sm mb-0.5' : 'text-sm sm:text-base mb-1'} text-gray-900 line-clamp-2 leading-tight`}>
           {tour.title}
         </h3>
 
-        <p className="text-gray-600 text-xs mb-2 line-clamp-2 leading-relaxed">
+        <p className={`text-gray-600 ${isListView ? 'text-xs mb-1' : 'text-xs mb-2'} line-clamp-2 leading-relaxed`}>
           {tour.short_description}
         </p>
 
