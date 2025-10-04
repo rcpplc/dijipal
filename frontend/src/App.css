@@ -382,20 +382,42 @@ body {
 }
 
 /* Hide Emergent watermark/branding */
-[aria-label*="Made with Emergent"], 
-[title*="Made with Emergent"],
-*[class*="emergent"],
-*[class*="watermark"],
-*[class*="branding"],
-div:has-text("Made with Emergent") {
+/* Target the specific watermark in bottom right corner */
+[style*="position: fixed"][style*="right"][style*="bottom"],
+[style*="position: absolute"][style*="right"][style*="bottom"],
+.fixed.bottom-0.right-0,
+.fixed.bottom-4.right-4,
+.absolute.bottom-0.right-0,
+.absolute.bottom-4.right-4 {
   display: none !important;
   visibility: hidden !important;
   opacity: 0 !important;
 }
 
-/* Alternative approach - hide by content */
-div:contains("Made with Emergent"),
-span:contains("Made with Emergent"),
-a:contains("Made with Emergent") {
+/* Hide any element containing "Made with Emergent" */
+*[aria-label*="Made with Emergent"], 
+*[title*="Made with Emergent"],
+*:has-text("Made with Emergent"),
+*[class*="emergent-watermark"],
+*[class*="emergent-branding"] {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Hide by z-index (watermarks typically have high z-index) */
+[style*="z-index: 999"],
+[style*="z-index: 9999"],
+.z-50,
+.z-999,
+.z-9999 {
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* Alternative approach using JavaScript-like selector */
+div[style*="Made with Emergent"],
+span[style*="Made with Emergent"],
+a[href*="emergent"] {
   display: none !important;
 }
