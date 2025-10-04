@@ -413,7 +413,7 @@ const ToursPage = () => {
                               filters.location === loc.value ? 'bg-blue-100 text-blue-700 font-semibold' : 'text-gray-900 hover:text-blue-600'
                             }`}
                           >
-                            <LocationIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                            <LocationIcon className="w-5 h-5 text-gray-600 flex-shrink-0" />
                             <span className="text-sm font-medium">{loc.label}</span>
                           </div>
                         );
