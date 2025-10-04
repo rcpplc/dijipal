@@ -48,6 +48,12 @@ const TourDetailPage = () => {
   // User behavior tracking
   const [suggestedParticipants, setSuggestedParticipants] = useState(null);
   
+  // Mobile bottom bar states
+  const [showDateModal, setShowDateModal] = useState(false);
+  const [showCabinModal, setShowCabinModal] = useState(false);
+  const [selectedCabinType, setSelectedCabinType] = useState('single'); // 'single' or 'double'
+  const [cabinCount, setCabinCount] = useState(1);
+  
   // Cabin system
   const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
   
