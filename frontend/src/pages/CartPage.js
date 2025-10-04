@@ -244,7 +244,8 @@ const CartPage = () => {
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => updateQuantity(item.tourId, item.participants - 1)}
-                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
+                            disabled={item.participants <= 1}
+                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
                           >
                             <Minus className="w-4 h-4" />
                           </button>
@@ -252,12 +253,9 @@ const CartPage = () => {
                             {item.participants}
                           </span>
                           <button
-                            onClick={() => {
-                              const maxCapacity = item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20;
-                              updateQuantity(item.tourId, item.participants + 1, maxCapacity);
-                            }}
-                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
-                            disabled={item.participants >= (item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20)}
+                            onClick={() => updateQuantity(item.tourId, item.participants + 1)}
+                            disabled={item.participants >= (item.selectedDate?.available_cabins || item.selectedDate?.capacity || 20)}
+                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
                           >
                             <Plus className="w-4 h-4" />
                           </button>
