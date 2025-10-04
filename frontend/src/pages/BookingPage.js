@@ -682,10 +682,7 @@ const BookingPage = () => {
                     <span>KDV (%20)</span>
                     <span>₺{kdvAmount.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Hizmet bedeli</span>
-                    <span className="font-medium">₺0</span>
-                  </div>
+                  {/* Hizmet bedeli kaldırıldı */}
                 </div>
 
                 <div className="border-t border-gray-100 pt-4">
