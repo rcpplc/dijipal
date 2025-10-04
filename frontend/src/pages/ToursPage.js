@@ -364,21 +364,35 @@ const ToursPage = () => {
                     className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
                 </div>
-                {/* ULTRA BASİT LOCATION DROPDOWN */}
-                <div className="sm:border-l border-gray-200 px-4 py-3 relative">
-                  {/* Native Select ile Basit Çözüm */}
-                  <div className="flex items-center space-x-2">
-                    <MapPin className="w-4 h-4 text-gray-500" />
+                {/* ÇALIŞAN LOCATION DROPDOWN - Native Select */}
+                <div className="sm:border-l border-gray-200 px-4 py-3">
+                  <div className="flex items-center space-x-3">
+                    <MapPin className="w-4 h-4 text-gray-500 flex-shrink-0" />
                     <select
                       value={filters.location}
                       onChange={(e) => handleFilterChange('location', e.target.value)}
-                      className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer min-w-[180px]"
+                      className="bg-white border border-gray-300 rounded-lg px-4 py-2 text-sm text-gray-800 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer min-w-[200px] font-medium shadow-sm hover:border-gray-400 transition-colors"
                     >
-                      {locations.map((location, index) => (
-                        <option key={location.value || index} value={location.value}>
-                          📍 {location.label}
-                        </option>
-                      ))}
+                      {locations.map((location, index) => {
+                        // Her lokasyon için uygun emoji iconunu seçelim
+                        let icon = '📍'; // Varsayılan
+                        if (location.label && location.label !== 'Tüm Lokasyonlar') {
+                          const locationName = location.label.toLowerCase();
+                          if (locationName.includes('fethiye') || locationName.includes('göcek')) {
+                            icon = '🌊'; // Deniz iconı
+                          } else if (locationName.includes('istanbul') || locationName.includes('ankara')) {
+                            icon = '🏙️'; // Şehir iconı  
+                          } else if (locationName.includes('trabzon') || locationName.includes('rize')) {
+                            icon = '🌲'; // Orman iconı
+                          }
+                        }
+                        
+                        return (
+                          <option key={location.value || index} value={location.value}>
+                            {icon} {location.label}
+                          </option>
+                        );
+                      })}
                     </select>
                   </div>
                 </div>
