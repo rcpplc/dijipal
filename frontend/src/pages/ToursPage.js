@@ -322,7 +322,7 @@ const ToursPage = () => {
 
         {/* Fiyat */}
         <div className="mb-4">
-          <div className="text-lg font-bold text-blue-600">
+          <div className="text-xl font-bold text-blue-600">
             {(() => {
               if (tour.minimum_price) {
                 return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
@@ -340,7 +340,7 @@ const ToursPage = () => {
               }
             })()}
           </div>
-          <div className="text-xs text-gray-500">den başlayan</div>
+          <div className="text-sm text-gray-500">den başlayan</div>
         </div>
 
         {/* Detaylar Butonu */}
