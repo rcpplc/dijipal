@@ -1,0 +1,85 @@
+{
+  "summary": {
+    "total_tests": 10,
+    "passed_tests": 10,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "cors_tests_passed": 2,
+    "cors_tests_total": 2,
+    "test_date": "2025-10-04T18:37:03.981224",
+    "frontend_url": "https://cabin-booking.preview.static.emergentagent.com",
+    "backend_url": "http://localhost:8001"
+  },
+  "detailed_results": [
+    {
+      "test_name": "CORS Preflight Request",
+      "success": true,
+      "details": "Status: 200, Headers: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.949112"
+    },
+    {
+      "test_name": "Environment Variables Check (via CORS headers)",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.953604"
+    },
+    {
+      "test_name": "Health Check",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.955286"
+    },
+    {
+      "test_name": "Uploads Directory Check",
+      "success": true,
+      "details": "Status: 403 - Endpoint accessible",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.956493"
+    },
+    {
+      "test_name": "User Login",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.963695"
+    },
+    {
+      "test_name": "Protected Route (/api/users/me)",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.971356"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.973070"
+    },
+    {
+      "test_name": "GET /api/tours",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.976110"
+    },
+    {
+      "test_name": "GET /api/tours/3ded39ad-36a4-47d1-87b9-7baeb5f00f55",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.978265"
+    },
+    {
+      "test_name": "Database Connectivity (via Admin Dashboard)",
+      "success": true,
+      "details": "Status: 200, CORS: OK",
+      "error": "",
+      "timestamp": "2025-10-04T18:37:03.981019"
+    }
+  ]
+}
