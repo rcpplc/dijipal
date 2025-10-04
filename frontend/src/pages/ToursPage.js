@@ -374,28 +374,47 @@ const ToursPage = () => {
                   {showLocationDropdown && (
                     <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
                       {locations.map((loc, index) => {
+                        // Function to get the appropriate icon for each location
                         const getLocationIcon = (location) => {
+                          if (!location) return MapPin;
                           const locationLower = location.toLowerCase();
-                          if (locationLower.includes('antalya') || locationLower.includes('fethiye') || locationLower.includes('kaş')) return Waves;
-                          if (locationLower.includes('cappadocia') || locationLower.includes('nevşehir') || locationLower.includes('kapadokya')) return Mountain;
-                          if (locationLower.includes('istanbul') || locationLower.includes('ankara') || locationLower.includes('izmir')) return Building;
-                          if (locationLower.includes('bolu') || locationLower.includes('rize') || locationLower.includes('trabzon')) return Trees;
+                          // Turkish coastal destinations - use Waves icon
+                          if (locationLower.includes('fethiye') || locationLower.includes('göcek') || 
+                              locationLower.includes('antalya') || locationLower.includes('kaş') || 
+                              locationLower.includes('bodrum') || locationLower.includes('marmaris')) return Waves;
+                          // Cappadocia and mountainous regions - use Mountain icon  
+                          if (locationLower.includes('cappadocia') || locationLower.includes('nevşehir') || 
+                              locationLower.includes('kapadokya') || locationLower.includes('konya')) return Mountain;
+                          // Major cities - use Building icon
+                          if (locationLower.includes('istanbul') || locationLower.includes('ankara') || 
+                              locationLower.includes('izmir') || locationLower.includes('bursa')) return Building;
+                          // Green/forest areas - use Trees icon
+                          if (locationLower.includes('bolu') || locationLower.includes('rize') || 
+                              locationLower.includes('trabzon') || locationLower.includes('artvin')) return Trees;
+                          // Default fallback - use MapPin for all other locations
                           return MapPin;
                         };
                         
-                        const Icon = getLocationIcon(loc.label);
+                        // Get the icon component for this location
+                        const LocationIcon = getLocationIcon(loc.label);
                         
                         return (
                           <div
-                            key={loc.value}
+                            key={loc.value || index}
                             onClick={() => {
                               handleFilterChange('location', loc.value);
                               setShowLocationDropdown(false);
                             }}
-                            className={`flex items-center space-x-2 px-4 py-3 hover:bg-gray-50 cursor-pointer ${index === 0 ? 'rounded-t-lg' : ''} ${index === locations.length - 1 ? 'rounded-b-lg' : ''} ${filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'}`}
+                            className={`flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 ${
+                              index === 0 ? 'rounded-t-lg' : ''
+                            } ${
+                              index === locations.length - 1 ? 'rounded-b-lg' : ''
+                            } ${
+                              filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                            }`}
                           >
-                            <Icon className="w-4 h-4 text-gray-400" />
-                            <span className="text-sm">{loc.label}</span>
+                            <LocationIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <span className="text-sm font-medium">{loc.label}</span>
                           </div>
                         );
                       })}
