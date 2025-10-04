@@ -984,9 +984,6 @@ const TourDetailPage = () => {
                             )}
                           </div>
                           <div className="text-right">
-                            <div className="text-sm text-gray-600">
-                              {date.available_spots} yer
-                            </div>
                             {date.price && (
                               <div className="font-semibold text-blue-600">
                                 ₺{date.price}
