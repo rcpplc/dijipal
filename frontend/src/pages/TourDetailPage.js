@@ -14,7 +14,10 @@ import {
   Phone,
   Mail,
   ArrowLeft,
-  User
+  User,
+  ChevronDown,
+  ChevronUp,
+  X
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
