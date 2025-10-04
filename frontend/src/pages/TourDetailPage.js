@@ -602,9 +602,29 @@ const TourDetailPage = () => {
                     <span>Tur Programı</span>
                   </h4>
                   <div className="prose prose-sm max-w-none">
-                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                    <div 
+                      className={`whitespace-pre-wrap text-gray-700 leading-relaxed ${!showFullProgram ? 'line-clamp-[15]' : ''}`}
+                      style={!showFullProgram ? {
+                        display: '-webkit-box',
+                        WebkitLineClamp: 15,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      } : {}}
+                    >
                       {tour.program_details}
                     </div>
+                    {tour.program_details && tour.program_details.split('\n').length > 15 && (
+                      <button
+                        onClick={() => setShowFullProgram(!showFullProgram)}
+                        className="mt-3 flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                      >
+                        <span>{showFullProgram ? 'Daha az göster' : 'Tümünü göster'}</span>
+                        {showFullProgram ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                        }
+                      </button>
+                    )}
                   </div>
                 </div>
               )}
