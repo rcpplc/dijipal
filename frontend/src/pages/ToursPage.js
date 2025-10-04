@@ -510,12 +510,14 @@ const ToursPage = () => {
                   </select>
                 </div>
 
-                <div className="md:col-span-2">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Fiyat Aralığı: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}
-                  </label>
-                  <div className="text-xs text-gray-500">
-                    Süre Aralığı: {durationRange.min} - {durationRange.max} gün
+                <div className="sm:col-span-2 lg:col-span-2">
+                  <div className="bg-white p-3 rounded-md border">
+                    <div className="text-sm font-medium text-gray-700 mb-1">
+                      Fiyat: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      Süre: {durationRange.min} - {durationRange.max} gün
+                    </div>
                   </div>
                 </div>
                 
