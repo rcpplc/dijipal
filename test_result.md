@@ -107,7 +107,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Add Test Reviews API and Reviews Display System"
+    - "Booking Flow from Tour Detail to Booking Page"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
