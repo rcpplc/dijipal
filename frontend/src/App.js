@@ -87,42 +87,6 @@ function App() {
     loadUser();
   }, [token]);
 
-  // Simple watermark overlay (non-destructive approach)
-  useEffect(() => {
-    const addWatermarkCover = () => {
-      // Remove existing cover first
-      const existingCover = document.getElementById('watermark-cover');
-      if (existingCover) {
-        existingCover.remove();
-      }
-
-      // Create simple overlay to cover watermark area only
-      const cover = document.createElement('div');
-      cover.id = 'watermark-cover';
-      cover.style.cssText = `
-        position: fixed !important;
-        bottom: 0 !important;
-        right: 0 !important;
-        width: 200px !important;
-        height: 30px !important;
-        background: rgba(255, 255, 255, 0.95) !important;
-        z-index: 99999 !important;
-        pointer-events: none !important;
-      `;
-      document.body.appendChild(cover);
-    };
-
-    // Add overlay after component mounts
-    setTimeout(addWatermarkCover, 1000);
-
-    return () => {
-      const cover = document.getElementById('watermark-cover');
-      if (cover) {
-        cover.remove();
-      }
-    };
-  }, []);
-
   const login = async (email, password) => {
     console.log('🚀 Login function called with:', { email, API });
     try {
