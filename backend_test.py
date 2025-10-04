@@ -1261,6 +1261,127 @@ class TourPlatformAPITester:
         
         return success
 
+    def test_location_verification(self):
+        """Test location verification in tours database as requested"""
+        print("🎯 Testing Location Verification in Tours Database")
+        print("=" * 70)
+        print("Checking what locations are available in the tours database")
+        print("=" * 70)
+        
+        # Step 1: Get all tours from the backend
+        print("\n📋 Step 1: GET /api/tours - Get All Tours")
+        success, tours_response = self.run_test(
+            "Get All Tours for Location Analysis",
+            "GET",
+            "tours",
+            200
+        )
+        
+        if not success or not tours_response:
+            print("❌ Failed to retrieve tours - cannot analyze locations")
+            return False
+        
+        print(f"   ✅ Retrieved {len(tours_response)} tours from database")
+        
+        # Step 2: Extract and analyze location data
+        print("\n📋 Step 2: Extract and Analyze Location Data")
+        
+        locations = []
+        tours_without_location = []
+        location_counts = {}
+        
+        for tour in tours_response:
+            tour_id = tour.get('id', 'Unknown ID')
+            tour_title = tour.get('title', 'Unknown Title')
+            location = tour.get('location')
+            
+            if location and location.strip():
+                # Clean and normalize location
+                clean_location = location.strip()
+                locations.append(clean_location)
+                
+                # Count occurrences
+                if clean_location in location_counts:
+                    location_counts[clean_location] += 1
+                else:
+                    location_counts[clean_location] = 1
+                    
+                print(f"   📍 Tour: '{tour_title}' → Location: '{clean_location}'")
+            else:
+                tours_without_location.append({
+                    'id': tour_id,
+                    'title': tour_title,
+                    'location': location
+                })
+                print(f"   ⚠️  Tour: '{tour_title}' → NO LOCATION DATA (location: {location})")
+        
+        # Step 3: Show unique locations
+        print("\n📋 Step 3: Unique Locations in Database")
+        unique_locations = list(set(locations))
+        unique_locations.sort()
+        
+        if unique_locations:
+            print(f"   ✅ Found {len(unique_locations)} unique locations:")
+            for i, location in enumerate(unique_locations, 1):
+                count = location_counts[location]
+                print(f"      {i}. '{location}' ({count} tour{'s' if count > 1 else ''})")
+        else:
+            print("   ❌ No locations found in any tours!")
+        
+        # Step 4: Check tours without location data
+        print("\n📋 Step 4: Tours Without Location Data")
+        if tours_without_location:
+            print(f"   ⚠️  Found {len(tours_without_location)} tours without location data:")
+            for tour in tours_without_location:
+                print(f"      • ID: {tour['id']} - Title: '{tour['title']}' - Location: {tour['location']}")
+        else:
+            print("   ✅ All tours have location data!")
+        
+        # Step 5: Summary for location dropdown
+        print("\n📋 Step 5: Location Dropdown Summary")
+        print("   📝 Locations that should appear in the location dropdown filter:")
+        
+        if unique_locations:
+            print("   " + "=" * 50)
+            for location in unique_locations:
+                print(f"   • {location}")
+            print("   " + "=" * 50)
+            
+            # Log the test result
+            self.log_test(
+                "Location Verification Analysis", 
+                True, 
+                f"Found {len(unique_locations)} unique locations: {', '.join(unique_locations[:3])}{'...' if len(unique_locations) > 3 else ''}"
+            )
+        else:
+            print("   ❌ NO LOCATIONS AVAILABLE FOR DROPDOWN!")
+            self.log_test(
+                "Location Verification Analysis", 
+                False, 
+                "", 
+                "No locations found in tours database - location dropdown will be empty"
+            )
+        
+        # Step 6: Data quality assessment
+        print("\n📋 Step 6: Data Quality Assessment")
+        total_tours = len(tours_response)
+        tours_with_location = total_tours - len(tours_without_location)
+        location_coverage = (tours_with_location / total_tours * 100) if total_tours > 0 else 0
+        
+        print(f"   📊 Total Tours: {total_tours}")
+        print(f"   📊 Tours with Location: {tours_with_location}")
+        print(f"   📊 Tours without Location: {len(tours_without_location)}")
+        print(f"   📊 Location Coverage: {location_coverage:.1f}%")
+        
+        if location_coverage >= 90:
+            print("   ✅ EXCELLENT: Location data coverage is very good")
+        elif location_coverage >= 70:
+            print("   ⚠️  GOOD: Most tours have location data, some missing")
+        else:
+            print("   🚨 POOR: Many tours missing location data - needs attention")
+        
+        return len(unique_locations) > 0
+
     def run_specific_admin_tests(self):
         """Run specific tests requested in the review"""
         print("🎯 Running Specific Admin Tests as Requested")
@@ -1300,6 +1421,22 @@ class TourPlatformAPITester:
         
         # Print final results
         self.print_final_results()
+
+    def run_location_verification_test(self):
+        """Run the specific location verification test as requested"""
+        print("🎯 Location Verification Test - Tours Database Analysis")
+        print("=" * 70)
+        print("Analyzing what locations are available in the tours database")
+        print("This will help verify what should appear in the location dropdown filter")
+        print("=" * 70)
+        
+        # Run the location verification test
+        success = self.test_location_verification()
+        
+        # Print final results
+        self.print_final_results()
+        
+        return success
 
     def test_add_test_reviews(self):
         """Test adding test reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55"""
