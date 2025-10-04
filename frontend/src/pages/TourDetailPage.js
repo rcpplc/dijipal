@@ -434,7 +434,7 @@ const TourDetailPage = () => {
                   onClick={handleShare}
                   className="p-2 sm:p-3 bg-white/80 backdrop-blur-sm text-gray-600 hover:bg-white rounded-full transition-all duration-200"
                 >
-                  <Share2 className="w-6 h-6" />
+                  <Share2 className="w-5 h-5 sm:w-6 sm:h-6" />
                 </button>
               </div>
 
