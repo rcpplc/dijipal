@@ -78,6 +78,18 @@ const CartPage = () => {
     }, 0);
   };
 
+  // KDV ve fiyat hesaplamaları
+  const getSubtotal = () => {
+    const totalWithVat = getTotalPrice();
+    // KDV dahil fiyattan KDV'siz fiyatı hesapla (fiyat / 1.20)
+    return Math.round(totalWithVat / 1.20);
+  };
+
+  const getVatAmount = () => {
+    const subtotal = getSubtotal();
+    return Math.round(subtotal * 0.20);
+  };
+
   const handleCheckout = () => {
     if (!user) {
       setShowLoginModal(true);
