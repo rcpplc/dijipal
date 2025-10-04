@@ -522,8 +522,8 @@ const ToursPage = () => {
                   </div>
 
                   
-                  {/* Filtre Temizle Icon */}
-                  <div className="flex justify-end mt-4">
+                  {/* Filtre Temizle */}
+                  <div className="flex justify-end items-center mt-4">
                     <button
                       onClick={() => {
                         setFilters({
@@ -538,10 +538,11 @@ const ToursPage = () => {
                         });
                         setSearchParams(new URLSearchParams());
                       }}
-                      className="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200 rounded-md hover:bg-gray-50"
+                      className="flex items-center space-x-2 px-3 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors duration-200 rounded-md"
                       title="Filtreleri Temizle"
                     >
-                      <X className="w-5 h-5" />
+                      <span className="text-sm font-medium">Filtreyi temizle</span>
+                      <X className="w-4 h-4" />
                     </button>
                   </div>
                 </div>
