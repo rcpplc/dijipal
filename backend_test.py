@@ -2165,5 +2165,25 @@ def main():
     success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
     return 0 if success_rate >= 70 else 1
 
+def main_remove_reviews():
+    """Main function to test remove reviews functionality"""
+    tester = TourPlatformAPITester()
+    
+    print("🚀 Starting Remove Test Reviews API Testing")
+    print("=" * 70)
+    print("Backend URL:", tester.base_url)
+    print("API URL:", tester.api_url)
+    print("=" * 70)
+    
+    # Run the specific remove reviews test
+    success = tester.run_remove_reviews_test()
+    
+    # Return exit code based on success
+    return 0 if success else 1
+
 if __name__ == "__main__":
-    sys.exit(main())
+    # Check if we should run the remove reviews test specifically
+    if len(sys.argv) > 1 and sys.argv[1] == "remove-reviews":
+        sys.exit(main_remove_reviews())
+    else:
+        sys.exit(main())
