@@ -524,13 +524,16 @@ const ToursPage = () => {
                         location: '',
                         min_price: '',
                         max_price: '',
-                        duration_days: ''
+                        duration_days: '',
+                        min_rating: '',
+                        max_rating: '',
+                        classification: ''
                       });
                       setSearchParams(new URLSearchParams());
                     }}
-                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200"
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors duration-200 text-sm"
                   >
-                    Temizle
+                    Filtreleri Temizle
                   </button>
                 </div>
               </div>
