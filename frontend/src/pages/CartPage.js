@@ -37,15 +37,17 @@ const CartPage = () => {
     localStorage.setItem('tour_cart', JSON.stringify(items));
   };
 
-  const updateQuantity = (tourId, selectedDate, newQuantity) => {
+  const updateQuantity = (tourId, selectedDate, cabinType, newQuantity) => {
     if (newQuantity <= 0) {
-      removeItem(tourId, selectedDate);
+      removeItem(tourId, selectedDate, cabinType);
       return;
     }
 
-    // Belirli tour + tarih kombinasyonunu bul ve kapasitesini kontrol et
+    // Belirli tour + tarih + kabin tipi kombinasyonunu bul ve kapasitesini kontrol et
     const currentItem = cartItems.find(item => 
-      item.tourId === tourId && item.selectedDate?.date === selectedDate
+      item.tourId === tourId && 
+      item.selectedDate?.date === selectedDate &&
+      item.cabinType === cabinType
     );
     
     if (!currentItem) {
