@@ -366,8 +366,10 @@ const ToursPage = () => {
                 <div className="sm:border-l border-gray-200 px-4 py-3 relative location-dropdown">
                   <div 
                     className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded-md p-1 -m-1 transition-colors duration-200" 
-                    onClick={() => setShowLocationDropdown(!showLocationDropdown)}
-                    onMouseEnter={() => setShowLocationDropdown(true)}
+                    onClick={() => {
+                      console.log('Dropdown clicked, current state:', showLocationDropdown);
+                      setShowLocationDropdown(!showLocationDropdown);
+                    }}
                   >
                     <MapPin className="w-4 h-4 text-gray-400" />
                     <span className="text-gray-800 text-sm min-w-[150px] font-medium">
