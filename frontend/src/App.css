@@ -421,3 +421,41 @@ span[style*="Made with Emergent"],
 a[href*="emergent"] {
   display: none !important;
 }
+
+/* More aggressive watermark removal */
+/* Target all elements in bottom right area */
+*[style*="position: fixed"][style*="bottom"][style*="right"] {
+  display: none !important;
+}
+
+*[style*="position: absolute"][style*="bottom"][style*="right"] {
+  display: none !important;
+}
+
+/* Hide any element with high z-index in corners */
+*[style*="z-index"][style*="position: fixed"] {
+  display: none !important;
+}
+
+/* Remove any floating elements */
+.floating, [class*="floating"] {
+  display: none !important;
+}
+
+/* Remove attribution/credits */
+*[class*="credit"], *[class*="attribution"], *[class*="powered"] {
+  display: none !important;
+}
+
+/* Remove elements that might contain branding */
+iframe[src*="emergent"] {
+  display: none !important;
+}
+
+/* Global override for any emergent branding */
+body *:contains("Emergent"),
+body *:contains("Made with") {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  display: none !important;
+}
