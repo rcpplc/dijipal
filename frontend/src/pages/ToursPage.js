@@ -298,7 +298,7 @@ const ToursPage = () => {
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-3 h-3 ${
+                  className={`w-4 h-4 ${
                     i < Math.floor(tour.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
@@ -306,13 +306,13 @@ const ToursPage = () => {
                 />
               ))}
             </div>
-            <span className="text-xs text-gray-500">
+            <span className="text-sm text-gray-500">
               ({tour.review_count || 0})
             </span>
           </div>
 
-          <div className="flex items-center space-x-1 text-xs text-gray-500">
-            <Calendar className="w-3 h-3" />
+          <div className="flex items-center space-x-1 text-sm text-gray-500">
+            <Calendar className="w-4 h-4" />
             <span>{tour.duration_days || 1} gün</span>
             {tour.classification && (
               <span className="font-medium">• {tour.classification}</span>
