@@ -12,8 +12,6 @@ import {
   Shield,
   Clock,
   Phone,
-  ChevronLeft,
-  ChevronRight,
   Heart,
   Trees,
   Mountain,
