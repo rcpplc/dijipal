@@ -1940,6 +1940,115 @@ class TourPlatformAPITester:
         # Print final results
         self.print_final_results()
 
+    def test_remove_test_reviews(self, tour_id):
+        """Test removing all reviews for a specific tour"""
+        return self.run_test(
+            f"Remove Test Reviews for Tour {tour_id}",
+            "DELETE",
+            f"remove-test-reviews/{tour_id}",
+            200
+        )
+
+    def test_verify_reviews_removed(self, tour_id):
+        """Test that reviews have been removed for a specific tour"""
+        success, response = self.run_test(
+            f"Verify Reviews Removed for Tour {tour_id}",
+            "GET",
+            f"reviews?tour_id={tour_id}",
+            200
+        )
+        
+        if success and response is not None:
+            review_count = len(response) if isinstance(response, list) else 0
+            if review_count == 0:
+                print(f"   ✅ Confirmed: No reviews found for tour {tour_id}")
+                return True
+            else:
+                print(f"   ❌ Reviews still exist for tour {tour_id}: {review_count} reviews found")
+                return False
+        
+        return False
+
+    def test_remove_reviews_scenario(self):
+        """Test the specific remove reviews scenario from the review request"""
+        print("\n🎯 Testing Remove Test Reviews Scenario")
+        print("=" * 70)
+        tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
+        print(f"Target Tour ID: {tour_id}")
+        
+        # Step 1: First check if reviews exist for this tour
+        print("\n🔍 Step 1: Check existing reviews for tour")
+        initial_success, initial_response = self.run_test(
+            f"Check Initial Reviews for Tour {tour_id}",
+            "GET",
+            f"reviews?tour_id={tour_id}",
+            200
+        )
+        
+        initial_count = 0
+        if initial_success and initial_response:
+            initial_count = len(initial_response) if isinstance(initial_response, list) else 0
+            print(f"   ℹ️  Found {initial_count} existing reviews for tour {tour_id}")
+        
+        # Step 2: Add test reviews if none exist
+        if initial_count == 0:
+            print("\n📝 Step 2: Adding test reviews first")
+            self.test_add_test_reviews()
+            
+            # Verify reviews were added
+            verify_success, verify_response = self.run_test(
+                f"Verify Test Reviews Added for Tour {tour_id}",
+                "GET",
+                f"reviews?tour_id={tour_id}",
+                200
+            )
+            
+            if verify_success and verify_response:
+                added_count = len(verify_response) if isinstance(verify_response, list) else 0
+                print(f"   ✅ Added {added_count} test reviews for tour {tour_id}")
+            else:
+                print("   ❌ Failed to add test reviews")
+                return False
+        
+        # Step 3: Call the DELETE endpoint to remove test reviews
+        print(f"\n🗑️  Step 3: Remove test reviews for tour {tour_id}")
+        remove_success, remove_response = self.test_remove_test_reviews(tour_id)
+        
+        if remove_success:
+            print(f"   ✅ DELETE /api/remove-test-reviews/{tour_id} successful")
+            if remove_response and 'message' in remove_response:
+                print(f"   ℹ️  Response: {remove_response['message']}")
+        else:
+            print(f"   ❌ DELETE /api/remove-test-reviews/{tour_id} failed")
+            return False
+        
+        # Step 4: Verify reviews have been removed
+        print(f"\n✅ Step 4: Verify reviews removed for tour {tour_id}")
+        verify_success = self.test_verify_reviews_removed(tour_id)
+        
+        if verify_success:
+            print(f"   ✅ SUCCESS: All reviews removed for tour {tour_id}")
+            return True
+        else:
+            print(f"   ❌ FAILED: Reviews still exist for tour {tour_id}")
+            return False
+
+    def run_remove_reviews_test(self):
+        """Run the specific remove reviews test as requested in the review"""
+        print("🎯 Testing Remove Test Reviews Feature")
+        print("=" * 70)
+        print("Testing scenario: Remove all reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55")
+        print("Expected: DELETE endpoint works and reviews are removed")
+        print("=" * 70)
+        
+        # Run the specific test scenario
+        success = self.test_remove_reviews_scenario()
+        
+        # Print final results
+        self.print_final_results()
+        
+        return success
+
     def run_reviews_management_tests(self):
         """Run comprehensive reviews management system tests"""
         print("🎯 Testing Reviews Management System Backend APIs")
