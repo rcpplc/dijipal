@@ -241,7 +241,7 @@ const ToursPage = () => {
           <h1 className="text-3xl font-bold text-gray-900 mb-4">Turları Keşfet</h1>
           
           {/* Search and Filters */}
-          <div className="flex flex-col lg:flex-row gap-4">
+          <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <form onSubmit={handleSearch} className="flex-1">
               <div className="flex bg-gray-50 rounded-lg overflow-hidden">
                 <div className="flex-1 flex items-center px-4 py-3">
