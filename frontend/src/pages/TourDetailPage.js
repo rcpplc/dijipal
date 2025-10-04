@@ -1336,6 +1336,229 @@ const TourDetailPage = () => {
           </div>
         </div>
       )}
+
+      {/* Mobile Bottom Booking Bar */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-50 shadow-lg">
+        <div className="flex items-center justify-between space-x-3">
+          {/* Price Section */}
+          <div className="flex-1">
+            <div className="text-lg font-bold text-gray-900">
+              {selectedCabinType === 'single' 
+                ? (currentPrice * cabinCount).toLocaleString('tr-TR') + ' TL'
+                : (tour?.double_cabin_price ? (tour.double_cabin_price * cabinCount).toLocaleString('tr-TR') + ' TL' : 'N/A')
+              }
+            </div>
+            <div className="text-sm text-gray-600">
+              {cabinCount} {selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+            </div>
+            {selectedDate && (
+              <div className="text-xs text-gray-500">
+                {new Date(selectedDate.date).toLocaleDateString('tr-TR')}
+              </div>
+            )}
+          </div>
+
+          {/* Action Buttons */}
+          <div className="flex items-center space-x-2">
+            {/* Date Selection Button */}
+            <button
+              onClick={() => setShowDateModal(true)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
+            >
+              <Calendar className="w-4 h-4" />
+              <span className="text-sm">Tarih</span>
+            </button>
+
+            {/* Cabin Selection Button */}
+            <button
+              onClick={() => setShowCabinModal(true)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
+            >
+              <Users className="w-4 h-4" />
+              <span className="text-sm">Kabin</span>
+            </button>
+
+            {/* Quick Booking Button */}
+            <button
+              onClick={handleBookNow}
+              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+            >
+              Hızlı Rezervasyon
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Date Selection Modal */}
+      {showDateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end lg:items-center justify-center">
+          <div className="bg-white w-full max-w-md lg:rounded-lg max-h-96 overflow-y-auto">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold">Tur Tarihi Seçin</h3>
+              <button
+                onClick={() => setShowDateModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Date List */}
+            <div className="p-4">
+              {availableDates.length > 0 ? (
+                <div className="space-y-2">
+                  {availableDates.map((date, index) => (
+                    <button
+                      key={index}
+                      onClick={() => {
+                        setSelectedDate(date);
+                        setShowDateModal(false);
+                      }}
+                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                        selectedDate?.date === date.date
+                          ? 'bg-blue-50 border-blue-200 text-blue-800'
+                          : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                      }`}
+                    >
+                      <div className="font-medium">
+                        {new Date(date.date).toLocaleDateString('tr-TR', {
+                          weekday: 'long',
+                          year: 'numeric',
+                          month: 'long',
+                          day: 'numeric'
+                        })}
+                      </div>
+                      <div className="text-sm text-gray-600">
+                        {date.price.toLocaleString('tr-TR')} TL - {date.available_spots} Kişi Kalması
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-8 text-gray-500">
+                  <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
+                  <p>Mevcut tarih bulunmuyor</p>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Cabin Selection Modal */}
+      {showCabinModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end lg:items-center justify-center">
+          <div className="bg-white w-full max-w-md lg:rounded-lg">
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b">
+              <h3 className="text-lg font-semibold">Kabin Seçimi</h3>
+              <button
+                onClick={() => setShowCabinModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+
+            {/* Cabin Options */}
+            <div className="p-4">
+              {/* Single Cabin */}
+              <div
+                onClick={() => setSelectedCabinType('single')}
+                className={`p-4 rounded-lg border cursor-pointer transition-colors mb-4 ${
+                  selectedCabinType === 'single'
+                    ? 'bg-blue-50 border-blue-200'
+                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                }`}
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium text-gray-900">Tek Kişilik Kabin</div>
+                    <div className="text-sm text-gray-600">1 yetişkin için</div>
+                    <div className="text-lg font-bold text-blue-600 mt-1">
+                      {currentPrice?.toLocaleString('tr-TR')} TL
+                    </div>
+                  </div>
+                  <div className={`w-5 h-5 rounded-full border-2 ${
+                    selectedCabinType === 'single'
+                      ? 'bg-blue-600 border-blue-600'
+                      : 'border-gray-300'
+                  }`}>
+                    {selectedCabinType === 'single' && (
+                      <CheckCircle className="w-5 h-5 text-white" />
+                    )}
+                  </div>
+                </div>
+              </div>
+
+              {/* Double Cabin */}
+              {tour?.double_cabin_price && (
+                <div
+                  onClick={() => setSelectedCabinType('double')}
+                  className={`p-4 rounded-lg border cursor-pointer transition-colors mb-4 ${
+                    selectedCabinType === 'double'
+                      ? 'bg-blue-50 border-blue-200'
+                      : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <div className="font-medium text-gray-900">Çift Kişilik Kabin</div>
+                      <div className="text-sm text-gray-600">2 yetişkin için</div>
+                      <div className="text-lg font-bold text-blue-600 mt-1">
+                        {tour.double_cabin_price?.toLocaleString('tr-TR')} TL
+                      </div>
+                    </div>
+                    <div className={`w-5 h-5 rounded-full border-2 ${
+                      selectedCabinType === 'double'
+                        ? 'bg-blue-600 border-blue-600'
+                        : 'border-gray-300'
+                    }`}>
+                      {selectedCabinType === 'double' && (
+                        <CheckCircle className="w-5 h-5 text-white" />
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Cabin Count */}
+              <div className="border-t pt-4">
+                <div className="flex items-center justify-between">
+                  <span className="font-medium">Kabin Sayısı</span>
+                  <div className="flex items-center space-x-3">
+                    <button
+                      onClick={() => setCabinCount(Math.max(1, cabinCount - 1))}
+                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300"
+                    >
+                      -
+                    </button>
+                    <span className="font-medium">{cabinCount}</span>
+                    <button
+                      onClick={() => setCabinCount(Math.min(10, cabinCount + 1))}
+                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Apply Button */}
+              <button
+                onClick={() => setShowCabinModal(false)}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium mt-4 transition-colors duration-200"
+              >
+                Uygula
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Add bottom padding to prevent content overlap with fixed bar on mobile */}
+      <div className="h-20 lg:hidden"></div>
     </div>
   );
 };
