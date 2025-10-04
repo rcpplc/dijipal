@@ -639,7 +639,7 @@ const TourDetailPage = () => {
               )}
 
               {/* Additional Info */}
-              {(tour.meeting_point || tour.languages || tour.difficulty_level) && (
+              {(tour.meeting_point || tour.languages || tour.pickup_time || tour.dropoff_time) && (
                 <div className="py-6 border-t border-gray-100">
                   <h4 className="font-semibold text-gray-900 mb-4">Ek Bilgiler</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
@@ -655,10 +655,16 @@ const TourDetailPage = () => {
                         <p className="text-gray-600 mt-1">{tour.languages.join(', ')}</p>
                       </div>
                     )}
-                    {tour.difficulty_level && (
+                    {tour.pickup_time && (
                       <div>
-                        <span className="font-medium text-gray-700">Zorluk:</span>
-                        <p className="text-gray-600 mt-1">{tour.difficulty_level}</p>
+                        <span className="font-medium text-gray-700">Tur Biniş Saati:</span>
+                        <p className="text-gray-600 mt-1">{tour.pickup_time}</p>
+                      </div>
+                    )}
+                    {tour.dropoff_time && (
+                      <div>
+                        <span className="font-medium text-gray-700">Tur İniş Saati:</span>
+                        <p className="text-gray-600 mt-1">{tour.dropoff_time}</p>
                       </div>
                     )}
                   </div>
