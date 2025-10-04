@@ -394,7 +394,7 @@ const ToursPage = () => {
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="mt-6 p-4 sm:p-6 bg-gray-50 rounded-lg">
+            <div className="mt-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
                 {/* Kategori */}
                 <div>
