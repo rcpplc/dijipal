@@ -500,6 +500,58 @@ const ToursPage = () => {
                       Temizle
                     </button>
                   </div>
+                </div>
+
+                {/* Fiyat Aralığı - Ayrı Bölüm */}
+                <div className="mt-6 pt-6 border-t border-gray-200">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-end">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Min Fiyat
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
+                        <input
+                          type="number"
+                          value={filters.min_price}
+                          onChange={(e) => handleFilterChange('min_price', e.target.value)}
+                          placeholder={priceRange.min.toLocaleString()}
+                          min={priceRange.min}
+                          max={priceRange.max}
+                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Max Fiyat
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
+                        <input
+                          type="number"
+                          value={filters.max_price}
+                          onChange={(e) => handleFilterChange('max_price', e.target.value)}
+                          placeholder={priceRange.max.toLocaleString()}
+                          min={priceRange.min}
+                          max={priceRange.max}
+                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-4 rounded-lg">
+                      <div className="text-sm text-gray-600">
+                        <div className="font-medium">Fiyat Aralığı:</div>
+                        <div>₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}</div>
+                        <div className="text-xs mt-1">
+                          Süre: {durationRange.min} - {durationRange.max} gün
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           )}
