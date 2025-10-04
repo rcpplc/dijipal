@@ -669,8 +669,8 @@ const TourDetailPage = () => {
                   </h4>
                   <div className="text-gray-700 leading-relaxed">
                     <div 
-                      className={`whitespace-pre-wrap ${!showFullDescription ? 'line-clamp-5' : ''}`}
-                      style={!showFullDescription ? {
+                      className={`whitespace-pre-wrap ${!showFullCancellation ? 'line-clamp-5' : ''}`}
+                      style={!showFullCancellation ? {
                         display: '-webkit-box',
                         WebkitLineClamp: 5,
                         WebkitBoxOrient: 'vertical',
