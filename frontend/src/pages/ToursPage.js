@@ -520,15 +520,8 @@ const ToursPage = () => {
                     </div>
                   </div>
 
-                  {/* Bilgi Kutusu */}
-                  <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
-                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                      <span>Fiyat Aralığı: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}</span>
-                      <span>Süre: {durationRange.min} - {durationRange.max} gün</span>
-                    </div>
-                  </div>
                   
-                  {/* Filtre Temizle Link */}
+                  {/* Filtre Temizle Icon */}
                   <div className="flex justify-end mt-4">
                     <button
                       onClick={() => {
@@ -544,9 +537,10 @@ const ToursPage = () => {
                         });
                         setSearchParams(new URLSearchParams());
                       }}
-                      className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200"
+                      className="p-2 text-gray-400 hover:text-red-500 transition-colors duration-200 rounded-md hover:bg-gray-50"
+                      title="Filtreleri Temizle"
                     >
-                      Filtre Temizle
+                      <X className="w-5 h-5" />
                     </button>
                   </div>
                 </div>
