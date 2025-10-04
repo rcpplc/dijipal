@@ -364,6 +364,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ REZERVASYON SAYFASI TÜM SORUNLARI ÇÖZÜLDÜ - BookingPage.js güncellemeleri: 1) Tur tarihi Rezervasyon Özeti'nde görünüyor (formattedSelectedDate düzeltildi), 2) Ödeme bilgileri doğru geliyor (1 kabin × ₺15,000 = ₺15,000, KDV Hariç ₺12,500 + KDV ₺2,500 = Toplam ₺15,000), 3) Hizmet bedeli kaldırıldı, 4) CartPage handleCheckout navigate state ile tam veri gönderimi sağlandı, 5) Debug console logları eklendi (selectedPrice: 15000 doğru). Login sistemi de çalışıyor (admin@example.com/admin123). Cart→Booking flow tamamen functional."
+        - working: true
+          agent: "main"
+          comment: "✅ SEPET→REZERVASYON KABIN SAYISI SORUNLARI ÇÖZÜLDÜ - BookingPage.js participants state artık location.state'ten alıyor (stateParticipants), kabin sayısı kontrolü eklendi (+/- butonları, kapasite sınırı, toast mesajları), Minus/Plus iconları import edildi, updateCabinCount fonksiyonu eklendi, rezervasyon özetine kabin sayısı seçici UI eklendi (green theme), 'Katılımcı' yerine 'Kabin Sayısı' kullanılıyor. CartPage handleCheckout artık participants dahil tam veri gönderiyor. Test edildi: Sepet 1 kabin ₺15,000 gösteriyor, Cart→Booking data aktarımı hazır. Kullanıcının tüm istekleri implement edildi."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
