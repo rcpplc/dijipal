@@ -47,11 +47,89 @@ const ToursPage = () => {
   const [ratingRange, setRatingRange] = useState({ min: 1, max: 5 });
 
   useEffect(() => {
+    loadFilterData();
     loadTours();
     if (user) {
       loadFavorites();
     }
-  }, [searchParams, user]);
+  }, []);
+
+  useEffect(() => {
+    loadTours();
+  }, [filters, searchQuery]);
+
+  const loadFilterData = async () => {
+    try {
+      // Get all tours to calculate ranges
+      const toursResponse = await axios.get(`${API}/tours`);
+      const allTours = toursResponse.data;
+
+      // Extract unique categories
+      const uniqueCategories = [...new Set(allTours.map(tour => tour.category).filter(Boolean))];
+      setCategories([
+        { value: '', label: 'Tüm Kategoriler' },
+        ...uniqueCategories.map(cat => ({ 
+          value: cat, 
+          label: getCategoryLabel(cat) 
+        }))
+      ]);
+
+      // Extract unique locations
+      const uniqueLocations = [...new Set(allTours.map(tour => tour.location).filter(Boolean))];
+      setLocations([
+        { value: '', label: 'Tüm Lokasyonlar' },
+        ...uniqueLocations.map(loc => ({ value: loc, label: loc }))
+      ]);
+
+      // Calculate price ranges from tour dates
+      let minPrice = Infinity, maxPrice = 0;
+      allTours.forEach(tour => {
+        if (tour.tour_dates && tour.tour_dates.length > 0) {
+          tour.tour_dates.forEach(date => {
+            const singlePrice = date.single_cabin_price || date.price || 0;
+            const doublePrice = date.double_cabin_price || date.price || 0;
+            const minTourPrice = Math.min(singlePrice, doublePrice);
+            const maxTourPrice = Math.max(singlePrice, doublePrice);
+            
+            if (minTourPrice > 0 && minTourPrice < minPrice) minPrice = minTourPrice;
+            if (maxTourPrice > maxPrice) maxPrice = maxTourPrice;
+          });
+        }
+      });
+      
+      if (minPrice === Infinity) minPrice = 0;
+      setPriceRange({ min: Math.floor(minPrice), max: Math.ceil(maxPrice) });
+
+      // Calculate duration range
+      const durations = allTours.map(tour => tour.duration_days).filter(d => d > 0);
+      if (durations.length > 0) {
+        setDurationRange({ 
+          min: Math.min(...durations), 
+          max: Math.max(...durations) 
+        });
+      }
+
+      // Rating range is typically 1-5
+      setRatingRange({ min: 1, max: 5 });
+
+    } catch (error) {
+      console.error('Error loading filter data:', error);
+    }
+  };
+
+  const getCategoryLabel = (category) => {
+    const labels = {
+      'cultural': 'Kültürel Turlar',
+      'nature': 'Doğa Turları', 
+      'adventure': 'Macera Turları',
+      'city': 'Şehir Turları',
+      'historical': 'Tarihi Turlar',
+      'food': 'Gastronomi Turları',
+      'boat': 'Tekne Turları',
+      'diving': 'Dalış Turları'
+    };
+    return labels[category] || category.charAt(0).toUpperCase() + category.slice(1);
+  };
 
   const loadTours = async () => {
     setLoading(true);
