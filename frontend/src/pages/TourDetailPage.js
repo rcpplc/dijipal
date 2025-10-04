@@ -696,17 +696,7 @@ const TourDetailPage = () => {
               )}
             </div>
 
-            {/* Reviews Section - Only Button */}
-            {reviews.length > 0 && (
-              <div className="py-4 border-t border-gray-100">
-                <button
-                  onClick={() => setShowReviewsModal(true)}
-                  className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
-                >
-                  Tüm değerlendirmeleri gör
-                </button>
-              </div>
-            )}
+            {/* Değerlendirmeler alanı tamamen kaldırıldı */}
             <div className="bg-white rounded-xl p-6 shadow-lg mt-8">
               <h3 className="text-xl font-semibold text-gray-900 mb-6">
                 Değerlendirmeler ({reviews.length})
