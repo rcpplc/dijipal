@@ -175,18 +175,12 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center space-x-3">
+              <div className="flex items-center">
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-200"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm"
                 >
                   Giriş Yap
-                </button>
-                <button
-                  onClick={() => setShowLoginModal(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 transform hover:scale-105"
-                >
-                  Üye Ol
                 </button>
               </div>
             )}
