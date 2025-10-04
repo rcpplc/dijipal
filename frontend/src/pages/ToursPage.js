@@ -231,10 +231,19 @@ const ToursPage = () => {
     }
   };
 
-  const TourCard = ({ tour }) => (
+  const TourCard = ({ tour }) => {
+    const handleCardClick = (e) => {
+      // Detaylar butonuna tıklanmışsa like toggle yapma
+      if (e.target.closest('a[href*="/tours/"]')) {
+        return;
+      }
+      toggleFavorite(tour.id);
+    };
+    
+    return (
     <div 
       className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 cursor-pointer group"
-      onClick={() => toggleFavorite(tour.id)}
+      onClick={handleCardClick}
     >
       <div className="relative overflow-hidden">
         <img
