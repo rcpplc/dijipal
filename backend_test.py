@@ -1245,6 +1245,22 @@ class TourPlatformAPITester:
         # Print final results
         self.print_final_results()
 
+    def run_tour_creation_fix_test(self):
+        """Run the specific tour creation fix test as requested in the review"""
+        print("🎯 Testing Tour Creation API Fix - Internal Server Error Resolution")
+        print("=" * 70)
+        print("Testing scenario: Admin creates tour with new cabin pricing system")
+        print("Expected: No more 'Internal Server Error' when using single_cabin_price/double_cabin_price")
+        print("=" * 70)
+        
+        # Run the specific test scenario
+        success = self.test_tour_creation_fix_scenario()
+        
+        # Print final results
+        self.print_final_results()
+        
+        return success
+
     def run_specific_admin_tests(self):
         """Run specific tests requested in the review"""
         print("🎯 Running Specific Admin Tests as Requested")
