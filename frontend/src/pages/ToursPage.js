@@ -278,13 +278,13 @@ const ToursPage = () => {
           {tour.short_description}
         </p>
 
-        <div className={`flex items-center justify-between ${isListView ? 'mb-1' : 'mb-2'}`}>
-          <div className="flex items-center space-x-1">
+        <div className={`flex items-center justify-between ${isListView ? 'mb-3' : 'mb-3'}`}>
+          <div className="flex items-center space-x-2">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`${isListView ? 'w-2.5 h-2.5' : 'w-3 h-3'} ${
+                  className={`${isListView ? 'w-4 h-4' : 'w-4 h-4'} ${
                     i < Math.floor(tour.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
@@ -292,13 +292,13 @@ const ToursPage = () => {
                 />
               ))}
             </div>
-            <span className={`${isListView ? 'text-xs' : 'text-xs'} text-gray-600`}>
+            <span className={`${isListView ? 'text-sm' : 'text-sm'} text-gray-600`}>
               ({tour.review_count || 0})
             </span>
           </div>
 
-          <div className={`flex items-center space-x-1 ${isListView ? 'text-xs' : 'text-xs'} text-gray-600`}>
-            <Calendar className={`${isListView ? 'w-2.5 h-2.5' : 'w-3 h-3'}`} />
+          <div className={`flex items-center space-x-2 ${isListView ? 'text-sm' : 'text-sm'} text-gray-600`}>
+            <Calendar className={`${isListView ? 'w-4 h-4' : 'w-4 h-4'}`} />
             <span>{tour.duration_days || 1} gün</span>
             {tour.classification && (
               <span className="text-gray-500 font-medium">
