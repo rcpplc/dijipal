@@ -68,9 +68,12 @@ const TourDetailPage = () => {
   // Cabin system
   const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
   
-  // Accordion states
-  const [showFullDescription, setShowFullDescription] = useState(false);
-  const [showFullProgram, setShowFullProgram] = useState(false);
+  // Modal states
+  const [showDescriptionModal, setShowDescriptionModal] = useState(false);
+  const [showProgramModal, setShowProgramModal] = useState(false);
+  
+  // Accordion state for cancellation policy
+  const [showFullCancellation, setShowFullCancellation] = useState(false);
   
   // Reviews modal
   const [showReviewsModal, setShowReviewsModal] = useState(false);
