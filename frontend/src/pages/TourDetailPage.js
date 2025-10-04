@@ -676,44 +676,39 @@ const TourDetailPage = () => {
               )}
 
               {/* Cancellation Policy */}
-              <div className="py-6 border-t border-gray-100">
-                <h4 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
-                  <span className="text-lg">⚠️</span>
-                  <span>İptal ve İade Politikası</span>
-                </h4>
-                <div className="space-y-4 text-gray-700">
-                  <div className="bg-red-50 border-l-4 border-red-400 p-4 rounded">
-                    <div className="font-semibold text-red-800 mb-2">
-                      İptal Koşulları:
+              {tour.cancellation_policy && (
+                <div className="py-6 border-t border-gray-100">
+                  <h4 className="font-semibold text-gray-900 mb-4 flex items-center space-x-2">
+                    <XCircle className="w-5 h-5 text-red-500" />
+                    <span>İptal Politikası</span>
+                  </h4>
+                  <div className="text-gray-700 leading-relaxed">
+                    <div 
+                      className={`whitespace-pre-wrap ${!showFullDescription ? 'line-clamp-5' : ''}`}
+                      style={!showFullDescription ? {
+                        display: '-webkit-box',
+                        WebkitLineClamp: 5,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      } : {}}
+                    >
+                      {tour.cancellation_policy}
                     </div>
-                    <ul className="space-y-2 text-sm">
-                      <li>• Tur tarihinden 7 gün öncesine kadar: %100 iade</li>
-                      <li>• Tur tarihinden 3-7 gün öncesi: %50 iade</li>
-                      <li>• Tur tarihinden 3 gün öncesi: İade yok</li>
-                    </ul>
+                    {tour.cancellation_policy && tour.cancellation_policy.split('\n').length > 5 && (
+                      <button
+                        onClick={() => setShowFullDescription(!showFullDescription)}
+                        className="mt-3 flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                      >
+                        <span>{showFullDescription ? 'Daha az göster' : 'Devamını gör'}</span>
+                        {showFullDescription ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                        }
+                      </button>
+                    )}
                   </div>
-                  
-                  <div className="bg-blue-50 border-l-4 border-blue-400 p-4 rounded">
-                    <div className="font-semibold text-blue-800 mb-2">
-                      Önemli Notlar:
-                    </div>
-                    <ul className="space-y-2 text-sm">
-                      <li>• Hava koşulları nedeniyle iptal: %100 iade</li>
-                      <li>• İade işlemleri 3-5 iş günü içinde gerçekleşir</li>
-                      <li>• İptal taleplerini müşteri hizmetlerimize iletebilirsiniz</li>
-                    </ul>
-                  </div>
-                  
-                  {tour.cancellation_policy && (
-                    <div className="bg-gray-50 p-4 rounded">
-                      <div className="font-semibold text-gray-800 mb-2">
-                        Tura Özel Koşullar:
-                      </div>
-                      <p className="text-sm whitespace-pre-wrap">{tour.cancellation_policy}</p>
-                    </div>
-                  )}
                 </div>
-              </div>
+              )}
             </div>
 
             {/* Reviews Section */}
