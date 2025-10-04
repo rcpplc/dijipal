@@ -69,7 +69,9 @@ const ToursPage = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (showLocationDropdown && !event.target.closest('.location-dropdown')) {
-        setShowLocationDropdown(false);
+        setTimeout(() => {
+          setShowLocationDropdown(false);
+        }, 100);
       }
     };
 
