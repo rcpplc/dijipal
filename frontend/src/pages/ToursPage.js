@@ -395,7 +395,12 @@ const ToursPage = () => {
           {/* Filters Panel */}
           {showFilters && (
             <div className="mt-6 bg-white border border-gray-200 rounded-lg shadow-sm overflow-hidden">
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
+              <div className="px-6 py-4 bg-gray-50 border-b border-gray-200">
+                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
+              </div>
+              
+              <div className="p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
                 {/* Kategori */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
