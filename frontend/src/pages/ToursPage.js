@@ -523,8 +523,8 @@ const ToursPage = () => {
                       Minimum Puan
                     </label>
                     <select
-                      value={filters.min_rating}
-                      onChange={(e) => handleFilterChange('min_rating', e.target.value)}
+                      value={filters.minRating}
+                      onChange={(e) => handleFilterChange('minRating', e.target.value)}
                       className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
                     >
                       <option value="">Tüm Puanlar</option>
