@@ -5,6 +5,7 @@ import {
   Calendar, 
   Users, 
   Star,
+  Heart,
   ArrowLeft,
   ChevronDown,
   ChevronUp,
