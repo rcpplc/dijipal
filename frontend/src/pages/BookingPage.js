@@ -24,13 +24,13 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const { tour: stateTour, selectedDate, cabinType: stateCabinType } = location.state || {};
+  const { tour: stateTour, selectedDate, cabinType: stateCabinType, participants: stateParticipants } = location.state || {};
   const [tour, setTour] = useState(stateTour || null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [step, setStep] = useState(1);
   const [participants, setParticipants] = useState(
-    parseInt(searchParams.get('participants')) || 1
+    stateParticipants || parseInt(searchParams.get('participants')) || 1
   );
   
   // State veya URL'den kabin tipini al
