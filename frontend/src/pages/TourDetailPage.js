@@ -64,7 +64,7 @@ const TourDetailPage = () => {
   const [totalReviews, setTotalReviews] = useState(0);
   const [modalReviews, setModalReviews] = useState([]);
   const [modalLoading, setModalLoading] = useState(false);
-  const reviewsPerPage = 10;
+  const reviewsPerPage = 2; // Test için 2 yapıldı, sonra 10'a çevrilecek
 
   useEffect(() => {
     loadTour();
