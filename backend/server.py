@@ -23,7 +23,15 @@ load_dotenv(ROOT_DIR / '.env')
 
 # MongoDB connection
 mongo_url = os.environ['MONGO_URL']
-client = AsyncIOMotorClient(mongo_url)
+# Configure MongoDB client with Atlas-compatible settings
+client = AsyncIOMotorClient(
+    mongo_url,
+    retryWrites=True,
+    w='majority',
+    connectTimeoutMS=10000,
+    serverSelectionTimeoutMS=10000,
+    maxPoolSize=10
+)
 db = client[os.environ.get('DB_NAME', 'tour_platform')]
 
 # Security
