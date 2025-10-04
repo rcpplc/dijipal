@@ -390,7 +390,7 @@ const ToursPage = () => {
               </div>
             </form>
             
-            <div className="flex items-center space-x-2 sm:space-x-4">
+            <div className="flex items-center">
               <button
                 onClick={() => setShowFilters(!showFilters)}
                 className="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-gray-200 px-2 sm:px-4 py-2 sm:py-3 rounded-lg transition-colors duration-200 text-sm sm:text-base"
@@ -398,25 +398,6 @@ const ToursPage = () => {
                 <SlidersHorizontal className="w-5 h-5" />
                 <span>Filtreler</span>
               </button>
-              
-              <div className="flex items-center bg-gray-100 rounded-lg p-1">
-                <button
-                  onClick={() => setViewMode('grid')}
-                  className={`p-2 rounded transition-colors duration-200 ${
-                    viewMode === 'grid' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
-                  }`}
-                >
-                  <Grid className="w-5 h-5" />
-                </button>
-                <button
-                  onClick={() => setViewMode('list')}
-                  className={`p-2 rounded transition-colors duration-200 ${
-                    viewMode === 'list' ? 'bg-white shadow-sm' : 'hover:bg-gray-200'
-                  }`}
-                >
-                  <List className="w-5 h-5" />
-                </button>
-              </div>
             </div>
           </div>
 
