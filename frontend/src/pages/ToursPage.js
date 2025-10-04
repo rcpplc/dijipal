@@ -478,67 +478,58 @@ const ToursPage = () => {
                   </div>
                 </div>
 
-                {/* Fiyat Aralığı - Daha Güzel Düzenleme */}
+                {/* Fiyat Aralığı - Basit ve Çalışan */}
                 <div className="mt-6 pt-6 border-t border-gray-200">
-                  <h4 className="text-sm font-medium text-gray-700 mb-4">Fiyat Aralığı</h4>
-                  
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Fiyat Input'ları */}
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-2">
-                          Min Fiyat
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
-                          <input
-                            type="number"
-                            value={filters.min_price}
-                            onChange={(e) => handleFilterChange('min_price', e.target.value)}
-                            placeholder={priceRange.min.toLocaleString()}
-                            min={priceRange.min}
-                            max={priceRange.max}
-                            className="w-full pl-7 pr-3 py-2.5 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
-                          />
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-2">
-                          Max Fiyat
-                        </label>
-                        <div className="relative">
-                          <span className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
-                          <input
-                            type="number"
-                            value={filters.max_price}
-                            onChange={(e) => handleFilterChange('max_price', e.target.value)}
-                            placeholder={priceRange.max.toLocaleString()}
-                            min={priceRange.min}
-                            max={priceRange.max}
-                            className="w-full pl-7 pr-3 py-2.5 bg-white border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm transition-all"
-                          />
-                        </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Min Fiyat */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Min Fiyat
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
+                        <input
+                          type="number"
+                          value={filters.min_price}
+                          onChange={(e) => handleFilterChange('min_price', e.target.value)}
+                          placeholder={priceRange.min.toLocaleString()}
+                          min={priceRange.min}
+                          max={priceRange.max}
+                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                        />
                       </div>
                     </div>
 
-                    {/* Bilgi Paneli */}
-                    <div className="bg-gradient-to-r from-blue-50 to-gray-50 p-4 rounded-lg border border-gray-200">
-                      <div className="text-sm">
-                        <div className="flex items-center justify-between mb-2">
-                          <span className="text-gray-600 font-medium">Mevcut Aralık:</span>
-                          <span className="text-blue-600 font-semibold">₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}</span>
-                        </div>
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-600 font-medium">Süre Aralığı:</span>
-                          <span className="text-gray-700 font-semibold">{durationRange.min} - {durationRange.max} gün</span>
-                        </div>
+                    {/* Max Fiyat */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-3">
+                        Max Fiyat
+                      </label>
+                      <div className="relative">
+                        <span className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-500 text-sm">₺</span>
+                        <input
+                          type="number"
+                          value={filters.max_price}
+                          onChange={(e) => handleFilterChange('max_price', e.target.value)}
+                          placeholder={priceRange.max.toLocaleString()}
+                          min={priceRange.min}
+                          max={priceRange.max}
+                          className="w-full pl-8 pr-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                        />
                       </div>
                     </div>
                   </div>
+
+                  {/* Bilgi Kutusu */}
+                  <div className="mt-4 p-3 bg-gray-50 rounded-lg text-sm text-gray-600">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                      <span>Fiyat Aralığı: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}</span>
+                      <span>Süre: {durationRange.min} - {durationRange.max} gün</span>
+                    </div>
+                  </div>
                   
-                  {/* Filtre Temizle Link - Sağ Alt */}
-                  <div className="flex justify-end mt-6">
+                  {/* Filtre Temizle Link */}
+                  <div className="flex justify-end mt-4">
                     <button
                       onClick={() => {
                         setFilters({
