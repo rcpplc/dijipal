@@ -234,7 +234,7 @@ const ToursPage = () => {
   };
 
   const TourCard = ({ tour, isListView = false }) => (
-    <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex flex-col sm:flex-row' : ''}`}>
+    <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex flex-col sm:flex-row min-h-[200px]' : ''}`}>
       <div className={`relative overflow-hidden ${isListView ? 'w-full sm:w-1/3 h-full' : ''}`}>
         <img
           src={tour.images[0] || '/placeholder-tour.jpg'}
