@@ -88,128 +88,8 @@ function App() {
     loadUser();
   }, [token]);
 
-  // Remove Emergent watermark (aggressive approach)
+  // Simple watermark overlay (non-destructive approach)
   useEffect(() => {
-    const removeWatermark = () => {
-      try {
-        // Method 1: Remove by text content
-        const allElements = document.querySelectorAll('*');
-        allElements.forEach(el => {
-          const text = el.textContent || el.innerText || '';
-          if (text.includes('Made with Emergent') || 
-              text.includes('Made with') || 
-              text.includes('Emergent')) {
-            el.remove();
-          }
-        });
-
-        // Method 2: Remove positioned elements in corners
-        const positionedElements = document.querySelectorAll('[style*="position"]');
-        positionedElements.forEach(el => {
-          const style = window.getComputedStyle(el);
-          const position = style.position;
-          const bottom = style.bottom;
-          const right = style.right;
-          const zIndex = style.zIndex;
-          
-          if ((position === 'fixed' || position === 'absolute') &&
-              (bottom === '0px' || bottom === '10px' || bottom === '16px' || bottom === '20px') &&
-              (right === '0px' || right === '10px' || right === '16px' || right === '20px')) {
-            el.remove();
-          }
-          
-          // Remove high z-index elements
-          if (zIndex && parseInt(zIndex) > 900) {
-            const text = el.textContent || '';
-            if (text.includes('Made with') || text.includes('Emergent') || text.length < 50) {
-              el.remove();
-            }
-          }
-        });
-
-        // Method 3: Remove by common watermark selectors
-        const watermarkSelectors = [
-          '[class*="watermark"]',
-          '[class*="branding"]', 
-          '[class*="powered"]',
-          '[class*="credit"]',
-          '[class*="emergent"]',
-          '.fixed.bottom-0.right-0',
-          '.fixed.bottom-4.right-4',
-          '.absolute.bottom-0.right-0',
-          '.absolute.bottom-4.right-4',
-          '[style*="z-index: 999"]',
-          '[style*="z-index: 9999"]'
-        ];
-        
-        watermarkSelectors.forEach(selector => {
-          try {
-            document.querySelectorAll(selector).forEach(el => el.remove());
-          } catch (e) {
-            // Ignore invalid selectors
-          }
-        });
-
-        // Method 4: Remove any element with watermark-like properties
-        const suspiciousElements = document.querySelectorAll('div, span, a');
-        suspiciousElements.forEach(el => {
-          const rect = el.getBoundingClientRect();
-          const style = window.getComputedStyle(el);
-          
-          // Check if element is in bottom-right corner
-          if (rect.bottom > window.innerHeight - 100 && 
-              rect.right > window.innerWidth - 200 &&
-              rect.width < 200 && rect.height < 50) {
-            const text = el.textContent || '';
-            if (text.includes('Made with') || text.includes('Emergent')) {
-              el.remove();
-            }
-          }
-        });
-
-      } catch (e) {
-        console.log('Watermark removal error:', e);
-      }
-    };
-
-    // Run removal function
-    const runRemoval = () => {
-      removeWatermark();
-      
-      // Run again after a short delay for dynamically loaded content
-      setTimeout(removeWatermark, 500);
-      setTimeout(removeWatermark, 1000);
-      setTimeout(removeWatermark, 2000);
-    };
-
-    // Initial run
-    runRemoval();
-
-    // Run on page load
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', runRemoval);
-    } else {
-      runRemoval();
-    }
-
-    // Run periodically
-    const interval = setInterval(removeWatermark, 2000);
-
-    // Run on DOM mutations
-    const observer = new MutationObserver(() => {
-      setTimeout(removeWatermark, 100);
-    });
-    
-    if (document.body) {
-      observer.observe(document.body, { 
-        childList: true, 
-        subtree: true,
-        attributes: true,
-        attributeNames: ['style', 'class']
-      });
-    }
-
-    // Add white overlay to cover watermark
     const addWatermarkCover = () => {
       // Remove existing cover first
       const existingCover = document.getElementById('watermark-cover');
@@ -217,42 +97,30 @@ function App() {
         existingCover.remove();
       }
 
-      // Create new overlay
+      // Create simple overlay to cover watermark area only
       const cover = document.createElement('div');
       cover.id = 'watermark-cover';
       cover.style.cssText = `
         position: fixed !important;
         bottom: 0 !important;
         right: 0 !important;
-        width: 250px !important;
-        height: 40px !important;
-        background: rgba(255, 255, 255, 0.98) !important;
-        z-index: 2147483647 !important;
+        width: 200px !important;
+        height: 30px !important;
+        background: rgba(255, 255, 255, 0.95) !important;
+        z-index: 99999 !important;
         pointer-events: none !important;
-        border-top: 1px solid #f0f0f0 !important;
       `;
       document.body.appendChild(cover);
     };
 
-    // Add overlay
-    addWatermarkCover();
-
-    // Run on window events
-    window.addEventListener('load', () => {
-      runRemoval();
-      addWatermarkCover();
-    });
-    window.addEventListener('resize', () => {
-      removeWatermark();
-      addWatermarkCover();
-    });
+    // Add overlay after component mounts
+    setTimeout(addWatermarkCover, 1000);
 
     return () => {
-      clearInterval(interval);
-      observer.disconnect();
-      document.removeEventListener('DOMContentLoaded', runRemoval);
-      window.removeEventListener('load', runRemoval);
-      window.removeEventListener('resize', removeWatermark);
+      const cover = document.getElementById('watermark-cover');
+      if (cover) {
+        cover.remove();
+      }
     };
   }, []);
 
