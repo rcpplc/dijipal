@@ -1,0 +1,32 @@
+{
+  "summary": {
+    "total_tests": 3,
+    "passed_tests": 3,
+    "failed_tests": 0,
+    "success_rate": 100.0,
+    "test_date": "2025-10-04T08:05:48.433654"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Admin Login",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIyZmYyNTJiMC01NWE1LTQxMWYtYWE5MC1hZDY2Mjc3OGU4YTYifQ.jfCuAB9ieuOKeD4sdhZMpiLtsUL0WH7m2gw8kHlUKQE\",\n  \"user\": {\n    \"id\": \"2ff252b0-55a5-411...",
+      "error": "",
+      "timestamp": "2025-10-04T08:05:48.358691"
+    },
+    {
+      "test_name": "Tour Creation with New Cabin Pricing (Fix Test)",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"f5c969c4-f7e3-4803-87e3-69db82f56c8f\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Test Tour\",\n  \"description\": \"Test description\",\n  \"short_description\": \"Test short...",
+      "error": "",
+      "timestamp": "2025-10-04T08:05:48.398227"
+    },
+    {
+      "test_name": "Verify Created Tour",
+      "success": true,
+      "details": "Status: 200, Response: {\n  \"id\": \"f5c969c4-f7e3-4803-87e3-69db82f56c8f\",\n  \"vendor_id\": \"2ff252b0-55a5-411f-aa90-ad662778e8a6\",\n  \"title\": \"Test Tour\",\n  \"description\": \"Test description\",\n  \"short_description\": \"Test short...",
+      "error": "",
+      "timestamp": "2025-10-04T08:05:48.432898"
+    }
+  ]
+}
