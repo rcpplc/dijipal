@@ -45,11 +45,11 @@ const CartPage = () => {
 
     // Seçilen tour'u bul ve kapasitesini kontrol et
     const currentItem = cartItems.find(item => item.tourId === tourId);
-    const maxCapacity = currentItem?.selectedDate?.available_cabins || currentItem?.selectedDate?.capacity || 20;
+    const maxCapacity = currentItem?.selectedDate?.available_cabins || currentItem?.selectedDate?.capacity || 8;
 
     // Kapasite kontrolü
     if (newQuantity > maxCapacity) {
-      toast.error(`Bu tarihteki kabin kapasitesi ${maxCapacity} ile sınırlıdır`);
+      toast.error(`Bu tarihteki kabin stoku ${maxCapacity} ile sınırlıdır. Daha fazla kabin seçemezsiniz.`);
       return;
     }
 
@@ -59,6 +59,9 @@ const CartPage = () => {
         : item
     );
     updateCartItems(updatedItems);
+    
+    // Başarı mesajı
+    toast.success(`Kabin sayısı ${newQuantity} olarak güncellendi`);
   };
 
   const removeItem = (tourId) => {
