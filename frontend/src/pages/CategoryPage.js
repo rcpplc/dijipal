@@ -271,7 +271,17 @@ const CategoryPage = () => {
                           alt={tour.title}
                           className="w-full h-48 object-cover"
                         />
-                        <div className="absolute top-4 right-4">
+                        <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
+                          <button className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200">
+                            <Heart className="w-5 h-5 text-gray-600 hover:text-red-500" />
+                          </button>
+                          {tour.classification && (
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationStyle(tour.classification)}`}>
+                              {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
+                            </span>
+                          )}
+                        </div>
+                        <div className="absolute top-4 left-4">
                           <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
                             {tour.category}
                           </span>
