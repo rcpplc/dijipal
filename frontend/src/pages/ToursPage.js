@@ -363,77 +363,56 @@ const ToursPage = () => {
                     className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
                 </div>
-                <div className="sm:border-l border-gray-200 px-4 py-3 relative location-dropdown">
+                {/* YENİ LOCATION DROPDOWN - SIFIRDAN */}
+                <div className="sm:border-l border-gray-200 px-4 py-3 relative">
+                  {/* Dropdown Trigger */}
                   <div 
-                    className="flex items-center space-x-2 cursor-pointer hover:bg-gray-50 rounded-md p-1 -m-1 transition-colors duration-200" 
-                    onClick={() => {
-                      console.log('Dropdown clicked, current state:', showLocationDropdown);
-                      setShowLocationDropdown(!showLocationDropdown);
-                    }}
+                    className="flex items-center justify-between cursor-pointer bg-white hover:bg-gray-50 px-3 py-2 rounded-md border border-gray-200 min-w-[200px]"
+                    onClick={() => setShowLocationDropdown(!showLocationDropdown)}
                   >
-                    <MapPin className="w-4 h-4 text-gray-400" />
-                    <span className="text-gray-800 text-sm min-w-[150px] font-medium">
-                      {locations.find(loc => loc.value === filters.location)?.label || 'Tüm Lokasyonlar'}
-                    </span>
+                    <div className="flex items-center space-x-2">
+                      <MapPin className="w-4 h-4 text-gray-500" />
+                      <span className="text-sm text-gray-700 font-medium">
+                        {filters.location ? locations.find(loc => loc.value === filters.location)?.label : 'Lokasyon Seçin'}
+                      </span>
+                    </div>
                     <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${showLocationDropdown ? 'rotate-180' : ''}`} />
                   </div>
-                  
-                  {/* Custom Dropdown */}
-                  <div 
-                    className={`absolute top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-2xl z-[9999] min-w-[250px] max-h-[300px] overflow-y-auto transition-all duration-200 ${
-                      showLocationDropdown ? 'opacity-100 visible transform translate-y-0' : 'opacity-0 invisible transform -translate-y-2'
-                    }`}
-                    onMouseEnter={() => setShowLocationDropdown(true)}
-                    onMouseLeave={() => {
-                      setTimeout(() => setShowLocationDropdown(false), 200);
-                    }}
-                  >
-                      {locations.map((loc, index) => {
-                        // Function to get the appropriate icon for each location
-                        const getLocationIcon = (location) => {
-                          if (!location || location === 'Tüm Lokasyonlar') return MapPin;
-                          const locationLower = location.toLowerCase();
-                          // Turkish coastal destinations - use Waves icon
-                          if (locationLower.includes('fethiye') || locationLower.includes('göcek') || 
-                              locationLower.includes('antalya') || locationLower.includes('kaş') || 
-                              locationLower.includes('bodrum') || locationLower.includes('marmaris')) return Waves;
-                          // Cappadocia and mountainous regions - use Mountain icon  
-                          if (locationLower.includes('cappadocia') || locationLower.includes('nevşehir') || 
-                              locationLower.includes('kapadokya') || locationLower.includes('konya')) return Mountain;
-                          // Major cities - use Building icon
-                          if (locationLower.includes('istanbul') || locationLower.includes('ankara') || 
-                              locationLower.includes('izmir') || locationLower.includes('bursa')) return Building;
-                          // Green/forest areas - use Trees icon
-                          if (locationLower.includes('bolu') || locationLower.includes('rize') || 
-                              locationLower.includes('trabzon') || locationLower.includes('artvin')) return Trees;
-                          // Default fallback - use MapPin for all other locations
-                          return MapPin;
-                        };
+
+                  {/* Dropdown Menu - Basit ve Açık */}
+                  {showLocationDropdown && (
+                    <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 overflow-hidden">
+                      {locations.map((location, index) => {
+                        // Icon seçimi fonksiyonu
+                        let IconComponent = MapPin; // Varsayılan
                         
-                        // Get the icon component for this location
-                        const LocationIcon = getLocationIcon(loc.label);
+                        if (location.label && location.label !== 'Tüm Lokasyonlar') {
+                          const locationName = location.label.toLowerCase();
+                          if (locationName.includes('fethiye') || locationName.includes('göcek')) {
+                            IconComponent = Waves;
+                          } else if (locationName.includes('istanbul') || locationName.includes('ankara')) {
+                            IconComponent = Building;
+                          } else if (locationName.includes('trabzon') || locationName.includes('rize')) {
+                            IconComponent = Trees;
+                          }
+                        }
                         
                         return (
                           <div
-                            key={loc.value || index}
+                            key={location.value || `location-${index}`}
+                            className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0"
                             onClick={() => {
-                              handleFilterChange('location', loc.value);
+                              handleFilterChange('location', location.value);
                               setShowLocationDropdown(false);
                             }}
-                            className={`flex items-center space-x-3 px-5 py-4 hover:bg-blue-50 cursor-pointer transition-all duration-200 border-b border-gray-200 last:border-b-0 ${
-                              index === 0 ? 'rounded-t-lg' : ''
-                            } ${
-                              index === locations.length - 1 ? 'rounded-b-lg' : ''
-                            } ${
-                              filters.location === loc.value ? 'bg-blue-100 text-blue-700 font-semibold' : 'text-gray-900 hover:text-blue-600'
-                            }`}
                           >
-                            <LocationIcon className="w-5 h-5 text-gray-600 flex-shrink-0" />
-                            <span className="text-sm font-medium">{loc.label}</span>
+                            <IconComponent className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                            <span className="text-sm text-gray-800">{location.label}</span>
                           </div>
                         );
                       })}
-                  </div>
+                    </div>
+                  )}
                 </div>
                 <button
                   type="submit"
