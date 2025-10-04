@@ -558,6 +558,87 @@ class TourPlatformAPITester:
         
         return False, None
 
+    def test_tour_creation_fix_scenario(self):
+        """Test the specific tour creation scenario mentioned in the review request"""
+        print("\n🎯 Testing Tour Creation Fix Scenario (Internal Server Error Fix)")
+        
+        # Step 1: Admin login
+        print("\n🔐 Step 1: Admin Login with admin@example.com/admin123")
+        admin_success = self.test_admin_login()
+        
+        if not admin_success:
+            print("❌ Admin login failed - cannot proceed with tour creation test")
+            return False
+        
+        # Step 2: Test tour creation with exact data from review request
+        print("\n📝 Step 2: Test Tour Creation with New Cabin Pricing System")
+        
+        tour_data = {
+            "title": "Test Tour",
+            "description": "Test description", 
+            "short_description": "Test short",
+            "location": "Test Location",
+            "category": "cultural",
+            "classification": "standart",
+            "tour_dates": [
+                {
+                    "date": "2025-01-15",
+                    "capacity": 10,
+                    "single_cabin_price": 1000,
+                    "double_cabin_price": 1500
+                }
+            ]
+        }
+        
+        success, response = self.run_test(
+            "Tour Creation with New Cabin Pricing (Fix Test)",
+            "POST",
+            "admin/tours",
+            200,
+            data=tour_data
+        )
+        
+        if success and response and 'id' in response:
+            tour_id = response['id']
+            print(f"   ✅ Tour creation successful! Tour ID: {tour_id}")
+            
+            # Step 3: Verify the tour was created correctly
+            print("\n🔍 Step 3: Verify Tour Creation")
+            
+            # Get the created tour
+            verify_success, verify_response = self.run_test(
+                "Verify Created Tour",
+                "GET",
+                f"tours/{tour_id}",
+                200
+            )
+            
+            if verify_success and verify_response:
+                tour_dates = verify_response.get('tour_dates', [])
+                if tour_dates:
+                    date = tour_dates[0]
+                    if ('single_cabin_price' in date and 'double_cabin_price' in date and
+                        date['single_cabin_price'] == 1000 and date['double_cabin_price'] == 1500):
+                        print("   ✅ Tour dates created with correct cabin pricing!")
+                        print(f"      • Single cabin price: {date['single_cabin_price']}")
+                        print(f"      • Double cabin price: {date['double_cabin_price']}")
+                        print("   ✅ INTERNAL SERVER ERROR FIX VERIFIED - Tour creation now works!")
+                        return True
+                    else:
+                        print("   ❌ Tour dates created but cabin pricing incorrect")
+                        print(f"      • Expected: single=1000, double=1500")
+                        print(f"      • Got: single={date.get('single_cabin_price')}, double={date.get('double_cabin_price')}")
+                        return False
+                else:
+                    print("   ❌ Tour created but no tour dates found")
+                    return False
+            else:
+                print("   ❌ Could not verify created tour")
+                return False
+        else:
+            print("   ❌ Tour creation failed - Internal Server Error may still exist")
+            return False
+
     def test_tour_dates_management(self, tour_id):
         """Test tour date creation and management"""
         if not tour_id:
