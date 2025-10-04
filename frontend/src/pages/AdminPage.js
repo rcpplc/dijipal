@@ -2182,22 +2182,22 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       <table className="min-w-full divide-y divide-gray-200">
                         <thead className="bg-gray-100">
                           <tr>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Tarih
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Tek Kabin (₺)
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Çift Kabin (₺)
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Kabin Kapasitesi
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Durum
                             </th>
-                            <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               İşlemler
                             </th>
                           </tr>
