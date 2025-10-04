@@ -95,7 +95,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Remove Test Reviews API"
+    - "Add Test Reviews API and Reviews Display System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
