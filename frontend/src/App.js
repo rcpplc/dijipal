@@ -88,69 +88,137 @@ function App() {
     loadUser();
   }, [token]);
 
-  // Remove Emergent watermark
+  // Remove Emergent watermark (aggressive approach)
   useEffect(() => {
     const removeWatermark = () => {
-      // Remove by content
-      const elements = document.querySelectorAll('*');
-      elements.forEach(el => {
-        if (el.textContent && el.textContent.includes('Made with Emergent')) {
-          el.style.display = 'none';
-          el.style.visibility = 'hidden';
-          el.style.opacity = '0';
-        }
-      });
-
-      // Remove by position (bottom right corner)
-      const bottomRightElements = document.querySelectorAll('[style*="position: fixed"], [style*="position: absolute"]');
-      bottomRightElements.forEach(el => {
-        const style = el.style.cssText.toLowerCase();
-        if ((style.includes('right') && style.includes('bottom')) || 
-            (style.includes('z-index') && (style.includes('999') || style.includes('9999')))) {
-          if (el.textContent && el.textContent.includes('Made with Emergent')) {
-            el.style.display = 'none';
+      try {
+        // Method 1: Remove by text content
+        const allElements = document.querySelectorAll('*');
+        allElements.forEach(el => {
+          const text = el.textContent || el.innerText || '';
+          if (text.includes('Made with Emergent') || 
+              text.includes('Made with') || 
+              text.includes('Emergent')) {
+            el.remove();
           }
-        }
-      });
+        });
 
-      // Remove by class patterns
-      const watermarkClasses = [
-        '[class*="emergent"]', 
-        '[class*="watermark"]', 
-        '[class*="branding"]',
-        '.fixed.bottom-0.right-0',
-        '.fixed.bottom-4.right-4',
-        '.absolute.bottom-0.right-0',
-        '.absolute.bottom-4.right-4'
-      ];
-      
-      watermarkClasses.forEach(selector => {
-        try {
-          const els = document.querySelectorAll(selector);
-          els.forEach(el => {
-            if (el.textContent && el.textContent.includes('Made with Emergent')) {
-              el.style.display = 'none';
+        // Method 2: Remove positioned elements in corners
+        const positionedElements = document.querySelectorAll('[style*="position"]');
+        positionedElements.forEach(el => {
+          const style = window.getComputedStyle(el);
+          const position = style.position;
+          const bottom = style.bottom;
+          const right = style.right;
+          const zIndex = style.zIndex;
+          
+          if ((position === 'fixed' || position === 'absolute') &&
+              (bottom === '0px' || bottom === '10px' || bottom === '16px' || bottom === '20px') &&
+              (right === '0px' || right === '10px' || right === '16px' || right === '20px')) {
+            el.remove();
+          }
+          
+          // Remove high z-index elements
+          if (zIndex && parseInt(zIndex) > 900) {
+            const text = el.textContent || '';
+            if (text.includes('Made with') || text.includes('Emergent') || text.length < 50) {
+              el.remove();
             }
-          });
-        } catch (e) {
-          // Ignore selector errors
-        }
-      });
+          }
+        });
+
+        // Method 3: Remove by common watermark selectors
+        const watermarkSelectors = [
+          '[class*="watermark"]',
+          '[class*="branding"]', 
+          '[class*="powered"]',
+          '[class*="credit"]',
+          '[class*="emergent"]',
+          '.fixed.bottom-0.right-0',
+          '.fixed.bottom-4.right-4',
+          '.absolute.bottom-0.right-0',
+          '.absolute.bottom-4.right-4',
+          '[style*="z-index: 999"]',
+          '[style*="z-index: 9999"]'
+        ];
+        
+        watermarkSelectors.forEach(selector => {
+          try {
+            document.querySelectorAll(selector).forEach(el => el.remove());
+          } catch (e) {
+            // Ignore invalid selectors
+          }
+        });
+
+        // Method 4: Remove any element with watermark-like properties
+        const suspiciousElements = document.querySelectorAll('div, span, a');
+        suspiciousElements.forEach(el => {
+          const rect = el.getBoundingClientRect();
+          const style = window.getComputedStyle(el);
+          
+          // Check if element is in bottom-right corner
+          if (rect.bottom > window.innerHeight - 100 && 
+              rect.right > window.innerWidth - 200 &&
+              rect.width < 200 && rect.height < 50) {
+            const text = el.textContent || '';
+            if (text.includes('Made with') || text.includes('Emergent')) {
+              el.remove();
+            }
+          }
+        });
+
+      } catch (e) {
+        console.log('Watermark removal error:', e);
+      }
     };
 
-    // Run immediately
-    removeWatermark();
+    // Run removal function
+    const runRemoval = () => {
+      removeWatermark();
+      
+      // Run again after a short delay for dynamically loaded content
+      setTimeout(removeWatermark, 500);
+      setTimeout(removeWatermark, 1000);
+      setTimeout(removeWatermark, 2000);
+    };
 
-    // Run periodically to catch dynamically added watermarks
-    const interval = setInterval(removeWatermark, 1000);
+    // Initial run
+    runRemoval();
 
-    // Run on DOM changes
-    const observer = new MutationObserver(removeWatermark);
-    observer.observe(document.body, { childList: true, subtree: true });
+    // Run on page load
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runRemoval);
+    } else {
+      runRemoval();
+    }
+
+    // Run periodically
+    const interval = setInterval(removeWatermark, 2000);
+
+    // Run on DOM mutations
+    const observer = new MutationObserver(() => {
+      setTimeout(removeWatermark, 100);
+    });
+    
+    if (document.body) {
+      observer.observe(document.body, { 
+        childList: true, 
+        subtree: true,
+        attributes: true,
+        attributeNames: ['style', 'class']
+      });
+    }
+
+    // Run on window events
+    window.addEventListener('load', runRemoval);
+    window.addEventListener('resize', removeWatermark);
 
     return () => {
       clearInterval(interval);
       observer.disconnect();
+      document.removeEventListener('DOMContentLoaded', runRemoval);
+      window.removeEventListener('load', runRemoval);
+      window.removeEventListener('resize', removeWatermark);
     };
   }, []);
 
