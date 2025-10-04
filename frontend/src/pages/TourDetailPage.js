@@ -724,7 +724,7 @@ const TourDetailPage = () => {
                 </div>
               ) : (
                 <div className="space-y-6">
-                  {reviews.slice(0, 3).map((review) => (
+                  {reviews.slice(0, 2).map((review) => (
                     <div key={review.id} className="border border-gray-100 rounded-lg p-4 bg-white">
                       <div className="flex items-start space-x-4">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0">
