@@ -45,7 +45,7 @@ const CartPage = () => {
 
     // Seçilen tour'u bul ve kapasitesini kontrol et
     const currentItem = cartItems.find(item => item.tourId === tourId);
-    const maxCapacity = currentItem?.selectedDate?.available_cabins || currentItem?.selectedDate?.capacity || 8;
+    const maxCapacity = currentItem?.selectedDate?.available_cabins || currentItem?.selectedDate?.capacity || 20;
 
     // Kapasite kontrolü
     if (newQuantity > maxCapacity) {
