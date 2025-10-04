@@ -536,7 +536,7 @@ const ToursPage = () => {
                       });
                       setSearchParams(new URLSearchParams());
                     }}
-                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-md transition-colors duration-200 text-sm"
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-md transition-colors duration-200 text-sm font-medium"
                   >
                     Filtreleri Temizle
                   </button>
