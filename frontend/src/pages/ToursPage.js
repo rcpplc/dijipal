@@ -33,18 +33,18 @@ const ToursPage = () => {
     location: '',
     min_price: '',
     max_price: '',
-    duration_days: ''
+    duration_days: '',
+    min_rating: '',
+    max_rating: '',
+    classification: ''
   });
 
-  const categories = [
-    { value: '', label: 'Tüm Kategoriler' },
-    { value: 'cultural', label: 'Kültürel Turlar' },
-    { value: 'nature', label: 'Doğa Turları' },
-    { value: 'adventure', label: 'Macera Turları' },
-    { value: 'city', label: 'Şehir Turları' },
-    { value: 'historical', label: 'Tarihi Turlar' },
-    { value: 'food', label: 'Gastronomi Turları' }
-  ];
+  // Dynamic data states
+  const [categories, setCategories] = useState([]);
+  const [locations, setLocations] = useState([]);
+  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
+  const [durationRange, setDurationRange] = useState({ min: 1, max: 15 });
+  const [ratingRange, setRatingRange] = useState({ min: 1, max: 5 });
 
   useEffect(() => {
     loadTours();
