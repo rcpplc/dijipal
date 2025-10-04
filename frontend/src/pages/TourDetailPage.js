@@ -733,10 +733,10 @@ const TourDetailPage = () => {
               )}
             </div>
 
-            {/* Değerlendirmeler alanı tamamen kaldırıldı */}
+            {/* Değerlendirmeler - En fazla 3 tane */}
             <div className="bg-white rounded-xl p-6 shadow-lg mt-8">
               <h3 className="text-xl font-semibold text-gray-900 mb-6">
-                Değerlendirmeler ({reviews.length})
+                Değerlendirmeler ({totalReviews || reviews.length})
               </h3>
 
               {reviewsLoading ? (
@@ -762,8 +762,9 @@ const TourDetailPage = () => {
                   <p className="text-sm mt-1">İlk değerlendirmeyi siz yapın!</p>
                 </div>
               ) : (
-                <div className="space-y-6">
-                  {reviews.map((review) => (
+                <div>
+                  <div className="space-y-4">
+                    {reviews.slice(0, 3).map((review) => (
                     <div key={review.id} className="border-b border-gray-100 pb-6 last:border-b-0">
                       <div className="flex items-start space-x-4">
                         <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center flex-shrink-0">
