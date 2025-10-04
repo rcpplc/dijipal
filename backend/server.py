@@ -1458,6 +1458,18 @@ async def add_test_reviews():
     
     return {"message": f"Test reviews added successfully. Inserted {inserted_count} new reviews for tour {tour_id}"}
 
+@api_router.delete("/remove-test-reviews/{tour_id}")
+async def remove_test_reviews(tour_id: str):
+    """Remove all reviews for a specific tour"""
+    try:
+        # Delete all reviews for this tour
+        result = await db.reviews.delete_many({"tour_id": tour_id})
+        deleted_count = result.deleted_count
+        
+        return {"message": f"Successfully removed {deleted_count} reviews for tour {tour_id}"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error removing reviews: {str(e)}")
+
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
