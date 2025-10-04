@@ -205,10 +205,10 @@ const HomePage = () => {
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight">
-              <span className="block">Kabin Kiralama ile</span>
-              <span className="block text-blue-300">
-                Mavi Yolculuğun Keyfini Çıkarın
+            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold mb-4 sm:mb-6 leading-tight transition-all duration-1000">
+              <span className="block">{heroTitles[currentSlide].main}</span>
+              <span className="block text-blue-300 text-xl sm:text-2xl md:text-3xl lg:text-4xl">
+                {heroTitles[currentSlide].subtitle}
               </span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 px-2">
