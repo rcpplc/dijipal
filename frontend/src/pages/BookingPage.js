@@ -276,7 +276,7 @@ const BookingPage = () => {
               {/* Step 1: Customer Information */}
               {step === 1 && (
                 <div>
-                  <h2 className="text-xl font-bold text-gray-900 mb-6">Katılımcı Bilgileri</h2>
+                  <h2 className="text-lg sm:text-xl font-bold text-gray-900 mb-4 sm:mb-6">Katılımcı Bilgileri</h2>
                   
                   {/* Katılımcı sayısı kısmı kaldırıldı - sepetten gelen değer kullanılıyor */}
 
