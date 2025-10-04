@@ -50,6 +50,48 @@ const ToursPage = () => {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
   const [durationRange, setDurationRange] = useState({ min: 1, max: 15 });
   const [ratingRange, setRatingRange] = useState({ min: 1, max: 5 });
+  // Static filter options for the new design
+  const classifications = [
+    { value: '', label: 'Tüm Sınıflar' },
+    { value: 'standart', label: 'Standart' },
+    { value: 'lux', label: 'Lux' },
+    { value: 'delux', label: 'Delux' }
+  ];
+
+  const durations = [
+    { value: '', label: 'Tüm Süreler' },
+    { value: '1', label: '1 Gün' },
+    { value: '2', label: '2 Gün' },
+    { value: '3', label: '3 Gün' },
+    { value: '4', label: '4 Gün' },
+    { value: '5', label: '5 Gün' },
+    { value: '7', label: '7 Gün' },
+    { value: '10', label: '10 Gün' },
+    { value: '14', label: '14 Gün' }
+  ];
+
+  const minRatings = [
+    { value: '', label: 'Tüm Puanlar' },
+    { value: '1', label: '1+ Yıldız' },
+    { value: '2', label: '2+ Yıldız' },
+    { value: '3', label: '3+ Yıldız' },
+    { value: '4', label: '4+ Yıldız' },
+    { value: '5', label: '5 Yıldız' }
+  ];
+
+  const clearFilters = () => {
+    setFilters({
+      category: '',
+      location: '',
+      min_price: '',
+      max_price: '',
+      duration_days: '',
+      min_rating: '',
+      max_rating: '',
+      classification: ''
+    });
+    setSearchParams(new URLSearchParams());
+  };
 
   useEffect(() => {
     loadFilterData();
