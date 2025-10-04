@@ -1,0 +1,120 @@
+{
+  "summary": {
+    "total_tests": 15,
+    "passed_tests": 1,
+    "failed_tests": 14,
+    "success_rate": 6.666666666666667,
+    "cors_tests_passed": 0,
+    "cors_tests_total": 8,
+    "test_date": "2025-10-04T18:36:10.252203",
+    "frontend_url": "https://cabin-booking.preview.static.emergentagent.com",
+    "backend_url": "https://cabin-booking.preview.emergentagent.com"
+  },
+  "detailed_results": [
+    {
+      "test_name": "CORS Preflight Request",
+      "success": false,
+      "details": "",
+      "error": "Status: 404, Missing required CORS headers",
+      "timestamp": "2025-10-04T18:36:10.019404"
+    },
+    {
+      "test_name": "Environment Variables Check (via CORS headers) - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.051614"
+    },
+    {
+      "test_name": "Environment Variables Check (via CORS headers)",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.051658"
+    },
+    {
+      "test_name": "Health Check - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.084034"
+    },
+    {
+      "test_name": "Health Check",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.084065"
+    },
+    {
+      "test_name": "Uploads Directory Check",
+      "success": true,
+      "details": "Status: 404 - Endpoint accessible",
+      "error": "",
+      "timestamp": "2025-10-04T18:36:10.115208"
+    },
+    {
+      "test_name": "User Login - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.146138"
+    },
+    {
+      "test_name": "User Login",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.146177"
+    },
+    {
+      "test_name": "Admin Login - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.180174"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.180210"
+    },
+    {
+      "test_name": "GET /api/tours - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.218796"
+    },
+    {
+      "test_name": "GET /api/tours",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.218826"
+    },
+    {
+      "test_name": "Admin Login - CORS Check",
+      "success": false,
+      "details": "",
+      "error": "Missing Access-Control-Allow-Origin header",
+      "timestamp": "2025-10-04T18:36:10.251417"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": false,
+      "details": "",
+      "error": "Status: Expected 200, got 404, CORS headers missing. Response: 404 page not found\n",
+      "timestamp": "2025-10-04T18:36:10.251449"
+    },
+    {
+      "test_name": "Database Connectivity Test",
+      "success": false,
+      "details": "",
+      "error": "Cannot login as admin to test database",
+      "timestamp": "2025-10-04T18:36:10.251950"
+    }
+  ]
+}
