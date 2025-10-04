@@ -273,7 +273,7 @@ const CartPage = () => {
                               ? (item.double_cabin_price || item.price || 0)
                               : (item.single_cabin_price || item.price || 0);
                             return cabinPrice.toLocaleString();
-                          })()} × {item.participants} kabin
+                          })()} / kabin × {item.participants}
                         </div>
                         <div className="text-xl font-bold text-blue-600">
                           ₺{(() => {
