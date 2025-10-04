@@ -240,7 +240,7 @@ const CartPage = () => {
                     <div className="flex items-center justify-between">
                       {/* Quantity Controls */}
                       <div className="flex items-center space-x-3">
-                        <span className="text-sm font-medium text-gray-700">Katılımcı:</span>
+                        <span className="text-sm font-medium text-gray-700">Kabin Sayısı:</span>
                         <div className="flex items-center space-x-2">
                           <button
                             onClick={() => updateQuantity(item.tourId, item.participants - 1)}
