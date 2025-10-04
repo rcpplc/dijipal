@@ -383,15 +383,15 @@ body {
 
 /* Clean CSS - watermark removal codes removed */
 
-/* Hero subtitle fade in animation */
+/* Hero subtitle fade in animation - from back to front */
 @keyframes fadeInSubtitle {
   0% {
     opacity: 0;
-    transform: translateY(10px);
+    transform: translateX(-30px);
   }
   100% {
     opacity: 1;
-    transform: translateY(0);
+    transform: translateX(0);
   }
 }
 
