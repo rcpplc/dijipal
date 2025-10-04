@@ -445,7 +445,7 @@ const TourDetailPage = () => {
           <p className="text-gray-600 mb-6">Aradığınız tur mevcut değil veya kaldırılmış olabilir.</p>
           <Link
             to="/tours"
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md font-medium transition-colors duration-200"
           >
             Diğer Turları Keşfet
           </Link>
