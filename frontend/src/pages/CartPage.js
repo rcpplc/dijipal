@@ -291,7 +291,12 @@ const CartPage = () => {
                           </button>
                         </div>
                         <div className="text-xs text-gray-500 mt-1">
-                          Maks: {item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20} kabin
+                          {(() => {
+                            const maxCapacity = item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20;
+                            const sameeDateItems = cartItems.filter(cartItem => cartItem.selectedDate?.date === item.selectedDate?.date);
+                            const totalUsedOnDate = sameeDateItems.reduce((total, cartItem) => total + cartItem.participants, 0);
+                            return `Toplam kullanılan: ${totalUsedOnDate}/${maxCapacity} kabin`;
+                          })()}
                         </div>
                       </div>
 
