@@ -241,13 +241,13 @@ const ToursPage = () => {
           alt={tour.title}
           className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-32 sm:h-full' : 'w-full h-32'}`}
         />
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-2 right-2">
           <button 
             onClick={() => toggleFavorite(tour.id)}
-            className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200"
+            className="bg-white/80 backdrop-blur-sm hover:bg-white p-1.5 rounded-full transition-colors duration-200"
           >
             <Heart 
-              className={`w-5 h-5 transition-colors duration-200 ${
+              className={`w-4 h-4 transition-colors duration-200 ${
                 favorites.has(tour.id) 
                   ? 'text-red-500 fill-current' 
                   : 'text-gray-600 hover:text-red-500'
@@ -256,8 +256,8 @@ const ToursPage = () => {
           </button>
         </div>
         {tour.category && (
-          <div className="absolute top-4 left-4">
-            <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
+          <div className="absolute top-2 left-2">
+            <span className="bg-blue-600 text-white px-2 py-0.5 rounded text-xs font-medium">
               {tour.category}
             </span>
           </div>
