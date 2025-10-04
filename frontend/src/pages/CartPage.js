@@ -37,15 +37,23 @@ const CartPage = () => {
     localStorage.setItem('tour_cart', JSON.stringify(items));
   };
 
-  const updateQuantity = (tourId, newQuantity) => {
+  const updateQuantity = (tourId, selectedDate, newQuantity) => {
     if (newQuantity <= 0) {
-      removeItem(tourId);
+      removeItem(tourId, selectedDate);
       return;
     }
 
-    // Seçilen tour'u bul ve kapasitesini kontrol et
-    const currentItem = cartItems.find(item => item.tourId === tourId);
-    const maxCapacity = currentItem?.selectedDate?.capacity || currentItem?.selectedDate?.available_cabins || 20;
+    // Belirli tour + tarih kombinasyonunu bul ve kapasitesini kontrol et
+    const currentItem = cartItems.find(item => 
+      item.tourId === tourId && item.selectedDate?.date === selectedDate
+    );
+    
+    if (!currentItem) {
+      toast.error('Sepet öğesi bulunamadı');
+      return;
+    }
+    
+    const maxCapacity = currentItem.selectedDate?.capacity || currentItem.selectedDate?.available_cabins || 20;
 
     // Kapasite kontrolü
     if (newQuantity > maxCapacity) {
@@ -54,14 +62,15 @@ const CartPage = () => {
     }
 
     const updatedItems = cartItems.map(item =>
-      item.tourId === tourId 
+      (item.tourId === tourId && item.selectedDate?.date === selectedDate)
         ? { ...item, participants: newQuantity }
         : item
     );
     updateCartItems(updatedItems);
     
     // Başarı mesajı
-    toast.success(`Kabin sayısı ${newQuantity} olarak güncellendi`);
+    const dateStr = new Date(selectedDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+    toast.success(`${dateStr} tarihli kabin sayısı ${newQuantity} olarak güncellendi`);
   };
 
   const removeItem = (tourId) => {
