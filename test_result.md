@@ -146,12 +146,15 @@ frontend:
     working: false
     file: "frontend/src/App.js"
     stuck_count: 1
-    priority: "medium"
+    priority: "high"
     needs_retesting: false
     status_history:
       - working: false
         agent: "testing"
         comment: "⚠️ PARTIAL SUCCESS - Static pages routing tested comprehensively. 6 out of 9 pages working correctly (66.7% success rate). WORKING: /about (Hakkımızda), /contact (İletişim), /help (Yardım Merkezi), /terms (Kullanım Koşulları), /privacy (Gizlilik Politikası), /cookies (Çerez Politikası) - all display proper content with company information. FAILING: /faq, /cancellation-policy, /kvkk - routes exist and URLs load but content not displaying properly (showing blank or incorrect content). React Router shows 'No routes matched' warnings for all static routes but most still work. Issue appears to be content rendering problem rather than routing problem for the 3 failing pages."
+      - working: false
+        agent: "testing"
+        comment: "🔍 DETAILED DEBUGGING COMPLETED - ROOT CAUSE IDENTIFIED: Server-side routing configuration issue for direct URL access. FINDINGS: 1) ❌ Direct URL access (/faq, /cancellation-policy, /kvkk) redirects to homepage instead of serving correct content, 2) ✅ React Router navigation via footer links WORKS PERFECTLY - all 3 pages display correctly when accessed via internal navigation, 3) ❌ Only 1 out of 3 pages (Cancellation Policy) has a component rendering issue, 4) 🎯 CORE ISSUE: SPA server configuration not properly handling direct URL access - needs server fallback to index.html for client-side routing. TECHNICAL DETAILS: FAQ and KVKK pages work perfectly via React Router links but fail on direct URL access due to server routing. This is a classic SPA deployment issue where the server needs to be configured to serve index.html for all routes to allow React Router to handle client-side routing. PRIORITY: HIGH - affects user experience when sharing direct links to static pages."
 
 metadata:
   created_by: "testing_agent"
