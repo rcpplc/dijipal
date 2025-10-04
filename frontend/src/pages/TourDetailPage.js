@@ -131,15 +131,33 @@ const TourDetailPage = () => {
     }
   };
 
-  const loadReviews = async () => {
+  const loadReviews = async (page = 1, limit = 3) => {
     setReviewsLoading(true);
     try {
-      const response = await axios.get(`${API}/reviews?tour_id=${tourId}&verified_only=true&limit=20`);
-      setReviews(response.data);
+      const response = await axios.get(`${API}/reviews?tour_id=${tourId}&page=${page}&limit=${limit}`);
+      if (page === 1) {
+        // İlk 3 review ana sayfa için
+        setReviews(response.data.reviews || response.data);
+        setTotalReviews(response.data.total || response.data.length);
+      } else {
+        // Modal için tüm reviews
+        return response.data;
+      }
     } catch (error) {
       console.error('Error loading reviews:', error);
+      setReviews([]);
     } finally {
       setReviewsLoading(false);
+    }
+  };
+
+  const loadModalReviews = async (page = 1) => {
+    try {
+      const response = await axios.get(`${API}/reviews?tour_id=${tourId}&page=${page}&limit=${reviewsPerPage}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error loading modal reviews:', error);
+      return { reviews: [], total: 0 };
     }
   };
 
