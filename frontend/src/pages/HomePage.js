@@ -186,13 +186,13 @@ const HomePage = () => {
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
           <div className="text-center text-white px-4 max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-bold mb-6">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
               Türkiye'yi
               <span className="block text-blue-300">
                 Keşfedin
               </span>
             </h1>
-            <p className="text-xl md:text-2xl mb-8 text-gray-100">
+            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 px-2">
               Binlerce destinasyon, güvenilir operatörler ve unutulmaz anılar
             </p>
 
