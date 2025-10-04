@@ -904,8 +904,9 @@ async def upload_image(file: UploadFile = File(...), current_user: User = Depend
         content = await file.read()
         buffer.write(content)
     
-    # Return URL - in production this would be a proper CDN URL
-    file_url = f"https://pakettur.preview.emergentagent.com/uploads/{filename}"
+    # Return URL - construct from environment or request headers
+    app_url = os.environ.get('APP_URL', 'http://localhost:8001')
+    file_url = f"{app_url}/uploads/{filename}"
     
     return {"url": file_url, "filename": filename}
 
