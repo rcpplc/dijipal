@@ -348,7 +348,8 @@ const ToursPage = () => {
         </Link>
       </div>
     </div>
-  );
+    );
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
