@@ -372,11 +372,11 @@ const ToursPage = () => {
                   
                   {/* Custom Dropdown */}
                   {showLocationDropdown && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-300 rounded-lg shadow-xl z-50 min-w-[250px]">
                       {locations.map((loc, index) => {
                         // Function to get the appropriate icon for each location
                         const getLocationIcon = (location) => {
-                          if (!location) return MapPin;
+                          if (!location || location === 'Tüm Lokasyonlar') return MapPin;
                           const locationLower = location.toLowerCase();
                           // Turkish coastal destinations - use Waves icon
                           if (locationLower.includes('fethiye') || locationLower.includes('göcek') || 
@@ -405,15 +405,15 @@ const ToursPage = () => {
                               handleFilterChange('location', loc.value);
                               setShowLocationDropdown(false);
                             }}
-                            className={`flex items-center space-x-3 px-4 py-3 hover:bg-gray-50 cursor-pointer transition-colors duration-200 ${
+                            className={`flex items-center space-x-3 px-4 py-3 hover:bg-gray-100 cursor-pointer transition-all duration-200 border-b border-gray-100 last:border-b-0 ${
                               index === 0 ? 'rounded-t-lg' : ''
                             } ${
                               index === locations.length - 1 ? 'rounded-b-lg' : ''
                             } ${
-                              filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'
+                              filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
                             }`}
                           >
-                            <LocationIcon className="w-4 h-4 text-gray-400 flex-shrink-0" />
+                            <LocationIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
                             <span className="text-sm font-medium">{loc.label}</span>
                           </div>
                         );
