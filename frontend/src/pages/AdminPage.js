@@ -2094,7 +2094,11 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Left Side - Date & Capacity */}
-                    <div className="space-y-4">
+                    <div className="bg-white p-4 rounded-md border border-gray-200">
+                      <h5 className="text-sm font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
+                        Tarih ve Kapasite
+                      </h5>
+                      <div className="space-y-4">
                       <div>
                         <label className="block text-sm font-semibold text-gray-800 mb-2">
                           Tur Tarihi *
