@@ -845,6 +845,7 @@ const TourDetailPage = () => {
                     </button>
                   </div>
                 )}
+                </div>
               )}
             </div>
           </div>
