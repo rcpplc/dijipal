@@ -306,37 +306,37 @@ const ToursPage = () => {
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div className="text-xl sm:text-2xl font-bold text-blue-600">
-            {(() => {
-              if (tour.minimum_price) {
-                return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
-              } else if (tour.tour_dates && tour.tour_dates.length > 0) {
-                // Fallback: calculate from tour dates
-                const allPrices = tour.tour_dates.flatMap(date => [
-                  date.single_cabin_price || 0,
-                  date.double_cabin_price || 0
-                ]).filter(price => price > 0);
-                
-                return allPrices.length > 0 
-                  ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
-                  : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
-              } else {
-                return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
-              }
-            })()}
-            <span className="text-sm font-normal text-gray-600 ml-1">
-              den başlayan
-            </span>
-          </div>
-
-          <Link
-            to={`/tours/${tour.id}`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm rounded font-medium transition-colors duration-200"
-          >
-            Detaylar
-          </Link>
+        <div className="text-xl sm:text-2xl font-bold text-blue-600 mb-4">
+          {(() => {
+            if (tour.minimum_price) {
+              return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+            } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+              // Fallback: calculate from tour dates
+              const allPrices = tour.tour_dates.flatMap(date => [
+                date.single_cabin_price || 0,
+                date.double_cabin_price || 0
+              ]).filter(price => price > 0);
+              
+              return allPrices.length > 0 
+                ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
+                : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+            } else {
+              return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+            }
+          })()}
+          <span className="text-sm font-normal text-gray-600 ml-1">
+            den başlayan
+          </span>
         </div>
+
+        {/* Detaylar Butonu - Kartın En Altında */}
+        <Link
+          to={`/tours/${tour.id}`}
+          className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 text-sm font-medium transition-colors duration-200 -mx-4 -mb-4 rounded-b-xl"
+          onClick={(e) => e.stopPropagation()}
+        >
+          Detaylar
+        </Link>
       </div>
     </div>
   );
