@@ -479,37 +479,27 @@ const ToursPage = () => {
                     </select>
                   </div>
 
-                <div className="sm:col-span-2 lg:col-span-2">
-                  <div className="bg-white p-3 rounded-md border">
-                    <div className="text-sm font-medium text-gray-700 mb-1">
-                      Fiyat: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}
-                    </div>
-                    <div className="text-xs text-gray-500">
-                      Süre: {durationRange.min} - {durationRange.max} gün
-                    </div>
+                  {/* Temizle Butonu */}
+                  <div className="flex items-end">
+                    <button
+                      onClick={() => {
+                        setFilters({
+                          category: '',
+                          location: '',
+                          min_price: '',
+                          max_price: '',
+                          duration_days: '',
+                          min_rating: '',
+                          max_rating: '',
+                          classification: ''
+                        });
+                        setSearchParams(new URLSearchParams());
+                      }}
+                      className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm"
+                    >
+                      Temizle
+                    </button>
                   </div>
-                </div>
-                
-                <div className="flex items-end">
-                  <button
-                    onClick={() => {
-                      setFilters({
-                        category: '',
-                        location: '',
-                        min_price: '',
-                        max_price: '',
-                        duration_days: '',
-                        min_rating: '',
-                        max_rating: '',
-                        classification: ''
-                      });
-                      setSearchParams(new URLSearchParams());
-                    }}
-                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-md transition-colors duration-200 text-sm font-medium"
-                  >
-                    Filtreleri Temizle
-                  </button>
-                </div>
               </div>
             </div>
           )}
