@@ -264,27 +264,27 @@ const ToursPage = () => {
         )}
       </div>
 
-      <div className={`p-4 sm:p-6 ${isListView ? 'flex-1' : ''}`}>
-        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
-          <MapPin className="w-4 h-4" />
+      <div className={`p-3 sm:p-4 ${isListView ? 'flex-1' : ''}`}>
+        <div className="flex items-center space-x-1 text-xs text-gray-600 mb-1">
+          <MapPin className="w-3 h-3" />
           <span>{tour.location}</span>
         </div>
 
-        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-2">
+        <h3 className="font-bold text-sm sm:text-base text-gray-900 mb-1 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        <p className="text-gray-600 text-xs mb-2 line-clamp-2 leading-relaxed">
           {tour.short_description}
         </p>
 
-        <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center space-x-2">
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center space-x-1">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${
+                  className={`w-3 h-3 ${
                     i < Math.floor(tour.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
@@ -292,13 +292,13 @@ const ToursPage = () => {
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-xs text-gray-600">
               ({tour.review_count || 0})
             </span>
           </div>
 
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Calendar className="w-4 h-4" />
+          <div className="flex items-center space-x-1 text-xs text-gray-600">
+            <Calendar className="w-3 h-3" />
             <span>{tour.duration_days || 1} gün</span>
             {tour.classification && (
               <span className="text-gray-500 font-medium">
@@ -309,7 +309,7 @@ const ToursPage = () => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className="text-2xl font-bold text-blue-600">
+          <div className="text-lg sm:text-xl font-bold text-blue-600">
             {(() => {
               if (tour.minimum_price) {
                 return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
@@ -327,14 +327,14 @@ const ToursPage = () => {
                 return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
               }
             })()}
-            <span className="text-sm font-normal text-gray-600 ml-1">
+            <span className="text-xs font-normal text-gray-600 ml-1">
               den başlayan
             </span>
           </div>
 
           <Link
             to={`/tours/${tour.id}`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1.5 rounded text-sm font-medium transition-colors duration-200"
           >
             Detaylar
           </Link>
