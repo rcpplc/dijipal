@@ -379,7 +379,8 @@ const ToursPage = () => {
           {/* Filters Panel */}
           {showFilters && (
             <div className="mt-6 p-6 bg-gray-50 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                {/* Kategori */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Kategori
@@ -387,7 +388,7 @@ const ToursPage = () => {
                   <select
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     {categories.map((cat) => (
                       <option key={cat.value} value={cat.value}>
@@ -396,7 +397,43 @@ const ToursPage = () => {
                     ))}
                   </select>
                 </div>
+
+                {/* Lokasyon */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Lokasyon
+                  </label>
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    {locations.map((loc) => (
+                      <option key={loc.value} value={loc.value}>
+                        {loc.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Sınıflandırma */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Sınıflandırma
+                  </label>
+                  <select
+                    value={filters.classification}
+                    onChange={(e) => handleFilterChange('classification', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    <option value="">Tüm Sınıflar</option>
+                    <option value="standart">Standart</option>
+                    <option value="lux">Lux</option>
+                    <option value="delux">Delux</option>
+                  </select>
+                </div>
                 
+                {/* Fiyat Aralığı */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Min Fiyat
@@ -405,8 +442,10 @@ const ToursPage = () => {
                     type="number"
                     value={filters.min_price}
                     onChange={(e) => handleFilterChange('min_price', e.target.value)}
-                    placeholder="₺"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder={`₺${priceRange.min.toLocaleString()}`}
+                    min={priceRange.min}
+                    max={priceRange.max}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                 </div>
                 
@@ -418,11 +457,14 @@ const ToursPage = () => {
                     type="number"
                     value={filters.max_price}
                     onChange={(e) => handleFilterChange('max_price', e.target.value)}
-                    placeholder="₺"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder={`₺${priceRange.max.toLocaleString()}`}
+                    min={priceRange.min}
+                    max={priceRange.max}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                 </div>
                 
+                {/* Süre */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
                     Süre (Gün)
@@ -430,15 +472,48 @@ const ToursPage = () => {
                   <select
                     value={filters.duration_days}
                     onChange={(e) => handleFilterChange('duration_days', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="">Tüm Süreler</option>
-                    <option value="1">1 Gün</option>
-                    <option value="2">2 Gün</option>
-                    <option value="3">3 Gün</option>
-                    <option value="7">1 Hafta</option>
-                    <option value="14">2 Hafta</option>
+                    {Array.from(
+                      { length: durationRange.max - durationRange.min + 1 }, 
+                      (_, i) => durationRange.min + i
+                    ).map(day => (
+                      <option key={day} value={day}>
+                        {day} Gün
+                      </option>
+                    ))}
                   </select>
+                </div>
+              </div>
+
+              {/* İkinci satır - Puan Aralığı ve Temizle Butonu */}
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Min Puan
+                  </label>
+                  <select
+                    value={filters.min_rating}
+                    onChange={(e) => handleFilterChange('min_rating', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  >
+                    <option value="">Tüm Puanlar</option>
+                    {[1, 2, 3, 4, 5].map(rating => (
+                      <option key={rating} value={rating}>
+                        {rating}+ Yıldız
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <div className="md:col-span-2">
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Fiyat Aralığı: ₺{priceRange.min.toLocaleString()} - ₺{priceRange.max.toLocaleString()}
+                  </label>
+                  <div className="text-xs text-gray-500">
+                    Süre Aralığı: {durationRange.min} - {durationRange.max} gün
+                  </div>
                 </div>
                 
                 <div className="flex items-end">
