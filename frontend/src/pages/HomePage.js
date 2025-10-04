@@ -36,9 +36,9 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const heroImages = [
-    "https://images.unsplash.com/photo-1613381234024-4e0bdcaf86ce",
-    "https://images.unsplash.com/photo-1563999774341-62c6656086cb",
-    "https://images.pexels.com/photos/34020240/pexels-photo-34020240.jpeg"
+    "https://images.pexels.com/photos/18754200/pexels-photo-18754200.jpeg", // Göcek Bay aerial view
+    "https://images.unsplash.com/photo-1529528018027-2ee0409703af", // Marmaris Bay sailing boat
+    "https://images.unsplash.com/photo-1727715220090-8e05aaa5b4fa" // Bodrum Bay crystal waters
   ];
 
   useEffect(() => {
