@@ -231,13 +231,13 @@ const ToursPage = () => {
     }
   };
 
-  const TourCard = ({ tour, isListView = false }) => (
-    <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex flex-col sm:flex-row min-h-[200px]' : ''}`}>
-      <div className={`relative overflow-hidden ${isListView ? 'w-full sm:w-1/3 h-full' : ''}`}>
+  const TourCard = ({ tour }) => (
+    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+      <div className="relative overflow-hidden">
         <img
           src={tour.images[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-full min-h-[160px]' : 'w-full h-48'}`}
+          className="object-cover group-hover:scale-110 transition-transform duration-300 w-full h-48"
         />
         <div className="absolute top-3 right-3">
           <button 
