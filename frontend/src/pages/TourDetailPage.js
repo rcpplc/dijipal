@@ -165,10 +165,18 @@ const TourDetailPage = () => {
   const loadModalReviews = async (page = 1) => {
     setModalLoading(true);
     try {
-      const response = await axios.get(`${API}/reviews?tour_id=${tourId}&page=${page}&limit=${reviewsPerPage}`);
-      const data = response.data;
-      setModalReviews(data.reviews || data);
-      setTotalReviews(data.total || data.length);
+      // Tüm reviewları çek
+      const response = await axios.get(`${API}/reviews?tour_id=${tourId}`);
+      const allReviews = response.data.reviews || response.data;
+      const totalCount = allReviews.length;
+      
+      // Pagination için hesapla
+      const startIndex = (page - 1) * reviewsPerPage;
+      const endIndex = startIndex + reviewsPerPage;
+      const paginatedReviews = allReviews.slice(startIndex, endIndex);
+      
+      setModalReviews(paginatedReviews);
+      setTotalReviews(totalCount);
       setCurrentPage(page);
     } catch (error) {
       console.error('Error loading modal reviews:', error);
