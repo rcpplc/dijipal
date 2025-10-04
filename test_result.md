@@ -38,6 +38,18 @@ backend:
         agent: "testing"
         comment: "✅ TOUR CREATION API FIX VERIFIED - Internal Server Error resolved! Successfully tested: 1) Admin login with admin@example.com/admin123 working perfectly, 2) POST /api/admin/tours endpoint now accepts new cabin pricing system (single_cabin_price, double_cabin_price), 3) Tour creation with exact test data from review request successful (Test Tour with cultural category, standart classification), 4) Tour dates created correctly with single_cabin_price=1000, double_cabin_price=1500, 5) GET /api/tours/{tour_id} returns correct cabin pricing data, 6) GET /api/admin/tours shows all tours with cabin pricing fields, 7) Multiple tour creation tests passed (100% success rate). The 'price' field error has been completely resolved - backend now properly handles the new cabin pricing system without Internal Server Errors."
 
+  - task: "Remove Test Reviews API"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ REMOVE TEST REVIEWS API FULLY WORKING - Successfully tested DELETE /api/remove-test-reviews/3ded39ad-36a4-47d1-87b9-7baeb5f00f55 endpoint: 1) Initial check found 4 existing reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55, 2) DELETE endpoint executed successfully with 200 status, 3) Response confirmed 'Successfully removed 4 reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55', 4) Verification via GET /api/reviews?tour_id=3ded39ad-36a4-47d1-87b9-7baeb5f00f55 confirmed no reviews remain for this tour, 5) All test steps passed with 100% success rate (3/3 tests). The remove reviews functionality is working perfectly as requested."
+
 frontend:
   - task: "Booking Page Cleanup"
     implemented: true
