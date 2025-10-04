@@ -28,6 +28,7 @@ const ToursPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [showFilters, setShowFilters] = useState(false);
+  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   const [viewMode, setViewMode] = useState('grid');
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
