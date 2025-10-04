@@ -327,9 +327,11 @@ const TourDetailPage = () => {
     const savedCart = localStorage.getItem('tour_cart');
     let cartItems = savedCart ? JSON.parse(savedCart) : [];
 
-    // Aynı tur ve tarih kombinasyonu var mı kontrol et
+    // Aynı tur, tarih ve kabin tipi kombinasyonu var mı kontrol et
     const existingItemIndex = cartItems.findIndex(item => 
-      item.tourId === tour.id && item.selectedDate?.date === selectedDate.start_date
+      item.tourId === tour.id && 
+      item.selectedDate?.date === selectedDate.start_date &&
+      item.cabinType === cabinType
     );
     
     if (existingItemIndex >= 0) {
