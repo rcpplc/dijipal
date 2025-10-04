@@ -17,6 +17,15 @@ import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FavoritesPage from './pages/FavoritesPage';
+import AboutPage from './pages/AboutPage';
+import ContactPage from './pages/ContactPage';
+import HelpPage from './pages/HelpPage';
+import FAQPage from './pages/FAQPage';
+import CancellationPolicyPage from './pages/CancellationPolicyPage';
+import TermsPage from './pages/TermsPage';
+import PrivacyPage from './pages/PrivacyPage';
+import CookiesPage from './pages/CookiesPage';
+import KVKKPage from './pages/KVKKPage';
 import LoginModal from './components/LoginModal';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
