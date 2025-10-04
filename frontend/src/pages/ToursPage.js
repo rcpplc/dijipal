@@ -361,7 +361,7 @@ const ToursPage = () => {
                     className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
                 </div>
-                <div className="sm:border-l border-gray-200 px-4 py-3 relative">
+                <div className="sm:border-l border-gray-200 px-4 py-3 relative location-dropdown">
                   <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
                     <MapPin className="w-4 h-4 text-gray-400" />
                     <span className="text-gray-800 text-sm min-w-[150px]">
