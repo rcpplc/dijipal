@@ -400,7 +400,7 @@ const ToursPage = () => {
               </div>
               
               <div className="p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                   {/* Kategori */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -435,6 +435,7 @@ const ToursPage = () => {
                       <option value="delux">Delux</option>
                     </select>
                   </div>
+
                   {/* Süre */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -456,10 +457,7 @@ const ToursPage = () => {
                       ))}
                     </select>
                   </div>
-              </div>
 
-              {/* İkinci satır - Puan Aralığı ve Bilgiler */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4">
                   {/* Min Puan */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-3">
@@ -477,28 +475,6 @@ const ToursPage = () => {
                         </option>
                       ))}
                     </select>
-                  </div>
-
-                  {/* Temizle Butonu */}
-                  <div className="flex items-end">
-                    <button
-                      onClick={() => {
-                        setFilters({
-                          category: '',
-                          location: '',
-                          min_price: '',
-                          max_price: '',
-                          duration_days: '',
-                          min_rating: '',
-                          max_rating: '',
-                          classification: ''
-                        });
-                        setSearchParams(new URLSearchParams());
-                      }}
-                      className="w-full bg-gray-600 hover:bg-gray-700 text-white px-4 py-3 rounded-lg transition-colors duration-200 text-sm font-medium shadow-sm"
-                    >
-                      Temizle
-                    </button>
                   </div>
                 </div>
 
