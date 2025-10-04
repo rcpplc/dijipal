@@ -141,6 +141,18 @@ frontend:
         agent: "main"
         comment: "✅ TÜM PROJE MOBİL RESPONSIVE YAPILDI - Hiçbir teknik yapıya çatmadan sadece Tailwind CSS class'ları ile responsive ayarlar eklendi: 1) ToursPage.js: TourCard flex-col sm:flex-row, grid-cols-1 sm:grid-cols-2 lg:grid-cols-3, padding/text responsive ayarlar, 2) TourDetailPage.js: Action button p-2 sm:p-3, icon w-5 h-5 sm:w-6 sm:h-6, 3) CartPage.js: Cart card p-4 sm:p-6, gap-4 sm:gap-6, sidebar lg:sticky, 4) BookingPage.js: Form input py-2.5 sm:py-3 text-sm sm:text-base, sidebar p-4 sm:p-6 lg:sticky, başlık text-base sm:text-lg. Tüm sayfalar mobilde düzgün çalışacak şekilde responsive yapıldı."
 
+  - task: "Static Pages Routing and Content Display"
+    implemented: true
+    working: false
+    file: "frontend/src/App.js"
+    stuck_count: 1
+    priority: "medium"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "⚠️ PARTIAL SUCCESS - Static pages routing tested comprehensively. 6 out of 9 pages working correctly (66.7% success rate). WORKING: /about (Hakkımızda), /contact (İletişim), /help (Yardım Merkezi), /terms (Kullanım Koşulları), /privacy (Gizlilik Politikası), /cookies (Çerez Politikası) - all display proper content with company information. FAILING: /faq, /cancellation-policy, /kvkk - routes exist and URLs load but content not displaying properly (showing blank or incorrect content). React Router shows 'No routes matched' warnings for all static routes but most still work. Issue appears to be content rendering problem rather than routing problem for the 3 failing pages."
+
 metadata:
   created_by: "testing_agent"
   version: "1.2"
