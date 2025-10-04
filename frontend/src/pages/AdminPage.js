@@ -2140,7 +2140,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                             step="50"
                             value={newTourDate.single_cabin_price}
                             onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                             placeholder="Tek kişilik kabin için fiyat"
                           />
                         </div>
