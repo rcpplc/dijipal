@@ -197,24 +197,24 @@ const HomePage = () => {
             </p>
 
             {/* Search Bar */}
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-8 animate-fade-in-up">
+            <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-6 sm:mb-8 animate-fade-in-up px-4">
               <div className="flex bg-white rounded-full shadow-2xl overflow-hidden">
-                <div className="flex-1 flex items-center px-6 py-4">
-                  <MapPin className="w-5 h-5 text-gray-400 mr-3" />
+                <div className="flex-1 flex items-center px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 flex-shrink-0" />
                   <input
                     type="text"
                     placeholder="Nereyi keşfetmek istiyorsunuz?"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 outline-none text-gray-800 placeholder-gray-500"
+                    className="flex-1 outline-none text-gray-800 placeholder-gray-500 text-sm sm:text-base"
                   />
                 </div>
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 transition-colors duration-200 flex items-center space-x-2"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 transition-colors duration-200 flex items-center space-x-1 sm:space-x-2"
                 >
-                  <Search className="w-5 h-5" />
-                  <span className="hidden md:inline">Ara</span>
+                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                  <span className="hidden sm:inline text-sm sm:text-base">Ara</span>
                 </button>
               </div>
             </form>
