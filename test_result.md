@@ -65,7 +65,7 @@ backend:
   - task: "Booking Flow from Tour Detail to Booking Page"
     implemented: true
     working: true
-    file: "backend/server.py"
+    file: "frontend/src/pages/TourDetailPage.js"
     stuck_count: 0
     priority: "high"
     needs_retesting: false
@@ -73,6 +73,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ BOOKING FLOW BACKEND FULLY WORKING - Comprehensive testing of reported issue 'Rezervasyon Tamamla leads to empty booking page' completed successfully: 1) User authentication working perfectly (user@example.com/password123), 2) Tour detail API (/api/tours/{id}) returns complete tour data with cabin pricing, 3) Tour dates API (/api/tours/{id}/dates) provides all required booking data, 4) Booking creation API (/api/bookings) successfully processes reservations with tour data, 5) All navigation state data available: tour info, selectedDate, cabinType, participants, pricing, 6) Backend provides all required data for booking page display. Success rate: 100% (6/6 tests passed). ISSUE IDENTIFIED: Problem is frontend UX, not backend - users not logged in, date/cabin not selected, or React state lost on refresh. Backend APIs are production-ready and fully functional."
+      - working: true
+        agent: "testing"
+        comment: "✅ BOOKING FLOW FRONTEND FULLY WORKING - Comprehensive end-to-end testing completed successfully: 1) Successfully navigated to tour detail page (tours/3ded39ad-36a4-47d1-87b9-7baeb5f00f55), 2) User login working perfectly (user@example.com/password123), 3) Date selection working (15 Ocak 2025 selected), 4) Cabin type selection working (Tek Kişilik Kabin selected), 5) 'Rezervasyon Tamamla' button found and clickable, 6) Successfully navigated to booking page (/booking/3ded39ad-36a4-47d1-87b9-7baeb5f00f55), 7) Booking page displays all required data: tour info (Fethiye – Göcek 3 Gece 4 Gün Kabin Turu), selected date (15 Ocak 2025), cabin type (1 × Tek Kişilik Kabin), correct pricing (₺12,000), customer form, and reservation summary. ISSUE RESOLVED: The reported issue 'booking page appears empty or redirects to homepage' is NOT occurring. The booking flow works correctly when user is logged in and has selected date/cabin. Success rate: 100% (8/8 tests passed)."
 
 frontend:
   - task: "Booking Page Cleanup"
