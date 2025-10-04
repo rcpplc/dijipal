@@ -226,8 +226,9 @@ function App() {
           {showLoginModal && <LoginModal initialMode={loginMode} />}
           <Toaster 
             position="top-right"
+            closeButton
             toastOptions={{
-              duration: 4000,
+              duration: 1000,
               style: {
                 background: 'white',
                 color: '#1f2937',
