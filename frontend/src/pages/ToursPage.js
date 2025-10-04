@@ -262,27 +262,27 @@ const ToursPage = () => {
         )}
       </div>
 
-      <div className={`${isListView ? 'p-4 sm:p-5 flex-1' : 'p-4 sm:p-5'}`}>
-        <div className={`flex items-center space-x-2 ${isListView ? 'text-sm' : 'text-sm'} text-gray-600 ${isListView ? 'mb-2' : 'mb-2'}`}>
+      <div className="p-4 sm:p-5">
+        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
           <MapPin className="w-4 h-4" />
           <span>{tour.location}</span>
         </div>
 
-        <h3 className={`font-bold ${isListView ? 'text-base mb-2' : 'text-base sm:text-lg mb-2'} text-gray-900 line-clamp-2 leading-tight`}>
+        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
-        <p className={`text-gray-600 ${isListView ? 'text-sm mb-3' : 'text-sm mb-3'} line-clamp-2 leading-relaxed`}>
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
           {tour.short_description}
         </p>
 
-        <div className={`flex items-center justify-between ${isListView ? 'mb-3' : 'mb-3'}`}>
+        <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-2">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`${isListView ? 'w-4 h-4' : 'w-4 h-4'} ${
+                  className={`w-4 h-4 ${
                     i < Math.floor(tour.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
@@ -290,13 +290,13 @@ const ToursPage = () => {
                 />
               ))}
             </div>
-            <span className={`${isListView ? 'text-sm' : 'text-sm'} text-gray-600`}>
+            <span className="text-sm text-gray-600">
               ({tour.review_count || 0})
             </span>
           </div>
 
-          <div className={`flex items-center space-x-2 ${isListView ? 'text-sm' : 'text-sm'} text-gray-600`}>
-            <Calendar className={`${isListView ? 'w-4 h-4' : 'w-4 h-4'}`} />
+          <div className="flex items-center space-x-2 text-sm text-gray-600">
+            <Calendar className="w-4 h-4" />
             <span>{tour.duration_days || 1} gün</span>
             {tour.classification && (
               <span className="text-gray-500 font-medium">
@@ -307,7 +307,7 @@ const ToursPage = () => {
         </div>
 
         <div className="flex items-center justify-between">
-          <div className={`${isListView ? 'text-lg sm:text-xl' : 'text-xl sm:text-2xl'} font-bold text-blue-600`}>
+          <div className="text-xl sm:text-2xl font-bold text-blue-600">
             {(() => {
               if (tour.minimum_price) {
                 return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
@@ -325,14 +325,14 @@ const ToursPage = () => {
                 return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
               }
             })()}
-            <span className={`${isListView ? 'text-sm' : 'text-sm'} font-normal text-gray-600 ml-1`}>
+            <span className="text-sm font-normal text-gray-600 ml-1">
               den başlayan
             </span>
           </div>
 
           <Link
             to={`/tours/${tour.id}`}
-            className={`bg-blue-600 hover:bg-blue-700 text-white ${isListView ? 'px-4 py-2 text-sm' : 'px-4 py-2 text-sm'} rounded font-medium transition-colors duration-200`}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 text-sm rounded font-medium transition-colors duration-200"
           >
             Detaylar
           </Link>
