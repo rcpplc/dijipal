@@ -41,6 +41,19 @@ const HomePage = () => {
     "https://images.pexels.com/photos/34020240/pexels-photo-34020240.jpeg"
   ];
 
+  // Helper function to get classification styling
+  const getClassificationStyle = (classification) => {
+    switch(classification?.toLowerCase()) {
+      case 'lux':
+        return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white';
+      case 'delux':
+        return 'bg-gradient-to-r from-purple-500 to-purple-700 text-white';
+      case 'standart':
+      default:
+        return 'bg-gradient-to-r from-gray-500 to-gray-600 text-white';
+    }
+  };
+
   useEffect(() => {
     loadFeaturedTours();
     seedSampleData();
