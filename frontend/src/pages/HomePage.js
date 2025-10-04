@@ -216,7 +216,7 @@ const HomePage = () => {
                 {heroTitles[currentSlide].subtitle}
               </span>
             </h1>
-            <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 px-2">
+            <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 text-gray-100 px-2">
               Akdeniz ve Ege'nin eşsiz koylarında unutulmaz bir deniz tatili yapın
             </p>
 
