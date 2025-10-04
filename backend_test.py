@@ -2318,9 +2318,34 @@ def main_remove_reviews():
     # Return exit code based on success
     return 0 if success else 1
 
+def main_location_verification():
+    """Main function to test location verification in tours database"""
+    tester = TourPlatformAPITester()
+    
+    print("🚀 Starting Location Verification Test")
+    print("=" * 70)
+    print("Backend URL:", tester.base_url)
+    print("API URL:", tester.api_url)
+    print("=" * 70)
+    
+    # Run the specific location verification test
+    success = tester.run_location_verification_test()
+    
+    # Return exit code based on success
+    return 0 if success else 1
+
 if __name__ == "__main__":
-    # Check if we should run the remove reviews test specifically
-    if len(sys.argv) > 1 and sys.argv[1] == "remove-reviews":
-        sys.exit(main_remove_reviews())
+    # Check command line arguments for specific tests
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "remove-reviews":
+            sys.exit(main_remove_reviews())
+        elif sys.argv[1] == "location-verification":
+            sys.exit(main_location_verification())
+        else:
+            print("Available test modes:")
+            print("  python backend_test.py                    # Run default tour creation tests")
+            print("  python backend_test.py remove-reviews     # Run remove reviews test")
+            print("  python backend_test.py location-verification # Run location verification test")
+            sys.exit(1)
     else:
         sys.exit(main())
