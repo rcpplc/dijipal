@@ -595,7 +595,7 @@ const BookingPage = () => {
 
           {/* Summary Sidebar */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-xl shadow-lg p-6 sticky top-8">
+            <div className="bg-white rounded-xl shadow-lg p-4 sm:p-6 lg:sticky lg:top-8">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Rezervasyon Özeti</h3>
 
               <div className="space-y-4">
