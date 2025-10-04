@@ -1265,6 +1265,41 @@ const TourDetailPage = () => {
                 </div>
               )}
             </div>
+            
+            {/* Pagination */}
+            {totalReviews > reviewsPerPage && (
+              <div className="px-6 py-4 border-t border-gray-200 bg-gray-50">
+                <div className="flex items-center justify-between">
+                  <div className="text-sm text-gray-600">
+                    Sayfa {currentPage} / {Math.ceil(totalReviews / reviewsPerPage)}
+                  </div>
+                  
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => loadModalReviews(currentPage - 1)}
+                      disabled={currentPage === 1}
+                      className="flex items-center px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      <ChevronLeft className="w-4 h-4 mr-1" />
+                      Önceki
+                    </button>
+                    
+                    <span className="text-sm text-gray-600">
+                      {Math.min((currentPage - 1) * reviewsPerPage + 1, totalReviews)}-{Math.min(currentPage * reviewsPerPage, totalReviews)} / {totalReviews}
+                    </span>
+                    
+                    <button
+                      onClick={() => loadModalReviews(currentPage + 1)}
+                      disabled={currentPage >= Math.ceil(totalReviews / reviewsPerPage)}
+                      className="flex items-center px-3 py-1 text-sm bg-white border border-gray-300 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Sonraki
+                      <ChevronRight className="w-4 h-4 ml-1" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
