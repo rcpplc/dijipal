@@ -313,6 +313,8 @@ const TourDetailPage = () => {
         date: selectedDate.start_date, // API'den gelen field adı
         single_cabin_price: selectedDate.single_cabin_price,
         double_cabin_price: selectedDate.double_cabin_price,
+        capacity: selectedDate.capacity, // Kabin kapasitesi
+        available_cabins: selectedDate.available_cabins, // Mevcut kabin sayısı
         formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
           year: 'numeric',
           month: 'long',
