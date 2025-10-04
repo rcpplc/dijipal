@@ -71,8 +71,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "User Authentication System"
-    - "Backend Server Infrastructure"
+    - "Tour Creation API with Cabin Pricing System"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
@@ -80,3 +79,5 @@ test_plan:
 agent_communication:
   - agent: "testing"
     message: "✅ LOGIN FUNCTIONALITY TESTING COMPLETE - All authentication features working perfectly. Backend server was initially failing due to missing /tmp/uploads directory but has been fixed. User can now log in successfully. No critical issues found. Ready for production use."
+  - agent: "testing"
+    message: "✅ TOUR CREATION API FIX TESTING COMPLETE - The Internal Server Error issue has been completely resolved! Admin can now successfully create tours through the admin panel using the new cabin pricing system. Tested with exact scenario from review request: admin@example.com/admin123 login → POST /api/admin/tours with single_cabin_price/double_cabin_price fields → tour creation successful without errors. The backend properly handles the new cabin pricing fields and no longer throws 'price' field KeyError. All tour creation and retrieval APIs working perfectly. Success rate: 100% (7/7 tests passed)."
