@@ -165,7 +165,7 @@ const ToursPage = () => {
           <span>{tour.location}</span>
         </div>
 
-        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
+        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-2">
           {tour.title}
         </h3>
 
