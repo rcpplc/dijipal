@@ -57,9 +57,19 @@ const CartPage = () => {
     
     const maxCapacity = currentItem.selectedDate?.capacity || currentItem.selectedDate?.available_cabins || 20;
 
-    // Kapasite kontrolü
-    if (newQuantity > maxCapacity) {
-      toast.error(`Bu tarihteki kabin stoku ${maxCapacity} ile sınırlıdır. Daha fazla kabin seçemezsiniz.`);
+    // Aynı tarihteki diğer sepet kartlarındaki toplam kabin sayısını hesapla
+    const sameeDateItems = cartItems.filter(item => 
+      item.selectedDate?.date === selectedDate && 
+      !(item.tourId === tourId && item.cabinType === cabinType) // Mevcut öğeyi hariç tut
+    );
+    
+    const otherCabinsOnSameDate = sameeDateItems.reduce((total, item) => total + item.participants, 0);
+    const totalCabinsAfterUpdate = otherCabinsOnSameDate + newQuantity;
+
+    // Toplam kapasite kontrolü
+    if (totalCabinsAfterUpdate > maxCapacity) {
+      const availableSlots = maxCapacity - otherCabinsOnSameDate;
+      toast.error(`Bu tarihte sadece ${availableSlots} kabin daha ekleyebilirsiniz. Toplam kabin kapasitesi: ${maxCapacity}`);
       return;
     }
 
