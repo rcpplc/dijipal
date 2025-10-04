@@ -102,7 +102,13 @@ const LoginModal = ({ initialMode = 'login' }) => {
         }
       }}
     >
-      <div className="bg-white rounded-2xl max-w-md w-full mx-auto shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto">
+      <div 
+        className="bg-white rounded-2xl max-w-md w-full mx-auto shadow-2xl transform transition-all duration-300 scale-100 max-h-[90vh] overflow-y-auto"
+        onClick={(e) => {
+          e.stopPropagation(); // Prevent backdrop click from firing
+          console.log('📦 Modal content clicked');
+        }}
+      >
         {/* Header */}
         <div className="flex justify-between items-center p-6 border-b border-gray-100">
           <h2 className="text-2xl font-bold text-gray-900">
