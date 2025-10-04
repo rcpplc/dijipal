@@ -33,7 +33,7 @@ const ToursPage = () => {
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
   const [showFilters, setShowFilters] = useState(false);
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  const [viewMode, setViewMode] = useState('grid');
+  // Removed viewMode - only grid view now
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
