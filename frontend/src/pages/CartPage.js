@@ -264,7 +264,7 @@ const CartPage = () => {
                           </button>
                         </div>
                         <div className="text-xs text-gray-500 mt-1">
-                          Maks: {item.selectedDate?.available_cabins || item.selectedDate?.capacity || 20} kabin
+                          Maks: {item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20} kabin
                         </div>
                       </div>
 
