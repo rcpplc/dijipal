@@ -2180,7 +2180,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     <h4 className="text-sm font-semibold text-gray-800 mb-3 border-b border-gray-200 pb-2">Eklenen Kabin Tarihleri ({formData.tour_dates.length})</h4>
                     <div className="bg-white border border-gray-200 rounded-md overflow-hidden">
                       <table className="min-w-full divide-y divide-gray-200">
-                        <thead className="bg-gray-50">
+                        <thead className="bg-gray-100">
                           <tr>
                             <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                               Tarih
