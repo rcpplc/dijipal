@@ -378,7 +378,13 @@ const ToursPage = () => {
                   
                   {/* Custom Dropdown */}
                   {showLocationDropdown && (
-                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-2xl z-[9999] min-w-[250px] max-h-[300px] overflow-y-auto">
+                    <div 
+                      className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-gray-300 rounded-lg shadow-2xl z-[9999] min-w-[250px] max-h-[300px] overflow-y-auto"
+                      onMouseEnter={() => setShowLocationDropdown(true)}
+                      onMouseLeave={() => {
+                        setTimeout(() => setShowLocationDropdown(false), 200);
+                      }}
+                    >
                       {locations.map((loc, index) => {
                         // Function to get the appropriate icon for each location
                         const getLocationIcon = (location) => {
