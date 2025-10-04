@@ -494,6 +494,70 @@ class TourPlatformAPITester:
         
         return False, None
 
+    def test_admin_create_tour_cabin_pricing(self):
+        """Test admin tour creation with NEW CABIN PRICING SYSTEM (single_cabin_price, double_cabin_price)"""
+        if not self.token:
+            self.log_test("Admin Create Tour with Cabin Pricing", False, "", "No authentication token available")
+            return False, None
+
+        # Create test tour with NEW CABIN PRICING SYSTEM
+        tour_data = {
+            "title": "Test Tour with Cabin Pricing",
+            "description": "Test tour description for cabin pricing system",
+            "short_description": "Test short description",
+            "location": "Test Location",
+            "category": "cultural",
+            "classification": "standart",
+            "tour_dates": [
+                {
+                    "date": "2025-01-15",
+                    "capacity": 10,
+                    "single_cabin_price": 1000,
+                    "double_cabin_price": 1500
+                },
+                {
+                    "date": "2025-01-20",
+                    "capacity": 8,
+                    "single_cabin_price": 1200,
+                    "double_cabin_price": 1800
+                }
+            ]
+        }
+
+        success, response = self.run_test(
+            "Admin Create Tour with Cabin Pricing System",
+            "POST",
+            "admin/tours",
+            200,
+            data=tour_data
+        )
+
+        if success and 'id' in response:
+            tour_id = response['id']
+            print(f"   ✅ Tour created with cabin pricing system, ID: {tour_id}")
+            
+            # Verify the tour dates were created with cabin pricing
+            dates_success, dates_response = self.test_get_tour_dates(tour_id)
+            
+            if dates_success and dates_response:
+                cabin_pricing_found = False
+                for date in dates_response:
+                    if 'single_cabin_price' in date and 'double_cabin_price' in date:
+                        cabin_pricing_found = True
+                        print(f"   ✅ Cabin pricing found: single={date['single_cabin_price']}, double={date['double_cabin_price']}")
+                        break
+                
+                if cabin_pricing_found:
+                    return True, tour_id
+                else:
+                    self.log_test("Cabin Pricing Verification", False, "", "Tour dates created but cabin pricing fields missing")
+                    return False, tour_id
+            else:
+                self.log_test("Tour Dates Creation", False, "", "Tour created but tour dates not found")
+                return False, tour_id
+        
+        return False, None
+
     def test_tour_dates_management(self, tour_id):
         """Test tour date creation and management"""
         if not tour_id:
