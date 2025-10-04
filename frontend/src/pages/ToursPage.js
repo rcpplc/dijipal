@@ -419,40 +419,22 @@ const ToursPage = () => {
                     </select>
                   </div>
 
-                {/* Lokasyon */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Lokasyon
-                  </label>
-                  <select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  >
-                    {locations.map((loc) => (
-                      <option key={loc.value} value={loc.value}>
-                        {loc.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Sınıflandırma */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Sınıflandırma
-                  </label>
-                  <select
-                    value={filters.classification}
-                    onChange={(e) => handleFilterChange('classification', e.target.value)}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  >
-                    <option value="">Tüm Sınıflar</option>
-                    <option value="standart">Standart</option>
-                    <option value="lux">Lux</option>
-                    <option value="delux">Delux</option>
-                  </select>
-                </div>
+                  {/* Sınıflandırma */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Sınıflandırma
+                    </label>
+                    <select
+                      value={filters.classification}
+                      onChange={(e) => handleFilterChange('classification', e.target.value)}
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                    >
+                      <option value="">Tüm Sınıflar</option>
+                      <option value="standart">Standart</option>
+                      <option value="lux">Lux</option>
+                      <option value="delux">Delux</option>
+                    </select>
+                  </div>
                 
                 {/* Fiyat Aralığı */}
                 <div>
