@@ -662,6 +662,177 @@ const ToursPage = () => {
           </div>
         )}
       </div>
+
+      {/* Kabin Kiralama Sektörü Hakkında */}
+      <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Kabin Kiralama: Denizde Özgürlüğün Adresi
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Turkiye'nin eşsiz kıyılarında unutulmaz anılar biriktirin. Kabin kiralama ile denizde geçireceğiniz tatil, size tamamen özgür bir deneyim sunar.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+            <div className="prose prose-lg max-w-none">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Kabin Kiralama Nedir?</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Kabin kiralama, deniz tutkunlarının teknelerde özel kabinleri kiralayarak, günlük yaşamın stresinden uzaklaştığı eşsiz bir tatil deneyimidir. Bu konsept, özellikle Türkiye'nin Akdeniz ve Ege kıyılarında son yıllarda büyük popülerlik kazanmıştır. Geleneksel otel konaklamasından farklı olarak, misafirler denizin ortasında uyandığı, balık sesleri ve dalga seslerinin eşlik ettiği bir tatil geçirir.
+              </p>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Sektörün Gelişimi ve Önemi</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Türkiye'de kabin kiralama sektörü, 2010'lu yıllardan itibaren hızla büyümeye başlamıştır. Özellikle pandemi sonrası dönemde, sosyal mesafeyi koruyarak tatil yapma ihtiyacı bu sektörü daha da öne çıkarmıştır. Fethiye, Marmaris, Bodrum, Kaş ve Antalya gibi destinasyonlar, kabin kiralama turizmi için Türkiye'nin öncü bölgeleri haline gelmiştir.
+              </p>
+              
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Sektör, yıllık %15-20 büyüme oranıyla Türk turizm ekonomisine önemli katkı sağlamaktadır. 2023 verilerine göre, kabin kiralama sektörü yaklaşık 2 milyar dolarlık bir ekonomik hacme ulaşmıştır ve bu rakamın 2025 yılında 3.5 milyar doları bulması beklenmektedir.
+              </p>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Kabin Türleri ve Özellikleri</h3>
+              <div className="space-y-4 mb-6">
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <h4 className="font-semibold text-gray-900 mb-2">Standart Kabinler</h4>
+                  <p className="text-gray-700 text-sm">Ekonomik seçenekler arayan misafirler için tasarlanmış, temel konfor unsurlarını içeren kabinler. Genellikle 2 kişilik yatak, dolap ve küçük banyo içerir.</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <h4 className="font-semibold text-gray-900 mb-2">Lüks Kabinler</h4>
+                  <p className="text-gray-700 text-sm">Daha geniş alan, panoramik pencereler, kaliteli mobilyalar ve ekstra konfora sahip kabinler. Klima, minibar ve çalışma masası gibi ek olanaklar sunar.</p>
+                </div>
+                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                  <h4 className="font-semibold text-gray-900 mb-2">Delüks Kabinler</h4>
+                  <p className="text-gray-700 text-sm">En üst düzey konfor ve lüks sunan kabinler. Geniş yatak odası, oturma alanı, özel banyo, balkon ve VIP hizmetler içerir.</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="prose prose-lg max-w-none">
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Neden Kabin Kiralama?</h3>
+              <div className="space-y-4 mb-8">
+                <div className="flex items-start space-x-3">
+                  <Waves className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Eşsiz Deneyim</h4>
+                    <p className="text-gray-700 text-sm">Her gün farklı bir koyu keşfetme, kristal berraklığındaki sularda yüzme ve balık tutma imkanı.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Heart className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Özel Alan</h4>
+                    <p className="text-gray-700 text-sm">Kalabalıktan uzak, sadece sizin grubunuzla paylaştığınız özel bir tatil alanı.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <Star className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Kaliteli Hizmet</h4>
+                    <p className="text-gray-700 text-sm">Deneyimli mürettebat ile 7/24 hizmet, özel yemek menüleri ve kişiselleştirilmiş aktiviteler.</p>
+                  </div>
+                </div>
+                <div className="flex items-start space-x-3">
+                  <MapPin className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
+                  <div>
+                    <h4 className="font-semibold text-gray-900">Esnek Rotalar</h4>
+                    <p className="text-gray-700 text-sm">İstediğiniz destinasyonları ziyaret etme, program değişiklikleri yapabilme esnekliği.</p>
+                  </div>
+                </div>
+              </div>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Popüler Destinasyonlar</h3>
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Türkiye'nin 8.000 kilometrelik sahil şeridi, kabin kiralama için sayısız seçenek sunar. Fethiye-Göcek-Kaş üçgeni, berrak suları ve korumalı koylarıyla en popüler rotadır. Bodrum ve çevresindeki adalar, tarihi dokusu ve canlı gece hayatıyla farklı bir deneyim sunar. Antalya'dan başlayan rotalar ise antik şehirleri keşfetme fırsatı verir.
+              </p>
+
+              <p className="text-gray-700 leading-relaxed mb-6">
+                Her destinasyon kendine özgü güzellikleri barındırır: Butterfly Valley'in eşsiz doğası, Kalkan'ın otantik balıkçı köyü atmosferi, Olympos'un tarihi kalıntıları ve Çıralı'nın yanmayan ateşi. Bu çeşitlilik, her turiste kendine uygun bir rota bulma imkanı sağlar.
+              </p>
+
+              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Sürdürülebilir Turizm</h3>
+              <p className="text-gray-700 leading-relaxed">
+                Modern kabin kiralama sektörü, çevre bilinci ve sürdürülebilir turizm anlayışını benimser. Deniz ekosistemlerinin korunması, atık yönetimi ve yerel toplulukların desteklenmesi sektörün temel değerleridir. Birçok işletme, karbon ayak izini azaltmak için güneş enerjisi kullanımı, su tasarrufu sistemleri ve geri dönüştürülmüş malzemeler kullanmaktadır.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* SSS Bölümü */}
+      <div className="bg-white py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">Sıkça Sorulan Sorular</h2>
+            <p className="text-lg text-gray-600">Kabin kiralama hakkında merak ettikleriniz</p>
+          </div>
+
+          <div className="space-y-6">
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Kabin kiralama maliyeti nasıl hesaplanır?</h3>
+              <p className="text-gray-700">
+                Kabin kiralama fiyatları; sezon, kabin türü, tur süresi ve dahil edilen hizmetlere göre değişir. Standart kabinler günlük 800-1500 TL, lüks kabinler 1500-2500 TL, delüks kabinler ise 2500-4000 TL arasında fiyatlandırılır. Fiyatlara genellikle yakıt, mürettebat, temel yemekler ve sigorta dahildir.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Rezervasyon yaparken nelere dikkat etmeliyim?</h3>
+              <p className="text-gray-700">
+                Rezervasyon öncesi teknenin lisans durumunu, sigorta belgelerini ve mürettebatın sertifikalarını kontrol edin. İptal politikalarını okuyun ve hava durumu nedeniyle değişiklik durumlarını öğrenin. Tur rotası, dahil olan yemekler ve ekstra ücretlendirmeler hakkında detaylı bilgi alın.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Hava durumu kötüyse ne olur?</h3>
+              <p className="text-gray-700">
+                Güvenlik nedeniyle seferin iptali durumunda, %100 iade veya alternatif tarih seçeneği sunulur. Hafif yağmur gibi durumlar için kapalı alanları olan tekneler tercih edilebilir. Meteoroloji raporları sürekli takip edilir ve misafirler önceden bilgilendirilir.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Tekneye getirilebilecek eşyalar konusunda kısıtlama var mı?</h3>
+              <p className="text-gray-700">
+                Alkol getirilmesine genellikle izin verilir ancak aşırı tüketimi engellemek için kısıtlamalar olabilir. Cam eşya yerine plastik tercih edilmesi tavsiye edilir. Büyük ve ağır eşyaların önceden bildirilmesi gerekir. Tehlikeli maddeler, silah ve uyuşturucu kesinlikle yasaktır.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Yemekler nasıl organize edilir?</h3>
+              <p className="text-gray-700">
+                Çoğu tur paketinde kahvaltı, öğle ve akşam yemeği dahildir. Menüler genellikle Türk ve Akdeniz mutfağından seçilir. Özel beslenme ihtiyaçları (vejeteryan, vegan, alerjiler) önceden bildirilmelidir. Bazı teknelerde canlı balık tutma ve pişirme deneyimi de sunulur.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Deniz tutması olanlar için önerileriniz nelerdir?</h3>
+              <p className="text-gray-700">
+                Deniz tutması yaşayanlar için büyük ve stabil tekneler tercih edilmelidir. Tur öncesi deniz tutması ilacı kullanımı ve hafif yemek tüketimi önerilir. Güvertede açık havada bulunmak, uzak noktalara odaklanmak ve mide boş durmayacak şekilde küçük atıştırmalıklar tüketmek faydalıdır.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Çocuklu aileler için güvenlik önlemleri nelerdir?</h3>
+              <p className="text-gray-700">
+                Tüm teknelerde çocuk can yelekleri bulunur ve kullanımı zorunludur. Güverte korkulukları çocuk güvenliği standartlarına uygun olmalıdır. Çocuk dostu teknelerde özel aktivite alanları ve güvenlik ekipmanları mevcuttur. 7 yaş altı çocuklar için sürekli yetişkin gözetimi şarttır.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Teknede internet erişimi mevcut mu?</h3>
+              <p className="text-gray-700">
+                Çoğu modern teknede WiFi bulunur ancak deniz ortasında sinyal gücü değişkenlik gösterebilir. Kıyıya yakın bölgelerde 4G bağlantısı genellikle sorunsuz çalışır. Bazı teknelerde uydu internet sistemi bulunur ancak bu hizmet için ekstra ücret talep edilebilir.
+              </p>
+            </div>
+
+            <div className="bg-gray-50 rounded-lg p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-3">Özel kutlamalar için ek hizmetler var mı?</h3>
+              <p className="text-gray-700">
+                Doğum günü, evlilik teklifi, yıldönümü gibi özel günler için dekorasyon, özel menü, müzik sistemi ve fotoğraf hizmetleri sunulabilir. Bu hizmetler genellikle ek ücretlidir ve önceden rezervasyon gerektirir. Pasta, çiçek ve balon süslemesi gibi detaylar organize edilebilir.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
