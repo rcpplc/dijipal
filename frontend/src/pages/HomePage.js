@@ -29,6 +29,7 @@ const API = `${BACKEND_URL}/api`;
 
 const HomePage = () => {
   const { user, setShowLoginModal, setLoginMode } = useAuth();
+  // Force component refresh
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [featuredTours, setFeaturedTours] = useState([]);
