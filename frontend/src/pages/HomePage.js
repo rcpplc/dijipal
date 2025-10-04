@@ -455,15 +455,10 @@ const HomePage = () => {
                     alt={tour.title}
                     className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-300"
                   />
-                  <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
+                  <div className="absolute top-4 right-4">
                     <button className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200">
                       <Heart className="w-5 h-5 text-gray-600 hover:text-red-500" />
                     </button>
-                    {tour.classification && (
-                      <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationStyle(tour.classification)}`}>
-                        {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
-                      </span>
-                    )}
                   </div>
                   {tour.category && (
                     <div className="absolute top-4 left-4">
