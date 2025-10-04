@@ -231,67 +231,74 @@ const ToursPage = () => {
     }
   };
 
-  const TourCard = ({ tour }) => {
-    const handleCardClick = (e) => {
-      // Detaylar butonuna tıklanmışsa like toggle yapma
-      if (e.target.closest('a[href*="/tours/"]')) {
-        return;
-      }
-      toggleFavorite(tour.id);
-    };
-    
-    return (
-    <div 
-      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 cursor-pointer group"
-      onClick={handleCardClick}
+  // YENİ TOUR CARD - SIFIRDAN TASARIM
+  const TourCard = ({ tour }) => (
+    <Link 
+      to={`/tours/${tour.id}`}
+      className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-1"
     >
-      <div className="relative overflow-hidden">
+      {/* Resim Alanı */}
+      <div className="relative h-48 overflow-hidden">
         <img
           src={tour.images[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className="object-cover group-hover:scale-110 transition-transform duration-300 w-full h-48"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-3 right-3">
-          <div className="bg-white/80 backdrop-blur-sm p-2 rounded-full">
-            <Heart 
-              className={`w-5 h-5 transition-colors duration-200 ${
-                favorites.has(tour.id) 
-                  ? 'text-red-500 fill-current' 
-                  : 'text-gray-600'
-              }`} 
-            />
-          </div>
-        </div>
+        
+        {/* Favoriye Ekleme Butonu */}
+        <button 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite(tour.id);
+          }}
+          className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200"
+        >
+          <Heart 
+            className={`w-4 h-4 transition-colors duration-200 ${
+              favorites.has(tour.id) 
+                ? 'text-red-500 fill-current' 
+                : 'text-gray-600 hover:text-red-500'
+            }`} 
+          />
+        </button>
+
+        {/* Kategori Badge */}
         {tour.category && (
           <div className="absolute top-3 left-3">
-            <span className="bg-blue-600 text-white px-3 py-1 rounded text-sm font-medium">
+            <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
               {tour.category}
             </span>
           </div>
         )}
       </div>
 
-      <div className="p-4 sm:p-5">
-        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
-          <MapPin className="w-4 h-4" />
+      {/* İçerik Alanı */}
+      <div className="p-4">
+        {/* Lokasyon */}
+        <div className="flex items-center space-x-1 text-xs text-gray-500 mb-2">
+          <MapPin className="w-3 h-3" />
           <span>{tour.location}</span>
         </div>
 
-        <h3 className="font-bold text-base sm:text-lg text-gray-900 mb-2 line-clamp-2 leading-tight">
+        {/* Başlık */}
+        <h3 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
-        <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
+        {/* Açıklama */}
+        <p className="text-gray-600 text-xs mb-3 line-clamp-2 leading-relaxed">
           {tour.short_description}
         </p>
 
+        {/* Rating ve Süre */}
         <div className="flex items-center justify-between mb-3">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1">
             <div className="flex items-center">
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
-                  className={`w-4 h-4 ${
+                  className={`w-3 h-3 ${
                     i < Math.floor(tour.rating || 0)
                       ? 'text-yellow-400 fill-current'
                       : 'text-gray-300'
@@ -299,57 +306,50 @@ const ToursPage = () => {
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600">
+            <span className="text-xs text-gray-500">
               ({tour.review_count || 0})
             </span>
           </div>
 
-          <div className="flex items-center space-x-2 text-sm text-gray-600">
-            <Calendar className="w-4 h-4" />
+          <div className="flex items-center space-x-1 text-xs text-gray-500">
+            <Calendar className="w-3 h-3" />
             <span>{tour.duration_days || 1} gün</span>
             {tour.classification && (
-              <span className="text-gray-500 font-medium">
-                • {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
-              </span>
+              <span className="font-medium">• {tour.classification}</span>
             )}
           </div>
         </div>
 
-        <div className="text-xl sm:text-2xl font-bold text-blue-600 mb-4">
-          {(() => {
-            if (tour.minimum_price) {
-              return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
-            } else if (tour.tour_dates && tour.tour_dates.length > 0) {
-              // Fallback: calculate from tour dates
-              const allPrices = tour.tour_dates.flatMap(date => [
-                date.single_cabin_price || 0,
-                date.double_cabin_price || 0
-              ]).filter(price => price > 0);
-              
-              return allPrices.length > 0 
-                ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
-                : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
-            } else {
-              return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
-            }
-          })()}
-          <span className="text-sm font-normal text-gray-600 ml-1">
-            den başlayan
-          </span>
+        {/* Fiyat */}
+        <div className="mb-4">
+          <div className="text-lg font-bold text-blue-600">
+            {(() => {
+              if (tour.minimum_price) {
+                return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+              } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+                const allPrices = tour.tour_dates.flatMap(date => [
+                  date.single_cabin_price || 0,
+                  date.double_cabin_price || 0
+                ]).filter(price => price > 0);
+                
+                return allPrices.length > 0 
+                  ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
+                  : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              } else {
+                return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              }
+            })()}
+          </div>
+          <div className="text-xs text-gray-500">den başlayan</div>
         </div>
 
-        {/* Detaylar Butonu - Kartın En Altında */}
-        <Link
-          to={`/tours/${tour.id}`}
-          className="block w-full bg-blue-600 hover:bg-blue-700 text-white text-center py-3 text-sm font-medium transition-colors duration-200 -mx-4 -mb-4 rounded-b-xl"
-          onClick={(e) => e.stopPropagation()}
-        >
-          Detaylar
-        </Link>
+        {/* Detaylar Butonu */}
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
+          Detayları Görüntüle
+        </button>
       </div>
-    </div>
-    );
-  };
+    </Link>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
