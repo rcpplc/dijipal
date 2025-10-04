@@ -97,6 +97,7 @@ const LoginModal = ({ initialMode = 'login' }) => {
       onClick={(e) => {
         // Prevent modal closing during loading (login/register process)
         if (e.target === e.currentTarget && !loading) {
+          console.log('🔒 Closing modal via backdrop click');
           setShowLoginModal(false);
         }
       }}
