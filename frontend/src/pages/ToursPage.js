@@ -329,16 +329,29 @@ const ToursPage = () => {
           {/* Search and Filters */}
           <div className="flex flex-col lg:flex-row gap-4 mb-6">
             <form onSubmit={handleSearch} className="flex-1">
-              <div className="flex bg-gray-50 rounded-lg overflow-hidden">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
                 <div className="flex-1 flex items-center px-4 py-3">
                   <Search className="w-5 h-5 text-gray-400 mr-3" />
                   <input
                     type="text"
-                    placeholder="Destinasyon, tur adı veya lokasyon ara..."
+                    placeholder="Destinasyon, tur adı ara..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-500"
+                    className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
+                </div>
+                <div className="sm:border-l border-gray-200 px-4 py-3">
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="outline-none bg-transparent text-gray-800 text-sm min-w-[150px]"
+                  >
+                    {locations.map((loc) => (
+                      <option key={loc.value} value={loc.value}>
+                        {loc.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <button
                   type="submit"
