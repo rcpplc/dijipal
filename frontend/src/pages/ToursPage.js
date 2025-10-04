@@ -68,14 +68,15 @@ const ToursPage = () => {
   // Close location dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
-      if (showLocationDropdown && !event.target.closest('.location-dropdown')) {
-        setTimeout(() => {
-          setShowLocationDropdown(false);
-        }, 100);
+      if (showLocationDropdown && !event.target.closest('.relative')) {
+        setShowLocationDropdown(false);
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
+    if (showLocationDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
