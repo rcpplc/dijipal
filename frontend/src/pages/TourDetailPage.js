@@ -296,13 +296,29 @@ const TourDetailPage = () => {
     const cabinCount = typeof participants === 'number' ? participants : 1;
     saveSearchBehavior(tourId, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
 
-    // Navigate to booking page with tour and date info
-    navigate('/booking', {
+    // Navigate to booking page with complete tour data (like cart does)
+    const bookingData = {
+      tourId: tour.id,
+      title: tour.title,
+      images: tour.images,
+      location: tour.location,
+      selectedDate: selectedDate,
+      cabinType: cabinType,
+      participants: cabinCount,
+      single_cabin_price: selectedDate.single_cabin_price,
+      double_cabin_price: selectedDate.double_cabin_price,
+      // Add price calculation
+      price: cabinType === 'double' 
+        ? selectedDate.double_cabin_price || selectedDate.price || 0
+        : selectedDate.single_cabin_price || selectedDate.price || 0
+    };
+
+    navigate(`/booking/${tour.id}`, {
       state: {
-        tour: tour,
+        tour: bookingData,
         selectedDate: selectedDate,
-        participants: cabinCount,
-        cabinType: cabinType
+        cabinType: cabinType,
+        participants: cabinCount
       }
     });
   };
