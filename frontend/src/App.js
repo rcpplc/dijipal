@@ -209,9 +209,43 @@ function App() {
       });
     }
 
+    // Add white overlay to cover watermark
+    const addWatermarkCover = () => {
+      // Remove existing cover first
+      const existingCover = document.getElementById('watermark-cover');
+      if (existingCover) {
+        existingCover.remove();
+      }
+
+      // Create new overlay
+      const cover = document.createElement('div');
+      cover.id = 'watermark-cover';
+      cover.style.cssText = `
+        position: fixed !important;
+        bottom: 0 !important;
+        right: 0 !important;
+        width: 250px !important;
+        height: 40px !important;
+        background: rgba(255, 255, 255, 0.98) !important;
+        z-index: 2147483647 !important;
+        pointer-events: none !important;
+        border-top: 1px solid #f0f0f0 !important;
+      `;
+      document.body.appendChild(cover);
+    };
+
+    // Add overlay
+    addWatermarkCover();
+
     // Run on window events
-    window.addEventListener('load', runRemoval);
-    window.addEventListener('resize', removeWatermark);
+    window.addEventListener('load', () => {
+      runRemoval();
+      addWatermarkCover();
+    });
+    window.addEventListener('resize', () => {
+      removeWatermark();
+      addWatermarkCover();
+    });
 
     return () => {
       clearInterval(interval);
