@@ -36,10 +36,10 @@ const ToursPage = () => {
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
     location: '',
-    min_price: '',
-    max_price: '',
-    duration_days: '',
-    min_rating: '',
+    minPrice: '',
+    maxPrice: '',
+    duration: '',
+    minRating: '',
     max_rating: '',
     classification: ''
   });
