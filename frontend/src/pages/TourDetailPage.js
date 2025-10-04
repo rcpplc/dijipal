@@ -48,6 +48,13 @@ const TourDetailPage = () => {
   
   // Cabin system
   const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
+  
+  // Accordion states
+  const [showFullDescription, setShowFullDescription] = useState(false);
+  const [showFullProgram, setShowFullProgram] = useState(false);
+  
+  // Reviews modal
+  const [showReviewsModal, setShowReviewsModal] = useState(false);
 
   useEffect(() => {
     loadTour();
