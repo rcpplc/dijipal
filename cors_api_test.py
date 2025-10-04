@@ -9,7 +9,8 @@ class CORSAPITester:
     def __init__(self):
         # Get the backend URL from frontend .env file
         self.frontend_url = "https://cabin-booking.preview.static.emergentagent.com"
-        self.backend_url = "https://cabin-booking.preview.emergentagent.com"
+        # Use the actual backend URL that's working
+        self.backend_url = "http://localhost:8001"
         self.api_url = f"{self.backend_url}/api"
         self.token = None
         self.user_id = None
