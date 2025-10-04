@@ -428,7 +428,7 @@ const TourDetailPage = () => {
                       : 'bg-white/80 text-gray-600 hover:bg-white'
                   }`}
                 >
-                  <Heart className={`w-6 h-6 ${isFavorited ? 'fill-current' : ''}`} />
+                  <Heart className={`w-5 h-5 sm:w-6 sm:h-6 ${isFavorited ? 'fill-current' : ''}`} />
                 </button>
                 <button
                   onClick={handleShare}
