@@ -405,12 +405,12 @@ const ToursPage = () => {
                               handleFilterChange('location', loc.value);
                               setShowLocationDropdown(false);
                             }}
-                            className={`flex items-center space-x-3 px-4 py-3 hover:bg-gray-100 cursor-pointer transition-all duration-200 border-b border-gray-100 last:border-b-0 ${
+                            className={`flex items-center space-x-3 px-5 py-4 hover:bg-blue-50 cursor-pointer transition-all duration-200 border-b border-gray-200 last:border-b-0 ${
                               index === 0 ? 'rounded-t-lg' : ''
                             } ${
                               index === locations.length - 1 ? 'rounded-b-lg' : ''
                             } ${
-                              filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-800'
+                              filters.location === loc.value ? 'bg-blue-100 text-blue-700 font-semibold' : 'text-gray-900 hover:text-blue-600'
                             }`}
                           >
                             <LocationIcon className="w-5 h-5 text-gray-500 flex-shrink-0" />
