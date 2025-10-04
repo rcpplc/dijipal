@@ -129,10 +129,6 @@ const LoginModal = ({ initialMode = 'login' }) => {
         <form 
           onSubmit={handleSubmit} 
           className="p-6 space-y-6"
-          onClick={(e) => {
-            e.stopPropagation();
-            console.log('📝 Form clicked');
-          }}
         >
           {!isLogin && (
             <div>
