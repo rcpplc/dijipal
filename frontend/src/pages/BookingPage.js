@@ -10,9 +10,7 @@ import {
   User,
   Mail,
   Phone,
-  CheckCircle,
-  Minus,
-  Plus
+  CheckCircle
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
