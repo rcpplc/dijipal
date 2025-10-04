@@ -50,11 +50,19 @@ const BookingPage = () => {
     participants
   });
   const formattedSelectedDate = selectedDate ? 
-    new Date(selectedDate).toLocaleDateString('tr-TR', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    }) : null;
+    (selectedDate.date ? 
+      new Date(selectedDate.date).toLocaleDateString('tr-TR', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      }) : 
+      selectedDate.start_date ?
+        new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+          year: 'numeric',
+          month: 'long', 
+          day: 'numeric'
+        }) : null
+    ) : null;
   
   const [customerInfo, setCustomerInfo] = useState({
     full_name: user?.full_name || '',
