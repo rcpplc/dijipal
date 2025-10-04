@@ -1079,6 +1079,48 @@ const TourDetailPage = () => {
                 Ücretsiz iptal • 24 saat öncesine kadar
               </p>
 
+              {/* Reviews Summary */}
+              {reviews.length > 0 && (
+                <div className="border-t border-gray-100 pt-4 mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="font-semibold text-gray-900">
+                      Değerlendirmeler
+                    </h4>
+                    <button
+                      onClick={() => setShowReviewsModal(true)}
+                      className="text-sm text-blue-600 hover:text-blue-700 font-medium"
+                    >
+                      Tümünü Gör ({reviews.length})
+                    </button>
+                  </div>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <div className="flex items-center">
+                      {[...Array(5)].map((_, i) => (
+                        <Star
+                          key={i}
+                          className={`w-4 h-4 ${
+                            i < Math.floor(tour.rating || 0)
+                              ? 'text-yellow-400 fill-current'
+                              : 'text-gray-300'
+                          }`}
+                        />
+                      ))}
+                    </div>
+                    <span className="text-sm font-medium text-gray-900">
+                      {tour.rating > 0 ? tour.rating.toFixed(1) : '0.0'}
+                    </span>
+                    <span className="text-sm text-gray-500">
+                      ({reviews.length} değerlendirme)
+                    </span>
+                  </div>
+                  {reviews.slice(0, 2).map((review) => (
+                    <div key={review.id} className="text-xs text-gray-600 mb-1">
+                      <span className="font-medium">{review.user_name}:</span> {review.comment?.substring(0, 80)}...
+                    </div>
+                  ))}
+                </div>
+              )}
+
               {/* Contact Info */}
               <div className="border-t border-gray-100 pt-4">
                 <h4 className="font-semibold text-gray-900 mb-3">
