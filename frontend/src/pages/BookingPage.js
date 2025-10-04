@@ -686,36 +686,11 @@ const BookingPage = () => {
                   )}
                   
                   <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-2 text-sm">
-                        <Users className="w-4 h-4 text-green-600" />
-                        <span className="font-medium text-green-800">
-                          {cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
-                        </span>
-                      </div>
-                      <div className="flex items-center space-x-2">
-                        <span className="text-xs text-green-700">Kabin Sayısı:</span>
-                        <button
-                          onClick={() => updateCabinCount(participants - 1)}
-                          disabled={participants <= 1}
-                          className="w-6 h-6 bg-green-100 hover:bg-green-200 disabled:bg-green-50 disabled:text-green-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="text-sm font-semibold text-green-800 min-w-[1.5rem] text-center">
-                          {participants}
-                        </span>
-                        <button
-                          onClick={() => updateCabinCount(participants + 1)}
-                          disabled={participants >= (selectedDate?.capacity || selectedDate?.available_cabins || 20)}
-                          className="w-6 h-6 bg-green-100 hover:bg-green-200 disabled:bg-green-50 disabled:text-green-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
-                      </div>
-                    </div>
-                    <div className="text-xs text-green-700 mt-1">
-                      Maks: {selectedDate?.capacity || selectedDate?.available_cabins || 20} kabin
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Users className="w-4 h-4 text-green-600" />
+                      <span className="font-medium text-green-800">
+                        {participants} × {cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
+                      </span>
                     </div>
                   </div>
                 </div>
