@@ -629,18 +629,27 @@ const TourDetailPage = () => {
                     <span>Tur Programı</span>
                   </h4>
                   <div className="prose prose-sm max-w-none">
-                    <div className="whitespace-pre-wrap text-gray-700 leading-relaxed mb-3">
-                      {tour.program_details && tour.program_details.length > 300 
-                        ? `${tour.program_details.substring(0, 300)}...`
-                        : tour.program_details
-                      }
+                    <div 
+                      className={`whitespace-pre-wrap text-gray-700 leading-relaxed ${!showFullProgram && tour.program_details && tour.program_details.length > 300 ? 'line-clamp-3' : ''}`}
+                      style={!showFullProgram && tour.program_details && tour.program_details.length > 300 ? {
+                        display: '-webkit-box',
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: 'vertical',
+                        overflow: 'hidden'
+                      } : {}}
+                    >
+                      {tour.program_details}
                     </div>
                     {tour.program_details && tour.program_details.length > 300 && (
                       <button
-                        onClick={() => setShowProgramModal(true)}
-                        className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                        onClick={() => setShowFullProgram(!showFullProgram)}
+                        className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors mt-3"
                       >
-                        Detaylı programı görüntüle →
+                        <span>{showFullProgram ? 'Daha az göster' : 'Detaylı programı görüntüle'}</span>
+                        {showFullProgram ? 
+                          <ChevronUp className="w-4 h-4" /> : 
+                          <ChevronDown className="w-4 h-4" />
+                        }
                       </button>
                     )}
                   </div>
