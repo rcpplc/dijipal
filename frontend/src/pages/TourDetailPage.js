@@ -657,13 +657,19 @@ const TourDetailPage = () => {
                     )}
                     {tour.pickup_time && (
                       <div>
-                        <span className="font-medium text-gray-700">Tur Biniş Saati:</span>
+                        <span className="font-medium text-gray-700 flex items-center space-x-1">
+                          <Clock className="w-4 h-4 text-green-500" />
+                          <span>Tur Biniş Saati:</span>
+                        </span>
                         <p className="text-gray-600 mt-1">{tour.pickup_time}</p>
                       </div>
                     )}
                     {tour.dropoff_time && (
                       <div>
-                        <span className="font-medium text-gray-700">Tur İniş Saati:</span>
+                        <span className="font-medium text-gray-700 flex items-center space-x-1">
+                          <Clock className="w-4 h-4 text-red-500" />
+                          <span>Tur İniş Saati:</span>
+                        </span>
                         <p className="text-gray-600 mt-1">{tour.dropoff_time}</p>
                       </div>
                     )}
