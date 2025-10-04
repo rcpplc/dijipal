@@ -239,7 +239,7 @@ const ToursPage = () => {
         <img
           src={tour.images[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-36 sm:h-40' : 'w-full h-48'}`}
+          className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-full min-h-[160px]' : 'w-full h-48'}`}
         />
         <div className="absolute top-3 right-3">
           <button 
