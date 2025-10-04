@@ -64,7 +64,7 @@ const CartPage = () => {
     }
 
     const updatedItems = cartItems.map(item =>
-      (item.tourId === tourId && item.selectedDate?.date === selectedDate)
+      (item.tourId === tourId && item.selectedDate?.date === selectedDate && item.cabinType === cabinType)
         ? { ...item, participants: newQuantity }
         : item
     );
