@@ -2085,8 +2085,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
             {/* Step 3: Kabin Tarihleri & Fiyatlandırma */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">🏠 Kabin Tarihleri & Fiyatlandırma</h3>
-                <p className="text-gray-600 mb-4">Her tarih için kabin kapasitesini ve kabin tiplerinin fiyatlarını belirleyin.</p>
+                <h3 className="text-xl font-medium text-gray-900 mb-2">Kabin Tarihleri & Fiyatlandırma</h3>
+                <p className="text-sm text-gray-600 mb-6">Her tarih için kabin kapasitesini ve kabin tiplerinin fiyatlarını belirleyin.</p>
                 
                 {/* Add Tour Date */}
                 <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
