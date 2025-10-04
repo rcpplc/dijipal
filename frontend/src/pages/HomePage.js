@@ -506,8 +506,8 @@ const HomePage = () => {
                       <Calendar className="w-4 h-4" />
                       <span>{tour.duration_days || 1} gün</span>
                       {tour.classification && (
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium ml-2 ${getClassificationStyle(tour.classification)}`}>
-                          {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
+                        <span className="text-gray-500 font-medium">
+                          • {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
                         </span>
                       )}
                     </div>
