@@ -2039,6 +2039,19 @@ def main():
     # Run the specific tour creation fix test as requested in the review
     tester.run_tour_creation_fix_test()
     
+    # Also test a few more scenarios to be thorough
+    print("\n" + "="*70)
+    print("🔍 ADDITIONAL VERIFICATION TESTS")
+    print("="*70)
+    
+    # Test admin tours listing to see if cabin pricing is returned correctly
+    print("\n📋 Testing Admin Tours Listing with Cabin Pricing")
+    tester.test_admin_tours_cabin_pricing_response()
+    
+    # Test creating another tour with different cabin pricing
+    print("\n📝 Testing Another Tour Creation with Different Cabin Pricing")
+    tester.test_admin_create_tour_cabin_pricing()
+    
     # Return exit code based on success rate
     success_rate = (tester.tests_passed / tester.tests_run * 100) if tester.tests_run > 0 else 0
     return 0 if success_rate >= 70 else 1
