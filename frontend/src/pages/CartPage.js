@@ -248,7 +248,7 @@ const CartPage = () => {
                         </div>
                       </div>
                       <button
-                        onClick={() => removeItem(item.tourId, item.selectedDate?.date)}
+                        onClick={() => removeItem(item.tourId, item.selectedDate?.date, item.cabinType)}
                         className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-all duration-200"
                       >
                         <Trash2 className="w-5 h-5" />
