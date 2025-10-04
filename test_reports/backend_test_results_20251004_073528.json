@@ -1,0 +1,25 @@
+{
+  "summary": {
+    "total_tests": 2,
+    "passed_tests": 0,
+    "failed_tests": 2,
+    "success_rate": 0.0,
+    "test_date": "2025-10-04T07:35:28.466441"
+  },
+  "detailed_results": [
+    {
+      "test_name": "Seed Sample Data",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 502. Response: {}",
+      "timestamp": "2025-10-04T07:35:28.431507"
+    },
+    {
+      "test_name": "Admin Login",
+      "success": false,
+      "details": "",
+      "error": "Expected 200, got 502. Response: {}",
+      "timestamp": "2025-10-04T07:35:28.465650"
+    }
+  ]
+}
