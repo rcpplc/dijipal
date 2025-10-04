@@ -12,6 +12,10 @@ import {
   List,
   SlidersHorizontal,
   ChevronDown,
+  Mountain,
+  Waves,
+  Building,
+  Trees,
   X
 } from 'lucide-react';
 import axios from 'axios';
