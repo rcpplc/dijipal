@@ -256,7 +256,7 @@ const ToursPage = () => {
                 </div>
                 <button
                   type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 transition-colors duration-200"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 text-sm sm:text-base transition-colors duration-200"
                 >
                   Ara
                 </button>
