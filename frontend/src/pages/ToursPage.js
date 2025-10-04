@@ -128,19 +128,6 @@ const ToursPage = () => {
     }
   };
 
-  // Helper function to get classification styling
-  const getClassificationStyle = (classification) => {
-    switch(classification?.toLowerCase()) {
-      case 'lux':
-        return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white';
-      case 'delux':
-        return 'bg-gradient-to-r from-purple-500 to-purple-700 text-white';
-      case 'standart':
-      default:
-        return 'bg-gradient-to-r from-gray-500 to-gray-600 text-white';
-    }
-  };
-
   const TourCard = ({ tour, isListView = false }) => (
     <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex flex-col sm:flex-row' : ''}`}>
       <div className={`relative overflow-hidden ${isListView ? 'w-full sm:w-1/3' : ''}`}>
