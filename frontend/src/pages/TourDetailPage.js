@@ -30,26 +30,7 @@ const TourDetailPage = () => {
   const { user, setShowLoginModal } = useAuth();
   const navigate = useNavigate();
   const [tour, setTour] = useState(null);
-  const [reviews, setReviews] = useState([
-    {
-      id: 1,
-      user_name: "Ahmet Yılmaz",
-      rating: 5,
-      title: "Harika bir deneyim!",
-      comment: "Bu tur gerçekten muhteşemdi. Kaptanımız çok bilgiliydi ve tekne çok temizdi. Yemekler de lezzetliydi. Kesinlikle tavsiye ederim!",
-      created_at: "2024-02-15T10:30:00Z",
-      is_verified: true
-    },
-    {
-      id: 2,
-      user_name: "Elif Kaya",
-      rating: 4,
-      title: "Güzel bir gün geçirdik",
-      comment: "Genel olarak memnun kaldık. Sadece beklediğimizden biraz daha kalabalıktı. Ama manzaralar çok güzeldi.",
-      created_at: "2024-02-10T14:20:00Z",
-      is_verified: false
-    }
-  ]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
