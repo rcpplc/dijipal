@@ -139,10 +139,16 @@ const TourDetailPage = () => {
     setReviewsLoading(true);
     try {
       const response = await axios.get(`${API}/reviews?tour_id=${tourId}&page=${page}&limit=${limit}`);
+      console.log('Reviews response:', response.data); // Debug log
+      
       if (page === 1) {
         // İlk 3 review ana sayfa için
-        setReviews(response.data.reviews || response.data);
-        setTotalReviews(response.data.total || response.data.length);
+        const reviewsData = response.data.reviews || response.data;
+        const totalCount = response.data.total || reviewsData.length;
+        
+        console.log('Setting reviews:', reviewsData.length, 'Total:', totalCount); // Debug log
+        setReviews(reviewsData);
+        setTotalReviews(totalCount);
       } else {
         // Modal için tüm reviews
         return response.data;
