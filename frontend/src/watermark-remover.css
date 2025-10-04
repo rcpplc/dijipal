@@ -94,6 +94,31 @@ iframe[src*="emergent"] {
   display: none !important;
 }
 
+/* Cover watermark with white overlay */
+body::after {
+  content: '';
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 200px;
+  height: 30px;
+  background: white;
+  z-index: 99999 !important;
+  pointer-events: none;
+}
+
+/* Alternative overlay approach */
+.watermark-cover {
+  position: fixed !important;
+  bottom: 0 !important;
+  right: 0 !important;
+  width: 250px !important;
+  height: 40px !important;
+  background: rgba(255, 255, 255, 0.95) !important;
+  z-index: 999999 !important;
+  pointer-events: none !important;
+}
+
 /* Nuclear option - hide anything that remotely looks like a watermark */
 div[style*="font-size: 12px"],
 div[style*="font-size: 14px"],
