@@ -422,7 +422,7 @@ const TourDetailPage = () => {
               <div className="absolute top-2 right-2 sm:top-4 sm:right-4 flex space-x-1 sm:space-x-2">
                 <button
                   onClick={toggleFavorite}
-                  className={`p-3 rounded-full backdrop-blur-sm transition-all duration-200 ${
+                  className={`p-2 sm:p-3 rounded-full backdrop-blur-sm transition-all duration-200 ${
                     isFavorited 
                       ? 'bg-red-500 text-white' 
                       : 'bg-white/80 text-gray-600 hover:bg-white'
