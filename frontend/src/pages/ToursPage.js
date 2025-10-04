@@ -381,8 +381,8 @@ const ToursPage = () => {
 
           {/* Filters Panel */}
           {showFilters && (
-            <div className="mt-6 p-6 bg-gray-50 rounded-lg">
-              <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+            <div className="mt-6 p-4 sm:p-6 bg-gray-50 rounded-lg">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-3 sm:gap-4">
                 {/* Kategori */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-2">
