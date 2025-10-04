@@ -561,7 +561,7 @@ const TourDetailPage = () => {
                   </p>
                   {tour.description && tour.description.length > 200 && (
                     <button
-                      onClick={() => setShowFullDescription(true)}
+                      onClick={() => setShowDescriptionModal(true)}
                       className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
                     >
                       Tümünü oku →
