@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 
 class BookingFlowTester:
-    def __init__(self, base_url="https://cabin-booking-sys.preview.emergentagent.com"):
+    def __init__(self, base_url="https://cabin-booking.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None

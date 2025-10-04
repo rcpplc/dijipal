@@ -3,7 +3,7 @@ import json
 
 def create_test_user():
     """Create the test user for booking flow testing"""
-    base_url = "https://cabin-booking-sys.preview.emergentagent.com"
+    base_url = "https://cabin-booking.preview.emergentagent.com"
     api_url = f"{base_url}/api"
     
     # User registration data

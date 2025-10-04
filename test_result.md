@@ -24,7 +24,7 @@ backend:
         comment: "❌ Backend server was failing with 502 errors due to missing /tmp/uploads directory causing RuntimeError in StaticFiles mount."
       - working: true
         agent: "testing"
-        comment: "✅ BACKEND SERVER FIXED - Created missing /tmp/uploads directory and restarted backend service. Server now responding correctly on https://cabin-booking-sys.preview.emergentagent.com with 200 status. All API endpoints accessible."
+        comment: "✅ BACKEND SERVER FIXED - Created missing /tmp/uploads directory and restarted backend service. Server now responding correctly on https://cabin-booking.preview.emergentagent.com with 200 status. All API endpoints accessible."
 
   - task: "Tour Creation API with Cabin Pricing System"
     implemented: true
@@ -48,7 +48,7 @@ backend:
     status_history:
       - working: true
         agent: "testing"
-        comment: "✅ REMOVE TEST REVIEWS API FULLY WORKING - Successfully tested DELETE /api/remove-test-reviews/3ded39ad-36a4-47d1-87b9-7baeb5f00f55 endpoint: 1) Initial check found 4 existing reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55, 2) DELETE endpoint executed successfully with 200 status, 3) Response confirmed 'Successfully removed 4 reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55', 4) Verification via GET /api/reviews?tour_id=3ded39ad-36a4-47d1-87b9-7baeb5f00f55 confirmed no reviews remain for this tour, 5) All test steps passed with 100% success rate (3/3 tests). The remove reviews functionality is working perfectly as requested."
+        comment: "✅ REMOVE TEST REVIEWS API FULLY WORKING - Successfully tested DELETE /api/remove-test-reviews/3ded39ad-36a4-47d1-87b9-7baeb5f00f55 endpoint: 1) Initial check found 4 existing reviews for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55, 2) DELETE endpoint executed successfully with 200 status, 3) Response confirmed 'Successfully removed 4 reviews for tour 3ded39ad-36a4-47d1-87b9-7baeb5f00f55', 4) Verification via GET /api/reviews?tour_id=cabin-booking confirmed no reviews remain for this tour, 5) All test steps passed with 100% success rate (3/3 tests). The remove reviews functionality is working perfectly as requested."
 
   - task: "Add Test Reviews API and Reviews Display System"
     implemented: true
