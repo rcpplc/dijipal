@@ -79,12 +79,15 @@ function App() {
   }, [token]);
 
   const login = async (email, password) => {
+    console.log('🚀 Login function called with:', { email, API });
     try {
+      console.log('🌐 Making API request to:', `${API}/auth/login`);
       const response = await axios.post(`${API}/auth/login`, {
         email,
         password
       });
       
+      console.log('📡 API Response:', response.status, response.data);
       const { token: newToken, user: userData } = response.data;
       
       console.log('Login Response - User Data:', userData);
@@ -98,6 +101,7 @@ function App() {
       
       return { success: true };
     } catch (error) {
+      console.error('❌ Login API Error:', error);
       return {
         success: false,
         error: error.response?.data?.detail || 'Giriş başarısız'
