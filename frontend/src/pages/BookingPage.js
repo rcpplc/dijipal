@@ -291,7 +291,7 @@ const BookingPage = () => {
                           type="text"
                           value={customerInfo.full_name}
                           onChange={(e) => handleCustomerInfoChange('full_name', e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                           placeholder="Adınız ve soyadınız"
                           required
                         />
@@ -308,7 +308,7 @@ const BookingPage = () => {
                           type="email"
                           value={customerInfo.email}
                           onChange={(e) => handleCustomerInfoChange('email', e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                           placeholder="ornek@email.com"
                           required
                         />
@@ -325,7 +325,7 @@ const BookingPage = () => {
                           type="tel"
                           value={customerInfo.phone}
                           onChange={(e) => handleCustomerInfoChange('phone', e.target.value)}
-                          className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                          className="w-full pl-10 pr-4 py-2.5 sm:py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm sm:text-base"
                           placeholder="+90 5XX XXX XX XX"
                           required
                         />
