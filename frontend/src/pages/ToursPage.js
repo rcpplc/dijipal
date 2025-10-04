@@ -391,7 +391,7 @@ const ToursPage = () => {
                   <select
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     {categories.map((cat) => (
                       <option key={cat.value} value={cat.value}>
@@ -409,7 +409,7 @@ const ToursPage = () => {
                   <select
                     value={filters.location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     {locations.map((loc) => (
                       <option key={loc.value} value={loc.value}>
@@ -427,7 +427,7 @@ const ToursPage = () => {
                   <select
                     value={filters.classification}
                     onChange={(e) => handleFilterChange('classification', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="">Tüm Sınıflar</option>
                     <option value="standart">Standart</option>
@@ -448,7 +448,7 @@ const ToursPage = () => {
                     placeholder={`₺${priceRange.min.toLocaleString()}`}
                     min={priceRange.min}
                     max={priceRange.max}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                 </div>
                 
@@ -463,7 +463,7 @@ const ToursPage = () => {
                     placeholder={`₺${priceRange.max.toLocaleString()}`}
                     min={priceRange.min}
                     max={priceRange.max}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   />
                 </div>
                 
@@ -475,7 +475,7 @@ const ToursPage = () => {
                   <select
                     value={filters.duration_days}
                     onChange={(e) => handleFilterChange('duration_days', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="">Tüm Süreler</option>
                     {Array.from(
@@ -499,7 +499,7 @@ const ToursPage = () => {
                   <select
                     value={filters.min_rating}
                     onChange={(e) => handleFilterChange('min_rating', e.target.value)}
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
                   >
                     <option value="">Tüm Puanlar</option>
                     {[1, 2, 3, 4, 5].map(rating => (
