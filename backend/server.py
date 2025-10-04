@@ -873,8 +873,9 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
             "id": str(uuid.uuid4()),
             "tour_id": tour.id,
             "start_date": date_data["date"],  # Keep as string for MongoDB compatibility
-            "available_spots": date_data["capacity"],
-            "price": date_data["price"],
+            "available_cabins": date_data.get("capacity", 1),
+            "single_cabin_price": float(date_data.get("single_cabin_price", 0)),
+            "double_cabin_price": float(date_data.get("double_cabin_price", 0)),
             "is_active": True,
             "created_at": datetime.now(timezone.utc).isoformat()
         }
