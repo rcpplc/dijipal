@@ -276,18 +276,18 @@ const ToursPage = () => {
       {/* İçerik Alanı */}
       <div className="p-4">
         {/* Lokasyon */}
-        <div className="flex items-center space-x-1 text-xs text-gray-500 mb-2">
-          <MapPin className="w-3 h-3" />
+        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-2">
+          <MapPin className="w-4 h-4" />
           <span>{tour.location}</span>
         </div>
 
         {/* Başlık */}
-        <h3 className="font-semibold text-gray-900 text-sm mb-2 line-clamp-2 leading-tight">
+        <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
         {/* Açıklama */}
-        <p className="text-gray-600 text-xs mb-3 line-clamp-2 leading-relaxed">
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
           {tour.short_description}
         </p>
 
