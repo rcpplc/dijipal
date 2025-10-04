@@ -637,13 +637,7 @@ const ToursPage = () => {
             </p>
             <button
               onClick={() => {
-                setFilters({
-                  category: '',
-                  location: '',
-                  min_price: '',
-                  max_price: '',
-                  duration_days: ''
-                });
+                clearFilters();
                 setSearchParams(new URLSearchParams());
                 setSearchQuery('');
               }}
