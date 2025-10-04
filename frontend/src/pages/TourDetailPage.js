@@ -623,7 +623,7 @@ const TourDetailPage = () => {
                     </div>
                     {tour.program_details && tour.program_details.length > 300 && (
                       <button
-                        onClick={() => setShowFullProgram(true)}
+                        onClick={() => setShowProgramModal(true)}
                         className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
                       >
                         Detaylı programı görüntüle →
