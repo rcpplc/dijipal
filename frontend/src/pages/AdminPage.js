@@ -2085,98 +2085,68 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
             {/* Step 3: Kabin Tarihleri & Fiyatlandırma */}
             {currentStep === 3 && (
               <div className="space-y-6">
-                <h3 className="text-xl font-medium text-gray-900 mb-2">Kabin Tarihleri & Fiyatlandırma</h3>
-                <p className="text-sm text-gray-600 mb-6">Her tarih için kabin kapasitesini ve kabin tiplerinin fiyatlarını belirleyin.</p>
-                
-                {/* Add Tour Date */}
-                <div className="bg-gray-50 p-4 rounded-lg border-l-4 border-blue-500">
-                  <h4 className="font-medium text-gray-900 mb-3">Yeni Tarih ve Kabin Fiyatları</h4>
+                <div className="mb-8">
+                  <h3 className="text-lg font-medium text-gray-900 mb-1">Tarihi & Fiyatları Ekle</h3>
+                  <p className="text-sm text-gray-500 mb-6">Yeni tarih ve kabin fiyatları belirleyin</p>
                   
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Left Side - Date & Capacity */}
-                    <div className="bg-white p-4 rounded-md border border-gray-200">
-                      <h5 className="text-sm font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
-                        Tarih ve Kapasite
-                      </h5>
-                      <div className="space-y-4">
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-800 mb-2">
-                          Tur Tarihi *
-                        </label>
-                        <input
-                          type="date"
-                          value={newTourDate.date}
-                          onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
-                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-semibold text-gray-800 mb-2">
-                          Toplam Kabin Kapasitesi *
-                        </label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="50"
-                          value={newTourDate.capacity}
-                          onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
-                          className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                          placeholder="Örn: 12 kabin"
-                        />
-                      </div>
-                      </div>
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Tarih</label>
+                      <input
+                        type="date"
+                        value={newTourDate.date}
+                        onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                      />
                     </div>
                     
-                    {/* Right Side - Cabin Prices */}
-                    <div className="bg-white p-4 rounded-md border border-gray-200">
-                      <h5 className="text-sm font-semibold text-gray-800 mb-4 border-b border-gray-200 pb-2">
-                        Kabin Tip Fiyatları
-                      </h5>
-                      
-                      <div className="space-y-4">
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Tek Kişilik Kabin Fiyatı (₺) *
-                          </label>
-                          <input
-                            type="number"
-                            min="0"
-                            step="50"
-                            value={newTourDate.single_cabin_price}
-                            onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Tek kişilik kabin için fiyat"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-semibold text-gray-700 mb-2">
-                            Çift Kişilik Kabin Fiyatı (₺) *
-                          </label>
-                          <input
-                            type="number"
-                            min="0"
-                            step="50"
-                            value={newTourDate.double_cabin_price}
-                            onChange={(e) => setNewTourDate({...newTourDate, double_cabin_price: e.target.value})}
-                            className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="Çift kişilik kabin için fiyat"
-                          />
-                        </div>
-                      </div>
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Kabin Kapasitesi</label>
+                      <input
+                        type="number"
+                        min="1"
+                        max="50"
+                        value={newTourDate.capacity}
+                        onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                        placeholder="Örn: 12"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Tek Kişilik (₺)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="50"
+                        value={newTourDate.single_cabin_price}
+                        onChange={(e) => setNewTourDate({...newTourDate, single_cabin_price: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                        placeholder="Fiyat"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-xs font-medium text-gray-600 mb-1.5">Çift Kişilik (₺)</label>
+                      <input
+                        type="number"
+                        min="0"
+                        step="50"
+                        value={newTourDate.double_cabin_price}
+                        onChange={(e) => setNewTourDate({...newTourDate, double_cabin_price: e.target.value})}
+                        className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                        placeholder="Fiyat"
+                      />
                     </div>
                   </div>
                   
-                  <div className="mt-4 flex justify-end">
-                    <button
-                      type="button"
-                      onClick={addTourDate}
-                      className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2.5 rounded-md text-sm font-medium transition-colors duration-200 border border-slate-700 hover:border-slate-800"
-                    >
-                      Kabin Tarihi Ekle
-                    </button>
-                  </div>
+                  <button
+                    type="button"
+                    onClick={addTourDate}
+                    className="bg-gray-900 hover:bg-black text-white px-4 py-2 rounded text-sm font-medium transition-colors"
+                  >
+                    Ekle
+                  </button>
                 </div>
 
                 {/* Tour Dates Table */}
