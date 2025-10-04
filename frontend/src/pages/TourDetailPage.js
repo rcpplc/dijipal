@@ -568,27 +568,18 @@ const TourDetailPage = () => {
                   Açıklama
                 </h3>
                 <div className="text-gray-700 leading-relaxed">
-                  <div 
-                    className={`${!showFullDescription ? 'line-clamp-6' : ''}`}
-                    style={!showFullDescription ? {
-                      display: '-webkit-box',
-                      WebkitLineClamp: 6,
-                      WebkitBoxOrient: 'vertical',
-                      overflow: 'hidden'
-                    } : {}}
-                  >
-                    {tour.description}
-                  </div>
-                  {tour.description && tour.description.split('\n').length > 6 && (
+                  <p className="mb-3">
+                    {tour.description && tour.description.length > 200 
+                      ? `${tour.description.substring(0, 200)}...`
+                      : tour.description
+                    }
+                  </p>
+                  {tour.description && tour.description.length > 200 && (
                     <button
-                      onClick={() => setShowFullDescription(!showFullDescription)}
-                      className="mt-3 flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
+                      onClick={() => setShowFullDescription(true)}
+                      className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
                     >
-                      <span>{showFullDescription ? 'Daha az göster' : 'Devamını oku'}</span>
-                      {showFullDescription ? 
-                        <ChevronUp className="w-4 h-4" /> : 
-                        <ChevronDown className="w-4 h-4" />
-                      }
+                      Tümünü oku →
                     </button>
                   )}
                 </div>
