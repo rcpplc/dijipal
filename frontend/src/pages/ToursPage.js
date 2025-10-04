@@ -342,18 +342,22 @@ const ToursPage = () => {
                     className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
                 </div>
-                <div className="sm:border-l border-gray-200 px-4 py-3">
-                  <select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="outline-none bg-transparent text-gray-800 text-sm min-w-[150px]"
-                  >
-                    {locations.map((loc) => (
-                      <option key={loc.value} value={loc.value}>
-                        {loc.label}
-                      </option>
-                    ))}
-                  </select>
+                <div className="sm:border-l border-gray-200 px-4 py-3 relative">
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4 text-gray-400" />
+                    <select
+                      value={filters.location}
+                      onChange={(e) => handleFilterChange('location', e.target.value)}
+                      className="outline-none bg-transparent text-gray-800 text-sm min-w-[150px] appearance-none cursor-pointer pr-6"
+                    >
+                      {locations.map((loc) => (
+                        <option key={loc.value} value={loc.value}>
+                          {loc.label}
+                        </option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-4 h-4 text-gray-400 absolute right-4 pointer-events-none" />
+                  </div>
                 </div>
                 <button
                   type="submit"
