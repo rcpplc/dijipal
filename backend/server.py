@@ -1792,8 +1792,13 @@ async def cleanup_data(current_user: User = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
 
+# Ensure uploads directory exists before mounting static files
+import os
+uploads_dir = "/tmp/uploads"
+os.makedirs(uploads_dir, exist_ok=True)
+
 # Mount static files for images
-app.mount("/uploads", StaticFiles(directory="/tmp/uploads"), name="uploads")
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
 # Include router
 app.include_router(api_router)
