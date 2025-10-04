@@ -584,16 +584,7 @@ const ToursPage = () => {
                   <div className="flex justify-end items-center mt-4">
                     <button
                       onClick={() => {
-                        setFilters({
-                          category: '',
-                          location: '',
-                          min_price: '',
-                          max_price: '',
-                          duration_days: '',
-                          min_rating: '',
-                          max_rating: '',
-                          classification: ''
-                        });
+                        clearFilters();
                         setSearchParams(new URLSearchParams());
                       }}
                       className="flex items-center space-x-2 px-3 py-2 text-red-500 hover:text-red-600 hover:bg-red-50 transition-colors duration-200 rounded-md"
