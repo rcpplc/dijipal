@@ -185,7 +185,7 @@ const HomePage = () => {
 
         {/* Hero Content */}
         <div className="relative z-10 h-full flex items-center justify-center">
-          <div className="text-center text-white px-4 max-w-4xl mx-auto">
+          <div className="text-center text-white px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6">
               Türkiye'yi
               <span className="block text-blue-300">
