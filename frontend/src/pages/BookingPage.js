@@ -52,23 +52,7 @@ const BookingPage = () => {
     participants
   });
   
-  // Kabin sayısı güncelleme fonksiyonları
-  const updateCabinCount = (newCount) => {
-    const maxCapacity = selectedDate?.capacity || selectedDate?.available_cabins || 20;
-    
-    if (newCount < 1) {
-      toast.error('En az 1 kabin seçmelisiniz');
-      return;
-    }
-    
-    if (newCount > maxCapacity) {
-      toast.error(`Bu tarihteki maksimum kabin sayısı: ${maxCapacity}`);
-      return;
-    }
-    
-    setParticipants(newCount);
-    toast.success(`Kabin sayısı ${newCount} olarak güncellendi`);
-  };
+  // Kabin sayısı sepetten alınıyor, rezervasyonda değiştirilmiyor
   const formattedSelectedDate = selectedDate ? 
     (selectedDate.date ? 
       new Date(selectedDate.date).toLocaleDateString('tr-TR', {
