@@ -435,59 +435,27 @@ const ToursPage = () => {
                       <option value="delux">Delux</option>
                     </select>
                   </div>
-                
-                {/* Fiyat Aralığı */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Min Fiyat
-                  </label>
-                  <input
-                    type="number"
-                    value={filters.min_price}
-                    onChange={(e) => handleFilterChange('min_price', e.target.value)}
-                    placeholder={`₺${priceRange.min.toLocaleString()}`}
-                    min={priceRange.min}
-                    max={priceRange.max}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  />
-                </div>
-                
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Max Fiyat
-                  </label>
-                  <input
-                    type="number"
-                    value={filters.max_price}
-                    onChange={(e) => handleFilterChange('max_price', e.target.value)}
-                    placeholder={`₺${priceRange.max.toLocaleString()}`}
-                    min={priceRange.min}
-                    max={priceRange.max}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  />
-                </div>
-                
-                {/* Süre */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Süre (Gün)
-                  </label>
-                  <select
-                    value={filters.duration_days}
-                    onChange={(e) => handleFilterChange('duration_days', e.target.value)}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  >
-                    <option value="">Tüm Süreler</option>
-                    {Array.from(
-                      { length: durationRange.max - durationRange.min + 1 }, 
-                      (_, i) => durationRange.min + i
-                    ).map(day => (
-                      <option key={day} value={day}>
-                        {day} Gün
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  {/* Süre */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Süre
+                    </label>
+                    <select
+                      value={filters.duration_days}
+                      onChange={(e) => handleFilterChange('duration_days', e.target.value)}
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                    >
+                      <option value="">Tüm Süreler</option>
+                      {Array.from(
+                        { length: durationRange.max - durationRange.min + 1 }, 
+                        (_, i) => durationRange.min + i
+                      ).map(day => (
+                        <option key={day} value={day}>
+                          {day} Gün
+                        </option>
+                      ))}
+                    </select>
+                  </div>
               </div>
 
               {/* İkinci satır - Puan Aralığı ve Bilgiler */}
