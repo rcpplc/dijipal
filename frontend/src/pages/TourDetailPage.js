@@ -60,6 +60,8 @@ const TourDetailPage = () => {
   const [showReviewsModal, setShowReviewsModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalReviews, setTotalReviews] = useState(0);
+  const [modalReviews, setModalReviews] = useState([]);
+  const [modalLoading, setModalLoading] = useState(false);
   const reviewsPerPage = 10;
 
   useEffect(() => {
