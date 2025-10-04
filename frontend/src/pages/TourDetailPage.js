@@ -852,9 +852,9 @@ const TourDetailPage = () => {
                   <div className="text-center mt-6">
                     <button
                       onClick={handleModalOpen}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+                      className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200 cursor-pointer"
                     >
-                      Daha fazla gör ({totalReviews - 3} değerlendirme daha)
+                      Daha Fazla Gör ({totalReviews - 3} değerlendirme daha)
                     </button>
                   </div>
                 )}
