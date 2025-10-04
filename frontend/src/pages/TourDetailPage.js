@@ -1135,28 +1135,6 @@ const TourDetailPage = () => {
         </div>
       </div>
 
-      {/* Description Modal */}
-      {showDescriptionModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[80vh] overflow-y-auto">
-            <div className="flex items-center justify-between p-6 border-b">
-              <h3 className="text-xl font-semibold text-gray-900">Tur Açıklaması</h3>
-              <button
-                onClick={() => setShowDescriptionModal(false)}
-                className="text-gray-400 hover:text-gray-600 transition-colors"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-            <div className="p-6">
-              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
-                {tour.description}
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
-
       {/* Program Modal */}
       {showProgramModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
