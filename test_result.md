@@ -352,6 +352,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ Gerçek kapasite sınırı düzeltildi: TourDetailPage.js'de addToCart fonksiyonuna capacity ve available_cabins alanları eklendi, CartPage.js'de öncelik sırası capacity → available_cabins olarak düzenlendi. 20 Ocak tarihli tur için veritabanındaki gerçek kapasite (10 kabin) doğru şekilde gösteriliyor. Hardcoded sınırlar kaldırıldı, her tur tarihinin kendi gerçek kapasitesi kullanılıyor. Test edildi: 'Maks: 10 kabin' doğru görünüyor."
+        - working: true
+          agent: "main"
+          comment: "✅ KRITIK HATA DÜZELTİLDİ - Bağımsız tarih kapasite kontrolleri: updateQuantity fonksiyonu tourId + selectedDate.date kombinasyonu ile düzeltildi, her sepet kartı artık kendi tarihinin kapasitesi ile sınırlı. Test edildi: 15 Ocak (Maks: 8 kabin) ve 20 Ocak (Maks: 10 kabin) ayrı kartlar olarak görünüyor ve bağımsız kapasite kontrollerine sahip. removeItem ve buton click event'leri de güncellendi. Toplam fiyat: ₺27,000 (15 Ocak ₺12K + 20 Ocak ₺15K). Kullanıcının bildirdiği kritik hata tamamen çözüldü."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
