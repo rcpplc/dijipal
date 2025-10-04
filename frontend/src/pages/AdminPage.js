@@ -2125,6 +2125,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                           placeholder="Örn: 12 kabin"
                         />
                       </div>
+                      </div>
                     </div>
                     
                     {/* Right Side - Cabin Prices */}
