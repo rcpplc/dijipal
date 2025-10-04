@@ -460,23 +460,24 @@ const ToursPage = () => {
 
               {/* İkinci satır - Puan Aralığı ve Bilgiler */}
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 mt-4">
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Min Puan
-                  </label>
-                  <select
-                    value={filters.min_rating}
-                    onChange={(e) => handleFilterChange('min_rating', e.target.value)}
-                    className="w-full px-3 py-2 sm:py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                  >
-                    <option value="">Tüm Puanlar</option>
-                    {[1, 2, 3, 4, 5].map(rating => (
-                      <option key={rating} value={rating}>
-                        {rating}+ Yıldız
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                  {/* Min Puan */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-3">
+                      Minimum Puan
+                    </label>
+                    <select
+                      value={filters.min_rating}
+                      onChange={(e) => handleFilterChange('min_rating', e.target.value)}
+                      className="w-full px-4 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm shadow-sm transition-all"
+                    >
+                      <option value="">Tüm Puanlar</option>
+                      {[1, 2, 3, 4, 5].map(rating => (
+                        <option key={rating} value={rating}>
+                          {rating}+ Yıldız
+                        </option>
+                      ))}
+                    </select>
+                  </div>
 
                 <div className="sm:col-span-2 lg:col-span-2">
                   <div className="bg-white p-3 rounded-md border">
