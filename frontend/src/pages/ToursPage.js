@@ -348,21 +348,45 @@ const ToursPage = () => {
                   />
                 </div>
                 <div className="sm:border-l border-gray-200 px-4 py-3 relative">
-                  <div className="flex items-center space-x-2">
+                  <div className="flex items-center space-x-2 cursor-pointer" onClick={() => setShowLocationDropdown(!showLocationDropdown)}>
                     <MapPin className="w-4 h-4 text-gray-400" />
-                    <select
-                      value={filters.location}
-                      onChange={(e) => handleFilterChange('location', e.target.value)}
-                      className="outline-none bg-transparent text-gray-800 text-sm min-w-[150px] appearance-none cursor-pointer pr-6"
-                    >
-                      {locations.map((loc) => (
-                        <option key={loc.value} value={loc.value}>
-                          {loc.label}
-                        </option>
-                      ))}
-                    </select>
-                    <ChevronDown className="w-4 h-4 text-gray-400 absolute right-4 pointer-events-none" />
+                    <span className="text-gray-800 text-sm min-w-[150px]">
+                      {locations.find(loc => loc.value === filters.location)?.label || 'Tüm Lokasyonlar'}
+                    </span>
+                    <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${showLocationDropdown ? 'rotate-180' : ''}`} />
                   </div>
+                  
+                  {/* Custom Dropdown */}
+                  {showLocationDropdown && (
+                    <div className="absolute top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
+                      {locations.map((loc, index) => {
+                        const getLocationIcon = (location) => {
+                          const locationLower = location.toLowerCase();
+                          if (locationLower.includes('antalya') || locationLower.includes('fethiye') || locationLower.includes('kaş')) return Waves;
+                          if (locationLower.includes('cappadocia') || locationLower.includes('nevşehir') || locationLower.includes('kapadokya')) return Mountain;
+                          if (locationLower.includes('istanbul') || locationLower.includes('ankara') || locationLower.includes('izmir')) return Building;
+                          if (locationLower.includes('bolu') || locationLower.includes('rize') || locationLower.includes('trabzon')) return Trees;
+                          return MapPin;
+                        };
+                        
+                        const Icon = getLocationIcon(loc.label);
+                        
+                        return (
+                          <div
+                            key={loc.value}
+                            onClick={() => {
+                              handleFilterChange('location', loc.value);
+                              setShowLocationDropdown(false);
+                            }}
+                            className={`flex items-center space-x-2 px-4 py-3 hover:bg-gray-50 cursor-pointer ${index === 0 ? 'rounded-t-lg' : ''} ${index === locations.length - 1 ? 'rounded-b-lg' : ''} ${filters.location === loc.value ? 'bg-blue-50 text-blue-600' : 'text-gray-700'}`}
+                          >
+                            <Icon className="w-4 h-4 text-gray-400" />
+                            <span className="text-sm">{loc.label}</span>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
                 </div>
                 <button
                   type="submit"
