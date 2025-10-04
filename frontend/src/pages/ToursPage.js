@@ -232,7 +232,10 @@ const ToursPage = () => {
   };
 
   const TourCard = ({ tour }) => (
-    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100">
+    <div 
+      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 cursor-pointer group"
+      onClick={() => toggleFavorite(tour.id)}
+    >
       <div className="relative overflow-hidden">
         <img
           src={tour.images[0] || '/placeholder-tour.jpg'}
@@ -240,18 +243,15 @@ const ToursPage = () => {
           className="object-cover group-hover:scale-110 transition-transform duration-300 w-full h-48"
         />
         <div className="absolute top-3 right-3">
-          <button 
-            onClick={() => toggleFavorite(tour.id)}
-            className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200"
-          >
+          <div className="bg-white/80 backdrop-blur-sm p-2 rounded-full">
             <Heart 
               className={`w-5 h-5 transition-colors duration-200 ${
                 favorites.has(tour.id) 
                   ? 'text-red-500 fill-current' 
-                  : 'text-gray-600 hover:text-red-500'
+                  : 'text-gray-600'
               }`} 
             />
-          </button>
+          </div>
         </div>
         {tour.category && (
           <div className="absolute top-3 left-3">
