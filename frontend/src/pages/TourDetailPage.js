@@ -154,13 +154,24 @@ const TourDetailPage = () => {
   };
 
   const loadModalReviews = async (page = 1) => {
+    setModalLoading(true);
     try {
       const response = await axios.get(`${API}/reviews?tour_id=${tourId}&page=${page}&limit=${reviewsPerPage}`);
-      return response.data;
+      const data = response.data;
+      setModalReviews(data.reviews || data);
+      setTotalReviews(data.total || data.length);
+      setCurrentPage(page);
     } catch (error) {
       console.error('Error loading modal reviews:', error);
-      return { reviews: [], total: 0 };
+      setModalReviews([]);
+    } finally {
+      setModalLoading(false);
     }
+  };
+
+  const handleModalOpen = () => {
+    setShowReviewsModal(true);
+    loadModalReviews(1);
   };
 
   const loadAvailableDates = async () => {
