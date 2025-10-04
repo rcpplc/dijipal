@@ -11,6 +11,7 @@ import {
   Grid,
   List,
   SlidersHorizontal,
+  ChevronDown,
   X
 } from 'lucide-react';
 import axios from 'axios';
