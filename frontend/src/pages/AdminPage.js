@@ -2167,7 +2167,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     <button
                       type="button"
                       onClick={addTourDate}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
+                      className="bg-slate-700 hover:bg-slate-800 text-white px-4 py-2.5 rounded-md text-sm font-medium transition-colors duration-200 border border-slate-700 hover:border-slate-800"
                     >
                       Kabin Tarihi Ekle
                     </button>
