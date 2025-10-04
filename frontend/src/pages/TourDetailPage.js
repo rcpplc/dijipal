@@ -17,6 +17,8 @@ import {
   User,
   ChevronDown,
   ChevronUp,
+  ChevronLeft,
+  ChevronRight,
   X
 } from 'lucide-react';
 import axios from 'axios';
