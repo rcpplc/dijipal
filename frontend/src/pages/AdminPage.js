@@ -2146,8 +2146,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         </div>
                         
                         <div>
-                          <label className="block text-sm font-medium text-gray-700 mb-2">
-                            👫 Çift Kişilik Kabin Fiyatı (₺) *
+                          <label className="block text-sm font-semibold text-gray-700 mb-2">
+                            Çift Kişilik Kabin Fiyatı (₺) *
                           </label>
                           <input
                             type="number"
