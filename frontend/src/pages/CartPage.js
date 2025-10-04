@@ -300,15 +300,11 @@ const CartPage = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-gray-600">
                   <span>Ara Toplam</span>
-                  <span>₺{getTotalPrice().toLocaleString()}</span>
+                  <span>₺{getSubtotal().toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-gray-600">
-                  <span>Hizmet Bedeli</span>
-                  <span>₺0</span>
-                </div>
-                <div className="flex justify-between text-gray-600">
-                  <span>Vergiler</span>
-                  <span>Dahil</span>
+                  <span>KDV (%20)</span>
+                  <span>₺{getVatAmount().toLocaleString()}</span>
                 </div>
                 <div className="border-t border-gray-200 pt-4">
                   <div className="flex justify-between text-xl font-bold text-gray-900">
