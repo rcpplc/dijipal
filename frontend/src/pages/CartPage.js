@@ -131,20 +131,17 @@ const CartPage = () => {
       return;
     }
 
-    // İlk tur için rezervasyon sayfasına git
+    // İlk tur için rezervasyon sayfasına git - tam veriyi state ile gönder
     const firstTour = cartItems[0];
-    const queryParams = new URLSearchParams({
-      participants: firstTour.participants.toString()
-    });
     
-    if (firstTour.selectedDate && firstTour.selectedDate.date) {
-      queryParams.append('date', firstTour.selectedDate.date);
-      if (firstTour.selectedDate.price) {
-        queryParams.append('price', firstTour.selectedDate.price.toString());
+    navigate(`/booking/${firstTour.tourId}`, {
+      state: {
+        tour: firstTour,
+        selectedDate: firstTour.selectedDate,
+        cabinType: firstTour.cabinType,
+        participants: firstTour.participants
       }
-    }
-    
-    navigate(`/booking/${firstTour.tourId}?${queryParams.toString()}`);
+    });
   };
 
   const clearCart = () => {
