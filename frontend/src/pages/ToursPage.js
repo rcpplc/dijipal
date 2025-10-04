@@ -364,56 +364,23 @@ const ToursPage = () => {
                     className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
                   />
                 </div>
-                {/* YENİ LOCATION DROPDOWN - SIFIRDAN */}
+                {/* ULTRA BASİT LOCATION DROPDOWN */}
                 <div className="sm:border-l border-gray-200 px-4 py-3 relative">
-                  {/* Dropdown Trigger */}
-                  <div 
-                    className="flex items-center justify-between cursor-pointer bg-white hover:bg-gray-50 px-3 py-2 rounded-md border border-gray-200 min-w-[200px]"
-                    onClick={() => setShowLocationDropdown(!showLocationDropdown)}
-                  >
-                    <div className="flex items-center space-x-2">
-                      <MapPin className="w-4 h-4 text-gray-500" />
-                      <span className="text-sm text-gray-700 font-medium">
-                        {filters.location ? locations.find(loc => loc.value === filters.location)?.label : 'Lokasyon Seçin'}
-                      </span>
-                    </div>
-                    <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${showLocationDropdown ? 'rotate-180' : ''}`} />
+                  {/* Native Select ile Basit Çözüm */}
+                  <div className="flex items-center space-x-2">
+                    <MapPin className="w-4 h-4 text-gray-500" />
+                    <select
+                      value={filters.location}
+                      onChange={(e) => handleFilterChange('location', e.target.value)}
+                      className="bg-white border border-gray-300 rounded-lg px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 cursor-pointer min-w-[180px]"
+                    >
+                      {locations.map((location, index) => (
+                        <option key={location.value || index} value={location.value}>
+                          📍 {location.label}
+                        </option>
+                      ))}
+                    </select>
                   </div>
-
-                  {/* Dropdown Menu - Basit ve Açık */}
-                  {showLocationDropdown && (
-                    <div className="absolute top-full left-0 mt-2 w-full bg-white border border-gray-300 rounded-lg shadow-lg z-50 overflow-hidden">
-                      {locations.map((location, index) => {
-                        // Icon seçimi fonksiyonu
-                        let IconComponent = MapPin; // Varsayılan
-                        
-                        if (location.label && location.label !== 'Tüm Lokasyonlar') {
-                          const locationName = location.label.toLowerCase();
-                          if (locationName.includes('fethiye') || locationName.includes('göcek')) {
-                            IconComponent = Waves;
-                          } else if (locationName.includes('istanbul') || locationName.includes('ankara')) {
-                            IconComponent = Building;
-                          } else if (locationName.includes('trabzon') || locationName.includes('rize')) {
-                            IconComponent = Trees;
-                          }
-                        }
-                        
-                        return (
-                          <div
-                            key={location.value || `location-${index}`}
-                            className="flex items-center space-x-3 px-4 py-3 hover:bg-gray-100 cursor-pointer border-b border-gray-100 last:border-b-0"
-                            onClick={() => {
-                              handleFilterChange('location', location.value);
-                              setShowLocationDropdown(false);
-                            }}
-                          >
-                            <IconComponent className="w-4 h-4 text-gray-500 flex-shrink-0" />
-                            <span className="text-sm text-gray-800">{location.label}</span>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  )}
                 </div>
                 <button
                   type="submit"
