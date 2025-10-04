@@ -331,6 +331,21 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "testing"
           comment: "Production admin login test completed successfully. ✅ Login modal opens/closes properly, ✅ Admin credentials (admin@example.com/admin123) work, ✅ API returns 200 status, ✅ User state set correctly with admin role, ✅ Admin panel accessible via user dropdown menu, ✅ Admin dashboard loads with proper data (3 tours, 2 bookings, 14 users, ₺1196 revenue), ✅ No console errors. Login flow working perfectly as designed."
+        - working: true
+          agent: "main"
+          comment: "✅ Login sistemi tamamen düzeltildi: Form submission sorunu çözüldü (handleSubmit onClick event'i ile manual olarak çağrılıyor), backend /tmp/uploads dizini oluşturuldu ve server 502 hatası giderildi, admin@example.com/admin123 bilgileri ile giriş başarılı, admin panel erişimi sağlandı. Console loglar: API Response 200, Login successful, Admin Route Check çalışıyor."
+
+  - task: "Cart page improvements and VAT calculation"
+    implemented: true
+    working: true
+    file: "CartPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+        - working: true
+          agent: "main"
+          comment: "✅ Sepet sayfası güncellemeleri tamamlandı: 1) +/- butonları seçilen tur tarihinin kabin kapasitesine göre sınırlandırıldı (available_cabins kontrolü eklendi), 2) Sipariş özeti KDV %20 olarak hesaplanıyor (Ara Toplam ₺10,000, KDV %2,000, Toplam ₺12,000), 3) Hizmet bedeli tamamen kaldırıldı, 4) Seçilen tarih ve kabin tipi bilgileri düzgün gösteriliyor. Kullanıcının istediği tüm özellikler implement edildi ve test edildi."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
