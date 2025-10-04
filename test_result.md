@@ -26,6 +26,18 @@ backend:
         agent: "testing"
         comment: "✅ BACKEND SERVER FIXED - Created missing /tmp/uploads directory and restarted backend service. Server now responding correctly on https://cabin-booking-sys.preview.emergentagent.com with 200 status. All API endpoints accessible."
 
+  - task: "Tour Creation API with Cabin Pricing System"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TOUR CREATION API FIX VERIFIED - Internal Server Error resolved! Successfully tested: 1) Admin login with admin@example.com/admin123 working perfectly, 2) POST /api/admin/tours endpoint now accepts new cabin pricing system (single_cabin_price, double_cabin_price), 3) Tour creation with exact test data from review request successful (Test Tour with cultural category, standart classification), 4) Tour dates created correctly with single_cabin_price=1000, double_cabin_price=1500, 5) GET /api/tours/{tour_id} returns correct cabin pricing data, 6) GET /api/admin/tours shows all tours with cabin pricing fields, 7) Multiple tour creation tests passed (100% success rate). The 'price' field error has been completely resolved - backend now properly handles the new cabin pricing system without Internal Server Errors."
+
 frontend:
   - task: "Booking Page Cleanup"
     implemented: true
