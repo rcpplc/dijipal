@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster } from 'sonner';
 import './App.css';
-import './watermark-remover.css';
 
 // Import components
 import Header from './components/Header';
