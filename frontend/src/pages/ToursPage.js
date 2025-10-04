@@ -527,6 +527,28 @@ const ToursPage = () => {
                       </div>
                     </div>
                   </div>
+                  
+                  {/* Filtre Temizle Link */}
+                  <div className="flex justify-end mt-4">
+                    <button
+                      onClick={() => {
+                        setFilters({
+                          category: '',
+                          location: '',
+                          min_price: '',
+                          max_price: '',
+                          duration_days: '',
+                          min_rating: '',
+                          max_rating: '',
+                          classification: ''
+                        });
+                        setSearchParams(new URLSearchParams());
+                      }}
+                      className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200"
+                    >
+                      Filtre Temizle
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
