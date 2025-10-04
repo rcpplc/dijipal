@@ -149,7 +149,7 @@ const ToursPage = () => {
           alt={tour.title}
           className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-48 sm:h-full' : 'w-full h-48'}`}
         />
-        <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
+        <div className="absolute top-4 right-4">
           <button 
             onClick={() => toggleFavorite(tour.id)}
             className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200"
@@ -162,11 +162,6 @@ const ToursPage = () => {
               }`} 
             />
           </button>
-          {tour.classification && (
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationStyle(tour.classification)}`}>
-              {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
-            </span>
-          )}
         </div>
         {tour.category && (
           <div className="absolute top-4 left-4">
