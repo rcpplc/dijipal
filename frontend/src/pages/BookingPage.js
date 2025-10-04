@@ -278,29 +278,7 @@ const BookingPage = () => {
                 <div>
                   <h2 className="text-xl font-bold text-gray-900 mb-6">Katılımcı Bilgileri</h2>
                   
-                  {/* Participants */}
-                  <div className="mb-6">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Katılımcı Sayısı
-                    </label>
-                    <div className="flex items-center space-x-4">
-                      <button
-                        onClick={() => setParticipants(Math.max(1, participants - 1))}
-                        className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
-                      >
-                        -
-                      </button>
-                      <span className="text-xl font-semibold text-gray-900 min-w-[3rem] text-center">
-                        {participants}
-                      </span>
-                      <button
-                        onClick={() => setParticipants(Math.min(tour.max_participants, participants + 1))}
-                        className="w-10 h-10 bg-gray-100 hover:bg-gray-200 rounded-full flex items-center justify-center transition-colors duration-200"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
+                  {/* Katılımcı sayısı kısmı kaldırıldı - sepetten gelen değer kullanılıyor */}
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
