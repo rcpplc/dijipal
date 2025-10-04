@@ -257,14 +257,14 @@ const CartPage = () => {
                           </span>
                           <button
                             onClick={() => updateQuantity(item.tourId, item.participants + 1)}
-                            disabled={item.participants >= (item.selectedDate?.available_cabins || item.selectedDate?.capacity || 8)}
+                            disabled={item.participants >= (item.selectedDate?.available_cabins || item.selectedDate?.capacity || 20)}
                             className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
                           >
                             <Plus className="w-4 h-4" />
                           </button>
                         </div>
                         <div className="text-xs text-gray-500 mt-1">
-                          Maks: {item.selectedDate?.available_cabins || item.selectedDate?.capacity || 8} kabin
+                          Maks: {item.selectedDate?.available_cabins || item.selectedDate?.capacity || 20} kabin
                         </div>
                       </div>
 
