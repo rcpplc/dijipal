@@ -39,6 +39,16 @@ const BookingPage = () => {
   const doubleCabinPrice = selectedDate?.double_cabin_price || parseFloat(searchParams.get('double_cabin_price')) || 0;
   
   const selectedPrice = cabinType === 'single' ? singleCabinPrice : doubleCabinPrice;
+  
+  // Debug için fiyat bilgilerini logla
+  console.log('BookingPage Debug:', {
+    selectedDate,
+    cabinType,
+    singleCabinPrice,
+    doubleCabinPrice,
+    selectedPrice,
+    participants
+  });
   const formattedSelectedDate = selectedDate ? 
     new Date(selectedDate).toLocaleDateString('tr-TR', {
       year: 'numeric',
