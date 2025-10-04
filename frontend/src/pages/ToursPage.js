@@ -159,7 +159,7 @@ const ToursPage = () => {
         )}
       </div>
 
-      <div className={`p-6 ${isListView ? 'flex-1' : ''}`}>
+      <div className={`p-4 sm:p-6 ${isListView ? 'flex-1' : ''}`}>
         <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
           <MapPin className="w-4 h-4" />
           <span>{tour.location}</span>
