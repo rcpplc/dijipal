@@ -834,7 +834,7 @@ const TourDetailPage = () => {
                 {totalReviews > 3 && (
                   <div className="text-center mt-6">
                     <button
-                      onClick={() => setShowReviewsModal(true)}
+                      onClick={handleModalOpen}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors duration-200"
                     >
                       Daha fazla gör ({totalReviews - 3} değerlendirme daha)
