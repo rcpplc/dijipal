@@ -209,8 +209,6 @@ function App() {
   return (
     <AuthContext.Provider value={authValue}>
       <div className="App min-h-screen flex flex-col bg-gray-50">
-        {/* Watermark cover overlay */}
-        <div className="watermark-cover"></div>
         <BrowserRouter>
           <Header />
           
