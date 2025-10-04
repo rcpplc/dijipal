@@ -1800,6 +1800,25 @@ async def cleanup_data(current_user: User = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
 
+# Health check endpoint for deployment monitoring
+@api_router.get("/health")
+async def health_check():
+    """Health check endpoint for deployment monitoring"""
+    try:
+        # Test database connectivity
+        await db.list_collection_names()
+        return {
+            "status": "healthy",
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+            "database": "connected",
+            "uploads_dir": "ready"
+        }
+    except Exception as e:
+        raise HTTPException(
+            status_code=503, 
+            detail=f"Service unavailable: {str(e)}"
+        )
+
 # Ensure uploads directory exists before mounting static files
 import os
 uploads_dir = "/tmp/uploads"
