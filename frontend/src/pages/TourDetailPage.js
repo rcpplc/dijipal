@@ -642,7 +642,7 @@ const TourDetailPage = () => {
               {(tour.meeting_point || tour.languages || tour.pickup_time || tour.dropoff_time) && (
                 <div className="py-6 border-t border-gray-100">
                   <h4 className="font-semibold text-gray-900 mb-4">Ek Bilgiler</h4>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                  <div className="grid grid-cols-1 md:grid-cols-4 gap-4 text-sm">
                     {tour.meeting_point && (
                       <div>
                         <span className="font-medium text-gray-700">Buluşma Noktası:</span>
