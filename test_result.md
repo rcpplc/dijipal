@@ -355,6 +355,9 @@ Admin paneldeki kabin fiyatlandırması sorunu: "Tek Kabin = tek kişilik kabin,
         - working: true
           agent: "main"
           comment: "✅ KRITIK HATA DÜZELTİLDİ - Bağımsız tarih kapasite kontrolleri: updateQuantity fonksiyonu tourId + selectedDate.date kombinasyonu ile düzeltildi, her sepet kartı artık kendi tarihinin kapasitesi ile sınırlı. Test edildi: 15 Ocak (Maks: 8 kabin) ve 20 Ocak (Maks: 10 kabin) ayrı kartlar olarak görünüyor ve bağımsız kapasite kontrollerine sahip. removeItem ve buton click event'leri de güncellendi. Toplam fiyat: ₺27,000 (15 Ocak ₺12K + 20 Ocak ₺15K). Kullanıcının bildirdiği kritik hata tamamen çözüldü."
+        - working: true
+          agent: "main"
+          comment: "✅ AYRI KABİN TİPİ SEPET KARTLARI - Aynı tarih farklı kabin tipleri: tourId + selectedDate.date + cabinType kombinasyonu ile unique kontrol eklendi. Test başarılı: 10 Şubat 2025 tarihinde Tek Kişilik Kabin (₺18,000) ve Çift Kişilik Kabin (₺32,000) ayrı kartlar olarak görünüyor. TourDetailPage.js addToCart ve CartPage.js updateQuantity/removeItem fonksiyonları cabinType dahil edilerek güncellendi. Toplam: ₺50,000 (₺41,667 + ₺8,333 KDV). Her kabin tipi bağımsız kapasite ve fiyat kontrolüne sahip."
 
   - task: "Admin reviews management frontend UI"
     implemented: true
