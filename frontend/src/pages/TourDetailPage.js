@@ -706,7 +706,7 @@ const TourDetailPage = () => {
                     <span className="text-sm text-gray-500">({reviews.length})</span>
                   )}
                 </h4>
-                {reviews.length > 3 && (
+                {reviews.length > 2 && (
                   <button
                     onClick={() => setShowReviewsModal(true)}
                     className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors"
