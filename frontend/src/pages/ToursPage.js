@@ -128,6 +128,19 @@ const ToursPage = () => {
     }
   };
 
+  // Helper function to get classification styling
+  const getClassificationStyle = (classification) => {
+    switch(classification?.toLowerCase()) {
+      case 'lux':
+        return 'bg-gradient-to-r from-yellow-400 to-yellow-600 text-white';
+      case 'delux':
+        return 'bg-gradient-to-r from-purple-500 to-purple-700 text-white';
+      case 'standart':
+      default:
+        return 'bg-gradient-to-r from-gray-500 to-gray-600 text-white';
+    }
+  };
+
   const TourCard = ({ tour, isListView = false }) => (
     <div className={`bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-gray-100 ${isListView ? 'flex flex-col sm:flex-row' : ''}`}>
       <div className={`relative overflow-hidden ${isListView ? 'w-full sm:w-1/3' : ''}`}>
@@ -136,7 +149,7 @@ const ToursPage = () => {
           alt={tour.title}
           className={`object-cover group-hover:scale-110 transition-transform duration-300 ${isListView ? 'w-full h-48 sm:h-full' : 'w-full h-48'}`}
         />
-        <div className="absolute top-4 right-4">
+        <div className="absolute top-4 right-4 flex flex-col gap-2 items-end">
           <button 
             onClick={() => toggleFavorite(tour.id)}
             className="bg-white/80 backdrop-blur-sm hover:bg-white p-2 rounded-full transition-colors duration-200"
@@ -149,6 +162,11 @@ const ToursPage = () => {
               }`} 
             />
           </button>
+          {tour.classification && (
+            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationStyle(tour.classification)}`}>
+              {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
+            </span>
+          )}
         </div>
         {tour.category && (
           <div className="absolute top-4 left-4">
