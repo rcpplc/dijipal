@@ -1231,6 +1231,53 @@ const TourDetailPage = () => {
         </div>
       </div>
 
+      {/* Description Modal */}
+      {showDescriptionModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-3xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h3 className="text-xl font-semibold text-gray-900">Tur Açıklaması</h3>
+              <button
+                onClick={() => setShowDescriptionModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed">
+                {tour.description}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Program Modal */}
+      {showProgramModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <div className="bg-white rounded-lg max-w-4xl w-full max-h-[80vh] overflow-y-auto">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h3 className="text-xl font-semibold text-gray-900 flex items-center space-x-2">
+                <Calendar className="w-6 h-6 text-blue-500" />
+                <span>Detaylı Tur Programı</span>
+              </h3>
+              <button
+                onClick={() => setShowProgramModal(false)}
+                className="text-gray-400 hover:text-gray-600 transition-colors"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+            <div className="p-6">
+              <div className="whitespace-pre-wrap text-gray-700 leading-relaxed prose prose-sm max-w-none">
+                {tour.program_details}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Reviews Modal */}
       {showReviewsModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
