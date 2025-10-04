@@ -83,7 +83,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Tour Creation API with Cabin Pricing System"
+    - "Remove Test Reviews API"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
