@@ -449,21 +449,98 @@ const ProfilePage = () => {
           {activeTab === 'favorites' && (
             <div>
               <h2 className="text-xl font-bold text-gray-900 mb-6">Favorilerim</h2>
-              <div className="text-center py-16">
-                <Star className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                  Henüz favori turunuz yok
-                </h3>
-                <p className="text-gray-600 mb-6">
-                  Beğendiğiniz turları favorilere ekleyerek daha kolay erişebilirsiniz
-                </p>
-                <a
-                  href="/turlar"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-                >
-                  Turları Keşfet
-                </a>
-              </div>
+              
+              {loading ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {[...Array(6)].map((_, i) => (
+                    <div key={i} className="animate-pulse bg-white rounded-xl shadow p-4">
+                      <div className="bg-gray-200 h-48 rounded-lg mb-4"></div>
+                      <div className="bg-gray-200 h-4 rounded w-3/4 mb-2"></div>
+                      <div className="bg-gray-200 h-3 rounded w-1/2"></div>
+                    </div>
+                  ))}
+                </div>
+              ) : favorites.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {favorites.map((tour) => (
+                    <div key={tour.id} className="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300">
+                      <div className="relative h-48">
+                        <img
+                          src={tour.images?.[0] || '/placeholder-tour.jpg'}
+                          alt={tour.title}
+                          className="w-full h-full object-cover"
+                        />
+                        <button
+                          onClick={() => removeFavorite(tour.id)}
+                          className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-full shadow transition-all duration-200"
+                        >
+                          <X className="w-4 h-4 text-red-500" />
+                        </button>
+                      </div>
+                      
+                      <div className="p-4">
+                        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-2">
+                          <MapPin className="w-4 h-4" />
+                          <span>{tour.location}</span>
+                        </div>
+                        
+                        <h3 className="font-bold text-gray-900 text-lg mb-2 line-clamp-2">
+                          {tour.title}
+                        </h3>
+                        
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                          {tour.short_description}
+                        </p>
+                        
+                        <div className="flex items-center justify-between mb-4">
+                          <div className="flex items-center">
+                            {[...Array(5)].map((_, i) => (
+                              <Star
+                                key={i}
+                                className={`w-4 h-4 ${
+                                  i < Math.floor(tour.rating || 0)
+                                    ? 'text-yellow-400 fill-current'
+                                    : 'text-gray-300'
+                                }`}
+                              />
+                            ))}
+                            <span className="text-sm text-gray-500 ml-1">
+                              ({tour.review_count || 0})
+                            </span>
+                          </div>
+                          
+                          <div className="text-lg font-bold text-blue-600">
+                            ₺{tour.minimum_price?.toLocaleString('tr-TR')}
+                          </div>
+                        </div>
+                        
+                        <a
+                          href={`/turlar/${tour.id}`}
+                          className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 px-4 rounded-lg text-center block transition-colors duration-200"
+                        >
+                          Detayları Görüntüle
+                        </a>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="text-center py-16">
+                  <Star className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    Henüz favori turunuz yok
+                  </h3>
+                  <p className="text-gray-600 mb-6">
+                    Beğendiğiniz turları favorilere ekleyerek daha kolay erişebilirsiniz
+                  </p>
+                  <a
+                    href="/turlar"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                  >
+                    Turları Keşfet
+                  </a>
+                </div>
+              )}
             </div>
           )}
 
