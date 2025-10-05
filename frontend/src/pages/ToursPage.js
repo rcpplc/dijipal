@@ -474,11 +474,14 @@ const ToursPage = () => {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Lokasyon */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Lokasyon</label>
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-blue-600" />
+                    Lokasyon
+                  </label>
                   <select
                     value={filters.location}
                     onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 text-sm"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
                     {locations.map((location, index) => (
                       <option key={location.value || index} value={location.value}>
@@ -490,11 +493,14 @@ const ToursPage = () => {
 
                 {/* Kategori */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Kategori</label>
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Mountain className="w-4 h-4 mr-2 text-gray-600" />
+                    Kategori
+                  </label>
                   <select
                     value={filters.category}
                     onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 text-sm"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
                     {categories.map(cat => (
                       <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -504,11 +510,14 @@ const ToursPage = () => {
 
                 {/* Sınıflandırma */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Sınıf</label>
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Building className="w-4 h-4 mr-2 text-gray-600" />
+                    Sınıf
+                  </label>
                   <select
                     value={filters.classification}
                     onChange={(e) => handleFilterChange('classification', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 text-sm"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
                     {classifications.map(cls => (
                       <option key={cls.value} value={cls.value}>{cls.label}</option>
@@ -518,11 +527,14 @@ const ToursPage = () => {
 
                 {/* Süre */}
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Süre</label>
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-blue-600" />
+                    Süre
+                  </label>
                   <select
                     value={filters.duration}
                     onChange={(e) => handleFilterChange('duration', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 text-sm"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
                     {durations.map(dur => (
                       <option key={dur.value} value={dur.value}>{dur.label}</option>
@@ -530,17 +542,28 @@ const ToursPage = () => {
                   </select>
                 </div>
 
-                {/* Minimum Puan */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700">Min. Puan</label>
+                {/* Minimum Puan - Yıldızlı */}
+                <div className="space-y-2 sm:col-span-2 md:col-span-1">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Star className="w-4 h-4 mr-2 text-blue-600 fill-current" />
+                    Min. Puan
+                  </label>
                   <select
                     value={filters.minRating}
                     onChange={(e) => handleFilterChange('minRating', e.target.value)}
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 transition-all duration-200 text-sm"
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
                     {minRatings.map(rating => (
                       <option key={rating.value} value={rating.value}>
-                        {rating.label}
+                        {rating.value ? (
+                          <>
+                            {[...Array(5)].map((_, i) => (
+                              i < parseInt(rating.value) ? '★' : '☆'
+                            )).join('')} ({rating.value}+ Yıldız)
+                          </>
+                        ) : (
+                          rating.label
+                        )}
                       </option>
                     ))}
                   </select>
