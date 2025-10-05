@@ -469,7 +469,7 @@ const ToursPage = () => {
             {/* Filtreler - Tek Kolon Layout */}
             <div className="space-y-6">
               {/* Üst Sıra Filtreler */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+              <div className="space-y-4">
                 {/* Lokasyon */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Lokasyon</label>
