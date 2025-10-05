@@ -48,6 +48,12 @@ const AdminPage = () => {
   const [editingLocation, setEditingLocation] = useState(null);
   
   // Category management
+  
+  // Bookings management
+  const [bookings, setBookings] = useState([]);
+  const [bookingsLoading, setBookingsLoading] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
+  const [bookingFilter, setBookingFilter] = useState('all'); // all, confirmed, cancelled, completed
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
