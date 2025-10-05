@@ -307,7 +307,7 @@ const ToursPage = () => {
   // YENİ TOUR CARD - SIFIRDAN TASARIM
   const TourCard = ({ tour }) => (
     <Link 
-      to={`/tours/${tour.id}`}
+      to={`/turlar/${tour.id}`}
       className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-1"
     >
       {/* Resim Alanı */}
