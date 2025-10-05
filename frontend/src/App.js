@@ -179,7 +179,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
-              <Route path="/turlar/:tourId" element={<TourDetailPage />} />
+              <Route path="/turlar/:tourSlug" element={<TourDetailPage />} />
               <Route path="/category/:category" element={<CategoryPage />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
