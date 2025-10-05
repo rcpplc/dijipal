@@ -58,13 +58,73 @@ const ProfilePage = () => {
     }
   };
 
+  const loadFavorites = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/favorites`);
+      setFavorites(response.data);
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+      toast.error('Favoriler yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleProfileUpdate = async () => {
     try {
-      // Profile update API call would go here
+      const response = await axios.put(`${API}/profile`, profileData);
       toast.success('Profil bilgileri güncellendi');
       setEditMode(false);
+      
+      // Update user context with new data
+      if (response.data) {
+        // Trigger a reload of user data
+        window.location.reload();
+      }
     } catch (error) {
+      console.error('Profile update error:', error);
       toast.error('Profil güncellenirken hata oluştu');
+    }
+  };
+
+  const handlePasswordChange = async () => {
+    if (passwordData.new_password !== passwordData.confirm_password) {
+      toast.error('Yeni şifreler eşleşmiyor');
+      return;
+    }
+
+    if (passwordData.new_password.length < 6) {
+      toast.error('Şifre en az 6 karakter olmalıdır');
+      return;
+    }
+
+    try {
+      await axios.put(`${API}/change-password`, {
+        current_password: passwordData.current_password,
+        new_password: passwordData.new_password
+      });
+      toast.success('Şifre başarıyla değiştirildi');
+      setPasswordMode(false);
+      setPasswordData({
+        current_password: '',
+        new_password: '',
+        confirm_password: ''
+      });
+    } catch (error) {
+      console.error('Password change error:', error);
+      toast.error('Şifre değiştirilirken hata oluştu');
+    }
+  };
+
+  const removeFavorite = async (tourId) => {
+    try {
+      await axios.delete(`${API}/favorites/${tourId}`);
+      toast.success('Favorilerden çıkarıldı');
+      loadFavorites();
+    } catch (error) {
+      console.error('Error removing favorite:', error);
+      toast.error('Favorilerden çıkarılırken hata oluştu');
     }
   };
 
