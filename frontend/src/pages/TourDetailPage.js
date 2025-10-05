@@ -371,6 +371,20 @@ const TourDetailPage = () => {
     }
   };
 
+  // Mobile booking bar add to cart handler
+  const handleAddToCart = () => {
+    if (!selectedDate || !selectedCabinType) {
+      toast.error('Lütfen tarih ve kabin tipi seçin');
+      return;
+    }
+    
+    // Calculate participants based on cabin type and count
+    const participantsPerCabin = selectedCabinType === 'single' ? 1 : 2;
+    const totalParticipants = cabinCount * participantsPerCabin;
+    
+    addToCart(selectedCabinType, totalParticipants);
+  };
+
   const addToCart = () => {
     if (!selectedDate) {
       toast.error('Lütfen önce bir tarih seçin');
