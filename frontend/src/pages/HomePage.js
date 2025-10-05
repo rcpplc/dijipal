@@ -103,10 +103,10 @@ const HomePage = () => {
         console.error('Error tracking search:', error);
       }
       
-      navigate(`/tours?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/turlar?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
       // If no search query, show all tours
-      navigate('/tours');
+      navigate('/turlar');
     }
   };
 
