@@ -1367,20 +1367,39 @@ const TourDetailPage = () => {
             </div>
           </div>
 
-          {/* Action Buttons - Compact */}
-          <div className="flex items-center space-x-1">
-            {/* Combined Selection Button */}
+          {/* Action Buttons - Improved */}
+          <div className="flex items-center space-x-2">
+            {/* Date & Cabin Selection Button */}
             <button
               onClick={() => setShowBookingModal(true)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-2 rounded-md transition-colors duration-200 flex items-center"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
             >
               <Calendar className="w-4 h-4" />
+              <span className="text-xs">Seç</span>
             </button>
 
-            {/* Quick Booking Button */}
+            {/* Add to Cart Button */}
+            <button
+              onClick={handleAddToCart}
+              disabled={!selectedDate || !selectedCabinType}
+              className={`px-3 py-2 rounded-lg transition-colors duration-200 flex items-center ${
+                selectedDate && selectedCabinType
+                  ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                  : 'bg-gray-50 text-gray-400 cursor-not-allowed'
+              }`}
+            >
+              <ShoppingCart className="w-4 h-4" />
+            </button>
+
+            {/* Booking Button */}
             <button
               onClick={handleBooking}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-medium transition-colors duration-200 text-sm"
+              disabled={!selectedDate || !selectedCabinType}
+              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${
+                selectedDate && selectedCabinType
+                  ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                  : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              }`}
             >
               Rezervasyon
             </button>
