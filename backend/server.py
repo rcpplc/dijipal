@@ -1482,6 +1482,227 @@ async def remove_test_reviews(tour_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error removing reviews: {str(e)}")
 
+@api_router.post("/add-10-tours")
+async def add_10_tours():
+    """Add 10 sample tours with cabin pricing"""
+    
+    sample_tours = [
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor1",
+            "title": "Göcek - Fethiye 4 Gece 5 Gün Kabin Turu",
+            "description": "Türkiye'nin en güzel koylarında unutulmaz mavi yolculuk deneyimi. Göcek'ten başlayarak Fethiye körfezinin saklı koylarını keşfedin.",
+            "short_description": "Göcek ve Fethiye'nin saklı koylarında mavi yolculuk",
+            "location": "Muğla, Göcek",
+            "duration_days": 5,
+            "classification": "lux",
+            "category": "Doğa",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://blog.yachtdunyasi.com/wp-content/uploads/2022/10/marmaris-en-guzel-koylari-400x400.webp"],
+            "minimum_price": 15000,
+            "rating": 4.8,
+            "review_count": 12,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor1", 
+            "title": "Marmaris - Datça 3 Gece 4 Gün Kabin Turu",
+            "description": "Marmaris'ten başlayarak Datça yarımadasının kristal berraklığındaki sularında kabin turu deneyimi.",
+            "short_description": "Marmaris ve Datça'nın berrak sularında kabin keyfi",
+            "location": "Muğla, Marmaris",
+            "duration_days": 4,
+            "classification": "standart",
+            "category": "Doğa", 
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.unsplash.com/photo-1529528018027-2ee0409703af"],
+            "minimum_price": 12000,
+            "rating": 4.5,
+            "review_count": 8,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor2",
+            "title": "Bodrum - Gökova 6 Gece 7 Gün Kabin Turu", 
+            "description": "Bodrum'dan başlayarak Gökova körfezinin eşsiz güzelliklerini kabin kiralama ile keşfedin.",
+            "short_description": "Bodrum ve Gökova körfezinde lüks kabin deneyimi",
+            "location": "Muğla, Bodrum",
+            "duration_days": 7,
+            "classification": "delux",
+            "category": "Doğa",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.unsplash.com/photo-1727715220090-8e05aaa5b4fa"],
+            "minimum_price": 22000,
+            "rating": 4.9,
+            "review_count": 15,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor2",
+            "title": "Kaş - Kekova 2 Gece 3 Gün Kabin Turu",
+            "description": "Kaş'tan başlayarak Kekova'nın suya batmış şehir kalıntılarını kabin turu ile keşfedin.",
+            "short_description": "Kaş ve Kekova'da tarihi kabin yolculuğu",
+            "location": "Antalya, Kaş", 
+            "duration_days": 3,
+            "classification": "standart",
+            "category": "Tarihi",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.pexels.com/photos/10659549/pexels-photo-10659549.jpeg"],
+            "minimum_price": 9500,
+            "rating": 4.3,
+            "review_count": 6,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor3",
+            "title": "Antalya - Kemer 3 Gece 4 Gün Kabin Turu",
+            "description": "Antalya'dan Kemer'e uzanan sahillerde kabin kiralama ile Akdeniz'in tadını çıkarın.",
+            "short_description": "Antalya - Kemer sahillerinde kabin macerası",
+            "location": "Antalya, Kemer",
+            "duration_days": 4,
+            "classification": "lux",
+            "category": "Macera",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.unsplash.com/photo-1506905925346-21bda4d32df4"],
+            "minimum_price": 14000,
+            "rating": 4.6,
+            "review_count": 9,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor3",
+            "title": "Çeşme - Alaçatı 2 Gece 3 Gün Kabin Turu",
+            "description": "Çeşme'den Alaçatı'ya kadar Ege'nin rüzgarlı sularında kabin turu deneyimi.",
+            "short_description": "Çeşme ve Alaçatı'da rüzgarlı kabin turu",
+            "location": "İzmir, Çeşme",
+            "duration_days": 3,
+            "classification": "standart", 
+            "category": "Kültürel",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.pexels.com/photos/1450353/pexels-photo-1450353.jpeg"],
+            "minimum_price": 8500,
+            "rating": 4.2,
+            "review_count": 4,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor4",
+            "title": "Kuşadası - Samos 4 Gece 5 Gün Kabin Turu",
+            "description": "Kuşadası'ndan Yunan adası Samos'a uzanan uluslararası kabin turu macerası.",
+            "short_description": "Kuşadası - Samos arası uluslararası kabin yolculuğu", 
+            "location": "Aydın, Kuşadası",
+            "duration_days": 5,
+            "classification": "delux",
+            "category": "Kültürel",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.unsplash.com/photo-1570077188670-e3a8d69ac5ff"],
+            "minimum_price": 18500,
+            "rating": 4.7,
+            "review_count": 11,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor4",
+            "title": "Kalkan - Patara 1 Gece 2 Gün Kabin Turu",
+            "description": "Kalkan'dan Patara'ya kısa ve keyifli kabin turu. Antik kent kalıntıları ve plaj keyfi.",
+            "short_description": "Kalkan - Patara'da kısa kabin getaway",
+            "location": "Antalya, Kalkan",
+            "duration_days": 2,
+            "classification": "standart",
+            "category": "Tarihi",
+            "status": TourStatus.ACTIVE, 
+            "images": ["https://images.pexels.com/photos/2034335/pexels-photo-2034335.jpeg"],
+            "minimum_price": 6500,
+            "rating": 4.1,
+            "review_count": 3,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor5",
+            "title": "Ayvalık - Cunda 3 Gece 4 Gün Kabin Turu", 
+            "description": "Ayvalık'tan Cunda adasına uzanan nostaljik kabin turu. Ege'nin sakin sularında huzur.",
+            "short_description": "Ayvalık ve Cunda'da nostaljik kabin deneyimi",
+            "location": "Balıkesir, Ayvalık",
+            "duration_days": 4,
+            "classification": "lux",
+            "category": "Kültürel", 
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.pexels.com/photos/1371360/pexels-photo-1371360.jpeg"],
+            "minimum_price": 13500,
+            "rating": 4.4,
+            "review_count": 7,
+            "created_at": datetime.now(timezone.utc)
+        },
+        {
+            "id": str(uuid.uuid4()),
+            "vendor_id": "vendor5",
+            "title": "Sinop - Amasra 5 Gece 6 Gün Kabin Turu",
+            "description": "Karadeniz'in en güzel kıyılarında Sinop'tan Amasra'ya kabin turu. Yeşil ve mavi buluşması.",
+            "short_description": "Karadeniz'de Sinop - Amasra kabin macerası",
+            "location": "Sinop, Merkez",
+            "duration_days": 6,
+            "classification": "standart",
+            "category": "Doğa",
+            "status": TourStatus.ACTIVE,
+            "images": ["https://images.pexels.com/photos/417173/pexels-photo-417173.jpeg"],
+            "minimum_price": 16000,
+            "rating": 4.0,
+            "review_count": 2,
+            "created_at": datetime.now(timezone.utc)
+        }
+    ]
+    
+    # Insert tours
+    inserted_tours = []
+    for tour in sample_tours:
+        existing_tour = await db.tours.find_one({"title": tour["title"]})
+        if not existing_tour:
+            await db.tours.insert_one(tour)
+            inserted_tours.append(tour)
+            
+            # Add cabin pricing dates for each tour
+            tour_dates = [
+                {
+                    "tour_id": tour["id"],
+                    "start_date": "2025-01-15",
+                    "available_cabins": 8,
+                    "single_cabin_price": tour["minimum_price"],
+                    "double_cabin_price": int(tour["minimum_price"] * 1.5),
+                    "is_active": True,
+                    "created_at": datetime.now(timezone.utc)
+                },
+                {
+                    "tour_id": tour["id"],
+                    "start_date": "2025-01-20", 
+                    "available_cabins": 6,
+                    "single_cabin_price": tour["minimum_price"],
+                    "double_cabin_price": int(tour["minimum_price"] * 1.5),
+                    "is_active": True,
+                    "created_at": datetime.now(timezone.utc)
+                },
+                {
+                    "tour_id": tour["id"],
+                    "start_date": "2025-02-01",
+                    "available_cabins": 10,
+                    "single_cabin_price": int(tour["minimum_price"] * 0.9),
+                    "double_cabin_price": int(tour["minimum_price"] * 1.3),
+                    "is_active": True,
+                    "created_at": datetime.now(timezone.utc)
+                }
+            ]
+            
+            for date in tour_dates:
+                await db.tour_dates.insert_one(date)
+    
+    return {"message": f"Added {len(inserted_tours)} new tours with cabin pricing successfully"}
+
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
