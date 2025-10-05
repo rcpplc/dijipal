@@ -565,8 +565,8 @@ const TourDetailPage = () => {
             {/* Tour Info */}
             <div className="bg-white rounded-xl p-6 shadow-lg">
               {/* Header */}
-              <div className="flex items-start justify-between mb-4">
-                <div>
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4 space-y-3 sm:space-y-0">
+                <div className="flex-1">
                   <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
                     <MapPin className="w-4 h-4" />
                     <span>{tour.location}</span>
@@ -580,7 +580,7 @@ const TourDetailPage = () => {
                 </div>
                 
                 {tour.category && (
-                  <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-blue-100 text-blue-800 px-2 py-1 sm:px-3 sm:py-1 rounded-full text-xs sm:text-sm font-medium self-start sm:ml-4 shrink-0">
                     {tour.category}
                   </span>
                 )}
