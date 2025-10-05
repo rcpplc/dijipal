@@ -94,6 +94,37 @@ const ToursPage = () => {
   };
 
   useEffect(() => {
+    // SEO Ayarları
+    document.title = "Kabin Turları - DijipalTour | Mavi Yolculuk Kabin Kiralama";
+    
+    // Meta description güncelle
+    const metaDescription = document.querySelector('meta[name="description"]');
+    if (metaDescription) {
+      metaDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında kabin kiralama ile mavi yolculuk. Göcek, Marmaris, Bodrum koylarında profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
+    }
+    
+    // Open Graph meta etiketleri
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    if (ogTitle) {
+      ogTitle.setAttribute('content', 'Kabin Turları - Mavi Yolculuk | DijipalTour');
+    }
+    
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    if (ogDescription) {
+      ogDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında kabin kiralama ile mavi yolculuk deneyimi. Profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
+    }
+    
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    if (ogImage) {
+      ogImage.setAttribute('content', 'https://blog.yachtdunyasi.com/wp-content/uploads/2022/10/marmaris-en-guzel-koylari-400x400.webp');
+    } else {
+      // Eğer yoksa yeni meta etiketi oluştur
+      const newOgImage = document.createElement('meta');
+      newOgImage.setAttribute('property', 'og:image');
+      newOgImage.setAttribute('content', 'https://blog.yachtdunyasi.com/wp-content/uploads/2022/10/marmaris-en-guzel-koylari-400x400.webp');
+      document.head.appendChild(newOgImage);
+    }
+    
     loadFilterData();
     loadTours();
     if (user) {
