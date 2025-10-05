@@ -1535,10 +1535,10 @@ const TourDetailPage = () => {
                     }`}
                   >
                     <div className={`font-medium text-sm ${selectedCabinType === 'single' ? 'text-white' : 'text-gray-900'}`}>
-                      Tek Kişilik
+                      Tek Kişilik Kabin
                     </div>
                     <div className={`text-xs mt-1 ${selectedCabinType === 'single' ? 'text-gray-200' : 'text-gray-600'}`}>
-                      1 yetişkin
+                      1 kişi kapasiteli
                     </div>
                     <div className={`text-sm font-bold mt-1 ${selectedCabinType === 'single' ? 'text-white' : 'text-blue-600'}`}>
                       {(() => {
