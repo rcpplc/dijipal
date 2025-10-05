@@ -145,6 +145,30 @@ const AdminPage = () => {
     }
   };
 
+  const loadBookings = async () => {
+    setBookingsLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/bookings`);
+      setBookings(response.data);
+    } catch (error) {
+      console.error('Error loading bookings:', error);
+      toast.error('Rezervasyonlar yüklenemedi');
+    } finally {
+      setBookingsLoading(false);
+    }
+  };
+
+  const updateBookingStatus = async (bookingId, status) => {
+    try {
+      await axios.put(`${API}/admin/bookings/${bookingId}/status`, { status });
+      toast.success('Rezervasyon durumu güncellendi');
+      loadBookings();
+    } catch (error) {
+      console.error('Error updating booking status:', error);
+      toast.error('Rezervasyon durumu güncellenirken hata oluştu');
+    }
+  };
+
   const handleApproveReview = async (reviewId) => {
     try {
       await axios.put(`${API}/admin/reviews/${reviewId}/approve`);
