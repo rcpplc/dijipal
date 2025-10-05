@@ -18,6 +18,7 @@ import {
   ChevronDown,
   ChevronUp,
   ChevronLeft,
+  ShoppingCart,
   ChevronRight,
   X
 } from 'lucide-react';
