@@ -146,7 +146,7 @@ const TourDetailPage = () => {
     setReviewsLoading(true);
     try {
       // İlk olarak toplam sayıyı almak için tüm reviewları çek
-      const totalResponse = await axios.get(`${API}/reviews?tour_id=${tourId}`);
+      const totalResponse = await axios.get(`${API}/reviews?tour_id=${tourSlug}`);
       const allReviews = totalResponse.data.reviews || totalResponse.data;
       const totalCount = allReviews.length;
       
