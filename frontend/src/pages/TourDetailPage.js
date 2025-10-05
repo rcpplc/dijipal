@@ -571,10 +571,10 @@ const TourDetailPage = () => {
                     <MapPin className="w-4 h-4" />
                     <span>{tour.location}</span>
                   </div>
-                  <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                  <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 mb-2">
                     {tour.title}
                   </h1>
-                  <p className="text-gray-600 text-lg">
+                  <p className="text-gray-600 text-sm sm:text-base lg:text-lg">
                     {tour.short_description}
                   </p>
                 </div>
