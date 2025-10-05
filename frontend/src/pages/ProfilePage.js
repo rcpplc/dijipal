@@ -31,6 +31,13 @@ const ProfilePage = () => {
     email: user?.email || '',
     phone: user?.phone || ''
   });
+  const [favorites, setFavorites] = useState([]);
+  const [passwordData, setPasswordData] = useState({
+    current_password: '',
+    new_password: '',
+    confirm_password: ''
+  });
+  const [passwordMode, setPasswordMode] = useState(false);
 
   useEffect(() => {
     if (activeTab === 'bookings') {
