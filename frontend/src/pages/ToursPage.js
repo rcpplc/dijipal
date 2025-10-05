@@ -468,10 +468,10 @@ const ToursPage = () => {
               </button>
             </div>
             
-            {/* Filtreler - Tek Kolon Layout */}
+            {/* Filtreler - İki Kolon Layout */}
             <div className="space-y-6">
               {/* Üst Sıra Filtreler */}
-              <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 {/* Lokasyon */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700">Lokasyon</label>
