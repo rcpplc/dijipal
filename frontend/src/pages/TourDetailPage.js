@@ -1390,7 +1390,7 @@ const TourDetailPage = () => {
               className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
             >
               <Calendar className="w-4 h-4" />
-              <span className="text-xs">Seç</span>
+              <span className="text-xs">Tur Seç</span>
             </button>
 
             {/* Add to Cart Button */}
