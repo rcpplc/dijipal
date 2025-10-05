@@ -1463,7 +1463,7 @@ const TourDetailPage = () => {
                     <div className="text-xs text-gray-600 mt-1">1 yetişkin</div>
                     <div className="text-sm font-bold text-blue-600 mt-1">
                       {(() => {
-                        const price = selectedDate?.price || tour?.single_cabin_price || tour?.base_price;
+                        const price = selectedDate?.single_cabin_price || tour?.single_cabin_price || tour?.base_price;
                         return price && !isNaN(price) ? `${price.toLocaleString('tr-TR')} TL` : '-';
                       })()}
                     </div>
