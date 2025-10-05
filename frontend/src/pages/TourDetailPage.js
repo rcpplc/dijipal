@@ -587,13 +587,13 @@ const TourDetailPage = () => {
               </div>
 
               {/* Rating and Meta */}
-              <div className="flex items-center space-x-6 pb-6 border-b border-gray-100">
+              <div className="flex flex-col sm:flex-row sm:items-center space-y-3 sm:space-y-0 sm:space-x-6 pb-6 border-b border-gray-100">
                 <div className="flex items-center space-x-2">
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
                       <Star
                         key={i}
-                        className={`w-5 h-5 ${
+                        className={`w-4 h-4 sm:w-5 sm:h-5 ${
                           i < Math.floor(tour.rating || 0)
                             ? 'text-yellow-400 fill-current'
                             : 'text-gray-300'
@@ -601,14 +601,14 @@ const TourDetailPage = () => {
                       />
                     ))}
                   </div>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-xs sm:text-sm text-gray-600">
                     {tour.rating > 0 ? tour.rating.toFixed(1) : 'Henüz değerlendirilmemiş'} 
                     {tour.rating > 0 && ` (${tour.review_count || 0} değerlendirme)`}
                   </span>
                 </div>
 
-                <div className="flex items-center space-x-2 text-sm text-gray-600">
-                  <Calendar className="w-4 h-4" />
+                <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600">
+                  <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>{tour.duration_days || 1} gün</span>
                   {tour.classification && (
                     <span className="text-gray-500 font-medium">
