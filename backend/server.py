@@ -1807,6 +1807,57 @@ async def admin_update_booking_status(
     
     return {"message": "Booking status updated successfully"}
 
+# Profile Management
+@api_router.put("/profile")
+async def update_profile(
+    profile_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    # Update user profile
+    update_data = {
+        "full_name": profile_data.get("full_name", current_user.full_name),
+        "phone": profile_data.get("phone", current_user.phone),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await db.users.update_one(
+        {"id": current_user.id},
+        {"$set": update_data}
+    )
+    
+    # Return updated user
+    updated_user = await db.users.find_one({"id": current_user.id})
+    return updated_user
+
+@api_router.put("/change-password")
+async def change_password(
+    password_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    current_password = password_data.get("current_password")
+    new_password = password_data.get("new_password")
+    
+    if not current_password or not new_password:
+        raise HTTPException(status_code=400, detail="Current and new passwords required")
+    
+    # Verify current password
+    if not verify_password(current_password, current_user.password_hash):
+        raise HTTPException(status_code=400, detail="Current password is incorrect")
+    
+    # Hash new password
+    new_password_hash = get_password_hash(new_password)
+    
+    # Update password
+    await db.users.update_one(
+        {"id": current_user.id},
+        {"$set": {
+            "password_hash": new_password_hash,
+            "updated_at": datetime.now(timezone.utc)
+        }}
+    )
+    
+    return {"message": "Password updated successfully"}
+
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
