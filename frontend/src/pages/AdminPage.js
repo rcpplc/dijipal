@@ -1172,6 +1172,176 @@ const AdminPage = () => {
           </div>
         )}
 
+        {/* Bookings Tab */}
+        {activeTab === 'bookings' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">Rezervasyon Yönetimi</h2>
+              <div className="flex space-x-2">
+                <select
+                  value={bookingFilter}
+                  onChange={(e) => setBookingFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="all">Tüm Rezervasyonlar</option>
+                  <option value="confirmed">Aktif</option>
+                  <option value="completed">Tamamlandı</option>
+                  <option value="cancelled">İptal Edildi</option>
+                </select>
+              </div>
+            </div>
+
+            {bookingsLoading ? (
+              <div className="space-y-4">
+                {[...Array(5)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow">
+                    <div className="flex items-center space-x-4">
+                      <div className="bg-gray-200 w-16 h-16 rounded-lg"></div>
+                      <div className="flex-1 space-y-2">
+                        <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="bg-white rounded-xl shadow overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Müşteri & Tur
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Tarih & Kabin
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Fiyat
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Durum
+                        </th>
+                        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          İşlemler
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {bookings
+                        .filter(booking => bookingFilter === 'all' || booking.status === bookingFilter)
+                        .map((booking) => (
+                        <tr key={booking.id} className="hover:bg-gray-50">
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div>
+                              <div className="text-sm font-medium text-gray-900">
+                                {booking.customer_info?.full_name || 'N/A'}
+                              </div>
+                              <div className="text-sm text-gray-500">{booking.customer_info?.email || 'N/A'}</div>
+                              <div className="text-sm font-medium text-blue-600 mt-1">
+                                {booking.tour_title}
+                              </div>
+                              <div className="text-xs text-gray-500">{booking.tour_location}</div>
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm text-gray-900">
+                              {new Date(booking.selected_date).toLocaleDateString('tr-TR')}
+                            </div>
+                            <div className="text-sm text-gray-500">
+                              {booking.cabin_type === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {booking.participants} kişi
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <div className="text-sm font-medium text-gray-900">
+                              ₺{booking.total_price?.toLocaleString('tr-TR')}
+                            </div>
+                            <div className="text-xs text-gray-500">
+                              {booking.payment_status || 'N/A'}
+                            </div>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap">
+                            <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                              booking.status === 'confirmed' 
+                                ? 'bg-green-100 text-green-800'
+                                : booking.status === 'completed' 
+                                ? 'bg-blue-100 text-blue-800'
+                                : booking.status === 'cancelled'
+                                ? 'bg-red-100 text-red-800'
+                                : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {booking.status === 'confirmed' ? 'Aktif' :
+                               booking.status === 'completed' ? 'Tamamlandı' :
+                               booking.status === 'cancelled' ? 'İptal Edildi' :
+                               booking.status}
+                            </span>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <div className="flex space-x-2">
+                              {booking.status === 'confirmed' && (
+                                <>
+                                  <button
+                                    onClick={() => updateBookingStatus(booking.id, 'completed')}
+                                    className="bg-blue-100 text-blue-800 hover:bg-blue-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                  >
+                                    Tamamla
+                                  </button>
+                                  <button
+                                    onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+                                    className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                  >
+                                    İptal Et
+                                  </button>
+                                </>
+                              )}
+                              {booking.status === 'completed' && (
+                                <button
+                                  onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                                  className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                >
+                                  Aktifleştir
+                                </button>
+                              )}
+                              {booking.status === 'cancelled' && (
+                                <button
+                                  onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                                  className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                >
+                                  Aktifleştir
+                                </button>
+                              )}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {bookings.filter(booking => bookingFilter === 'all' || booking.status === bookingFilter).length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4">📋</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {bookingFilter === 'all' ? 'Henüz rezervasyon yok' : 
+                       bookingFilter === 'confirmed' ? 'Aktif rezervasyon yok' :
+                       bookingFilter === 'completed' ? 'Tamamlanmış rezervasyon yok' :
+                       'İptal edilmiş rezervasyon yok'}
+                    </h3>
+                    <p className="text-gray-600">
+                      {bookingFilter === 'all' ? 'Müşteriler rezervasyon yapmaya başladığında burada görünecek.' :
+                       'Bu kategoride henüz rezervasyon bulunmuyor.'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Categories Tab */}
         {activeTab === 'categories' && (
           <div>
