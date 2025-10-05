@@ -181,7 +181,7 @@ const Header = () => {
               <div className="flex items-center">
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-all duration-200 text-sm"
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-all duration-200 text-sm min-h-[44px] flex items-center"
                 >
                   Giriş Yap
                 </button>
