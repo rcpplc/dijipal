@@ -114,6 +114,44 @@ const HomePage = () => {
     }
   };
 
+  const loadFavorites = async () => {
+    try {
+      const response = await axios.get(`${API}/favorites`);
+      const favoriteIds = new Set(response.data.map(tour => tour.id));
+      setFavorites(favoriteIds);
+    } catch (error) {
+      console.error('Error loading favorites:', error);
+    }
+  };
+
+  const toggleFavorite = async (tourId) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      const isFavorited = favorites.has(tourId);
+      
+      if (isFavorited) {
+        await axios.delete(`${API}/favorites/${tourId}`);
+        setFavorites(prev => {
+          const newSet = new Set(prev);
+          newSet.delete(tourId);
+          return newSet;
+        });
+        toast.success('Favorilerden çıkarıldı');
+      } else {
+        await axios.post(`${API}/favorites/${tourId}`);
+        setFavorites(prev => new Set([...prev, tourId]));
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Error toggling favorite:', error);
+      toast.error('Bir hata oluştu');
+    }
+  };
+
   const categories = [
     {
       name: 'Kültürel',
