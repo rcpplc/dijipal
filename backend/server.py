@@ -1697,10 +1697,10 @@ async def add_10_tours():
                     "is_active": True,
                     "created_at": datetime.now(timezone.utc)
                 }
-            ]
-            
-            for date in tour_dates:
-                await db.tour_dates.insert_one(date)
+        ]
+        
+        for date in tour_dates:
+            await db.tour_dates.insert_one(date)
     
     return {"message": f"Added {len(inserted_tours)} new tours with cabin pricing successfully"}
 
