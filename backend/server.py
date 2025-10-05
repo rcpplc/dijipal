@@ -1774,6 +1774,39 @@ async def create_sample_bookings():
     
     return {"message": f"Created {len(bookings)} sample bookings successfully", "bookings": [{"id": b["id"], "tour_title": b["tour_title"], "status": b["status"]} for b in bookings]}
 
+# Admin Bookings Management
+@api_router.get("/admin/bookings")
+async def admin_get_bookings(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    bookings = await db.bookings.find().sort("created_at", -1).to_list(length=None)
+    return bookings
+
+@api_router.put("/admin/bookings/{booking_id}/status")
+async def admin_update_booking_status(
+    booking_id: str, 
+    status_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    booking = await db.bookings.find_one({"id": booking_id})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    new_status = status_data.get("status")
+    if new_status not in ["confirmed", "cancelled", "completed"]:
+        raise HTTPException(status_code=400, detail="Invalid status")
+    
+    await db.bookings.update_one(
+        {"id": booking_id},
+        {"$set": {"status": new_status, "updated_at": datetime.now(timezone.utc)}}
+    )
+    
+    return {"message": "Booking status updated successfully"}
+
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
