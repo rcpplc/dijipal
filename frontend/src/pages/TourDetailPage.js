@@ -129,7 +129,7 @@ const TourDetailPage = () => {
 
   const loadTour = async () => {
     try {
-      const response = await axios.get(`${API}/tours/${tourId}`);
+      const response = await axios.get(`${API}/tours/${tourSlug}`);
       setTour(response.data);
     } catch (error) {
       console.error('Error loading tour:', error);
