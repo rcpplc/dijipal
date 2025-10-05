@@ -420,30 +420,55 @@ const ToursPage = () => {
             </button>
           </div>
 
-        {/* Minimal ve Modern Filtreler */}
+        {/* Gelişmiş Filtreler */}
         {showFilters && (
-          <div className="mb-8 bg-white rounded-2xl p-6 shadow-sm border border-gray-200">
+          <div className="mb-8 bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             {/* Filtre Başlığı */}
             <div className="flex items-center justify-between mb-6">
-              <h3 className="text-xl font-bold text-gray-900">Filtreler</h3>
+              <h3 className="text-xl font-bold text-gray-900 flex items-center">
+                <SlidersHorizontal className="w-5 h-5 mr-2 text-blue-600" />
+                Filtreler
+              </h3>
               <button
                 onClick={clearFilters}
-                className="text-gray-400 hover:text-red-500 transition-colors duration-200 flex items-center space-x-1 text-sm"
+                className="text-gray-400 hover:text-red-500 transition-colors duration-200 flex items-center space-x-1 text-sm bg-gray-50 hover:bg-red-50 px-3 py-1 rounded-lg"
               >
                 <X className="w-4 h-4" />
                 <span>Temizle</span>
               </button>
             </div>
             
-            {/* Ana Filtreler - 2 Satır Düzeni */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+            {/* Ana Filtreler - Grid Layout */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
+              {/* Lokasyon - Artık filtre içinde */}
+              <div className="space-y-2">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <MapPin className="w-4 h-4 mr-1 text-blue-600" />
+                  Lokasyon
+                </label>
+                <select
+                  value={filters.location}
+                  onChange={(e) => handleFilterChange('location', e.target.value)}
+                  className="w-full px-4 py-3 bg-gradient-to-r from-blue-50 to-gray-50 border-0 rounded-xl focus:from-white focus:to-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                >
+                  {locations.map((location, index) => (
+                    <option key={location.value || index} value={location.value}>
+                      {location.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
               {/* Kategori */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Kategori</label>
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <Mountain className="w-4 h-4 mr-1 text-green-600" />
+                  Kategori
+                </label>
                 <select
                   value={filters.category}
                   onChange={(e) => handleFilterChange('category', e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-green-50 to-gray-50 border-0 rounded-xl focus:from-white focus:to-white focus:ring-2 focus:ring-green-500 transition-all duration-200 text-sm"
                 >
                   {categories.map(cat => (
                     <option key={cat.value} value={cat.value}>{cat.label}</option>
@@ -453,11 +478,14 @@ const ToursPage = () => {
 
               {/* Sınıflandırma */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Sınıf</label>
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <Star className="w-4 h-4 mr-1 text-yellow-500" />
+                  Sınıf
+                </label>
                 <select
                   value={filters.classification}
                   onChange={(e) => handleFilterChange('classification', e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-yellow-50 to-gray-50 border-0 rounded-xl focus:from-white focus:to-white focus:ring-2 focus:ring-yellow-500 transition-all duration-200 text-sm"
                 >
                   {classifications.map(cls => (
                     <option key={cls.value} value={cls.value}>{cls.label}</option>
@@ -467,11 +495,14 @@ const ToursPage = () => {
 
               {/* Süre */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Süre</label>
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <Calendar className="w-4 h-4 mr-1 text-purple-600" />
+                  Süre
+                </label>
                 <select
                   value={filters.duration}
                   onChange={(e) => handleFilterChange('duration', e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-purple-50 to-gray-50 border-0 rounded-xl focus:from-white focus:to-white focus:ring-2 focus:ring-purple-500 transition-all duration-200 text-sm"
                 >
                   {durations.map(dur => (
                     <option key={dur.value} value={dur.value}>{dur.label}</option>
@@ -479,38 +510,47 @@ const ToursPage = () => {
                 </select>
               </div>
 
-              {/* Minimum Puan */}
+              {/* Minimum Puan - Yıldızlı Gösterim */}
               <div className="space-y-2">
-                <label className="text-sm font-medium text-gray-700">Min. Puan</label>
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  <Star className="w-4 h-4 mr-1 text-orange-500 fill-current" />
+                  Min. Puan
+                </label>
                 <select
                   value={filters.minRating}
                   onChange={(e) => handleFilterChange('minRating', e.target.value)}
-                  className="w-full px-4 py-3 bg-gray-50 border-0 rounded-xl focus:bg-white focus:ring-2 focus:ring-blue-500 transition-all duration-200 text-sm"
+                  className="w-full px-4 py-3 bg-gradient-to-r from-orange-50 to-gray-50 border-0 rounded-xl focus:from-white focus:to-white focus:ring-2 focus:ring-orange-500 transition-all duration-200 text-sm"
                 >
                   {minRatings.map(rating => (
-                    <option key={rating.value} value={rating.value}>{rating.label}</option>
+                    <option key={rating.value} value={rating.value}>
+                      {rating.value ? 
+                        `${'★'.repeat(parseInt(rating.value))}${'☆'.repeat(5-parseInt(rating.value))} (${rating.value}+ Yıldız)` 
+                        : rating.label}
+                    </option>
                   ))}
                 </select>
               </div>
             </div>
 
             {/* Fiyat Aralığı - Özel Bölüm */}
-            <div className="bg-gray-50 rounded-xl p-4">
-              <div className="flex items-center justify-between mb-3">
-                <label className="text-sm font-medium text-gray-700">Fiyat Aralığı</label>
-                <span className="text-xs text-gray-500">
+            <div className="bg-gradient-to-r from-indigo-50 to-blue-50 rounded-xl p-5 border border-indigo-100">
+              <div className="flex items-center justify-between mb-4">
+                <label className="text-sm font-medium text-gray-700 flex items-center">
+                  💰 Fiyat Aralığı
+                </label>
+                <span className="text-sm font-medium text-indigo-600 bg-white px-2 py-1 rounded-lg">
                   ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
                 </span>
               </div>
               
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-2 gap-4">
                 <div>
                   <input
                     type="number"
                     value={filters.minPrice}
                     onChange={(e) => handleFilterChange('minPrice', e.target.value)}
                     placeholder="Min fiyat"
-                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    className="w-full px-4 py-3 bg-white border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-medium"
                   />
                 </div>
                 <div>
@@ -519,7 +559,7 @@ const ToursPage = () => {
                     value={filters.maxPrice}
                     onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
                     placeholder="Max fiyat"
-                    className="w-full px-3 py-2 bg-white border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    className="w-full px-4 py-3 bg-white border border-indigo-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm font-medium"
                   />
                 </div>
               </div>
