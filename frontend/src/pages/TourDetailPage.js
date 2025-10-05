@@ -49,8 +49,7 @@ const TourDetailPage = () => {
   const [suggestedParticipants, setSuggestedParticipants] = useState(null);
   
   // Mobile bottom bar states
-  const [showDateModal, setShowDateModal] = useState(false);
-  const [showCabinModal, setShowCabinModal] = useState(false);
+  const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedCabinType, setSelectedCabinType] = useState('single'); // 'single' or 'double'
   const [cabinCount, setCabinCount] = useState(1);
   
