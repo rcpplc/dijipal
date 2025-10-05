@@ -85,7 +85,7 @@ const FavoritesPage = () => {
           {/* Header */}
           <div className="flex items-center space-x-4 mb-8">
             <Link
-              to="/tours"
+              to="/turlar"
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
@@ -104,7 +104,7 @@ const FavoritesPage = () => {
               Beğendiğiniz turları favorilere ekleyerek daha sonra kolayca bulabilirsiniz
             </p>
             <Link
-              to="/tours"
+              to="/turlar"
               className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <span>Turları Keşfet</span>
@@ -123,7 +123,7 @@ const FavoritesPage = () => {
         <div className="flex items-center justify-between mb-8">
           <div className="flex items-center space-x-4">
             <Link
-              to="/tours"
+              to="/turlar"
               className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
             >
               <ArrowLeft className="w-5 h-5" />
