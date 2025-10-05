@@ -377,7 +377,7 @@ const HomePage = () => {
             ].map((region, index) => (
               <Link
                 key={index}
-                to={`/tours?region=${region.name}`}
+                to={`/turlar?region=${region.name}`}
                 className="group relative overflow-hidden rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1"
               >
                 <div className="aspect-video">
