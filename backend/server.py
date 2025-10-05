@@ -1666,7 +1666,7 @@ async def add_10_tours():
         inserted_tours.append(tour)
         
         # Add cabin pricing dates for each tour
-            tour_dates = [
+        tour_dates = [
                 {
                     "id": str(uuid.uuid4()),
                     "tour_id": tour["id"],
