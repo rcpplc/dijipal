@@ -378,7 +378,7 @@ const ProfilePage = () => {
                   Beğendiğiniz turları favorilere ekleyerek daha kolay erişebilirsiniz
                 </p>
                 <a
-                  href="/tours"
+                  href="/turlar"
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                 >
                   Turları Keşfet
