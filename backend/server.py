@@ -1670,6 +1670,7 @@ async def add_10_tours():
             # Add cabin pricing dates for each tour
             tour_dates = [
                 {
+                    "id": str(uuid.uuid4()),
                     "tour_id": tour["id"],
                     "start_date": "2025-01-15",
                     "available_cabins": 8,
@@ -1679,6 +1680,7 @@ async def add_10_tours():
                     "created_at": datetime.now(timezone.utc)
                 },
                 {
+                    "id": str(uuid.uuid4()),
                     "tour_id": tour["id"],
                     "start_date": "2025-01-20", 
                     "available_cabins": 6,
@@ -1688,6 +1690,7 @@ async def add_10_tours():
                     "created_at": datetime.now(timezone.utc)
                 },
                 {
+                    "id": str(uuid.uuid4()),
                     "tour_id": tour["id"],
                     "start_date": "2025-02-01",
                     "available_cabins": 10,
