@@ -1703,6 +1703,77 @@ async def add_10_tours():
     
     return {"message": f"Added {len(inserted_tours)} new tours with cabin pricing successfully"}
 
+@api_router.post("/create-sample-bookings")
+async def create_sample_bookings():
+    """Create 2 sample bookings for test user"""
+    
+    # Get test user (user@example.com)
+    test_user = await db.users.find_one({"email": "user@example.com"})
+    if not test_user:
+        raise HTTPException(status_code=404, detail="Test user not found")
+    
+    # Get first 2 tours
+    tours = await db.tours.find().limit(2).to_list(2)
+    if len(tours) < 2:
+        raise HTTPException(status_code=404, detail="Not enough tours available")
+    
+    bookings = []
+    
+    # Booking 1 - Completed
+    booking1 = {
+        "id": str(uuid.uuid4()),
+        "user_id": test_user["id"],
+        "tour_id": tours[0]["id"],
+        "tour_title": tours[0]["title"],
+        "tour_location": tours[0]["location"],
+        "selected_date": "2025-01-15",
+        "cabin_type": "single",
+        "participants": 2,
+        "total_price": 24000.0,
+        "status": "confirmed",
+        "payment_status": "paid",
+        "customer_info": {
+            "full_name": "Test User",
+            "email": "user@example.com", 
+            "phone": "+90 555 123 4567",
+            "emergency_contact": "+90 555 987 6543"
+        },
+        "special_requests": "Vejetaryen yemek tercihi",
+        "created_at": datetime.now(timezone.utc) - timedelta(days=5),
+        "updated_at": datetime.now(timezone.utc) - timedelta(days=3)
+    }
+    
+    # Booking 2 - Active
+    booking2 = {
+        "id": str(uuid.uuid4()),
+        "user_id": test_user["id"],
+        "tour_id": tours[1]["id"], 
+        "tour_title": tours[1]["title"],
+        "tour_location": tours[1]["location"],
+        "selected_date": "2025-02-01",
+        "cabin_type": "double",
+        "participants": 2,
+        "total_price": 18000.0,
+        "status": "confirmed",
+        "payment_status": "paid",
+        "customer_info": {
+            "full_name": "Test User",
+            "email": "user@example.com",
+            "phone": "+90 555 123 4567", 
+            "emergency_contact": "+90 555 987 6543"
+        },
+        "special_requests": "Balayı turumuz, özel organizasyon istiyoruz",
+        "created_at": datetime.now(timezone.utc) - timedelta(days=2),
+        "updated_at": datetime.now(timezone.utc) - timedelta(days=1)
+    }
+    
+    # Insert bookings
+    await db.bookings.insert_one(booking1)
+    await db.bookings.insert_one(booking2)
+    bookings.extend([booking1, booking2])
+    
+    return {"message": f"Created {len(bookings)} sample bookings successfully", "bookings": [{"id": b["id"], "tour_title": b["tour_title"], "status": b["status"]} for b in bookings]}
+
 @api_router.post("/add-test-cabin-pricing/{tour_id}")
 async def add_test_cabin_pricing(tour_id: str):
     """Add test cabin pricing for a tour (NEW CABIN SYSTEM)"""
