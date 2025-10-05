@@ -899,8 +899,8 @@ const TourDetailPage = () => {
             </div>
           </div>
 
-          {/* Booking Sidebar */}
-          <div className="lg:col-span-1">
+          {/* Booking Sidebar - Desktop Only */}
+          <div className="lg:col-span-1 hidden lg:block">
             <div className="bg-white rounded-xl p-6 shadow-lg sticky top-8">
               {/* Pricing - Show minimum available price */}
               <div className="text-center mb-6">
