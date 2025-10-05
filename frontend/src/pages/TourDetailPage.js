@@ -43,7 +43,7 @@ const TourDetailPage = () => {
   const [isFavorited, setIsFavorited] = useState(false);
   
   // Month filter for dates
-  const [selectedMonth, setSelectedMonth] = useState('');
+  const [selectedMonth, setSelectedMonth] = useState('all');
   const [filteredDates, setFilteredDates] = useState([]);
   
   // User behavior tracking
