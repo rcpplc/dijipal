@@ -60,7 +60,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li>
                 <Link 
-                  to="/tours" 
+                  to="/turlar" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
                   Tüm Turlar
