@@ -1664,8 +1664,8 @@ async def add_10_tours():
     for tour in sample_tours:
         await db.tours.insert_one(tour)
         inserted_tours.append(tour)
-            
-            # Add cabin pricing dates for each tour
+        
+        # Add cabin pricing dates for each tour
             tour_dates = [
                 {
                     "id": str(uuid.uuid4()),
