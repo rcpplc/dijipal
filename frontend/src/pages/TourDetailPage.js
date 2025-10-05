@@ -53,6 +53,7 @@ const TourDetailPage = () => {
   const [showBookingModal, setShowBookingModal] = useState(false);
   const [selectedCabinType, setSelectedCabinType] = useState('single'); // 'single' or 'double'
   const [cabinCount, setCabinCount] = useState(1);
+  const [selectedMonth, setSelectedMonth] = useState('all'); // For month filter
   
   // Cabin system
   const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
