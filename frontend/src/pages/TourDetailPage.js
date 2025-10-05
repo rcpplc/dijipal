@@ -294,8 +294,8 @@ const TourDetailPage = () => {
       return;
     }
     
-    if (!selectedDate) {
-      toast.error('Lütfen bir tarih seçin');
+    if (!selectedDate || !selectedCabinType) {
+      toast.error('Lütfen tarih ve kabin tipi seçin');
       return;
     }
 
