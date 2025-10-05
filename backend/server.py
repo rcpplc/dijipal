@@ -390,14 +390,16 @@ async def get_tours(
         for date in tour_dates:
             if "_id" in date:
                 del date["_id"]
-            tour["tour_dates"].append({
-                "id": date["id"],
-                "date": date["start_date"],
-                "capacity": date["available_cabins"],
-                "single_cabin_price": date["single_cabin_price"],
-                "double_cabin_price": date["double_cabin_price"],
-                "is_active": date.get("is_active", True)
-            })
+            # Only add if date has id field
+            if "id" in date:
+                tour["tour_dates"].append({
+                    "id": date["id"],
+                    "date": date["start_date"],
+                    "capacity": date["available_cabins"],
+                    "single_cabin_price": date["single_cabin_price"],
+                    "double_cabin_price": date["double_cabin_price"],
+                    "is_active": date.get("is_active", True)
+                })
         
         # Add review statistics
         reviews = await db.reviews.find({
@@ -768,14 +770,16 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
         for date in tour_dates:
             if "_id" in date:
                 del date["_id"]
-            tour["tour_dates"].append({
-                "id": date["id"],
-                "date": date["start_date"],
-                "capacity": date["available_cabins"],
-                "single_cabin_price": date["single_cabin_price"],
-                "double_cabin_price": date["double_cabin_price"],
-                "is_active": date.get("is_active", True)
-            })
+            # Only add if date has id field
+            if "id" in date:
+                tour["tour_dates"].append({
+                    "id": date["id"],
+                    "date": date["start_date"],
+                    "capacity": date["available_cabins"],
+                    "single_cabin_price": date["single_cabin_price"],
+                    "double_cabin_price": date["double_cabin_price"],
+                    "is_active": date.get("is_active", True)
+                })
         
         result_tours.append(tour)
     
