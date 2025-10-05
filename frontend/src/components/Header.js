@@ -213,7 +213,7 @@ const Header = () => {
               Ana Sayfa
             </Link>
             <Link
-              to="/tours"
+              to="/turlar"
               className="block px-4 py-2 text-gray-700 hover:bg-gray-50 rounded-lg transition-colors duration-200"
               onClick={() => setIsMenuOpen(false)}
             >
