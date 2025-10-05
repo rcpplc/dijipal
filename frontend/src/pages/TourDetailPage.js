@@ -1344,8 +1344,8 @@ const TourDetailPage = () => {
             <div className="text-base font-bold text-gray-900 truncate">
               {(() => {
                 const price = selectedCabinType === 'single' 
-                  ? (selectedDate?.price || tour?.single_cabin_price || tour?.base_price)
-                  : (tour?.double_cabin_price);
+                  ? (selectedDate?.single_cabin_price || tour?.single_cabin_price || tour?.base_price)
+                  : (selectedDate?.double_cabin_price || tour?.double_cabin_price);
                 
                 if (!price || isNaN(price)) {
                   return 'Fiyat Yükleniyor...';
