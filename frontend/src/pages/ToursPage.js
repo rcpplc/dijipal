@@ -545,7 +545,7 @@ const ToursPage = () => {
                 {/* Minimum Puan - Yıldızlı */}
                 <div className="space-y-2 sm:col-span-2 md:col-span-1">
                   <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Star className="w-4 h-4 mr-2 text-blue-600 fill-current" />
+                    <Star className="w-4 h-4 mr-2 text-gray-600 fill-current" />
                     Min. Puan
                   </label>
                   <select
