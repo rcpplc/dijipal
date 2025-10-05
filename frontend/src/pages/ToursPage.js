@@ -475,7 +475,7 @@ const ToursPage = () => {
                 {/* Lokasyon */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <MapPin className="w-4 h-4 mr-2 text-blue-600" />
+                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
                     Lokasyon
                   </label>
                   <select
