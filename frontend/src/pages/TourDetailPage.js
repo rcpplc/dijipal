@@ -1487,15 +1487,19 @@ const TourDetailPage = () => {
                   {/* Single Cabin */}
                   <button
                     onClick={() => setSelectedCabinType('single')}
-                    className={`p-3 rounded-lg border transition-colors text-center ${
+                    className={`p-3 rounded-lg border-2 transition-colors text-center ${
                       selectedCabinType === 'single'
-                        ? 'bg-blue-50 border-blue-200 text-blue-800'
-                        : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        ? 'bg-black border-black text-white'
+                        : 'bg-white border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <div className="font-medium text-sm">Tek Kişilik</div>
-                    <div className="text-xs text-gray-600 mt-1">1 yetişkin</div>
-                    <div className="text-sm font-bold text-blue-600 mt-1">
+                    <div className={`font-medium text-sm ${selectedCabinType === 'single' ? 'text-white' : 'text-gray-900'}`}>
+                      Tek Kişilik
+                    </div>
+                    <div className={`text-xs mt-1 ${selectedCabinType === 'single' ? 'text-gray-200' : 'text-gray-600'}`}>
+                      1 yetişkin
+                    </div>
+                    <div className={`text-sm font-bold mt-1 ${selectedCabinType === 'single' ? 'text-white' : 'text-blue-600'}`}>
                       {(() => {
                         const price = selectedDate?.single_cabin_price || tour?.single_cabin_price || tour?.base_price;
                         return price && !isNaN(price) ? `${price.toLocaleString('tr-TR')} TL` : '-';
@@ -1506,21 +1510,34 @@ const TourDetailPage = () => {
                   {/* Double Cabin */}
                   <button
                     onClick={() => setSelectedCabinType('double')}
-                    disabled={!tour?.double_cabin_price}
-                    className={`p-3 rounded-lg border transition-colors text-center ${
+                    disabled={!tour?.double_cabin_price && !selectedDate?.double_cabin_price}
+                    className={`p-3 rounded-lg border-2 transition-colors text-center ${
                       selectedCabinType === 'double'
-                        ? 'bg-blue-50 border-blue-200 text-blue-800'
-                        : tour?.double_cabin_price 
-                          ? 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        ? 'bg-black border-black text-white'
+                        : (tour?.double_cabin_price || selectedDate?.double_cabin_price)
+                          ? 'bg-white border-gray-200 hover:border-gray-300'
                           : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
                     }`}
                   >
-                    <div className="font-medium text-sm">Çift Kişilik</div>
-                    <div className="text-xs text-gray-600 mt-1">2 yetişkin</div>
-                    <div className="text-sm font-bold text-blue-600 mt-1">
-                      {tour?.double_cabin_price && !isNaN(tour.double_cabin_price) 
-                        ? `${tour.double_cabin_price.toLocaleString('tr-TR')} TL` 
-                        : 'Mevcut Değil'}
+                    <div className={`font-medium text-sm ${
+                      selectedCabinType === 'double' ? 'text-white' : 
+                      (tour?.double_cabin_price || selectedDate?.double_cabin_price) ? 'text-gray-900' : 'text-gray-400'
+                    }`}>
+                      Çift Kişilik
+                    </div>
+                    <div className={`text-xs mt-1 ${
+                      selectedCabinType === 'double' ? 'text-gray-200' : 
+                      (tour?.double_cabin_price || selectedDate?.double_cabin_price) ? 'text-gray-600' : 'text-gray-400'
+                    }`}>
+                      2 yetişkin
+                    </div>
+                    <div className={`text-sm font-bold mt-1 ${
+                      selectedCabinType === 'double' ? 'text-white' : 'text-blue-600'
+                    }`}>
+                      {(() => {
+                        const price = selectedDate?.double_cabin_price || tour?.double_cabin_price;
+                        return price && !isNaN(price) ? `${price.toLocaleString('tr-TR')} TL` : 'Mevcut Değil';
+                      })()}
                     </div>
                   </button>
                 </div>
