@@ -1417,7 +1417,7 @@ const TourDetailPage = () => {
                         key={index}
                         onClick={() => setSelectedDate(date)}
                         className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                          selectedDate?.date === date.date
+                          selectedDate?.start_date === date.start_date
                             ? 'bg-blue-50 border-blue-200 text-blue-800'
                             : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
                         }`}
