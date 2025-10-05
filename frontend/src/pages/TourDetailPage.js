@@ -1370,12 +1370,13 @@ const TourDetailPage = () => {
               })()}
             </div>
             <div className="text-xs text-gray-600 truncate">
-              {cabinCount} {selectedCabinType === 'single' ? 'Tek' : 'Çift'} Kabin
+              {cabinCount} {selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
               {selectedDate && (
                 <span className="ml-1">
-                  • {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', { 
+                  • {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', { 
                     day: '2-digit', 
-                    month: '2-digit' 
+                    month: '2-digit',
+                    year: '2-digit'
                   })}
                 </span>
               )}
