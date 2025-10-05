@@ -1564,13 +1564,13 @@ const TourDetailPage = () => {
                       selectedCabinType === 'double' ? 'text-white' : 
                       (tour?.double_cabin_price || selectedDate?.double_cabin_price) ? 'text-gray-900' : 'text-gray-400'
                     }`}>
-                      Çift Kişilik
+                      Çift Kişilik Kabin
                     </div>
                     <div className={`text-xs mt-1 ${
                       selectedCabinType === 'double' ? 'text-gray-200' : 
                       (tour?.double_cabin_price || selectedDate?.double_cabin_price) ? 'text-gray-600' : 'text-gray-400'
                     }`}>
-                      2 yetişkin
+                      2 kişi kapasiteli
                     </div>
                     <div className={`text-sm font-bold mt-1 ${
                       selectedCabinType === 'double' ? 'text-white' : 'text-blue-600'
