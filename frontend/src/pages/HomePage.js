@@ -415,7 +415,7 @@ const HomePage = () => {
               </p>
             </div>
             <Link
-              to="/tours"
+              to="/turlar"
               className="hidden md:flex items-center space-x-2 text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
             >
               <span>Tümünü Gör</span>
@@ -531,7 +531,7 @@ const HomePage = () => {
 
           <div className="text-center mt-12 md:hidden">
             <Link
-              to="/tours"
+              to="/turlar"
               className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
             >
               <span>Tüm Turları Gör</span>
@@ -585,7 +585,7 @@ const HomePage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              to="/tours"
+              to="/turlar"
               className="bg-white text-blue-600 hover:bg-gray-100 px-8 py-4 rounded-lg font-semibold transition-colors duration-200 transform hover:scale-105"
             >
               Turları Keşfet
