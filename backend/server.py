@@ -437,9 +437,55 @@ async def get_tours(
     
     return result_tours
 
-@api_router.get("/tours/{tour_id}")
-async def get_tour(tour_id: str = FastAPIPath(...)):
-    tour = await db.tours.find_one({"id": tour_id})
+def create_slug(title):
+    """Create SEO-friendly slug from tour title"""
+    if not title:
+        return ''
+    
+    # Turkish character mappings
+    char_map = {
+        'ğ': 'g', 'ü': 'u', 'ş': 's', 'ı': 'i', 'ö': 'o', 'ç': 'c',
+        'Ğ': 'G', 'Ü': 'U', 'Ş': 'S', 'İ': 'I', 'Ö': 'O', 'Ç': 'C'
+    }
+    
+    # Replace Turkish characters
+    for turkish, latin in char_map.items():
+        title = title.replace(turkish, latin)
+    
+    # Create slug
+    import re
+    slug = title.lower()
+    slug = re.sub(r'[^a-z0-9\s-]', '', slug)  # Remove special chars
+    slug = re.sub(r'\s+', '-', slug.strip())  # Replace spaces with dashes
+    slug = re.sub(r'-+', '-', slug)  # Remove multiple dashes
+    slug = slug.strip('-')  # Remove leading/trailing dashes
+    
+    return slug
+
+@api_router.get("/tours/{tour_identifier}")
+async def get_tour_by_id(tour_identifier: str):
+    # Check if it's a UUID (old format) or slug (new format)
+    import re
+    uuid_pattern = r'^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$'
+    
+    if re.match(uuid_pattern, tour_identifier):
+        # Direct UUID lookup
+        tour = await db.tours.find_one({"id": tour_identifier})
+    else:
+        # Slug lookup - find by matching slug or extract ID from slug
+        # First try to extract UUID from slug (if slug contains UUID)
+        uuid_match = re.search(r'[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}', tour_identifier)
+        if uuid_match:
+            tour = await db.tours.find_one({"id": uuid_match.group()})
+        else:
+            # Search by generating slug from title
+            all_tours = await db.tours.find().to_list(length=None)
+            tour = None
+            for t in all_tours:
+                if create_slug(t.get('title', '')) == tour_identifier:
+                    tour = t
+                    break
+    
     if not tour:
         raise HTTPException(status_code=404, detail="Tour not found")
     
