@@ -1385,20 +1385,20 @@ const TourDetailPage = () => {
 
           {/* Action Buttons - Improved */}
           <div className="flex items-center space-x-2">
-            {/* Date & Cabin Selection Button */}
+            {/* Date & Cabin Selection Button - Mobile Touch Optimized */}
             <button
               onClick={() => setShowBookingModal(true)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-3 rounded-lg transition-colors duration-200 flex items-center space-x-1 min-h-[44px]"
             >
               <Calendar className="w-4 h-4" />
               <span className="text-xs">Tur Seç</span>
             </button>
 
-            {/* Add to Cart Button */}
+            {/* Add to Cart Button - Mobile Touch Optimized */}
             <button
               onClick={handleAddToCart}
               disabled={!selectedDate || !selectedCabinType}
-              className={`px-3 py-2 rounded-lg transition-colors duration-200 flex items-center ${
+              className={`px-3 py-3 rounded-lg transition-colors duration-200 flex items-center min-h-[44px] ${
                 selectedDate && selectedCabinType
                   ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
                   : 'bg-gray-50 text-gray-400 cursor-not-allowed'
@@ -1407,11 +1407,11 @@ const TourDetailPage = () => {
               <ShoppingCart className="w-4 h-4" />
             </button>
 
-            {/* Booking Button */}
+            {/* Booking Button - Mobile Touch Optimized */}
             <button
               onClick={handleBooking}
               disabled={!selectedDate || !selectedCabinType}
-              className={`px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm ${
+              className={`px-4 py-3 rounded-lg font-medium transition-colors duration-200 text-sm min-h-[44px] ${
                 selectedDate && selectedCabinType
                   ? 'bg-blue-600 hover:bg-blue-700 text-white'
                   : 'bg-gray-300 text-gray-500 cursor-not-allowed'
