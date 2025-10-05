@@ -571,10 +571,12 @@ const ToursPage = () => {
               </div>
 
               {/* Fiyat Aralığı - Alt Sıra */}
-              <div className="border-t pt-4">
-                <div className="flex items-center justify-between mb-3">
-                  <label className="text-sm font-medium text-gray-700">Fiyat Aralığı</label>
-                  <span className="text-xs text-gray-500">
+              <div className="border-t pt-4 bg-blue-50 rounded-lg p-4">
+                <div className="flex items-center justify-between mb-4">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    💰 Fiyat Aralığı
+                  </label>
+                  <span className="text-sm font-semibold text-blue-600 bg-white px-3 py-1 rounded-full">
                     ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
                   </span>
                 </div>
@@ -585,14 +587,14 @@ const ToursPage = () => {
                     value={filters.minPrice}
                     onChange={(e) => handleFilterChange('minPrice', e.target.value)}
                     placeholder="Min fiyat"
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-sm"
+                    className="w-full px-3 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium"
                   />
                   <input
                     type="number"
                     value={filters.maxPrice}
                     onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
                     placeholder="Max fiyat"
-                    className="w-full px-3 py-2 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-gray-500 focus:border-gray-500 text-sm"
+                    className="w-full px-3 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium"
                   />
                 </div>
               </div>
