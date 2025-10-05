@@ -173,7 +173,7 @@ const TourDetailPage = () => {
     setModalLoading(true);
     try {
       // Tüm reviewları çek
-      const response = await axios.get(`${API}/reviews?tour_id=${tourId}`);
+      const response = await axios.get(`${API}/reviews?tour_id=${tourSlug}`);
       const allReviews = response.data.reviews || response.data;
       const totalCount = allReviews.length;
       
