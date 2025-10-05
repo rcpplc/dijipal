@@ -1020,9 +1020,9 @@ const TourDetailPage = () => {
                     <p className="text-sm">
                       {selectedMonth ? 'Seçilen ayda uygun tarih bulunamadı' : 'Uygun tarih bulunamadı'}
                     </p>
-                    {selectedMonth && (
+                    {selectedMonth && selectedMonth !== 'all' && (
                       <button
-                        onClick={() => setSelectedMonth('')}
+                        onClick={() => setSelectedMonth('all')}
                         className="text-blue-600 hover:text-blue-700 text-sm mt-2 underline"
                       >
                         Tüm ayları göster
