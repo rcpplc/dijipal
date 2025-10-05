@@ -1662,10 +1662,8 @@ async def add_10_tours():
     # Insert tours
     inserted_tours = []
     for tour in sample_tours:
-        existing_tour = await db.tours.find_one({"title": tour["title"]})
-        if not existing_tour:
-            await db.tours.insert_one(tour)
-            inserted_tours.append(tour)
+        await db.tours.insert_one(tour)
+        inserted_tours.append(tour)
             
             # Add cabin pricing dates for each tour
             tour_dates = [
