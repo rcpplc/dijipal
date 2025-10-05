@@ -91,7 +91,7 @@ const TourDetailPage = () => {
   // Filter dates when availableDates or selectedMonth changes
   useEffect(() => {
     if (availableDates.length > 0) {
-      if (selectedMonth === '') {
+      if (selectedMonth === 'all' || selectedMonth === '') {
         setFilteredDates(availableDates);
       } else {
         const filtered = availableDates.filter(date => {
