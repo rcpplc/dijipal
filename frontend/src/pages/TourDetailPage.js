@@ -965,7 +965,7 @@ const TourDetailPage = () => {
                           Seçili: {getAvailableMonths().find(m => m.value === selectedMonth)?.label}
                         </span>
                         <button
-                          onClick={() => setSelectedMonth('')}
+                          onClick={() => setSelectedMonth('all')}
                           className="text-sm text-blue-600 hover:text-blue-700 font-medium"
                         >
                           Filtreyi Temizle
