@@ -1336,53 +1336,53 @@ const TourDetailPage = () => {
         </div>
       )}
 
-      {/* Mobile Bottom Booking Bar */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 lg:hidden z-50 shadow-lg">
-        <div className="flex items-center justify-between space-x-3">
-          {/* Price Section */}
-          <div className="flex-1">
-            <div className="text-lg font-bold text-gray-900">
-              {selectedCabinType === 'single' 
-                ? (currentPrice * cabinCount).toLocaleString('tr-TR') + ' TL'
-                : (tour?.double_cabin_price ? (tour.double_cabin_price * cabinCount).toLocaleString('tr-TR') + ' TL' : 'N/A')
-              }
+      {/* Mobile Bottom Booking Bar - Compact Design */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-3 py-2 lg:hidden z-50 shadow-lg">
+        <div className="flex items-center justify-between space-x-2">
+          {/* Price Section - Compact */}
+          <div className="flex-1 min-w-0">
+            <div className="text-base font-bold text-gray-900 truncate">
+              {(() => {
+                const price = selectedCabinType === 'single' 
+                  ? (selectedDate?.price || tour?.single_cabin_price || tour?.base_price)
+                  : (tour?.double_cabin_price);
+                
+                if (!price || isNaN(price)) {
+                  return 'Fiyat Yükleniyor...';
+                }
+                
+                return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
+              })()}
             </div>
-            <div className="text-sm text-gray-600">
-              {cabinCount} {selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+            <div className="text-xs text-gray-600 truncate">
+              {cabinCount} {selectedCabinType === 'single' ? 'Tek' : 'Çift'} Kabin
+              {selectedDate && (
+                <span className="ml-1">
+                  • {new Date(selectedDate.date).toLocaleDateString('tr-TR', { 
+                    day: '2-digit', 
+                    month: '2-digit' 
+                  })}
+                </span>
+              )}
             </div>
-            {selectedDate && (
-              <div className="text-xs text-gray-500">
-                {new Date(selectedDate.date).toLocaleDateString('tr-TR')}
-              </div>
-            )}
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center space-x-2">
-            {/* Date Selection Button */}
+          {/* Action Buttons - Compact */}
+          <div className="flex items-center space-x-1">
+            {/* Combined Selection Button */}
             <button
-              onClick={() => setShowDateModal(true)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
+              onClick={() => setShowBookingModal(true)}
+              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-2 py-2 rounded-md transition-colors duration-200 flex items-center"
             >
               <Calendar className="w-4 h-4" />
-              <span className="text-sm">Tarih</span>
-            </button>
-
-            {/* Cabin Selection Button */}
-            <button
-              onClick={() => setShowCabinModal(true)}
-              className="bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-1"
-            >
-              <Users className="w-4 h-4" />
-              <span className="text-sm">Kabin</span>
             </button>
 
             {/* Quick Booking Button */}
             <button
               onClick={handleBooking}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-md font-medium transition-colors duration-200 text-sm"
             >
-              Hızlı Rezervasyon
+              Rezervasyon
             </button>
           </div>
         </div>
