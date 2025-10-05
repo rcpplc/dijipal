@@ -570,15 +570,86 @@ const ProfilePage = () => {
 
                 <div className="bg-gray-50 rounded-lg p-6">
                   <h3 className="font-semibold text-gray-900 mb-3">Güvenlik</h3>
-                  <div className="space-y-3">
-                    <button className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200">
-                      Şifre Değiştir
-                    </button>
-                    <br />
-                    <button className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200">
-                      İki Faktörlü Kimlik Doğrulama
-                    </button>
-                  </div>
+                  
+                  {!passwordMode ? (
+                    <div className="space-y-3">
+                      <button 
+                        onClick={() => setPasswordMode(true)}
+                        className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200"
+                      >
+                        Şifre Değiştir
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Mevcut Şifre
+                        </label>
+                        <input
+                          type="password"
+                          value={passwordData.current_password}
+                          onChange={(e) => setPasswordData(prev => ({
+                            ...prev,
+                            current_password: e.target.value
+                          }))}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Yeni Şifre
+                        </label>
+                        <input
+                          type="password"
+                          value={passwordData.new_password}
+                          onChange={(e) => setPasswordData(prev => ({
+                            ...prev,
+                            new_password: e.target.value
+                          }))}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                      </div>
+                      
+                      <div>
+                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                          Yeni Şifre Tekrar
+                        </label>
+                        <input
+                          type="password"
+                          value={passwordData.confirm_password}
+                          onChange={(e) => setPasswordData(prev => ({
+                            ...prev,
+                            confirm_password: e.target.value
+                          }))}
+                          className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        />
+                      </div>
+                      
+                      <div className="flex space-x-3">
+                        <button
+                          onClick={handlePasswordChange}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                        >
+                          Şifreyi Değiştir
+                        </button>
+                        <button
+                          onClick={() => {
+                            setPasswordMode(false);
+                            setPasswordData({
+                              current_password: '',
+                              new_password: '',
+                              confirm_password: ''
+                            });
+                          }}
+                          className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                        >
+                          İptal
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="bg-red-50 border border-red-200 rounded-lg p-6">
