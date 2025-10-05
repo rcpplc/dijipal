@@ -1423,14 +1423,14 @@ const TourDetailPage = () => {
                         }`}
                       >
                         <div className="font-medium text-sm">
-                          {new Date(date.date).toLocaleDateString('tr-TR', {
+                          {new Date(date.start_date).toLocaleDateString('tr-TR', {
                             weekday: 'long',
                             day: 'numeric',
                             month: 'long'
                           })}
                         </div>
                         <div className="text-xs text-gray-600">
-                          {date.price?.toLocaleString('tr-TR')} TL • {date.available_spots} kişi kapasitesi
+                          {date.single_cabin_price?.toLocaleString('tr-TR')} TL • {date.available_cabins} kabin kapasitesi
                         </div>
                       </button>
                     ))}
