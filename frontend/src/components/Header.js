@@ -188,10 +188,10 @@ const Header = () => {
               </div>
             )}
 
-            {/* Mobile Menu Button */}
+            {/* Mobile Menu Button - Touch Optimized */}
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+              className="lg:hidden p-3 rounded-lg hover:bg-gray-100 transition-colors duration-200 min-h-[44px] min-w-[44px] flex items-center justify-center"
             >
               {isMenuOpen ? (
                 <X className="w-6 h-6 text-gray-700" />
