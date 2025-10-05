@@ -59,7 +59,10 @@ const HomePage = () => {
   useEffect(() => {
     loadFeaturedTours();
     seedSampleData();
-  }, []);
+    if (user) {
+      loadFavorites();
+    }
+  }, [user]);
 
   useEffect(() => {
     const timer = setInterval(() => {
