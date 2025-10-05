@@ -1388,168 +1388,161 @@ const TourDetailPage = () => {
         </div>
       </div>
 
-      {/* Date Selection Modal */}
-      {showDateModal && (
+      {/* Combined Booking Modal */}
+      {showBookingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end lg:items-center justify-center">
-          <div className="bg-white w-full max-w-md lg:rounded-lg max-h-96 overflow-y-auto">
+          <div className="bg-white w-full max-w-md lg:rounded-lg max-h-[80vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold">Tur Tarihi Seçin</h3>
+            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white">
+              <h3 className="text-lg font-semibold">Rezervasyon Detayları</h3>
               <button
-                onClick={() => setShowDateModal(false)}
+                onClick={() => setShowBookingModal(false)}
                 className="text-gray-400 hover:text-gray-600"
               >
                 <X className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Date List */}
-            <div className="p-4">
-              {availableDates.length > 0 ? (
-                <div className="space-y-2">
-                  {availableDates.map((date, index) => (
-                    <button
-                      key={index}
-                      onClick={() => {
-                        setSelectedDate(date);
-                        setShowDateModal(false);
-                      }}
-                      className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                        selectedDate?.date === date.date
-                          ? 'bg-blue-50 border-blue-200 text-blue-800'
-                          : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                      }`}
-                    >
-                      <div className="font-medium">
-                        {new Date(date.date).toLocaleDateString('tr-TR', {
-                          weekday: 'long',
-                          year: 'numeric',
-                          month: 'long',
-                          day: 'numeric'
-                        })}
-                      </div>
-                      <div className="text-sm text-gray-600">
-                        {date.price.toLocaleString('tr-TR')} TL - {date.available_spots} Kişi Kalması
-                      </div>
-                    </button>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-8 text-gray-500">
-                  <Calendar className="w-12 h-12 mx-auto mb-4 text-gray-300" />
-                  <p>Mevcut tarih bulunmuyor</p>
-                </div>
-              )}
-            </div>
-          </div>
-        </div>
-      )}
+            <div className="p-4 space-y-6">
+              {/* Date Selection Section */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                  <Calendar className="w-4 h-4 mr-2" />
+                  Tur Tarihi Seçin
+                </h4>
+                {availableDates.length > 0 ? (
+                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                    {availableDates.map((date, index) => (
+                      <button
+                        key={index}
+                        onClick={() => setSelectedDate(date)}
+                        className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                          selectedDate?.date === date.date
+                            ? 'bg-blue-50 border-blue-200 text-blue-800'
+                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                        }`}
+                      >
+                        <div className="font-medium text-sm">
+                          {new Date(date.date).toLocaleDateString('tr-TR', {
+                            weekday: 'long',
+                            day: 'numeric',
+                            month: 'long'
+                          })}
+                        </div>
+                        <div className="text-xs text-gray-600">
+                          {date.price?.toLocaleString('tr-TR')} TL • {date.available_spots} kişi kapasitesi
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-6 text-gray-500">
+                    <Calendar className="w-8 h-8 mx-auto mb-2 text-gray-300" />
+                    <p className="text-sm">Mevcut tarih bulunmuyor</p>
+                  </div>
+                )}
+              </div>
 
-      {/* Cabin Selection Modal */}
-      {showCabinModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end lg:items-center justify-center">
-          <div className="bg-white w-full max-w-md lg:rounded-lg">
-            {/* Modal Header */}
-            <div className="flex items-center justify-between p-4 border-b">
-              <h3 className="text-lg font-semibold">Kabin Seçimi</h3>
-              <button
-                onClick={() => setShowCabinModal(false)}
-                className="text-gray-400 hover:text-gray-600"
-              >
-                <X className="w-6 h-6" />
-              </button>
-            </div>
-
-            {/* Cabin Options */}
-            <div className="p-4">
-              {/* Single Cabin */}
-              <div
-                onClick={() => setSelectedCabinType('single')}
-                className={`p-4 rounded-lg border cursor-pointer transition-colors mb-4 ${
-                  selectedCabinType === 'single'
-                    ? 'bg-blue-50 border-blue-200'
-                    : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                }`}
-              >
-                <div className="flex items-center justify-between">
-                  <div>
-                    <div className="font-medium text-gray-900">Tek Kişilik Kabin</div>
-                    <div className="text-sm text-gray-600">1 yetişkin için</div>
-                    <div className="text-lg font-bold text-blue-600 mt-1">
-                      {currentPrice?.toLocaleString('tr-TR')} TL
+              {/* Cabin Type Selection */}
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3 flex items-center">
+                  <Users className="w-4 h-4 mr-2" />
+                  Kabin Tipi
+                </h4>
+                <div className="grid grid-cols-2 gap-3">
+                  {/* Single Cabin */}
+                  <button
+                    onClick={() => setSelectedCabinType('single')}
+                    className={`p-3 rounded-lg border transition-colors text-center ${
+                      selectedCabinType === 'single'
+                        ? 'bg-blue-50 border-blue-200 text-blue-800'
+                        : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                    }`}
+                  >
+                    <div className="font-medium text-sm">Tek Kişilik</div>
+                    <div className="text-xs text-gray-600 mt-1">1 yetişkin</div>
+                    <div className="text-sm font-bold text-blue-600 mt-1">
+                      {(() => {
+                        const price = selectedDate?.price || tour?.single_cabin_price || tour?.base_price;
+                        return price && !isNaN(price) ? `${price.toLocaleString('tr-TR')} TL` : '-';
+                      })()}
                     </div>
-                  </div>
-                  <div className={`w-5 h-5 rounded-full border-2 ${
-                    selectedCabinType === 'single'
-                      ? 'bg-blue-600 border-blue-600'
-                      : 'border-gray-300'
-                  }`}>
-                    {selectedCabinType === 'single' && (
-                      <CheckCircle className="w-5 h-5 text-white" />
-                    )}
-                  </div>
+                  </button>
+
+                  {/* Double Cabin */}
+                  <button
+                    onClick={() => setSelectedCabinType('double')}
+                    disabled={!tour?.double_cabin_price}
+                    className={`p-3 rounded-lg border transition-colors text-center ${
+                      selectedCabinType === 'double'
+                        ? 'bg-blue-50 border-blue-200 text-blue-800'
+                        : tour?.double_cabin_price 
+                          ? 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                          : 'bg-gray-100 border-gray-200 text-gray-400 cursor-not-allowed'
+                    }`}
+                  >
+                    <div className="font-medium text-sm">Çift Kişilik</div>
+                    <div className="text-xs text-gray-600 mt-1">2 yetişkin</div>
+                    <div className="text-sm font-bold text-blue-600 mt-1">
+                      {tour?.double_cabin_price && !isNaN(tour.double_cabin_price) 
+                        ? `${tour.double_cabin_price.toLocaleString('tr-TR')} TL` 
+                        : 'Mevcut Değil'}
+                    </div>
+                  </button>
                 </div>
               </div>
 
-              {/* Double Cabin */}
-              {tour?.double_cabin_price && (
-                <div
-                  onClick={() => setSelectedCabinType('double')}
-                  className={`p-4 rounded-lg border cursor-pointer transition-colors mb-4 ${
-                    selectedCabinType === 'double'
-                      ? 'bg-blue-50 border-blue-200'
-                      : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                  }`}
-                >
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <div className="font-medium text-gray-900">Çift Kişilik Kabin</div>
-                      <div className="text-sm text-gray-600">2 yetişkin için</div>
-                      <div className="text-lg font-bold text-blue-600 mt-1">
-                        {tour.double_cabin_price?.toLocaleString('tr-TR')} TL
-                      </div>
-                    </div>
-                    <div className={`w-5 h-5 rounded-full border-2 ${
-                      selectedCabinType === 'double'
-                        ? 'bg-blue-600 border-blue-600'
-                        : 'border-gray-300'
-                    }`}>
-                      {selectedCabinType === 'double' && (
-                        <CheckCircle className="w-5 h-5 text-white" />
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Cabin Count */}
-              <div className="border-t pt-4">
-                <div className="flex items-center justify-between">
-                  <span className="font-medium">Kabin Sayısı</span>
-                  <div className="flex items-center space-x-3">
-                    <button
-                      onClick={() => setCabinCount(Math.max(1, cabinCount - 1))}
-                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300"
-                    >
-                      -
-                    </button>
-                    <span className="font-medium">{cabinCount}</span>
-                    <button
-                      onClick={() => setCabinCount(Math.min(10, cabinCount + 1))}
-                      className="w-8 h-8 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300"
-                    >
-                      +
-                    </button>
-                  </div>
+              <div>
+                <h4 className="font-medium text-gray-900 mb-3">Kabin Sayısı</h4>
+                <div className="flex items-center justify-center space-x-4">
+                  <button
+                    onClick={() => setCabinCount(Math.max(1, cabinCount - 1))}
+                    className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300 transition-colors"
+                  >
+                    -
+                  </button>
+                  <span className="text-xl font-semibold text-gray-900 min-w-[2rem] text-center">
+                    {cabinCount}
+                  </span>
+                  <button
+                    onClick={() => setCabinCount(Math.min(10, cabinCount + 1))}
+                    className="w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 hover:bg-gray-300 transition-colors"
+                  >
+                    +
+                  </button>
+                </div>
+              </div>
+
+              {/* Total Price Display */}
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Toplam Tutar:</span>
+                  <span className="text-lg font-bold text-blue-800">
+                    {(() => {
+                      const price = selectedCabinType === 'single' 
+                        ? (selectedDate?.price || tour?.single_cabin_price || tour?.base_price)
+                        : tour?.double_cabin_price;
+                      
+                      if (!price || isNaN(price)) {
+                        return 'Fiyat bilgisi yok';
+                      }
+                      
+                      return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
+                    })()}
+                  </span>
                 </div>
               </div>
 
               {/* Apply Button */}
               <button
-                onClick={() => setShowCabinModal(false)}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium mt-4 transition-colors duration-200"
+                onClick={() => {
+                  setShowBookingModal(false);
+                  // Trigger booking process if needed
+                }}
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors duration-200"
               >
-                Uygula
+                Seçimi Onayla
               </button>
             </div>
           </div>
