@@ -42,8 +42,21 @@ const ProfilePage = () => {
   useEffect(() => {
     if (activeTab === 'bookings') {
       loadBookings();
+    } else if (activeTab === 'favorites') {
+      loadFavorites();
     }
   }, [activeTab]);
+
+  useEffect(() => {
+    // Sync profile data with user changes
+    if (user) {
+      setProfileData({
+        full_name: user.full_name || '',
+        email: user.email || '',
+        phone: user.phone || ''
+      });
+    }
+  }, [user]);
 
   const loadBookings = async () => {
     setLoading(true);
