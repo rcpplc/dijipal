@@ -518,7 +518,7 @@ const HomePage = () => {
                     </div>
 
                     <Link
-                      to={`/tours/${tour.id}`}
+                      to={`/turlar/${tour.id}`}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200"
                     >
                       Detaylar
