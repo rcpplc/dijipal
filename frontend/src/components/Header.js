@@ -72,9 +72,9 @@ const Header = () => {
               Ana Sayfa
             </Link>
             <Link 
-              to="/tours" 
+              to="/turlar" 
               className={`font-medium transition-colors duration-200 ${
-                isActive('/tours') 
+                isActive('/turlar') 
                   ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
                   : 'text-gray-700 hover:text-blue-600'
               }`}
