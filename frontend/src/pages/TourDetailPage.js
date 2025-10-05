@@ -1445,30 +1445,70 @@ const TourDetailPage = () => {
                   <Calendar className="w-4 h-4 mr-2" />
                   Tur Tarihi Seçin
                 </h4>
+                
+                {/* Month Filter */}
+                {availableDates.length > 0 && (
+                  <div className="mb-3">
+                    <select
+                      value={selectedMonth}
+                      onChange={(e) => setSelectedMonth(e.target.value)}
+                      className="w-full p-2 border border-gray-200 rounded-lg text-sm bg-white"
+                    >
+                      <option value="all">Tüm Aylar</option>
+                      {(() => {
+                        const months = [...new Set(availableDates.map(date => {
+                          const d = new Date(date.start_date);
+                          return `${d.getFullYear()}-${d.getMonth()}`;
+                        }))].map(monthKey => {
+                          const [year, month] = monthKey.split('-');
+                          const monthName = new Date(year, month).toLocaleDateString('tr-TR', { 
+                            month: 'long', 
+                            year: 'numeric' 
+                          });
+                          return { key: monthKey, name: monthName };
+                        });
+                        
+                        return months.map(month => (
+                          <option key={month.key} value={month.key}>
+                            {month.name}
+                          </option>
+                        ));
+                      })()}
+                    </select>
+                  </div>
+                )}
+
                 {availableDates.length > 0 ? (
                   <div className="space-y-2 max-h-40 overflow-y-auto">
-                    {availableDates.map((date, index) => (
-                      <button
-                        key={index}
-                        onClick={() => setSelectedDate(date)}
-                        className={`w-full text-left p-3 rounded-lg border transition-colors ${
-                          selectedDate?.start_date === date.start_date
-                            ? 'bg-blue-50 border-blue-200 text-blue-800'
-                            : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
-                        }`}
-                      >
-                        <div className="font-medium text-sm">
-                          {new Date(date.start_date).toLocaleDateString('tr-TR', {
-                            weekday: 'long',
-                            day: 'numeric',
-                            month: 'long'
-                          })}
-                        </div>
-                        <div className="text-xs text-gray-600">
-                          {date.single_cabin_price?.toLocaleString('tr-TR')} TL • {date.available_cabins} kabin kapasitesi
-                        </div>
-                      </button>
-                    ))}
+                    {availableDates
+                      .filter(date => {
+                        if (selectedMonth === 'all') return true;
+                        const d = new Date(date.start_date);
+                        const dateKey = `${d.getFullYear()}-${d.getMonth()}`;
+                        return dateKey === selectedMonth;
+                      })
+                      .map((date, index) => (
+                        <button
+                          key={index}
+                          onClick={() => setSelectedDate(date)}
+                          className={`w-full text-left p-3 rounded-lg border transition-colors ${
+                            selectedDate?.start_date === date.start_date
+                              ? 'bg-blue-50 border-blue-200 text-blue-800'
+                              : 'bg-gray-50 border-gray-200 hover:bg-gray-100'
+                          }`}
+                        >
+                          <div className="font-medium text-sm">
+                            {new Date(date.start_date).toLocaleDateString('tr-TR', {
+                              weekday: 'long',
+                              day: 'numeric',
+                              month: 'long'
+                            })}
+                          </div>
+                          <div className="text-xs text-gray-600">
+                            {date.single_cabin_price?.toLocaleString('tr-TR')} TL • {date.available_cabins} kabin kapasitesi
+                          </div>
+                        </button>
+                      ))}
                   </div>
                 ) : (
                   <div className="text-center py-6 text-gray-500">
