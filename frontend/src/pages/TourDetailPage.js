@@ -133,7 +133,7 @@ const TourDetailPage = () => {
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
-        navigate('/tours');
+        navigate('/turlar');
         toast.error('Tur bulunamadı');
       }
     } finally {
