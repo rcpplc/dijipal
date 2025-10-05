@@ -432,21 +432,21 @@ const ToursPage = () => {
           {/* Page Title */}
           <div className="text-center mb-8">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
-              Kabin Turları
+              Mavi Yolculuk Turları
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
-              Türkiye'nin en güzel koylarında unutulmaz mavi yolculuk deneyimi yaşayın
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
+              Türkiye'nin eşsiz koylarında kabin kiralama ile profesyonel kaptan eşliğinde unutulmaz deniz tatili deneyimi yaşayın
             </p>
           </div>
           
-          {/* Filter Button Only */}
-          <div className="flex justify-center mb-6">
+          {/* Filter Button - Left Aligned */}
+          <div className="flex justify-start mb-6">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+              className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-200 border border-gray-300"
             >
-              <SlidersHorizontal className="w-5 h-5" />
-              <span>Filtreler</span>
+              <SlidersHorizontal className="w-4 h-4" />
+              <span className="hidden sm:inline">Filtreler</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
             </button>
           </div>
