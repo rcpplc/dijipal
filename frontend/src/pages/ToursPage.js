@@ -397,58 +397,27 @@ const ToursPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow-sm border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-          <h1 className="text-3xl font-bold text-gray-900 mb-4">Turları Keşfet</h1>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          {/* Page Title */}
+          <div className="text-center mb-8">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+              Kabin Turları
+            </h1>
+            <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-2xl mx-auto">
+              Türkiye'nin en güzel koylarında unutulmaz mavi yolculuk deneyimi yaşayın
+            </p>
+          </div>
           
-          {/* Search and Filters */}
-          <div className="flex flex-col lg:flex-row gap-4 mb-6">
-            <form onSubmit={handleSearch} className="flex-1">
-              <div className="flex flex-col sm:flex-row gap-3 sm:gap-0 bg-white border border-gray-200 rounded-lg overflow-hidden shadow-sm">
-                <div className="flex-1 flex items-center px-4 py-3">
-                  <Search className="w-5 h-5 text-gray-400 mr-3" />
-                  <input
-                    type="text"
-                    placeholder="Destinasyon, tur adı ara..."
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 outline-none bg-transparent text-gray-800 placeholder-gray-400"
-                  />
-                </div>
-                {/* SADE LOKASYON DROPDOWN */}
-                <div className="sm:border-l border-gray-200 px-4 py-3">
-                  <select
-                    value={filters.location}
-                    onChange={(e) => {
-                      const newLocation = e.target.value;
-                      setFilters(prev => ({ ...prev, location: newLocation }));
-                    }}
-                    className="w-full bg-white border border-gray-300 rounded-md px-3 py-2 text-sm text-gray-700 focus:outline-none focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    {locations.map((location, index) => (
-                      <option key={location.value || index} value={location.value}>
-                        {location.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-3 text-sm sm:text-base transition-colors duration-200"
-                >
-                  Ara
-                </button>
-              </div>
-            </form>
-            
-            <div className="flex items-center">
-              <button
-                onClick={() => setShowFilters(!showFilters)}
-                className="flex items-center space-x-1 sm:space-x-2 bg-gray-100 hover:bg-gray-200 px-2 sm:px-4 py-2 sm:py-3 rounded-lg transition-colors duration-200 text-sm sm:text-base"
-              >
-                <SlidersHorizontal className="w-5 h-5" />
-                <span>Filtreler</span>
-              </button>
-            </div>
+          {/* Filter Button Only */}
+          <div className="flex justify-center mb-6">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 shadow-md hover:shadow-lg"
+            >
+              <SlidersHorizontal className="w-5 h-5" />
+              <span>Filtreler</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
+            </button>
           </div>
 
         {/* Minimal ve Modern Filtreler */}
