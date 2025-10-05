@@ -1482,6 +1482,31 @@ async def remove_test_reviews(tour_id: str):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error removing reviews: {str(e)}")
 
+@api_router.post("/add-simple-tour")
+async def add_simple_tour():
+    """Add a simple test tour"""
+    
+    tour = {
+        "id": str(uuid.uuid4()),
+        "vendor_id": "vendor1",
+        "title": "Test Kabin Turu",
+        "description": "Test tour description",
+        "short_description": "Test açıklama",
+        "location": "Test Location",
+        "duration_days": 3,
+        "classification": "standart",
+        "category": "Doğa",
+        "status": TourStatus.ACTIVE,
+        "images": ["https://images.unsplash.com/photo-1529528018027-2ee0409703af"],
+        "minimum_price": 10000,
+        "rating": 4.5,
+        "review_count": 5,
+        "created_at": datetime.now(timezone.utc)
+    }
+    
+    await db.tours.insert_one(tour)
+    return {"message": "Simple tour added", "id": tour["id"]}
+
 @api_router.post("/add-10-tours")
 async def add_10_tours():
     """Add 10 sample tours with cabin pricing"""
