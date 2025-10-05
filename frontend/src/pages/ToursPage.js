@@ -431,12 +431,14 @@ const ToursPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           {/* Page Title */}
           <div className="text-center mb-8">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
               Mavi Yolculuk Turları
             </h1>
-            <p className="text-sm sm:text-base lg:text-lg text-gray-600 max-w-3xl mx-auto">
-              Türkiye'nin eşsiz koylarında kabin kiralama ile profesyonel kaptan eşliğinde unutulmaz deniz tatili deneyimi yaşayın
-            </p>
+            <div className="w-full">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600">
+                Türkiye'nin eşsiz koylarında kabin kiralama ile profesyonel kaptan eşliğinde unutulmaz deniz tatili deneyimi yaşayın
+              </p>
+            </div>
           </div>
           
           {/* Filter Button - Left Aligned */}
