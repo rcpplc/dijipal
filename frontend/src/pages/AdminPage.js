@@ -3578,7 +3578,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                                   </td>
                                   <td className="py-3 px-4">
                                     <span className="text-orange-600 font-semibold">
-                                      {tourDate.child_price ? `₺${tourDate.child_price.toLocaleString('tr-TR')}` : '-'}
+                                      {tourDate.child_price ? `₺${(tourDate.child_price || 0).toLocaleString('tr-TR')}` : '-'}
                                     </span>
                                   </td>
                                   <td className="py-3 px-4 text-gray-900">
