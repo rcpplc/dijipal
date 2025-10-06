@@ -42,23 +42,23 @@ const CartPage = () => {
             setCartItems(cartState.cartItems);
             localStorage.setItem('tour_cart', JSON.stringify(cartState.cartItems));
             
-            console.log('✅ Cart state restored successfully');
-            toast.success('Sepetiniz geri yüklendi! Rezervasyon sayfasına yönlendiriliyorsunuz...');
+            console.log('✅ Cart state restored successfully - redirecting immediately');
             
-            // Auto-redirect to checkout after restoration
-            setTimeout(() => {
-              if (cartState.cartItems.length > 0) {
-                const firstTour = cartState.cartItems[0];
-                navigate(`/booking/${firstTour.tourId}`, {
-                  state: {
-                    tour: firstTour,
-                    selectedDate: firstTour.selectedDate,
-                    cabinType: firstTour.cabinType,
-                    participants: firstTour.participants
-                  }
-                });
-              }
-            }, 1500); // Give user time to see the success message
+            // Immediately redirect to checkout after restoration (no alerts)
+            if (cartState.cartItems.length > 0) {
+              const firstTour = cartState.cartItems[0];
+              
+              // Immediate redirect - no delay, no toast
+              navigate(`/booking/${firstTour.tourId}`, {
+                state: {
+                  tour: firstTour,
+                  selectedDate: firstTour.selectedDate,
+                  cabinType: firstTour.cabinType,
+                  participants: firstTour.participants,
+                  fromLogin: true // Flag to indicate this came from login restoration
+                }
+              });
+            }
             
             // Clear the saved state
             localStorage.removeItem('pendingCartCheckout');
