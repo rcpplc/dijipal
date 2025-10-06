@@ -2869,12 +2869,20 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
               </div>
             )}
 
-            {/* Step 3: Kabin Tarihleri & Fiyatlandırma */}
+            {/* Step 3: Tarihler - Dynamic Content Based on Reservation Type */}
             {currentStep === 3 && (
               <div className="space-y-6">
                 <div className="mb-8">
-                  <h3 className="text-lg font-medium text-gray-900 mb-1">Tarihi & Fiyatları Ekle</h3>
-                  <p className="text-sm text-gray-500 mb-6">Yeni tarih ve kabin fiyatları belirleyin</p>
+                  <h3 className="text-lg font-medium text-gray-900 mb-1">
+                    Tarihi & {formData.reservation_type === 'cabin_based' ? 'Kabin Fiyatları' : 
+                             formData.reservation_type === 'person_based' ? 'Kişi Fiyatları' : 
+                             'Rezervasyon Fiyatları'} Ekle
+                  </h3>
+                  <p className="text-sm text-gray-500 mb-6">
+                    {formData.reservation_type === 'cabin_based' ? 'Yeni tarih ve kabin fiyatları belirleyin' : 
+                     formData.reservation_type === 'person_based' ? 'Yeni tarih ve kişi başı fiyatları belirleyin' : 
+                     'Yeni tarih ve rezervasyon fiyatları belirleyin'}
+                  </p>
                   
                   <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                     <div>
