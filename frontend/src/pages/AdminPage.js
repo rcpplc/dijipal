@@ -1212,6 +1212,7 @@ const AdminPage = () => {
                 ))}
               </div>
             ) : (
+              <>
               <div className="grid gap-6 lg:hidden">
                 {/* Mobile Card Layout */}
                 {bookings
