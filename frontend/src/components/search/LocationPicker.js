@@ -12,15 +12,36 @@ const LocationPicker = ({
 }) => {
   const { t } = useTranslation();
   const [isGettingLocation, setIsGettingLocation] = useState(false);
+  const [availableLocations, setAvailableLocations] = useState([]);
+  const [loadingLocations, setLoadingLocations] = useState(true);
 
-  const popularLocations = [
-    { id: 1, name: 'Muğla, Fethiye', type: 'city', tours: 12 },
-    { id: 2, name: 'Muğla, Göcek', type: 'city', tours: 8 },
-    { id: 3, name: 'Antalya, Kaş', type: 'city', tours: 15 },
-    { id: 4, name: 'İzmir, Çeşme', type: 'city', tours: 6 },
-    { id: 5, name: 'Muğla, Bodrum', type: 'city', tours: 10 },
-    { id: 6, name: 'Balıkesir, Ayvalık', type: 'city', tours: 4 }
-  ];
+  // Fetch available locations from API
+  useEffect(() => {
+    const fetchLocations = async () => {
+      try {
+        const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+        const response = await fetch(`${BACKEND_URL}/api/search/locations`);
+        const data = await response.json();
+        setAvailableLocations(data.locations || []);
+      } catch (error) {
+        console.error('Error fetching locations:', error);
+        // Fallback to default locations
+        setAvailableLocations([
+          { id: 1, name: 'Muğla, Fethiye', tours: 12, popular: true },
+          { id: 2, name: 'Muğla, Göcek', tours: 8, popular: true },
+          { id: 3, name: 'Antalya, Kaş', tours: 15, popular: true },
+          { id: 4, name: 'İzmir, Çeşme', tours: 6, popular: false },
+          { id: 5, name: 'Muğla, Bodrum', tours: 10, popular: true }
+        ]);
+      } finally {
+        setLoadingLocations(false);
+      }
+    };
+
+    fetchLocations();
+  }, []);
+
+  const popularLocations = availableLocations.filter(loc => loc.popular);
 
   const getCurrentLocation = async () => {
     if (!navigator.geolocation) {
