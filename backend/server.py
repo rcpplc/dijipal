@@ -1927,9 +1927,14 @@ async def update_profile(
         {"$set": update_data}
     )
     
-    # Return updated user
+    # Return updated user without password hash
     updated_user = await db.users.find_one({"id": current_user.id})
-    return updated_user
+    if updated_user:
+        # Remove hashed_password from response
+        updated_user.pop('hashed_password', None)
+        return User(**updated_user)
+    
+    raise HTTPException(status_code=404, detail="User not found")
 
 @api_router.put("/change-password")
 async def change_password(
