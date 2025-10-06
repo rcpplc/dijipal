@@ -964,16 +964,28 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
         # Delete existing tour dates
         await db.tour_dates.delete_many({"tour_id": tour_id})
         
-        # Create new tour dates with cabin system
+        # Create new tour dates with all reservation types support
         for date_data in tour_dates_data:
-            print(f"🔍 Processing cabin date: {date_data}")
+            print(f"🔍 Processing tour date: {date_data}")
             try:
                 tour_date = TourDate(
                     tour_id=tour_id,
                     start_date=date_data.get("date", date_data.get("start_date")),
-                    available_cabins=date_data.get("capacity", date_data.get("available_cabins", 10)),
+                    
+                    # Cabin-based fields
+                    available_cabins=date_data.get("capacity", 0),
                     single_cabin_price=float(date_data.get("single_cabin_price", 0)),
                     double_cabin_price=float(date_data.get("double_cabin_price", 0)),
+                    
+                    # Person-based fields
+                    max_persons=date_data.get("max_persons", 0),
+                    person_price=float(date_data.get("person_price", 0)),
+                    child_price=float(date_data.get("child_price", 0)) if date_data.get("child_price") else None,
+                    
+                    # Reservation-based fields
+                    total_reservation_price=float(date_data.get("total_reservation_price", 0)),
+                    max_passengers=date_data.get("max_passengers", 0),
+                    
                     is_active=date_data.get("is_active", True)
                 )
                 print(f"✅ Created tour_date: {tour_date.dict()}")
