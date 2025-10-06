@@ -3350,41 +3350,56 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   )}
 
                   {formData.reservation_type === 'reservation' && (
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Tarih</label>
-                        <input
-                          type="date"
-                          value={newTourDate.date}
-                          onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                        />
+                    <div className="bg-gray-50 rounded-lg p-4 space-y-4 mb-4">
+                      {/* Date Section */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200">
+                        <h4 className="text-sm font-medium text-gray-700 mb-3">📅 Tarih Seçimi</h4>
+                        <div className="w-full md:w-1/2">
+                          <label className="block text-sm font-medium text-gray-700 mb-2">Tarih *</label>
+                          <input
+                            type="date"
+                            value={newTourDate.date}
+                            onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                            required
+                          />
+                        </div>
                       </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Toplam Fiyat (₺)</label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="100"
-                          value={newTourDate.total_reservation_price}
-                          onChange={(e) => setNewTourDate({...newTourDate, total_reservation_price: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                          placeholder="Rezervasyon fiyatı"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Maks. Yolcu</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="500"
-                          value={newTourDate.max_passengers}
-                          onChange={(e) => setNewTourDate({...newTourDate, max_passengers: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                          placeholder="Örn: 100"
-                        />
+
+                      {/* Pricing & Capacity Section */}
+                      <div className="bg-white rounded-lg p-4 border border-gray-200">
+                        <h4 className="text-sm font-medium text-gray-700 mb-3">🚢 Rezervasyon Detayları</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Toplam Rezervasyon Fiyatı (₺) *</label>
+                            <input
+                              type="number"
+                              min="0"
+                              step="100"
+                              value={newTourDate.total_reservation_price}
+                              onChange={(e) => setNewTourDate({...newTourDate, total_reservation_price: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="50000"
+                              required
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Sabit rezervasyon ücreti</p>
+                          </div>
+                          
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Maksimum Yolcu *</label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="500"
+                              value={newTourDate.max_passengers}
+                              onChange={(e) => setNewTourDate({...newTourDate, max_passengers: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="100"
+                              required
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Toplam yolcu kapasitesi</p>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   )}
