@@ -123,6 +123,16 @@ const CartPage = () => {
 
   const handleCheckout = () => {
     if (!user) {
+      // Save current cart state before showing login modal
+      const cartState = {
+        cartItems: cartItems,
+        timestamp: Date.now(),
+        source: 'cart'
+      };
+      
+      localStorage.setItem('pendingCartCheckout', JSON.stringify(cartState));
+      console.log('💾 Saved cart state before login:', cartState);
+      
       setShowLoginModal(true);
       return;
     }
@@ -134,6 +144,9 @@ const CartPage = () => {
 
     // İlk tur için rezervasyon sayfasına git - tam veriyi state ile gönder
     const firstTour = cartItems[0];
+    
+    // Clear any pending cart state since we're proceeding
+    localStorage.removeItem('pendingCartCheckout');
     
     navigate(`/booking/${firstTour.tourId}`, {
       state: {
