@@ -206,8 +206,7 @@ const AdminPage = () => {
     
     try {
       await axios.put(`${API}/admin/contact-messages/${messageId}`, 
-        { admin_reply: replyText, status: 'replied' },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { admin_reply: replyText, status: 'replied' }
       );
       toast.success('Yanıt gönderildi');
       setReplyText('');
