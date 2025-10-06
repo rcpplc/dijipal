@@ -346,7 +346,7 @@ const SearchBottomSheet = ({
             </button>
             <button
               onClick={handleSearch}
-              disabled={!searchQuery && !filters.location && !filters.category}
+              disabled={!searchQuery && !filters.location && !filters.category && !filters.dateRange?.start}
               className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
             >
               {t('search.button')}
