@@ -619,6 +619,171 @@ const ToursPage = () => {
         </div>
       </div>
 
+      {/* Mobile Filter Overlay */}
+      {showFilters && (
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
+          <div className="bg-white w-full max-h-[90vh] overflow-y-auto rounded-t-xl">
+            <div className="p-6">
+              {/* Mobile Filter Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="text-gray-500 hover:text-gray-700 transition-colors duration-200"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+              
+              {/* Same filters as sidebar but in mobile format */}
+              <div className="space-y-6">
+                {/* Location Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
+                    Lokasyon
+                  </label>
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    <option value="">Tüm Lokasyonlar</option>
+                    {locations.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Category Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Mountain className="w-4 h-4 mr-2 text-gray-600" />
+                    Kategori
+                  </label>
+                  <select
+                    value={filters.category}
+                    onChange={(e) => handleFilterChange('category', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    <option value="">Tüm Kategoriler</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Duration Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-gray-600" />
+                    Süre
+                  </label>
+                  <select
+                    value={filters.duration}
+                    onChange={(e) => handleFilterChange('duration', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {durations.map((duration) => (
+                      <option key={duration.value} value={duration.value}>
+                        {duration.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Classification Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Building className="w-4 h-4 mr-2 text-gray-600" />
+                    Sınıf
+                  </label>
+                  <select
+                    value={filters.classification}
+                    onChange={(e) => handleFilterChange('classification', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {classifications.map((classification) => (
+                      <option key={classification.value} value={classification.value}>
+                        {classification.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Rating Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                    Min. Puan
+                  </label>
+                  <select
+                    value={filters.minRating}
+                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {minRatings.map((rating) => (
+                      <option key={rating.value} value={rating.value}>
+                        {rating.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range Filter */}
+                <div className="border-t pt-4">
+                  <div className="space-y-2 mb-4">
+                    <label className="text-sm font-medium text-gray-700 flex items-center">
+                      💰 Fiyat Aralığı
+                    </label>
+                    <div className="text-xs text-gray-600 bg-gray-50 px-3 py-2 rounded">
+                      ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="number"
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      placeholder="Min fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                    <input
+                      type="number"
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      placeholder="Max fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Mobile Filter Actions */}
+              <div className="flex space-x-4 pt-6 border-t mt-6">
+                <button
+                  onClick={clearFilters}
+                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Temizle
+                </button>
+                <button
+                  onClick={() => setShowFilters(false)}
+                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Filtreleri Uygula
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Main Content Area - 4 Column Grid Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         
