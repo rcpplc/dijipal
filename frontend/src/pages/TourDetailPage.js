@@ -135,9 +135,10 @@ const TourDetailPage = () => {
       const tourData = response.data;
       updateSEO(tourData);
       
-      // Tour yüklendikten sonra tarihleri de yükle
+      // Tour yüklendikten sonra tarihleri ve yorumları da yükle
       if (tourData.id) {
         await loadAvailableDates(tourData.id);
+        await loadReviews(tourData.id);
       }
     } catch (error) {
       console.error('Error loading tour:', error);
