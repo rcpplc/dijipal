@@ -499,7 +499,7 @@ const TourDetailPage = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Back Button */}
         <Link
-          to="/tours"
+          to="/turlar"
           className="inline-flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
         >
           <ArrowLeft className="w-5 h-5" />
