@@ -1743,9 +1743,11 @@ const TourDetailPage = () => {
                 if (!selectedDate) return 'Tarih Seçin';
                 
                 if (tour && tour.reservation_type === 'person_based') {
-                  const price = selectedDate.person_price;
-                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
-                  return (price * participants).toLocaleString('tr-TR') + ' TL';
+                  const adultPrice = selectedDate.person_price || 0;
+                  const childPrice = selectedDate.child_price || 0;
+                  if (!adultPrice && !childPrice) return 'Fiyat Yükleniyor...';
+                  const totalPrice = (adultPrice * participants) + (childPrice * childCount);
+                  return totalPrice.toLocaleString('tr-TR') + ' TL';
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const price = selectedDate.total_reservation_price;
                   if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
