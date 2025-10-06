@@ -1568,10 +1568,15 @@ const TourDetailPage = () => {
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Sabit fiyat + Vergiler dahil';
                         } else {
-                          const cabinPrice = cabinType === 'single' 
-                            ? (selectedDate.single_cabin_price || selectedDate.price)
-                            : (selectedDate.double_cabin_price || selectedDate.price);
-                          return `₺${cabinPrice?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kabin + Vergiler dahil`;
+                          // cabin_based
+                          const parts = [];
+                          if (singleCabinCount > 0) {
+                            parts.push(`₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × ${singleCabinCount} tek`);
+                          }
+                          if (doubleCabinCount > 0) {
+                            parts.push(`₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × ${doubleCabinCount} çift`);
+                          }
+                          return (parts.length > 0 ? parts.join(' + ') : 'Kabin seçin') + ' + Vergiler dahil';
                         }
                       })()}
                     </p>
