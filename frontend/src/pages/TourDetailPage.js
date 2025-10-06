@@ -1735,7 +1735,6 @@ const TourDetailPage = () => {
               </div>
             </div>
           </div>
-          </div>
         </div>
       )}
 
