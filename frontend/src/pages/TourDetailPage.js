@@ -1377,9 +1377,9 @@ const TourDetailPage = () => {
                   {selectedDate && selectedDate.person_price && (
                     <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
                       <div className="text-sm text-gray-700">
-                        <div>Yetişkin: ₺{selectedDate.person_price.toLocaleString('tr-TR')} kişi başı</div>
+                        <div>Yetişkin: ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı</div>
                         {selectedDate.child_price && (
-                          <div>Çocuk: ₺{selectedDate.child_price.toLocaleString('tr-TR')} kişi başı</div>
+                          <div>Çocuk: ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} kişi başı</div>
                         )}
                       </div>
                     </div>
