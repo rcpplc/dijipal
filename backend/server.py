@@ -219,9 +219,21 @@ class ContactMessage(BaseModel):
 # Create models
 class TourDateCreate(BaseModel):
     date: str  # ISO date string
-    capacity: int  # Available cabins count
-    single_cabin_price: float  # Price for single occupancy cabin
-    double_cabin_price: float  # Price for double occupancy cabin
+    
+    # Cabin-based fields (existing)
+    capacity: int = 0  # Available cabins count
+    single_cabin_price: float = 0  # Price for single occupancy cabin
+    double_cabin_price: float = 0  # Price for double occupancy cabin
+    
+    # Person-based fields (new)
+    max_persons: int = 0  # Maximum person capacity
+    person_price: float = 0  # Price per person
+    child_price: Optional[float] = None  # Optional child price
+    
+    # Reservation-based fields (new)
+    total_reservation_price: float = 0  # Total reservation price
+    max_passengers: int = 0  # Maximum passenger capacity
+    
     is_active: Optional[bool] = True
 
 class TourCreate(BaseModel):
