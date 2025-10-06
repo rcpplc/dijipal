@@ -19,12 +19,12 @@ const TermsPage = () => {
         </div>
 
         {/* Company Info */}
-        <div className="bg-blue-50 rounded-2xl p-8 mb-8">
+        <div className="bg-gray-50 rounded-2xl p-8 mb-8">
           <div className="flex items-center space-x-3 mb-4">
-            <FileText className="w-8 h-8 text-blue-600" />
-            <h2 className="text-2xl font-bold text-blue-900">Hizmet Sağlayıcı</h2>
+            <FileText className="w-8 h-8 text-gray-600" />
+            <h2 className="text-2xl font-bold text-gray-900">Hizmet Sağlayıcı</h2>
           </div>
-          <div className="grid md:grid-cols-2 gap-6 text-blue-800">
+          <div className="grid md:grid-cols-2 gap-6 text-gray-800">
             <div>
               <p className="font-semibold mb-2">Şirket Bilgileri:</p>
               <p className="text-sm">CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD.ŞTİ.</p>
