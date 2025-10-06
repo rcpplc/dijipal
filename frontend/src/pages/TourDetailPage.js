@@ -152,7 +152,7 @@ const TourDetailPage = () => {
         }
       }
     }
-  }, [user, tour]);
+  }, [user, tour, navigate]);
   
   // Safety check removed - causing infinite loop
 
