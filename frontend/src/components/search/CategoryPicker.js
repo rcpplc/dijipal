@@ -142,30 +142,42 @@ const CategoryPicker = ({
 
   return (
     <div className="space-y-6">
+      {/* Loading State */}
+      {loadingCategories && (
+        <div className="flex justify-center py-8">
+          <div className="flex items-center space-x-2">
+            <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
+            <span className="text-sm text-gray-600">Kategoriler yükleniyor...</span>
+          </div>
+        </div>
+      )}
+
       {/* Suggestions from Search */}
-      {suggestions.length > 0 && (
+      {suggestions.length > 0 && !loadingCategories && (
         <div className="space-y-3">
-          <h3 className="text-sm font-medium text-gray-700">
+          <h3 className="text-sm font-semibold text-gray-800 flex items-center">
+            <span className="w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mr-2"></span>
             {t('categories.suggestions')}
           </h3>
           <div className="grid grid-cols-1 gap-2">
             {suggestions.map((suggestion, index) => {
-              const category = categories.find(cat => 
+              const category = availableCategories.find(cat => 
                 cat.name.toLowerCase().includes(suggestion.name.toLowerCase())
               );
-              const IconComponent = category?.icon || MapPin;
+              const IconComponent = category ? iconComponents[category.icon] : MapPin;
+              const colors = category ? colorClasses[category.color] : colorClasses.gray;
               
               return (
                 <button
                   key={index}
                   onClick={() => onSuggestionSelect(suggestion)}
-                  className="flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left"
+                  className="flex items-center space-x-3 p-3 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 rounded-xl border border-gray-200 hover:border-blue-300 transition-all duration-200 text-left"
                 >
-                  <div className={`p-2 rounded-lg ${category?.color || 'bg-gray-100 text-gray-600'}`}>
-                    <IconComponent className="w-4 h-4" />
+                  <div className={`p-2 rounded-lg bg-gradient-to-br ${colors.gradient} shadow-sm`}>
+                    <IconComponent className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-medium text-gray-900">{suggestion.name}</div>
+                    <div className="font-semibold text-gray-900">{suggestion.name}</div>
                     {suggestion.tours && (
                       <div className="text-sm text-gray-500">
                         {suggestion.tours} {t('common.tours')}
