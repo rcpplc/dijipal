@@ -297,28 +297,42 @@ const HomePage = () => {
               Akdeniz ve Ege'nin eşsiz koylarında unutulmaz bir deniz tatili yapın
             </p>
 
-            {/* Search Bar */}
-            <form onSubmit={handleSearch} className="max-w-2xl mx-auto mb-6 sm:mb-8 animate-fade-in-up px-4">
-              <div className="flex bg-white rounded-full shadow-2xl overflow-hidden">
-                <div className="flex-1 flex items-center px-3 sm:px-4 md:px-6 py-3 sm:py-4">
-                  <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 flex-shrink-0" />
-                  <input
-                    type="text"
-                    placeholder="Hangi koya yelken açmak istiyorsunuz?"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    className="flex-1 outline-none text-gray-800 placeholder-gray-500 text-sm sm:text-base"
-                  />
+            {/* Enhanced Search Bar */}
+            <div className="max-w-2xl mx-auto mb-6 sm:mb-8 animate-fade-in-up px-4 space-y-3">
+              {/* Main Search Form */}
+              <form onSubmit={handleSearch}>
+                <div className="flex bg-white rounded-full shadow-2xl overflow-hidden">
+                  <div className="flex-1 flex items-center px-3 sm:px-4 md:px-6 py-3 sm:py-4">
+                    <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 flex-shrink-0" />
+                    <input
+                      type="text"
+                      placeholder="Hangi koya yelken açmak istiyorsunuz?"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="flex-1 outline-none text-gray-800 placeholder-gray-500 text-sm sm:text-base"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 transition-colors duration-200 flex items-center space-x-1 sm:space-x-2"
+                  >
+                    <Search className="w-4 h-4 sm:w-5 sm:h-5" />
+                    <span className="hidden sm:inline text-sm sm:text-base">Ara</span>
+                  </button>
                 </div>
+              </form>
+              
+              {/* Advanced Search Button */}
+              <div className="text-center">
                 <button
-                  type="submit"
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 md:px-8 py-3 sm:py-4 transition-colors duration-200 flex items-center space-x-1 sm:space-x-2"
+                  onClick={() => setIsSearchOpen(true)}
+                  className="text-white/80 hover:text-white text-sm underline transition-colors duration-200 flex items-center space-x-1 mx-auto"
                 >
-                  <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-                  <span className="hidden sm:inline text-sm sm:text-base">Ara</span>
+                  <span>Gelişmiş Arama</span>
+                  <ArrowRight className="w-4 h-4" />
                 </button>
               </div>
-            </form>
+            </div>
 
             {/* CTA Section Removed - Clean search-focused design */}
           </div>
