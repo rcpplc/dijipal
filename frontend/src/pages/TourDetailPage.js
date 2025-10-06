@@ -1455,61 +1455,7 @@ const TourDetailPage = () => {
 
               {/* Booking Summary section removed as requested */}
 
-              {/* Desktop Booking Summary - Minimal Design */}
-              {selectedDate && (
-                <div className="mb-4 p-3 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
-                  {/* Rezervasyon (Tüm Tekne) - Full Width */}
-                  {tour && tour.reservation_type === 'reservation' ? (
-                    <div className="text-center">
-                      <div className="text-xl font-bold text-blue-700">
-                        ₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}
-                      </div>
-                      <div className="text-xs text-gray-600">Özel rezervasyon</div>
-                    </div>
-                  ) : (
-                    /* Kabin & Kişi - Grid Layout */
-                    <div className="grid grid-cols-3 items-center gap-2">
-                      {/* Sol: Fiyat */}
-                      <div className="text-left">
-                        <div className="text-lg font-bold text-blue-700">
-                          ₺{(() => {
-                            if (tour && tour.reservation_type === 'person_based') {
-                              const totalPrice = (selectedDate.person_price || 0) * participants + (selectedDate.child_price || 0) * childCount;
-                              return totalPrice === 0 ? '0' : totalPrice.toLocaleString('tr-TR');
-                            } else {
-                              const totalPrice = (selectedDate.single_cabin_price || 0) * singleCabinCount + (selectedDate.double_cabin_price || 0) * doubleCabinCount;
-                              return totalPrice === 0 ? '0' : totalPrice.toLocaleString('tr-TR');
-                            }
-                          })()}
-                        </div>
-                      </div>
-                      
-                      {/* Orta: Detay */}
-                      <div className="text-center">
-                        <div className="text-sm font-medium text-gray-700">
-                          {(() => {
-                            if (tour && tour.reservation_type === 'person_based') {
-                              return `${participants}Y + ${childCount}Ç`;
-                            } else {
-                              return `${singleCabinCount}T + ${doubleCabinCount}Ç`;
-                            }
-                          })()}
-                        </div>
-                      </div>
-                      
-                      {/* Sağ: Tarih */}
-                      <div className="text-right">
-                        <div className="text-xs text-gray-500">
-                          {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
-                            day: '2-digit',
-                            month: '2-digit'
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </div>
-              )}
+              {/* Booking Summary removed as requested */}
 
               {/* Booking Buttons - Corporate Style */}
               <div className="space-y-3">
