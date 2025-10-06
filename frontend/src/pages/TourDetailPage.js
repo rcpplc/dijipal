@@ -75,10 +75,6 @@ const TourDetailPage = () => {
 
   useEffect(() => {
     loadTour();
-    if (tourSlug) {
-      if (user) {
-        checkIfFavorited();
-      }
       
       // Load user preferences and suggest participants
       loadUserPreferences();
