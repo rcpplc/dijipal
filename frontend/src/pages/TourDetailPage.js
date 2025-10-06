@@ -1915,8 +1915,8 @@ const TourDetailPage = () => {
                 <p className="text-center text-sm text-gray-500 mt-2">{cabinCount} kabin seçildi</p>
               </div>
 
-              {/* Total Price */}
-              {selectedDate && selectedCabinType && (
+              {/* Total Price - Only for cabin-based tours */}
+              {selectedDate && selectedCabinType && tour.reservation_type === 'cabin_based' && (
                 <div className="bg-blue-50 rounded-lg p-4">
                   <div className="flex justify-between items-center">
                     <span className="font-medium text-gray-900">Toplam Tutar:</span>
@@ -1925,7 +1925,7 @@ const TourDetailPage = () => {
                         const unitPrice = selectedCabinType === 'double' 
                           ? selectedDate.double_cabin_price 
                           : selectedDate.single_cabin_price;
-                        return (unitPrice * cabinCount).toLocaleString('tr-TR');
+                        return ((unitPrice || 0) * cabinCount).toLocaleString('tr-TR');
                       })()}
                     </span>
                   </div>
