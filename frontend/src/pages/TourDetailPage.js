@@ -79,6 +79,53 @@ const TourDetailPage = () => {
     // Load user preferences and suggest participants
     loadUserPreferences();
   }, [tourSlug, user]);
+
+  // Restore booking state after login
+  useEffect(() => {
+    if (user && tour) {
+      const savedState = localStorage.getItem('pendingBookingState');
+      if (savedState) {
+        try {
+          const bookingState = JSON.parse(savedState);
+          console.log('🔄 Restoring booking state after login:', bookingState);
+          
+          // Check if the saved state is for the current tour and not too old (5 minutes)
+          const isCurrentTour = bookingState.tourId === tour.id;
+          const isRecent = (Date.now() - bookingState.timestamp) < 5 * 60 * 1000; // 5 minutes
+          
+          if (isCurrentTour && isRecent) {
+            // Restore the saved state
+            if (bookingState.selectedDate) {
+              setSelectedDate(bookingState.selectedDate);
+            }
+            if (bookingState.selectedCabinType) {
+              setSelectedCabinType(bookingState.selectedCabinType);
+              setCabinType(bookingState.selectedCabinType); // Also set for desktop
+            }
+            if (bookingState.cabinCount) {
+              setCabinCount(bookingState.cabinCount);
+            }
+            if (bookingState.participants) {
+              setParticipants(bookingState.participants);
+            }
+            
+            console.log('✅ Booking state restored successfully');
+            toast.success('Seçimleriniz geri yüklendi! Rezervasyonu tamamlayabilirsiniz.');
+            
+            // Clear the saved state
+            localStorage.removeItem('pendingBookingState');
+          } else {
+            // Clear old or irrelevant state
+            localStorage.removeItem('pendingBookingState');
+            console.log('🗑️ Cleared old booking state');
+          }
+        } catch (error) {
+          console.error('❌ Error restoring booking state:', error);
+          localStorage.removeItem('pendingBookingState');
+        }
+      }
+    }
+  }, [user, tour]);
   
   // Safety check removed - causing infinite loop
 
