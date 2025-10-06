@@ -367,6 +367,21 @@ frontend:
         agent: "testing"
         comment: "✅ CONTACT FORM SYSTEM COMPREHENSIVE TESTING COMPLETED - ALL ENDPOINTS WORKING PERFECTLY! Successfully tested all contact form backend APIs as requested in Turkish review. TESTING RESULTS: 1) CONTACT FORM SUBMISSION: ✅ POST /api/contact/send working perfectly with valid data (name: 'Test Kullanıcı', email: 'test@example.com', phone: '05551234567', subject: 'Test Mesaj Konusu', message: 'Bu bir test mesajıdır...'), ✅ Field validation working correctly (missing name/email properly rejected with 400 status), ✅ Response format correct with message ID and success message, 2) ADMIN MESSAGES LIST: ✅ GET /api/admin/contact-messages working perfectly with admin authentication (admin@example.com/test123), ✅ Messages properly listed with all required fields (id, name, email, subject, message, status, created_at), ✅ Unauthorized access properly rejected (403 status), 3) MESSAGE STATUS UPDATE: ✅ PUT /api/admin/contact-messages/{message_id} working perfectly, ✅ Status transitions working (new → read → replied), ✅ Admin reply functionality working correctly, ✅ Invalid status validation working (rejected with 400 status), 4) MESSAGE DELETE: ✅ DELETE /api/admin/contact-messages/{message_id} working perfectly, ✅ Message successfully deleted and verified removed from list, ✅ Non-existent message properly handled (404 status), 5) DATABASE INTEGRATION: ✅ MongoDB contact_messages collection working perfectly, ✅ Data persistence verified (messages stored and retrieved correctly), ✅ Data format validation passed (all required fields present), ✅ Data accuracy verified (all values correctly stored). SUCCESS RATE: 100% (18/18 tests passed). The contact form system is production-ready and fully functional. Admin panel can successfully receive, manage, and respond to contact messages."
 
+  - task: "Admin Panel Contact Messages Tab Frontend Fix"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/AdminPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL ISSUE IDENTIFIED: Admin panel contact messages tab showing 'mesajlar okunamadı' error. GET /api/admin/contact-messages returning 401 Unauthorized while other admin endpoints work correctly. Root cause: Frontend using incorrect authorization header format (user.token instead of axios defaults)."
+      - working: true
+        agent: "testing"
+        comment: "✅ ADMIN PANEL CONTACT MESSAGES TAB FULLY FIXED! Successfully resolved the 'mesajlar okunamadı' error reported in Turkish review. ROOT CAUSE: Frontend AdminPage.js was using explicit Authorization headers with user.token (which doesn't exist) instead of relying on global axios defaults. RESOLUTION: 1) REMOVED explicit Authorization headers from loadMessages(), updateMessageStatus(), sendReply(), deleteMessage() functions, 2) FIXED updateBookingStatus() function with same issue, 3) NOW CONSISTENT with other admin endpoints that work correctly. COMPREHENSIVE TESTING RESULTS: 1) ADMIN LOGIN: ✅ admin@example.com/test123 working perfectly, 2) ADMIN PANEL ACCESS: ✅ /admin page accessible, 3) MESSAGES TAB: ✅ 'İletişim' tab loads successfully without errors, 4) API CALLS: ✅ GET /api/admin/contact-messages now returns 200 OK (was 401 Unauthorized), 5) MESSAGES DISPLAY: ✅ 5 existing messages displayed correctly in both mobile cards and desktop table, 6) CONTACT FORM INTEGRATION: ✅ New messages submitted via /contact form appear immediately in admin panel, 7) FULL FUNCTIONALITY: ✅ Message status updates, replies, and deletion all working perfectly, 8) NO ERROR MESSAGES: ✅ No 'mesajlar okunamadı' or 'Mesajlar yüklenemedi' errors found. SUCCESS RATE: 100% (8/8 test categories passed). The contact messages tab is now fully functional and production-ready."
+
 metadata:
   created_by: "testing_agent"
   version: "1.2"
