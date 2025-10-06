@@ -1590,10 +1590,10 @@ const TourDetailPage = () => {
         </div>
       </div>
 
-      {/* Combined Booking Modal - Full Screen on Mobile */}
+      {/* Modern Mobile Booking Modal */}
       {showBookingModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white w-full h-full lg:w-auto lg:h-auto lg:max-w-md lg:rounded-lg lg:max-h-[90vh] overflow-y-auto flex flex-col">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end lg:items-center lg:justify-center">
+          <div className="bg-white w-full h-full lg:w-auto lg:h-auto lg:max-w-lg lg:rounded-t-xl lg:max-h-[90vh] overflow-y-auto flex flex-col">
             {/* Modal Header */}
             <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white">
               <h3 className="text-lg font-semibold">Rezervasyon Detayları</h3>
