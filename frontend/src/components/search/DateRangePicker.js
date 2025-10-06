@@ -14,6 +14,7 @@ const DateRangePicker = ({ value, onChange }) => {
   const quickSelects = [
     {
       label: t('dateRange.thisWeekend'),
+      color: 'from-blue-500 to-purple-500',
       getValue: () => {
         const now = new Date();
         const dayOfWeek = now.getDay();
@@ -26,6 +27,7 @@ const DateRangePicker = ({ value, onChange }) => {
     },
     {
       label: t('dateRange.nextWeek'),
+      color: 'from-green-500 to-teal-500',
       getValue: () => {
         const now = new Date();
         const dayOfWeek = now.getDay();
@@ -38,6 +40,7 @@ const DateRangePicker = ({ value, onChange }) => {
     },
     {
       label: t('dateRange.nextMonth'),
+      color: 'from-orange-500 to-red-500',
       getValue: () => {
         const now = new Date();
         const firstDay = new Date(now.getFullYear(), now.getMonth() + 1, 1);
@@ -47,6 +50,7 @@ const DateRangePicker = ({ value, onChange }) => {
     },
     {
       label: t('dateRange.flexible'),
+      color: 'from-indigo-500 to-pink-500',
       getValue: () => null
     }
   ];
