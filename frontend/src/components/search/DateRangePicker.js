@@ -265,7 +265,7 @@ const DateRangePicker = ({ value, onChange }) => {
                 onClick={() => handleDateClick(date)}
                 disabled={disabled}
                 className={`
-                  p-2 text-sm font-medium rounded-lg transition-colors relative
+                  p-3 min-h-[44px] text-sm font-medium rounded-lg transition-colors relative
                   ${!isCurrentMonth ? 'text-gray-300' : ''}
                   ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-blue-50'}
                   ${selected ? 'bg-blue-600 text-white' : ''}
