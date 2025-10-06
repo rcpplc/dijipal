@@ -78,7 +78,7 @@ const RecentSearches = ({ searches = [], onSelect, onClear }) => {
             <button
               key={search.id}
               onClick={() => onSelect(search)}
-              className="w-full flex items-start space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left group"
+              className="w-full flex items-start space-x-4 p-4 min-h-[60px] hover:bg-gray-50 rounded-lg transition-colors text-left group"
             >
               <div className="flex-shrink-0 mt-0.5">
                 <IconComponent className="w-4 h-4 text-gray-400" />
