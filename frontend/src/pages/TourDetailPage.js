@@ -1789,12 +1789,12 @@ const TourDetailPage = () => {
                   return price.toLocaleString('tr-TR') + ' TL';
                 } else {
                   // cabin_based
-                  const price = selectedCabinType === 'single' 
-                    ? (selectedDate.single_cabin_price || tour.single_cabin_price || tour.base_price)
-                    : (selectedDate.double_cabin_price || tour.double_cabin_price);
+                  const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                  const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                  const totalPrice = singleTotal + doubleTotal;
                   
-                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
-                  return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
+                  if (totalPrice === 0) return 'Kabin Seçin';
+                  return totalPrice.toLocaleString('tr-TR') + ' TL';
                 }
               })()}
             </div>
