@@ -158,9 +158,21 @@ class TourDate(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     tour_id: str
     start_date: str  # Date in YYYY-MM-DD format
-    available_cabins: int  # Total cabin capacity
-    single_cabin_price: float  # Price for single occupancy cabin
-    double_cabin_price: float  # Price for double occupancy cabin
+    
+    # Cabin-based pricing (existing)
+    available_cabins: int = 0  # Total cabin capacity
+    single_cabin_price: float = 0  # Price for single occupancy cabin
+    double_cabin_price: float = 0  # Price for double occupancy cabin
+    
+    # Person-based pricing (new)
+    max_persons: int = 0  # Maximum person capacity
+    person_price: float = 0  # Price per person
+    child_price: Optional[float] = None  # Optional child price
+    
+    # Reservation-based pricing (new)
+    total_reservation_price: float = 0  # Total reservation price
+    max_passengers: int = 0  # Maximum passenger capacity
+    
     is_active: bool = True
     created_at: str = Field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
