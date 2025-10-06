@@ -243,10 +243,10 @@ const DateRangePicker = ({ value, onChange }) => {
 
       {/* Calendar Grid */}
       {viewMode === 'days' ? (
-        <div className="grid grid-cols-7 gap-1 p-2 bg-white rounded-xl border border-gray-200">
+        <div className="grid grid-cols-7 gap-1 p-3 bg-white rounded-lg border border-gray-200">
           {/* Day Headers */}
           {['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'].map((day) => (
-            <div key={day} className="p-2 text-center text-xs font-bold text-gray-600 bg-gray-50 rounded-lg">
+            <div key={day} className="p-2 text-center text-xs font-medium text-gray-500">
               {day}
             </div>
           ))}
@@ -265,28 +265,26 @@ const DateRangePicker = ({ value, onChange }) => {
                 onClick={() => handleDateClick(date)}
                 disabled={disabled}
                 className={`
-                  p-2 text-sm font-bold rounded-xl transition-all duration-200 relative transform hover:scale-110
-                  ${!isCurrentMonth ? 'text-gray-300 hover:text-gray-400' : ''}
-                  ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-blue-100'}
-                  ${selected ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-lg' : ''}
-                  ${inRange ? 'bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800' : ''}
-                  ${today && !selected ? 'ring-2 ring-orange-400 ring-inset bg-orange-50' : ''}
+                  p-2 text-sm font-medium rounded-lg transition-colors relative
+                  ${!isCurrentMonth ? 'text-gray-300' : ''}
+                  ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-blue-50'}
+                  ${selected ? 'bg-blue-600 text-white' : ''}
+                  ${inRange ? 'bg-blue-100 text-blue-800' : ''}
+                  ${today && !selected ? 'bg-blue-50 text-blue-700 font-bold' : ''}
                 `}
                 aria-label={date.toLocaleDateString('tr-TR')}
                 aria-pressed={selected}
               >
                 {date.getDate()}
                 {today && !selected && (
-                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center">
-                    <div className="w-1 h-1 bg-white rounded-full" />
-                  </div>
+                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-blue-600 rounded-full" />
                 )}
               </button>
             );
           })}
         </div>
       ) : (
-        <div className="grid grid-cols-3 gap-3 p-2 bg-white rounded-xl border border-gray-200">
+        <div className="grid grid-cols-3 gap-2 p-3 bg-white rounded-lg border border-gray-200">
           {/* Month Grid */}
           {calendar.months.map((month, index) => {
             const monthName = month.toLocaleDateString('tr-TR', { month: 'long' });
@@ -298,16 +296,16 @@ const DateRangePicker = ({ value, onChange }) => {
                 key={index}
                 onClick={() => handleMonthSelect(month)}
                 className={`
-                  p-4 rounded-xl text-sm font-bold transition-all duration-200 transform hover:scale-105
+                  p-3 rounded-lg text-sm font-medium transition-colors
                   ${isSelectedMonth 
-                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
-                    : 'bg-gray-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 text-gray-700 hover:text-purple-700'}
-                  ${isCurrentMonth && !isSelectedMonth ? 'ring-2 ring-green-400 bg-green-50 text-green-700' : ''}
+                    ? 'bg-blue-600 text-white' 
+                    : 'bg-gray-50 hover:bg-blue-50 text-gray-700 hover:text-blue-700'}
+                  ${isCurrentMonth && !isSelectedMonth ? 'border-2 border-blue-300' : ''}
                 `}
               >
                 {monthName}
                 {isCurrentMonth && (
-                  <div className="text-xs text-current opacity-70 mt-1">Bu ay</div>
+                  <div className="text-xs opacity-70 mt-1">Bu ay</div>
                 )}
               </button>
             );
