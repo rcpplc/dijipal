@@ -1544,12 +1544,12 @@ const TourDetailPage = () => {
         </div>
       )}
 
-      {/* Fixed Bottom Booking Bar - Mobile & Desktop */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto flex items-center justify-between space-x-4">
-          {/* Price Section */}
+      {/* Mobile Bottom Booking Bar - Compact Design */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-3 py-2 lg:hidden z-50 shadow-lg">
+        <div className="flex items-center justify-between space-x-2">
+          {/* Price Section - Compact */}
           <div className="flex-1 min-w-0">
-            <div className="text-lg font-bold text-gray-900 truncate">
+            <div className="text-base font-bold text-gray-900 truncate">
               {(() => {
                 const price = selectedCabinType === 'single' 
                   ? (selectedDate?.single_cabin_price || tour?.single_cabin_price || tour?.base_price)
@@ -1562,7 +1562,7 @@ const TourDetailPage = () => {
                 return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
               })()}
             </div>
-            <div className="text-sm text-gray-600 truncate">
+            <div className="text-xs text-gray-600 truncate">
               {cabinCount} {selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
               {selectedDate && (
                 <span className="ml-1">
@@ -1576,28 +1576,14 @@ const TourDetailPage = () => {
             </div>
           </div>
 
-          {/* Action Buttons */}
-          <div className="flex items-center space-x-3">
-            {/* Cart Button */}
-            <button
-              onClick={() => {
-                if (!selectedDate || !selectedCabinType) {
-                  toast.error('Lütfen tarih ve kabin tipi seçin');
-                  return;
-                }
-                handleAddToCart();
-              }}
-              disabled={!selectedDate || !selectedCabinType}
-              className="flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-lg transition-colors duration-200 disabled:bg-gray-50 disabled:text-gray-400 disabled:cursor-not-allowed"
-            >
-              <ShoppingCart className="w-5 h-5" />
-            </button>
-            
-            {/* Booking Button */}
+          {/* Action Button - Simplified */}
+          <div className="flex items-center">
+            {/* Single Booking Button - Opens Modal */}
             <button
               onClick={() => setShowBookingModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2 min-h-[48px]"
+              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 text-sm min-h-[44px] w-full flex items-center justify-center space-x-2"
             >
+              <Calendar className="w-4 h-4" />
               <span>Rezervasyon Yap</span>
             </button>
           </div>
