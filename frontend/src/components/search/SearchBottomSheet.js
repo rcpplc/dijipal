@@ -201,15 +201,15 @@ const SearchBottomSheet = ({
         aria-hidden="true"
       />
 
-      {/* Bottom Sheet - Mobile */}
+      {/* Modal Container */}
       <div
         ref={bottomSheetRef}
-        className={`fixed z-50 bg-white transform transition-transform duration-300 ${
-          window.innerWidth < 1024 
-            ? `bottom-0 left-0 right-0 rounded-t-xl ${isExpanded ? 'h-full' : 'h-auto max-h-[90vh]'}`
-            : 'top-24 left-1/2 -translate-x-1/2 rounded-xl shadow-2xl w-[800px] max-h-[500px]'
+        className={`fixed z-50 bg-white transform transition-all duration-300 border ${
+          isDesktop
+            ? 'top-20 left-1/2 -translate-x-1/2 rounded-xl shadow-2xl w-[900px] max-h-[600px] border-gray-200'
+            : `bottom-0 left-0 right-0 rounded-t-xl border-t-gray-200 ${isExpanded ? 'h-full' : 'h-auto max-h-[90vh]'}`
         } ${className}`}
-        style={{ paddingBottom: window.innerWidth < 1024 ? keyboardHeight : 0 }}
+        style={{ paddingBottom: !isDesktop ? keyboardHeight : 0 }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="search-title"
