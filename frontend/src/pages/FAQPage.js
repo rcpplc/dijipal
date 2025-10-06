@@ -195,7 +195,7 @@ const FAQPage = () => {
             Aradığınız cevabı bulamadıysanız, uzman ekibimiz size yardımcı olmak için hazır bekliyor.
           </p>
           <div className="space-x-4">
-            <button className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+            <button className="bg-white text-gray-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
               Canlı Destek
             </button>
             <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors">
