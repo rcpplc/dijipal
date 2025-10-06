@@ -1766,7 +1766,8 @@ const TourDetailPage = () => {
             <div className="text-xs text-gray-600 truncate">
               {(() => {
                 if (tour && tour.reservation_type === 'person_based') {
-                  return `${participants} kişi`;
+                  const total = participants + childCount;
+                  return `${participants} yetişkin + ${childCount} çocuk`;
                 } else if (tour && tour.reservation_type === 'reservation') {
                   return 'Özel rezervasyon';
                 } else {
