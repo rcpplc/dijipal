@@ -118,6 +118,11 @@ class Vendor(BaseModel):
     rating: float = 0.0
     created_at: datetime = Field(default_factory=datetime.utcnow)
 
+class ReservationType(str, Enum):
+    CABIN_BASED = "cabin_based"
+    PERSON_BASED = "person_based"
+    RESERVATION = "reservation"
+
 class Tour(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     vendor_id: str
@@ -130,6 +135,7 @@ class Tour(BaseModel):
     category: str
     classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
+    reservation_type: ReservationType = ReservationType.CABIN_BASED
     images: List[str] = []
     included_services: List[str] = []
     excluded_services: List[str] = []
