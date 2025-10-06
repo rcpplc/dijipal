@@ -2644,21 +2644,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Temel Bilgiler</h3>
                 
-                {/* Tur Başlığı */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Tur Başlığı *
-                  </label>
-                  <input
-                    type="text"
-                    value={formData.title}
-                    onChange={(e) => setFormData({...formData, title: e.target.value})}
-                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    required
-                  />
-                </div>
-
-                {/* Reservation Type - Full Width Card Layout */}
+                {/* Reservation Type - Full Width Card Layout - FIRST FIELD */}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-4">
                     Rezervasyon Tipi / Rezervasyon Seçeneği *
