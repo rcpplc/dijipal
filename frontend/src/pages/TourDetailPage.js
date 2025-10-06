@@ -1251,7 +1251,7 @@ const TourDetailPage = () => {
                             setSingleCabinCount(singleCabinCount - 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={singleCabinCount <= 0}
                       >
                         -
@@ -1273,7 +1273,7 @@ const TourDetailPage = () => {
                             setSingleCabinCount(singleCabinCount + 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={singleCabinCount >= (selectedDate ? (selectedDate.single_cabin_count || 10) : 10)}
                       >
                         +
@@ -1291,7 +1291,7 @@ const TourDetailPage = () => {
                             setDoubleCabinCount(doubleCabinCount - 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={doubleCabinCount <= 0}
                       >
                         -
@@ -1313,7 +1313,7 @@ const TourDetailPage = () => {
                             setDoubleCabinCount(doubleCabinCount + 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={doubleCabinCount >= (selectedDate ? (selectedDate.double_cabin_count || 10) : 10)}
                       >
                         +
@@ -1348,7 +1348,7 @@ const TourDetailPage = () => {
                             setParticipants(participants - 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={participants <= 1}
                       >
                         -
@@ -1370,7 +1370,7 @@ const TourDetailPage = () => {
                             setParticipants((participants || 1) + 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
                       >
                         +
@@ -1388,7 +1388,7 @@ const TourDetailPage = () => {
                             setChildCount(childCount - 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={childCount <= 0}
                       >
                         -
@@ -1410,7 +1410,7 @@ const TourDetailPage = () => {
                             setChildCount(childCount + 1);
                           }
                         }}
-                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
                       >
                         +
