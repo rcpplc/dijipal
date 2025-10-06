@@ -174,6 +174,7 @@ function App() {
     <AuthContext.Provider value={authValue}>
       <div className="App min-h-screen flex flex-col bg-gray-50">
         <BrowserRouter>
+          <ScrollToTop />
           <Header />
           
           <main className="flex-1">
