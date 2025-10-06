@@ -1496,6 +1496,7 @@ const AdminPage = () => {
                   </p>
                 </div>
               )}
+              </>
             )}
           </div>
         )}
