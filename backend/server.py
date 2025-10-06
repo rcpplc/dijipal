@@ -2436,6 +2436,89 @@ async def reverse_geocode(request: GeocodeRequest):
         "accuracy": "country"
     }
 
+@api_router.get("/search/locations")
+async def get_available_locations():
+    """Get all unique locations from tours"""
+    tours = await db.tours.find({}, {"location": 1}).to_list(length=None)
+    
+    # Count tours per location
+    location_counts = {}
+    for tour in tours:
+        location = tour.get("location")
+        if location:
+            location_counts[location] = location_counts.get(location, 0) + 1
+    
+    # Format for frontend
+    locations = []
+    for location, count in location_counts.items():
+        locations.append({
+            "id": f"loc-{hash(location)}",
+            "name": location,
+            "tours": count,
+            "popular": count > 5
+        })
+    
+    # Sort by tour count (most popular first)
+    locations.sort(key=lambda x: x["tours"], reverse=True)
+    
+    return {"locations": locations}
+
+@api_router.get("/search/categories")
+async def get_available_categories():
+    """Get all unique categories from tours with icons"""
+    tours = await db.tours.find({}, {"category": 1}).to_list(length=None)
+    
+    # Count tours per category
+    category_counts = {}
+    for tour in tours:
+        category = tour.get("category")
+        if category:
+            category_counts[category] = category_counts.get(category, 0) + 1
+    
+    # Category to icon mapping
+    category_icons = {
+        "kültürel": {"icon": "Camera", "color": "purple"},
+        "cultural": {"icon": "Camera", "color": "purple"},
+        "doğa": {"icon": "TreePine", "color": "green"},
+        "nature": {"icon": "TreePine", "color": "green"},
+        "macera": {"icon": "Mountain", "color": "orange"},
+        "adventure": {"icon": "Mountain", "color": "orange"},
+        "şehir": {"icon": "Building", "color": "blue"},
+        "city": {"icon": "Building", "color": "blue"},
+        "tarihi": {"icon": "Castle", "color": "amber"},
+        "historical": {"icon": "Castle", "color": "amber"},
+        "gastronomi": {"icon": "Utensils", "color": "red"},
+        "food": {"icon": "Utensils", "color": "red"},
+        "deniz": {"icon": "Waves", "color": "cyan"},
+        "sea": {"icon": "Waves", "color": "cyan"},
+        "tekne": {"icon": "Waves", "color": "blue"},
+        "boat": {"icon": "Waves", "color": "blue"},
+        "keşif": {"icon": "Compass", "color": "indigo"},
+        "exploration": {"icon": "Compass", "color": "indigo"},
+        "dalış": {"icon": "Fish", "color": "teal"},
+        "diving": {"icon": "Fish", "color": "teal"}
+    }
+    
+    # Format for frontend
+    categories = []
+    for category, count in category_counts.items():
+        category_lower = category.lower()
+        icon_info = category_icons.get(category_lower, {"icon": "MapPin", "color": "gray"})
+        
+        categories.append({
+            "id": f"cat-{hash(category)}",
+            "name": category,
+            "tours": count,
+            "icon": icon_info["icon"],
+            "color": icon_info["color"],
+            "popular": count > 5
+        })
+    
+    # Sort by tour count (most popular first)
+    categories.sort(key=lambda x: x["tours"], reverse=True)
+    
+    return {"categories": categories}
+
 @api_router.get("/search/popular")
 async def get_popular_searches():
     """Get popular and trending searches"""
