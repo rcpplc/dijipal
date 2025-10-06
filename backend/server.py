@@ -568,12 +568,16 @@ async def get_tour_by_id(tour_identifier: str):
         if "_id" in date:
             del date["_id"]
         tour["tour_dates"].append({
-            "id": date["id"],
+            "id": date.get("id", str(uuid.uuid4())),
             "start_date": date["start_date"],
             "date": date["start_date"],
-            "capacity": date["available_cabins"],
-            "single_cabin_price": date["single_cabin_price"],
-            "double_cabin_price": date["double_cabin_price"],
+            "capacity": date.get("available_cabins", 0),
+            "single_cabin_price": date.get("single_cabin_price", 0),
+            "double_cabin_price": date.get("double_cabin_price", 0),
+            "max_persons": date.get("max_persons", 0),
+            "person_price": date.get("person_price", 0),
+            "child_price": date.get("child_price", 0),
+            "total_reservation_price": date.get("total_reservation_price", 0),
             "is_active": date.get("is_active", True)
         })
     
