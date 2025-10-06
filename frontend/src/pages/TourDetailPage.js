@@ -1806,7 +1806,11 @@ const TourDetailPage = () => {
                 } else if (tour && tour.reservation_type === 'reservation') {
                   return 'Özel rezervasyon';
                 } else {
-                  return `${cabinCount} ${selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
+                  // cabin_based
+                  const parts = [];
+                  if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek`);
+                  if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift`);
+                  return parts.length > 0 ? parts.join(' + ') + ' kabin' : 'Kabin seçin';
                 }
               })()}
               {selectedDate && (
