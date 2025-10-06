@@ -619,61 +619,219 @@ const ToursPage = () => {
         </div>
       </div>
 
-      {/* Results */}
+      {/* Main Content Area - 4 Column Grid Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex justify-between items-center mb-6">
-          <p className="text-gray-600">
-            {tours.length} tur bulundu
-          </p>
-        </div>
+        
+        {/* Desktop: 4-column grid (1 sidebar + 3 tours), Mobile: Stacked */}
+        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+          
+          {/* Left Sidebar - Filters (Desktop always visible, Mobile toggle) */}
+          <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden'} lg:block mb-8 lg:mb-0`}>
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 lg:sticky lg:top-6">
+              {/* Filter Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
+                <button
+                  onClick={clearFilters}
+                  className="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center space-x-1 text-sm"
+                >
+                  <X className="w-4 h-4" />
+                  <span className="hidden sm:inline">Temizle</span>
+                </button>
+              </div>
+              
+              {/* Filters */}
+              <div className="space-y-6">
+                {/* Location Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
+                    Lokasyon
+                  </label>
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    <option value="">Tüm Lokasyonlar</option>
+                    {locations.map((location) => (
+                      <option key={location} value={location}>
+                        {location}
+                      </option>
+                    ))}
+                  </select>
+                </div>
 
-        {loading ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(6)].map((_, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-lg animate-pulse">
-                <div className="bg-gray-200 h-48"></div>
-                <div className="p-6 space-y-4">
-                  <div className="bg-gray-200 h-4 rounded"></div>
-                  <div className="bg-gray-200 h-6 rounded"></div>
-                  <div className="bg-gray-200 h-4 rounded w-3/4"></div>
-                  <div className="flex justify-between">
-                    <div className="bg-gray-200 h-8 w-20 rounded"></div>
-                    <div className="bg-gray-200 h-8 w-16 rounded"></div>
+                {/* Category Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Mountain className="w-4 h-4 mr-2 text-gray-600" />
+                    Kategori
+                  </label>
+                  <select
+                    value={filters.category}
+                    onChange={(e) => handleFilterChange('category', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    <option value="">Tüm Kategoriler</option>
+                    {categories.map((category) => (
+                      <option key={category} value={category}>
+                        {category}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Duration Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-gray-600" />
+                    Süre
+                  </label>
+                  <select
+                    value={filters.duration}
+                    onChange={(e) => handleFilterChange('duration', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {durations.map((duration) => (
+                      <option key={duration.value} value={duration.value}>
+                        {duration.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Classification Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Building className="w-4 h-4 mr-2 text-gray-600" />
+                    Sınıf
+                  </label>
+                  <select
+                    value={filters.classification}
+                    onChange={(e) => handleFilterChange('classification', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {classifications.map((classification) => (
+                      <option key={classification.value} value={classification.value}>
+                        {classification.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Rating Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                    Min. Puan
+                  </label>
+                  <select
+                    value={filters.minRating}
+                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {minRatings.map((rating) => (
+                      <option key={rating.value} value={rating.value}>
+                        {rating.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Price Range Filter */}
+                <div className="border-t pt-4">
+                  <div className="space-y-2 mb-4">
+                    <label className="text-sm font-medium text-gray-700 flex items-center">
+                      💰 Fiyat Aralığı
+                    </label>
+                    <div className="text-xs text-gray-600 bg-gray-50 px-3 py-2 rounded">
+                      ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <input
+                      type="number"
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      placeholder="Min fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                    <input
+                      type="number"
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      placeholder="Max fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
                   </div>
                 </div>
               </div>
-            ))}
+            </div>
           </div>
-        ) : tours.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="text-6xl mb-4">🔍</div>
-            <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-              Aradığınız kriterlere uygun tur bulunamadı
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Farklı filtreler deneyerek arama yapmayı deneyin
-            </p>
-            <button
-              onClick={() => {
-                clearFilters();
-                setSearchParams(new URLSearchParams());
-                setSearchQuery('');
-              }}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-            >
-              Filtreleri Temizle
-            </button>
+
+          {/* Right Content - Tours (3 columns on desktop, responsive on mobile) */}
+          <div className="lg:col-span-3">
+            
+            {/* Results Header */}
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-gray-600">
+                {tours.length} tur bulundu
+              </p>
+            </div>
+
+            {/* Tours Grid */}
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-xl overflow-hidden shadow-lg animate-pulse">
+                    <div className="bg-gray-200 h-48"></div>
+                    <div className="p-6 space-y-4">
+                      <div className="bg-gray-200 h-4 rounded"></div>
+                      <div className="bg-gray-200 h-6 rounded"></div>
+                      <div className="bg-gray-200 h-4 rounded w-3/4"></div>
+                      <div className="flex justify-between">
+                        <div className="bg-gray-200 h-8 w-20 rounded"></div>
+                        <div className="bg-gray-200 h-8 w-16 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : tours.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  Aradığınız kriterlere uygun tur bulunamadı
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Farklı filtreler deneyerek arama yapmayı deneyin
+                </p>
+                <button
+                  onClick={() => {
+                    clearFilters();
+                    setSearchParams(new URLSearchParams());
+                    setSearchQuery('');
+                  }}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Filtreleri Temizle
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {tours.map((tour) => (
+                  <TourCard 
+                    key={tour.id} 
+                    tour={tour} 
+                  />
+                ))}
+              </div>
+            )}
           </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tours.map((tour) => (
-              <TourCard 
-                key={tour.id} 
-                tour={tour} 
-              />
-            ))}
-          </div>
-        )}
+          
+        </div>
       </div>
 
       {/* Kabin Kiralama Sektörü Hakkında */}
