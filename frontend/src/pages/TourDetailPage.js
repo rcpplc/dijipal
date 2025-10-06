@@ -406,6 +406,7 @@ const TourDetailPage = () => {
         : selectedDate.single_cabin_price || selectedDate.price || 0
     };
 
+    console.log('Navigating to booking with data:', bookingData);
     navigate(`/booking/${tour.id}`, {
       state: {
         tour: bookingData,
