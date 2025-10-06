@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { 
   Mountain, 
   Waves, 
@@ -8,7 +8,11 @@ import {
   History,
   TreePine,
   Compass,
-  Check
+  Check,
+  Building,
+  Castle,
+  Fish,
+  Loader2
 } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
