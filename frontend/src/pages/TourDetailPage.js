@@ -82,6 +82,14 @@ const TourDetailPage = () => {
 
   // Restore booking state after login
   useEffect(() => {
+    console.log('🔄 useEffect triggered - checking for booking restoration:', { 
+      hasUser: !!user, 
+      hasTour: !!tour,
+      userEmail: user?.email,
+      tourId: tour?.id,
+      tourSlug: tourSlug
+    });
+    
     if (user && tour) {
       const savedState = localStorage.getItem('pendingBookingState');
       if (savedState) {
