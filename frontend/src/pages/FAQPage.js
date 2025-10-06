@@ -189,7 +189,7 @@ const FAQPage = () => {
         )}
 
         {/* Contact Section */}
-        <div className="mt-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center text-white">
+        <div className="mt-16 bg-gradient-to-r from-gray-600 to-gray-800 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Sorunuz yanıtlanmadı mı?</h2>
           <p className="text-blue-100 mb-6">
             Aradığınız cevabı bulamadıysanız, uzman ekibimiz size yardımcı olmak için hazır bekliyor.
