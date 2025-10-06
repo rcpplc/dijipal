@@ -1468,7 +1468,7 @@ const TourDetailPage = () => {
                     <p className="text-xs text-gray-500 mt-1">
                       {(() => {
                         if (!tour) return 'Vergiler dahil';
-                        if (tour.reservation_type === 'person_based') {
+                        if (tour && tour.reservation_type === 'person_based') {
                           return `₺${selectedDate.person_price?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kişi + Vergiler dahil`;
                         } else if (tour.reservation_type === 'reservation') {
                           return 'Sabit fiyat + Vergiler dahil';
