@@ -234,6 +234,7 @@ class TourCreate(BaseModel):
     category: str
     classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
+    reservation_type: ReservationType = ReservationType.CABIN_BASED
     images: List[str] = []
     included_services: List[str] = []
     excluded_services: List[str] = []
