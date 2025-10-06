@@ -180,7 +180,7 @@ const CartPage = () => {
         {/* Header */}
         <div className="flex items-center space-x-4 mb-8">
           <Link
-            to="/tours"
+            to="/turlar"
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
           >
             <ArrowLeft className="w-5 h-5" />
