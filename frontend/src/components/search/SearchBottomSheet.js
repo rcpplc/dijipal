@@ -189,13 +189,15 @@ const SearchBottomSheet = ({
         aria-hidden="true"
       />
 
-      {/* Bottom Sheet */}
+      {/* Bottom Sheet - Mobile */}
       <div
         ref={bottomSheetRef}
-        className={`fixed bottom-0 left-0 right-0 bg-white rounded-t-xl z-50 transform transition-transform duration-300 ${
-          isExpanded ? 'h-full' : 'h-auto max-h-[90vh]'
+        className={`fixed z-50 bg-white transform transition-transform duration-300 ${
+          window.innerWidth < 1024 
+            ? `bottom-0 left-0 right-0 rounded-t-xl ${isExpanded ? 'h-full' : 'h-auto max-h-[90vh]'}`
+            : 'top-24 left-1/2 -translate-x-1/2 rounded-xl shadow-2xl w-[800px] max-h-[500px]'
         } ${className}`}
-        style={{ paddingBottom: keyboardHeight }}
+        style={{ paddingBottom: window.innerWidth < 1024 ? keyboardHeight : 0 }}
         role="dialog"
         aria-modal="true"
         aria-labelledby="search-title"
