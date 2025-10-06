@@ -1356,7 +1356,7 @@ const TourDetailPage = () => {
                       </div>
                       {selectedDate && selectedDate.person_price && (
                         <div className="text-sm text-gray-600">
-                          ₺{(selectedDate.person_price * (participants || 1)).toLocaleString('tr-TR')} toplam
+                          ₺{((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR')} toplam
                         </div>
                       )}
                     </div>
