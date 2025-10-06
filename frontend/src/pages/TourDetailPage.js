@@ -1816,7 +1816,7 @@ const TourDetailPage = () => {
                           </div>
                           <div className="text-xs text-gray-600 mt-1">
                             {(() => {
-                              if (tour.reservation_type === 'person_based') {
+                              if (tour && tour.reservation_type === 'person_based') {
                                 return `Kişi başı: ₺${date.person_price?.toLocaleString('tr-TR') || '0'}${date.child_price ? ` • Çocuk: ₺${(date.child_price || 0).toLocaleString('tr-TR')}` : ''}`;
                               } else if (tour.reservation_type === 'reservation') {
                                 return `Toplam: ₺${date.total_reservation_price?.toLocaleString('tr-TR') || '0'}`;
