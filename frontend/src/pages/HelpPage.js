@@ -117,8 +117,8 @@ const HelpPage = () => {
           {helpTopics.map((topic, index) => (
             <div key={index} className="bg-white rounded-xl p-8 shadow-md">
               <div className="flex items-start space-x-4 mb-6">
-                <div className="bg-blue-100 rounded-lg p-3">
-                  <topic.icon className="w-6 h-6 text-blue-600" />
+                <div className="bg-gray-100 rounded-lg p-3">
+                  <topic.icon className="w-6 h-6 text-gray-600" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{topic.title}</h3>
