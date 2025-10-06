@@ -165,7 +165,7 @@ const TermsPage = () => {
           {/* Limitation of Liability */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="flex items-center space-x-3 mb-6">
-              <AlertCircle className="w-8 h-8 text-yellow-600" />
+              <AlertCircle className="w-8 h-8 text-gray-600" />
               <h2 className="text-2xl font-bold text-gray-900">6. Sorumluluk Sınırları</h2>
             </div>
             <div className="space-y-4 text-gray-700">
