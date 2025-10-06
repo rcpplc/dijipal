@@ -222,8 +222,8 @@ const SearchBottomSheet = ({
         )}
 
         {/* Header */}
-        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
-          <h2 id="search-title" className="text-lg font-semibold text-gray-900">
+        <div className={`flex items-center justify-between border-b border-gray-200 ${isDesktop ? 'px-6 py-4' : 'px-4 py-3'}`}>
+          <h2 id="search-title" className={`font-semibold text-gray-900 ${isDesktop ? 'text-xl' : 'text-lg'}`}>
             {t('search.title')}
           </h2>
           <button
@@ -236,7 +236,7 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Search Input */}
-        <div className="px-4 py-3 border-b border-gray-200">
+        <div className={`border-b border-gray-200 ${isDesktop ? 'px-6 py-4' : 'px-4 py-3'}`}>
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
