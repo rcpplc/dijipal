@@ -417,7 +417,7 @@ const ToursPage = () => {
           <div className="text-xl font-bold text-blue-600">
             {(() => {
               if (tour.minimum_price) {
-                return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+                return `₺${(tour.minimum_price || 0).toLocaleString('tr-TR')}`;
               } else if (tour.tour_dates && tour.tour_dates.length > 0) {
                 const allPrices = tour.tour_dates.flatMap(date => [
                   date.single_cabin_price || 0,
