@@ -93,7 +93,6 @@ const TumKategorilerPage = () => {
 
   const [searchQuery, setSearchQuery] = useState('');
   const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024); // Desktop default true, mobile false
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   // Removed viewMode - only grid view now
 
   useEffect(() => {
