@@ -2794,6 +2794,108 @@ async def add_sample_bookings():
         "user": admin_user["email"]
     }
 
+# Contact Messages endpoints
+@api_router.post("/contact/send")
+async def send_contact_message(message_data: dict):
+    """Send a contact form message"""
+    
+    # Validate required fields
+    required_fields = ["name", "email", "subject", "message"]
+    for field in required_fields:
+        if not message_data.get(field):
+            raise HTTPException(status_code=400, detail=f"{field} is required")
+    
+    # Create contact message
+    contact_message = {
+        "id": str(uuid.uuid4()),
+        "name": message_data["name"],
+        "email": message_data["email"],
+        "phone": message_data.get("phone"),
+        "subject": message_data["subject"],
+        "message": message_data["message"],
+        "status": "new",
+        "admin_reply": None,
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    # Save to database
+    await db.contact_messages.insert_one(contact_message)
+    
+    return {"message": "Message sent successfully", "id": contact_message["id"]}
+
+@api_router.get("/admin/contact-messages")
+async def get_admin_contact_messages(
+    status: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Get all contact messages for admin"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Build filter
+    filter_query = {}
+    if status and status != "all":
+        filter_query["status"] = status
+    
+    # Get messages
+    messages = await db.contact_messages.find(filter_query).sort([("created_at", -1)]).to_list(length=None)
+    
+    return [ContactMessage(**msg).dict() for msg in messages]
+
+@api_router.put("/admin/contact-messages/{message_id}")
+async def update_contact_message(
+    message_id: str,
+    update_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    """Update contact message status or reply"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    message = await db.contact_messages.find_one({"id": message_id})
+    if not message:
+        raise HTTPException(status_code=404, detail="Message not found")
+    
+    # Prepare update data
+    update_fields = {}
+    if "status" in update_data:
+        valid_statuses = ["new", "read", "replied", "resolved"]
+        if update_data["status"] not in valid_statuses:
+            raise HTTPException(status_code=400, detail=f"Invalid status. Valid statuses: {valid_statuses}")
+        update_fields["status"] = update_data["status"]
+    
+    if "admin_reply" in update_data:
+        update_fields["admin_reply"] = update_data["admin_reply"]
+        # Auto-update status to replied if admin adds a reply
+        if update_data["admin_reply"] and not update_data.get("status"):
+            update_fields["status"] = "replied"
+    
+    update_fields["updated_at"] = datetime.now(timezone.utc)
+    
+    # Update message
+    await db.contact_messages.update_one(
+        {"id": message_id},
+        {"$set": update_fields}
+    )
+    
+    return {"message": "Message updated successfully"}
+
+@api_router.delete("/admin/contact-messages/{message_id}")
+async def delete_contact_message(
+    message_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Delete a contact message"""
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    result = await db.contact_messages.delete_one({"id": message_id})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Message not found")
+    
+    return {"message": "Message deleted successfully"}
+
 # Ensure uploads directory exists before mounting static files
 import os
 uploads_dir = "/tmp/uploads"
