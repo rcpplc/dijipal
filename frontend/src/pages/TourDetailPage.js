@@ -120,35 +120,34 @@ const TourDetailPage = () => {
               setParticipants(bookingState.participants);
             }
             
-            console.log('✅ Booking state restored successfully');
-            toast.success('Seçimleriniz geri yüklendi! Rezervasyon sayfasına yönlendiriliyorsunuz...');
+            console.log('✅ Booking state restored successfully - redirecting immediately');
             
-            // Auto-redirect to booking page after successful state restoration
-            setTimeout(() => {
-              const bookingData = {
-                tourId: tour.id,
-                title: tour.title,
-                images: tour.images,
-                location: tour.location,
+            // Immediately redirect to booking page after successful state restoration (no alerts)
+            const bookingData = {
+              tourId: tour.id,
+              title: tour.title,
+              images: tour.images,
+              location: tour.location,
+              selectedDate: bookingState.selectedDate,
+              cabinType: bookingState.selectedCabinType,
+              participants: bookingState.cabinCount,
+              single_cabin_price: bookingState.selectedDate?.single_cabin_price,
+              double_cabin_price: bookingState.selectedDate?.double_cabin_price,
+              price: bookingState.selectedCabinType === 'double' 
+                ? bookingState.selectedDate?.double_cabin_price || bookingState.selectedDate?.price || 0
+                : bookingState.selectedDate?.single_cabin_price || bookingState.selectedDate?.price || 0
+            };
+
+            // Immediate redirect - no delay, no toast
+            navigate(`/booking/${tour.id}`, {
+              state: {
+                tour: bookingData,
                 selectedDate: bookingState.selectedDate,
                 cabinType: bookingState.selectedCabinType,
                 participants: bookingState.cabinCount,
-                single_cabin_price: bookingState.selectedDate?.single_cabin_price,
-                double_cabin_price: bookingState.selectedDate?.double_cabin_price,
-                price: bookingState.selectedCabinType === 'double' 
-                  ? bookingState.selectedDate?.double_cabin_price || bookingState.selectedDate?.price || 0
-                  : bookingState.selectedDate?.single_cabin_price || bookingState.selectedDate?.price || 0
-              };
-
-              navigate(`/booking/${tour.id}`, {
-                state: {
-                  tour: bookingData,
-                  selectedDate: bookingState.selectedDate,
-                  cabinType: bookingState.selectedCabinType,
-                  participants: bookingState.cabinCount
-                }
-              });
-            }, 1500); // Give user time to see the success message
+                fromLogin: true // Flag to indicate this came from login restoration
+              }
+            });
             
             // Clear the saved state
             localStorage.removeItem('pendingBookingState');
