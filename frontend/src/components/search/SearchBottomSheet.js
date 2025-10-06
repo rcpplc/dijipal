@@ -220,27 +220,25 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Search Input */}
-        <div className="px-6 py-4 bg-gradient-to-r from-gray-50 to-blue-50 border-b border-blue-200">
+        <div className="px-4 py-3 border-b border-gray-200">
           <div className="relative">
-            <div className="absolute left-4 top-1/2 transform -translate-y-1/2 p-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg">
-              <Search className="w-4 h-4 text-white" />
-            </div>
+            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
             <input
               ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('search.placeholder')}
-              className="w-full pl-16 pr-12 py-4 border-2 border-gray-200 rounded-2xl focus:ring-4 focus:ring-blue-200 focus:border-blue-500 transition-all duration-200 text-gray-800 font-medium shadow-sm"
+              className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               aria-label={t('search.input.label')}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-2 hover:bg-red-100 rounded-xl transition-all duration-200 bg-gray-100"
+                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full"
                 aria-label={t('search.clear')}
               >
-                <X className="w-4 h-4 text-red-500" />
+                <X className="w-4 h-4 text-gray-400" />
               </button>
             )}
           </div>
