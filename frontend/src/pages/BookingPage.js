@@ -97,7 +97,7 @@ const BookingPage = () => {
       setTour(response.data);
     } catch (error) {
       console.error('Error loading tour:', error);
-      navigate('/tours');
+      navigate('/turlar');
       toast.error('Tur bulunamadı');
     } finally {
       setLoading(false);
