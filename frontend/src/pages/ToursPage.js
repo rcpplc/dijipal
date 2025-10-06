@@ -36,13 +36,15 @@ const ToursPage = () => {
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
-    location: '',
+    location: searchParams.get('location') || '',
     minPrice: '',
     maxPrice: '',
     duration: '',
     minRating: '',
     max_rating: '',
-    classification: ''
+    classification: '',
+    startDate: searchParams.get('startDate') || '',
+    endDate: searchParams.get('endDate') || ''
   });
 
   // Dynamic data states
