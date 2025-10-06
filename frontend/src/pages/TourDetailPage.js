@@ -1535,10 +1535,9 @@ const TourDetailPage = () => {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
                         } else {
                           // cabin_based
-                          const cabinPrice = cabinType === 'single' 
-                            ? (selectedDate.single_cabin_price || selectedDate.price || 0)
-                            : (selectedDate.double_cabin_price || selectedDate.price || 0);
-                          return ((cabinPrice || 0) * (participants || 1)).toLocaleString('tr-TR');
+                          const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                          const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                          return (singleTotal + doubleTotal).toLocaleString('tr-TR');
                         }
                       })()}
                     </div>
