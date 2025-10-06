@@ -2334,9 +2334,17 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newImage, setNewImage] = useState('');
   const [newTourDate, setNewTourDate] = useState({
     date: '',
+    // Cabin-based fields
     capacity: '',
     single_cabin_price: '',
-    double_cabin_price: ''
+    double_cabin_price: '',
+    // Person-based fields
+    max_persons: '',
+    person_price: '',
+    child_price: '',
+    // Reservation-based fields
+    total_reservation_price: '',
+    max_passengers: ''
   });
 
   // Load tour dates when editing existing tour
