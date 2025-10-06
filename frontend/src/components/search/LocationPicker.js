@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { MapPin, Navigation, Loader2, AlertCircle } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
