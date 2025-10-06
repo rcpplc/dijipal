@@ -143,7 +143,7 @@ const SuggestionsList = ({
                   <button
                     key={`${type}-${index}`}
                     onClick={() => onSelect(suggestion)}
-                    className="w-full flex items-center space-x-3 p-3 hover:bg-gray-50 rounded-lg transition-colors text-left group"
+                    className="w-full flex items-center space-x-4 p-4 min-h-[64px] hover:bg-gray-50 rounded-lg transition-colors text-left group"
                   >
                     <div className="flex-shrink-0">
                       <div className={`p-2 rounded-lg ${
