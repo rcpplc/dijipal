@@ -354,18 +354,22 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Footer Actions */}
-        <div className={`sticky bottom-0 bg-white border-t border-gray-200 space-y-3 ${isDesktop ? 'p-6' : 'p-4'}`}>
+        <div className={`sticky bottom-0 bg-white border-t border-gray-200 space-y-3 ${isDesktop ? 'p-6' : 'p-5'}`}>
           <div className="flex space-x-3">
             <button
               onClick={clearFilters}
-              className="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+              className={`flex-1 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors ${
+                isDesktop ? 'py-3' : 'py-4 min-h-[50px]'
+              }`}
             >
               {t('search.clear')}
             </button>
             <button
               onClick={handleSearch}
               disabled={!searchQuery && !filters.location && !filters.category && !filters.dateRange?.start}
-              className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className={`flex-1 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors ${
+                isDesktop ? 'py-3' : 'py-4 min-h-[50px]'
+              }`}
             >
               {t('search.button')}
             </button>
