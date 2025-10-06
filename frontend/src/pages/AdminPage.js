@@ -240,6 +240,21 @@ const AdminPage = () => {
     }
   };
 
+  const loadMessages = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.get(`${API}/admin/contact-messages`, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      setMessages(response.data);
+    } catch (error) {
+      console.error('Error loading messages:', error);
+      toast.error('Mesajlar yüklenemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleDeleteTour = async (tourId) => {
     try {
       await axios.delete(`${API}/admin/tours/${tourId}`);
