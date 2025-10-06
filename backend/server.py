@@ -149,6 +149,7 @@ class Tour(BaseModel):
     
     # Backward compatibility fields
     duration_days: Optional[int] = 1
+    duration_unit: Optional[str] = "days"  # "hours" or "days"
     duration_hours: Optional[int] = 0
     base_price: Optional[float] = 0
     max_participants: Optional[int] = 1
@@ -259,6 +260,7 @@ class TourCreate(BaseModel):
     
     # Backward compatibility fields
     duration_days: Optional[int] = 1
+    duration_unit: Optional[str] = "days"  # "hours" or "days"
     duration_hours: Optional[int] = 0
     base_price: Optional[float] = 0
     max_participants: Optional[int] = 1
