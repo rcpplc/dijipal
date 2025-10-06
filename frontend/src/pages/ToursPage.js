@@ -30,7 +30,7 @@ const ToursPage = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
-  const [showFilters, setShowFilters] = useState(false);
+  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024); // Desktop default true, mobile false
   const [showLocationDropdown, setShowLocationDropdown] = useState(false);
   // Removed viewMode - only grid view now
   const [favorites, setFavorites] = useState(new Set());
