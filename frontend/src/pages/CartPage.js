@@ -43,7 +43,7 @@ const CartPage = () => {
             localStorage.setItem('tour_cart', JSON.stringify(cartState.cartItems));
             
             console.log('✅ Cart state restored successfully');
-            toast.success('Sepetiniz geri yüklendi! Rezervasyonu tamamlayabilirsiniz.');
+            toast.success('Sepetiniz geri yüklendi! Rezervasyon sayfasına yönlendiriliyorsunuz...');
             
             // Auto-redirect to checkout after restoration
             setTimeout(() => {
