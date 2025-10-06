@@ -274,7 +274,11 @@ const SearchBottomSheet = ({
         {/* Content */}
         <div 
           className="flex-1 overflow-y-auto"
-          style={{ maxHeight: `calc(90vh - 200px - ${keyboardHeight}px)` }}
+          style={{ 
+            maxHeight: window.innerWidth < 1024 
+              ? `calc(90vh - 200px - ${keyboardHeight}px)`
+              : '320px'
+          }}
         >
           {/* Active Tab Content */}
           <div
