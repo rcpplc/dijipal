@@ -614,10 +614,10 @@ const ToursPage = () => {
         </div>
       </div>
 
-      {/* Mobile Filter Overlay */}
+      {/* Mobile Filter Overlay - Full Screen */}
       {showFilters && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-end">
-          <div className="bg-white w-full max-h-[90vh] overflow-y-auto rounded-t-xl">
+        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+          <div className="bg-white w-full h-full overflow-y-auto">
             <div className="p-6">
               {/* Mobile Filter Header */}
               <div className="flex items-center justify-between mb-6">
