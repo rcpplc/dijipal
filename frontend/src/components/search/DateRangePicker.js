@@ -143,9 +143,36 @@ const DateRangePicker = ({ value, onChange }) => {
   const navigateMonth = (direction) => {
     setCurrentMonth(prev => {
       const newMonth = new Date(prev);
-      newMonth.setMonth(newMonth.getMonth() + direction);
+      if (viewMode === 'months') {
+        newMonth.setFullYear(newMonth.getFullYear() + direction);
+      } else {
+        newMonth.setMonth(newMonth.getMonth() + direction);
+      }
       return newMonth;
     });
+  };
+
+  const handleMonthSelect = (month) => {
+    if (!start || (start && end)) {
+      // Start new selection - select whole month
+      const startOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
+      const endOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+      onChange({ start: startOfMonth, end: endOfMonth });
+      setSelectingEnd(false);
+      setViewMode('days');
+    } else if (start && !end) {
+      // Complete range selection
+      const startOfMonth = new Date(month.getFullYear(), month.getMonth(), 1);
+      const endOfMonth = new Date(month.getFullYear(), month.getMonth() + 1, 0);
+      
+      if (startOfMonth < start) {
+        onChange({ start: startOfMonth, end: start });
+      } else {
+        onChange({ start, end: endOfMonth });
+      }
+      setSelectingEnd(false);
+      setViewMode('days');
+    }
   };
 
   const formatDateRange = () => {
