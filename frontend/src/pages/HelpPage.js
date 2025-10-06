@@ -128,8 +128,8 @@ const HelpPage = () => {
               
               <ul className="space-y-3">
                 {topic.items.map((item, itemIndex) => (
-                  <li key={itemIndex} className="flex items-center space-x-3 text-gray-700 hover:text-blue-600 cursor-pointer">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                  <li key={itemIndex} className="flex items-center space-x-3 text-gray-700 hover:text-gray-900 cursor-pointer">
+                    <div className="w-2 h-2 bg-gray-600 rounded-full"></div>
                     <span>{item}</span>
                   </li>
                 ))}
