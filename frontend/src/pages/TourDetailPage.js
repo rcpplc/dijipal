@@ -1371,7 +1371,7 @@ const TourDetailPage = () => {
                 </button>
                 
                 <button
-                  onClick={addToCart}
+                  onClick={() => addToCart()}
                   disabled={!selectedDate}
                   className="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-md transition-colors duration-200 border border-gray-300 hover:border-blue-500 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
                 >
