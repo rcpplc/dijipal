@@ -117,6 +117,38 @@ const HomePage = () => {
     }
   };
 
+  // Advanced search handler for SearchBottomSheet
+  const handleAdvancedSearch = (searchData) => {
+    console.log('Gelişmiş arama verileri:', searchData);
+    
+    // Build query parameters
+    const params = new URLSearchParams();
+    
+    if (searchData.query && searchData.query.trim()) {
+      params.set('search', searchData.query.trim());
+    }
+    
+    if (searchData.filters.location) {
+      params.set('location', searchData.filters.location);
+    }
+    
+    if (searchData.filters.category) {
+      params.set('category', searchData.filters.category);
+    }
+    
+    if (searchData.filters.dateRange?.start) {
+      params.set('startDate', searchData.filters.dateRange.start);
+    }
+    
+    if (searchData.filters.dateRange?.end) {
+      params.set('endDate', searchData.filters.dateRange.end);
+    }
+    
+    // Navigate to tours page with filters
+    const queryString = params.toString();
+    navigate(`/turlar${queryString ? `?${queryString}` : ''}`);
+  };
+
   const loadFavorites = async () => {
     try {
       const response = await axios.get(`${API}/favorites`);
