@@ -3375,22 +3375,6 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         </div>
                       </div>
 
-                      {/* Date Range Info */}
-                      {newTourDate.date_type === 'range' && newTourDate.start_date && newTourDate.end_date && (
-                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
-                          <div className="flex items-center">
-                            <div className="text-blue-600 mr-2">ℹ️</div>
-                            <div>
-                              <p className="text-sm text-blue-800 font-medium">
-                                {Math.ceil((new Date(newTourDate.end_date) - new Date(newTourDate.start_date)) / (1000 * 60 * 60 * 24)) + 1} günlük dönem
-                              </p>
-                              <p className="text-xs text-blue-600">
-                                {newTourDate.start_date} - {newTourDate.end_date} arası her gün için ayrı stok oluşturulacak
-                              </p>
-                            </div>
-                          </div>
-                        </div>
-                      )}
                     </div>
                   )}
 
