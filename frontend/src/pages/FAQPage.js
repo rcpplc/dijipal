@@ -133,7 +133,7 @@ const FAQPage = () => {
         <div className="space-y-8">
           {filteredFAQs.map((category, categoryIndex) => (
             <div key={categoryIndex} className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="bg-blue-600 text-white px-6 py-4">
+              <div className="bg-gray-600 text-white px-6 py-4">
                 <h2 className="text-xl font-bold">{category.category}</h2>
               </div>
               
