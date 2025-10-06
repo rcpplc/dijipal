@@ -15,6 +15,7 @@ import ProfilePage from './pages/ProfilePage';
 import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
 import CategoryPage from './pages/CategoryPage';
+import TumKategorilerPage from './pages/TumKategorilerPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FavoritesPage from './pages/FavoritesPage';
 import AboutPage from './pages/AboutPage';
