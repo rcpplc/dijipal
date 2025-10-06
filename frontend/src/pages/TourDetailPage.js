@@ -1096,7 +1096,7 @@ const TourDetailPage = () => {
           <div className="lg:col-span-1 hidden lg:block">
             <div className="bg-white rounded-xl p-6 shadow-lg sticky top-8">
               {/* Pricing - Show minimum available price */}
-              <div className="text-center mb-6">
+              <div className="text-left mb-6">
                 <div className="text-xl font-bold text-blue-600 mb-1">
                   ₺{availableDates.length > 0 
                     ? (() => {
