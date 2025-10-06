@@ -466,11 +466,8 @@ const TourDetailPage = () => {
       return;
     }
     
-    // Calculate participants based on cabin type and count
-    const participantsPerCabin = selectedCabinType === 'single' ? 1 : 2;
-    const totalParticipants = cabinCount * participantsPerCabin;
-    
-    addToCart(selectedCabinType, totalParticipants);
+    // Add to cart with cabin count (not participant count)
+    addToCart(selectedCabinType, cabinCount);
   };
 
   const addToCart = (cabinType = selectedCabinType, participants = cabinCount) => {
