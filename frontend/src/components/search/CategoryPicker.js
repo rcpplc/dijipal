@@ -199,47 +199,40 @@ const CategoryPicker = ({
 
       {/* All Categories */}
       {!loadingCategories && (
-        <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-gray-800 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-indigo-500 to-purple-500 rounded-full mr-2"></span>
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-gray-700">
             {t('categories.all')}
           </h3>
           <div className="space-y-2 max-h-80 overflow-y-auto">
             {availableCategories.map((category) => {
               const IconComponent = iconComponents[category.icon] || MapPin;
-              const colors = colorClasses[category.color] || colorClasses.gray;
               const isSelected = value === category.name;
+              const colorClasses = getColorClasses(category.color, isSelected);
               
               return (
                 <button
                   key={category.id}
                   onClick={() => handleCategorySelect(category)}
-                  className={`w-full flex items-center space-x-4 p-4 rounded-xl border-2 transition-all duration-200 ${
-                    isSelected
-                      ? `${colors.selected} shadow-md transform scale-[1.02]`
-                      : 'border-gray-200 hover:border-gray-300 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50'
-                  }`}
+                  className={`w-full flex items-center space-x-3 p-3 rounded-lg border transition-colors ${colorClasses.container}`}
                   role="radio"
                   aria-checked={isSelected}
                 >
-                  <div className={`p-2.5 rounded-lg bg-gradient-to-br ${colors.gradient} shadow-sm`}>
-                    <IconComponent className="w-5 h-5 text-white" />
+                  <div className={`p-2 rounded-lg ${colorClasses.icon}`}>
+                    <IconComponent className="w-4 h-4" />
                   </div>
                   <div className="flex-1 text-left">
-                    <div className="font-bold text-gray-900">{category.name}</div>
-                    <div className="text-sm text-gray-600 flex items-center space-x-2">
+                    <div className={`font-medium ${colorClasses.text}`}>{category.name}</div>
+                    <div className="text-sm text-gray-500 flex items-center space-x-2">
                       <span>{category.tours} {t('common.tours')}</span>
                       {category.popular && (
-                        <span className="bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">
-                          ⭐ Popüler
+                        <span className="bg-blue-100 text-blue-700 text-xs px-2 py-1 rounded-full">
+                          Popüler
                         </span>
                       )}
                     </div>
                   </div>
                   {isSelected && (
-                    <div className="p-1 bg-gradient-to-r from-green-400 to-green-500 rounded-full shadow-sm">
-                      <Check className="w-4 h-4 text-white" />
-                    </div>
+                    <Check className="w-4 h-4 text-blue-600" />
                   )}
                 </button>
               );
