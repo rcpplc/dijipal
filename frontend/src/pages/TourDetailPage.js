@@ -371,12 +371,16 @@ const TourDetailPage = () => {
   };
 
   const handleBooking = () => {
+    console.log('handleBooking called', { user, selectedDate, selectedCabinType, tour });
+    
     if (!user) {
+      console.log('No user, showing login modal');
       setShowLoginModal(true);
       return;
     }
     
     if (!selectedDate || !selectedCabinType) {
+      console.log('Missing date or cabin type', { selectedDate, selectedCabinType });
       toast.error('Lütfen tarih ve kabin tipi seçin');
       return;
     }
