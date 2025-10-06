@@ -23,73 +23,110 @@ const CategoryPicker = ({
   onSuggestionSelect 
 }) => {
   const { t } = useTranslation();
+  const [availableCategories, setAvailableCategories] = useState([]);
+  const [loadingCategories, setLoadingCategories] = useState(true);
 
-  const categories = [
-    {
-      id: 'kulturel',
-      name: t('categories.cultural'),
-      icon: Camera,
-      color: 'bg-purple-100 text-purple-600',
-      tours: 25,
-      popular: true
+  // Icon mapping for different icons
+  const iconComponents = {
+    Camera,
+    TreePine,
+    Mountain,
+    Building,
+    Castle,
+    Utensils,
+    Waves,
+    Compass,
+    Fish,
+    MapPin
+  };
+
+  // Color mapping for different colors
+  const colorClasses = {
+    purple: {
+      bg: 'bg-purple-100',
+      text: 'text-purple-600',
+      gradient: 'from-purple-500 to-purple-600',
+      selected: 'border-purple-500 bg-gradient-to-r from-purple-50 to-purple-100'
     },
-    {
-      id: 'doga',
-      name: t('categories.nature'),
-      icon: TreePine,
-      color: 'bg-green-100 text-green-600',
-      tours: 18,
-      popular: true
+    green: {
+      bg: 'bg-green-100',
+      text: 'text-green-600', 
+      gradient: 'from-green-500 to-green-600',
+      selected: 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50'
     },
-    {
-      id: 'macera',
-      name: t('categories.adventure'),
-      icon: Mountain,
-      color: 'bg-orange-100 text-orange-600',
-      tours: 12,
-      popular: false
+    orange: {
+      bg: 'bg-orange-100',
+      text: 'text-orange-600',
+      gradient: 'from-orange-500 to-orange-600',
+      selected: 'border-orange-500 bg-gradient-to-r from-orange-50 to-red-50'
     },
-    {
-      id: 'sehir',
-      name: t('categories.city'),
-      icon: MapPin,
-      color: 'bg-blue-100 text-blue-600',
-      tours: 20,
-      popular: true
+    blue: {
+      bg: 'bg-blue-100',
+      text: 'text-blue-600',
+      gradient: 'from-blue-500 to-blue-600',
+      selected: 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50'
     },
-    {
-      id: 'tarihi',
-      name: t('categories.historical'),
-      icon: History,
-      color: 'bg-amber-100 text-amber-600',
-      tours: 15,
-      popular: false
+    amber: {
+      bg: 'bg-amber-100',
+      text: 'text-amber-600',
+      gradient: 'from-amber-500 to-amber-600',
+      selected: 'border-amber-500 bg-gradient-to-r from-amber-50 to-yellow-50'
     },
-    {
-      id: 'gastronomi',
-      name: t('categories.gastronomy'),
-      icon: Utensils,
-      color: 'bg-red-100 text-red-600',
-      tours: 8,
-      popular: false
+    red: {
+      bg: 'bg-red-100',
+      text: 'text-red-600',
+      gradient: 'from-red-500 to-red-600',
+      selected: 'border-red-500 bg-gradient-to-r from-red-50 to-pink-50'
     },
-    {
-      id: 'deniz',
-      name: t('categories.sea'),
-      icon: Waves,
-      color: 'bg-cyan-100 text-cyan-600',
-      tours: 30,
-      popular: true
+    cyan: {
+      bg: 'bg-cyan-100',
+      text: 'text-cyan-600',
+      gradient: 'from-cyan-500 to-cyan-600',
+      selected: 'border-cyan-500 bg-gradient-to-r from-cyan-50 to-teal-50'
     },
-    {
-      id: 'keşif',
-      name: t('categories.exploration'),
-      icon: Compass,
-      color: 'bg-indigo-100 text-indigo-600',
-      tours: 10,
-      popular: false
+    indigo: {
+      bg: 'bg-indigo-100',
+      text: 'text-indigo-600',
+      gradient: 'from-indigo-500 to-indigo-600',
+      selected: 'border-indigo-500 bg-gradient-to-r from-indigo-50 to-purple-50'
+    },
+    teal: {
+      bg: 'bg-teal-100',
+      text: 'text-teal-600',
+      gradient: 'from-teal-500 to-teal-600',
+      selected: 'border-teal-500 bg-gradient-to-r from-teal-50 to-green-50'
+    },
+    gray: {
+      bg: 'bg-gray-100',
+      text: 'text-gray-600',
+      gradient: 'from-gray-500 to-gray-600',
+      selected: 'border-gray-500 bg-gradient-to-r from-gray-50 to-slate-50'
     }
-  ];
+  };
+
+  // Fetch available categories from API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+        const response = await fetch(`${BACKEND_URL}/api/search/categories`);
+        const data = await response.json();
+        setAvailableCategories(data.categories || []);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+        // Fallback categories
+        setAvailableCategories([
+          { id: 'kulturel', name: 'Kültürel', icon: 'Camera', color: 'purple', tours: 25, popular: true },
+          { id: 'doga', name: 'Doğa', icon: 'TreePine', color: 'green', tours: 18, popular: true },
+          { id: 'deniz', name: 'Deniz', icon: 'Waves', color: 'cyan', tours: 30, popular: true }
+        ]);
+      } finally {
+        setLoadingCategories(false);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const popularCategories = categories.filter(cat => cat.popular);
   const allCategories = categories;
