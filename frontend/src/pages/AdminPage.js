@@ -2899,18 +2899,32 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tur Süresi (Gün) *
+                      Tur Süresi *
                     </label>
-                    <input
-                      type="number"
-                      min="1"
-                      max="30"
-                      value={formData.duration_days}
-                      onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value) || 1})}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required
-                    />
-                    <p className="text-sm text-gray-500 mt-1">Turun kaç gün süreceğini belirtin (1-30 gün)</p>
+                    <div className="flex space-x-2">
+                      <input
+                        type="number"
+                        min="1"
+                        max={formData.duration_unit === 'hours' ? 48 : 30}
+                        value={formData.duration_days}
+                        onChange={(e) => setFormData({...formData, duration_days: parseInt(e.target.value) || 1})}
+                        className="w-20 px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                        required
+                      />
+                      <select
+                        value={formData.duration_unit}
+                        onChange={(e) => setFormData({...formData, duration_unit: e.target.value})}
+                        className="flex-1 px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      >
+                        <option value="hours">Saat</option>
+                        <option value="days">Gün</option>
+                      </select>
+                    </div>
+                    <p className="text-sm text-gray-500 mt-1">
+                      {formData.duration_unit === 'hours' 
+                        ? 'Turun kaç saat süreceğini belirtin (1-48 saat)' 
+                        : 'Turun kaç gün süreceğini belirtin (1-30 gün)'}
+                    </p>
                   </div>
                 </div>
 
