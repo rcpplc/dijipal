@@ -2039,49 +2039,7 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Dynamic Total Price Display */}
-              {selectedDate && (
-                <div className="bg-blue-50 rounded-lg p-4">
-                  <div className="flex justify-between items-center">
-                    <span className="font-medium text-gray-900">Toplam Tutar:</span>
-                    <span className="text-xl font-bold text-blue-600">
-                      ₺{(() => {
-                        if (!tour) return '0';
-                        
-                        if (tour.reservation_type === 'person_based') {
-                          const adultTotal = (selectedDate.person_price || 0) * participants;
-                          const childTotal = (selectedDate.child_price || 0) * childCount;
-                          return (adultTotal + childTotal).toLocaleString('tr-TR');
-                        } else if (tour.reservation_type === 'reservation') {
-                          return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
-                        } else {
-                          // cabin_based
-                          const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
-                          const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
-                          return (singleTotal + doubleTotal).toLocaleString('tr-TR');
-                        }
-                      })()}
-                    </span>
-                  </div>
-                  <p className="text-xs text-gray-600 mt-1">
-                    {(() => {
-                      if (!tour) return 'Yükleniyor...';
-                      
-                      if (tour.reservation_type === 'person_based') {
-                        return `${participants} yetişkin + ${childCount} çocuk = ${participants + childCount} kişi`;
-                      } else if (tour.reservation_type === 'reservation') {
-                        return 'Özel rezervasyon - Sabit fiyat';
-                      } else {
-                        // cabin_based
-                        const parts = [];
-                        if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
-                        if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
-                        return parts.length > 0 ? parts.join(' + ') + ' kabin' : 'Kabin seçin';
-                      }
-                    })()}
-                  </p>
-                </div>
-              )}
+              {/* Total Price Display removed as requested */}
             </div>
             
             {/* Modal Footer with Action Buttons */}
