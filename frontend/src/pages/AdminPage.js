@@ -2471,6 +2471,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
+    // Debug logging
+    console.log('Reservation Type:', formData.reservation_type);
+    console.log('New Tour Date:', newTourDate);
+    
     // Validation based on reservation type
     let isValid = false;
     
@@ -2479,8 +2483,21 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     } else if (formData.reservation_type === 'person_based') {
       if (newTourDate.date_type === 'single') {
         isValid = newTourDate.start_date && newTourDate.max_persons && newTourDate.person_price;
+        console.log('Person-based single validation:', {
+          start_date: !!newTourDate.start_date,
+          max_persons: !!newTourDate.max_persons,
+          person_price: !!newTourDate.person_price,
+          isValid
+        });
       } else if (newTourDate.date_type === 'range') {
         isValid = newTourDate.start_date && newTourDate.end_date && newTourDate.max_persons && newTourDate.person_price;
+        console.log('Person-based range validation:', {
+          start_date: !!newTourDate.start_date,
+          end_date: !!newTourDate.end_date,
+          max_persons: !!newTourDate.max_persons,
+          person_price: !!newTourDate.person_price,
+          isValid
+        });
       }
     } else if (formData.reservation_type === 'reservation') {
       isValid = newTourDate.date && newTourDate.total_reservation_price && newTourDate.max_passengers;
