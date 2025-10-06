@@ -1466,25 +1466,35 @@ const AdminPage = () => {
                         </tr>
                       ))}
                     </tbody>
+                    </tbody>
                   </table>
                 </div>
-                
-                {bookings.filter(booking => bookingFilter === 'all' || booking.status === bookingFilter).length === 0 && (
-                  <div className="text-center py-16">
-                    <div className="text-4xl mb-4">📋</div>
-                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                      {bookingFilter === 'all' ? 'Henüz rezervasyon yok' : 
-                       bookingFilter === 'confirmed' ? 'Aktif rezervasyon yok' :
-                       bookingFilter === 'completed' ? 'Tamamlanmış rezervasyon yok' :
-                       'İptal edilmiş rezervasyon yok'}
-                    </h3>
-                    <p className="text-gray-600">
-                      {bookingFilter === 'all' ? 'Müşteriler rezervasyon yapmaya başladığında burada görünecek.' :
-                       'Bu kategoride henüz rezervasyon bulunmuyor.'}
-                    </p>
-                  </div>
-                )}
               </div>
+
+              {/* Empty State */}
+              {bookings.filter(booking => {
+                if (bookingFilter === 'all') return true;
+                return booking.booking_status === bookingFilter;
+              }).length === 0 && (
+                <div className="text-center py-16">
+                  <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                    <Calendar className="w-8 h-8 text-gray-400" />
+                  </div>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                    {bookingFilter === 'all' ? 'Henüz rezervasyon yok' : 
+                     bookingFilter === 'confirmed' ? 'Onaylanmış rezervasyon yok' :
+                     bookingFilter === 'paid' ? 'Ödenmiş rezervasyon yok' :
+                     bookingFilter === 'completed' ? 'Tamamlanmış rezervasyon yok' :
+                     bookingFilter === 'cancelled' ? 'İptal edilmiş rezervasyon yok' :
+                     bookingFilter === 'pending' ? 'Bekleyen rezervasyon yok' :
+                     'Bu kategoride rezervasyon yok'}
+                  </h3>
+                  <p className="text-gray-600">
+                    {bookingFilter === 'all' ? 'Müşteriler rezervasyon yapmaya başladığında burada görünecek.' :
+                     'Bu kategoride henüz rezervasyon bulunmuyor.'}
+                  </p>
+                </div>
+              )}
             )}
           </div>
         )}
