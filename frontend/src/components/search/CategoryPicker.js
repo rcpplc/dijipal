@@ -161,11 +161,11 @@ const CategoryPicker = ({
           </h3>
           <div className="grid grid-cols-1 gap-2">
             {suggestions.map((suggestion, index) => {
-              const category = availableCategories.find(cat => 
+              const availableCategory = availableCategories.find(cat => 
                 cat.name.toLowerCase().includes(suggestion.name.toLowerCase())
               );
-              const IconComponent = category ? iconComponents[category.icon] : MapPin;
-              const colors = category ? colorClasses[category.color] : colorClasses.gray;
+              const IconComponent = availableCategory ? iconComponents[availableCategory.icon] : MapPin;
+              const colors = availableCategory ? colorClasses[availableCategory.color] : colorClasses.gray;
               
               return (
                 <button
