@@ -2710,11 +2710,25 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       return;
     }
     
-    // Validate each tour date
+    // Validate each tour date based on reservation type
     for (let i = 0; i < formData.tour_dates.length; i++) {
       const date = formData.tour_dates[i];
-      if (!date.date || !date.capacity || !date.single_cabin_price || !date.double_cabin_price) {
-        toast.error(`${i + 1}. tarihte eksik bilgi var: tarih, kapasite ve kabin fiyatları gereklidir`);
+      let dateValid = false;
+      let errorMessage = '';
+      
+      if (formData.reservation_type === 'cabin_based') {
+        dateValid = date.date && date.capacity && date.single_cabin_price && date.double_cabin_price;
+        errorMessage = `${i + 1}. tarihte eksik bilgi var: tarih, kabin kapasitesi ve kabin fiyatları gereklidir`;
+      } else if (formData.reservation_type === 'person_based') {
+        dateValid = date.date && date.max_persons && date.person_price;
+        errorMessage = `${i + 1}. tarihte eksik bilgi var: tarih, maksimum kişi sayısı ve kişi başı fiyat gereklidir`;
+      } else if (formData.reservation_type === 'reservation') {
+        dateValid = date.date && date.total_reservation_price && date.max_passengers;
+        errorMessage = `${i + 1}. tarihte eksik bilgi var: tarih, rezervasyon fiyatı ve maksimum yolcu sayısı gereklidir`;
+      }
+      
+      if (!dateValid) {
+        toast.error(errorMessage);
         return;
       }
     }
