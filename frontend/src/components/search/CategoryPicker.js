@@ -249,7 +249,7 @@ const CategoryPicker = ({
         <input
           type="text"
           placeholder={t('categories.customPlaceholder')}
-          value={!categories.find(cat => cat.id === value) ? value : ''}
+          value={!availableCategories.find(cat => cat.name === value) ? value : ''}
           onChange={(e) => onChange(e.target.value)}
           className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
         />
