@@ -1590,31 +1590,6 @@ const TourDetailPage = () => {
         </div>
       </div>
 
-      {/* Desktop Bottom Booking Bar - Similar to Mobile */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-4 py-3 hidden lg:flex z-50 shadow-lg">
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between">
-          {/* Left side - Cart button */}
-          <button
-            onClick={addToCart}
-            disabled={!selectedDate}
-            className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 text-gray-700 disabled:text-gray-400 px-4 py-3 rounded-lg font-medium transition-colors duration-200 disabled:cursor-not-allowed"
-          >
-            <ShoppingCart className="w-5 h-5" />
-            <span>Sepete Ekle</span>
-          </button>
-
-          {/* Right side - Reservation button */}
-          <button
-            onClick={handleBooking}
-            disabled={!selectedDate}
-            className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium px-8 py-3 rounded-lg transition-colors duration-200 disabled:cursor-not-allowed flex items-center space-x-2"
-          >
-            <Calendar className="w-5 h-5" />
-            <span>Rezervasyon Yap</span>
-          </button>
-        </div>
-      </div>
-
       {/* Combined Booking Modal - Full Screen on Mobile */}
       {showBookingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
