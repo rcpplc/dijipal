@@ -3360,15 +3360,42 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                             <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Tarih
                             </th>
-                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                              Tek Kabin (₺)
-                            </th>
-                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                              Çift Kabin (₺)
-                            </th>
-                            <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
-                              Kabin Kapasitesi
-                            </th>
+                            {formData.reservation_type === 'cabin_based' && (
+                              <>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Tek Kabin (₺)
+                                </th>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Çift Kabin (₺)
+                                </th>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Kabin Kapasitesi
+                                </th>
+                              </>
+                            )}
+                            {formData.reservation_type === 'person_based' && (
+                              <>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Yetişkin (₺)
+                                </th>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Çocuk (₺)
+                                </th>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Maks Kişi
+                                </th>
+                              </>
+                            )}
+                            {formData.reservation_type === 'reservation' && (
+                              <>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Toplam Fiyat (₺)
+                                </th>
+                                <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
+                                  Maks Yolcu
+                                </th>
+                              </>
+                            )}
                             <th className="py-2.5 px-4 text-left text-xs font-semibold text-gray-700 uppercase tracking-wide">
                               Durum
                             </th>
