@@ -1946,7 +1946,7 @@ const TourDetailPage = () => {
               {/* Dynamic Selection Based on Reservation Type */}
               
               {/* Kabin Bazlı Rezervasyon */}
-              {tour && tour.reservation_type === 'cabin_based' && (
+              {tour && (!tour.reservation_type || tour.reservation_type === 'cabin_based') && (
                 <div className="space-y-4">
                   <h4 className="font-medium text-gray-900 mb-3 flex items-center">
                     <Users className="w-4 h-4 mr-2" />
