@@ -27,6 +27,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import CookiesPage from './pages/CookiesPage';
 import KVKKPage from './pages/KVKKPage';
 import LoginModal from './components/LoginModal';
+import ScrollToTop from './components/ScrollToTop';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
