@@ -1467,7 +1467,6 @@ const AdminPage = () => {
                         </tr>
                       ))}
                     </tbody>
-                    </tbody>
                   </table>
                 </div>
               </div>
