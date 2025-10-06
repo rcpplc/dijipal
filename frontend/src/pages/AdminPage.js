@@ -2738,6 +2738,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     try {
       const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
       
+      console.log('📊 FormData being sent to backend:', JSON.stringify(formData, null, 2));
+      
       if (isEdit) {
         console.log(`🔄 Updating tour ${tour.id}...`);
         await axios.put(`${API}/admin/tours/${tour.id}`, formData);
