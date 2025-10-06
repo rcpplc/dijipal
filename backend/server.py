@@ -2281,6 +2281,179 @@ async def cleanup_data(current_user: User = Depends(get_current_user)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Cleanup failed: {str(e)}")
 
+# Search functionality
+class SearchSuggestionRequest(BaseModel):
+    query: str = Field(min_length=1, max_length=100)
+    type: Optional[str] = Field(default="location")  # location, category, general
+
+class SearchSuggestion(BaseModel):
+    id: str
+    name: str
+    type: str
+    region: Optional[str] = None
+    tours: Optional[int] = None
+    trending: Optional[bool] = False
+
+class GeocodeRequest(BaseModel):
+    latitude: float
+    longitude: float
+
+@api_router.get("/search/suggestions")
+async def get_search_suggestions(
+    q: str = Query(..., min_length=1, max_length=100),
+    type: str = Query(default="location")
+):
+    """Get search suggestions based on query and type"""
+    suggestions = []
+    
+    if type == "location" or type == "general":
+        # Search in tours for locations
+        tours = await db.tours.find({
+            "location": {"$regex": q, "$options": "i"}
+        }).limit(10).to_list(length=None)
+        
+        # Group by location and count tours
+        location_counts = {}
+        for tour in tours:
+            location = tour.get("location", "")
+            if location:
+                if location not in location_counts:
+                    location_counts[location] = 0
+                location_counts[location] += 1
+        
+        # Create location suggestions
+        for location, count in location_counts.items():
+            suggestions.append({
+                "id": f"location-{hash(location)}",
+                "name": location,
+                "type": "location",
+                "tours": count,
+                "trending": count > 5
+            })
+    
+    if type == "category" or type == "general":
+        # Search in tours for categories
+        tours = await db.tours.find({
+            "category": {"$regex": q, "$options": "i"}
+        }).limit(10).to_list(length=None)
+        
+        # Group by category and count tours
+        category_counts = {}
+        for tour in tours:
+            category = tour.get("category", "")
+            if category:
+                if category not in category_counts:
+                    category_counts[category] = 0
+                category_counts[category] += 1
+        
+        # Create category suggestions
+        for category, count in category_counts.items():
+            suggestions.append({
+                "id": f"category-{hash(category)}",
+                "name": category,
+                "type": "category",
+                "tours": count
+            })
+    
+    if type == "tour" or type == "general":
+        # Search in tour titles
+        tours = await db.tours.find({
+            "$or": [
+                {"title": {"$regex": q, "$options": "i"}},
+                {"short_description": {"$regex": q, "$options": "i"}}
+            ]
+        }).limit(5).to_list(length=None)
+        
+        for tour in tours:
+            price = None
+            # Get minimum price from tour dates
+            tour_dates = await db.tour_dates.find({"tour_id": tour["id"]}).to_list(length=None)
+            if tour_dates:
+                prices = []
+                for date in tour_dates:
+                    if date.get("single_cabin_price"):
+                        prices.append(date["single_cabin_price"])
+                    if date.get("double_cabin_price"):
+                        prices.append(date["double_cabin_price"])
+                if prices:
+                    price = min(prices)
+            
+            suggestions.append({
+                "id": tour["id"],
+                "name": tour["title"],
+                "type": "tour",
+                "location": tour.get("location"),
+                "category": tour.get("category"),
+                "rating": tour.get("rating"),
+                "price": price
+            })
+    
+    # Sort suggestions by relevance (exact matches first)
+    query_lower = q.lower()
+    suggestions.sort(key=lambda x: (
+        not x["name"].lower().startswith(query_lower),  # Exact matches first
+        x["name"].lower()
+    ))
+    
+    return {
+        "suggestions": suggestions[:10],
+        "total": len(suggestions),
+        "query": q
+    }
+
+@api_router.post("/geocoding/reverse")
+async def reverse_geocode(request: GeocodeRequest):
+    """Mock reverse geocoding - in production use Google Maps API"""
+    # Mock locations based on Turkey's popular coastal areas
+    mock_locations = [
+        {"lat_range": (36.6, 36.7), "lng_range": (29.0, 29.3), "location": "Muğla, Fethiye"},
+        {"lat_range": (36.7, 36.8), "lng_range": (28.9, 29.0), "location": "Muğla, Göcek"},
+        {"lat_range": (36.1, 36.3), "lng_range": (29.6, 29.7), "location": "Antalya, Kaş"},
+        {"lat_range": (38.3, 38.4), "lng_range": (26.2, 26.4), "location": "İzmir, Çeşme"},
+        {"lat_range": (37.0, 37.1), "lng_range": (27.3, 27.5), "location": "Muğla, Bodrum"},
+    ]
+    
+    # Find closest location
+    for loc in mock_locations:
+        if (loc["lat_range"][0] <= request.latitude <= loc["lat_range"][1] and 
+            loc["lng_range"][0] <= request.longitude <= loc["lng_range"][1]):
+            return {
+                "location": loc["location"],
+                "coordinates": {
+                    "latitude": request.latitude,
+                    "longitude": request.longitude
+                },
+                "accuracy": "approximate"
+            }
+    
+    # Default fallback
+    return {
+        "location": "Türkiye, Akdeniz Bölgesi",
+        "coordinates": {
+            "latitude": request.latitude,
+            "longitude": request.longitude
+        },
+        "accuracy": "country"
+    }
+
+@api_router.get("/search/popular")
+async def get_popular_searches():
+    """Get popular and trending searches"""
+    # In production, this would come from analytics data
+    return {
+        "popular": [
+            {"query": "fethiye tekne turu", "count": 1250},
+            {"query": "bodrum koy turu", "count": 890},
+            {"query": "kaş dalış", "count": 567},
+            {"query": "çeşme gastronomi", "count": 445}
+        ],
+        "trending": [
+            {"query": "göcek mavi tur", "growth": 85},
+            {"query": "ayvalık kamp", "growth": 72},
+            {"query": "bozcaada şarap", "growth": 68}
+        ]
+    }
+
 # Health check endpoint for deployment monitoring
 @api_router.get("/health")
 async def health_check():
