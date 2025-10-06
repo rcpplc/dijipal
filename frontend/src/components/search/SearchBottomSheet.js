@@ -336,7 +336,7 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 space-y-3">
+        <div className={`sticky bottom-0 bg-white border-t border-gray-200 space-y-3 ${isDesktop ? 'p-6' : 'p-4'}`}>
           <div className="flex space-x-3">
             <button
               onClick={clearFilters}
