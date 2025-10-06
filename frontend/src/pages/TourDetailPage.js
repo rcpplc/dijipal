@@ -1829,7 +1829,7 @@ const TourDetailPage = () => {
                     <div className="flex items-center justify-center space-x-4 py-2">
                       <button
                         onClick={() => setSingleCabinCount(Math.max(0, singleCabinCount - 1))}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={singleCabinCount <= 0}
                       >
                         -
@@ -1839,7 +1839,7 @@ const TourDetailPage = () => {
                       </span>
                       <button
                         onClick={() => setSingleCabinCount(singleCabinCount + 1)}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                       >
                         +
                       </button>
@@ -1859,7 +1859,7 @@ const TourDetailPage = () => {
                     <div className="flex items-center justify-center space-x-4 py-2">
                       <button
                         onClick={() => setDoubleCabinCount(Math.max(0, doubleCabinCount - 1))}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={doubleCabinCount <= 0}
                       >
                         -
@@ -1869,7 +1869,7 @@ const TourDetailPage = () => {
                       </span>
                       <button
                         onClick={() => setDoubleCabinCount(doubleCabinCount + 1)}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                       >
                         +
                       </button>
@@ -1899,7 +1899,7 @@ const TourDetailPage = () => {
                     <div className="flex items-center justify-center space-x-4 py-2">
                       <button
                         onClick={() => setParticipants(Math.max(1, participants - 1))}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={participants <= 1}
                       >
                         -
@@ -1909,7 +1909,7 @@ const TourDetailPage = () => {
                       </span>
                       <button
                         onClick={() => setParticipants(participants + 1)}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                       >
                         +
                       </button>
@@ -1929,7 +1929,7 @@ const TourDetailPage = () => {
                     <div className="flex items-center justify-center space-x-4 py-2">
                       <button
                         onClick={() => setChildCount(Math.max(0, childCount - 1))}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                         disabled={childCount <= 0}
                       >
                         -
@@ -1939,7 +1939,7 @@ const TourDetailPage = () => {
                       </span>
                       <button
                         onClick={() => setChildCount(childCount + 1)}
-                        className="w-10 h-10 rounded-full bg-gray-100 hover:bg-gray-200 flex items-center justify-center text-gray-600 transition-colors"
+                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
                       >
                         +
                       </button>
