@@ -1688,17 +1688,53 @@ const TourDetailPage = () => {
                 </div>
               </div>
 
-              {/* Apply Button */}
-              <button
-                onClick={() => {
-                  setShowBookingModal(false);
-                  // Trigger booking process if needed
-                }}
-                className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg font-medium transition-colors duration-200"
-              >
-                Seçimi Onayla
-              </button>
             </div>
+            
+            {/* Modal Footer with Action Buttons */}
+            <div className="p-4 border-t bg-white sticky bottom-0">
+              <div className="flex items-center space-x-3">
+                {/* Add to Cart Button */}
+                <button
+                  onClick={() => {
+                    if (!selectedDate || !selectedCabinType) {
+                      toast.error('Lütfen tarih ve kabin tipi seçin');
+                      return;
+                    }
+                    handleAddToCart();
+                    setShowBookingModal(false);
+                  }}
+                  disabled={!selectedDate || !selectedCabinType}
+                  className={`flex-shrink-0 p-3 rounded-lg transition-colors duration-200 ${
+                    selectedDate && selectedCabinType
+                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
+                      : 'bg-gray-50 text-gray-400 cursor-not-allowed'
+                  }`}
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                </button>
+                
+                {/* Book Now Button */}
+                <button
+                  onClick={() => {
+                    if (!selectedDate || !selectedCabinType) {
+                      toast.error('Lütfen tarih ve kabin tipi seçin');
+                      return;
+                    }
+                    setShowBookingModal(false);
+                    handleBooking();
+                  }}
+                  disabled={!selectedDate || !selectedCabinType}
+                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
+                    selectedDate && selectedCabinType
+                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                  }`}
+                >
+                  Rezervasyon Yap
+                </button>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       )}
