@@ -396,7 +396,7 @@ const TourDetailPage = () => {
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
       // Add price calculation
-      price: cabinType === 'double' 
+      price: selectedCabinType === 'double' 
         ? selectedDate.double_cabin_price || selectedDate.price || 0
         : selectedDate.single_cabin_price || selectedDate.price || 0
     };
