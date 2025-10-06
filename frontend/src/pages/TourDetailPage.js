@@ -1919,7 +1919,7 @@ const TourDetailPage = () => {
               </div>
 
               {/* Total Price - Only for cabin-based tours */}
-              {selectedDate && selectedCabinType && tour.reservation_type === 'cabin_based' && (
+              {selectedDate && selectedCabinType && tour && tour.reservation_type === 'cabin_based' && (
                 <div className="bg-blue-50 rounded-lg p-4">
                   <div className="flex justify-between items-center">
                     <span className="font-medium text-gray-900">Toplam Tutar:</span>
