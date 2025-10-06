@@ -1501,7 +1501,9 @@ const TourDetailPage = () => {
                       ₺{(() => {
                         if (!tour) return '0';
                         if (tour && tour.reservation_type === 'person_based') {
-                          return ((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR');
+                          const adultTotal = (selectedDate.person_price || 0) * (participants || 1);
+                          const childTotal = (selectedDate.child_price || 0) * childCount;
+                          return (adultTotal + childTotal).toLocaleString('tr-TR');
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
                         } else {
