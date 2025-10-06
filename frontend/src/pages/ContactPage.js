@@ -23,18 +23,35 @@ const ContactPage = () => {
     e.preventDefault();
     setLoading(true);
     
-    // Simulate form submission
-    setTimeout(() => {
-      toast.success('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        subject: '',
-        message: ''
+    try {
+      const API = process.env.REACT_APP_BACKEND_URL || import.meta.env.REACT_APP_BACKEND_URL;
+      const response = await fetch(`${API}/api/contact/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       });
+      
+      if (response.ok) {
+        toast.success('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağız.');
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          subject: '',
+          message: ''
+        });
+      } else {
+        const errorData = await response.json();
+        toast.error(errorData.detail || 'Mesaj gönderilirken bir hata oluştu.');
+      }
+    } catch (error) {
+      console.error('Contact form error:', error);
+      toast.error('Mesaj gönderilirken bir hata oluştu. Lütfen daha sonra tekrar deneyin.');
+    } finally {
       setLoading(false);
-    }, 2000);
+    }
   };
 
   return (
