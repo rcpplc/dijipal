@@ -13,6 +13,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
+import { createSlug } from '../utils/slug';
 
 const CartPage = () => {
   const { user, setShowLoginModal } = useAuth();
