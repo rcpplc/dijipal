@@ -150,35 +150,92 @@ const LocationPicker = ({
         </div>
       )}
 
-      {/* Popular Locations */}
-      {suggestions.length === 0 && !loading && (
-        <div className="space-y-2">
-          <h3 className="text-sm font-medium text-gray-700 px-2">
-            {t('location.popular.title')}
-          </h3>
-          <div className="grid grid-cols-1 gap-2">
-            {popularLocations.map((location) => (
-              <button
-                key={location.id}
-                onClick={() => {
-                  onChange(location.name);
-                  onSuggestionSelect?.(location);
-                }}
-                className={`flex items-center justify-between p-3 rounded-lg border transition-colors ${
-                  value === location.name
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-200 hover:bg-gray-50'
-                }`}
-              >
-                <div className="flex items-center space-x-3">
-                  <MapPin className="w-4 h-4 text-gray-400" />
-                  <span className="font-medium text-gray-900">{location.name}</span>
-                </div>
-                <div className="text-xs text-gray-500">
-                  {location.tours} {t('common.tours')}
-                </div>
-              </button>
-            ))}
+      {/* Available Locations */}
+      {suggestions.length === 0 && !loading && !loadingLocations && (
+        <div className="space-y-4">
+          {/* Popular Locations */}
+          {popularLocations.length > 0 && (
+            <div className="space-y-3">
+              <h3 className="text-sm font-semibold text-gray-800 px-2 flex items-center">
+                <span className="w-2 h-2 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full mr-2"></span>
+                {t('location.popular.title')}
+              </h3>
+              <div className="grid grid-cols-1 gap-2">
+                {popularLocations.map((location) => (
+                  <button
+                    key={location.id}
+                    onClick={() => {
+                      onChange(location.name);
+                      onSuggestionSelect?.(location);
+                    }}
+                    className={`flex items-center justify-between p-4 rounded-xl border-2 transition-all duration-200 ${
+                      value === location.name
+                        ? 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50 shadow-md transform scale-[1.02]'
+                        : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
+                    }`}
+                  >
+                    <div className="flex items-center space-x-3">
+                      <div className="p-2 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg">
+                        <MapPin className="w-4 h-4 text-white" />
+                      </div>
+                      <span className="font-semibold text-gray-900">{location.name}</span>
+                    </div>
+                    <div className="text-xs bg-blue-100 text-blue-700 px-3 py-1 rounded-full font-medium">
+                      {location.tours} {t('common.tours')}
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+          
+          {/* All Locations */}
+          <div className="space-y-3">
+            <h3 className="text-sm font-semibold text-gray-800 px-2 flex items-center">
+              <span className="w-2 h-2 bg-gradient-to-r from-green-500 to-teal-500 rounded-full mr-2"></span>
+              Tüm Lokasyonlar
+            </h3>
+            <div className="grid grid-cols-1 gap-2 max-h-64 overflow-y-auto">
+              {availableLocations.map((location) => (
+                <button
+                  key={location.id}
+                  onClick={() => {
+                    onChange(location.name);
+                    onSuggestionSelect?.(location);
+                  }}
+                  className={`flex items-center justify-between p-3 rounded-lg border transition-all duration-200 ${
+                    value === location.name
+                      ? 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50'
+                      : 'border-gray-200 hover:border-green-300 hover:bg-gray-50'
+                  }`}
+                >
+                  <div className="flex items-center space-x-3">
+                    <div className={`p-1.5 rounded-md ${location.popular ? 'bg-gradient-to-br from-green-500 to-green-600' : 'bg-gray-400'}`}>
+                      <MapPin className="w-3 h-3 text-white" />
+                    </div>
+                    <span className="font-medium text-gray-900">{location.name}</span>
+                    {location.popular && (
+                      <span className="bg-gradient-to-r from-orange-400 to-pink-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                        ⭐ Popüler
+                      </span>
+                    )}
+                  </div>
+                  <div className="text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                    {location.tours}
+                  </div>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading State for Locations */}
+      {loadingLocations && (
+        <div className="flex justify-center py-8">
+          <div className="flex items-center space-x-2">
+            <Loader2 className="w-5 h-5 animate-spin text-blue-500" />
+            <span className="text-sm text-gray-600">Lokasyonlar yükleniyor...</span>
           </div>
         </div>
       )}
