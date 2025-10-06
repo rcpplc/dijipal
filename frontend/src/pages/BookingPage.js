@@ -139,6 +139,7 @@ const BookingPage = () => {
   const nextStep = () => {
     if (validateStep()) {
       setStep(step + 1);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
       toast.error('Lütfen tüm gerekli alanları doldurun');
     }
@@ -146,6 +147,7 @@ const BookingPage = () => {
 
   const prevStep = () => {
     setStep(step - 1);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBooking = async () => {
