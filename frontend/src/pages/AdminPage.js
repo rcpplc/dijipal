@@ -3362,9 +3362,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         </div>
                       </div>
 
-                      {/* Pricing & Capacity Section */}
+                      {/* Pricing & Capacity Combined Section */}
                       <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-sm font-medium text-gray-700 mb-3">🚢 Rezervasyon Detayları</h4>
+                        <h4 className="text-sm font-medium text-gray-700 mb-3">🚢 Rezervasyon Fiyatı & Kapasite</h4>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Toplam Rezervasyon Fiyatı (₺) *</label>
