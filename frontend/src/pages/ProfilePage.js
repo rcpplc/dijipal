@@ -90,9 +90,15 @@ const ProfilePage = () => {
       toast.success('Profil bilgileri güncellendi');
       setEditMode(false);
       
-      // Update user context with new data
+      // Update the profileData state with the response
       if (response.data) {
-        // Trigger a reload of user data
+        setProfileData({
+          full_name: response.data.full_name || '',
+          email: response.data.email || '',
+          phone: response.data.phone || ''
+        });
+        
+        // Update the user context - force a refresh of user data from /api/users/me
         window.location.reload();
       }
     } catch (error) {
