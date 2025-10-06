@@ -3038,7 +3038,6 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                       </div>
                     </div>
                   )}
-                  </div>
                   
                   <button
                     type="button"
