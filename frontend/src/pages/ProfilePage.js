@@ -425,8 +425,8 @@ const ProfilePage = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="text-gray-600">Katılımcı Sayısı:</span>
-                          <p className="font-medium">{booking.participants} kişi</p>
+                          <span className="text-gray-600">Kabin Sayısı:</span>
+                          <p className="font-medium">{booking.participants} kabin</p>
                         </div>
                         <div>
                           <span className="text-gray-600">Toplam Tutar:</span>
