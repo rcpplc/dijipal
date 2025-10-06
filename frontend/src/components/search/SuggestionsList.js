@@ -177,7 +177,7 @@ const SuggestionsList = ({
                     
                     {suggestion.price && (
                       <div className="flex-shrink-0 text-sm font-medium text-gray-900">
-                        ₺{suggestion.price.toLocaleString('tr-TR')}
+                        ₺{(suggestion.price || 0).toLocaleString('tr-TR')}
                       </div>
                     )}
                   </button>
