@@ -1418,31 +1418,7 @@ const TourDetailPage = () => {
                     </div>
                   </div>
 
-                  {/* Toplam Fiyat Gösterimi */}
-                  {selectedDate && (selectedDate.person_price || selectedDate.child_price) && (
-                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-blue-700">
-                          ₺{(() => {
-                            const adultTotal = (selectedDate.person_price || 0) * participants;
-                            const childTotal = (selectedDate.child_price || 0) * childCount;
-                            return (adultTotal + childTotal).toLocaleString('tr-TR');
-                          })()}
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          {participants} yetişkin + {childCount} çocuk = {participants + childCount} kişi
-                        </div>
-                        {selectedDate.person_price && (
-                          <div className="text-xs text-gray-500 mt-2">
-                            Yetişkin: ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} × {participants}
-                            {selectedDate.child_price && childCount > 0 && (
-                              <span> + Çocuk: ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} × {childCount}</span>
-                            )}
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  )}
+                  {/* Total price display removed for person-based selection */}
                   
                   <p className="text-xs text-gray-500 mt-2 text-center">
                     {selectedDate 
