@@ -84,6 +84,8 @@ const AdminPage = () => {
       loadReviews();
     } else if (activeTab === 'bookings') {
       loadBookings();
+    } else if (activeTab === 'messages') {
+      loadMessages();
     } else if (activeTab === 'locations') {
       // Already loaded on component mount
     } else if (activeTab === 'categories') {
