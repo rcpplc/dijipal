@@ -314,8 +314,8 @@ const DateRangePicker = ({ value, onChange }) => {
       )}
 
       {/* Helper Text */}
-      <div className="text-center p-3 bg-gradient-to-r from-yellow-50 to-orange-50 rounded-xl border border-yellow-200">
-        <div className="text-sm font-medium text-orange-700">
+      <div className="text-center p-3 bg-gray-50 rounded-lg">
+        <div className="text-sm text-gray-600">
           {viewMode === 'months' ? 'Ay seçin' : (selectingEnd ? t('dateRange.selectEndDate') : t('dateRange.selectStartDate'))}
         </div>
       </div>
@@ -327,9 +327,9 @@ const DateRangePicker = ({ value, onChange }) => {
             onChange({ start: null, end: null });
             setSelectingEnd(false);
           }}
-          className="w-full py-3 bg-gradient-to-r from-red-500 to-pink-500 hover:from-red-600 hover:to-pink-600 text-white font-bold rounded-xl transition-all duration-200 transform hover:scale-105 shadow-md hover:shadow-lg"
+          className="w-full py-3 bg-gray-600 hover:bg-gray-700 text-white font-medium rounded-lg transition-colors"
         >
-          {t('dateRange.clear')} ✨
+          {t('dateRange.clear')}
         </button>
       )}
     </div>
