@@ -595,7 +595,33 @@ async def create_booking(booking_data: BookingCreate, current_user: User = Depen
 @api_router.get("/bookings", response_model=List[Booking])
 async def get_user_bookings(current_user: User = Depends(get_current_user)):
     bookings = await db.bookings.find({"user_id": current_user.id}).to_list(length=None)
-    return [Booking(**booking) for booking in bookings]
+    
+    # Handle legacy bookings that may be missing required fields
+    valid_bookings = []
+    for booking in bookings:
+        # Remove MongoDB _id to avoid serialization issues
+        if "_id" in booking:
+            del booking["_id"]
+        
+        # Fix legacy payment_status values
+        if booking.get("payment_status") == "paid":
+            booking["payment_status"] = "success"
+        
+        # Add missing required fields with defaults
+        if "tour_date_id" not in booking:
+            booking["tour_date_id"] = "legacy-booking"
+        
+        if "booking_status" not in booking:
+            booking["booking_status"] = "completed" if booking.get("payment_status") == "success" else "draft"
+        
+        try:
+            valid_bookings.append(Booking(**booking))
+        except Exception as e:
+            # Skip invalid bookings but log the error
+            print(f"Skipping invalid booking {booking.get('id', 'unknown')}: {e}")
+            continue
+    
+    return valid_bookings
 
 @api_router.post("/bookings/{booking_id}/pay")
 async def pay_booking(booking_id: str, current_user: User = Depends(get_current_user)):
