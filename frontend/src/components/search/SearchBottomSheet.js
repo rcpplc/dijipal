@@ -91,19 +91,51 @@ const SearchBottomSheet = ({
     }
   }, [debouncedSearchQuery]);
 
-  // Prevent zoom on mobile when modal opens
+  // Handle viewport and zoom behavior for mobile
   useEffect(() => {
     if (!isDesktop && isOpen) {
       const viewport = document.querySelector('meta[name="viewport"]');
       const originalContent = viewport?.content;
       
+      // Allow zoom when search input is focused
       if (viewport) {
-        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes';
+      }
+      
+      // Add focus handlers to search input
+      const handleFocus = () => {
+        if (viewport) {
+          viewport.content = 'width=device-width, initial-scale=1.2, maximum-scale=2.0, user-scalable=yes';
+        }
+        // Smooth zoom to search area
+        setTimeout(() => {
+          if (searchInputRef.current) {
+            searchInputRef.current.scrollIntoView({ 
+              behavior: 'smooth', 
+              block: 'center' 
+            });
+          }
+        }, 100);
+      };
+      
+      const handleBlur = () => {
+        if (viewport) {
+          viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=2.0, user-scalable=yes';
+        }
+      };
+      
+      if (searchInputRef.current) {
+        searchInputRef.current.addEventListener('focus', handleFocus);
+        searchInputRef.current.addEventListener('blur', handleBlur);
       }
       
       return () => {
         if (viewport && originalContent) {
           viewport.content = originalContent;
+        }
+        if (searchInputRef.current) {
+          searchInputRef.current.removeEventListener('focus', handleFocus);
+          searchInputRef.current.removeEventListener('blur', handleBlur);
         }
       };
     }
