@@ -1677,7 +1677,7 @@ const TourDetailPage = () => {
               {(() => {
                 if (!selectedDate) return 'Tarih Seçin';
                 
-                if (tour.reservation_type === 'person_based') {
+                if (tour && tour.reservation_type === 'person_based') {
                   const price = selectedDate.person_price;
                   if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
                   return (price * participants).toLocaleString('tr-TR') + ' TL';
