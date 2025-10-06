@@ -77,7 +77,6 @@ const TourDetailPage = () => {
     loadTour();
     loadReviews();
     if (tourSlug) {
-      loadAvailableDates();
       if (user) {
         checkIfFavorited();
       }
