@@ -12,6 +12,25 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  // Outside click handler for user menu
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    };
+
+    if (showUserMenu) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('touchstart', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    };
+  }, [showUserMenu]);
+
   // Sepet sayısını güncelle
   useEffect(() => {
     const updateCartCount = () => {
