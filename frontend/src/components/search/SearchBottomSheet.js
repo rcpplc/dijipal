@@ -91,6 +91,24 @@ const SearchBottomSheet = ({
     }
   }, [debouncedSearchQuery]);
 
+  // Prevent zoom on mobile when modal opens
+  useEffect(() => {
+    if (!isDesktop && isOpen) {
+      const viewport = document.querySelector('meta[name="viewport"]');
+      const originalContent = viewport?.content;
+      
+      if (viewport) {
+        viewport.content = 'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      }
+      
+      return () => {
+        if (viewport && originalContent) {
+          viewport.content = originalContent;
+        }
+      };
+    }
+  }, [isDesktop, isOpen]);
+
   const fetchSuggestions = async (query) => {
     setLoading(true);
     setError(null);
