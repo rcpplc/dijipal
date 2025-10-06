@@ -134,10 +134,13 @@ const TourDetailPage = () => {
       const tourData = response.data;
       updateSEO(tourData);
       
-      // Tour yüklendikten sonra tarihleri ve yorumları da yükle
+      // Tour yüklendikten sonra tarihleri, yorumları ve favori durumunu yükle
       if (tourData.id) {
         await loadAvailableDates(tourData.id);
         await loadReviews(tourData.id);
+        if (user) {
+          await checkIfFavorited(tourData.id);
+        }
       }
     } catch (error) {
       console.error('Error loading tour:', error);
