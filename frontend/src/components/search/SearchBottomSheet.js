@@ -250,26 +250,39 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 px-4">
+        <div className="flex border-b border-gray-200 px-6 bg-white">
           {[
-            { key: 'location', icon: MapPin, label: t('search.tabs.location') },
-            { key: 'category', icon: Filter, label: t('search.tabs.category') },
-            { key: 'date', icon: Calendar, label: t('search.tabs.date') }
+            { key: 'location', icon: MapPin, label: t('search.tabs.location'), color: 'from-green-500 to-teal-500' },
+            { key: 'category', icon: Filter, label: t('search.tabs.category'), color: 'from-purple-500 to-pink-500' },
+            { key: 'date', icon: Calendar, label: t('search.tabs.date'), color: 'from-orange-500 to-red-500' }
           ].map((tab) => (
             <button
               key={tab.key}
               onClick={() => setActiveTab(tab.key)}
-              className={`flex-1 flex items-center justify-center space-x-2 py-3 border-b-2 transition-colors ${
+              className={`flex-1 flex items-center justify-center space-x-2 py-4 border-b-3 transition-all duration-300 relative ${
                 activeTab === tab.key
-                  ? 'border-blue-500 text-blue-600'
-                  : 'border-transparent text-gray-500 hover:text-gray-700'
+                  ? `border-transparent`
+                  : 'border-transparent text-gray-500 hover:text-gray-700 hover:bg-gray-50'
               }`}
               role="tab"
               aria-selected={activeTab === tab.key}
               aria-controls={`panel-${tab.key}`}
             >
-              <tab.icon className="w-4 h-4" />
-              <span className="text-sm font-medium">{tab.label}</span>
+              <div className={`p-2 rounded-lg transition-all duration-300 ${
+                activeTab === tab.key 
+                  ? `bg-gradient-to-r ${tab.color} shadow-lg transform scale-110` 
+                  : 'bg-gray-100'
+              }`}>
+                <tab.icon className={`w-4 h-4 ${activeTab === tab.key ? 'text-white' : 'text-gray-600'}`} />
+              </div>
+              <span className={`text-sm font-bold transition-colors ${
+                activeTab === tab.key ? 'text-gray-900' : 'text-gray-600'
+              }`}>
+                {tab.label}
+              </span>
+              {activeTab === tab.key && (
+                <div className={`absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r ${tab.color} rounded-t-lg`} />
+              )}
             </button>
           ))}
         </div>
