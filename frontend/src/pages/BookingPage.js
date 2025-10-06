@@ -677,7 +677,7 @@ const BookingPage = () => {
                     <span className="text-gray-600">
                       {participants} kabin × ₺{(unitPrice || 0).toLocaleString('tr-TR')}
                     </span>
-                    <span className="font-medium">₺{parseFloat(totalPrice).toLocaleString('tr-TR')}</span>
+                    <span className="font-medium">₺{parseFloat(totalPrice || 0).toLocaleString('tr-TR')}</span>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>KDV Hariç Tutar</span>
