@@ -1741,50 +1741,83 @@ const TourDetailPage = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Selection Summary */}
+              {selectedDate && selectedCabinType && (
+                <div className="bg-gray-50 rounded-xl p-4">
+                  <h4 className="font-medium text-gray-900 mb-3">Seçim Özeti</h4>
+                  <div className="space-y-2 text-sm">
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Tarih:</span>
+                      <span className="font-medium">
+                        {new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric',
+                          weekday: 'long'
+                        })}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Fiyat:</span>
+                      <span className="font-medium text-blue-600">
+                        ₺{selectedCabinType === 'double' 
+                          ? selectedDate.double_cabin_price?.toLocaleString('tr-TR')
+                          : selectedDate.single_cabin_price?.toLocaleString('tr-TR')}
+                      </span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-gray-600">Kabin:</span>
+                      <span className="font-medium">
+                        {cabinCount}x {selectedCabinType === 'double' ? 'Çift Kişilik Kabin' : 'Tek Kişilik Kabin'}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
             
             {/* Modal Footer with Action Buttons */}
-            <div className="p-4 border-t bg-white sticky bottom-0">
-              <div className="flex items-center space-x-3">
-                {/* Add to Cart Button */}
-                <button
-                  onClick={() => {
-                    if (!selectedDate || !selectedCabinType) {
-                      toast.error('Lütfen tarih ve kabin tipi seçin');
-                      return;
-                    }
-                    handleAddToCart();
-                    setShowBookingModal(false);
-                  }}
-                  disabled={!selectedDate || !selectedCabinType}
-                  className={`flex-shrink-0 p-3 rounded-lg transition-colors duration-200 ${
-                    selectedDate && selectedCabinType
-                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                      : 'bg-gray-50 text-gray-400 cursor-not-allowed'
-                  }`}
-                >
-                  <ShoppingCart className="w-5 h-5" />
-                </button>
-                
-                {/* Book Now Button */}
-                <button
-                  onClick={() => {
-                    if (!selectedDate || !selectedCabinType) {
-                      toast.error('Lütfen tarih ve kabin tipi seçin');
-                      return;
-                    }
-                    setShowBookingModal(false);
-                    handleBooking();
-                  }}
-                  disabled={!selectedDate || !selectedCabinType}
-                  className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
-                    selectedDate && selectedCabinType
-                      ? 'bg-blue-600 hover:bg-blue-700 text-white'
-                      : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                  }`}
-                >
-                  Rezervasyon Yap
-                </button>
-              </div>
+            <div className="p-6 border-t bg-white space-y-3">
+              {/* Cart Button */}
+              <button
+                onClick={() => {
+                  if (!selectedDate || !selectedCabinType) {
+                    toast.error('Lütfen tarih ve kabin tipi seçin');
+                    return;
+                  }
+                  handleAddToCart();
+                  setShowBookingModal(false);
+                }}
+                disabled={!selectedDate || !selectedCabinType}
+                className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 border ${
+                  selectedDate && selectedCabinType
+                    ? 'border-blue-600 text-blue-600 hover:bg-blue-50'
+                    : 'border-gray-300 text-gray-400 cursor-not-allowed'
+                }`}
+              >
+                Sepete Ekle
+              </button>
+              
+              {/* Book Now Button */}
+              <button
+                onClick={() => {
+                  if (!selectedDate || !selectedCabinType) {
+                    toast.error('Lütfen tarih ve kabin tipi seçin');
+                    return;
+                  }
+                  setShowBookingModal(false);
+                  handleBooking();
+                }}
+                disabled={!selectedDate || !selectedCabinType}
+                className={`w-full py-3 px-4 rounded-lg font-medium transition-all duration-200 ${
+                  selectedDate && selectedCabinType
+                    ? 'bg-blue-600 hover:bg-blue-700 text-white'
+                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                }`}
+              >
+                Rezervasyon Tamamla
+              </button>
             </div>
           </div>
         </div>
