@@ -1187,9 +1187,12 @@ const AdminPage = () => {
                   className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 >
                   <option value="all">Tüm Rezervasyonlar</option>
-                  <option value="confirmed">Aktif</option>
+                  <option value="pending">Bekleyen</option>
+                  <option value="confirmed">Onaylandı</option>
+                  <option value="paid">Ödendi</option>
                   <option value="completed">Tamamlandı</option>
                   <option value="cancelled">İptal Edildi</option>
+                  <option value="draft">Taslak</option>
                 </select>
               </div>
             </div>
