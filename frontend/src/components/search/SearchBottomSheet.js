@@ -201,24 +201,21 @@ const SearchBottomSheet = ({
         aria-labelledby="search-title"
       >
         {/* Handle Bar */}
-        <div className="flex justify-center py-3">
-          <div className="w-12 h-2 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full shadow-sm" />
+        <div className="flex justify-center py-2">
+          <div className="w-8 h-1 bg-gray-300 rounded-full" />
         </div>
 
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-200">
-          <h2 id="search-title" className="text-xl font-bold text-gray-900 flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg flex items-center justify-center">
-              <Search className="w-4 h-4 text-white" />
-            </div>
-            <span>{t('search.title')}</span>
+        <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
+          <h2 id="search-title" className="text-lg font-semibold text-gray-900">
+            {t('search.title')}
           </h2>
           <button
             onClick={onClose}
-            className="p-3 hover:bg-white/80 hover:shadow-md rounded-xl transition-all duration-200 bg-white/60"
+            className="p-2 hover:bg-gray-100 rounded-full transition-colors"
             aria-label={t('common.close')}
           >
-            <X className="w-5 h-5 text-gray-600" />
+            <X className="w-5 h-5 text-gray-500" />
           </button>
         </div>
 
