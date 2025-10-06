@@ -292,7 +292,9 @@ const TourDetailPage = () => {
     }
   };
 
-  const checkIfFavorited = async () => {
+  const checkIfFavorited = async (tourId) => {
+    if (!tourId) return;
+    
     try {
       const response = await axios.get(`${API}/favorites/check/${tourId}`);
       setIsFavorited(response.data.is_favorited);
