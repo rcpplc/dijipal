@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 
 class TourPlatformAPITester:
-    def __init__(self, base_url="https://travel-quest-3.preview.emergentagent.com"):
+    def __init__(self, base_url="https://tour-system-fix.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None
@@ -2278,7 +2278,7 @@ class TourPlatformAPITester:
 def main():
     """Main test execution"""
     print("🇹🇷 Turkish Tour Platform - Backend API Testing")
-    print("Testing URL: https://travel-quest-3.preview.emergentagent.com")
+    print("Testing URL: https://tour-system-fix.preview.emergentagent.com")
     
     tester = TourPlatformAPITester()
     
