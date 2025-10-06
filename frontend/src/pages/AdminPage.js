@@ -2712,6 +2712,34 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Rezervasyon Tipi / Rezervasyon Seçeneği *
+                    </label>
+                    <div className="space-y-3">
+                      {reservationTypeOptions.map(option => (
+                        <div key={option.value} className="flex items-center">
+                          <input
+                            type="radio"
+                            id={`reservation_type_${option.value}`}
+                            name="reservation_type"
+                            value={option.value}
+                            checked={formData.reservation_type === option.value}
+                            onChange={(e) => setFormData({...formData, reservation_type: e.target.value})}
+                            className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500"
+                            required
+                          />
+                          <label htmlFor={`reservation_type_${option.value}`} className="ml-3 block text-sm font-medium text-gray-700">
+                            {option.label}
+                          </label>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-2 text-sm text-gray-500">
+                      Bu seçim fiyatlandırma ve stok yönetimini belirler. Sonraki adımlarda değiştirilemez.
+                    </p>
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
                       Biniş Saati *
                     </label>
                     <input
