@@ -93,7 +93,7 @@ const TermsPage = () => {
           {/* Reservation Terms */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="flex items-center space-x-3 mb-6">
-              <Calendar className="w-8 h-8 text-purple-600" />
+              <Calendar className="w-8 h-8 text-gray-600" />
               <h2 className="text-2xl font-bold text-gray-900">3. Rezervasyon Şartları</h2>
             </div>
             <div className="space-y-4 text-gray-700">
