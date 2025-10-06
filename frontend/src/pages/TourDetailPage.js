@@ -698,9 +698,9 @@ const TourDetailPage = () => {
           <span>Turlar</span>
         </Link>
 
-        <div className="grid grid-cols-1 gap-8">
-          {/* Main Content - Full Width */}
-          <div className="col-span-1">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Main Content */}
+          <div className="lg:col-span-2">
             {/* Image Gallery */}
             <div className="relative mb-8">
               <div className="aspect-video rounded-xl overflow-hidden">
