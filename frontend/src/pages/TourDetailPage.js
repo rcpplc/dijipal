@@ -1672,19 +1672,37 @@ const TourDetailPage = () => {
           <div className="flex-1 min-w-0">
             <div className="text-base font-bold text-gray-900 truncate">
               {(() => {
-                const price = selectedCabinType === 'single' 
-                  ? (selectedDate?.single_cabin_price || tour?.single_cabin_price || tour?.base_price)
-                  : (selectedDate?.double_cabin_price || tour?.double_cabin_price);
+                if (!selectedDate) return 'Tarih Seçin';
                 
-                if (!price || isNaN(price)) {
-                  return 'Fiyat Yükleniyor...';
+                if (tour.reservation_type === 'person_based') {
+                  const price = selectedDate.person_price;
+                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
+                  return (price * participants).toLocaleString('tr-TR') + ' TL';
+                } else if (tour.reservation_type === 'reservation') {
+                  const price = selectedDate.total_reservation_price;
+                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
+                  return price.toLocaleString('tr-TR') + ' TL';
+                } else {
+                  // cabin_based
+                  const price = selectedCabinType === 'single' 
+                    ? (selectedDate.single_cabin_price || tour.single_cabin_price || tour.base_price)
+                    : (selectedDate.double_cabin_price || tour.double_cabin_price);
+                  
+                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
+                  return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
                 }
-                
-                return (price * cabinCount).toLocaleString('tr-TR') + ' TL';
               })()}
             </div>
             <div className="text-xs text-gray-600 truncate">
-              {cabinCount} {selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+              {(() => {
+                if (tour.reservation_type === 'person_based') {
+                  return `${participants} kişi`;
+                } else if (tour.reservation_type === 'reservation') {
+                  return 'Özel rezervasyon';
+                } else {
+                  return `${cabinCount} ${selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
+                }
+              })()}
               {selectedDate && (
                 <span className="ml-1">
                   • {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', { 
