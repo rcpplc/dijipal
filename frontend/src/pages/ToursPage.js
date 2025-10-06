@@ -468,8 +468,8 @@ const ToursPage = () => {
             </button>
           </div>
 
-        {/* Sade Filtreler */}
-        {showFilters && (
+        {/* Old Filters - Removed for desktop */}
+        {false && showFilters && (
           <div className="mb-8 bg-white rounded-lg p-6 shadow-sm border border-gray-200">
             {/* Filtre Başlığı */}
             <div className="flex items-center justify-between mb-6">
