@@ -405,7 +405,7 @@ const TourDetailPage = () => {
       state: {
         tour: bookingData,
         selectedDate: selectedDate,
-        cabinType: cabinType,
+        cabinType: selectedCabinType,
         participants: cabinCount
       }
     });
