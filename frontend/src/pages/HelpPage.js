@@ -144,17 +144,17 @@ const HelpPage = () => {
           
           <div className="grid md:grid-cols-2 gap-8">
             <div className="space-y-6">
-              <div className="border-l-4 border-blue-600 pl-4">
+              <div className="border-l-4 border-gray-600 pl-4">
                 <h4 className="font-semibold text-gray-900 mb-2">Rezervasyon iptali nasıl yapılır?</h4>
                 <p className="text-gray-600 text-sm">Hesabınıza giriş yaparak rezervasyon geçmişinizden iptal edebilirsiniz.</p>
               </div>
               
-              <div className="border-l-4 border-blue-600 pl-4">
+              <div className="border-l-4 border-gray-600 pl-4">
                 <h4 className="font-semibold text-gray-900 mb-2">Kabin türleri arasındaki farklar nedir?</h4>
                 <p className="text-gray-600 text-sm">Standart, Lux ve Delux kabinlerimiz farklı konfor seviyelerinde hizmet sunar.</p>
               </div>
               
-              <div className="border-l-4 border-blue-600 pl-4">
+              <div className="border-l-4 border-gray-600 pl-4">
                 <h4 className="font-semibold text-gray-900 mb-2">Grup indirimleriniz var mı?</h4>
                 <p className="text-gray-600 text-sm">8 kişi ve üzeri gruplar için özel indirimlerimiz bulunmaktadır.</p>
               </div>
