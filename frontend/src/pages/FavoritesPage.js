@@ -143,7 +143,7 @@ const FavoritesPage = () => {
               <div className="flex flex-col md:flex-row">
                 {/* Tour Image */}
                 <div className="md:w-80 flex-shrink-0">
-                  <Link to={`/tours/${tour.id}`}>
+                  <Link to={`/turlar/${tour.id}`}>
                     <img
                       src={tour.images[0] || '/placeholder-tour.jpg'}
                       alt={tour.title}
@@ -165,7 +165,7 @@ const FavoritesPage = () => {
                         </div>
                       </div>
 
-                      <Link to={`/tours/${tour.id}`}>
+                      <Link to={`/turlar/${tour.id}`}>
                         <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200">
                           {tour.title}
                         </h3>
