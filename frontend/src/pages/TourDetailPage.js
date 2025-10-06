@@ -470,7 +470,10 @@ const TourDetailPage = () => {
     const participantsPerCabin = selectedCabinType === 'single' ? 1 : 2;
     const totalParticipants = cabinCount * participantsPerCabin;
     
-    addToCart(selectedCabinType, cabinCount);
+    const participantsPerCabin = selectedCabinType === 'single' ? 1 : 2;
+    const totalParticipants = cabinCount * participantsPerCabin;
+    
+    addToCart(selectedCabinType, totalParticipants);
   };
 
   const addToCart = (cabinType = selectedCabinType, cabinCount = participants) => {
