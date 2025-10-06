@@ -40,6 +40,7 @@ const SearchBottomSheet = ({
   const [recentSearches, setRecentSearches] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [isDesktop, setIsDesktop] = useState(false);
   
   const searchInputRef = useRef(null);
   const bottomSheetRef = useRef(null);
@@ -47,6 +48,17 @@ const SearchBottomSheet = ({
 
   // Keyboard safe area detection
   const [keyboardHeight, setKeyboardHeight] = useState(0);
+
+  // Desktop detection
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsDesktop(window.innerWidth >= 1024);
+    };
+
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   useEffect(() => {
     const handleKeyboard = () => {
