@@ -2314,6 +2314,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     category: tour?.category || '',
     classification: tour?.classification || 'standart',
     duration_days: tour?.duration_days || 1,
+    duration_unit: tour?.duration_unit || 'days',
     status: tour?.status || 'draft',
     reservation_type: tour?.reservation_type || 'cabin_based',
     images: tour?.images || [],
