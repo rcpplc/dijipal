@@ -3089,55 +3089,119 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   )}
 
                   {formData.reservation_type === 'person_based' && (
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+                    <div className="space-y-4 mb-4">
+                      {/* Date Type Selection */}
                       <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Tarih</label>
-                        <input
-                          type="date"
-                          value={newTourDate.date}
-                          onChange={(e) => setNewTourDate({...newTourDate, date: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                        />
+                        <label className="block text-sm font-medium text-gray-600 mb-2">Tarih Seçimi *</label>
+                        <div className="flex space-x-4">
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              value="single"
+                              checked={newTourDate.date_type === 'single'}
+                              onChange={(e) => setNewTourDate({...newTourDate, date_type: e.target.value, end_date: ''})}
+                              className="mr-2"
+                            />
+                            <span className="text-sm">Aynı Gün</span>
+                          </label>
+                          <label className="flex items-center">
+                            <input
+                              type="radio"
+                              value="range"
+                              checked={newTourDate.date_type === 'range'}
+                              onChange={(e) => setNewTourDate({...newTourDate, date_type: e.target.value})}
+                              className="mr-2"
+                            />
+                            <span className="text-sm">Tarih Aralığı</span>
+                          </label>
+                        </div>
                       </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Maksimum Kişi</label>
-                        <input
-                          type="number"
-                          min="1"
-                          max="200"
-                          value={newTourDate.max_persons}
-                          onChange={(e) => setNewTourDate({...newTourDate, max_persons: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                          placeholder="Örn: 50"
-                        />
+
+                      {/* Date Fields */}
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1.5">
+                            {newTourDate.date_type === 'single' ? 'Tarih *' : 'Başlangıç Tarihi *'}
+                          </label>
+                          <input
+                            type="date"
+                            value={newTourDate.start_date}
+                            onChange={(e) => setNewTourDate({...newTourDate, start_date: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                            required
+                          />
+                        </div>
+                        
+                        {newTourDate.date_type === 'range' && (
+                          <div>
+                            <label className="block text-xs font-medium text-gray-600 mb-1.5">Bitiş Tarihi *</label>
+                            <input
+                              type="date"
+                              value={newTourDate.end_date}
+                              onChange={(e) => setNewTourDate({...newTourDate, end_date: e.target.value})}
+                              min={newTourDate.start_date}
+                              className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                              required
+                            />
+                          </div>
+                        )}
                       </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Kişi Başı (₺)</label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="10"
-                          value={newTourDate.person_price}
-                          onChange={(e) => setNewTourDate({...newTourDate, person_price: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                          placeholder="Fiyat"
-                        />
+
+                      {/* Capacity and Pricing */}
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1.5">Günlük Maksimum Kişi *</label>
+                          <input
+                            type="number"
+                            min="1"
+                            max="200"
+                            value={newTourDate.max_persons}
+                            onChange={(e) => setNewTourDate({...newTourDate, max_persons: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                            placeholder="Örn: 50"
+                            required
+                          />
+                          <p className="text-xs text-gray-500 mt-1">Her gün için ayrı stok</p>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1.5">Yetişkin Kişi Başı (₺) *</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="10"
+                            value={newTourDate.person_price}
+                            onChange={(e) => setNewTourDate({...newTourDate, person_price: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                            placeholder="Fiyat"
+                            required
+                          />
+                        </div>
+                        
+                        <div>
+                          <label className="block text-xs font-medium text-gray-600 mb-1.5">Çocuk Fiyatı (₺)</label>
+                          <input
+                            type="number"
+                            min="0"
+                            step="10"
+                            value={newTourDate.child_price}
+                            onChange={(e) => setNewTourDate({...newTourDate, child_price: e.target.value})}
+                            className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
+                            placeholder="İsteğe bağlı"
+                          />
+                        </div>
                       </div>
-                      
-                      <div>
-                        <label className="block text-xs font-medium text-gray-600 mb-1.5">Çocuk Fiyatı (₺)</label>
-                        <input
-                          type="number"
-                          min="0"
-                          step="10"
-                          value={newTourDate.child_price}
-                          onChange={(e) => setNewTourDate({...newTourDate, child_price: e.target.value})}
-                          className="w-full px-3 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:border-gray-400"
-                          placeholder="İsteğe bağlı"
-                        />
-                      </div>
+
+                      {newTourDate.date_type === 'range' && newTourDate.start_date && newTourDate.end_date && (
+                        <div className="bg-blue-50 border border-blue-200 rounded-lg p-3">
+                          <p className="text-sm text-blue-800">
+                            <strong>Not:</strong> {newTourDate.start_date} ile {newTourDate.end_date} arasındaki her gün için 
+                            ayrı stok oluşturulacak. Toplam {
+                              Math.ceil((new Date(newTourDate.end_date) - new Date(newTourDate.start_date)) / (1000 * 60 * 60 * 24)) + 1
+                            } gün.
+                          </p>
+                        </div>
+                      )}
                     </div>
                   )}
 
