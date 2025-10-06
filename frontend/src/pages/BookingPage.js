@@ -230,7 +230,7 @@ const BookingPage = () => {
         {/* Header */}
         <div className="flex items-center space-x-4 mb-8">
           <button
-            onClick={() => navigate(`/tours/${tourId}`)}
+            onClick={() => navigate(tour?.title ? `/turlar/${createSlug(tour.title)}` : '/turlar')}
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 transition-colors duration-200"
           >
             <ArrowLeft className="w-5 h-5" />
