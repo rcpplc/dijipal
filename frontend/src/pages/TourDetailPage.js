@@ -1550,7 +1550,7 @@ const TourDetailPage = () => {
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Özel rezervasyon';
                         } else {
-                          // cabin_based
+                          // cabin_based (default when reservation_type is undefined)
                           const parts = [];
                           if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
                           if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
