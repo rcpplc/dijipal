@@ -274,7 +274,7 @@ const TourDetailPage = () => {
     loadModalReviews(1);
   };
 
-  const loadAvailableDates = async () => {
+  const loadAvailableDates = async (tourId) => {
     try {
       const response = await axios.get(`${API}/tours/${tourId}/dates`);
       setAvailableDates(response.data);
