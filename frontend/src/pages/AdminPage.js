@@ -2395,6 +2395,12 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     { value: 'delux', label: 'Delux' }
   ];
 
+  const reservationTypeOptions = [
+    { value: 'cabin_based', label: 'Kabin Bazlı' },
+    { value: 'person_based', label: 'Kişi Bazlı' },
+    { value: 'reservation', label: 'Rezervasyon (Tüm Tekne/Özel)' }
+  ];
+
   const validateStep = (step) => {
     switch (step) {
       case 1:
