@@ -1464,14 +1464,7 @@ const TourDetailPage = () => {
                       <div className="text-lg font-semibold text-gray-800">Özel Rezervasyon</div>
                       <div className="text-sm text-gray-600 mt-1">Tüm tekne / Sabit fiyat</div>
                       
-                      {selectedDate && selectedDate.total_reservation_price && (
-                        <div className="mt-3">
-                          <div className="text-2xl font-bold text-blue-600">
-                            ₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}
-                          </div>
-                          <div className="text-sm text-gray-600">Toplam rezervasyon fiyatı</div>
-                        </div>
-                      )}
+                      {/* Price display removed for reservation type */}
                     </div>
                   </div>
                   
