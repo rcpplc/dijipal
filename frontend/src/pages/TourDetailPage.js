@@ -1238,98 +1238,123 @@ const TourDetailPage = () => {
               {tour && tour.reservation_type === 'cabin_based' && (
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Kabin Tipi
+                    Kabin Seçimi
                   </label>
-                  <div className="grid grid-cols-2 gap-3 mb-4">
-                    <button
-                      onClick={() => setCabinType('single')}
-                      className={`p-3 rounded-md border transition-all duration-200 ${
-                        cabinType === 'single'
-                          ? 'border-gray-800 bg-gray-800 text-white'
-                          : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
-                      }`}
-                    >
-                      <div className="text-left">
-                        <div className="font-medium text-sm">Tek Kişilik Kabin</div>
-                        <div className="text-xs opacity-75 mt-1">1 kişi kapasiteli</div>
-                        {selectedDate && selectedDate.single_cabin_price && (
-                          <div className="text-xs font-medium mt-2">
-                            ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}
-                          </div>
-                        )}
-                      </div>
-                    </button>
-                    
-                    <button
-                      onClick={() => setCabinType('double')}
-                      className={`p-3 rounded-md border transition-all duration-200 ${
-                        cabinType === 'double'
-                          ? 'border-gray-800 bg-gray-800 text-white'
-                          : 'border-gray-300 bg-white text-gray-700 hover:border-gray-400'
-                      }`}
-                    >
-                      <div className="text-left">
-                        <div className="font-medium text-sm">Çift Kişilik Kabin</div>
-                        <div className="text-xs opacity-75 mt-1">2 kişi kapasiteli</div>
-                        {selectedDate && selectedDate.double_cabin_price && (
-                          <div className="text-xs font-medium mt-2">
-                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
-                          </div>
-                        )}
-                      </div>
-                    </button>
-                  </div>
                   
-                  <div className="mb-3">
-                    <label className="block text-sm font-medium text-gray-700">
-                      Kabin Sayısı
-                    </label>
-                  </div>
-                  <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                    <button
-                      onClick={() => {
-                        if (participants > 1) {
-                          setParticipants(participants - 1);
-                        }
-                      }}
-                      className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                      disabled={participants <= 1}
-                    >
-                      -
-                    </button>
-                    <div className="flex-1 text-center">
-                      <div className="text-xl font-bold text-gray-900">
-                        {participants || 1} kabin
-                      </div>
-                      {selectedDate && (
-                        <div className="text-sm text-gray-600">
-                          ₺{(() => {
-                            const cabinPrice = cabinType === 'single' 
-                              ? (selectedDate.single_cabin_price || selectedDate.price)
-                              : (selectedDate.double_cabin_price || selectedDate.price);
-                            const cabinCount = participants || 1;
-                          return ((cabinPrice || 0) * cabinCount).toLocaleString('tr-TR');
-                          })()} toplam
+                  {/* Tek Kişilik Kabin Sayısı */}
+                  <div className="mb-4">
+                    <div className="text-sm font-medium text-gray-700 mb-2">Tek Kişilik Kabin Adedi</div>
+                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                      <button
+                        onClick={() => {
+                          if (singleCabinCount > 0) {
+                            setSingleCabinCount(singleCabinCount - 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={singleCabinCount <= 0}
+                      >
+                        -
+                      </button>
+                      <div className="flex-1 text-center">
+                        <div className="text-xl font-bold text-gray-900">
+                          {singleCabinCount} kabin
                         </div>
-                      )}
+                        {selectedDate && selectedDate.single_cabin_price && singleCabinCount > 0 && (
+                          <div className="text-sm text-gray-600">
+                            ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × {singleCabinCount}
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          const maxCapacity = selectedDate ? (selectedDate.single_cabin_count || 10) : 10;
+                          if (singleCabinCount < maxCapacity) {
+                            setSingleCabinCount(singleCabinCount + 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={singleCabinCount >= (selectedDate ? (selectedDate.single_cabin_count || 10) : 10)}
+                      >
+                        +
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        const maxCapacity = selectedDate ? (selectedDate.capacity || selectedDate.available_cabins) : 20;
-                        if (participants < maxCapacity) {
-                          setParticipants((participants || 1) + 1);
-                        }
-                      }}
-                      className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                      disabled={participants >= (selectedDate ? (selectedDate.capacity || selectedDate.available_cabins || 20) : 20)}
-                    >
-                      +
-                    </button>
                   </div>
+
+                  {/* Çift Kişilik Kabin Sayısı */}
+                  <div className="mb-4">
+                    <div className="text-sm font-medium text-gray-700 mb-2">Çift Kişilik Kabin Adedi</div>
+                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                      <button
+                        onClick={() => {
+                          if (doubleCabinCount > 0) {
+                            setDoubleCabinCount(doubleCabinCount - 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={doubleCabinCount <= 0}
+                      >
+                        -
+                      </button>
+                      <div className="flex-1 text-center">
+                        <div className="text-xl font-bold text-gray-900">
+                          {doubleCabinCount} kabin
+                        </div>
+                        {selectedDate && selectedDate.double_cabin_price && doubleCabinCount > 0 && (
+                          <div className="text-sm text-gray-600">
+                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          const maxCapacity = selectedDate ? (selectedDate.double_cabin_count || 10) : 10;
+                          if (doubleCabinCount < maxCapacity) {
+                            setDoubleCabinCount(doubleCabinCount + 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={doubleCabinCount >= (selectedDate ? (selectedDate.double_cabin_count || 10) : 10)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Toplam Fiyat Gösterimi */}
+                  {selectedDate && (singleCabinCount > 0 || doubleCabinCount > 0) && (
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-blue-700">
+                          ₺{(() => {
+                            const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                            const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                            return (singleTotal + doubleTotal).toLocaleString('tr-TR');
+                          })()}
+                        </div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          {singleCabinCount > 0 && `${singleCabinCount} tek kişilik`}
+                          {singleCabinCount > 0 && doubleCabinCount > 0 && ' + '}
+                          {doubleCabinCount > 0 && `${doubleCabinCount} çift kişilik`}
+                          {` kabin`}
+                        </div>
+                        <div className="text-xs text-gray-500 mt-2">
+                          {singleCabinCount > 0 && (
+                            <span>Tek: ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × {singleCabinCount}</span>
+                          )}
+                          {singleCabinCount > 0 && doubleCabinCount > 0 && <span> + </span>}
+                          {doubleCabinCount > 0 && (
+                            <span>Çift: ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}</span>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
                   <p className="text-xs text-gray-500 mt-2 text-center">
                     {selectedDate 
-                      ? `Bu tarih için maksimum ${selectedDate.capacity || selectedDate.available_cabins || 0} kabin rezerve edebilirsiniz` 
-                      : 'Önce tarih seçin, sonra kabin sayısını belirleyin'
+                      ? `Müsait: ${selectedDate.single_cabin_count || 0} tek kişilik, ${selectedDate.double_cabin_count || 0} çift kişilik kabin` 
+                      : 'Önce tarih seçin, sonra kabin adedini belirleyin'
                     }
                   </p>
                 </div>
