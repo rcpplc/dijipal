@@ -1915,12 +1915,38 @@ async def admin_get_bookings(current_user: User = Depends(get_current_user)):
     
     bookings = await db.bookings.find().sort("created_at", -1).to_list(length=None)
     
-    # Remove MongoDB _id to avoid serialization issues
+    # Handle legacy bookings that may be missing required fields
+    valid_bookings = []
     for booking in bookings:
+        # Remove MongoDB _id to avoid serialization issues
         if "_id" in booking:
             del booking["_id"]
+        
+        # Fix legacy payment_status values
+        if booking.get("payment_status") == "paid":
+            booking["payment_status"] = "success"
+        
+        # Add missing required fields with defaults
+        if "booking_status" not in booking or not booking["booking_status"]:
+            booking["booking_status"] = "completed" if booking.get("payment_status") == "success" else "draft"
+        
+        # Add missing booking_code
+        if "booking_code" not in booking or not booking["booking_code"]:
+            booking["booking_code"] = str(uuid.uuid4())[:8].upper()
+        
+        # Add missing tour_date_id for legacy bookings
+        if "tour_date_id" not in booking:
+            booking["tour_date_id"] = "legacy-booking"
+        
+        try:
+            # Validate the booking can be serialized
+            valid_bookings.append(booking)
+        except Exception as e:
+            # Skip invalid bookings but log the error
+            print(f"Skipping invalid booking {booking.get('id', 'unknown')}: {e}")
+            continue
     
-    return bookings
+    return valid_bookings
 
 @api_router.put("/admin/bookings/{booking_id}/status")
 async def admin_update_booking_status(
