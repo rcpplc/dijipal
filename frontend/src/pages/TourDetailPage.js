@@ -1115,8 +1115,8 @@ const TourDetailPage = () => {
                   <span className="text-sm font-normal text-gray-600 ml-1"> den başlayan</span>
                 </div>
                 <p className="text-xs text-gray-500">
-                  Vergiler dahil • {tour.reservation_type === 'person_based' ? 'Kişi başı fiyat' : 
-                                   tour.reservation_type === 'reservation' ? 'Toplam rezervasyon' : 
+                  Vergiler dahil • {tour && tour.reservation_type === 'person_based' ? 'Kişi başı fiyat' : 
+                                   tour && tour.reservation_type === 'reservation' ? 'Toplam rezervasyon' : 
                                    'Kabin başı fiyat'}
                 </p>
               </div>
