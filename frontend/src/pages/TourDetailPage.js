@@ -1534,7 +1534,7 @@ const TourDetailPage = () => {
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
                         } else {
-                          // cabin_based
+                          // cabin_based (default when reservation_type is undefined)
                           const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
                           const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
                           return (singleTotal + doubleTotal).toLocaleString('tr-TR');
