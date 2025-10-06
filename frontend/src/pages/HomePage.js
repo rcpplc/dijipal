@@ -708,6 +708,14 @@ const HomePage = () => {
           </div>
         </div>
       </section>
+
+      {/* Advanced Search Bottom Sheet */}
+      <SearchBottomSheet
+        isOpen={isSearchOpen}
+        onClose={() => setIsSearchOpen(false)}
+        onSearch={handleAdvancedSearch}
+        initialFilters={{}}
+      />
     </div>
   );
 };
