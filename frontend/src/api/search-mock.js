@@ -72,82 +72,96 @@ const mockTours = [
 const delay = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 /**
- * Mock API for search suggestions
+ * Real API for search suggestions - connects to backend
  */
 export const fetchSearchSuggestions = async (query, type = 'location') => {
-  await delay(300 + Math.random() * 200); // 300-500ms delay
-  
   if (!query || query.length < 2) {
     return { suggestions: [] };
   }
   
-  const searchTerm = query.toLowerCase();
-  let results = [];
-  
-  // Search based on type
-  switch (type) {
-    case 'location':
-      results = mockLocations.filter(location =>
-        location.name.toLowerCase().includes(searchTerm) ||
-        location.region.toLowerCase().includes(searchTerm)
-      );
-      break;
+  try {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const response = await fetch(`${BACKEND_URL}/api/search/suggestions?q=${encodeURIComponent(query)}&type=${type}`);
+    
+    if (!response.ok) {
+      throw new Error('Search suggestions failed');
+    }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error fetching search suggestions:', error);
+    
+    // Fallback to mock data on error
+    await delay(300 + Math.random() * 200); // 300-500ms delay
+    
+    const searchTerm = query.toLowerCase();
+    let results = [];
+    
+    // Search based on type
+    switch (type) {
+      case 'location':
+        results = mockLocations.filter(location =>
+          location.name.toLowerCase().includes(searchTerm) ||
+          location.region.toLowerCase().includes(searchTerm)
+        );
+        break;
+        
+      case 'category':
+        results = mockCategories.filter(category =>
+          category.name.toLowerCase().includes(searchTerm)
+        );
+        // Also search tours and suggest their categories
+        const tourCategories = mockTours
+          .filter(tour => tour.name.toLowerCase().includes(searchTerm))
+          .map(tour => ({
+            id: `tour-cat-${tour.id}`,
+            name: tour.category,
+            type: 'category',
+            tours: 1
+          }));
+        results = [...results, ...tourCategories];
+        break;
+        
+      case 'general':
+      default:
+        // Search across all types
+        const locations = mockLocations.filter(location =>
+          location.name.toLowerCase().includes(searchTerm)
+        );
+        const categories = mockCategories.filter(category =>
+          category.name.toLowerCase().includes(searchTerm)
+        );
+        const tours = mockTours.filter(tour =>
+          tour.name.toLowerCase().includes(searchTerm)
+        );
+        
+        results = [...locations, ...categories, ...tours];
+        break;
+    }
+    
+    // Sort by relevance (exact matches first, then partial matches)
+    results.sort((a, b) => {
+      const aName = (a.name || a.title || '').toLowerCase();
+      const bName = (b.name || b.title || '').toLowerCase();
       
-    case 'category':
-      results = mockCategories.filter(category =>
-        category.name.toLowerCase().includes(searchTerm)
-      );
-      // Also search tours and suggest their categories
-      const tourCategories = mockTours
-        .filter(tour => tour.name.toLowerCase().includes(searchTerm))
-        .map(tour => ({
-          id: `tour-cat-${tour.id}`,
-          name: tour.category,
-          type: 'category',
-          tours: 1
-        }));
-      results = [...results, ...tourCategories];
-      break;
+      const aExact = aName.startsWith(searchTerm);
+      const bExact = bName.startsWith(searchTerm);
       
-    case 'general':
-    default:
-      // Search across all types
-      const locations = mockLocations.filter(location =>
-        location.name.toLowerCase().includes(searchTerm)
-      );
-      const categories = mockCategories.filter(category =>
-        category.name.toLowerCase().includes(searchTerm)
-      );
-      const tours = mockTours.filter(tour =>
-        tour.name.toLowerCase().includes(searchTerm)
-      );
+      if (aExact && !bExact) return -1;
+      if (!aExact && bExact) return 1;
       
-      results = [...locations, ...categories, ...tours];
-      break;
+      return aName.localeCompare(bName);
+    });
+    
+    // Limit results
+    const limitedResults = results.slice(0, 10);
+    
+    return {
+      suggestions: limitedResults,
+      total: results.length,
+      query: query
+    };
   }
-  
-  // Sort by relevance (exact matches first, then partial matches)
-  results.sort((a, b) => {
-    const aName = (a.name || a.title || '').toLowerCase();
-    const bName = (b.name || b.title || '').toLowerCase();
-    
-    const aExact = aName.startsWith(searchTerm);
-    const bExact = bName.startsWith(searchTerm);
-    
-    if (aExact && !bExact) return -1;
-    if (!aExact && bExact) return 1;
-    
-    return aName.localeCompare(bName);
-  });
-  
-  // Limit results
-  const limitedResults = results.slice(0, 10);
-  
-  return {
-    suggestions: limitedResults,
-    total: results.length,
-    query: query
-  };
 };
 
 /**
