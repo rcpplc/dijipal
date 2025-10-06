@@ -97,10 +97,10 @@ class ReservationConsistencyTester:
             return False, {}
 
     def test_admin_login(self):
-        """Test admin login with admin@example.com/admin123"""
+        """Test admin login with admin@example.com/test123"""
         admin_login_data = {
             "email": "admin@example.com",
-            "password": "admin123"
+            "password": "test123"
         }
         
         success, response = self.run_test(
