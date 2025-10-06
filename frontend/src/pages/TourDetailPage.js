@@ -1532,7 +1532,9 @@ const TourDetailPage = () => {
                       {(() => {
                         if (!tour) return 'Vergiler dahil';
                         if (tour && tour.reservation_type === 'person_based') {
-                          return `₺${selectedDate.person_price?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kişi + Vergiler dahil`;
+                          const adultPriceText = `₺${selectedDate.person_price?.toLocaleString('tr-TR') || '0'} × ${participants || 1} yetişkin`;
+                          const childPriceText = childCount > 0 ? ` + ₺${selectedDate.child_price?.toLocaleString('tr-TR') || '0'} × ${childCount} çocuk` : '';
+                          return adultPriceText + childPriceText + ' + Vergiler dahil';
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Sabit fiyat + Vergiler dahil';
                         } else {
