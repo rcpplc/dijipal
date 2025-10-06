@@ -1440,15 +1440,15 @@ const TourDetailPage = () => {
                     <div className="text-2xl font-bold text-blue-700">
                       ₺{(() => {
                         if (tour.reservation_type === 'person_based') {
-                          return (selectedDate.person_price * (participants || 1)).toLocaleString('tr-TR');
+                          return ((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR');
                         } else if (tour.reservation_type === 'reservation') {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
                         } else {
                           // cabin_based
                           const cabinPrice = cabinType === 'single' 
-                            ? (selectedDate.single_cabin_price || selectedDate.price)
-                            : (selectedDate.double_cabin_price || selectedDate.price);
-                          return (cabinPrice * (participants || 1)).toLocaleString('tr-TR');
+                            ? (selectedDate.single_cabin_price || selectedDate.price || 0)
+                            : (selectedDate.double_cabin_price || selectedDate.price || 0);
+                          return ((cabinPrice || 0) * (participants || 1)).toLocaleString('tr-TR');
                         }
                       })()}
                     </div>
