@@ -1321,35 +1321,7 @@ const TourDetailPage = () => {
                     </div>
                   </div>
 
-                  {/* Toplam Fiyat Gösterimi */}
-                  {selectedDate && (singleCabinCount > 0 || doubleCabinCount > 0) && (
-                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                      <div className="text-center">
-                        <div className="text-lg font-bold text-blue-700">
-                          ₺{(() => {
-                            const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
-                            const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
-                            return (singleTotal + doubleTotal).toLocaleString('tr-TR');
-                          })()}
-                        </div>
-                        <div className="text-sm text-gray-600 mt-1">
-                          {singleCabinCount > 0 && `${singleCabinCount} tek kişilik`}
-                          {singleCabinCount > 0 && doubleCabinCount > 0 && ' + '}
-                          {doubleCabinCount > 0 && `${doubleCabinCount} çift kişilik`}
-                          {` kabin`}
-                        </div>
-                        <div className="text-xs text-gray-500 mt-2">
-                          {singleCabinCount > 0 && (
-                            <span>Tek: ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × {singleCabinCount}</span>
-                          )}
-                          {singleCabinCount > 0 && doubleCabinCount > 0 && <span> + </span>}
-                          {doubleCabinCount > 0 && (
-                            <span>Çift: ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}</span>
-                          )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                  {/* Total price display removed for cabin selection */}
                   
                   <p className="text-xs text-gray-500 mt-2 text-center">
                     {selectedDate 
