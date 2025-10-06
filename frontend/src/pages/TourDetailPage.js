@@ -383,7 +383,7 @@ const TourDetailPage = () => {
 
     // Save user behavior before booking
     const cabinCount = typeof participants === 'number' ? participants : 1;
-    saveSearchBehavior(tourId, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
+    saveSearchBehavior(tour.id, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
 
     // Navigate to booking page with complete tour data (like cart does)
     const bookingData = {
