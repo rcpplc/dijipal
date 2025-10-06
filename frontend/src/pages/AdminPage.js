@@ -297,9 +297,7 @@ const AdminPage = () => {
   const loadMessages = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API}/admin/contact-messages`, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      });
+      const response = await axios.get(`${API}/admin/contact-messages`);
       setMessages(response.data);
     } catch (error) {
       console.error('Error loading messages:', error);
