@@ -1700,7 +1700,7 @@ const TourDetailPage = () => {
               {(() => {
                 if (tour && tour.reservation_type === 'person_based') {
                   return `${participants} kişi`;
-                } else if (tour.reservation_type === 'reservation') {
+                } else if (tour && tour.reservation_type === 'reservation') {
                   return 'Özel rezervasyon';
                 } else {
                   return `${cabinCount} ${selectedCabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
