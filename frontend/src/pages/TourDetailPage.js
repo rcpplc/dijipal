@@ -484,7 +484,7 @@ const TourDetailPage = () => {
       ? selectedDate.single_cabin_price
       : selectedDate.double_cabin_price;
     
-    saveSearchBehavior(tourId, participants, currentCabinPrice);
+    saveSearchBehavior(tour.id, participants, currentCabinPrice);
 
     const cartItem = {
       tourId: tour.id,
