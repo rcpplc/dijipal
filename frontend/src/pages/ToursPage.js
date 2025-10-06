@@ -534,8 +534,10 @@ const ToursPage = () => {
                     onChange={(e) => handleFilterChange('classification', e.target.value)}
                     className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
-                    {classifications.map(cls => (
-                      <option key={cls.value} value={cls.value}>{cls.label}</option>
+                    {classifications.map((classification) => (
+                      <option key={classification.value} value={classification.value}>
+                        {classification.label}
+                      </option>
                     ))}
                   </select>
                 </div>
