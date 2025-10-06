@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import { Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Calendar, ChevronLeft, ChevronRight, CalendarDays } from 'lucide-react';
 import { useTranslation } from '../hooks/useTranslation';
 
 const DateRangePicker = ({ value, onChange }) => {
