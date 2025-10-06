@@ -6,6 +6,7 @@ const DateRangePicker = ({ value, onChange }) => {
   const { t } = useTranslation();
   const [currentMonth, setCurrentMonth] = useState(new Date());
   const [selectingEnd, setSelectingEnd] = useState(false);
+  const [viewMode, setViewMode] = useState('days'); // 'days' or 'months'
 
   const { start, end } = value || { start: null, end: null };
 
