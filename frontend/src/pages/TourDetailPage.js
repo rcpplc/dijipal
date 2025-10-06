@@ -1305,7 +1305,7 @@ const TourDetailPage = () => {
                               ? (selectedDate.single_cabin_price || selectedDate.price)
                               : (selectedDate.double_cabin_price || selectedDate.price);
                             const cabinCount = participants || 1;
-                          return (cabinPrice * cabinCount).toLocaleString('tr-TR');
+                          return ((cabinPrice || 0) * cabinCount).toLocaleString('tr-TR');
                           })()} toplam
                         </div>
                       )}
