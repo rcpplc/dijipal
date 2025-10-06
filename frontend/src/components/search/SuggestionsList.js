@@ -146,13 +146,13 @@ const SuggestionsList = ({
                     className="w-full flex items-center space-x-4 p-4 min-h-[64px] hover:bg-gray-50 rounded-lg transition-colors text-left group"
                   >
                     <div className="flex-shrink-0">
-                      <div className={`p-2 rounded-lg ${
+                      <div className={`p-3 rounded-lg ${
                         suggestion.type === 'tour' ? 'bg-yellow-100 text-yellow-600' :
                         suggestion.type === 'location' ? 'bg-blue-100 text-blue-600' :
                         suggestion.type === 'category' ? 'bg-purple-100 text-purple-600' :
                         'bg-gray-100 text-gray-600'
                       }`}>
-                        <IconComponent className="w-4 h-4" />
+                        <IconComponent className="w-5 h-5" />
                       </div>
                     </div>
                     
