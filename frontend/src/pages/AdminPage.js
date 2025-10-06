@@ -2644,18 +2644,190 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold text-gray-900 mb-4">📋 Temel Bilgiler</h3>
                 
+                {/* Tur Başlığı */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Tur Başlığı *
+                  </label>
+                  <input
+                    type="text"
+                    value={formData.title}
+                    onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    required
+                  />
+                </div>
+
+                {/* Reservation Type - Full Width Card Layout */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-4">
+                    Rezervasyon Tipi / Rezervasyon Seçeneği *
+                  </label>
+                  
+                  {/* Locked State Warning for Edit Mode */}
+                  {isEdit && (
+                    <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                      <div className="flex items-center">
+                        <div className="flex-shrink-0">
+                          <svg className="h-5 w-5 text-yellow-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+                          </svg>
+                        </div>
+                        <div className="ml-3">
+                          <p className="text-sm text-yellow-800">
+                            <strong>Rezervasyon tipi kayıt sonrası değiştirilemez.</strong> Bu ayar fiyatlandırma ve stok yapısını belirler.
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div 
+                      className={`relative cursor-pointer rounded-lg border-2 p-4 hover:bg-gray-50 transition-colors duration-200 ${
+                        formData.reservation_type === 'cabin_based' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200'
+                      } ${isEdit ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      onClick={() => {
+                        if (!isEdit) {
+                          setFormData({...formData, reservation_type: 'cabin_based'});
+                        }
+                      }}
+                    >
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="reservation_type_cabin_based"
+                          name="reservation_type"
+                          value="cabin_based"
+                          checked={formData.reservation_type === 'cabin_based'}
+                          onChange={(e) => {
+                            if (!isEdit) {
+                              setFormData({...formData, reservation_type: e.target.value});
+                            }
+                          }}
+                          disabled={isEdit}
+                          className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 disabled:opacity-50"
+                          required
+                        />
+                        <div className="ml-3 flex-1">
+                          <label htmlFor="reservation_type_cabin_based" className="block text-sm font-semibold text-gray-900">
+                            🏨 Kabin Bazlı
+                          </label>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Tek/çift kişilik kabin fiyatı
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div 
+                      className={`relative cursor-pointer rounded-lg border-2 p-4 hover:bg-gray-50 transition-colors duration-200 ${
+                        formData.reservation_type === 'person_based' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200'
+                      } ${isEdit ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      onClick={() => {
+                        if (!isEdit) {
+                          setFormData({...formData, reservation_type: 'person_based'});
+                        }
+                      }}
+                    >
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="reservation_type_person_based"
+                          name="reservation_type"
+                          value="person_based"
+                          checked={formData.reservation_type === 'person_based'}
+                          onChange={(e) => {
+                            if (!isEdit) {
+                              setFormData({...formData, reservation_type: e.target.value});
+                            }
+                          }}
+                          disabled={isEdit}
+                          className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 disabled:opacity-50"
+                        />
+                        <div className="ml-3 flex-1">
+                          <label htmlFor="reservation_type_person_based" className="block text-sm font-semibold text-gray-900">
+                            👥 Kişi Bazlı
+                          </label>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Kişi başı fiyat
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div 
+                      className={`relative cursor-pointer rounded-lg border-2 p-4 hover:bg-gray-50 transition-colors duration-200 ${
+                        formData.reservation_type === 'reservation' 
+                          ? 'border-blue-500 bg-blue-50' 
+                          : 'border-gray-200'
+                      } ${isEdit ? 'opacity-60 cursor-not-allowed' : ''}`}
+                      onClick={() => {
+                        if (!isEdit) {
+                          setFormData({...formData, reservation_type: 'reservation'});
+                        }
+                      }}
+                    >
+                      <div className="flex items-center">
+                        <input
+                          type="radio"
+                          id="reservation_type_reservation"
+                          name="reservation_type"
+                          value="reservation"
+                          checked={formData.reservation_type === 'reservation'}
+                          onChange={(e) => {
+                            if (!isEdit) {
+                              setFormData({...formData, reservation_type: e.target.value});
+                            }
+                          }}
+                          disabled={isEdit}
+                          className="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500 disabled:opacity-50"
+                        />
+                        <div className="ml-3 flex-1">
+                          <label htmlFor="reservation_type_reservation" className="block text-sm font-semibold text-gray-900">
+                            🚢 Rezervasyon
+                          </label>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Tüm tekne / sabit fiyat
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {!isEdit && (
+                    <p className="mt-3 text-sm text-gray-500">
+                      Bu seçim fiyatlandırma ve stok yönetimini belirler. Kayıt sonrası değiştirilemez.
+                    </p>
+                  )}
+                </div>
+
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Tur Başlığı *
+                      Lokasyon *
                     </label>
-                    <input
-                      type="text"
-                      value={formData.title}
-                      onChange={(e) => setFormData({...formData, title: e.target.value})}
+                    <select
+                      value={formData.location}
+                      onChange={(e) => setFormData({...formData, location: e.target.value})}
                       className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
-                    />
+                      disabled={!locations || locations.length === 0}
+                    >
+                      <option value="">
+                        {!locations || locations.length === 0 ? "Lokasyonlar yükleniyor..." : "Lokasyon seçin..."}
+                      </option>
+                      {locations && locations.filter(loc => loc.is_active).map(loc => (
+                        <option key={loc.id} value={loc.name}>{loc.name}</option>
+                      ))}
+                    </select>
+                    {(!locations || locations.length === 0) && (
+                      <p className="text-sm text-gray-500 mt-1">Lokasyonlar yükleniyor...</p>
+                    )}
                   </div>
 
                   <div>
