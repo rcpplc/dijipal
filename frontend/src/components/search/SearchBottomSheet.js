@@ -261,7 +261,7 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-gray-200 px-4">
+        <div className={`flex border-b border-gray-200 ${isDesktop ? 'px-6' : 'px-4'}`}>
           {[
             { key: 'location', icon: MapPin, label: t('search.tabs.location') },
             { key: 'category', icon: Filter, label: t('search.tabs.category') },
