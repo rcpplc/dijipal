@@ -172,12 +172,16 @@ const BookingPage = () => {
       const paymentResponse = await axios.post(`${API}/bookings/${booking.id}/pay`, paymentInfo);
 
       toast.success('Rezervasyonunuz başarıyla oluşturuldu!');
-      navigate('/profile?tab=bookings', { 
-        state: { 
-          booking: booking,
-          success: true 
-        }
-      });
+      // Scroll to top before navigation
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      setTimeout(() => {
+        navigate('/profile?tab=bookings', { 
+          state: { 
+            booking: booking,
+            success: true 
+          }
+        });
+      }, 300);
     } catch (error) {
       console.error('Booking error:', error);
       toast.error(error.response?.data?.detail || 'Rezervasyon sırasında bir hata oluştu');
