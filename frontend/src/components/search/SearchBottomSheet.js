@@ -355,7 +355,7 @@ const SearchBottomSheet = ({
             id={`panel-${activeTab}`}
             role="tabpanel"
             aria-labelledby={`tab-${activeTab}`}
-            className={isDesktop ? "p-6" : "p-4"}
+            className={isDesktop ? "p-6" : "p-5"}
           >
             {renderTabContent()}
           </div>
