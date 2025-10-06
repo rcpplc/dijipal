@@ -1235,7 +1235,7 @@ const TourDetailPage = () => {
               </div>
 
               {/* Dynamic Selection Based on Reservation Type */}
-              {tour && tour.reservation_type === 'cabin_based' && (
+              {tour && (!tour.reservation_type || tour.reservation_type === 'cabin_based') && (
                 <div className="mb-6">
                   <label className="block text-sm font-medium text-gray-700 mb-3">
                     Kabin Seçimi
