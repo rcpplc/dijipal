@@ -1440,7 +1440,7 @@ const TourDetailPage = () => {
                     <div className="text-2xl font-bold text-blue-700">
                       ₺{(() => {
                         if (!tour) return '0';
-                        if (tour.reservation_type === 'person_based') {
+                        if (tour && tour.reservation_type === 'person_based') {
                           return ((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR');
                         } else if (tour.reservation_type === 'reservation') {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
