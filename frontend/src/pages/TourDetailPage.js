@@ -1698,7 +1698,7 @@ const TourDetailPage = () => {
             </div>
             <div className="text-xs text-gray-600 truncate">
               {(() => {
-                if (tour.reservation_type === 'person_based') {
+                if (tour && tour.reservation_type === 'person_based') {
                   return `${participants} kişi`;
                 } else if (tour.reservation_type === 'reservation') {
                   return 'Özel rezervasyon';
