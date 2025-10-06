@@ -468,16 +468,27 @@ async def get_tours(
             tour["rating"] = 0
             tour["review_count"] = 0
         
-        # Calculate minimum price from all cabin options
+        # Calculate minimum price from all reservation types
         if tour_dates:
             all_prices = []
-            for date in tour_dates:
-                if date.get("single_cabin_price"):
-                    all_prices.append(date["single_cabin_price"])
-                if date.get("double_cabin_price"):
-                    all_prices.append(date["double_cabin_price"])
-                if date.get("price") and not date.get("single_cabin_price"):
-                    all_prices.append(date["price"])  # Fallback for old data
+            for date_data in tour_dates:
+                # Cabin-based prices
+                if date_data.get("single_cabin_price") and date_data["single_cabin_price"] > 0:
+                    all_prices.append(date_data["single_cabin_price"])
+                if date_data.get("double_cabin_price") and date_data["double_cabin_price"] > 0:
+                    all_prices.append(date_data["double_cabin_price"])
+                
+                # Person-based prices
+                if date_data.get("person_price") and date_data["person_price"] > 0:
+                    all_prices.append(date_data["person_price"])
+                
+                # Reservation-based prices
+                if date_data.get("total_reservation_price") and date_data["total_reservation_price"] > 0:
+                    all_prices.append(date_data["total_reservation_price"])
+                
+                # Fallback for old data
+                if date_data.get("price") and date_data["price"] > 0:
+                    all_prices.append(date_data["price"])
             
             if all_prices:
                 tour["minimum_price"] = min(all_prices)
