@@ -437,15 +437,20 @@ const TourDetailPage = () => {
       return;
     }
 
+    if (!tour?.id) {
+      toast.error('Tur bilgileri yüklenemedi');
+      return;
+    }
+
     try {
       if (isFavorited) {
         // Remove from favorites
-        await axios.delete(`${API}/favorites/${tourId}`);
+        await axios.delete(`${API}/favorites/${tour.id}`);
         setIsFavorited(false);
         toast.success('Favorilerden çıkarıldı');
       } else {
         // Add to favorites
-        await axios.post(`${API}/favorites/${tourId}`);
+        await axios.post(`${API}/favorites/${tour.id}`);
         setIsFavorited(true);
         toast.success('Favorilere eklendi');
       }
