@@ -220,9 +220,7 @@ const AdminPage = () => {
 
   const deleteMessage = async (messageId) => {
     try {
-      await axios.delete(`${API}/admin/contact-messages/${messageId}`, {
-        headers: { Authorization: `Bearer ${user.token}` }
-      });
+      await axios.delete(`${API}/admin/contact-messages/${messageId}`);
       toast.success('Mesaj silindi');
       loadMessages();
     } catch (error) {
