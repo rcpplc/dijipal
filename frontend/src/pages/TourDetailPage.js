@@ -1594,15 +1594,12 @@ const TourDetailPage = () => {
       {showBookingModal && (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
           <div className="bg-white w-full h-full lg:w-auto lg:h-auto lg:max-w-md lg:rounded-lg lg:max-h-[90vh] overflow-y-auto flex flex-col">
-            {/* Modern Modal Header */}
-            <div className="flex items-center justify-between p-6 border-b sticky top-0 bg-white">
-              <div>
-                <h3 className="text-xl font-bold text-gray-900">Rezervasyon Yap</h3>
-                <p className="text-sm text-gray-500 mt-1">{tour?.title}</p>
-              </div>
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b sticky top-0 bg-white">
+              <h3 className="text-lg font-semibold">Rezervasyon Detayları</h3>
               <button
                 onClick={() => setShowBookingModal(false)}
-                className="text-gray-400 hover:text-gray-600 p-2"
+                className="text-gray-400 hover:text-gray-600"
               >
                 <X className="w-6 h-6" />
               </button>
