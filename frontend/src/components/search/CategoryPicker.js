@@ -40,68 +40,20 @@ const CategoryPicker = ({
     MapPin
   };
 
-  // Color mapping for different colors
-  const colorClasses = {
-    purple: {
-      bg: 'bg-purple-100',
-      text: 'text-purple-600',
-      gradient: 'from-purple-500 to-purple-600',
-      selected: 'border-purple-500 bg-gradient-to-r from-purple-50 to-purple-100'
-    },
-    green: {
-      bg: 'bg-green-100',
-      text: 'text-green-600', 
-      gradient: 'from-green-500 to-green-600',
-      selected: 'border-green-500 bg-gradient-to-r from-green-50 to-emerald-50'
-    },
-    orange: {
-      bg: 'bg-orange-100',
-      text: 'text-orange-600',
-      gradient: 'from-orange-500 to-orange-600',
-      selected: 'border-orange-500 bg-gradient-to-r from-orange-50 to-red-50'
-    },
-    blue: {
-      bg: 'bg-blue-100',
-      text: 'text-blue-600',
-      gradient: 'from-blue-500 to-blue-600',
-      selected: 'border-blue-500 bg-gradient-to-r from-blue-50 to-indigo-50'
-    },
-    amber: {
-      bg: 'bg-amber-100',
-      text: 'text-amber-600',
-      gradient: 'from-amber-500 to-amber-600',
-      selected: 'border-amber-500 bg-gradient-to-r from-amber-50 to-yellow-50'
-    },
-    red: {
-      bg: 'bg-red-100',
-      text: 'text-red-600',
-      gradient: 'from-red-500 to-red-600',
-      selected: 'border-red-500 bg-gradient-to-r from-red-50 to-pink-50'
-    },
-    cyan: {
-      bg: 'bg-cyan-100',
-      text: 'text-cyan-600',
-      gradient: 'from-cyan-500 to-cyan-600',
-      selected: 'border-cyan-500 bg-gradient-to-r from-cyan-50 to-teal-50'
-    },
-    indigo: {
-      bg: 'bg-indigo-100',
-      text: 'text-indigo-600',
-      gradient: 'from-indigo-500 to-indigo-600',
-      selected: 'border-indigo-500 bg-gradient-to-r from-indigo-50 to-purple-50'
-    },
-    teal: {
-      bg: 'bg-teal-100',
-      text: 'text-teal-600',
-      gradient: 'from-teal-500 to-teal-600',
-      selected: 'border-teal-500 bg-gradient-to-r from-teal-50 to-green-50'
-    },
-    gray: {
-      bg: 'bg-gray-100',
-      text: 'text-gray-600',
-      gradient: 'from-gray-500 to-gray-600',
-      selected: 'border-gray-500 bg-gradient-to-r from-gray-50 to-slate-50'
+  // Simple color scheme - only gray, white, and blue
+  const getColorClasses = (color, isSelected) => {
+    if (isSelected) {
+      return {
+        container: 'border-blue-600 bg-blue-50',
+        icon: 'bg-blue-600 text-white',
+        text: 'text-blue-900'
+      };
     }
+    return {
+      container: 'border-gray-200 hover:border-gray-300 hover:bg-gray-50',
+      icon: 'bg-gray-100 text-gray-600',
+      text: 'text-gray-900'
+    };
   };
 
   // Fetch available categories from API
