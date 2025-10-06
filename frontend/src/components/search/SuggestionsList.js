@@ -157,11 +157,11 @@ const SuggestionsList = ({
                     </div>
                     
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-gray-900 truncate">
+                      <div className="font-semibold text-gray-900 truncate text-base">
                         {suggestion.name || suggestion.title}
                       </div>
                       {subtitle && (
-                        <div className="text-sm text-gray-500 truncate">
+                        <div className="text-sm text-gray-500 truncate mt-1">
                           {subtitle}
                         </div>
                       )}
