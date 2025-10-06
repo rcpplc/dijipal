@@ -222,11 +222,13 @@ const TourDetailPage = () => {
     meta.setAttribute('content', content);
   };
 
-  const loadReviews = async (page = 1, limit = 3) => {
+  const loadReviews = async (tourId = null, page = 1, limit = 3) => {
+    if (!tourId) return; // tourId olmadan çalıştırma
+    
     setReviewsLoading(true);
     try {
       // İlk olarak toplam sayıyı almak için tüm reviewları çek
-      const totalResponse = await axios.get(`${API}/reviews?tour_id=${tourSlug}`);
+      const totalResponse = await axios.get(`${API}/reviews?tour_id=${tourId}`);
       const allReviews = totalResponse.data.reviews || totalResponse.data;
       const totalCount = allReviews.length;
       
