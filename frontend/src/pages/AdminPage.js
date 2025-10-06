@@ -8,6 +8,7 @@ import {
   DollarSign,
   TrendingUp,
   Eye,
+  MessageCircle,
   Edit,
   Trash2,
   Plus,
