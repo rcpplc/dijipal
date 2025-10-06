@@ -332,76 +332,155 @@ const TumKategorilerPage = () => {
     setSearchParams(newSearchParams);
   };
 
+  const toggleFavorite = async (tourId) => {
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      const isFavorite = favorites.includes(tourId);
+      
+      if (isFavorite) {
+        await axios.delete(`${API}/favorites/${tourId}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setFavorites(favorites.filter(id => id !== tourId));
+        toast.success('Favorilerden kaldırıldı');
+      } else {
+        await axios.post(`${API}/favorites`, { tour_id: tourId }, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setFavorites([...favorites, tourId]);
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Favori işlemi sırasında hata:', error);
+      toast.error('Bir hata oluştu');
+    }
+  };
+
   const TourCard = ({ tour }) => (
-    <div className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-300 group">
-      <div className="relative">
+    <Link 
+      to={`/turlar/${createSlug(tour.title)}`}
+      className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-1"
+    >
+      {/* Resim Alanı */}
+      <div className="relative h-48 overflow-hidden">
         <img
-          src={tour.images && tour.images.length > 0 ? tour.images[0] : '/placeholder-tour.jpg'}
+          src={tour.images[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <button
-          onClick={() => handleFavorite(tour.id)}
-          className="absolute top-3 right-3 bg-white/80 backdrop-blur-sm rounded-full p-2 hover:bg-white transition-colors duration-200"
+        
+        {/* Favoriye Ekleme Butonu */}
+        <button 
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            toggleFavorite(tour.id);
+          }}
+          className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200"
         >
           <Heart 
-            className={`w-4 h-4 ${
+            className={`w-4 h-4 transition-colors duration-200 ${
               favorites.includes(tour.id) 
-                ? 'text-red-500 fill-red-500' 
+                ? 'text-red-500 fill-current' 
                 : 'text-gray-600 hover:text-red-500'
-            }`}
+            }`} 
           />
         </button>
-        
-        {/* Classification Badge */}
-        {tour.classification && (
-          <div className="absolute top-3 left-3 bg-blue-600/90 backdrop-blur-sm text-white px-2 py-1 rounded-full text-xs font-medium">
-            {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
+
+        {/* Kategori Badge */}
+        {tour.category && (
+          <div className="absolute top-3 left-3">
+            <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+              {getCategoryLabel(tour.category)}
+            </span>
           </div>
         )}
       </div>
-      
-      <div className="p-6">
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-blue-600 text-sm font-medium">
-            {getCategoryLabel(tour.category)}
-          </span>
-          <div className="flex items-center text-yellow-500">
-            <Star className="w-4 h-4 fill-current" />
-            <span className="ml-1 text-sm font-medium text-gray-700">
-              {tour.rating || '4.5'}
-            </span>
-          </div>
+
+      {/* İçerik Alanı */}
+      <div className="p-4">
+        {/* Lokasyon */}
+        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-2">
+          <MapPin className="w-4 h-4" />
+          <span>{tour.location}</span>
         </div>
-        
-        <h3 className="text-lg font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors duration-200">
+
+        {/* Başlık */}
+        <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
-        
-        <div className="flex items-center text-gray-600 mb-4">
-          <MapPin className="w-4 h-4 mr-1" />
-          <span className="text-sm">{tour.location}</span>
-          <Calendar className="w-4 h-4 mr-1 ml-4" />
-          <span className="text-sm">{tour.duration} Gün</span>
-        </div>
-        
-        <div className="flex items-center justify-between">
-          <div className="text-left">
-            <span className="text-2xl font-bold text-blue-600">
-              ₺{tour.price?.toLocaleString('tr-TR') || 'Fiyat Sorunuz'}
+
+        {/* Açıklama */}
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
+          {tour.short_description}
+        </p>
+
+        {/* Rating ve Süre */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-1">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < Math.floor(tour.rating || 0)
+                      ? 'text-yellow-400 fill-current'
+                      : 'text-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-500">
+              ({tour.review_count || 0})
             </span>
-            <span className="text-gray-500 text-sm block">kişi başı</span>
           </div>
-          
-          <Link
-            to={`/turlar/${createSlug(tour.title)}`}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-sm"
-          >
-            Detayları Görüntüle
-          </Link>
+
+          <div className="flex items-center space-x-1 text-sm text-gray-500">
+            <Calendar className="w-4 h-4" />
+            <span>{tour.duration_days || 1} gün</span>
+            {tour.classification && (
+              <span className="font-medium">• {tour.classification}</span>
+            )}
+          </div>
         </div>
+
+        {/* Fiyat */}
+        <div className="mb-4">
+          <div className="text-xl font-bold text-blue-600">
+            {(() => {
+              if (tour.minimum_price) {
+                return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+              } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+                const allPrices = tour.tour_dates.flatMap(date => [
+                  date.single_cabin_price || 0,
+                  date.double_cabin_price || 0
+                ]).filter(price => price > 0);
+                
+                return allPrices.length > 0 
+                  ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
+                  : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              } else {
+                return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              }
+            })()}
+          </div>
+          <div className="text-sm text-gray-500">den başlayan</div>
+        </div>
+
+        {/* Detaylar Butonu */}
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
+          Detayları Görüntüle
+        </button>
       </div>
-    </div>
+    </Link>
   );
 
   return (
