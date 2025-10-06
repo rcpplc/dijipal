@@ -2566,6 +2566,158 @@ async def health_check():
             detail=f"Service unavailable: {str(e)}"
         )
 
+# Sample bookings endpoint for testing
+@api_router.post("/add-sample-bookings")
+async def add_sample_bookings():
+    """Add sample bookings for admin@example.com for testing"""
+    
+    # Find admin user
+    admin_user = await db.users.find_one({"email": "admin@example.com"})
+    if not admin_user:
+        raise HTTPException(status_code=404, detail="Admin user not found")
+    
+    # Get tours for booking
+    tours = await db.tours.find({}).limit(2).to_list(length=None)
+    if not tours:
+        raise HTTPException(status_code=404, detail="No tours found")
+    
+    # Get tour dates
+    tour_dates = await db.tour_dates.find({}).limit(3).to_list(length=None)
+    if not tour_dates:
+        raise HTTPException(status_code=404, detail="No tour dates found")
+    
+    # Create sample bookings
+    sample_bookings = []
+    
+    # Active booking 1
+    booking1 = {
+        "id": str(uuid.uuid4()),
+        "user_id": admin_user["id"],
+        "tour_id": tours[0]["id"],
+        "tour_date_id": tour_dates[0]["id"] if tour_dates else str(uuid.uuid4()),
+        "participants": 2,
+        "cabin_type": "single",
+        "total_price": 15000.0,
+        "customer_info": {
+            "full_name": "Test Admin User",
+            "email": "admin@example.com",
+            "phone": "05551234568",
+            "emergency_contact": "05559876543"
+        },
+        "special_requests": "Vejetaryen yemek tercihi",
+        "booking_status": "confirmed",
+        "payment_status": "success",
+        "booking_code": "TUR-2025-001",
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    # Active booking 2
+    booking2 = {
+        "id": str(uuid.uuid4()),
+        "user_id": admin_user["id"],
+        "tour_id": tours[1]["id"] if len(tours) > 1 else tours[0]["id"],
+        "tour_date_id": tour_dates[1]["id"] if len(tour_dates) > 1 else tour_dates[0]["id"],
+        "participants": 1,
+        "cabin_type": "double",
+        "total_price": 18000.0,
+        "customer_info": {
+            "full_name": "Test Admin User",
+            "email": "admin@example.com",
+            "phone": "05551234568",
+            "emergency_contact": "05559876543"
+        },
+        "special_requests": None,
+        "booking_status": "paid",
+        "payment_status": "success",
+        "booking_code": "TUR-2025-002",
+        "created_at": datetime.now(timezone.utc),
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    # Completed booking
+    booking3 = {
+        "id": str(uuid.uuid4()),
+        "user_id": admin_user["id"],
+        "tour_id": tours[0]["id"],
+        "tour_date_id": tour_dates[2]["id"] if len(tour_dates) > 2 else tour_dates[0]["id"],
+        "participants": 1,
+        "cabin_type": "single",
+        "total_price": 12000.0,
+        "customer_info": {
+            "full_name": "Test Admin User",
+            "email": "admin@example.com",
+            "phone": "05551234568",
+            "emergency_contact": "05559876543"
+        },
+        "special_requests": "Erken check-in",
+        "booking_status": "completed",
+        "payment_status": "success",
+        "booking_code": "TUR-2024-999",
+        "created_at": datetime.now(timezone.utc) - timedelta(days=30),
+        "updated_at": datetime.now(timezone.utc) - timedelta(days=30)
+    }
+    
+    # Cancelled booking 1
+    booking4 = {
+        "id": str(uuid.uuid4()),
+        "user_id": admin_user["id"],
+        "tour_id": tours[0]["id"],
+        "tour_date_id": tour_dates[0]["id"],
+        "participants": 2,
+        "cabin_type": "double",
+        "total_price": 24000.0,
+        "customer_info": {
+            "full_name": "Test Admin User",
+            "email": "admin@example.com",
+            "phone": "05551234568",
+            "emergency_contact": "05559876543"
+        },
+        "special_requests": "Müzik sistemi",
+        "booking_status": "cancelled",
+        "payment_status": "refunded",
+        "booking_code": "TUR-2025-003",
+        "created_at": datetime.now(timezone.utc) - timedelta(days=5),
+        "updated_at": datetime.now(timezone.utc) - timedelta(days=1)
+    }
+    
+    # Cancelled booking 2
+    booking5 = {
+        "id": str(uuid.uuid4()),
+        "user_id": admin_user["id"],
+        "tour_id": tours[1]["id"] if len(tours) > 1 else tours[0]["id"],
+        "tour_date_id": tour_dates[1]["id"] if len(tour_dates) > 1 else tour_dates[0]["id"],
+        "participants": 3,
+        "cabin_type": "single",
+        "total_price": 36000.0,
+        "customer_info": {
+            "full_name": "Test Admin User",
+            "email": "admin@example.com",
+            "phone": "05551234568",
+            "emergency_contact": "05559876543"
+        },
+        "special_requests": None,
+        "booking_status": "cancelled",
+        "payment_status": "failed",
+        "booking_code": "TUR-2025-004",
+        "created_at": datetime.now(timezone.utc) - timedelta(days=10),
+        "updated_at": datetime.now(timezone.utc) - timedelta(days=8)
+    }
+    
+    sample_bookings = [booking1, booking2, booking3, booking4, booking5]
+    
+    # Remove existing admin bookings first
+    await db.bookings.delete_many({"user_id": admin_user["id"]})
+    
+    # Insert sample bookings
+    await db.bookings.insert_many(sample_bookings)
+    
+    return {
+        "message": "Sample bookings created successfully", 
+        "bookings_created": len(sample_bookings),
+        "user": admin_user["email"]
+    }
+
 # Ensure uploads directory exists before mounting static files
 import os
 uploads_dir = "/tmp/uploads"
