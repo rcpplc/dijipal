@@ -681,7 +681,7 @@ const BookingPage = () => {
                   </div>
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>KDV Hariç Tutar</span>
-                    <span>₺{priceWithoutKdv.toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                    <span>₺{(priceWithoutKdv || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
                   </div>
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>KDV (%20)</span>
