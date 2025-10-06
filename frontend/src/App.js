@@ -183,7 +183,12 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
               <Route path="/turlar/:tourSlug" element={<TourDetailPage />} />
-              <Route path="/category/:category" element={<CategoryPage />} />
+              {/* New Categories Page */}
+              <Route path="/tum-kategoriler" element={<TumKategorilerPage />} />
+              
+              {/* Old Category Redirects - 301 SEO Redirect */}
+              <Route path="/category/:category" element={<Navigate to="/tum-kategoriler" replace />} />
+              <Route path="/category" element={<Navigate to="/tum-kategoriler" replace />} />
               <Route path="/cart" element={<CartPage />} />
               <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
               <Route path="/favorites" element={<FavoritesPage />} />
