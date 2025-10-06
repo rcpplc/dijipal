@@ -92,6 +92,11 @@ const BookingPage = () => {
     loadTour();
   }, [tourId]);
 
+  // Scroll to top when step changes
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [step]);
+
   const loadTour = async () => {
     try {
       const response = await axios.get(`${API}/tours/${tourId}`);
