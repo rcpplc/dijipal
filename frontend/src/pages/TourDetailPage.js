@@ -1097,7 +1097,7 @@ const TourDetailPage = () => {
             <div className="bg-white rounded-xl p-6 shadow-lg sticky top-8">
               {/* Pricing - Show minimum available price */}
               <div className="text-center mb-6">
-                <div className="text-3xl font-bold text-blue-600 mb-1">
+                <div className="text-xl font-bold text-blue-600 mb-1">
                   ₺{availableDates.length > 0 
                     ? (() => {
                         const allPrices = [];
@@ -1110,9 +1110,9 @@ const TourDetailPage = () => {
                       })()
                     : (tour.minimum_price?.toLocaleString('tr-TR') || tour.base_price?.toLocaleString('tr-TR') || '0')
                   }
-                  <span className="text-lg font-normal text-gray-600 ml-1"> den başlayan</span>
+                  <span className="text-sm font-normal text-gray-600 ml-1"> den başlayan</span>
                 </div>
-                <p className="text-sm text-gray-500">Vergiler dahil • Kabin başı fiyat</p>
+                <p className="text-xs text-gray-500">Vergiler dahil • Kabin başı fiyat</p>
               </div>
 
               {/* Date Selection */}
