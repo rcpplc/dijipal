@@ -131,6 +131,10 @@ const TourDetailPage = () => {
     try {
       const response = await axios.get(`${API}/tours/${tourSlug}`);
       setTour(response.data);
+      
+      // SEO Optimizasyonu
+      const tourData = response.data;
+      updateSEO(tourData);
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
@@ -140,6 +144,78 @@ const TourDetailPage = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const updateSEO = (tourData) => {
+    // Sayfa başlığını güncelle
+    document.title = createSeoTitle(tourData.title, tourData.location);
+    
+    // Meta description güncelle
+    const metaDescription = document.querySelector('meta[name="description"]') || document.createElement('meta');
+    metaDescription.setAttribute('name', 'description');
+    metaDescription.setAttribute('content', createSeoDescription(
+      tourData.title, 
+      tourData.location, 
+      tourData.short_description, 
+      tourData.minimum_price
+    ));
+    if (!document.head.contains(metaDescription)) {
+      document.head.appendChild(metaDescription);
+    }
+    
+    // Open Graph meta etiketleri
+    updateMetaTag('property', 'og:title', `${tourData.title} | DijipalTour`);
+    updateMetaTag('property', 'og:description', tourData.short_description);
+    updateMetaTag('property', 'og:image', tourData.images?.[0] || '');
+    updateMetaTag('property', 'og:url', `${window.location.origin}/turlar/${createSlug(tourData.title)}`);
+    updateMetaTag('property', 'og:type', 'website');
+    
+    // Twitter Card
+    updateMetaTag('name', 'twitter:card', 'summary_large_image');
+    updateMetaTag('name', 'twitter:title', `${tourData.title} | DijipalTour`);
+    updateMetaTag('name', 'twitter:description', tourData.short_description);
+    updateMetaTag('name', 'twitter:image', tourData.images?.[0] || '');
+    
+    // Schema.org JSON-LD
+    const schemaScript = document.querySelector('#tour-schema') || document.createElement('script');
+    schemaScript.id = 'tour-schema';
+    schemaScript.type = 'application/ld+json';
+    schemaScript.textContent = JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Product",
+      "name": tourData.title,
+      "description": tourData.short_description,
+      "image": tourData.images?.[0] || '',
+      "brand": {
+        "@type": "Brand",
+        "name": "DijipalTour"
+      },
+      "offers": {
+        "@type": "Offer",
+        "price": tourData.minimum_price || 0,
+        "priceCurrency": "TRY",
+        "availability": "https://schema.org/InStock"
+      },
+      "aggregateRating": tourData.rating ? {
+        "@type": "AggregateRating", 
+        "ratingValue": tourData.rating,
+        "reviewCount": tourData.review_count || 0
+      } : undefined
+    });
+    
+    if (!document.head.contains(schemaScript)) {
+      document.head.appendChild(schemaScript);
+    }
+  };
+
+  const updateMetaTag = (attribute, value, content) => {
+    let meta = document.querySelector(`meta[${attribute}="${value}"]`);
+    if (!meta) {
+      meta = document.createElement('meta');
+      meta.setAttribute(attribute, value);
+      document.head.appendChild(meta);
+    }
+    meta.setAttribute('content', content);
   };
 
   const loadReviews = async (page = 1, limit = 3) => {
