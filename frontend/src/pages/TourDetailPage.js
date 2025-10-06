@@ -110,7 +110,34 @@ const TourDetailPage = () => {
             }
             
             console.log('✅ Booking state restored successfully');
-            toast.success('Seçimleriniz geri yüklendi! Rezervasyonu tamamlayabilirsiniz.');
+            toast.success('Seçimleriniz geri yüklendi! Rezervasyon sayfasına yönlendiriliyorsunuz...');
+            
+            // Auto-redirect to booking page after successful state restoration
+            setTimeout(() => {
+              const bookingData = {
+                tourId: tour.id,
+                title: tour.title,
+                images: tour.images,
+                location: tour.location,
+                selectedDate: bookingState.selectedDate,
+                cabinType: bookingState.selectedCabinType,
+                participants: bookingState.cabinCount,
+                single_cabin_price: bookingState.selectedDate?.single_cabin_price,
+                double_cabin_price: bookingState.selectedDate?.double_cabin_price,
+                price: bookingState.selectedCabinType === 'double' 
+                  ? bookingState.selectedDate?.double_cabin_price || bookingState.selectedDate?.price || 0
+                  : bookingState.selectedDate?.single_cabin_price || bookingState.selectedDate?.price || 0
+              };
+
+              navigate(`/booking/${tour.id}`, {
+                state: {
+                  tour: bookingData,
+                  selectedDate: bookingState.selectedDate,
+                  cabinType: bookingState.selectedCabinType,
+                  participants: bookingState.cabinCount
+                }
+              });
+            }, 1500); // Give user time to see the success message
             
             // Clear the saved state
             localStorage.removeItem('pendingBookingState');
