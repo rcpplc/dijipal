@@ -55,21 +55,21 @@ const HelpPage = () => {
       title: "Canlı Destek",
       description: "Uzmanlarımızla anında konuşun",
       action: "Sohbeti Başlat",
-      color: "bg-blue-500"
+      color: "bg-gray-600"
     },
     {
       icon: Phone,
       title: "Telefon Desteği",
       description: "Çalışma saatleri: 09:00 - 18:00",
       action: "Ara",
-      color: "bg-green-500"
+      color: "bg-gray-600"
     },
     {
       icon: Mail,
       title: "E-posta Gönder",
       description: "24 saat içinde yanıtlıyoruz",
       action: "Mail Gönder",
-      color: "bg-purple-500"
+      color: "bg-gray-600"
     }
   ];
 
