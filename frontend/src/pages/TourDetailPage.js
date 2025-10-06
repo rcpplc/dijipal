@@ -1425,7 +1425,7 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Booking Summary */}
+              {/* Dynamic Booking Summary */}
               {selectedDate && (
                 <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
                   <div className="text-center">
@@ -1439,23 +1439,43 @@ const TourDetailPage = () => {
                     </div>
                     <div className="text-2xl font-bold text-blue-700">
                       ₺{(() => {
-                        const cabinPrice = cabinType === 'single' 
-                          ? (selectedDate.single_cabin_price || selectedDate.price)
-                          : (selectedDate.double_cabin_price || selectedDate.price);
-                        const cabinCount = participants || 1;
-                        return (cabinPrice * cabinCount).toLocaleString('tr-TR');
+                        if (tour.reservation_type === 'person_based') {
+                          return (selectedDate.person_price * (participants || 1)).toLocaleString('tr-TR');
+                        } else if (tour.reservation_type === 'reservation') {
+                          return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
+                        } else {
+                          // cabin_based
+                          const cabinPrice = cabinType === 'single' 
+                            ? (selectedDate.single_cabin_price || selectedDate.price)
+                            : (selectedDate.double_cabin_price || selectedDate.price);
+                          return (cabinPrice * (participants || 1)).toLocaleString('tr-TR');
+                        }
                       })()}
                     </div>
                     <p className="text-sm text-gray-600 mt-1">
-                      {participants || 1} × {cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
+                      {(() => {
+                        if (tour.reservation_type === 'person_based') {
+                          return `${participants || 1} kişi`;
+                        } else if (tour.reservation_type === 'reservation') {
+                          return 'Özel rezervasyon';
+                        } else {
+                          return `${participants || 1} × ${cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
+                        }
+                      })()}
                     </p>
                     <p className="text-xs text-gray-500 mt-1">
-                      ₺{(() => {
-                        const cabinPrice = cabinType === 'single' 
-                          ? (selectedDate.single_cabin_price || selectedDate.price)
-                          : (selectedDate.double_cabin_price || selectedDate.price);
-                        return cabinPrice.toLocaleString('tr-TR');
-                      })()} × {participants || 1} kabin + Vergiler dahil
+                      {(() => {
+                        if (tour.reservation_type === 'person_based') {
+                          return `₺${selectedDate.person_price?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kişi + Vergiler dahil`;
+                        } else if (tour.reservation_type === 'reservation') {
+                          return 'Sabit fiyat + Vergiler dahil';
+                        } else {
+                          const cabinPrice = cabinType === 'single' 
+                            ? (selectedDate.single_cabin_price || selectedDate.price)
+                            : (selectedDate.double_cabin_price || selectedDate.price);
+                          return `₺${cabinPrice?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kabin + Vergiler dahil`;
+                        }
+                      })()}
                     </p>
                   </div>
                 </div>
