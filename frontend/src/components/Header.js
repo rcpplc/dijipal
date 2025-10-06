@@ -7,6 +7,7 @@ const Header = () => {
   const { user, logout, setShowLoginModal } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
+  const userMenuRef = useRef(null);
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
   const location = useLocation();
