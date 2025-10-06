@@ -143,55 +143,50 @@ const CategoryPicker = ({
 
       {/* Popular Categories */}
       {!loadingCategories && popularCategories.length > 0 && (
-        <div className="space-y-4">
-          <h3 className="text-sm font-semibold text-gray-800 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-pink-500 to-rose-500 rounded-full mr-2"></span>
+        <div className="space-y-3">
+          <h3 className="text-sm font-medium text-gray-700">
             {t('categories.popular')}
           </h3>
           <div className="grid grid-cols-2 gap-3">
             {popularCategories.map((category) => {
               const IconComponent = iconComponents[category.icon] || MapPin;
-              const colors = colorClasses[category.color] || colorClasses.gray;
               const isSelected = value === category.name;
+              const colorClasses = getColorClasses(category.color, isSelected);
               
               return (
                 <button
                   key={category.id}
                   onClick={() => handleCategorySelect(category)}
-                  className={`relative p-4 rounded-2xl border-2 transition-all duration-300 transform hover:scale-105 ${
-                    isSelected
-                      ? `${colors.selected} shadow-lg border-2`
-                      : 'border-gray-200 hover:border-gray-300 hover:bg-gradient-to-br hover:from-gray-50 hover:to-blue-50 shadow-sm hover:shadow-md'
-                  }`}
+                  className={`relative p-4 rounded-lg border-2 transition-all ${colorClasses.container}`}
                   role="radio"
                   aria-checked={isSelected}
                   aria-labelledby={`category-${category.id}`}
                 >
-                  <div className="flex flex-col items-center space-y-3">
-                    <div className={`p-3 rounded-xl bg-gradient-to-br ${colors.gradient} shadow-lg`}>
-                      <IconComponent className="w-6 h-6 text-white" />
+                  <div className="flex flex-col items-center space-y-2">
+                    <div className={`p-3 rounded-lg ${colorClasses.icon}`}>
+                      <IconComponent className="w-6 h-6" />
                     </div>
                     <div className="text-center">
                       <div 
                         id={`category-${category.id}`}
-                        className="text-sm font-bold text-gray-900"
+                        className={`text-sm font-medium ${colorClasses.text}`}
                       >
                         {category.name}
                       </div>
-                      <div className="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded-full mt-1 font-medium">
+                      <div className="text-xs text-gray-500">
                         {category.tours} tur
                       </div>
                     </div>
                   </div>
                   
                   {isSelected && (
-                    <div className="absolute -top-2 -right-2 w-7 h-7 bg-gradient-to-r from-green-400 to-green-500 rounded-full flex items-center justify-center shadow-lg">
-                      <Check className="w-4 h-4 text-white font-bold" />
+                    <div className="absolute -top-2 -right-2 w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center">
+                      <Check className="w-3 h-3 text-white" />
                     </div>
                   )}
                   
                   {category.popular && (
-                    <div className="absolute -top-1 -left-1 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold">
+                    <div className="absolute -top-1 -left-1 bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
                       ⭐
                     </div>
                   )}
