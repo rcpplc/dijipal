@@ -90,8 +90,19 @@ const TourDetailPage = () => {
           console.log('🔄 Restoring booking state after login:', bookingState);
           
           // Check if the saved state is for the current tour and not too old (5 minutes)
-          const isCurrentTour = bookingState.tourId === tour.id;
+          const isCurrentTour = bookingState.tourId === tour.id || 
+                               (tourSlug && tour?.slug && tourSlug.includes(tour.slug)) ||
+                               (bookingState.tourSlug && bookingState.tourSlug === tourSlug);
           const isRecent = (Date.now() - bookingState.timestamp) < 5 * 60 * 1000; // 5 minutes
+          
+          console.log('🔍 Tour matching check:', {
+            savedTourId: bookingState.tourId,
+            currentTourId: tour.id,
+            savedTourSlug: bookingState.tourSlug,
+            currentTourSlug: tourSlug,
+            isCurrentTour,
+            isRecent
+          });
           
           if (isCurrentTour && isRecent) {
             // Restore the saved state
