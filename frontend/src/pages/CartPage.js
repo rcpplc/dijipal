@@ -25,6 +25,56 @@ const CartPage = () => {
     loadCartItems();
   }, []);
 
+  // Restore cart checkout after login
+  useEffect(() => {
+    if (user) {
+      const savedCartCheckout = localStorage.getItem('pendingCartCheckout');
+      if (savedCartCheckout) {
+        try {
+          const cartState = JSON.parse(savedCartCheckout);
+          console.log('🔄 Restoring cart checkout after login:', cartState);
+          
+          // Check if not too old (5 minutes)
+          const isRecent = (Date.now() - cartState.timestamp) < 5 * 60 * 1000; // 5 minutes
+          
+          if (isRecent && cartState.cartItems && cartState.cartItems.length > 0) {
+            // Restore cart items if they were saved
+            setCartItems(cartState.cartItems);
+            localStorage.setItem('tour_cart', JSON.stringify(cartState.cartItems));
+            
+            console.log('✅ Cart state restored successfully');
+            toast.success('Sepetiniz geri yüklendi! Rezervasyonu tamamlayabilirsiniz.');
+            
+            // Auto-redirect to checkout after restoration
+            setTimeout(() => {
+              if (cartState.cartItems.length > 0) {
+                const firstTour = cartState.cartItems[0];
+                navigate(`/booking/${firstTour.tourId}`, {
+                  state: {
+                    tour: firstTour,
+                    selectedDate: firstTour.selectedDate,
+                    cabinType: firstTour.cabinType,
+                    participants: firstTour.participants
+                  }
+                });
+              }
+            }, 1500); // Give user time to see the success message
+            
+            // Clear the saved state
+            localStorage.removeItem('pendingCartCheckout');
+          } else {
+            // Clear old or invalid state
+            localStorage.removeItem('pendingCartCheckout');
+            console.log('🗑️ Cleared old cart checkout state');
+          }
+        } catch (error) {
+          console.error('❌ Error restoring cart checkout state:', error);
+          localStorage.removeItem('pendingCartCheckout');
+        }
+      }
+    }
+  }, [user, navigate]);
+
   const loadCartItems = () => {
     // Sepet verilerini localStorage'dan yükle
     const savedCart = localStorage.getItem('tour_cart');
