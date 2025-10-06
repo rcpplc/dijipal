@@ -334,20 +334,20 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Footer Actions */}
-        <div className="sticky bottom-0 bg-white border-t border-gray-200 p-4 space-y-3">
-          <div className="flex space-x-3">
+        <div className="sticky bottom-0 bg-gradient-to-r from-white to-blue-50 border-t-2 border-blue-200 p-6 space-y-4">
+          <div className="flex space-x-4">
             <button
               onClick={clearFilters}
-              className="flex-1 py-3 border border-gray-300 rounded-lg text-gray-700 font-medium hover:bg-gray-50 transition-colors"
+              className="flex-1 py-4 bg-gradient-to-r from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700 text-white rounded-2xl font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
             >
-              {t('search.clear')}
+              {t('search.clear')} 🗑️
             </button>
             <button
               onClick={handleSearch}
               disabled={!searchQuery && !filters.location && !filters.category}
-              className="flex-1 py-3 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+              className="flex-1 py-4 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-300 disabled:to-gray-400 text-white rounded-2xl font-bold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
             >
-              {t('search.button')}
+              {t('search.button')} 🔍
             </button>
           </div>
         </div>
