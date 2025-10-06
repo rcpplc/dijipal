@@ -191,7 +191,7 @@ const DateRangePicker = ({ value, onChange }) => {
       </div>
 
       {/* Quick Select Options */}
-      <div className="grid grid-cols-2 gap-2">
+      <div className="grid grid-cols-2 gap-3">
         {quickSelects.map((option, index) => {
           const range = option.getValue?.();
           const isActive = range && start && end && 
@@ -202,7 +202,7 @@ const DateRangePicker = ({ value, onChange }) => {
             <button
               key={index}
               onClick={() => handleQuickSelect(option)}
-              className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
+              className={`p-4 min-h-[48px] rounded-lg border text-sm font-medium transition-colors ${
                 isActive
                   ? 'bg-blue-600 text-white border-blue-600'
                   : 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'
