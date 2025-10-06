@@ -2463,25 +2463,120 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
 
   const addTourDate = () => {
-    if (newTourDate.date && newTourDate.capacity && newTourDate.single_cabin_price && newTourDate.double_cabin_price) {
+    // Validation based on reservation type
+    let isValid = false;
+    
+    if (formData.reservation_type === 'cabin_based') {
+      isValid = newTourDate.date && newTourDate.capacity && newTourDate.single_cabin_price && newTourDate.double_cabin_price;
+    } else if (formData.reservation_type === 'person_based') {
+      if (newTourDate.date_type === 'single') {
+        isValid = newTourDate.start_date && newTourDate.max_persons && newTourDate.person_price;
+      } else if (newTourDate.date_type === 'range') {
+        isValid = newTourDate.start_date && newTourDate.end_date && newTourDate.max_persons && newTourDate.person_price;
+      }
+    } else if (formData.reservation_type === 'reservation') {
+      isValid = newTourDate.date && newTourDate.total_reservation_price && newTourDate.max_passengers;
+    }
+    
+    if (!isValid) {
+      toast.error('Lütfen tüm zorunlu alanları doldurun');
+      return;
+    }
+
+    const newDates = [];
+    
+    if (formData.reservation_type === 'person_based' && newTourDate.date_type === 'range') {
+      // Create separate entries for each day in the range
+      const startDate = new Date(newTourDate.start_date);
+      const endDate = new Date(newTourDate.end_date);
+      
+      for (let currentDate = new Date(startDate); currentDate <= endDate; currentDate.setDate(currentDate.getDate() + 1)) {
+        const dateString = currentDate.toISOString().split('T')[0];
+        newDates.push({
+          id: `${Date.now()}-${dateString}`,
+          date: dateString,
+          // Person-based fields
+          max_persons: parseInt(newTourDate.max_persons),
+          person_price: parseFloat(newTourDate.person_price),
+          child_price: newTourDate.child_price ? parseFloat(newTourDate.child_price) : null,
+          // Default other fields
+          capacity: 0,
+          single_cabin_price: 0,
+          double_cabin_price: 0,
+          total_reservation_price: 0,
+          max_passengers: 0,
+          is_active: true
+        });
+      }
+    } else {
+      // Single date entry
+      const dateValue = formData.reservation_type === 'person_based' ? newTourDate.start_date : newTourDate.date;
+      
       const newDate = {
         id: Date.now().toString(),
-        date: newTourDate.date,
-        capacity: parseInt(newTourDate.capacity),
-        single_cabin_price: parseFloat(newTourDate.single_cabin_price),
-        double_cabin_price: parseFloat(newTourDate.double_cabin_price),
+        date: dateValue,
         is_active: true
       };
+
+      // Add fields based on reservation type
+      if (formData.reservation_type === 'cabin_based') {
+        newDate.capacity = parseInt(newTourDate.capacity);
+        newDate.single_cabin_price = parseFloat(newTourDate.single_cabin_price);
+        newDate.double_cabin_price = parseFloat(newTourDate.double_cabin_price);
+        newDate.max_persons = 0;
+        newDate.person_price = 0;
+        newDate.child_price = null;
+        newDate.total_reservation_price = 0;
+        newDate.max_passengers = 0;
+      } else if (formData.reservation_type === 'person_based') {
+        newDate.max_persons = parseInt(newTourDate.max_persons);
+        newDate.person_price = parseFloat(newTourDate.person_price);
+        newDate.child_price = newTourDate.child_price ? parseFloat(newTourDate.child_price) : null;
+        newDate.capacity = 0;
+        newDate.single_cabin_price = 0;
+        newDate.double_cabin_price = 0;
+        newDate.total_reservation_price = 0;
+        newDate.max_passengers = 0;
+      } else if (formData.reservation_type === 'reservation') {
+        newDate.total_reservation_price = parseFloat(newTourDate.total_reservation_price);
+        newDate.max_passengers = parseInt(newTourDate.max_passengers);
+        newDate.capacity = 0;
+        newDate.single_cabin_price = 0;
+        newDate.double_cabin_price = 0;
+        newDate.max_persons = 0;
+        newDate.person_price = 0;
+        newDate.child_price = null;
+      }
       
-      setFormData(prev => ({
-        ...prev,
-        tour_dates: [...prev.tour_dates, newDate]
-      }));
-      
-      setNewTourDate({ date: '', capacity: '', single_cabin_price: '', double_cabin_price: '' });
-      toast.success('Kabin fiyatları başarıyla eklendi!');
+      newDates.push(newDate);
+    }
+    
+    setFormData(prev => ({
+      ...prev,
+      tour_dates: [...prev.tour_dates, ...newDates]
+    }));
+    
+    // Reset form
+    setNewTourDate({
+      date: '',
+      date_type: 'single',
+      start_date: '',
+      end_date: '',
+      capacity: '',
+      single_cabin_price: '',
+      double_cabin_price: '',
+      max_persons: '',
+      person_price: '',
+      child_price: '',
+      total_reservation_price: '',
+      max_passengers: ''
+    });
+
+    // Success message
+    if (formData.reservation_type === 'person_based' && newTourDate.date_type === 'range') {
+      toast.success(`${newDates.length} günlük tarih aralığı eklendi`);
     } else {
-      toast.error('Lütfen tüm alanları doldurun: tarih, kabin kapasitesi, tek kabin fiyatı ve çift kabin fiyatı');
+      toast.success('Tarih başarıyla eklendi');
     }
   };
 
