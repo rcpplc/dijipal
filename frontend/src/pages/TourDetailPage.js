@@ -382,7 +382,6 @@ const TourDetailPage = () => {
     }
 
     // Save user behavior before booking
-    const cabinCount = typeof participants === 'number' ? participants : 1;
     saveSearchBehavior(tour.id, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
 
     // Navigate to booking page with complete tour data (like cart does)
@@ -392,8 +391,8 @@ const TourDetailPage = () => {
       images: tour.images,
       location: tour.location,
       selectedDate: selectedDate,
-      cabinType: cabinType,
-      participants: participants,
+      cabinType: selectedCabinType,
+      participants: cabinCount,
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
       // Add price calculation
