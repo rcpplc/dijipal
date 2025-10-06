@@ -25,7 +25,7 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const { tour: stateTour, selectedDate, cabinType: stateCabinType, participants: stateParticipants } = location.state || {};
+  const { tour: stateTour, selectedDate, cabinType: stateCabinType, participants: stateParticipants, fromLogin } = location.state || {};
   const [tour, setTour] = useState(stateTour || null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
