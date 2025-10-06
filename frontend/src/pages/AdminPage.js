@@ -2598,16 +2598,57 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const editTourDate = (index) => {
     const tourDate = formData.tour_dates[index];
     
-    setNewTourDate({
-      date: tourDate.date,
-      capacity: tourDate.capacity.toString(),
-      single_cabin_price: (tourDate.single_cabin_price || '').toString(),
-      double_cabin_price: (tourDate.double_cabin_price || '').toString()
-    });
+    // Set form fields based on reservation type
+    if (formData.reservation_type === 'cabin_based') {
+      setNewTourDate({
+        date: tourDate.date,
+        date_type: 'single',
+        start_date: '',
+        end_date: '',
+        capacity: tourDate.capacity.toString(),
+        single_cabin_price: (tourDate.single_cabin_price || '').toString(),
+        double_cabin_price: (tourDate.double_cabin_price || '').toString(),
+        max_persons: '',
+        person_price: '',
+        child_price: '',
+        total_reservation_price: '',
+        max_passengers: ''
+      });
+    } else if (formData.reservation_type === 'person_based') {
+      setNewTourDate({
+        date: '',
+        date_type: 'single',
+        start_date: tourDate.date,
+        end_date: '',
+        capacity: '',
+        single_cabin_price: '',
+        double_cabin_price: '',
+        max_persons: (tourDate.max_persons || '').toString(),
+        person_price: (tourDate.person_price || '').toString(),
+        child_price: (tourDate.child_price || '').toString(),
+        total_reservation_price: '',
+        max_passengers: ''
+      });
+    } else if (formData.reservation_type === 'reservation') {
+      setNewTourDate({
+        date: tourDate.date,
+        date_type: 'single',
+        start_date: '',
+        end_date: '',
+        capacity: '',
+        single_cabin_price: '',
+        double_cabin_price: '',
+        max_persons: '',
+        person_price: '',
+        child_price: '',
+        total_reservation_price: (tourDate.total_reservation_price || '').toString(),
+        max_passengers: (tourDate.max_passengers || '').toString()
+      });
+    }
     
     // Remove the old one so user can add the edited version
     removeTourDate(index);
-    toast.info('Kabin fiyatları düzenleme için forma yüklendi');
+    toast.info('Tur tarihi düzenleme için forma yüklendi');
   };
 
   const toggleTourDateStatus = (index) => {
