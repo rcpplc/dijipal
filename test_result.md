@@ -223,6 +223,14 @@ frontend:
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+
+  - task: "ScrollToTop Functionality Implementation"
+    implemented: true
+    working: true
+    file: "frontend/src/components/ScrollToTop.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
     status_history:
       - working: true
         agent: "testing"
