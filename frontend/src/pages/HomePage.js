@@ -36,6 +36,7 @@ const HomePage = () => {
   const [loading, setLoading] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const heroImages = [
     "https://images.pexels.com/photos/18754200/pexels-photo-18754200.jpeg", // Göcek Bay aerial view
