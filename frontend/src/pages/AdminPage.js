@@ -1577,6 +1577,328 @@ const AdminPage = () => {
           </div>
         )}
 
+        {/* Messages Tab */}
+        {activeTab === 'messages' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <h2 className="text-2xl font-bold text-gray-900">İletişim Mesajları</h2>
+              <div className="flex space-x-2">
+                <select
+                  value={messageFilter}
+                  onChange={(e) => setMessageFilter(e.target.value)}
+                  className="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                >
+                  <option value="all">Tüm Mesajlar</option>
+                  <option value="new">Yeni</option>
+                  <option value="read">Okundu</option>
+                  <option value="replied">Yanıtlandı</option>
+                  <option value="resolved">Çözüldü</option>
+                </select>
+              </div>
+            </div>
+
+            {loading ? (
+              <div className="grid gap-6">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white p-6 rounded-lg shadow">
+                    <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div className="h-20 bg-gray-200 rounded mb-4"></div>
+                    <div className="h-3 bg-gray-200 rounded w-1/2"></div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <>
+                {/* Mobile Card Layout */}
+                <div className="grid gap-6 lg:hidden">
+                  {messages
+                    .filter(message => {
+                      if (messageFilter === 'all') return true;
+                      return message.status === messageFilter;
+                    })
+                    .map((message) => (
+                      <div key={message.id} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                        <div className="flex justify-between items-start mb-4">
+                          <div>
+                            <h3 className="font-semibold text-gray-900 mb-1">
+                              {message.subject}
+                            </h3>
+                            <div className="flex items-center space-x-2 text-sm text-gray-600">
+                              <MessageCircle className="w-4 h-4" />
+                              <span>{new Date(message.created_at).toLocaleDateString('tr-TR')}</span>
+                            </div>
+                          </div>
+                          <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                            message.status === 'new' ? 'bg-red-100 text-red-800' :
+                            message.status === 'read' ? 'bg-yellow-100 text-yellow-800' :
+                            message.status === 'replied' ? 'bg-blue-100 text-blue-800' :
+                            message.status === 'resolved' ? 'bg-green-100 text-green-800' :
+                            'bg-gray-100 text-gray-800'
+                          }`}>
+                            {message.status === 'new' ? 'Yeni' :
+                             message.status === 'read' ? 'Okundu' :
+                             message.status === 'replied' ? 'Yanıtlandı' :
+                             message.status === 'resolved' ? 'Çözüldü' :
+                             message.status}
+                          </span>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4 mb-4">
+                          <div>
+                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Gönderen</span>
+                            <p className="text-sm font-medium text-gray-900">{message.name}</p>
+                            <p className="text-xs text-gray-500">{message.email}</p>
+                            {message.phone && <p className="text-xs text-gray-500">{message.phone}</p>}
+                          </div>
+                          <div>
+                            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Mesaj</span>
+                            <p className="text-sm text-gray-700 line-clamp-3">{message.message}</p>
+                          </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2">
+                          {message.status === 'new' && (
+                            <button
+                              onClick={() => updateMessageStatus(message.id, 'read')}
+                              className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                            >
+                              Okundu İşaretle
+                            </button>
+                          )}
+                          <button
+                            onClick={() => {
+                              setSelectedMessage(message);
+                              setReplyText(message.admin_reply || '');
+                            }}
+                            className="bg-blue-100 text-blue-800 hover:bg-blue-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                          >
+                            {message.admin_reply ? 'Yanıtı Görüntüle' : 'Yanıtla'}
+                          </button>
+                          <button
+                            onClick={() => updateMessageStatus(message.id, 'resolved')}
+                            className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                          >
+                            Çözüldü
+                          </button>
+                          <button
+                            onClick={() => deleteMessage(message.id)}
+                            className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                          >
+                            Sil
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+
+                {/* Desktop Table Layout */}
+                <div className="hidden lg:block bg-white rounded-xl shadow-lg overflow-hidden">
+                  <div className="overflow-x-auto">
+                    <table className="w-full divide-y divide-gray-200">
+                      <thead className="bg-gray-50">
+                        <tr>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Gönderen & Konu
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mesaj
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Durum
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Tarih
+                          </th>
+                          <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            İşlemler
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {messages
+                          .filter(message => {
+                            if (messageFilter === 'all') return true;
+                            return message.status === messageFilter;
+                          })
+                          .map((message) => (
+                          <tr key={message.id} className="hover:bg-gray-50">
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <div>
+                                <div className="text-sm font-medium text-gray-900">
+                                  {message.name}
+                                </div>
+                                <div className="text-sm text-gray-500">{message.email}</div>
+                                <div className="text-sm font-medium text-blue-600 mt-1">
+                                  {message.subject}
+                                </div>
+                                {message.phone && <div className="text-xs text-gray-500">{message.phone}</div>}
+                              </div>
+                            </td>
+                            <td className="px-6 py-4">
+                              <div className="text-sm text-gray-900 max-w-xs">
+                                <p className="line-clamp-3">{message.message}</p>
+                              </div>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap">
+                              <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
+                                message.status === 'new' ? 'bg-red-100 text-red-800' :
+                                message.status === 'read' ? 'bg-yellow-100 text-yellow-800' :
+                                message.status === 'replied' ? 'bg-blue-100 text-blue-800' :
+                                message.status === 'resolved' ? 'bg-green-100 text-green-800' :
+                                'bg-gray-100 text-gray-800'
+                              }`}>
+                                {message.status === 'new' ? 'Yeni' :
+                                 message.status === 'read' ? 'Okundu' :
+                                 message.status === 'replied' ? 'Yanıtlandı' :
+                                 message.status === 'resolved' ? 'Çözüldü' :
+                                 message.status}
+                              </span>
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                              {new Date(message.created_at).toLocaleDateString('tr-TR')}
+                            </td>
+                            <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                              <div className="flex space-x-2">
+                                {message.status === 'new' && (
+                                  <button
+                                    onClick={() => updateMessageStatus(message.id, 'read')}
+                                    className="bg-yellow-100 text-yellow-800 hover:bg-yellow-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                  >
+                                    Okundu
+                                  </button>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    setSelectedMessage(message);
+                                    setReplyText(message.admin_reply || '');
+                                  }}
+                                  className="bg-blue-100 text-blue-800 hover:bg-blue-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                >
+                                  {message.admin_reply ? 'Görüntüle' : 'Yanıtla'}
+                                </button>
+                                <button
+                                  onClick={() => updateMessageStatus(message.id, 'resolved')}
+                                  className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                >
+                                  Çözüldü
+                                </button>
+                                <button
+                                  onClick={() => deleteMessage(message.id)}
+                                  className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                >
+                                  Sil
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Empty State */}
+                {messages.filter(message => {
+                  if (messageFilter === 'all') return true;
+                  return message.status === messageFilter;
+                }).length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="bg-gray-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4">
+                      <MessageCircle className="w-8 h-8 text-gray-400" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {messageFilter === 'all' ? 'Henüz mesaj yok' : 
+                       messageFilter === 'new' ? 'Yeni mesaj yok' :
+                       messageFilter === 'read' ? 'Okunmuş mesaj yok' :
+                       messageFilter === 'replied' ? 'Yanıtlanmış mesaj yok' :
+                       messageFilter === 'resolved' ? 'Çözülmüş mesaj yok' :
+                       'Bu kategoride mesaj yok'}
+                    </h3>
+                    <p className="text-gray-600">
+                      {messageFilter === 'all' ? 'Müşteriler iletişim formunu kullanmaya başladığında burada görünecek.' :
+                       'Bu kategoride henüz mesaj bulunmuyor.'}
+                    </p>
+                  </div>
+                )}
+              </>
+            )}
+          </div>
+        )}
+
+        {/* Reply Modal */}
+        {selectedMessage && (
+          <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full z-50">
+            <div className="relative top-20 mx-auto p-5 border w-11/12 max-w-4xl shadow-lg rounded-md bg-white">
+              <div className="flex justify-between items-center mb-4">
+                <h3 className="text-lg font-bold text-gray-900">Mesaj Detayı & Yanıtla</h3>
+                <button
+                  onClick={() => setSelectedMessage(null)}
+                  className="text-gray-400 hover:text-gray-600"
+                >
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <div className="grid md:grid-cols-2 gap-6 mb-6">
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Gönderen Bilgileri</h4>
+                  <div className="bg-gray-50 rounded-lg p-4 space-y-2">
+                    <div><span className="font-medium">İsim:</span> {selectedMessage.name}</div>
+                    <div><span className="font-medium">E-posta:</span> {selectedMessage.email}</div>
+                    {selectedMessage.phone && <div><span className="font-medium">Telefon:</span> {selectedMessage.phone}</div>}
+                    <div><span className="font-medium">Konu:</span> {selectedMessage.subject}</div>
+                    <div><span className="font-medium">Tarih:</span> {new Date(selectedMessage.created_at).toLocaleString('tr-TR')}</div>
+                  </div>
+                </div>
+                <div>
+                  <h4 className="font-semibold text-gray-900 mb-2">Mesaj İçeriği</h4>
+                  <div className="bg-gray-50 rounded-lg p-4">
+                    <p className="text-gray-700">{selectedMessage.message}</p>
+                  </div>
+                </div>
+              </div>
+
+              {selectedMessage.admin_reply && (
+                <div className="mb-6">
+                  <h4 className="font-semibold text-gray-900 mb-2">Mevcut Yanıt</h4>
+                  <div className="bg-blue-50 rounded-lg p-4">
+                    <p className="text-gray-700">{selectedMessage.admin_reply}</p>
+                  </div>
+                </div>
+              )}
+
+              <div className="mb-6">
+                <h4 className="font-semibold text-gray-900 mb-2">
+                  {selectedMessage.admin_reply ? 'Yanıtı Güncelle' : 'Yanıt Yazın'}
+                </h4>
+                <textarea
+                  value={replyText}
+                  onChange={(e) => setReplyText(e.target.value)}
+                  className="w-full h-32 p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Yanıtınızı buraya yazın..."
+                />
+              </div>
+
+              <div className="flex justify-end space-x-3">
+                <button
+                  onClick={() => setSelectedMessage(null)}
+                  className="px-4 py-2 text-gray-700 bg-gray-200 rounded-lg hover:bg-gray-300 transition-colors"
+                >
+                  İptal
+                </button>
+                <button
+                  onClick={() => sendReply(selectedMessage.id)}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  {selectedMessage.admin_reply ? 'Yanıtı Güncelle' : 'Yanıt Gönder'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Categories Tab */}
         {activeTab === 'categories' && (
           <div>
