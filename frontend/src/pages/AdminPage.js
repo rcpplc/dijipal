@@ -172,12 +172,64 @@ const AdminPage = () => {
 
   const updateBookingStatus = async (bookingId, status) => {
     try {
-      await axios.put(`${API}/admin/bookings/${bookingId}/status`, { status });
+      await axios.put(`${API}/admin/bookings/${bookingId}/status`, 
+        { status },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
       toast.success('Rezervasyon durumu güncellendi');
       loadBookings();
     } catch (error) {
       console.error('Error updating booking status:', error);
       toast.error('Rezervasyon durumu güncellenirken hata oluştu');
+    }
+  };
+
+  // Message management functions
+  const updateMessageStatus = async (messageId, newStatus) => {
+    try {
+      await axios.put(`${API}/admin/contact-messages/${messageId}`, 
+        { status: newStatus },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      toast.success('Mesaj durumu güncellendi');
+      loadMessages();
+    } catch (error) {
+      console.error('Error updating message status:', error);
+      toast.error('Mesaj durumu güncellenirken hata oluştu');
+    }
+  };
+
+  const sendReply = async (messageId) => {
+    if (!replyText.trim()) {
+      toast.error('Lütfen bir yanıt yazın');
+      return;
+    }
+    
+    try {
+      await axios.put(`${API}/admin/contact-messages/${messageId}`, 
+        { admin_reply: replyText, status: 'replied' },
+        { headers: { Authorization: `Bearer ${user.token}` } }
+      );
+      toast.success('Yanıt gönderildi');
+      setReplyText('');
+      setSelectedMessage(null);
+      loadMessages();
+    } catch (error) {
+      console.error('Error sending reply:', error);
+      toast.error('Yanıt gönderilirken hata oluştu');
+    }
+  };
+
+  const deleteMessage = async (messageId) => {
+    try {
+      await axios.delete(`${API}/admin/contact-messages/${messageId}`, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      toast.success('Mesaj silindi');
+      loadMessages();
+    } catch (error) {
+      console.error('Error deleting message:', error);
+      toast.error('Mesaj silinirken hata oluştu');
     }
   };
 
