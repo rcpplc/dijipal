@@ -224,25 +224,31 @@ const DateRangePicker = ({ value, onChange }) => {
       </div>
 
       {/* Calendar Header */}
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between bg-gradient-to-r from-gray-50 to-blue-50 p-3 rounded-xl border border-gray-200">
         <button
           onClick={() => navigateMonth(-1)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          aria-label={t('dateRange.previousMonth')}
+          className="p-2 hover:bg-white hover:shadow-md rounded-lg transition-all duration-200 bg-white/70"
+          aria-label={viewMode === 'months' ? 'Önceki yıl' : t('dateRange.previousMonth')}
         >
-          <ChevronLeft className="w-5 h-5" />
+          <ChevronLeft className="w-5 h-5 text-gray-700" />
         </button>
         
-        <h3 className="text-lg font-semibold text-gray-900">
-          {calendar.month}
-        </h3>
+        <div className="flex items-center space-x-3">
+          <button
+            onClick={() => setViewMode(viewMode === 'days' ? 'months' : 'days')}
+            className="flex items-center space-x-2 px-4 py-2 bg-white hover:bg-blue-50 rounded-lg font-bold text-gray-900 border border-gray-200 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow-md"
+          >
+            <CalendarDays className="w-4 h-4" />
+            <span className="text-sm">{calendar.viewTitle}</span>
+          </button>
+        </div>
         
         <button
           onClick={() => navigateMonth(1)}
-          className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
-          aria-label={t('dateRange.nextMonth')}
+          className="p-2 hover:bg-white hover:shadow-md rounded-lg transition-all duration-200 bg-white/70"
+          aria-label={viewMode === 'months' ? 'Sonraki yıl' : t('dateRange.nextMonth')}
         >
-          <ChevronRight className="w-5 h-5" />
+          <ChevronRight className="w-5 h-5 text-gray-700" />
         </button>
       </div>
 
