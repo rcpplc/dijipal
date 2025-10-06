@@ -1568,7 +1568,7 @@ const TourDetailPage = () => {
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Sabit fiyat + Vergiler dahil';
                         } else {
-                          // cabin_based
+                          // cabin_based (default when reservation_type is undefined)
                           const parts = [];
                           if (singleCabinCount > 0) {
                             parts.push(`₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × ${singleCabinCount} tek`);
