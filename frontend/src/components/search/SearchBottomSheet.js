@@ -254,25 +254,31 @@ const SearchBottomSheet = ({
         </div>
 
         {/* Search Input */}
-        <div className={`border-b border-gray-200 ${isDesktop ? 'px-6 py-4' : 'px-4 py-3'}`}>
+        <div className={`border-b border-gray-200 ${isDesktop ? 'px-6 py-4' : 'px-4 py-4'}`}>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+            <Search className={`absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 ${isDesktop ? 'w-5 h-5' : 'w-6 h-6'}`} />
             <input
               ref={searchInputRef}
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               placeholder={t('search.placeholder')}
-              className="w-full pl-10 pr-10 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+              className={`w-full border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                isDesktop 
+                  ? 'pl-10 pr-10 py-3' 
+                  : 'pl-14 pr-14 py-5 text-lg min-h-[56px]'
+              }`}
               aria-label={t('search.input.label')}
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-3 top-1/2 transform -translate-y-1/2 p-1 hover:bg-gray-100 rounded-full"
+                className={`absolute right-4 top-1/2 transform -translate-y-1/2 hover:bg-gray-100 rounded-full ${
+                  isDesktop ? 'p-1' : 'p-2'
+                }`}
                 aria-label={t('search.clear')}
               >
-                <X className="w-4 h-4 text-gray-400" />
+                <X className={`text-gray-400 ${isDesktop ? 'w-4 h-4' : 'w-5 h-5'}`} />
               </button>
             )}
           </div>
