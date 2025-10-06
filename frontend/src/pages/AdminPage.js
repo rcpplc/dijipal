@@ -2405,7 +2405,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     switch (step) {
       case 1:
         return formData.title.trim() && formData.location && formData.category && 
-               formData.pickup_time && formData.dropoff_time && formData.short_description.trim();
+               formData.pickup_time && formData.dropoff_time && formData.short_description.trim() &&
+               formData.reservation_type;
       case 2:
         return true; // Images optional
       case 3:
