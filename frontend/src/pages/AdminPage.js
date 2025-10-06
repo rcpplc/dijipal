@@ -173,8 +173,7 @@ const AdminPage = () => {
   const updateBookingStatus = async (bookingId, status) => {
     try {
       await axios.put(`${API}/admin/bookings/${bookingId}/status`, 
-        { status },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { status }
       );
       toast.success('Rezervasyon durumu güncellendi');
       loadBookings();
