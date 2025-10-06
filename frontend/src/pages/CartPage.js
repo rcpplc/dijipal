@@ -162,7 +162,7 @@ const CartPage = () => {
               Harika turlar keşfetmek ve sepete eklemek için turlarımıza göz atın
             </p>
             <Link
-              to="/tours"
+              to="/turlar"
               className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
             >
               <span>Turları Keşfet</span>
@@ -357,7 +357,7 @@ const CartPage = () => {
 
               <div className="text-center">
                 <Link
-                  to="/tours"
+                  to="/turlar"
                   className="text-blue-600 hover:text-blue-700 font-medium transition-colors duration-200"
                 >
                   Alışverişe Devam Et
