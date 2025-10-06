@@ -1681,7 +1681,7 @@ const TourDetailPage = () => {
                   const price = selectedDate.person_price;
                   if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
                   return (price * participants).toLocaleString('tr-TR') + ' TL';
-                } else if (tour.reservation_type === 'reservation') {
+                } else if (tour && tour.reservation_type === 'reservation') {
                   const price = selectedDate.total_reservation_price;
                   if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
                   return price.toLocaleString('tr-TR') + ' TL';
