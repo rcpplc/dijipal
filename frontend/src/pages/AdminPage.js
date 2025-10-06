@@ -460,7 +460,7 @@ const AdminPage = () => {
       
       if (allPrices.length > 0) {
         const minPrice = Math.min(...allPrices);
-        return `₺${minPrice.toLocaleString('tr-TR')}`;
+        return `₺${(minPrice || 0).toLocaleString('tr-TR')}`;
       }
     }
     return '₺0';
