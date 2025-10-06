@@ -1695,74 +1695,64 @@ const TourDetailPage = () => {
         </div>
       )}
 
-      {/* Mobile Bottom Booking Bar - Compact Design */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-3 py-2 lg:hidden z-50 shadow-lg">
-        <div className="flex items-center justify-between space-x-2">
-          {/* Price Section - Compact */}
+      {/* Mobile Bottom Booking Bar - Minimal Grid */}
+      <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-2 py-2 lg:hidden z-50 shadow-lg">
+        <div className="flex items-center space-x-2">
+          {/* Price & Info Section - Compressed Grid */}
           <div className="flex-1 min-w-0">
-            <div className="text-base font-bold text-gray-900 truncate">
-              {(() => {
-                if (!selectedDate) return 'Tarih Seçin';
-                
-                if (tour && tour.reservation_type === 'person_based') {
-                  const adultPrice = selectedDate.person_price || 0;
-                  const childPrice = selectedDate.child_price || 0;
-                  if (!adultPrice && !childPrice) return 'Fiyat Yükleniyor...';
-                  const totalPrice = (adultPrice * participants) + (childPrice * childCount);
-                  return totalPrice.toLocaleString('tr-TR') + ' TL';
-                } else if (tour && tour.reservation_type === 'reservation') {
-                  const price = selectedDate.total_reservation_price;
-                  if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
-                  return price.toLocaleString('tr-TR') + ' TL';
-                } else {
-                  // cabin_based
-                  const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
-                  const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
-                  const totalPrice = singleTotal + doubleTotal;
-                  
-                  if (totalPrice === 0) return 'Kabin Seçin';
-                  return totalPrice.toLocaleString('tr-TR') + ' TL';
-                }
-              })()}
-            </div>
-            <div className="text-xs text-gray-600 truncate">
-              {(() => {
-                if (tour && tour.reservation_type === 'person_based') {
-                  const total = participants + childCount;
-                  return `${participants} yetişkin + ${childCount} çocuk`;
-                } else if (tour && tour.reservation_type === 'reservation') {
-                  return 'Özel rezervasyon';
-                } else {
-                  // cabin_based
-                  const parts = [];
-                  if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek`);
-                  if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift`);
-                  return parts.length > 0 ? parts.join(' + ') + ' kabin' : 'Kabin seçin';
-                }
-              })()}
-              {selectedDate && (
-                <span className="ml-1">
-                  • {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', { 
-                    day: '2-digit', 
-                    month: '2-digit',
-                    year: '2-digit'
-                  })}
-                </span>
-              )}
-            </div>
+            {selectedDate ? (
+              tour && tour.reservation_type === 'reservation' ? (
+                /* Rezervasyon - Single Line */
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm font-bold text-gray-900">
+                    ₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}
+                  </span>
+                  <span className="text-xs text-gray-500">Özel</span>
+                </div>
+              ) : (
+                /* Kabin & Kişi - Compact Grid */
+                <div className="grid grid-cols-3 gap-1 text-xs">
+                  <div className="font-bold text-gray-900 truncate">
+                    ₺{(() => {
+                      if (tour && tour.reservation_type === 'person_based') {
+                        const total = (selectedDate.person_price || 0) * participants + (selectedDate.child_price || 0) * childCount;
+                        return total.toLocaleString('tr-TR');
+                      } else {
+                        const total = (selectedDate.single_cabin_price || 0) * singleCabinCount + (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                        return total === 0 ? '0' : total.toLocaleString('tr-TR');
+                      }
+                    })()}
+                  </div>
+                  <div className="text-gray-600 text-center truncate">
+                    {(() => {
+                      if (tour && tour.reservation_type === 'person_based') {
+                        return `${participants}Y+${childCount}Ç`;
+                      } else {
+                        return `${singleCabinCount}T+${doubleCabinCount}Ç`;
+                      }
+                    })()}
+                  </div>
+                  <div className="text-gray-500 text-right truncate">
+                    {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', { 
+                      day: '2-digit', 
+                      month: '2-digit'
+                    })}
+                  </div>
+                </div>
+              )
+            ) : (
+              <span className="text-sm text-gray-500">Tarih Seçin</span>
+            )}
           </div>
 
-          {/* Action Button - Simplified */}
-          <div className="flex items-center">
-            {/* Single Booking Button - Opens Modal */}
-            <button
-              onClick={() => setShowBookingModal(true)}
-              className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 text-sm min-h-[44px] w-full flex items-center justify-center space-x-2"
-            >
-              <Calendar className="w-4 h-4" />
-              <span>Rezervasyon Yap</span>
-            </button>
-          </div>
+          {/* Action Button - Compact */}
+          <button
+            onClick={() => setShowBookingModal(true)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200 text-xs flex items-center space-x-1"
+          >
+            <Calendar className="w-3 h-3" />
+            <span>Rezervasyon</span>
+          </button>
         </div>
       </div>
 
