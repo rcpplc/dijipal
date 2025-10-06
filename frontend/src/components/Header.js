@@ -32,6 +32,25 @@ const Header = () => {
     };
   }, [showUserMenu]);
 
+  // Outside click handler for mobile menu
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+
+    if (isMenuOpen) {
+      document.addEventListener('mousedown', handleOutsideClick);
+      document.addEventListener('touchstart', handleOutsideClick);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick);
+      document.removeEventListener('touchstart', handleOutsideClick);
+    };
+  }, [isMenuOpen]);
+
   // Sepet sayısını güncelle
   useEffect(() => {
     const updateCartCount = () => {
