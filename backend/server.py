@@ -440,9 +440,17 @@ async def get_tours(
                 tour["tour_dates"].append({
                     "id": date["id"],
                     "date": date["start_date"],
-                    "capacity": date["available_cabins"],
-                    "single_cabin_price": date["single_cabin_price"],
-                    "double_cabin_price": date["double_cabin_price"],
+                    # Cabin-based fields
+                    "capacity": date.get("available_cabins", 0),
+                    "single_cabin_price": date.get("single_cabin_price", 0),
+                    "double_cabin_price": date.get("double_cabin_price", 0),
+                    # Person-based fields
+                    "max_persons": date.get("max_persons", 0),
+                    "person_price": date.get("person_price", 0),
+                    "child_price": date.get("child_price"),
+                    # Reservation-based fields
+                    "total_reservation_price": date.get("total_reservation_price", 0),
+                    "max_passengers": date.get("max_passengers", 0),
                     "is_active": date.get("is_active", True)
                 })
         
@@ -923,9 +931,17 @@ async def admin_get_all_tours(current_user: User = Depends(get_current_user)):
                 tour["tour_dates"].append({
                     "id": date["id"],
                     "date": date["start_date"],
-                    "capacity": date["available_cabins"],
-                    "single_cabin_price": date["single_cabin_price"],
-                    "double_cabin_price": date["double_cabin_price"],
+                    # Cabin-based fields
+                    "capacity": date.get("available_cabins", 0),
+                    "single_cabin_price": date.get("single_cabin_price", 0),
+                    "double_cabin_price": date.get("double_cabin_price", 0),
+                    # Person-based fields
+                    "max_persons": date.get("max_persons", 0),
+                    "person_price": date.get("person_price", 0),
+                    "child_price": date.get("child_price"),
+                    # Reservation-based fields
+                    "total_reservation_price": date.get("total_reservation_price", 0),
+                    "max_passengers": date.get("max_passengers", 0),
                     "is_active": date.get("is_active", True)
                 })
         
