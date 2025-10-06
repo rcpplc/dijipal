@@ -1270,7 +1270,7 @@ const TourDetailPage = () => {
                         <div className="text-xs opacity-75 mt-1">2 kişi kapasiteli</div>
                         {selectedDate && selectedDate.double_cabin_price && (
                           <div className="text-xs font-medium mt-2">
-                            ₺{selectedDate.double_cabin_price.toLocaleString('tr-TR')}
+                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
                           </div>
                         )}
                       </div>
