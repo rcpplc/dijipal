@@ -76,9 +76,8 @@ const TourDetailPage = () => {
   useEffect(() => {
     loadTour();
       
-      // Load user preferences and suggest participants
-      loadUserPreferences();
-    }
+    // Load user preferences and suggest participants
+    loadUserPreferences();
   }, [tourSlug, user]);
   
   // Safety check removed - causing infinite loop
