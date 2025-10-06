@@ -128,11 +128,10 @@ const CategoryPicker = ({
     fetchCategories();
   }, []);
 
-  const popularCategories = categories.filter(cat => cat.popular);
-  const allCategories = categories;
+  const popularCategories = availableCategories.filter(cat => cat.popular);
 
   const handleCategorySelect = (category) => {
-    const newValue = value === category.id ? '' : category.id;
+    const newValue = value === category.name ? '' : category.name;
     onChange(newValue);
     onSuggestionSelect?.({ 
       name: category.name, 
