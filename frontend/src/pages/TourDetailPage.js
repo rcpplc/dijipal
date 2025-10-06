@@ -75,7 +75,6 @@ const TourDetailPage = () => {
 
   useEffect(() => {
     loadTour();
-    loadReviews();
     if (tourSlug) {
       if (user) {
         checkIfFavorited();
