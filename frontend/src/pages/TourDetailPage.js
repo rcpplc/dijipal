@@ -393,7 +393,7 @@ const TourDetailPage = () => {
       location: tour.location,
       selectedDate: selectedDate,
       cabinType: cabinType,
-      participants: cabinCount,
+      participants: participants,
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
       // Add price calculation
@@ -498,7 +498,7 @@ const TourDetailPage = () => {
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
       cabinType: cabinType, // 'single' veya 'double'
-      participants: cabinCount,
+      participants: participants,
       image: tour.images[0] || '/placeholder-tour.jpg',
       selectedDate: {
         date: selectedDate.start_date, // API'den gelen field adı
