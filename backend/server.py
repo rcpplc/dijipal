@@ -799,7 +799,7 @@ async def remove_from_favorites(tour_id: str, current_user: User = Depends(get_c
     
     return {"message": "Tour removed from favorites"}
 
-@api_router.get("/favorites", response_model=List[Tour])
+@api_router.get("/favorites")
 async def get_user_favorites(current_user: User = Depends(get_current_user)):
     # Get user's favorite tour IDs
     favorites = await db.favorites.find({"user_id": current_user.id}).to_list(length=None)
@@ -810,7 +810,38 @@ async def get_user_favorites(current_user: User = Depends(get_current_user)):
     
     # Get the actual tours
     tours = await db.tours.find({"id": {"$in": tour_ids}}).to_list(length=None)
-    return [Tour(**tour) for tour in tours]
+    
+    # Add minimum price and other required fields for each tour
+    enriched_tours = []
+    for tour in tours:
+        # Get tour dates to calculate minimum price
+        tour_dates = await db.tour_dates.find({"tour_id": tour["id"]}).to_list(length=None)
+        
+        # Calculate minimum price from tour dates
+        minimum_price = None
+        if tour_dates:
+            all_prices = []
+            for td in tour_dates:
+                all_prices.append(td.get("single_cabin_price", 0))
+                all_prices.append(td.get("double_cabin_price", 0))
+            minimum_price = min([p for p in all_prices if p > 0]) if all_prices else 0
+        
+        # Get review count and rating
+        reviews = await db.reviews.find({"tour_id": tour["id"]}).to_list(length=None)
+        review_count = len(reviews)
+        rating = sum(r.get("rating", 0) for r in reviews) / len(reviews) if reviews else 0
+        
+        # Add calculated fields to tour
+        tour_data = Tour(**tour).dict()
+        tour_data.update({
+            "minimum_price": minimum_price or tour.get("base_price", 0),
+            "review_count": review_count,
+            "rating": round(rating, 1)
+        })
+        
+        enriched_tours.append(tour_data)
+    
+    return enriched_tours
 
 @api_router.get("/favorites/check/{tour_id}")
 async def check_favorite_status(tour_id: str, current_user: User = Depends(get_current_user)):
