@@ -143,7 +143,7 @@ const TermsPage = () => {
           {/* Intellectual Property */}
           <div className="bg-white rounded-2xl shadow-lg p-8">
             <div className="flex items-center space-x-3 mb-6">
-              <FileText className="w-8 h-8 text-red-600" />
+              <FileText className="w-8 h-8 text-gray-600" />
               <h2 className="text-2xl font-bold text-gray-900">5. Telif Hakları</h2>
             </div>
             <div className="space-y-4 text-gray-700">
