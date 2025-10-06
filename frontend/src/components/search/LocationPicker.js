@@ -167,7 +167,7 @@ const LocationPicker = ({
                       onChange(location.name);
                       onSuggestionSelect?.(location);
                     }}
-                    className={`flex items-center justify-between p-4 rounded-lg border-2 transition-colors ${
+                    className={`flex items-center justify-between p-5 min-h-[60px] rounded-lg border-2 transition-colors ${
                       value === location.name
                         ? 'border-blue-600 bg-blue-50'
                         : 'border-gray-200 hover:border-blue-300 hover:bg-gray-50'
