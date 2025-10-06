@@ -1102,20 +1102,11 @@ const TourDetailPage = () => {
                     ? (() => {
                         const allPrices = [];
                         availableDates.forEach(date => {
-                          // Cabin-based pricing
                           if (date.single_cabin_price && date.single_cabin_price > 0) allPrices.push(date.single_cabin_price);
                           if (date.double_cabin_price && date.double_cabin_price > 0) allPrices.push(date.double_cabin_price);
-                          
-                          // Person-based pricing
                           if (date.person_price && date.person_price > 0) allPrices.push(date.person_price);
-                          
-                          // Reservation-based pricing
                           if (date.total_reservation_price && date.total_reservation_price > 0) allPrices.push(date.total_reservation_price);
-                          
-                          // Legacy pricing
-                          if (!date.single_cabin_price && !date.person_price && !date.total_reservation_price && date.price) {
-                            allPrices.push(date.price);
-                          }
+                          if (!date.single_cabin_price && !date.person_price && !date.total_reservation_price && date.price) allPrices.push(date.price);
                         });
                         return allPrices.length > 0 ? Math.min(...allPrices).toLocaleString('tr-TR') : '0';
                       })()
