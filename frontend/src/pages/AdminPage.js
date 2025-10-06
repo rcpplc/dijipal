@@ -1233,7 +1233,10 @@ const AdminPage = () => {
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
                       {bookings
-                        .filter(booking => bookingFilter === 'all' || booking.status === bookingFilter)
+                        .filter(booking => {
+                          if (bookingFilter === 'all') return true;
+                          return booking.booking_status === bookingFilter;
+                        })
                         .map((booking) => (
                         <tr key={booking.id} className="hover:bg-gray-50">
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -1243,20 +1246,20 @@ const AdminPage = () => {
                               </div>
                               <div className="text-sm text-gray-500">{booking.customer_info?.email || 'N/A'}</div>
                               <div className="text-sm font-medium text-blue-600 mt-1">
-                                {booking.tour_title}
+                                Rezervasyon #{booking.booking_code}
                               </div>
-                              <div className="text-xs text-gray-500">{booking.tour_location}</div>
+                              <div className="text-xs text-gray-500">ID: {booking.id.substring(0, 8)}</div>
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm text-gray-900">
-                              {new Date(booking.selected_date).toLocaleDateString('tr-TR')}
+                              {new Date(booking.created_at).toLocaleDateString('tr-TR')}
                             </div>
                             <div className="text-sm text-gray-500">
                               {booking.cabin_type === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin
                             </div>
                             <div className="text-xs text-gray-500">
-                              {booking.participants} kişi
+                              {booking.participants} kabin
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
@@ -1264,28 +1267,35 @@ const AdminPage = () => {
                               ₺{booking.total_price?.toLocaleString('tr-TR')}
                             </div>
                             <div className="text-xs text-gray-500">
-                              {booking.payment_status || 'N/A'}
+                              Ödeme: {booking.payment_status === 'success' ? 'Başarılı' : 
+                                     booking.payment_status === 'failed' ? 'Başarısız' :
+                                     booking.payment_status === 'refunded' ? 'İade Edildi' : 'Bekliyor'}
                             </div>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                              booking.status === 'confirmed' 
+                              booking.booking_status === 'confirmed' || booking.booking_status === 'paid'
                                 ? 'bg-green-100 text-green-800'
-                                : booking.status === 'completed' 
+                                : booking.booking_status === 'completed' 
                                 ? 'bg-blue-100 text-blue-800'
-                                : booking.status === 'cancelled'
+                                : booking.booking_status === 'cancelled'
                                 ? 'bg-red-100 text-red-800'
+                                : booking.booking_status === 'pending'
+                                ? 'bg-yellow-100 text-yellow-800'
                                 : 'bg-gray-100 text-gray-800'
                             }`}>
-                              {booking.status === 'confirmed' ? 'Aktif' :
-                               booking.status === 'completed' ? 'Tamamlandı' :
-                               booking.status === 'cancelled' ? 'İptal Edildi' :
-                               booking.status}
+                              {booking.booking_status === 'confirmed' ? 'Onaylandı' :
+                               booking.booking_status === 'paid' ? 'Ödendi' :
+                               booking.booking_status === 'completed' ? 'Tamamlandı' :
+                               booking.booking_status === 'cancelled' ? 'İptal Edildi' :
+                               booking.booking_status === 'pending' ? 'Bekliyor' :
+                               booking.booking_status === 'draft' ? 'Taslak' :
+                               booking.booking_status}
                             </span>
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <div className="flex space-x-2">
-                              {booking.status === 'confirmed' && (
+                              {(booking.booking_status === 'confirmed' || booking.booking_status === 'paid') && (
                                 <>
                                   <button
                                     onClick={() => updateBookingStatus(booking.id, 'completed')}
@@ -1301,7 +1311,23 @@ const AdminPage = () => {
                                   </button>
                                 </>
                               )}
-                              {booking.status === 'completed' && (
+                              {booking.booking_status === 'pending' && (
+                                <>
+                                  <button
+                                    onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                                    className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                  >
+                                    Onayla
+                                  </button>
+                                  <button
+                                    onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+                                    className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
+                                  >
+                                    İptal Et
+                                  </button>
+                                </>
+                              )}
+                              {booking.booking_status === 'completed' && (
                                 <button
                                   onClick={() => updateBookingStatus(booking.id, 'confirmed')}
                                   className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
@@ -1309,7 +1335,7 @@ const AdminPage = () => {
                                   Aktifleştir
                                 </button>
                               )}
-                              {booking.status === 'cancelled' && (
+                              {booking.booking_status === 'cancelled' && (
                                 <button
                                   onClick={() => updateBookingStatus(booking.id, 'confirmed')}
                                   className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded text-xs font-medium transition-colors duration-200"
