@@ -198,7 +198,7 @@ const FAQPage = () => {
             <button className="bg-white text-gray-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
               Canlı Destek
             </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-blue-600 transition-colors">
+            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-600 transition-colors">
               İletişime Geç
             </button>
           </div>
