@@ -96,8 +96,8 @@ const ContactPage = () => {
                 </div>
 
                 <div className="flex items-start space-x-4">
-                  <div className="bg-purple-100 rounded-lg p-3">
-                    <MessageCircle className="w-6 h-6 text-purple-600" />
+                  <div className="bg-gray-100 rounded-lg p-3">
+                    <MessageCircle className="w-6 h-6 text-gray-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Acente Bilgileri</h3>
