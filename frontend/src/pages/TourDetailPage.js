@@ -1863,7 +1863,11 @@ const TourDetailPage = () => {
       )}
 
       {/* Add bottom padding to prevent content overlap with fixed bar on mobile */}
+      {/* Bottom padding for mobile booking bar */}
       <div className="h-20 lg:hidden"></div>
+      
+      {/* Bottom padding for desktop booking bar */}
+      <div className="h-20 hidden lg:block"></div>
     </div>
   );
 };
