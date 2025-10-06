@@ -137,6 +137,20 @@ const ToursPage = () => {
     loadTours();
   }, [filters, searchQuery]);
 
+  // Handle responsive filter visibility
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setShowFilters(true); // Desktop: always show filters
+      } else {
+        // Mobile: keep current state (user can toggle)
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   // Close location dropdown when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
