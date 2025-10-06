@@ -214,10 +214,12 @@ const SearchBottomSheet = ({
         aria-modal="true"
         aria-labelledby="search-title"
       >
-        {/* Handle Bar */}
-        <div className="flex justify-center py-2">
-          <div className="w-8 h-1 bg-gray-300 rounded-full" />
-        </div>
+        {/* Handle Bar - Mobile Only */}
+        {!isDesktop && (
+          <div className="flex justify-center py-2">
+            <div className="w-8 h-1 bg-gray-300 rounded-full" />
+          </div>
+        )}
 
         {/* Header */}
         <div className="flex items-center justify-between px-4 py-3 border-b border-gray-200">
