@@ -56,33 +56,46 @@ const DateRangePicker = ({ value, onChange }) => {
   ];
 
   const calendar = useMemo(() => {
-    const year = currentMonth.getFullYear();
-    const month = currentMonth.getMonth();
-    const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
-    const startDate = new Date(firstDay);
-    const endDate = new Date(lastDay);
+    if (viewMode === 'months') {
+      const year = currentMonth.getFullYear();
+      const months = [];
+      for (let i = 0; i < 12; i++) {
+        months.push(new Date(year, i, 1));
+      }
+      return {
+        months,
+        year: year,
+        viewTitle: year.toString()
+      };
+    } else {
+      const year = currentMonth.getFullYear();
+      const month = currentMonth.getMonth();
+      const firstDay = new Date(year, month, 1);
+      const lastDay = new Date(year, month + 1, 0);
+      const startDate = new Date(firstDay);
+      const endDate = new Date(lastDay);
 
-    // Start from Sunday of the week containing the first day
-    startDate.setDate(startDate.getDate() - startDate.getDay());
-    // End on Saturday of the week containing the last day
-    endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
+      // Start from Sunday of the week containing the first day
+      startDate.setDate(startDate.getDate() - startDate.getDay());
+      // End on Saturday of the week containing the last day
+      endDate.setDate(endDate.getDate() + (6 - endDate.getDay()));
 
-    const days = [];
-    const current = new Date(startDate);
+      const days = [];
+      const current = new Date(startDate);
 
-    while (current <= endDate) {
-      days.push(new Date(current));
-      current.setDate(current.getDate() + 1);
+      while (current <= endDate) {
+        days.push(new Date(current));
+        current.setDate(current.getDate() + 1);
+      }
+
+      return {
+        days,
+        viewTitle: firstDay.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }),
+        firstDayOfMonth: firstDay,
+        lastDayOfMonth: lastDay
+      };
     }
-
-    return {
-      days,
-      month: firstDay.toLocaleDateString('tr-TR', { month: 'long', year: 'numeric' }),
-      firstDayOfMonth: firstDay,
-      lastDayOfMonth: lastDay
-    };
-  }, [currentMonth]);
+  }, [currentMonth, viewMode]);
 
   const isToday = (date) => {
     const today = new Date();
