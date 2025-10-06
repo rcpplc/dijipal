@@ -1519,7 +1519,8 @@ const TourDetailPage = () => {
                       {(() => {
                         if (!tour) return 'Yükleniyor...';
                         if (tour && tour.reservation_type === 'person_based') {
-                          return `${participants || 1} kişi`;
+                          const totalPeople = (participants || 1) + childCount;
+                          return `${participants || 1} yetişkin + ${childCount} çocuk = ${totalPeople} kişi`;
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Özel rezervasyon';
                         } else {
