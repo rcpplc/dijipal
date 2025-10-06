@@ -450,7 +450,7 @@ const AdminPage = () => {
   // Helper function to get minimum price from tour dates
   const getMinimumPrice = (tour) => {
     if (tour.minimum_price) {
-      return `₺${tour.minimum_price.toLocaleString('tr-TR')}`;
+      return `₺${(tour.minimum_price || 0).toLocaleString('tr-TR')}`;
     } else if (tour.tour_dates && tour.tour_dates.length > 0) {
       // Calculate from cabin prices
       const allPrices = tour.tour_dates.flatMap(date => [
