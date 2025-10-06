@@ -253,46 +253,78 @@ const DateRangePicker = ({ value, onChange }) => {
       </div>
 
       {/* Calendar Grid */}
-      <div className="grid grid-cols-7 gap-1">
-        {/* Day Headers */}
-        {['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'].map((day) => (
-          <div key={day} className="p-2 text-center text-xs font-medium text-gray-500">
-            {day}
-          </div>
-        ))}
-        
-        {/* Calendar Days */}
-        {calendar.days.map((date, index) => {
-          const isCurrentMonth = date >= calendar.firstDayOfMonth && date <= calendar.lastDayOfMonth;
-          const disabled = isDisabled(date);
-          const selected = isSelected(date);
-          const inRange = isInRange(date);
-          const today = isToday(date);
+      {viewMode === 'days' ? (
+        <div className="grid grid-cols-7 gap-1 p-2 bg-white rounded-xl border border-gray-200">
+          {/* Day Headers */}
+          {['Paz', 'Pzt', 'Sal', 'Çar', 'Per', 'Cum', 'Cmt'].map((day) => (
+            <div key={day} className="p-2 text-center text-xs font-bold text-gray-600 bg-gray-50 rounded-lg">
+              {day}
+            </div>
+          ))}
           
-          return (
-            <button
-              key={index}
-              onClick={() => handleDateClick(date)}
-              disabled={disabled}
-              className={`
-                p-2 text-sm font-medium rounded-lg transition-colors relative
-                ${!isCurrentMonth ? 'text-gray-300' : ''}
-                ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100'}
-                ${selected ? 'bg-blue-500 text-white hover:bg-blue-600' : ''}
-                ${inRange ? 'bg-blue-100 text-blue-700' : ''}
-                ${today && !selected ? 'ring-2 ring-blue-500 ring-inset' : ''}
-              `}
-              aria-label={date.toLocaleDateString('tr-TR')}
-              aria-pressed={selected}
-            >
-              {date.getDate()}
-              {today && (
-                <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-current rounded-full" />
-              )}
-            </button>
-          );
-        })}
-      </div>
+          {/* Calendar Days */}
+          {calendar.days.map((date, index) => {
+            const isCurrentMonth = date >= calendar.firstDayOfMonth && date <= calendar.lastDayOfMonth;
+            const disabled = isDisabled(date);
+            const selected = isSelected(date);
+            const inRange = isInRange(date);
+            const today = isToday(date);
+            
+            return (
+              <button
+                key={index}
+                onClick={() => handleDateClick(date)}
+                disabled={disabled}
+                className={`
+                  p-2 text-sm font-bold rounded-xl transition-all duration-200 relative transform hover:scale-110
+                  ${!isCurrentMonth ? 'text-gray-300 hover:text-gray-400' : ''}
+                  ${disabled ? 'cursor-not-allowed opacity-50' : 'hover:bg-blue-100'}
+                  ${selected ? 'bg-gradient-to-r from-blue-500 to-indigo-500 text-white hover:from-blue-600 hover:to-indigo-600 shadow-lg' : ''}
+                  ${inRange ? 'bg-gradient-to-r from-blue-100 to-indigo-100 text-blue-800' : ''}
+                  ${today && !selected ? 'ring-2 ring-orange-400 ring-inset bg-orange-50' : ''}
+                `}
+                aria-label={date.toLocaleDateString('tr-TR')}
+                aria-pressed={selected}
+              >
+                {date.getDate()}
+                {today && !selected && (
+                  <div className="absolute -top-1 -right-1 w-3 h-3 bg-gradient-to-r from-orange-400 to-red-500 rounded-full flex items-center justify-center">
+                    <div className="w-1 h-1 bg-white rounded-full" />
+                  </div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      ) : (
+        <div className="grid grid-cols-3 gap-3 p-2 bg-white rounded-xl border border-gray-200">
+          {/* Month Grid */}
+          {calendar.months.map((month, index) => {
+            const monthName = month.toLocaleDateString('tr-TR', { month: 'long' });
+            const isCurrentMonth = month.getMonth() === new Date().getMonth() && month.getFullYear() === new Date().getFullYear();
+            const isSelectedMonth = start && month.getMonth() === start.getMonth() && month.getFullYear() === start.getFullYear();
+            
+            return (
+              <button
+                key={index}
+                onClick={() => handleMonthSelect(month)}
+                className={`
+                  p-4 rounded-xl text-sm font-bold transition-all duration-200 transform hover:scale-105
+                  ${isSelectedMonth 
+                    ? 'bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-lg' 
+                    : 'bg-gray-50 hover:bg-gradient-to-r hover:from-purple-100 hover:to-pink-100 text-gray-700 hover:text-purple-700'}
+                  ${isCurrentMonth && !isSelectedMonth ? 'ring-2 ring-green-400 bg-green-50 text-green-700' : ''}
+                `}
+              >
+                {monthName}
+                {isCurrentMonth && (
+                  <div className="text-xs text-current opacity-70 mt-1">Bu ay</div>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      )}
 
       {/* Helper Text */}
       <div className="text-xs text-gray-500 text-center">
