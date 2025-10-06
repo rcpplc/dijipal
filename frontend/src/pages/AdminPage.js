@@ -2831,29 +2831,6 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Lokasyon *
-                    </label>
-                    <select
-                      value={formData.location}
-                      onChange={(e) => setFormData({...formData, location: e.target.value})}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required
-                      disabled={!locations || locations.length === 0}
-                    >
-                      <option value="">
-                        {!locations || locations.length === 0 ? "Lokasyonlar yükleniyor..." : "Lokasyon seçin..."}
-                      </option>
-                      {locations && locations.filter(loc => loc.is_active).map(loc => (
-                        <option key={loc.id} value={loc.name}>{loc.name}</option>
-                      ))}
-                    </select>
-                    {(!locations || locations.length === 0) && (
-                      <p className="text-sm text-gray-500 mt-1">Lokasyonlar yükleniyor...</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
                       Kategori *
                     </label>
                     <select
