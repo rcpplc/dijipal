@@ -188,8 +188,7 @@ const AdminPage = () => {
   const updateMessageStatus = async (messageId, newStatus) => {
     try {
       await axios.put(`${API}/admin/contact-messages/${messageId}`, 
-        { status: newStatus },
-        { headers: { Authorization: `Bearer ${user.token}` } }
+        { status: newStatus }
       );
       toast.success('Mesaj durumu güncellendi');
       loadMessages();
