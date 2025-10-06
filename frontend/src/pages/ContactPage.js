@@ -58,8 +58,8 @@ const ContactPage = () => {
               
               <div className="space-y-6">
                 <div className="flex items-start space-x-4">
-                  <div className="bg-blue-100 rounded-lg p-3">
-                    <MapPin className="w-6 h-6 text-blue-600" />
+                  <div className="bg-gray-100 rounded-lg p-3">
+                    <MapPin className="w-6 h-6 text-gray-600" />
                   </div>
                   <div>
                     <h3 className="font-semibold text-gray-900 mb-1">Ofis Adresi</h3>
