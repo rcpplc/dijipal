@@ -3147,29 +3147,25 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                         </div>
                       </div>
 
-                      {/* Cabin Capacity Section */}
+                      {/* Capacity & Pricing Combined Section */}
                       <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-sm font-medium text-gray-700 mb-3">🏨 Kabin Kapasitesi</h4>
-                        <div className="w-full md:w-1/2">
-                          <label className="block text-sm font-medium text-gray-700 mb-2">Toplam Kabin Sayısı *</label>
-                          <input
-                            type="number"
-                            min="1"
-                            max="50"
-                            value={newTourDate.capacity}
-                            onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
-                            className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
-                            placeholder="12"
-                            required
-                          />
-                          <p className="text-xs text-gray-500 mt-1">Mevcut kabin sayısı</p>
-                        </div>
-                      </div>
-
-                      {/* Pricing Section */}
-                      <div className="bg-white rounded-lg p-4 border border-gray-200">
-                        <h4 className="text-sm font-medium text-gray-700 mb-3">💰 Kabin Fiyatlandırması</h4>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <h4 className="text-sm font-medium text-gray-700 mb-3">🏨 Kabin Kapasitesi & Fiyatlandırma</h4>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                          <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Toplam Kabin Sayısı *</label>
+                            <input
+                              type="number"
+                              min="1"
+                              max="50"
+                              value={newTourDate.capacity}
+                              onChange={(e) => setNewTourDate({...newTourDate, capacity: e.target.value})}
+                              className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                              placeholder="12"
+                              required
+                            />
+                            <p className="text-xs text-gray-500 mt-1">Mevcut kabin sayısı</p>
+                          </div>
+                          
                           <div>
                             <label className="block text-sm font-medium text-gray-700 mb-2">Tek Kişilik Kabin (₺) *</label>
                             <input
