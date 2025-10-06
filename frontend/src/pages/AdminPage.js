@@ -2335,6 +2335,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newImage, setNewImage] = useState('');
   const [newTourDate, setNewTourDate] = useState({
     date: '',
+    // Date range fields for person-based
+    date_type: 'single', // 'single' or 'range'
+    start_date: '',
+    end_date: '',
     // Cabin-based fields
     capacity: '',
     single_cabin_price: '',
