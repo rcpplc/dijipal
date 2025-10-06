@@ -183,20 +183,15 @@ const DateRangePicker = ({ value, onChange }) => {
   return (
     <div className="space-y-4">
       {/* Selected Range Display */}
-      <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border-2 border-blue-200">
-        <div className="flex items-center space-x-3">
-          <div className="p-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-lg">
-            <Calendar className="w-5 h-5 text-white" />
-          </div>
-          <div>
-            <div className="text-xs text-gray-600 font-medium uppercase tracking-wide">Seçilen Tarih</div>
-            <div className="text-sm font-bold text-gray-900">{formatDateRange()}</div>
-          </div>
+      <div className="p-3 bg-gray-50 rounded-lg border border-gray-200">
+        <div className="flex items-center space-x-2">
+          <Calendar className="w-4 h-4 text-blue-600" />
+          <div className="text-sm text-gray-700">{formatDateRange()}</div>
         </div>
       </div>
 
       {/* Quick Select Options */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-2">
         {quickSelects.map((option, index) => {
           const range = option.getValue?.();
           const isActive = range && start && end && 
@@ -207,10 +202,10 @@ const DateRangePicker = ({ value, onChange }) => {
             <button
               key={index}
               onClick={() => handleQuickSelect(option)}
-              className={`p-4 rounded-xl border-2 text-sm font-bold transition-all duration-300 transform hover:scale-105 ${
+              className={`p-3 rounded-lg border text-sm font-medium transition-colors ${
                 isActive
-                  ? `bg-gradient-to-r ${option.color} text-white border-transparent shadow-lg`
-                  : 'border-gray-200 text-gray-700 hover:border-gray-300 bg-white hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 shadow-sm hover:shadow-md'
+                  ? 'bg-blue-600 text-white border-blue-600'
+                  : 'border-gray-200 text-gray-700 hover:border-blue-300 hover:bg-blue-50'
               }`}
             >
               {option.label}
