@@ -243,6 +243,14 @@ frontend:
     stuck_count: 0
     priority: "high"
     needs_retesting: false
+
+  - task: "Booking State Preservation Across Login"
+    implemented: true
+    working: true
+    file: "frontend/src/pages/TourDetailPage.js, CartPage.js"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
     status_history:
       - working: true
         agent: "testing"
