@@ -157,7 +157,7 @@ const CategoryPicker = ({
                 <button
                   key={category.id}
                   onClick={() => handleCategorySelect(category)}
-                  className={`w-full flex items-center space-x-3 p-3 rounded-lg border transition-colors ${colorClasses.container}`}
+                  className={`w-full flex items-center space-x-3 p-4 min-h-[56px] rounded-lg border transition-colors ${colorClasses.container}`}
                   role="radio"
                   aria-checked={isSelected}
                 >
