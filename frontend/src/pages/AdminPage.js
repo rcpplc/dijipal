@@ -656,7 +656,7 @@ const AdminPage = () => {
                         <td className="py-4 px-4">
                           <div className="flex space-x-2">
                             <button 
-                              onClick={() => window.open(`/turlar/${tour.id}`, '_blank')}
+                              onClick={() => window.open(`/turlar/${createSlug(tour.title)}`, '_blank')}
                               className="text-blue-600 hover:text-blue-700 p-1 rounded transition-colors duration-200"
                               title="Görüntüle"
                             >
