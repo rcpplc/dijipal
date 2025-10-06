@@ -456,14 +456,14 @@ const ToursPage = () => {
             </div>
           </div>
           
-          {/* Filter Button - Left Aligned */}
-          <div className="flex justify-start mb-6">
+          {/* Mobile Filter Button - Only show on mobile */}
+          <div className="flex justify-start mb-6 lg:hidden">
             <button
               onClick={() => setShowFilters(!showFilters)}
               className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-200 border border-gray-300"
             >
               <SlidersHorizontal className="w-4 h-4" />
-              <span className="hidden sm:inline">Filtreler</span>
+              <span>Filtreler</span>
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
             </button>
           </div>
