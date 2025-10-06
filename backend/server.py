@@ -185,6 +185,17 @@ class Review(BaseModel):
     images: List[str] = []
     is_verified: bool = False
     created_at: datetime = Field(default_factory=datetime.utcnow)
+class ContactMessage(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    name: str
+    email: str
+    phone: Optional[str] = None
+    subject: str
+    message: str
+    status: str = "new"  # new, read, replied, resolved
+    admin_reply: Optional[str] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+    updated_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
 # Create models
 class TourDateCreate(BaseModel):
