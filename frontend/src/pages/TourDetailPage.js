@@ -1550,7 +1550,11 @@ const TourDetailPage = () => {
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Özel rezervasyon';
                         } else {
-                          return `${participants || 1} × ${cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
+                          // cabin_based
+                          const parts = [];
+                          if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
+                          if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
+                          return parts.length > 0 ? parts.join(' + ') + ' kabin' : '0 kabin';
                         }
                       })()}
                     </p>
