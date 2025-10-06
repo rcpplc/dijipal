@@ -1442,7 +1442,7 @@ const TourDetailPage = () => {
                         if (!tour) return '0';
                         if (tour && tour.reservation_type === 'person_based') {
                           return ((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR');
-                        } else if (tour.reservation_type === 'reservation') {
+                        } else if (tour && tour.reservation_type === 'reservation') {
                           return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
                         } else {
                           // cabin_based
@@ -1458,7 +1458,7 @@ const TourDetailPage = () => {
                         if (!tour) return 'Yükleniyor...';
                         if (tour && tour.reservation_type === 'person_based') {
                           return `${participants || 1} kişi`;
-                        } else if (tour.reservation_type === 'reservation') {
+                        } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Özel rezervasyon';
                         } else {
                           return `${participants || 1} × ${cabinType === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'} Kabin`;
@@ -1470,7 +1470,7 @@ const TourDetailPage = () => {
                         if (!tour) return 'Vergiler dahil';
                         if (tour && tour.reservation_type === 'person_based') {
                           return `₺${selectedDate.person_price?.toLocaleString('tr-TR') || '0'} × ${participants || 1} kişi + Vergiler dahil`;
-                        } else if (tour.reservation_type === 'reservation') {
+                        } else if (tour && tour.reservation_type === 'reservation') {
                           return 'Sabit fiyat + Vergiler dahil';
                         } else {
                           const cabinPrice = cabinType === 'single' 
@@ -1818,7 +1818,7 @@ const TourDetailPage = () => {
                             {(() => {
                               if (tour && tour.reservation_type === 'person_based') {
                                 return `Kişi başı: ₺${date.person_price?.toLocaleString('tr-TR') || '0'}${date.child_price ? ` • Çocuk: ₺${(date.child_price || 0).toLocaleString('tr-TR')}` : ''}`;
-                              } else if (tour.reservation_type === 'reservation') {
+                              } else if (tour && tour.reservation_type === 'reservation') {
                                 return `Toplam: ₺${date.total_reservation_price?.toLocaleString('tr-TR') || '0'}`;
                               } else {
                                 return `Tek Kabin: ₺${date.single_cabin_price?.toLocaleString('tr-TR') || '0'} • Çift Kabin: ₺${date.double_cabin_price?.toLocaleString('tr-TR') || '0'}`;
