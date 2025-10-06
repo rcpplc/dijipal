@@ -1212,13 +1212,128 @@ const AdminPage = () => {
                 ))}
               </div>
             ) : (
-              <div className="bg-white rounded-xl shadow overflow-hidden">
+              <div className="grid gap-6 lg:hidden">
+                {/* Mobile Card Layout */}
+                {bookings
+                  .filter(booking => {
+                    if (bookingFilter === 'all') return true;
+                    return booking.booking_status === bookingFilter;
+                  })
+                  .map((booking) => (
+                    <div key={booking.id} className="bg-white rounded-xl shadow-lg p-6 border border-gray-100">
+                      <div className="flex justify-between items-start mb-4">
+                        <div>
+                          <h3 className="font-semibold text-gray-900 mb-1">
+                            Rezervasyon #{booking.booking_code}
+                          </h3>
+                          <div className="flex items-center space-x-2 text-sm text-gray-600">
+                            <Calendar className="w-4 h-4" />
+                            <span>{new Date(booking.created_at).toLocaleDateString('tr-TR')}</span>
+                          </div>
+                        </div>
+                        <span className={`inline-flex px-3 py-1 text-xs font-semibold rounded-full ${
+                          booking.booking_status === 'confirmed' || booking.booking_status === 'paid'
+                            ? 'bg-green-100 text-green-800'
+                            : booking.booking_status === 'completed' 
+                            ? 'bg-blue-100 text-blue-800'
+                            : booking.booking_status === 'cancelled'
+                            ? 'bg-red-100 text-red-800'
+                            : booking.booking_status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-gray-100 text-gray-800'
+                        }`}>
+                          {booking.booking_status === 'confirmed' ? 'Onaylandı' :
+                           booking.booking_status === 'paid' ? 'Ödendi' :
+                           booking.booking_status === 'completed' ? 'Tamamlandı' :
+                           booking.booking_status === 'cancelled' ? 'İptal Edildi' :
+                           booking.booking_status === 'pending' ? 'Bekliyor' :
+                           booking.booking_status === 'draft' ? 'Taslak' :
+                           booking.booking_status}
+                        </span>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Müşteri</span>
+                          <p className="text-sm font-medium text-gray-900">{booking.customer_info?.full_name || 'N/A'}</p>
+                          <p className="text-xs text-gray-500">{booking.customer_info?.email || 'N/A'}</p>
+                        </div>
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Kabin</span>
+                          <p className="text-sm text-gray-900">
+                            {booking.cabin_type === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'}
+                          </p>
+                          <p className="text-xs text-gray-500">{booking.participants} kabin</p>
+                        </div>
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tutar</span>
+                          <p className="text-sm font-bold text-gray-900">₺{booking.total_price?.toLocaleString('tr-TR')}</p>
+                          <p className="text-xs text-gray-500">
+                            {booking.payment_status === 'success' ? 'Ödendi' : 
+                             booking.payment_status === 'failed' ? 'Başarısız' :
+                             booking.payment_status === 'refunded' ? 'İade Edildi' : 'Bekliyor'}
+                          </p>
+                        </div>
+                        <div>
+                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">ID</span>
+                          <p className="text-xs text-gray-600 font-mono">{booking.id.substring(0, 8)}</p>
+                        </div>
+                      </div>
+
+                      <div className="flex flex-wrap gap-2">
+                        {(booking.booking_status === 'confirmed' || booking.booking_status === 'paid') && (
+                          <>
+                            <button
+                              onClick={() => updateBookingStatus(booking.id, 'completed')}
+                              className="bg-blue-100 text-blue-800 hover:bg-blue-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                            >
+                              Tamamla
+                            </button>
+                            <button
+                              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+                              className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                            >
+                              İptal Et
+                            </button>
+                          </>
+                        )}
+                        {booking.booking_status === 'pending' && (
+                          <>
+                            <button
+                              onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                              className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                            >
+                              Onayla
+                            </button>
+                            <button
+                              onClick={() => updateBookingStatus(booking.id, 'cancelled')}
+                              className="bg-red-100 text-red-800 hover:bg-red-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                            >
+                              İptal Et
+                            </button>
+                          </>
+                        )}
+                        {(booking.booking_status === 'completed' || booking.booking_status === 'cancelled') && (
+                          <button
+                            onClick={() => updateBookingStatus(booking.id, 'confirmed')}
+                            className="bg-green-100 text-green-800 hover:bg-green-200 px-3 py-1 rounded-lg text-xs font-medium transition-colors duration-200"
+                          >
+                            Aktifleştir
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+              </div>
+
+              {/* Desktop Table Layout */}
+              <div className="hidden lg:block bg-white rounded-xl shadow-lg overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                       <tr>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                          Müşteri & Tur
+                          Müşteri & Rezervasyon
                         </th>
                         <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                           Tarih & Kabin
