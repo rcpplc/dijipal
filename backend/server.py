@@ -1962,12 +1962,13 @@ async def admin_update_booking_status(
         raise HTTPException(status_code=404, detail="Booking not found")
     
     new_status = status_data.get("status")
-    if new_status not in ["confirmed", "cancelled", "completed"]:
-        raise HTTPException(status_code=400, detail="Invalid status")
+    valid_statuses = ["draft", "pending", "confirmed", "paid", "completed", "cancelled"]
+    if new_status not in valid_statuses:
+        raise HTTPException(status_code=400, detail=f"Invalid status. Valid statuses: {valid_statuses}")
     
     await db.bookings.update_one(
         {"id": booking_id},
-        {"$set": {"status": new_status, "updated_at": datetime.now(timezone.utc)}}
+        {"$set": {"booking_status": new_status, "updated_at": datetime.now(timezone.utc)}}
     )
     
     return {"message": "Booking status updated successfully"}
