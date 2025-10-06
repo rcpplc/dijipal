@@ -372,6 +372,19 @@ const TourDetailPage = () => {
 
   const handleBooking = () => {
     if (!user) {
+      // Save current booking state before showing login modal
+      const bookingState = {
+        tourId: tour.id,
+        selectedDate: selectedDate,
+        selectedCabinType: selectedCabinType,
+        cabinCount: cabinCount,
+        participants: participants,
+        timestamp: Date.now()
+      };
+      
+      localStorage.setItem('pendingBookingState', JSON.stringify(bookingState));
+      console.log('💾 Saved booking state before login:', bookingState);
+      
       setShowLoginModal(true);
       return;
     }
@@ -400,6 +413,9 @@ const TourDetailPage = () => {
         ? selectedDate.double_cabin_price || selectedDate.price || 0
         : selectedDate.single_cabin_price || selectedDate.price || 0
     };
+
+    // Clear any pending booking state since we're proceeding
+    localStorage.removeItem('pendingBookingState');
 
     navigate(`/booking/${tour.id}`, {
       state: {
