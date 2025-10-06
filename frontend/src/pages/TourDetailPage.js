@@ -460,6 +460,7 @@ const TourDetailPage = () => {
       // Save current booking state before showing login modal
       const bookingState = {
         tourId: tour.id,
+        tourSlug: tourSlug, // Add slug for better matching
         selectedDate: selectedDate,
         selectedCabinType: selectedCabinType,
         cabinCount: cabinCount,
