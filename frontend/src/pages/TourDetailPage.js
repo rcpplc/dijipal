@@ -1339,48 +1339,107 @@ const TourDetailPage = () => {
                     Katılımcı Sayısı
                   </label>
                   
-                  <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                    <button
-                      onClick={() => {
-                        if (participants > 1) {
-                          setParticipants(participants - 1);
-                        }
-                      }}
-                      className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                      disabled={participants <= 1}
-                    >
-                      -
-                    </button>
-                    <div className="flex-1 text-center">
-                      <div className="text-xl font-bold text-gray-900">
-                        {participants || 1} kişi
-                      </div>
-                      {selectedDate && selectedDate.person_price && (
-                        <div className="text-sm text-gray-600">
-                          ₺{((selectedDate.person_price || 0) * (participants || 1)).toLocaleString('tr-TR')} toplam
+                  {/* Yetişkin Sayısı */}
+                  <div className="mb-4">
+                    <div className="text-sm font-medium text-gray-700 mb-2">Yetişkin Sayısı</div>
+                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                      <button
+                        onClick={() => {
+                          if (participants > 1) {
+                            setParticipants(participants - 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={participants <= 1}
+                      >
+                        -
+                      </button>
+                      <div className="flex-1 text-center">
+                        <div className="text-xl font-bold text-gray-900">
+                          {participants || 1} yetişkin
                         </div>
-                      )}
+                        {selectedDate && selectedDate.person_price && (
+                          <div className="text-sm text-gray-600">
+                            ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
+                          if ((participants + childCount) < maxCapacity) {
+                            setParticipants((participants || 1) + 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                      >
+                        +
+                      </button>
                     </div>
-                    <button
-                      onClick={() => {
-                        const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
-                        if (participants < maxCapacity) {
-                          setParticipants((participants || 1) + 1);
-                        }
-                      }}
-                      className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
-                      disabled={participants >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
-                    >
-                      +
-                    </button>
                   </div>
-                  
-                  {selectedDate && selectedDate.person_price && (
-                    <div className="mt-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
-                      <div className="text-sm text-gray-700">
-                        <div>Yetişkin: ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı</div>
-                        {selectedDate.child_price && (
-                          <div>Çocuk: ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} kişi başı</div>
+
+                  {/* Çocuk Sayısı */}
+                  <div className="mb-4">
+                    <div className="text-sm font-medium text-gray-700 mb-2">Çocuk Sayısı</div>
+                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                      <button
+                        onClick={() => {
+                          if (childCount > 0) {
+                            setChildCount(childCount - 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={childCount <= 0}
+                      >
+                        -
+                      </button>
+                      <div className="flex-1 text-center">
+                        <div className="text-xl font-bold text-gray-900">
+                          {childCount} çocuk
+                        </div>
+                        {selectedDate && selectedDate.child_price && (
+                          <div className="text-sm text-gray-600">
+                            ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} kişi başı
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={() => {
+                          const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
+                          if ((participants + childCount) < maxCapacity) {
+                            setChildCount(childCount + 1);
+                          }
+                        }}
+                        className="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed font-semibold"
+                        disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  {/* Toplam Fiyat Gösterimi */}
+                  {selectedDate && (selectedDate.person_price || selectedDate.child_price) && (
+                    <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                      <div className="text-center">
+                        <div className="text-lg font-bold text-blue-700">
+                          ₺{(() => {
+                            const adultTotal = (selectedDate.person_price || 0) * participants;
+                            const childTotal = (selectedDate.child_price || 0) * childCount;
+                            return (adultTotal + childTotal).toLocaleString('tr-TR');
+                          })()}
+                        </div>
+                        <div className="text-sm text-gray-600 mt-1">
+                          {participants} yetişkin + {childCount} çocuk = {participants + childCount} kişi
+                        </div>
+                        {selectedDate.person_price && (
+                          <div className="text-xs text-gray-500 mt-2">
+                            Yetişkin: ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} × {participants}
+                            {selectedDate.child_price && childCount > 0 && (
+                              <span> + Çocuk: ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} × {childCount}</span>
+                            )}
+                          </div>
                         )}
                       </div>
                     </div>
