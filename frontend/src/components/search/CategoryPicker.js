@@ -107,8 +107,7 @@ const CategoryPicker = ({
       {/* Suggestions from Search */}
       {suggestions.length > 0 && !loadingCategories && (
         <div className="space-y-3">
-          <h3 className="text-sm font-semibold text-gray-800 flex items-center">
-            <span className="w-2 h-2 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full mr-2"></span>
+          <h3 className="text-sm font-medium text-gray-700">
             {t('categories.suggestions')}
           </h3>
           <div className="grid grid-cols-1 gap-2">
@@ -117,19 +116,18 @@ const CategoryPicker = ({
                 cat.name.toLowerCase().includes(suggestion.name.toLowerCase())
               );
               const IconComponent = availableCategory ? iconComponents[availableCategory.icon] : MapPin;
-              const colors = availableCategory ? colorClasses[availableCategory.color] : colorClasses.gray;
               
               return (
                 <button
                   key={index}
                   onClick={() => onSuggestionSelect(suggestion)}
-                  className="flex items-center space-x-3 p-3 hover:bg-gradient-to-r hover:from-gray-50 hover:to-blue-50 rounded-xl border border-gray-200 hover:border-blue-300 transition-all duration-200 text-left"
+                  className="flex items-center space-x-3 p-3 hover:bg-blue-50 rounded-lg border border-gray-200 hover:border-blue-300 transition-colors text-left"
                 >
-                  <div className={`p-2 rounded-lg bg-gradient-to-br ${colors.gradient} shadow-sm`}>
+                  <div className="p-2 rounded-lg bg-blue-600">
                     <IconComponent className="w-4 h-4 text-white" />
                   </div>
                   <div className="flex-1">
-                    <div className="font-semibold text-gray-900">{suggestion.name}</div>
+                    <div className="font-medium text-gray-900">{suggestion.name}</div>
                     {suggestion.tours && (
                       <div className="text-sm text-gray-500">
                         {suggestion.tours} {t('common.tours')}
