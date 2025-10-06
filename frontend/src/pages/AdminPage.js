@@ -3416,21 +3416,61 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                                   day: 'numeric'
                                 })}
                               </td>
-                              <td className="py-3 px-4">
-                                <span className="text-green-600 font-semibold">
-                                  ₺{(tourDate.single_cabin_price || 0).toLocaleString('tr-TR')}
-                                </span>
-                              </td>
-                              <td className="py-3 px-4">
-                                <span className="text-purple-600 font-semibold">
-                                  ₺{(tourDate.double_cabin_price || 0).toLocaleString('tr-TR')}
-                                </span>
-                              </td>
-                              <td className="py-3 px-4 text-gray-900">
-                                <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
-                                  {tourDate.capacity} kabin
-                                </span>
-                              </td>
+                              
+                              {formData.reservation_type === 'cabin_based' && (
+                                <>
+                                  <td className="py-3 px-4">
+                                    <span className="text-green-600 font-semibold">
+                                      ₺{(tourDate.single_cabin_price || 0).toLocaleString('tr-TR')}
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-4">
+                                    <span className="text-purple-600 font-semibold">
+                                      ₺{(tourDate.double_cabin_price || 0).toLocaleString('tr-TR')}
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-4 text-gray-900">
+                                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                                      {tourDate.capacity} kabin
+                                    </span>
+                                  </td>
+                                </>
+                              )}
+                              
+                              {formData.reservation_type === 'person_based' && (
+                                <>
+                                  <td className="py-3 px-4">
+                                    <span className="text-green-600 font-semibold">
+                                      ₺{(tourDate.person_price || 0).toLocaleString('tr-TR')}
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-4">
+                                    <span className="text-orange-600 font-semibold">
+                                      {tourDate.child_price ? `₺${tourDate.child_price.toLocaleString('tr-TR')}` : '-'}
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-4 text-gray-900">
+                                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                                      {tourDate.max_persons} kişi
+                                    </span>
+                                  </td>
+                                </>
+                              )}
+                              
+                              {formData.reservation_type === 'reservation' && (
+                                <>
+                                  <td className="py-3 px-4">
+                                    <span className="text-green-600 font-semibold">
+                                      ₺{(tourDate.total_reservation_price || 0).toLocaleString('tr-TR')}
+                                    </span>
+                                  </td>
+                                  <td className="py-3 px-4 text-gray-900">
+                                    <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm font-medium">
+                                      {tourDate.max_passengers} yolcu
+                                    </span>
+                                  </td>
+                                </>
+                              )}
                               <td className="py-3 px-4">
                                 <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                                   tourDate.is_active !== false 
