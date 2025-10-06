@@ -2487,7 +2487,13 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
     
     if (!isValid) {
-      toast.error('Lütfen tüm zorunlu alanları doldurun');
+      if (formData.reservation_type === 'cabin_based') {
+        toast.error('Lütfen tarih, kabin kapasitesi ve kabin fiyatlarını doldurun');
+      } else if (formData.reservation_type === 'person_based') {
+        toast.error('Lütfen tarih, maksimum kişi sayısı ve kişi başı fiyatı doldurun');
+      } else if (formData.reservation_type === 'reservation') {
+        toast.error('Lütfen tarih, rezervasyon fiyatı ve maksimum yolcu sayısını doldurun');
+      }
       return;
     }
 
