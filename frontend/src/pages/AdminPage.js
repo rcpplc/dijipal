@@ -56,6 +56,12 @@ const AdminPage = () => {
   const [bookingsLoading, setBookingsLoading] = useState(false);
   const [selectedBooking, setSelectedBooking] = useState(null);
   const [bookingFilter, setBookingFilter] = useState('all'); // all, confirmed, cancelled, completed
+  
+  // Messages management
+  const [messages, setMessages] = useState([]);
+  const [messageFilter, setMessageFilter] = useState('all');
+  const [selectedMessage, setSelectedMessage] = useState(null);
+  const [replyText, setReplyText] = useState('');
   const [showCategoryModal, setShowCategoryModal] = useState(false);
   const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
