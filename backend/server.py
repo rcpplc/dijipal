@@ -1914,6 +1914,12 @@ async def admin_get_bookings(current_user: User = Depends(get_current_user)):
         raise HTTPException(status_code=403, detail="Admin access required")
     
     bookings = await db.bookings.find().sort("created_at", -1).to_list(length=None)
+    
+    # Remove MongoDB _id to avoid serialization issues
+    for booking in bookings:
+        if "_id" in booking:
+            del booking["_id"]
+    
     return bookings
 
 @api_router.put("/admin/bookings/{booking_id}/status")
