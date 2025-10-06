@@ -1456,7 +1456,7 @@ const TourDetailPage = () => {
                     <p className="text-sm text-gray-600 mt-1">
                       {(() => {
                         if (!tour) return 'Yükleniyor...';
-                        if (tour.reservation_type === 'person_based') {
+                        if (tour && tour.reservation_type === 'person_based') {
                           return `${participants || 1} kişi`;
                         } else if (tour.reservation_type === 'reservation') {
                           return 'Özel rezervasyon';
