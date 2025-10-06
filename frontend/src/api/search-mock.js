@@ -165,42 +165,58 @@ export const fetchSearchSuggestions = async (query, type = 'location') => {
 };
 
 /**
- * Mock API for reverse geocoding
+ * Real API for reverse geocoding
  */
 export const reverseGeocode = async (latitude, longitude) => {
-  await delay(500 + Math.random() * 300);
-  
-  // Mock response based on coordinates
-  // In reality, this would call a geocoding service like Google Maps API
-  const mockLocations = [
-    { lat: 36.6167, lng: 29.1167, location: 'Muğla, Fethiye' },
-    { lat: 36.7548, lng: 28.9416, location: 'Muğla, Göcek' },
-    { lat: 36.2048, lng: 29.6416, location: 'Antalya, Kaş' },
-    { lat: 38.3225, lng: 26.3065, location: 'İzmir, Çeşme' },
-    { lat: 37.0348, lng: 27.4305, location: 'Muğla, Bodrum' }
-  ];
-  
-  // Find closest location (simple distance calculation)
-  let closest = mockLocations[0];
-  let minDistance = Math.sqrt(
-    Math.pow(latitude - closest.lat, 2) + Math.pow(longitude - closest.lng, 2)
-  );
-  
-  for (const loc of mockLocations) {
-    const distance = Math.sqrt(
-      Math.pow(latitude - loc.lat, 2) + Math.pow(longitude - loc.lng, 2)
-    );
-    if (distance < minDistance) {
-      minDistance = distance;
-      closest = loc;
+  try {
+    const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+    const response = await fetch(`${BACKEND_URL}/api/geocoding/reverse`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ latitude, longitude })
+    });
+    
+    if (!response.ok) {
+      throw new Error('Geocoding failed');
     }
+    
+    return await response.json();
+  } catch (error) {
+    console.error('Error with reverse geocoding:', error);
+    
+    // Fallback to mock data
+    await delay(500 + Math.random() * 300);
+    
+    const mockLocations = [
+      { lat: 36.6167, lng: 29.1167, location: 'Muğla, Fethiye' },
+      { lat: 36.7548, lng: 28.9416, location: 'Muğla, Göcek' },
+      { lat: 36.2048, lng: 29.6416, location: 'Antalya, Kaş' },
+      { lat: 38.3225, lng: 26.3065, location: 'İzmir, Çeşme' },
+      { lat: 37.0348, lng: 27.4305, location: 'Muğla, Bodrum' }
+    ];
+    
+    // Find closest location (simple distance calculation)
+    let closest = mockLocations[0];
+    let minDistance = Math.sqrt(
+      Math.pow(latitude - closest.lat, 2) + Math.pow(longitude - closest.lng, 2)
+    );
+    
+    for (const loc of mockLocations) {
+      const distance = Math.sqrt(
+        Math.pow(latitude - loc.lat, 2) + Math.pow(longitude - loc.lng, 2)
+      );
+      if (distance < minDistance) {
+        minDistance = distance;
+        closest = loc;
+      }
+    }
+    
+    return {
+      location: closest.location,
+      coordinates: { latitude, longitude },
+      accuracy: 'approximate'
+    };
   }
-  
-  return {
-    location: closest.location,
-    coordinates: { latitude, longitude },
-    accuracy: 'approximate'
-  };
 };
 
 /**
