@@ -1812,8 +1812,15 @@ const TourDetailPage = () => {
                             })}
                           </div>
                           <div className="text-xs text-gray-600 mt-1">
-                            Tek Kabin: ₺{date.single_cabin_price?.toLocaleString('tr-TR')} • 
-                            Çift Kabin: ₺{date.double_cabin_price?.toLocaleString('tr-TR')}
+                            {(() => {
+                              if (tour.reservation_type === 'person_based') {
+                                return `Kişi başı: ₺${date.person_price?.toLocaleString('tr-TR') || '0'}${date.child_price ? ` • Çocuk: ₺${date.child_price.toLocaleString('tr-TR')}` : ''}`;
+                              } else if (tour.reservation_type === 'reservation') {
+                                return `Toplam: ₺${date.total_reservation_price?.toLocaleString('tr-TR') || '0'}`;
+                              } else {
+                                return `Tek Kabin: ₺${date.single_cabin_price?.toLocaleString('tr-TR') || '0'} • Çift Kabin: ₺${date.double_cabin_price?.toLocaleString('tr-TR') || '0'}`;
+                              }
+                            })()}
                           </div>
                         </button>
                       ))}
