@@ -570,17 +570,9 @@ const ToursPage = () => {
                     onChange={(e) => handleFilterChange('minRating', e.target.value)}
                     className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
-                    {minRatings.map(rating => (
+                    {minRatings.map((rating) => (
                       <option key={rating.value} value={rating.value}>
-                        {rating.value ? (
-                          <>
-                            {[...Array(5)].map((_, i) => (
-                              i < parseInt(rating.value) ? '★' : '☆'
-                            )).join('')} ({rating.value}+ Yıldız)
-                          </>
-                        ) : (
-                          rating.label
-                        )}
+                        {rating.label}
                       </option>
                     ))}
                   </select>
