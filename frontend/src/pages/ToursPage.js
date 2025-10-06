@@ -498,8 +498,9 @@ const ToursPage = () => {
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
-                    {locations.map((location, index) => (
-                      <option key={location.value || index} value={location.value}>
+                    <option value="">Tüm Lokasyonlar</option>
+                    {locations.slice(1).map((location) => (
+                      <option key={location.value} value={location.value}>
                         {location.label}
                       </option>
                     ))}
