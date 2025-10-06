@@ -1408,7 +1408,7 @@ const TourDetailPage = () => {
                       {selectedDate && selectedDate.total_reservation_price && (
                         <div className="mt-3">
                           <div className="text-2xl font-bold text-blue-600">
-                            ₺{selectedDate.total_reservation_price.toLocaleString('tr-TR')}
+                            ₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}
                           </div>
                           <div className="text-sm text-gray-600">Toplam rezervasyon fiyatı</div>
                         </div>
