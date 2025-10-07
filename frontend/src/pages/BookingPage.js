@@ -839,7 +839,6 @@ const BookingPage = () => {
                   </div>
                 </div>
               </div>
-              </div>
             </div>
           </div>
         </div>
