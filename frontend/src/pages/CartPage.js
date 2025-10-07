@@ -228,7 +228,7 @@ const CartPage = () => {
 
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => {
-      // Debug log kaldırıldı
+      // Debug temizlendi
       
       if (item.reservation_type === 'person_based') {
         // Kişi bazlı: Yetişkin + Çocuk fiyatları
