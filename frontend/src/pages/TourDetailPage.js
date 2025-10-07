@@ -805,7 +805,13 @@ const TourDetailPage = () => {
 
                 <div className="flex items-center space-x-2 text-xs sm:text-sm text-gray-600">
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>{tour.duration_days || 1} gün</span>
+                  <span>
+                    {tour.duration || tour.duration_days || 1} {(() => {
+                      if (tour.duration_unit === 'hours') return 'saat';
+                      if (tour.duration_unit === 'days') return 'gün';
+                      return tour.duration_days ? 'gün' : 'saat'; // fallback
+                    })()}
+                  </span>
                   {tour.classification && (
                     <span className="text-gray-500 font-medium">
                       • {tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1)}
