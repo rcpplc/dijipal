@@ -3,7 +3,7 @@ import json
 
 def test_frontend_booking_page():
     """Test the frontend booking page endpoint"""
-    base_url = "https://tour-system-fix.preview.emergentagent.com"
+    base_url = "https://tour-platform-fix.preview.emergentagent.com"
     
     # Test the booking page route that user mentioned
     tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
@@ -57,7 +57,7 @@ def test_frontend_booking_page():
 
 def test_api_vs_frontend_routes():
     """Test different route patterns to understand the issue"""
-    base_url = "https://tour-system-fix.preview.emergentagent.com"
+    base_url = "https://tour-platform-fix.preview.emergentagent.com"
     tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
     
     routes_to_test = [
