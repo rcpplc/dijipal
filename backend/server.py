@@ -3131,6 +3131,104 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+# ====================================================================
+# CRON JOB ENDPOINTS
+# ====================================================================
+
+@app.post("/api/cron/update-tour-dates-status")
+async def update_expired_tour_dates():
+    """
+    Cron job endpoint to deactivate past tour dates
+    Bu endpoint günlük olarak çalıştırılarak geçmiş tarihleri pasif yapar
+    """
+    try:
+        today = datetime.now(timezone.utc).date()
+        today_str = today.isoformat()
+        
+        print(f"🕒 Cron job started: Checking tour dates before {today_str}")
+        
+        # Tüm turları al
+        tours = await db.tours.find({}).to_list(length=None)
+        
+        updated_tours = 0
+        total_dates_checked = 0
+        dates_deactivated = 0
+        
+        for tour in tours:
+            tour_updated = False
+            available_dates = tour.get('available_dates', [])
+            
+            # Her tur tarihini kontrol et
+            for date_entry in available_dates:
+                total_dates_checked += 1
+                
+                # Date string'i date object'e çevir
+                if isinstance(date_entry, dict):
+                    date_str = date_entry.get('date') or date_entry.get('start_date')
+                    current_status = date_entry.get('status', 'active')
+                else:
+                    continue  # Skip invalid date entries
+                
+                if not date_str:
+                    continue
+                
+                try:
+                    # Date'i parse et
+                    if 'T' in date_str:
+                        tour_date = datetime.fromisoformat(date_str.replace('Z', '+00:00')).date()
+                    else:
+                        tour_date = datetime.fromisoformat(date_str).date()
+                    
+                    # Geçmiş tarih mi kontrol et
+                    if tour_date < today and current_status == 'active':
+                        date_entry['status'] = 'inactive'
+                        tour_updated = True
+                        dates_deactivated += 1
+                        print(f"   📅 Deactivated: {tour.get('title', 'Unknown Tour')} - {date_str}")
+                        
+                except ValueError as e:
+                    print(f"   ⚠️  Date parsing error for {date_str}: {e}")
+                    continue
+            
+            # Tur güncellendiyse veritabanına kaydet
+            if tour_updated:
+                await db.tours.update_one(
+                    {"id": tour["id"]}, 
+                    {"$set": {"available_dates": available_dates, "updated_at": datetime.utcnow()}}
+                )
+                updated_tours += 1
+        
+        result = {
+            "success": True,
+            "message": "Tour dates status update completed",
+            "stats": {
+                "tours_checked": len(tours),
+                "tours_updated": updated_tours,
+                "total_dates_checked": total_dates_checked,
+                "dates_deactivated": dates_deactivated,
+                "execution_date": today_str
+            }
+        }
+        
+        print(f"✅ Cron job completed:")
+        print(f"   - Tours checked: {len(tours)}")
+        print(f"   - Tours updated: {updated_tours}")
+        print(f"   - Dates checked: {total_dates_checked}")
+        print(f"   - Dates deactivated: {dates_deactivated}")
+        
+        return result
+        
+    except Exception as e:
+        error_msg = f"Cron job error: {str(e)}"
+        print(f"❌ {error_msg}")
+        return {
+            "success": False,
+            "message": error_msg,
+            "stats": {
+                "execution_date": datetime.now(timezone.utc).date().isoformat()
+            }
+        }
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
