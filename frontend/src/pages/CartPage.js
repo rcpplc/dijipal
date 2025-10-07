@@ -246,9 +246,28 @@ const CartPage = () => {
         return total + (item.total_reservation_price || 0);
       } else {
         // Kabin bazlı: tek ve çift kabin ayrı hesaplama
-        const singleTotal = (item.single_cabin_price || 0) * (item.singleCabinCount || 0);
-        const doubleTotal = (item.double_cabin_price || 0) * (item.doubleCabinCount || 0);
-        console.log('Kabin toplam hesaplama:', { singleTotal, doubleTotal, grandTotal: singleTotal + doubleTotal });
+        let singleTotal = 0;
+        let doubleTotal = 0;
+        
+        if (item.singleCabinCount !== undefined || item.doubleCabinCount !== undefined) {
+          // Yeni format: ayrı kabin sayıları
+          singleTotal = (item.single_cabin_price || 0) * (item.singleCabinCount || 0);
+          doubleTotal = (item.double_cabin_price || 0) * (item.doubleCabinCount || 0);
+        } else {
+          // Eski format: tek kabin tipi ve participants (backward compatibility)
+          if (item.cabinType === 'single') {
+            singleTotal = (item.single_cabin_price || item.price || 0) * (item.participants || 1);
+          } else if (item.cabinType === 'double') {
+            doubleTotal = (item.double_cabin_price || item.price || 0) * (item.participants || 1);
+          }
+        }
+        
+        console.log('Kabin toplam hesaplama:', { 
+          singleTotal, 
+          doubleTotal, 
+          grandTotal: singleTotal + doubleTotal,
+          itemFormat: item.singleCabinCount !== undefined ? 'new' : 'old'
+        });
         return total + singleTotal + doubleTotal;
       }
     }, 0);
