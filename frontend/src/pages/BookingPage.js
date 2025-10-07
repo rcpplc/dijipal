@@ -700,12 +700,17 @@ const BookingPage = () => {
                     <span className="text-gray-600">
                       {(() => {
                         if (tour?.reservation_type === 'person_based') {
-                          return `${participants} Yetişkin × ₺${(unitPrice || 0).toLocaleString('tr-TR')}${selectedDate?.childCount > 0 ? ` + ${selectedDate?.childCount} Çocuk × ₺${(selectedDate?.child_price || 0).toLocaleString('tr-TR')}` : ''}`;
+                          const adultPrice = selectedDate?.person_price || 0;
+                          const childPrice = selectedDate?.child_price || 0;
+                          const childCountFromBooking = selectedDate?.childCount || 0;
+                          return `${participants} Yetişkin × ₺${adultPrice.toLocaleString('tr-TR')}${childCountFromBooking > 0 ? ` + ${childCountFromBooking} Çocuk × ₺${childPrice.toLocaleString('tr-TR')}` : ''}`;
                         } else if (tour?.reservation_type === 'reservation') {
-                          return `1 × Toplam Rezervasyon × ₺${(unitPrice || 0).toLocaleString('tr-TR')}`;
+                          const reservationPrice = selectedDate?.total_reservation_price || 0;
+                          return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
                         } else {
                           // cabin_based
-                          return `${participants} kabin × ₺${(unitPrice || 0).toLocaleString('tr-TR')}`;
+                          const cabinPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
+                          return `${participants} kabin × ₺${cabinPrice.toLocaleString('tr-TR')}`;
                         }
                       })()}
                     </span>
