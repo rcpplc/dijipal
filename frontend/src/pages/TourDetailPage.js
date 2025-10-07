@@ -1432,7 +1432,7 @@ const TourDetailPage = () => {
 
                   {/* Total price display removed for cabin selection */}
                   
-                  <p className="text-sm text-gray-600 mt-3 text-center font-medium">
+                  <p className="text-xs text-gray-500 mt-2 text-center">
                     {selectedDate 
                       ? `Müsait: ${selectedDate.single_cabin_count || 0} tek kişilik, ${selectedDate.double_cabin_count || 0} çift kişilik kabin` 
                       : 'Önce tarih seçin, sonra kabin adedini belirleyin'
