@@ -1521,7 +1521,7 @@ const TourDetailPage = () => {
                         if (tour && tour.reservation_type === 'person_based') {
                           return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${participants}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
                         } else if (tour && tour.reservation_type === 'reservation') {
-                          return `Sabit fiyat - Tüm tekne rezervasyonu`;
+                          return `Sabit Fiyat Toplam Rezervasyon`;
                         } else {
                           // cabin_based
                           const parts = [];
