@@ -1739,6 +1739,82 @@ const TourDetailPage = () => {
         </div>
       )}
 
+      {/* Mobile Booking Summary - Above Bottom Bar */}
+      {selectedDate && (
+        <div className="fixed bottom-20 left-2 right-2 lg:hidden z-40">
+          <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-3">
+            <div className="text-center">
+              <div className="text-lg font-bold text-blue-700 mb-1">
+                ₺{(() => {
+                  if (!tour) return '0';
+                  
+                  if (tour.reservation_type === 'person_based') {
+                    const adultTotal = (selectedDate.person_price || 0) * participants;
+                    const childTotal = (selectedDate.child_price || 0) * childCount;
+                    return (adultTotal + childTotal).toLocaleString('tr-TR');
+                  } else if (tour.reservation_type === 'reservation') {
+                    return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
+                  } else {
+                    // cabin_based - show selected cabins only
+                    const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                    const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                    return (singleTotal + doubleTotal).toLocaleString('tr-TR');
+                  }
+                })()}
+              </div>
+              
+              <div className="text-xs text-gray-600 mb-2">
+                {(() => {
+                  if (!tour) return 'Yükleniyor...';
+                  
+                  if (tour.reservation_type === 'person_based') {
+                    const total = participants + childCount;
+                    if (total === 0) return 'Katılımcı seçin';
+                    return `${participants} yetişkin + ${childCount} çocuk = ${total} kişi`;
+                  } else if (tour.reservation_type === 'reservation') {
+                    return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
+                  } else {
+                    // cabin_based - show selected cabins
+                    const totalCabins = singleCabinCount + doubleCabinCount;
+                    if (totalCabins === 0) return 'Kabin seçin';
+                    
+                    const parts = [];
+                    if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
+                    if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
+                    return parts.join(' + ') + ' kabin seçildi';
+                  }
+                })()}
+              </div>
+              
+              <div className="text-xs text-gray-500 text-center">
+                {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
+                  weekday: 'short',
+                  day: 'numeric',
+                  month: 'short'
+                })} • 
+                {(() => {
+                  if (tour && tour.reservation_type === 'person_based') {
+                    return `₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} yetişkin${childCount > 0 ? ` • ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} çocuk` : ''}`;
+                  } else if (tour && tour.reservation_type === 'reservation') {
+                    return `Sabit fiyat`;
+                  } else {
+                    // cabin_based
+                    const parts = [];
+                    if (singleCabinCount > 0) {
+                      parts.push(`₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}×${singleCabinCount}`);
+                    }
+                    if (doubleCabinCount > 0) {
+                      parts.push(`₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}×${doubleCabinCount}`);
+                    }
+                    return parts.length > 0 ? parts.join(' • ') : 'Seçim yapın';
+                  }
+                })()}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Mobile Bottom Booking Bar - Original Design */}
       <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 px-3 py-2 lg:hidden z-50 shadow-lg">
         <div className="flex items-center justify-between space-x-2">
