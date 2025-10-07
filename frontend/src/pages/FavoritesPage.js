@@ -162,7 +162,14 @@ const FavoritesPage = () => {
                         <span>{tour.location}</span>
                         <div className="flex items-center space-x-1 ml-4">
                           <Calendar className="w-4 h-4" />
-                          <span>{tour.duration_days} gün</span>
+                          <span>
+                            {tour.duration || tour.duration_days || 1}{' '}
+                            {(() => {
+                              if (tour.duration_unit === 'hours') return 'Saat';
+                              if (tour.duration_unit === 'days') return 'Gün';
+                              return 'Gün'; // fallback
+                            })()}
+                          </span>
                         </div>
                       </div>
 
