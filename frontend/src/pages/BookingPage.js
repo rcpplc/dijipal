@@ -684,7 +684,16 @@ const BookingPage = () => {
                 <div className="border-t border-gray-100 pt-4 space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">
-                      {participants} kabin × ₺{(unitPrice || 0).toLocaleString('tr-TR')}
+                      {(() => {
+                        if (tour?.reservation_type === 'person_based') {
+                          return `${participants} Yetişkin × ₺${(unitPrice || 0).toLocaleString('tr-TR')}${selectedDate?.childCount > 0 ? ` + ${selectedDate?.childCount} Çocuk × ₺${(selectedDate?.child_price || 0).toLocaleString('tr-TR')}` : ''}`;
+                        } else if (tour?.reservation_type === 'reservation') {
+                          return `1 × Toplam Rezervasyon × ₺${(unitPrice || 0).toLocaleString('tr-TR')}`;
+                        } else {
+                          // cabin_based
+                          return `${participants} kabin × ₺${(unitPrice || 0).toLocaleString('tr-TR')}`;
+                        }
+                      })()}
                     </span>
                     <span className="font-medium">₺{parseFloat(totalPrice || 0).toLocaleString('tr-TR')}</span>
                   </div>
