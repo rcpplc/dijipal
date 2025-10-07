@@ -686,7 +686,17 @@ const BookingPage = () => {
                           } else if (tour?.reservation_type === 'reservation') {
                             return `1 × Toplam Rezervasyon`;
                           } else {
-                            // cabin_based
+                            // cabin_based - Sepetten kabin bilgilerini al
+                            const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+                            const cartItem = cartItems.find(item => item.tourId === tour.id);
+                            if (cartItem && cartItem.reservation_type === 'cabin_based') {
+                              const singleCount = cartItem.singleCabinCount || 0;
+                              const doubleCount = cartItem.doubleCabinCount || 0;
+                              const parts = [];
+                              if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik Kabin`);
+                              if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
+                              return parts.length > 0 ? parts.join(' + ') : `${participants} × Kabin`;
+                            }
                             return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                           }
                         })()}
