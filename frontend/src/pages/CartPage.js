@@ -403,7 +403,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
                                   disabled={item.participants <= 1}
-                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border-2 border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
@@ -413,7 +413,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
                                   disabled={item.participants >= (item.selectedDate?.max_persons || 20)}
-                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border-2 border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
                                 >
                                   <Plus className="w-3 h-3" />
                                 </button>
@@ -427,7 +427,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) - 1)}
                                   disabled={(item.childCount || 0) <= 0}
-                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border-2 border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
@@ -437,7 +437,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) + 1)}
                                   disabled={(item.participants + (item.childCount || 0)) >= (item.selectedDate?.max_persons || 20)}
-                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border-2 border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
                                 >
                                   <Plus className="w-3 h-3" />
                                 </button>
