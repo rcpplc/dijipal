@@ -230,8 +230,22 @@ const BookingPage = () => {
     participants
   });
 
-  const unitPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
-  const subTotal = unitPrice * participants;
+  const calculatePrice = () => {
+    if (tour?.reservation_type === 'person_based') {
+      const adultPrice = selectedDate?.person_price || 0;
+      const childPrice = selectedDate?.child_price || 0;
+      const childCountFromState = selectedDate?.childCount || 0;
+      return (adultPrice * participants) + (childPrice * childCountFromState);
+    } else if (tour?.reservation_type === 'reservation') {
+      return selectedDate?.total_reservation_price || 0;
+    } else {
+      // Kabin bazlı
+      const unitPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
+      return unitPrice * participants;
+    }
+  };
+
+  const subTotal = calculatePrice();
   
   // KDV %20 fiyata dahil hesaplama (fiyat KDV dahil, KDV'yi ayır)
   const kdvRate = 0.20;
