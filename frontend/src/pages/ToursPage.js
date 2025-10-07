@@ -142,7 +142,7 @@ const ToursPage = () => {
   }, []);
 
   useEffect(() => {
-    loadTours();
+    loadTours(1, false); // Reset to page 1 when filters change
   }, [filters, searchQuery]);
 
   // Handle responsive filter visibility
