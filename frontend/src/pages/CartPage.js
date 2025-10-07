@@ -260,7 +260,7 @@ const CartPage = () => {
           }
         }
         
-        // Debug log kaldırıldı
+        // Debug temizlendi
         return total + singleTotal + doubleTotal;
       }
     }, 0);
