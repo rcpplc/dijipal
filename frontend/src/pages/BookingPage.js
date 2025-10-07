@@ -843,7 +843,17 @@ const BookingPage = () => {
                           const reservationPrice = selectedDate?.total_reservation_price || 0;
                           return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
                         } else {
-                          // cabin_based - Sepetten ayrı kabin fiyatlarını al (gelişmiş kontrol)
+                          // cabin_based - State'den veri kontrolü (öncelik ver)
+                          if (singleCabinCount > 0 || doubleCabinCount > 0) {
+                            const singlePrice = selectedDate?.single_cabin_price || 0;
+                            const doublePrice = selectedDate?.double_cabin_price || 0;
+                            const parts = [];
+                            if (singleCabinCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCabinCount}`);
+                            if (doubleCabinCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCabinCount}`);
+                            return parts.join(' + ');
+                          }
+                          
+                          // Fallback: Sepetten kabin bilgilerini al
                           try {
                             const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
                             const cartItem = cartItems.find(item => 
@@ -862,18 +872,6 @@ const BookingPage = () => {
                                 if (doubleCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCount}`);
                                 return parts.join(' + ');
                               }
-                            }
-                            
-                            // State'den gelen veri kontrolü
-                            if (location.state && location.state.singleCabinCount !== undefined) {
-                              const singleCount = location.state.singleCabinCount || 0;
-                              const doubleCount = location.state.doubleCabinCount || 0;
-                              const singlePrice = selectedDate?.single_cabin_price || 0;
-                              const doublePrice = selectedDate?.double_cabin_price || 0;
-                              const parts = [];
-                              if (singleCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCount}`);
-                              if (doubleCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCount}`);
-                              if (parts.length > 0) return parts.join(' + ');
                             }
                           } catch (error) {
                             console.error('Cart item price parse error:', error);
