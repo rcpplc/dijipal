@@ -399,19 +399,37 @@ const CartPage = () => {
                       {/* Price */}
                       <div className="text-right">
                         <div className="text-sm text-gray-600 mb-1">
-                          ₺{(() => {
-                            const cabinPrice = item.cabinType === 'double' 
-                              ? (item.double_cabin_price || item.price || 0)
-                              : (item.single_cabin_price || item.price || 0);
-                            return cabinPrice.toLocaleString();
-                          })()} / kabin × {item.participants}
+                          {(() => {
+                            if (item.reservation_type === 'person_based') {
+                              const adultPrice = item.person_price || 0;
+                              const childPrice = item.child_price || 0;
+                              return `₺${adultPrice.toLocaleString()} / Yetişkin × ${item.participants}${item.childCount > 0 ? ` + ₺${childPrice.toLocaleString()} / Çocuk × ${item.childCount}` : ''}`;
+                            } else if (item.reservation_type === 'reservation') {
+                              return `₺${(item.total_reservation_price || 0).toLocaleString()} / Toplam Rezervasyon`;
+                            } else {
+                              // cabin_based
+                              const cabinPrice = item.cabinType === 'double' 
+                                ? (item.double_cabin_price || item.price || 0)
+                                : (item.single_cabin_price || item.price || 0);
+                              return `₺${cabinPrice.toLocaleString()} / kabin × ${item.participants}`;
+                            }
+                          })()}
                         </div>
                         <div className="text-xl font-bold text-blue-600">
                           ₺{(() => {
-                            const cabinPrice = item.cabinType === 'double' 
-                              ? (item.double_cabin_price || item.price || 0)
-                              : (item.single_cabin_price || item.price || 0);
-                            return (cabinPrice * item.participants).toLocaleString();
+                            if (item.reservation_type === 'person_based') {
+                              const adultTotal = (item.person_price || 0) * item.participants;
+                              const childTotal = (item.child_price || 0) * (item.childCount || 0);
+                              return (adultTotal + childTotal).toLocaleString();
+                            } else if (item.reservation_type === 'reservation') {
+                              return (item.total_reservation_price || 0).toLocaleString();
+                            } else {
+                              // cabin_based
+                              const cabinPrice = item.cabinType === 'double' 
+                                ? (item.double_cabin_price || item.price || 0)
+                                : (item.single_cabin_price || item.price || 0);
+                              return (cabinPrice * item.participants).toLocaleString();
+                            }
                           })()}
                         </div>
                       </div>
