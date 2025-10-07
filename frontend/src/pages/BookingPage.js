@@ -789,7 +789,7 @@ const BookingPage = () => {
                             const displayChildCount = childCount || selectedDate?.childCount || 0;
                             return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
                           } else if (tour?.reservation_type === 'reservation') {
-                            return `Tüm Tekne / Sabit Fiyat`;
+                            return `Toplam Rezervasyon`;
                           } else {
                             // cabin_based - Sepetten kabin bilgilerini al (gelişmiş kontrol)
                             try {
@@ -830,7 +830,21 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                {/* Fiyat detayları tamamen gizlendi */}
+                {/* KDV Detayları */}
+                <div className="border-t border-gray-100 pt-4 space-y-2">
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>KDV Hariç Tutar</span>
+                    <span>₺{(priceWithoutKdv || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>KDV Oranı</span>
+                    <span>%20</span>
+                  </div>
+                  <div className="flex justify-between text-sm text-gray-600">
+                    <span>KDV Tutarı</span>
+                    <span>₺{(kdvAmount || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
+                  </div>
+                </div>
 
                 <div className="border-t border-gray-100 pt-4">
                   <div className="flex justify-between text-lg font-bold">
