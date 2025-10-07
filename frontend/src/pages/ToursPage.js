@@ -97,8 +97,11 @@ const ToursPage = () => {
       duration: '',
       minRating: '',
       max_rating: '',
-      classification: ''
+      classification: '',
+      startDate: '',
+      endDate: ''
     });
+    setSearchQuery('');
     setSearchParams(new URLSearchParams());
   };
 
