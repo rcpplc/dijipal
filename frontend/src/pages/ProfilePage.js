@@ -425,12 +425,35 @@ const ProfilePage = () => {
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
                         <div>
-                          <span className="text-gray-600">Kabin Sayısı:</span>
-                          <p className="font-medium">{booking.participants} kabin</p>
+                          <span className="text-gray-600">Rezervasyon:</span>
+                          <p className="font-medium">
+                            {(() => {
+                              if (booking.reservation_type === 'person_based') {
+                                const childCount = booking.child_count || 0;
+                                return `${booking.participants || 0} Yetişkin${childCount > 0 ? ` + ${childCount} Çocuk` : ''}`;
+                              } else if (booking.reservation_type === 'reservation') {
+                                return `Tüm Tekne / Sabit Fiyat`;
+                              } else {
+                                // cabin_based - yeni format
+                                const singleCount = booking.single_cabin_count || 0;
+                                const doubleCount = booking.double_cabin_count || 0;
+                                
+                                if (singleCount > 0 || doubleCount > 0) {
+                                  const parts = [];
+                                  if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
+                                  if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
+                                  return parts.join(' + ');
+                                }
+                                
+                                // Fallback: eski format
+                                return `${booking.participants} × ${booking.cabin_type === 'double' ? 'Çift Kişilik' : 'Tek Kişilik'}`;
+                              }
+                            })()}
+                          </p>
                         </div>
                         <div>
                           <span className="text-gray-600">Toplam Tutar:</span>
-                          <p className="font-medium text-blue-600">₺{booking.total_price}</p>
+                          <p className="font-medium text-blue-600">₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
                         </div>
                         <div>
                           <span className="text-gray-600">Güncelleme:</span>
