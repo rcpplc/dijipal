@@ -517,8 +517,19 @@ const TourDetailPage = () => {
       state: {
         tour: bookingData,
         selectedDate: selectedDate,
-        cabinType: selectedCabinType,
-        participants: cabinCount
+        // Reservation type'a göre doğru veriyi gönder
+        ...(tour.reservation_type === 'cabin_based' ? {
+          cabinType: selectedCabinType,
+          singleCabinCount: singleCabinCount,
+          doubleCabinCount: doubleCabinCount,
+          participants: singleCabinCount + doubleCabinCount // Toplam kabin sayısı
+        } : tour.reservation_type === 'person_based' ? {
+          participants: participants,
+          childCount: childCount,
+          totalPersons: participants + childCount
+        } : {
+          participants: 1 // Reservation type için
+        })
       }
     });
   };
