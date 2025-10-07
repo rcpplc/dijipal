@@ -25,17 +25,65 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const location = useLocation();
-  const { tour: stateTour, selectedDate, cabinType: stateCabinType, participants: stateParticipants, fromLogin } = location.state || {};
+  const { 
+    tour: stateTour, 
+    selectedDate, 
+    cabinType: stateCabinType, 
+    participants: stateParticipants, 
+    // Yeni format state'leri
+    singleCabinCount: stateSingleCabinCount,
+    doubleCabinCount: stateDoubleCabinCount,
+    childCount: stateChildCount,
+    totalPersons: stateTotalPersons,
+    fromLogin 
+  } = location.state || {};
+  
   const [tour, setTour] = useState(stateTour || null);
   const [loading, setLoading] = useState(true);
   const [bookingLoading, setBookingLoading] = useState(false);
   const [step, setStep] = useState(1);
-  const [participants, setParticipants] = useState(
-    stateParticipants || parseInt(searchParams.get('participants')) || 1
+  
+  // Reservation type'a göre state'leri set et
+  const [participants, setParticipants] = useState(() => {
+    if (stateTour?.reservation_type === 'person_based') {
+      return stateParticipants || parseInt(searchParams.get('participants')) || 1;
+    }
+    return stateParticipants || parseInt(searchParams.get('participants')) || 1;
+  });
+  
+  // Çocuk sayısı state'i
+  const [childCount, setChildCount] = useState(
+    stateChildCount || parseInt(searchParams.get('childCount')) || 0
   );
   
-  // State veya URL'den kabin tipini al
+  // Kabin sayıları state'leri
+  const [singleCabinCount, setSingleCabinCount] = useState(
+    stateSingleCabinCount || parseInt(searchParams.get('singleCabinCount')) || 0
+  );
+  
+  const [doubleCabinCount, setDoubleCabinCount] = useState(
+    stateDoubleCabinCount || parseInt(searchParams.get('doubleCabinCount')) || 0
+  );
+  
+  // State veya URL'den kabin tipini al (backward compatibility)
   const cabinType = stateCabinType || searchParams.get('cabinType') || 'single';
+  
+  // Debug için state'leri logla
+  console.log('🔍 BookingPage State Debug:', {
+    'reservation_type': stateTour?.reservation_type,
+    'from_state': {
+      stateParticipants,
+      stateChildCount, 
+      stateSingleCabinCount,
+      stateDoubleCabinCount
+    },
+    'current_state': {
+      participants,
+      childCount,
+      singleCabinCount,
+      doubleCabinCount
+    }
+  });
   const singleCabinPrice = selectedDate?.single_cabin_price || parseFloat(searchParams.get('single_cabin_price')) || 0;
   const doubleCabinPrice = selectedDate?.double_cabin_price || parseFloat(searchParams.get('double_cabin_price')) || 0;
   
