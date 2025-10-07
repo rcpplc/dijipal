@@ -425,7 +425,11 @@ const CartPage = () => {
                               {(() => {
                                 if (item.duration_unit === 'hours') return 'Saat';
                                 if (item.duration_unit === 'days') return 'Gün';
-                                return item.duration_days ? 'Gün' : 'Saat'; // fallback
+                                // Fallback: eğer duration_unit yoksa duration_days varlığına bak
+                                if (!item.duration_unit) {
+                                  return (item.duration_days || item.duration > 12) ? 'Gün' : 'Saat';
+                                }
+                                return 'Gün'; // default
                               })()}
                             </span>
                           </div>
