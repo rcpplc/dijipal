@@ -323,7 +323,7 @@ const CategoryPage = () => {
 
                         <div className="flex items-center justify-between">
                           <div className="text-2xl font-bold text-blue-600">
-                            ₺{tour.base_price}
+                            ₺{(tour.base_price || 0).toLocaleString('tr-TR')}
                             <span className="text-sm font-normal text-gray-600 ml-1">
                               /kişi
                             </span>
