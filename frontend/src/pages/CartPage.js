@@ -314,15 +314,22 @@ const CartPage = () => {
                               </div>
                             </div>
                           )}
-                          {item.cabinType && (
-                            <div className="p-2 bg-green-50 border border-green-200 rounded-lg">
-                              <div className="flex items-center space-x-2 text-sm">
-                                <span className="font-medium text-green-800">
-                                  Kabin Tipi: {item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
-                                </span>
-                              </div>
+                          <div className="p-2 bg-green-50 border border-green-200 rounded-lg">
+                            <div className="flex items-center space-x-2 text-sm">
+                              <span className="font-medium text-green-800">
+                                {(() => {
+                                  if (item.reservation_type === 'person_based') {
+                                    return `${item.participants} Yetişkin${item.childCount > 0 ? ` + ${item.childCount} Çocuk` : ''}`;
+                                  } else if (item.reservation_type === 'reservation') {
+                                    return `Toplam Rezervasyon`;
+                                  } else {
+                                    // cabin_based
+                                    return `Kabin Tipi: ${item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
+                                  }
+                                })()}
+                              </span>
                             </div>
-                          )}
+                          </div>
                         </div>
                       </div>
                       <button
