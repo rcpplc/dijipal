@@ -776,7 +776,9 @@ const BookingPage = () => {
                       <span className="font-medium text-green-800">
                         {(() => {
                           if (tour?.reservation_type === 'person_based') {
-                            return `${participants} × Yetişkin${selectedDate?.childCount > 0 ? ` + ${selectedDate?.childCount} × Çocuk` : ''}`;
+                            // State'den gelen childCount'u kullan
+                            const displayChildCount = childCount || selectedDate?.childCount || 0;
+                            return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
                           } else if (tour?.reservation_type === 'reservation') {
                             return `1 × Toplam Rezervasyon`;
                           } else {
