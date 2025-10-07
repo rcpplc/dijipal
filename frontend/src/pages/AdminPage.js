@@ -1477,7 +1477,7 @@ const AdminPage = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap">
                             <div className="text-sm font-medium text-gray-900">
-                              ₺{booking.total_price?.toLocaleString('tr-TR')}
+                              ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}
                             </div>
                             <div className="text-xs text-gray-500">
                               Ödeme: {booking.payment_status === 'success' ? 'Başarılı' : 
