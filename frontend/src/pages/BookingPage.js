@@ -788,7 +788,7 @@ const BookingPage = () => {
                             const displayChildCount = childCount || selectedDate?.childCount || 0;
                             return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
                           } else if (tour?.reservation_type === 'reservation') {
-                            return `1 × Toplam Rezervasyon`;
+                            return ``; // Rezervasyon tipi için içerik gizle
                             // cabin_based - Sepetten kabin bilgilerini al (gelişmiş kontrol)
                             try {
                               const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
