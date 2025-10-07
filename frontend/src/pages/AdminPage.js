@@ -1330,11 +1330,35 @@ const AdminPage = () => {
                           <p className="text-xs text-gray-500">{booking.customer_info?.email || 'N/A'}</p>
                         </div>
                         <div>
-                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Kabin</span>
+                          <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Rezervasyon</span>
                           <p className="text-sm text-gray-900">
-                            {booking.cabin_type === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'}
+                            {(() => {
+                              if (booking.reservation_type === 'person_based') {
+                                const childCount = booking.child_count || 0;
+                                return `${booking.participants || 0} Yetişkin${childCount > 0 ? ` + ${childCount} Çocuk` : ''}`;
+                              } else if (booking.reservation_type === 'reservation') {
+                                return `Tüm Tekne / Sabit Fiyat`;
+                              } else {
+                                // cabin_based - yeni format
+                                const singleCount = booking.single_cabin_count || 0;
+                                const doubleCount = booking.double_cabin_count || 0;
+                                
+                                if (singleCount > 0 || doubleCount > 0) {
+                                  const parts = [];
+                                  if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
+                                  if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
+                                  return parts.join(' + ');
+                                }
+                                
+                                // Fallback: eski format
+                                return `${booking.participants} × ${booking.cabin_type === 'single' ? 'Tek Kişilik' : 'Çift Kişilik'}`;
+                              }
+                            })()}
                           </p>
-                          <p className="text-xs text-gray-500">{booking.participants} kabin</p>
+                          <p className="text-xs text-gray-500">
+                            {booking.reservation_type === 'person_based' ? 'Kişi Bazlı' : 
+                             booking.reservation_type === 'reservation' ? 'Rezervasyon Tipi' : 'Kabin Bazlı'}
+                          </p>
                         </div>
                         <div>
                           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tutar</span>
