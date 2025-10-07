@@ -615,7 +615,7 @@ const TourDetailPage = () => {
       child_price: selectedDate.child_price, // Çocuk fiyatı
       total_reservation_price: selectedDate.total_reservation_price, // Toplam rezervasyon fiyatı
       cabinType: cabinType, // 'single' veya 'double'
-      participants: participants,
+      participants: participantsParam,
       childCount: childCount, // Çocuk sayısı
       reservation_type: tour.reservation_type, // Rezervasyon tipi
       image: tour.images[0] || '/placeholder-tour.jpg',
