@@ -199,7 +199,18 @@ const MyBookingsPage = () => {
                       <div className="flex items-center space-x-4 text-sm text-gray-600">
                         <div className="flex items-center space-x-1">
                           <Calendar className="w-4 h-4" />
-                          <span>{new Date(booking.created_at).toLocaleDateString('tr-TR')}</span>
+                          <span>
+                            {booking.tour_date ? new Date(booking.tour_date).toLocaleDateString('tr-TR') : new Date(booking.created_at).toLocaleDateString('tr-TR')}
+                            {/* Duration bilgisi */}
+                            {(booking.duration || booking.duration_days) && (
+                              <span className="ml-2 text-gray-400">• 
+                                {booking.duration || booking.duration_days || 1}{' '}
+                                {booking.duration_unit === 'hours' ? 'Saat' : 
+                                 booking.duration_unit === 'days' ? 'Gün' :
+                                 (booking.duration_days || booking.duration > 12) ? 'Gün' : 'Saat'}
+                              </span>
+                            )}
+                          </span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Users className="w-4 h-4" />
