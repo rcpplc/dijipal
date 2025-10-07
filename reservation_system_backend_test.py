@@ -114,7 +114,7 @@ class ReservationSystemTester:
         """Test admin login"""
         admin_login_data = {
             "email": "admin@example.com",
-            "password": "test123"  # Updated password from test_result.md
+            "password": "admin123"  # Correct admin password
         }
         
         success, response = self.run_test(
