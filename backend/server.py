@@ -2189,6 +2189,64 @@ async def reset_database():
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/create-reservation-tour")
+async def create_reservation_tour():
+    """Create a test reservation type tour"""
+    
+    # Create reservation type tour
+    reservation_tour = {
+        "id": str(uuid.uuid4()),
+        "vendor_id": "test-vendor",
+        "title": "Özel Tekne Rezervasyonu - Tüm Gün",
+        "description": "Tüm tekneyi kendinize ayırın, arkadaşlarınız ve ailenizle unutulmaz bir gün geçirin.",
+        "location": "Fethiye",
+        "category": "Tekne Turu",
+        "duration": 8,
+        "duration_unit": "hours",
+        "reservation_type": "reservation",
+        "includes": ["Özel tekne", "Kaptan hizmeti", "Yakıt", "Öğle yemeği"],
+        "excludes": ["Kişisel harcamalar", "İçecekler"],
+        "important_notes": ["Minimum 4 kişi", "Maksimum 12 kişi"],
+        "cancellation_policy": "48 saat öncesine kadar iptal edilebilir",
+        "images": ["https://images.unsplash.com/photo-1544551763-46a013bb70d5?w=800"],
+        "is_active": True,
+        "created_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat()
+    }
+    
+    # Insert tour
+    result = await db.tours.insert_one(reservation_tour)
+    tour_id = reservation_tour["id"]
+    
+    # Create tour dates with reservation pricing
+    tour_dates = []
+    for i in range(5):
+        date_obj = datetime.now(timezone.utc) + timedelta(days=i+1)
+        tour_date = {
+            "id": str(uuid.uuid4()),
+            "tour_id": tour_id,
+            "start_date": date_obj.date().isoformat(),
+            "start_time": "09:00:00",
+            "end_time": "17:00:00",
+            "total_reservation_price": 8000.0,
+            "max_persons": 12,
+            "is_available": True,
+            "created_at": datetime.now(timezone.utc).isoformat(),
+            "updated_at": datetime.now(timezone.utc).isoformat()
+        }
+        tour_dates.append(tour_date)
+    
+    # Insert tour dates
+    if tour_dates:
+        await db.tour_dates.insert_many(tour_dates)
+    
+    return {
+        "message": "Reservation tour created successfully", 
+        "tour_id": tour_id,
+        "tour_title": reservation_tour["title"],
+        "slug": "ozel-tekne-rezervasyonu-tum-gun"
+    }
+
 @api_router.post("/create-admin-user")
 async def create_admin_user():
     """Create admin user for testing purposes"""
