@@ -807,9 +807,9 @@ const TourDetailPage = () => {
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
                   <span>
                     {tour.duration || tour.duration_days || 1} {(() => {
-                      if (tour.duration_unit === 'hours') return 'saat';
-                      if (tour.duration_unit === 'days') return 'gün';
-                      return tour.duration_days ? 'gün' : 'saat'; // fallback
+                      if (tour.duration_unit === 'hours') return 'Saat';
+                      if (tour.duration_unit === 'days') return 'Gün';
+                      return tour.duration_days ? 'Gün' : 'Saat'; // fallback
                     })()}
                   </span>
                   {tour.classification && (
