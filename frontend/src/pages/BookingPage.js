@@ -828,11 +828,13 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                <div className="border-t border-gray-100 pt-4 space-y-2">
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">
-                      {(() => {
-                        if (tour?.reservation_type === 'person_based') {
+                {/* Fiyat detayları - rezervasyon tipi için gizle */}
+                {tour?.reservation_type !== 'reservation' && (
+                  <div className="border-t border-gray-100 pt-4 space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">
+                        {(() => {
+                          if (tour?.reservation_type === 'person_based') {
                           const adultPrice = selectedDate?.person_price || 0;
                           const childPrice = selectedDate?.child_price || 0;
                           // State'deki childCount'u kullan
