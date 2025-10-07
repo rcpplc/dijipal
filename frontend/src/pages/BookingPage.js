@@ -718,7 +718,19 @@ const BookingPage = () => {
                           const reservationPrice = selectedDate?.total_reservation_price || 0;
                           return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
                         } else {
-                          // cabin_based
+                          // cabin_based - Sepetten ayrı kabin fiyatlarını al
+                          const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+                          const cartItem = cartItems.find(item => item.tourId === tour.id);
+                          if (cartItem && cartItem.reservation_type === 'cabin_based') {
+                            const singleCount = cartItem.singleCabinCount || 0;
+                            const doubleCount = cartItem.doubleCabinCount || 0;
+                            const singlePrice = cartItem.single_cabin_price || 0;
+                            const doublePrice = cartItem.double_cabin_price || 0;
+                            const parts = [];
+                            if (singleCount > 0) parts.push(`${singleCount} × ₺${singlePrice.toLocaleString('tr-TR')}`);
+                            if (doubleCount > 0) parts.push(`${doubleCount} × ₺${doublePrice.toLocaleString('tr-TR')}`);
+                            return parts.length > 0 ? parts.join(' + ') : `Kabin fiyatı`;
+                          }
                           const cabinPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
                           return `${participants} kabin × ₺${cabinPrice.toLocaleString('tr-TR')}`;
                         }
