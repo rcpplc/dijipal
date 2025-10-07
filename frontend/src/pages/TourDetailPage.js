@@ -1816,7 +1816,7 @@ const TourDetailPage = () => {
               </button>
             </div>
 
-            <div className="p-4 space-y-6">
+            <div className="p-4 space-y-6 flex-1 overflow-y-auto">
               {/* Date Selection Section */}
               <div>
                 <h4 className="font-medium text-gray-900 mb-3 flex items-center">
