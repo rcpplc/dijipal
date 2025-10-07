@@ -791,16 +791,6 @@ const BookingPage = () => {
                           } else if (tour?.reservation_type === 'reservation') {
                             return `Tüm Tekne / Sabit Fiyat`;
                           } else {
-                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                      <div className="flex items-center space-x-2 text-sm">
-                        <Users className="w-4 h-4 text-green-600" />
-                        <span className="font-medium text-green-800">
-                          {(() => {
-                            if (tour?.reservation_type === 'person_based') {
-                              // State'den gelen childCount'u kullan
-                              const displayChildCount = childCount || selectedDate?.childCount || 0;
-                              return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
-                            } else {
                             // cabin_based - Sepetten kabin bilgilerini al (gelişmiş kontrol)
                             try {
                               const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
@@ -834,19 +824,21 @@ const BookingPage = () => {
                             // Fallback: eski format
                             return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                           }
-                          })()}
-                        </span>
-                      </div>
-                    </div>
-                  {/* Fiyat detayları tamamen gizlendi */}
-
-                    <div className="border-t border-gray-100 pt-4">
-                      <div className="flex justify-between text-lg font-bold">
-                        <span>Toplam</span>
-                        <span className="text-blue-600">₺{totalPrice}</span>
-                      </div>
+                        })()}
+                      </span>
                     </div>
                   </div>
+                </div>
+
+                {/* Fiyat detayları tamamen gizlendi */}
+
+                <div className="border-t border-gray-100 pt-4">
+                  <div className="flex justify-between text-lg font-bold">
+                    <span>Toplam</span>
+                    <span className="text-blue-600">₺{totalPrice}</span>
+                  </div>
+                </div>
+              </div>
               </div>
             </div>
           </div>
