@@ -202,7 +202,7 @@ const CategoryPage = () => {
                 <div className="flex justify-between">
                   <span className="text-gray-600">Başlangıç Fiyatı:</span>
                   <span className="font-semibold text-green-600">
-                    ₺{tours.length > 0 ? Math.min(...tours.map(t => t.base_price)) : 0}
+                    ₺{tours.length > 0 ? Math.min(...tours.map(t => t.base_price || 0)).toLocaleString('tr-TR') : 0}
                   </span>
                 </div>
               </div>
