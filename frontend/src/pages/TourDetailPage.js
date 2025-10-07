@@ -1490,7 +1490,7 @@ const TourDetailPage = () => {
                         if (tour.reservation_type === 'person_based') {
                           const total = participants + childCount;
                           if (total === 0) return 'Katılımcı seçin';
-                          return `${participants} yetişkin + ${childCount} çocuk = ${total} kişi`;
+                          return `${participants} Yetişkin + ${childCount} Çocuk = ${total} kişi`;
                         } else if (tour.reservation_type === 'reservation') {
                           return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
                         } else {
@@ -2078,7 +2078,7 @@ const TourDetailPage = () => {
                         
                         if (tour.reservation_type === 'person_based') {
                           const total = participants + childCount;
-                          return `${participants} yetişkin + ${childCount} çocuk = ${total} kişi`;
+                          return `${participants} Yetişkin + ${childCount} Çocuk = ${total} kişi`;
                         } else if (tour.reservation_type === 'reservation') {
                           return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
                         } else {
