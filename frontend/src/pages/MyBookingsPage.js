@@ -233,7 +233,7 @@ const MyBookingsPage = () => {
                         {getStatusText(booking.booking_status)}
                       </span>
                       <div className="mt-2 text-lg font-bold text-blue-600">
-                        ₺{booking.total_price?.toLocaleString()}
+                        ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}
                       </div>
                     </div>
                   </div>
