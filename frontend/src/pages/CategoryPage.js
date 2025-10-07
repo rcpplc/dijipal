@@ -137,7 +137,7 @@ const CategoryPage = () => {
       const params = new URLSearchParams();
       params.append('category', category);
       params.append('limit', ITEMS_PER_PAGE.toString());
-      params.append('offset', ((page - 1) * ITEMS_PER_PAGE).toString());
+      params.append('skip', ((page - 1) * ITEMS_PER_PAGE).toString());
       
       const response = await axios.get(`${API}/tours?${params.toString()}`);
       const newTours = response.data;
