@@ -481,20 +481,46 @@ const CartPage = () => {
 
                       {/* Price */}
                       <div className="text-right">
-                        <div className="text-sm text-gray-600 mb-1">
+                        <div className="text-xs text-gray-600 mb-2 space-y-1">
                           {(() => {
                             if (item.reservation_type === 'person_based') {
                               const adultPrice = item.person_price || 0;
                               const childPrice = item.child_price || 0;
-                              return `₺${adultPrice.toLocaleString()} / Yetişkin × ${item.participants}${item.childCount > 0 ? ` + ₺${childPrice.toLocaleString()} / Çocuk × ${item.childCount}` : ''}`;
+                              const adultTotal = adultPrice * item.participants;
+                              const childTotal = childPrice * (item.childCount || 0);
+                              return (
+                                <div>
+                                  <div className="flex justify-between">
+                                    <span>Yetişkin: ₺{adultPrice.toLocaleString('tr-TR')} × {item.participants}</span>
+                                    <span>₺{adultTotal.toLocaleString('tr-TR')}</span>
+                                  </div>
+                                  {item.childCount > 0 && (
+                                    <div className="flex justify-between">
+                                      <span>Çocuk: ₺{childPrice.toLocaleString('tr-TR')} × {item.childCount}</span>
+                                      <span>₺{childTotal.toLocaleString('tr-TR')}</span>
+                                    </div>
+                                  )}
+                                </div>
+                              );
                             } else if (item.reservation_type === 'reservation') {
-                              return `₺${(item.total_reservation_price || 0).toLocaleString()} / Toplam Rezervasyon`;
+                              return (
+                                <div className="flex justify-between">
+                                  <span>Toplam Rezervasyon</span>
+                                  <span>₺{(item.total_reservation_price || 0).toLocaleString('tr-TR')}</span>
+                                </div>
+                              );
                             } else {
                               // cabin_based
                               const cabinPrice = item.cabinType === 'double' 
                                 ? (item.double_cabin_price || item.price || 0)
                                 : (item.single_cabin_price || item.price || 0);
-                              return `₺${cabinPrice.toLocaleString()} / kabin × ${item.participants}`;
+                              const cabinTotal = cabinPrice * item.participants;
+                              return (
+                                <div className="flex justify-between">
+                                  <span>Kabin: ₺{cabinPrice.toLocaleString('tr-TR')} × {item.participants}</span>
+                                  <span>₺{cabinTotal.toLocaleString('tr-TR')}</span>
+                                </div>
+                              );
                             }
                           })()}
                         </div>
