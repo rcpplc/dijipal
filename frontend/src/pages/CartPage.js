@@ -173,6 +173,49 @@ const CartPage = () => {
     toast.success(`${dateStr} - Çocuk sayısı: ${newChildCount}`);
   };
 
+  const updateCabinQuantity = (tourId, selectedDate, cabinType, newCount) => {
+    if (newCount < 0) return;
+
+    // Belirli tour + tarih kombinasyonunu bul
+    const currentItem = cartItems.find(item => 
+      item.tourId === tourId && 
+      item.selectedDate?.date === selectedDate
+    );
+    
+    if (!currentItem) {
+      toast.error('Sepet öğesi bulunamadı');
+      return;
+    }
+    
+    const maxCapacity = currentItem.selectedDate?.available_cabins || 20;
+    const otherCabinCount = cabinType === 'single' 
+      ? (currentItem.doubleCabinCount || 0) 
+      : (currentItem.singleCabinCount || 0);
+    const totalCabins = newCount + otherCabinCount;
+
+    // Toplam kabin sayısı kontrolü
+    if (totalCabins > maxCapacity) {
+      toast.error(`Maksimum ${maxCapacity} kabin seçebilirsiniz`);
+      return;
+    }
+
+    const updatedItems = cartItems.map(item =>
+      (item.tourId === tourId && item.selectedDate?.date === selectedDate)
+        ? { 
+            ...item, 
+            [cabinType === 'single' ? 'singleCabinCount' : 'doubleCabinCount']: newCount,
+            participants: totalCabins // Toplam kabin sayısı
+          }
+        : item
+    );
+    updateCartItems(updatedItems);
+    
+    // Başarı mesajı
+    const dateStr = new Date(selectedDate).toLocaleDateString('tr-TR', { day: 'numeric', month: 'long' });
+    const cabinTypeStr = cabinType === 'single' ? 'Tek kişilik' : 'Çift kişilik';
+    toast.success(`${dateStr} - ${cabinTypeStr} kabin: ${newCount}`);
+  };
+
   const removeItem = (tourId, selectedDate = null, cabinType = null) => {
     const updatedItems = (selectedDate && cabinType)
       ? cartItems.filter(item => !(item.tourId === tourId && item.selectedDate?.date === selectedDate && item.cabinType === cabinType))
