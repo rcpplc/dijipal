@@ -2047,29 +2047,7 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Rezervasyon (Tüm Tekne) */}
-              {tour && tour.reservation_type === 'reservation' && (
-                <div>
-                  <h4 className="font-medium text-gray-900 mb-3 flex items-center">
-                    <Users className="w-4 h-4 mr-2" />
-                    Rezervasyon Bilgileri
-                  </h4>
-                  <div className="bg-gray-50 rounded-lg p-4 text-center">
-                    <div className="text-lg font-semibold text-gray-800">Özel Rezervasyon</div>
-                    <div className="text-sm text-gray-600 mt-1">Tüm tekne / Sabit fiyat</div>
-                    {selectedDate && selectedDate.total_reservation_price && (
-                      <div className="mt-2 text-xl font-bold text-blue-600">
-                        ₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}
-                      </div>
-                    )}
-                    {selectedDate && selectedDate.max_persons && (
-                      <div className="text-xs text-gray-500 mt-2">
-                        Maksimum {selectedDate.max_persons} kişi kapasiteli
-                      </div>
-                    )}
-                  </div>
-                </div>
-              )}
+              {/* Mobile Rezervasyon Bilgileri section removed for all reservation types */}
 
               {/* Mobile Modal Booking Summary */}
               {selectedDate && (
