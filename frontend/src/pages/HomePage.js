@@ -46,15 +46,15 @@ const HomePage = () => {
 
   const heroTitles = [
     {
-      main: " ile",
+      main: " Bizim ile",
       subtitle: "Mavi Yolculuğun Keyfini Çıkarın"
     },
     {
-      main: "Kabin Kiralama ile", 
+      main: "Bizim ile", 
       subtitle: "Göcek Koylarının Keyfini Çıkarın"
     },
     {
-      main: "Kabin Kiralama ile",
+      main: "Bizim ile",
       subtitle: "Rüzgarın Keyfini Çıkarın"
     }
   ];
