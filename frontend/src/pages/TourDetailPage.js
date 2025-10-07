@@ -1206,9 +1206,30 @@ const TourDetailPage = () => {
                             )}
                           </div>
                           <div className="text-right">
-                            {date.price && (
-                              <div className="font-semibold text-blue-600">
-                                ₺{date.price}
+                            <div className="font-semibold text-blue-600 text-sm">
+                              {(() => {
+                                if (tour && tour.reservation_type === 'person_based') {
+                                  if (date.person_price) {
+                                    return `₺${(date.person_price || 0).toLocaleString('tr-TR')}`;
+                                  }
+                                } else if (tour && tour.reservation_type === 'reservation') {
+                                  if (date.total_reservation_price) {
+                                    return `₺${(date.total_reservation_price || 0).toLocaleString('tr-TR')}`;
+                                  }
+                                } else {
+                                  // cabin_based
+                                  if (date.single_cabin_price) {
+                                    return `₺${(date.single_cabin_price || 0).toLocaleString('tr-TR')}`;
+                                  } else if (date.price) {
+                                    return `₺${date.price}`;
+                                  }
+                                }
+                                return 'Fiyat';
+                              })()}
+                            </div>
+                            {tour && tour.reservation_type === 'person_based' && date.child_price && (
+                              <div className="text-xs text-gray-500">
+                                Çocuk: ₺{(date.child_price || 0).toLocaleString('tr-TR')}
                               </div>
                             )}
                           </div>
