@@ -243,16 +243,20 @@ const CartPage = () => {
         let singleTotal = 0;
         let doubleTotal = 0;
         
-        if (item.singleCabinCount !== undefined || item.doubleCabinCount !== undefined) {
-          // Yeni format: ayrı kabin sayıları
-          singleTotal = (item.single_cabin_price || 0) * (item.singleCabinCount || 0);
-          doubleTotal = (item.double_cabin_price || 0) * (item.doubleCabinCount || 0);
-        } else {
-          // Eski format: tek kabin tipi ve participants (backward compatibility)
+        // HER ZAMAN: Tek ve çift kabin fiyatlarını ayrı hesapla
+        const singleCount = item.singleCabinCount || 0;
+        const doubleCount = item.doubleCabinCount || 0;
+        
+        singleTotal = (item.single_cabin_price || 0) * singleCount;
+        doubleTotal = (item.double_cabin_price || 0) * doubleCount;
+        
+        // BACKWARD COMPATIBILITY: Eski format kontrol
+        if (singleCount === 0 && doubleCount === 0 && item.participants > 0) {
+          // Eski sepet item'ları için
           if (item.cabinType === 'single') {
-            singleTotal = (item.single_cabin_price || item.price || 0) * (item.participants || 1);
+            singleTotal = (item.single_cabin_price || item.price || 0) * item.participants;
           } else if (item.cabinType === 'double') {
-            doubleTotal = (item.double_cabin_price || item.price || 0) * (item.participants || 1);
+            doubleTotal = (item.double_cabin_price || item.price || 0) * item.participants;
           }
         }
         
