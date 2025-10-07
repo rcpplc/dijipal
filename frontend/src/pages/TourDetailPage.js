@@ -1740,8 +1740,9 @@ const TourDetailPage = () => {
       )}
 
       {/* Mobile Booking Summary - Above Bottom Bar */}
-      {selectedDate && (
-        (tour && tour.reservation_type === 'person_based' && (participants > 1 || childCount > 0)) ||
+      {!showBookingModal && selectedDate && (
+        // Show summary when selections are made
+        (tour && tour.reservation_type === 'person_based' && (participants > 0 || childCount > 0)) ||
         (tour && tour.reservation_type === 'reservation') ||
         ((!tour?.reservation_type || tour.reservation_type === 'cabin_based') && (singleCabinCount > 0 || doubleCabinCount > 0))
       ) && (
