@@ -78,6 +78,7 @@ const Footer = () => {
                 <Link 
                   to="/kabin-kiralama" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Kabin kiralama"  // 🏷️ Tooltip metni burada
                 >
                   Kabin Kiralama
                 </Link>
