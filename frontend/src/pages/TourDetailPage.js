@@ -1624,9 +1624,6 @@ const TourDetailPage = () => {
                     </div>
                   </div>
                 </div>
-                    </div>
-                  </div>
-                </div>
               )}
 
               {/* Booking Buttons - Corporate Style */}
