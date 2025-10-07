@@ -1948,7 +1948,7 @@ const TourDetailPage = () => {
                   {/* Çift Kişilik Kabin */}
                   <div>
                     <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Çift Kişilik Kabin Adedi</span>
+                      <span className="text-sm font-medium text-gray-700">Çift Kişilik / 2 Kişi</span>
                       {selectedDate && selectedDate.double_cabin_price && (
                         <span className="text-sm text-blue-600 font-medium">
                           ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
