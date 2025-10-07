@@ -228,13 +228,7 @@ const CartPage = () => {
 
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => {
-      console.log('getTotalPrice DEBUG:', {
-        reservation_type: item.reservation_type,
-        single_cabin_price: item.single_cabin_price,
-        double_cabin_price: item.double_cabin_price,
-        singleCabinCount: item.singleCabinCount,
-        doubleCabinCount: item.doubleCabinCount
-      });
+      // Debug log kaldırıldı
       
       if (item.reservation_type === 'person_based') {
         // Kişi bazlı: Yetişkin + Çocuk fiyatları
