@@ -588,9 +588,18 @@ const TourDetailPage = () => {
     }
 
     // Save user behavior before adding to cart
-    const currentCabinPrice = cabinType === 'single' 
-      ? selectedDate.single_cabin_price
-      : selectedDate.double_cabin_price;
+    const currentCabinPrice = (() => {
+      if (tour?.reservation_type === 'person_based') {
+        return selectedDate.person_price || 0;
+      } else if (tour?.reservation_type === 'reservation') {
+        return selectedDate.total_reservation_price || 0;
+      } else {
+        // cabin_based
+        return cabinType === 'single' 
+          ? selectedDate.single_cabin_price
+          : selectedDate.double_cabin_price;
+      }
+    })();
     
     saveSearchBehavior(tour.id, participants, currentCabinPrice);
 
