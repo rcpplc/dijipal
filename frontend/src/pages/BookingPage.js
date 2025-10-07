@@ -778,17 +778,18 @@ const BookingPage = () => {
                     </div>
                   )}
                   
-                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
-                    <div className="flex items-center space-x-2 text-sm">
-                      <Users className="w-4 h-4 text-green-600" />
-                      <span className="font-medium text-green-800">
-                        {(() => {
-                          if (tour?.reservation_type === 'person_based') {
-                            // State'den gelen childCount'u kullan
-                            const displayChildCount = childCount || selectedDate?.childCount || 0;
-                            return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
-                          } else if (tour?.reservation_type === 'reservation') {
-                            return ``; // Rezervasyon tipi için içerik gizle
+                  {/* Yeşil kutu - rezervasyon tipi için gizle */}
+                  {tour?.reservation_type !== 'reservation' && (
+                    <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                      <div className="flex items-center space-x-2 text-sm">
+                        <Users className="w-4 h-4 text-green-600" />
+                        <span className="font-medium text-green-800">
+                          {(() => {
+                            if (tour?.reservation_type === 'person_based') {
+                              // State'den gelen childCount'u kullan
+                              const displayChildCount = childCount || selectedDate?.childCount || 0;
+                              return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
+                            } else {
                             // cabin_based - Sepetten kabin bilgilerini al (gelişmiş kontrol)
                             try {
                               const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
