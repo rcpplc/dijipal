@@ -403,7 +403,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
                                   disabled={item.participants <= 1}
-                                  className="w-8 h-8 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white rounded-lg flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
@@ -413,7 +413,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
                                   disabled={item.participants >= (item.selectedDate?.max_persons || 20)}
-                                  className="w-8 h-8 bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white rounded-lg flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Plus className="w-3 h-3" />
                                 </button>
