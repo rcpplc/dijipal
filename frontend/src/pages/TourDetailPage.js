@@ -1357,83 +1357,86 @@ const TourDetailPage = () => {
                     Kabin Seçimi
                   </label>
                   
-                  {/* Tek Kişilik Kabin Sayısı */}
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-2">Tek Kişilik / 1 Kişi</div>
-                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                      <button
-                        onClick={() => {
-                          if (singleCabinCount > 0) {
-                            setSingleCabinCount(singleCabinCount - 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={singleCabinCount <= 0}
-                      >
-                        -
-                      </button>
-                      <div className="flex-1 text-center">
-                        <div className="text-xl font-bold text-gray-900">
-                          {singleCabinCount} kabin
-                        </div>
-                        {selectedDate && selectedDate.single_cabin_price && singleCabinCount > 0 && (
-                          <div className="text-sm text-gray-600">
-                            ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × {singleCabinCount}
+                  {/* Kabin Seçimi - Grid Layout (2 sütun) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                    {/* Tek Kişilik Kabin Sayısı */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-700 mb-2">Tek Kişilik / 1 Kişi</div>
+                      <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <button
+                          onClick={() => {
+                            if (singleCabinCount > 0) {
+                              setSingleCabinCount(singleCabinCount - 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={singleCabinCount <= 0}
+                        >
+                          -
+                        </button>
+                        <div className="flex-1 text-center">
+                          <div className="text-xl font-bold text-gray-900">
+                            {singleCabinCount} kabin
                           </div>
-                        )}
+                          {selectedDate && selectedDate.single_cabin_price && singleCabinCount > 0 && (
+                            <div className="text-sm text-gray-600">
+                              ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × {singleCabinCount}
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            const maxCapacity = selectedDate ? (selectedDate.single_cabin_count || 10) : 10;
+                            if (singleCabinCount < maxCapacity) {
+                              setSingleCabinCount(singleCabinCount + 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={singleCabinCount >= (selectedDate ? (selectedDate.single_cabin_count || 10) : 10)}
+                        >
+                          +
+                        </button>
                       </div>
-                      <button
-                        onClick={() => {
-                          const maxCapacity = selectedDate ? (selectedDate.single_cabin_count || 10) : 10;
-                          if (singleCabinCount < maxCapacity) {
-                            setSingleCabinCount(singleCabinCount + 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={singleCabinCount >= (selectedDate ? (selectedDate.single_cabin_count || 10) : 10)}
-                      >
-                        +
-                      </button>
                     </div>
-                  </div>
 
-                  {/* Çift Kişilik Kabin Sayısı */}
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-2">Çift Kişilik / 2 Kişi</div>
-                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                      <button
-                        onClick={() => {
-                          if (doubleCabinCount > 0) {
-                            setDoubleCabinCount(doubleCabinCount - 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={doubleCabinCount <= 0}
-                      >
-                        -
-                      </button>
-                      <div className="flex-1 text-center">
-                        <div className="text-xl font-bold text-gray-900">
-                          {doubleCabinCount} kabin
-                        </div>
-                        {selectedDate && selectedDate.double_cabin_price && doubleCabinCount > 0 && (
-                          <div className="text-sm text-gray-600">
-                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}
+                    {/* Çift Kişilik Kabin Sayısı */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-700 mb-2">Çift Kişilik / 2 Kişi</div>
+                      <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <button
+                          onClick={() => {
+                            if (doubleCabinCount > 0) {
+                              setDoubleCabinCount(doubleCabinCount - 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={doubleCabinCount <= 0}
+                        >
+                          -
+                        </button>
+                        <div className="flex-1 text-center">
+                          <div className="text-xl font-bold text-gray-900">
+                            {doubleCabinCount} kabin
                           </div>
-                        )}
+                          {selectedDate && selectedDate.double_cabin_price && doubleCabinCount > 0 && (
+                            <div className="text-sm text-gray-600">
+                              ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            const maxCapacity = selectedDate ? (selectedDate.double_cabin_count || 10) : 10;
+                            if (doubleCabinCount < maxCapacity) {
+                              setDoubleCabinCount(doubleCabinCount + 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={doubleCabinCount >= (selectedDate ? (selectedDate.double_cabin_count || 10) : 10)}
+                        >
+                          +
+                        </button>
                       </div>
-                      <button
-                        onClick={() => {
-                          const maxCapacity = selectedDate ? (selectedDate.double_cabin_count || 10) : 10;
-                          if (doubleCabinCount < maxCapacity) {
-                            setDoubleCabinCount(doubleCabinCount + 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={doubleCabinCount >= (selectedDate ? (selectedDate.double_cabin_count || 10) : 10)}
-                      >
-                        +
-                      </button>
                     </div>
                   </div>
 
