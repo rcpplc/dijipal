@@ -1457,83 +1457,86 @@ const TourDetailPage = () => {
                     Katılımcı Sayısı
                   </label>
                   
-                  {/* Yetişkin Sayısı */}
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-2">Yetişkin Sayısı</div>
-                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                      <button
-                        onClick={() => {
-                          if (participants > 1) {
-                            setParticipants(participants - 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={participants <= 1}
-                      >
-                        -
-                      </button>
-                      <div className="flex-1 text-center">
-                        <div className="text-xl font-bold text-gray-900">
-                          {participants || 1} Yetişkin
-                        </div>
-                        {selectedDate && selectedDate.person_price && (
-                          <div className="text-sm text-gray-600">
-                            ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı
+                  {/* Katılımcı Sayısı - Grid Layout (2 sütun) */}
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
+                    {/* Yetişkin Sayısı */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-700 mb-2">Yetişkin Sayısı</div>
+                      <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <button
+                          onClick={() => {
+                            if (participants > 1) {
+                              setParticipants(participants - 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={participants <= 1}
+                        >
+                          -
+                        </button>
+                        <div className="flex-1 text-center">
+                          <div className="text-xl font-bold text-gray-900">
+                            {participants || 1} Yetişkin
                           </div>
-                        )}
+                          {selectedDate && selectedDate.person_price && (
+                            <div className="text-sm text-gray-600">
+                              ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
+                            if ((participants + childCount) < maxCapacity) {
+                              setParticipants((participants || 1) + 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                        >
+                          +
+                        </button>
                       </div>
-                      <button
-                        onClick={() => {
-                          const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
-                          if ((participants + childCount) < maxCapacity) {
-                            setParticipants((participants || 1) + 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
-                      >
-                        +
-                      </button>
                     </div>
-                  </div>
 
-                  {/* Çocuk Sayısı */}
-                  <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-2">Çocuk Sayısı</div>
-                    <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
-                      <button
-                        onClick={() => {
-                          if (childCount > 0) {
-                            setChildCount(childCount - 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={childCount <= 0}
-                      >
-                        -
-                      </button>
-                      <div className="flex-1 text-center">
-                        <div className="text-xl font-bold text-gray-900">
-                          {childCount} Çocuk
-                        </div>
-                        {selectedDate && selectedDate.child_price && (
-                          <div className="text-sm text-gray-600">
-                            ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} kişi başı
+                    {/* Çocuk Sayısı */}
+                    <div>
+                      <div className="text-sm font-medium text-gray-700 mb-2">Çocuk Sayısı</div>
+                      <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
+                        <button
+                          onClick={() => {
+                            if (childCount > 0) {
+                              setChildCount(childCount - 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={childCount <= 0}
+                        >
+                          -
+                        </button>
+                        <div className="flex-1 text-center">
+                          <div className="text-xl font-bold text-gray-900">
+                            {childCount} Çocuk
                           </div>
-                        )}
+                          {selectedDate && selectedDate.child_price && (
+                            <div className="text-sm text-gray-600">
+                              ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')} kişi başı
+                            </div>
+                          )}
+                        </div>
+                        <button
+                          onClick={() => {
+                            const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
+                            if ((participants + childCount) < maxCapacity) {
+                              setChildCount(childCount + 1);
+                            }
+                          }}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
+                          disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                        >
+                          +
+                        </button>
                       </div>
-                      <button
-                        onClick={() => {
-                          const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
-                          if ((participants + childCount) < maxCapacity) {
-                            setChildCount(childCount + 1);
-                          }
-                        }}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-blue-200 flex items-center justify-center hover:bg-blue-50 hover:border-blue-300 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-blue-600 transition-all duration-200 shadow-sm"
-                        disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
-                      >
-                        +
-                      </button>
                     </div>
                   </div>
 
