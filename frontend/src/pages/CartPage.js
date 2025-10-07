@@ -237,11 +237,10 @@ const CartPage = () => {
         // Rezervasyon bazlı: Sabit toplam fiyat
         return total + (item.total_reservation_price || 0);
       } else {
-        // Kabin bazlı: cabin type'a göre fiyat hesapla
-        const cabinPrice = item.cabinType === 'double' 
-          ? (item.double_cabin_price || item.price || 0)
-          : (item.single_cabin_price || item.price || 0);
-        return total + (cabinPrice * item.participants);
+        // Kabin bazlı: tek ve çift kabin ayrı hesaplama
+        const singleTotal = (item.single_cabin_price || 0) * (item.singleCabinCount || 0);
+        const doubleTotal = (item.double_cabin_price || 0) * (item.doubleCabinCount || 0);
+        return total + singleTotal + doubleTotal;
       }
     }, 0);
   };
