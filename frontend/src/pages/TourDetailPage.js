@@ -1646,7 +1646,7 @@ const TourDetailPage = () => {
                   disabled={!selectedDate}
                   className="col-span-9 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:cursor-not-allowed"
                 >
-                  {user ? 'Rezervasyon Tamamla' : 'Giriş Yapın & Rezervasyon Yapın'}
+                  {user ? 'Rezervasyon Tamamla' : 'Rezervasyon Yapın'}
                 </button>
               </div>
 
