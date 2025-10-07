@@ -282,8 +282,16 @@ const BookingPage = () => {
     if (tour?.reservation_type === 'person_based') {
       const adultPrice = selectedDate?.person_price || 0;
       const childPrice = selectedDate?.child_price || 0;
-      const childCountFromState = selectedDate?.childCount || 0;
-      return (adultPrice * participants) + (childPrice * childCountFromState);
+      // State'deki childCount'u kullan
+      const displayChildCount = childCount || selectedDate?.childCount || 0;
+      
+      console.log('🧮 Person-based Price Calculation:', {
+        participants, adultPrice, adultTotal: adultPrice * participants,
+        childCount: displayChildCount, childPrice, childTotal: childPrice * displayChildCount,
+        total: (adultPrice * participants) + (childPrice * displayChildCount)
+      });
+      
+      return (adultPrice * participants) + (childPrice * displayChildCount);
     } else if (tour?.reservation_type === 'reservation') {
       return selectedDate?.total_reservation_price || 0;
     } else {
