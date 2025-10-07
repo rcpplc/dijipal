@@ -778,8 +778,19 @@ const BookingPage = () => {
                     </div>
                   )}
                   
-                  {/* Yeşil kutu - rezervasyon tipi için gizle */}
-                  {tour?.reservation_type !== 'reservation' && (
+                  {/* Yeşil kutu - tüm rezervasyon tipleri için göster */}
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Users className="w-4 h-4 text-green-600" />
+                      <span className="font-medium text-green-800">
+                        {(() => {
+                          if (tour?.reservation_type === 'person_based') {
+                            // State'den gelen childCount'u kullan
+                            const displayChildCount = childCount || selectedDate?.childCount || 0;
+                            return `${participants} × Yetişkin${displayChildCount > 0 ? ` + ${displayChildCount} × Çocuk` : ''}`;
+                          } else if (tour?.reservation_type === 'reservation') {
+                            return `Tüm Tekne / Sabit Fiyat`;
+                          } else {
                     <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
                       <div className="flex items-center space-x-2 text-sm">
                         <Users className="w-4 h-4 text-green-600" />
