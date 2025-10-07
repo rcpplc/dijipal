@@ -1630,16 +1630,7 @@ const TourDetailPage = () => {
 
               {/* Desktop Booking Buttons - Grid Layout */}
               <div className="grid grid-cols-12 gap-3">
-                {/* Rezervasyon Yap Butonu - 9 sütun */}
-                <button
-                  onClick={handleBooking}
-                  disabled={!selectedDate}
-                  className="col-span-9 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:cursor-not-allowed"
-                >
-                  {user ? 'Rezervasyon Tamamla' : 'Giriş Yapın & Rezervasyon Yapın'}
-                </button>
-                
-                {/* Sepete Ekle Butonu - 3 sütun (Sadece İkon) */}
+                {/* Sepete Ekle Butonu - 3 sütun (Sol taraf - Sadece İkon) */}
                 <button
                   onClick={() => addToCart()}
                   disabled={!selectedDate}
@@ -1647,6 +1638,15 @@ const TourDetailPage = () => {
                   title="Sepete Ekle"
                 >
                   <ShoppingCart className="w-5 h-5" />
+                </button>
+                
+                {/* Rezervasyon Yap Butonu - 9 sütun (Sağ taraf) */}
+                <button
+                  onClick={handleBooking}
+                  disabled={!selectedDate}
+                  className="col-span-9 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:cursor-not-allowed"
+                >
+                  {user ? 'Rezervasyon Tamamla' : 'Giriş Yapın & Rezervasyon Yapın'}
                 </button>
               </div>
 
