@@ -53,6 +53,12 @@ const ToursPage = () => {
   const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
   const [durationRange, setDurationRange] = useState({ min: 1, max: 15 });
   const [ratingRange, setRatingRange] = useState({ min: 1, max: 5 });
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [hasMore, setHasMore] = useState(true);
+  const [loadingMore, setLoadingMore] = useState(false);
+  const ITEMS_PER_PAGE = 12;
   // Static filter options for the new design
   const classifications = [
     { value: '', label: 'Tüm Sınıflar' },
