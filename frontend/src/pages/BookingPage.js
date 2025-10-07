@@ -840,12 +840,13 @@ const BookingPage = () => {
                     </div>
                   {/* Fiyat detayları tamamen gizlendi */}
 
-                  <div className="border-t border-gray-100 pt-4">
-                  <div className="flex justify-between text-lg font-bold">
-                    <span>Toplam</span>
-                    <span className="text-blue-600">₺{totalPrice}</span>
+                    <div className="border-t border-gray-100 pt-4">
+                      <div className="flex justify-between text-lg font-bold">
+                        <span>Toplam</span>
+                        <span className="text-blue-600">₺{totalPrice}</span>
+                      </div>
+                    </div>
                   </div>
-                </div>
               </div>
             </div>
           </div>
