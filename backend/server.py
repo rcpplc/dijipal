@@ -2193,12 +2193,10 @@ async def reset_database():
 async def create_admin_user():
     """Create admin user for testing purposes"""
     
-    # Check if admin already exists
-    existing_admin = await db.users.find_one({"email": "admin@example.com"})
-    if existing_admin:
-        return {"message": "Admin user already exists", "email": "admin@example.com"}
+    # Delete existing admin if any (force recreate)
+    await db.users.delete_many({"email": "admin@example.com"})
     
-    # Create admin user
+    # Create admin user with proper hashed password
     admin_user = {
         "id": str(uuid.uuid4()),
         "email": "admin@example.com",
