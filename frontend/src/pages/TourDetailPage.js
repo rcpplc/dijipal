@@ -1761,7 +1761,7 @@ const TourDetailPage = () => {
                 if (tour && tour.reservation_type === 'person_based') {
                   const total = participants + childCount;
                   if (total === 0) return 'Katılımcı seçin';
-                  return `${participants} yetişkin + ${childCount} çocuk seçildi`;
+                  return `${participants} Yetişkin + ${childCount} Çocuk seçildi`;
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const maxCapacity = selectedDate ? (selectedDate.max_persons || 0) : 0;
                   return `Sabit Fiyat Toplam Rezervasyon - Max ${maxCapacity} kişi`;
