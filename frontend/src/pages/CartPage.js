@@ -344,6 +344,7 @@ const CartPage = () => {
                       <div className="flex items-center space-x-3">
                         <span className="text-sm font-medium text-gray-700">
                           {(() => {
+                            console.log('DEBUG - Item reservation_type:', item.reservation_type);
                             if (item.reservation_type === 'person_based') {
                               return 'Kişi Sayısı:';
                             } else if (item.reservation_type === 'reservation') {
