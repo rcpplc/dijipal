@@ -840,7 +840,7 @@ const BookingPage = () => {
                           return `${participants} Yetişkin × ₺${adultPrice.toLocaleString('tr-TR')}${displayChildCount > 0 ? ` + ${displayChildCount} Çocuk × ₺${childPrice.toLocaleString('tr-TR')}` : ''}`;
                         } else if (tour?.reservation_type === 'reservation') {
                           const reservationPrice = selectedDate?.total_reservation_price || 0;
-                          return `Toplam Rezervasyon: ₺${reservationPrice.toLocaleString('tr-TR')}`;
+                          return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
                         } else {
                           // cabin_based - State'den veri kontrolü (öncelik ver)
                           if (singleCabinCount > 0 || doubleCabinCount > 0) {
