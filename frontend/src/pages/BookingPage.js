@@ -239,7 +239,28 @@ const BookingPage = () => {
     } else if (tour?.reservation_type === 'reservation') {
       return selectedDate?.total_reservation_price || 0;
     } else {
-      // Kabin bazlı
+      // Kabin bazlı - Sepetten gerçek kabin bilgilerini al
+      const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+      const cartItem = cartItems.find(item => item.tourId === tour.id);
+      
+      if (cartItem && cartItem.reservation_type === 'cabin_based') {
+        const singleCount = cartItem.singleCabinCount || 0;
+        const doubleCount = cartItem.doubleCabinCount || 0;
+        const singlePrice = cartItem.single_cabin_price || 0;
+        const doublePrice = cartItem.double_cabin_price || 0;
+        
+        const singleTotal = singlePrice * singleCount;
+        const doubleTotal = doublePrice * doubleCount;
+        
+        console.log('BookingPage calculatePrice DEBUG:', {
+          singleCount, doubleCount, singlePrice, doublePrice,
+          singleTotal, doubleTotal, grandTotal: singleTotal + doubleTotal
+        });
+        
+        return singleTotal + doubleTotal;
+      }
+      
+      // Fallback: eski sistem
       const unitPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
       return unitPrice * participants;
     }
