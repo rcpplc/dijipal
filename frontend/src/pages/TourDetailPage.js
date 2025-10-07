@@ -1629,7 +1629,7 @@ const TourDetailPage = () => {
               )}
 
               {/* Desktop Booking Buttons - Grid Layout */}
-              <div className="grid grid-cols-12 gap-3 bg-gray-50 p-3 rounded-lg">
+              <div className="grid grid-cols-12 gap-3">
                 {/* Sepete Ekle Butonu - 3 sütun (Sol taraf - Sadece İkon) */}
                 <button
                   onClick={() => addToCart()}
