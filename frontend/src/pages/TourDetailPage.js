@@ -1476,7 +1476,84 @@ const TourDetailPage = () => {
 
               {/* Booking Summary section removed as requested */}
 
-              {/* Desktop Booking Summary removed */}
+              {/* Desktop Booking Summary - Dynamic Based on Selections */}
+              {selectedDate && (
+                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+                  <div className="text-center">
+                    <div className="text-2xl font-bold text-blue-700 mb-2">
+                      ₺{(() => {
+                        if (!tour) return '0';
+                        
+                        if (tour.reservation_type === 'person_based') {
+                          const adultTotal = (selectedDate.person_price || 0) * participants;
+                          const childTotal = (selectedDate.child_price || 0) * childCount;
+                          return (adultTotal + childTotal).toLocaleString('tr-TR');
+                        } else if (tour.reservation_type === 'reservation') {
+                          return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
+                        } else {
+                          // cabin_based - show selected cabins only
+                          const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                          const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                          return (singleTotal + doubleTotal).toLocaleString('tr-TR');
+                        }
+                      })()}
+                    </div>
+                    
+                    <div className="text-sm text-gray-600 mb-1">
+                      {(() => {
+                        if (!tour) return 'Yükleniyor...';
+                        
+                        if (tour.reservation_type === 'person_based') {
+                          const total = participants + childCount;
+                          if (total === 0) return 'Katılımcı seçin';
+                          return `${participants} yetişkin + ${childCount} çocuk = ${total} kişi`;
+                        } else if (tour.reservation_type === 'reservation') {
+                          return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
+                        } else {
+                          // cabin_based - show selected cabins
+                          const totalCabins = singleCabinCount + doubleCabinCount;
+                          if (totalCabins === 0) return 'Kabin seçin';
+                          
+                          const parts = [];
+                          if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
+                          if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
+                          return parts.join(' + ') + ' kabin seçildi';
+                        }
+                      })()}
+                    </div>
+                    
+                    <div className="text-xs text-gray-500">
+                      {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long',
+                        year: 'numeric'
+                      })} • Vergiler dahil
+                    </div>
+                    
+                    {/* Selection Details */}
+                    <div className="mt-3 pt-2 border-t border-blue-200 text-xs text-gray-600">
+                      {(() => {
+                        if (tour && tour.reservation_type === 'person_based') {
+                          return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${participants}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
+                        } else if (tour && tour.reservation_type === 'reservation') {
+                          return `Sabit fiyat - Tüm tekne rezervasyonu`;
+                        } else {
+                          // cabin_based
+                          const parts = [];
+                          if (singleCabinCount > 0) {
+                            parts.push(`Tek kabin: ₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × ${singleCabinCount}`);
+                          }
+                          if (doubleCabinCount > 0) {
+                            parts.push(`Çift kabin: ₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × ${doubleCabinCount}`);
+                          }
+                          return parts.length > 0 ? parts.join(' • ') : 'Seçim yapın';
+                        }
+                      })()}
+                    </div>
+                  </div>
+                </div>
+              )}
 
               {/* Booking Buttons - Corporate Style */}
               <div className="space-y-3">
