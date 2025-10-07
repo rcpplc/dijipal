@@ -124,16 +124,45 @@ const CategoryPage = () => {
     loadTours();
   }, [category]);
 
-  const loadTours = async () => {
-    setLoading(true);
+  const loadTours = async (page = 1, append = false) => {
+    if (page === 1) {
+      setLoading(true);
+      setCurrentPage(1);
+      setHasMore(true);
+    } else {
+      setLoadingMore(true);
+    }
+    
     try {
-      const response = await axios.get(`${API}/tours?category=${category}&limit=20`);
-      setTours(response.data);
+      const params = new URLSearchParams();
+      params.append('category', category);
+      params.append('limit', ITEMS_PER_PAGE.toString());
+      params.append('offset', ((page - 1) * ITEMS_PER_PAGE).toString());
+      
+      const response = await axios.get(`${API}/tours?${params.toString()}`);
+      const newTours = response.data;
+      
+      if (append) {
+        setTours(prevTours => [...prevTours, ...newTours]);
+      } else {
+        setTours(newTours);
+      }
+      
+      // Check if there are more items to load
+      setHasMore(newTours.length === ITEMS_PER_PAGE);
+      
     } catch (error) {
       console.error('Error loading tours:', error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
+  };
+
+  const loadMoreTours = () => {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    loadTours(nextPage, true);
   };
 
   const currentCategory = categoryInfo[category] || {
