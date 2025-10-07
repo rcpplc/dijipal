@@ -200,7 +200,30 @@ const MyBookingsPage = () => {
                         </div>
                         <div className="flex items-center space-x-1">
                           <Users className="w-4 h-4" />
-                          <span>{booking.participants} kabin</span>
+                          <span>
+                            {(() => {
+                              if (booking.reservation_type === 'person_based') {
+                                const childCount = booking.child_count || 0;
+                                return `${booking.participants || 0} Yetişkin${childCount > 0 ? ` + ${childCount} Çocuk` : ''}`;
+                              } else if (booking.reservation_type === 'reservation') {
+                                return `Tüm Tekne / Sabit Fiyat`;
+                              } else {
+                                // cabin_based - yeni format
+                                const singleCount = booking.single_cabin_count || 0;
+                                const doubleCount = booking.double_cabin_count || 0;
+                                
+                                if (singleCount > 0 || doubleCount > 0) {
+                                  const parts = [];
+                                  if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
+                                  if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
+                                  return parts.join(' + ');
+                                }
+                                
+                                // Fallback: eski format
+                                return `${booking.participants} × ${booking.cabin_type === 'double' ? 'Çift Kişilik Kabin' : 'Tek Kişilik Kabin'}`;
+                              }
+                            })()}
+                          </span>
                         </div>
                       </div>
                     </div>
