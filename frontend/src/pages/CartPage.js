@@ -476,19 +476,7 @@ const CartPage = () => {
                             </div>
                           </div>
                         )}
-                        <div className="text-xs text-gray-500 mt-1">
-                          {(() => {
-                            if (item.reservation_type === 'reservation') {
-                              return `Max ${item.selectedDate?.max_persons || 0} kişi kapasiteli`;
-                            } else {
-                              const maxCapacity = item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20;
-                              const sameeDateItems = cartItems.filter(cartItem => cartItem.selectedDate?.date === item.selectedDate?.date);
-                              const totalUsedOnDate = sameeDateItems.reduce((total, cartItem) => total + cartItem.participants, 0);
-                              const unitLabel = item.reservation_type === 'person_based' ? 'kişi' : 'kabin';
-                              return `Toplam kullanılan: ${totalUsedOnDate}/${maxCapacity} ${unitLabel}`;
-                            }
-                          })()}
-                        </div>
+                        {/* Toplam kullanılan yazısı kaldırıldı */}
                       </div>
 
                       {/* Price */}
