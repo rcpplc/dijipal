@@ -3147,74 +3147,63 @@ async def update_expired_tour_dates():
         
         print(f"🕒 Cron job started: Checking tour dates before {today_str}")
         
-        # Tüm turları al
-        tours = await db.tours.find({}).to_list(length=None)
+        # tour_dates collection'ından geçmiş tarihleri bul ve pasif yap
+        # Önce aktif olan geçmiş tarihleri bul
+        past_active_dates = await db.tour_dates.find({
+            "start_date": {"$lt": today_str},
+            "is_active": True
+        }).to_list(length=None)
         
-        updated_tours = 0
-        total_dates_checked = 0
+        print(f"🔍 Found {len(past_active_dates)} active past dates to deactivate")
+        
         dates_deactivated = 0
         
-        for tour in tours:
-            tour_updated = False
-            available_dates = tour.get('available_dates', [])
-            
-            # Her tur tarihini kontrol et
-            for date_entry in available_dates:
-                total_dates_checked += 1
-                
-                # Date string'i date object'e çevir
-                if isinstance(date_entry, dict):
-                    date_str = date_entry.get('date') or date_entry.get('start_date')
-                    current_status = date_entry.get('status', 'active')
-                else:
-                    continue  # Skip invalid date entries
-                
-                if not date_str:
-                    continue
-                
-                try:
-                    # Date'i parse et
-                    if 'T' in date_str:
-                        tour_date = datetime.fromisoformat(date_str.replace('Z', '+00:00')).date()
-                    else:
-                        tour_date = datetime.fromisoformat(date_str).date()
-                    
-                    # Geçmiş tarih mi kontrol et
-                    if tour_date < today and current_status == 'active':
-                        date_entry['status'] = 'inactive'
-                        tour_updated = True
-                        dates_deactivated += 1
-                        print(f"   📅 Deactivated: {tour.get('title', 'Unknown Tour')} - {date_str}")
-                        
-                except ValueError as e:
-                    print(f"   ⚠️  Date parsing error for {date_str}: {e}")
-                    continue
-            
-            # Tur güncellendiyse veritabanına kaydet
-            if tour_updated:
-                await db.tours.update_one(
-                    {"id": tour["id"]}, 
-                    {"$set": {"available_dates": available_dates, "updated_at": datetime.utcnow()}}
+        # Her geçmiş tarihi pasif yap
+        for date_entry in past_active_dates:
+            try:
+                result = await db.tour_dates.update_one(
+                    {"id": date_entry["id"]},
+                    {
+                        "$set": {
+                            "is_active": False,
+                            "updated_at": datetime.utcnow(),
+                            "deactivated_by": "cron_job",
+                            "deactivated_at": datetime.utcnow()
+                        }
+                    }
                 )
-                updated_tours += 1
+                
+                if result.modified_count > 0:
+                    dates_deactivated += 1
+                    print(f"   📅 Deactivated: Tour Date ID {date_entry['id']} - {date_entry.get('start_date')}")
+                    
+            except Exception as date_error:
+                print(f"   ❌ Error updating date ID {date_entry.get('id', 'unknown')}: {str(date_error)}")
+                continue
+        
+        # İstatistikleri topla
+        total_tour_dates = await db.tour_dates.count_documents({})
+        active_dates = await db.tour_dates.count_documents({"is_active": True})
+        inactive_dates = await db.tour_dates.count_documents({"is_active": False})
         
         result = {
             "success": True,
             "message": "Tour dates status update completed",
             "stats": {
-                "tours_checked": len(tours),
-                "tours_updated": updated_tours,
-                "total_dates_checked": total_dates_checked,
+                "total_tour_dates": total_tour_dates,
                 "dates_deactivated": dates_deactivated,
-                "execution_date": today_str
+                "active_dates_remaining": active_dates,
+                "inactive_dates_total": inactive_dates,
+                "execution_date": today_str,
+                "execution_time": datetime.utcnow().isoformat()
             }
         }
         
         print(f"✅ Cron job completed:")
-        print(f"   - Tours checked: {len(tours)}")
-        print(f"   - Tours updated: {updated_tours}")
-        print(f"   - Dates checked: {total_dates_checked}")
+        print(f"   - Total tour dates: {total_tour_dates}")
         print(f"   - Dates deactivated: {dates_deactivated}")
+        print(f"   - Active dates remaining: {active_dates}")
+        print(f"   - Inactive dates total: {inactive_dates}")
         
         return result
         
@@ -3225,7 +3214,8 @@ async def update_expired_tour_dates():
             "success": False,
             "message": error_msg,
             "stats": {
-                "execution_date": datetime.now(timezone.utc).date().isoformat()
+                "execution_date": datetime.now(timezone.utc).date().isoformat(),
+                "execution_time": datetime.utcnow().isoformat()
             }
         }
 
