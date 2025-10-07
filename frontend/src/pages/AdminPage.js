@@ -1362,7 +1362,7 @@ const AdminPage = () => {
                         </div>
                         <div>
                           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Tutar</span>
-                          <p className="text-sm font-bold text-gray-900">₺{booking.total_price?.toLocaleString('tr-TR')}</p>
+                          <p className="text-sm font-bold text-gray-900">₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
                           <p className="text-xs text-gray-500">
                             {booking.payment_status === 'success' ? 'Ödendi' : 
                              booking.payment_status === 'failed' ? 'Başarısız' :
