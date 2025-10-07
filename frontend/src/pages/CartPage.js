@@ -437,7 +437,7 @@ const CartPage = () => {
                         ) : (
                           // Kabin Bazlı - Eski Sistem
                           <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium text-gray-700">TEST DEĞIŞTI:</span>
+                            <span className="text-sm font-medium text-gray-700">YETİŞKİN SAYISI:</span>
                             <div className="flex items-center space-x-2">
                               <button
                                 onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
