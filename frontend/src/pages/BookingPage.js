@@ -252,10 +252,7 @@ const BookingPage = () => {
         const singleTotal = singlePrice * singleCount;
         const doubleTotal = doublePrice * doubleCount;
         
-        console.log('BookingPage calculatePrice DEBUG:', {
-          singleCount, doubleCount, singlePrice, doublePrice,
-          singleTotal, doubleTotal, grandTotal: singleTotal + doubleTotal
-        });
+        // Debug temizlendi
         
         return singleTotal + doubleTotal;
       }
