@@ -1034,6 +1034,26 @@ const ToursPage = () => {
                 ))}
               </div>
             )}
+            
+            {/* Load More Button */}
+            {!loading && tours.length > 0 && hasMore && (
+              <div className="text-center mt-8">
+                <button
+                  onClick={loadMoreTours}
+                  disabled={loadingMore}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-8 py-3 rounded-lg font-medium transition-colors duration-200 inline-flex items-center space-x-2"
+                >
+                  {loadingMore ? (
+                    <>
+                      <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                      <span>Yükleniyor...</span>
+                    </>
+                  ) : (
+                    <span>Daha Fazla Gör</span>
+                  )}
+                </button>
+              </div>
+            )}
           </div>
           
         </div>
