@@ -828,73 +828,7 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                {/* Fiyat detayları - sadece kabin bazlı için göster */}
-                {tour?.reservation_type === 'cabin_based' && (
-                  <div className="border-t border-gray-100 pt-4 space-y-2">
-                    <div className="flex justify-between text-sm">
-                      <span className="text-gray-600">
-                        {(() => {
-                          if (tour?.reservation_type === 'person_based') {
-                          const adultPrice = selectedDate?.person_price || 0;
-                          const childPrice = selectedDate?.child_price || 0;
-                          // State'deki childCount'u kullan
-                          const displayChildCount = childCount || selectedDate?.childCount || 0;
-                          return `${participants} Yetişkin × ₺${adultPrice.toLocaleString('tr-TR')}${displayChildCount > 0 ? ` + ${displayChildCount} Çocuk × ₺${childPrice.toLocaleString('tr-TR')}` : ''}`;
-                        } else if (tour?.reservation_type === 'reservation') {
-                          const reservationPrice = selectedDate?.total_reservation_price || 0;
-                          return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
-                        } else {
-                          // cabin_based - State'den veri kontrolü (öncelik ver)
-                          if (singleCabinCount > 0 || doubleCabinCount > 0) {
-                            const singlePrice = selectedDate?.single_cabin_price || 0;
-                            const doublePrice = selectedDate?.double_cabin_price || 0;
-                            const parts = [];
-                            if (singleCabinCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCabinCount}`);
-                            if (doubleCabinCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCabinCount}`);
-                            return parts.join(' + ');
-                          }
-                          
-                          // Fallback: Sepetten kabin bilgilerini al
-                          try {
-                            const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
-                            const cartItem = cartItems.find(item => 
-                              item.tourId === tour.id || item.tourId === tourId
-                            );
-                            
-                            if (cartItem && cartItem.reservation_type === 'cabin_based') {
-                              const singleCount = cartItem.singleCabinCount || 0;
-                              const doubleCount = cartItem.doubleCabinCount || 0;
-                              const singlePrice = cartItem.single_cabin_price || 0;
-                              const doublePrice = cartItem.double_cabin_price || 0;
-                              
-                              if (singleCount > 0 || doubleCount > 0) {
-                                const parts = [];
-                                if (singleCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCount}`);
-                                if (doubleCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCount}`);
-                                return parts.join(' + ');
-                              }
-                            }
-                          } catch (error) {
-                            console.error('Cart item price parse error:', error);
-                          }
-                          const cabinPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
-                          return `${participants} kabin × ₺${cabinPrice.toLocaleString('tr-TR')}`;
-                        }
-                      })()}
-                    </span>
-                    <span className="font-medium">₺{parseFloat(totalPrice || 0).toLocaleString('tr-TR')}</span>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>KDV Hariç Tutar</span>
-                    <span>₺{(priceWithoutKdv || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                  </div>
-                  <div className="flex justify-between text-sm text-gray-600">
-                    <span>KDV (%20)</span>
-                    <span>₺{(kdvAmount || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</span>
-                  </div>
-                    {/* Hizmet bedeli kaldırıldı */}
-                  </div>
-                )}
+                {/* Fiyat detayları tamamen gizlendi */}
 
                 <div className="border-t border-gray-100 pt-4">
                   <div className="flex justify-between text-lg font-bold">
