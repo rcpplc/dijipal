@@ -758,18 +758,40 @@ const BookingPage = () => {
                           const reservationPrice = selectedDate?.total_reservation_price || 0;
                           return `1 × Toplam Rezervasyon × ₺${reservationPrice.toLocaleString('tr-TR')}`;
                         } else {
-                          // cabin_based - Sepetten ayrı kabin fiyatlarını al
-                          const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
-                          const cartItem = cartItems.find(item => item.tourId === tour.id);
-                          if (cartItem && cartItem.reservation_type === 'cabin_based') {
-                            const singleCount = cartItem.singleCabinCount || 0;
-                            const doubleCount = cartItem.doubleCabinCount || 0;
-                            const singlePrice = cartItem.single_cabin_price || 0;
-                            const doublePrice = cartItem.double_cabin_price || 0;
-                            const parts = [];
-                            if (singleCount > 0) parts.push(`${singleCount} × ₺${singlePrice.toLocaleString('tr-TR')}`);
-                            if (doubleCount > 0) parts.push(`${doubleCount} × ₺${doublePrice.toLocaleString('tr-TR')}`);
-                            return parts.length > 0 ? parts.join(' + ') : `Kabin fiyatı`;
+                          // cabin_based - Sepetten ayrı kabin fiyatlarını al (gelişmiş kontrol)
+                          try {
+                            const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+                            const cartItem = cartItems.find(item => 
+                              item.tourId === tour.id || item.tourId === tourId
+                            );
+                            
+                            if (cartItem && cartItem.reservation_type === 'cabin_based') {
+                              const singleCount = cartItem.singleCabinCount || 0;
+                              const doubleCount = cartItem.doubleCabinCount || 0;
+                              const singlePrice = cartItem.single_cabin_price || 0;
+                              const doublePrice = cartItem.double_cabin_price || 0;
+                              
+                              if (singleCount > 0 || doubleCount > 0) {
+                                const parts = [];
+                                if (singleCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCount}`);
+                                if (doubleCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCount}`);
+                                return parts.join(' + ');
+                              }
+                            }
+                            
+                            // State'den gelen veri kontrolü
+                            if (location.state && location.state.singleCabinCount !== undefined) {
+                              const singleCount = location.state.singleCabinCount || 0;
+                              const doubleCount = location.state.doubleCabinCount || 0;
+                              const singlePrice = selectedDate?.single_cabin_price || 0;
+                              const doublePrice = selectedDate?.double_cabin_price || 0;
+                              const parts = [];
+                              if (singleCount > 0) parts.push(`Tek Kişilik: ₺${singlePrice.toLocaleString('tr-TR')} × ${singleCount}`);
+                              if (doubleCount > 0) parts.push(`Çift Kişilik: ₺${doublePrice.toLocaleString('tr-TR')} × ${doubleCount}`);
+                              if (parts.length > 0) return parts.join(' + ');
+                            }
+                          } catch (error) {
+                            console.error('Cart item price parse error:', error);
                           }
                           const cabinPrice = selectedPrice > 0 ? parseFloat(selectedPrice) : (tour?.base_price || 0);
                           return `${participants} kabin × ₺${cabinPrice.toLocaleString('tr-TR')}`;
