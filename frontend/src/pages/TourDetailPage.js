@@ -651,7 +651,7 @@ const TourDetailPage = () => {
     
     if (existingItemIndex >= 0) {
       // Varsa katılımcı sayısını güncelle
-      cartItems[existingItemIndex].participants = participants;
+      cartItems[existingItemIndex].participants = participantsParam;
       toast.success('Sepetteki tur güncellendi');
     } else {
       // Yoksa sepete ekle
