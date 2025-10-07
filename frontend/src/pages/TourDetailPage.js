@@ -473,8 +473,18 @@ const TourDetailPage = () => {
         tourSlug: tourSlug, // Add slug for better matching
         selectedDate: selectedDate,
         selectedCabinType: selectedCabinType,
-        cabinCount: cabinCount,
-        participants: participants,
+        // Reservation type'a göre doğru veriyi kaydet
+        ...(tour.reservation_type === 'cabin_based' ? {
+          singleCabinCount: singleCabinCount,
+          doubleCabinCount: doubleCabinCount,
+          cabinCount: singleCabinCount + doubleCabinCount
+        } : tour.reservation_type === 'person_based' ? {
+          participants: participants,
+          childCount: childCount,
+          totalPersons: participants + childCount
+        } : {
+          participants: 1
+        }),
         timestamp: Date.now()
       };
       
