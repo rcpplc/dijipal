@@ -190,6 +190,7 @@ function App() {
               <Route path="/category/:category" element={<Navigate to="/tum-kategoriler" replace />} />
               <Route path="/category" element={<Navigate to="/tum-kategoriler" replace />} />
               <Route path="/cart" element={<CartPage />} />
+              <Route path="/sepet" element={<CartPage />} />
               <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
               <Route path="/favorites" element={<FavoritesPage />} />
               <Route 
