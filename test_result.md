@@ -503,7 +503,8 @@ metadata:
   run_ui: false
 
 test_plan:
-  current_focus: []
+  current_focus:
+    - "Cron Job Endpoint for Tour Dates Status Update"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
