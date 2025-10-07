@@ -704,17 +704,39 @@ const BookingPage = () => {
                           } else if (tour?.reservation_type === 'reservation') {
                             return `1 × Toplam Rezervasyon`;
                           } else {
-                            // cabin_based - Sepetten kabin bilgilerini al
-                            const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
-                            const cartItem = cartItems.find(item => item.tourId === tour.id);
-                            if (cartItem && cartItem.reservation_type === 'cabin_based') {
-                              const singleCount = cartItem.singleCabinCount || 0;
-                              const doubleCount = cartItem.doubleCabinCount || 0;
-                              const parts = [];
-                              if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik Kabin`);
-                              if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
-                              return parts.length > 0 ? parts.join(' + ') : `${participants} × Kabin`;
+                            // cabin_based - Sepetten kabin bilgilerini al (gelişmiş kontrol)
+                            try {
+                              const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+                              const cartItem = cartItems.find(item => 
+                                item.tourId === tour.id || item.tourId === tourId
+                              );
+                              
+                              if (cartItem && cartItem.reservation_type === 'cabin_based') {
+                                const singleCount = cartItem.singleCabinCount || 0;
+                                const doubleCount = cartItem.doubleCabinCount || 0;
+                                
+                                if (singleCount > 0 || doubleCount > 0) {
+                                  const parts = [];
+                                  if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik Kabin`);
+                                  if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
+                                  return parts.join(' + ');
+                                }
+                              }
+                              
+                              // State'den gelen veri kontrolü
+                              if (location.state && location.state.singleCabinCount !== undefined) {
+                                const singleCount = location.state.singleCabinCount || 0;
+                                const doubleCount = location.state.doubleCabinCount || 0;
+                                const parts = [];
+                                if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik Kabin`);
+                                if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
+                                if (parts.length > 0) return parts.join(' + ');
+                              }
+                            } catch (error) {
+                              console.error('Cart item parse error:', error);
                             }
+                            
+                            // Fallback: eski format
                             return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                           }
                         })()}
