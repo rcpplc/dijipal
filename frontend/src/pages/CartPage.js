@@ -342,35 +342,86 @@ const CartPage = () => {
                     <div className="flex items-center justify-between">
                       {/* Quantity Controls */}
                       <div className="flex items-center space-x-3">
-                        <span className="text-sm font-medium text-gray-700">
-                          Kişi Sayısı:
-                        </span>
-                        {item.reservation_type !== 'reservation' && (
-                          <div className="flex items-center space-x-2">
-                            <button
-                              onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
-                              disabled={item.participants <= 1}
-                              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                            >
-                              <Minus className="w-4 h-4" />
-                            </button>
-                            <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
-                              {item.reservation_type === 'person_based' 
-                                ? `${item.participants}${item.childCount > 0 ? ` + ${item.childCount}` : ''}`
-                                : item.participants
-                              }
-                            </span>
-                            <button
-                              onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
-                              disabled={item.participants >= (item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20)}
-                              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                            >
-                              <Plus className="w-4 h-4" />
-                            </button>
+                        {item.reservation_type === 'person_based' ? (
+                          // Kişi Bazlı - Yetişkin ve Çocuk Ayrı Kontroller
+                          <div className="space-y-3">
+                            {/* Yetişkin Sayısı */}
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium text-gray-700">Yetişkin Sayısı:</span>
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
+                                  disabled={item.participants <= 1}
+                                  className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                                >
+                                  <Minus className="w-4 h-4" />
+                                </button>
+                                <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
+                                  {item.participants}
+                                </span>
+                                <button
+                                  onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
+                                  disabled={item.participants >= (item.selectedDate?.max_persons || 20)}
+                                  className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                                >
+                                  <Plus className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
+                            
+                            {/* Çocuk Sayısı */}
+                            <div className="flex items-center justify-between">
+                              <span className="text-sm font-medium text-gray-700">Çocuk Sayısı:</span>
+                              <div className="flex items-center space-x-2">
+                                <button
+                                  onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) - 1)}
+                                  disabled={(item.childCount || 0) <= 0}
+                                  className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                                >
+                                  <Minus className="w-4 h-4" />
+                                </button>
+                                <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
+                                  {item.childCount || 0}
+                                </span>
+                                <button
+                                  onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) + 1)}
+                                  disabled={(item.participants + (item.childCount || 0)) >= (item.selectedDate?.max_persons || 20)}
+                                  className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                                >
+                                  <Plus className="w-4 h-4" />
+                                </button>
+                              </div>
+                            </div>
                           </div>
-                        )}
-                        {item.reservation_type === 'reservation' && (
-                          <span className="text-lg font-semibold text-gray-900">1 × Toplam Rezervasyon</span>
+                        ) : item.reservation_type === 'reservation' ? (
+                          // Rezervasyon Bazlı - Sabit Gösterim
+                          <span className="text-sm font-medium text-gray-700">
+                            Rezervasyon: <span className="text-lg font-semibold text-gray-900 ml-2">1 × Toplam Rezervasyon</span>
+                          </span>
+                        ) : (
+                          // Kabin Bazlı - Eski Sistem
+                          <div className="flex items-center space-x-3">
+                            <span className="text-sm font-medium text-gray-700">Kabin Sayısı:</span>
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
+                                disabled={item.participants <= 1}
+                                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                              >
+                                <Minus className="w-4 h-4" />
+                              </button>
+                              <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
+                                {item.participants}
+                              </span>
+                              <button
+                                onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
+                                disabled={item.participants >= (item.selectedDate?.available_cabins || 20)}
+                                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                              >
+                                <Plus className="w-4 h-4" />
+                              </button>
+                            </div>
+                          </div>
                         )}
                         <div className="text-xs text-gray-500 mt-1">
                           {(() => {
