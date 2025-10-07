@@ -666,7 +666,16 @@ const BookingPage = () => {
                     <div className="flex items-center space-x-2 text-sm">
                       <Users className="w-4 h-4 text-green-600" />
                       <span className="font-medium text-green-800">
-                        {participants} × {cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}
+                        {(() => {
+                          if (tour?.reservation_type === 'person_based') {
+                            return `${participants} × Yetişkin${selectedDate?.childCount > 0 ? ` + ${selectedDate?.childCount} × Çocuk` : ''}`;
+                          } else if (tour?.reservation_type === 'reservation') {
+                            return `1 × Toplam Rezervasyon`;
+                          } else {
+                            // cabin_based
+                            return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
+                          }
+                        })()}
                       </span>
                     </div>
                   </div>
