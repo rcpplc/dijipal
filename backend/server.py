@@ -2189,6 +2189,27 @@ async def reset_database():
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/make-tour-reservation-type/{tour_id}")
+async def make_tour_reservation_type(tour_id: str):
+    """Convert existing tour to reservation type"""
+    
+    # Update tour to reservation type
+    await db.tours.update_one(
+        {"id": tour_id},
+        {"$set": {"reservation_type": "reservation"}}
+    )
+    
+    # Update tour dates to have reservation pricing
+    await db.tour_dates.update_many(
+        {"tour_id": tour_id},
+        {"$set": {
+            "total_reservation_price": 8000.0,
+            "max_persons": 12
+        }}
+    )
+    
+    return {"message": f"Tour {tour_id} converted to reservation type successfully"}
+
 @api_router.post("/create-reservation-tour")
 async def create_reservation_tour():
     """Create a test reservation type tour"""
