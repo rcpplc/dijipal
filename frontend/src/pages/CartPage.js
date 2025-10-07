@@ -436,28 +436,20 @@ const CartPage = () => {
                                   } else if (item.reservation_type === 'reservation') {
                                     return `Toplam Rezervasyon`;
                                   } else {
-                                    // cabin_based - DEBUG VE DOĞRU FORMAT KONTROLÜ
-                                    console.log('DEBUG - Kabin info display:', {
-                                      singleCabinCount: item.singleCabinCount,
-                                      doubleCabinCount: item.doubleCabinCount,
-                                      cabinType: item.cabinType,
-                                      reservation_type: item.reservation_type
-                                    });
-                                    
+                                    // cabin_based - YENİ FORMAT ÖNCELİKLİ
                                     const singleCount = item.singleCabinCount || 0;
                                     const doubleCount = item.doubleCabinCount || 0;
                                     
-                                    // Yeni format kontrolü - ZORLA TEST
-                                    if (singleCount > 0 || doubleCount > 0) {
-                                      // Yeni format: ayrı kabin sayıları
+                                    // YENİ FORMAT: ayrı kabin sayıları varsa
+                                    if (item.hasOwnProperty('singleCabinCount') || item.hasOwnProperty('doubleCabinCount')) {
                                       const parts = [];
                                       if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
                                       if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
                                       return parts.length > 0 ? parts.join(' + ') : 'Kabin Seçimi';
-                                    } else {
-                                      // Eski format: tek kabin tipi
-                                      return `Kabin Tipi: ${item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                                     }
+                                    
+                                    // ESKİ FORMAT: tek kabin tipi
+                                    return `Kabin Tipi: ${item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                                   }
                                 })()}
                               </span>
