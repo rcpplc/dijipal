@@ -189,8 +189,11 @@ const MyBookingsPage = () => {
                     <div>
                       <div className="flex items-center space-x-3 mb-2">
                         <h3 className="text-lg font-semibold text-gray-900">
-                          Rezervasyon #{booking.booking_code}
+                          {booking.tour_title || `Rezervasyon #${booking.booking_code}`}
                         </h3>
+                        {booking.tour_title && (
+                          <p className="text-sm text-gray-500">#{booking.booking_code}</p>
+                        )}
                         {getStatusIcon(booking.booking_status)}
                       </div>
                       <div className="flex items-center space-x-4 text-sm text-gray-600">
