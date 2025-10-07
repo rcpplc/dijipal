@@ -1413,11 +1413,6 @@ const TourDetailPage = () => {
                           <div className="text-lg font-bold text-gray-900">
                             {doubleCabinCount} kabin
                           </div>
-                          {selectedDate && selectedDate.double_cabin_price && doubleCabinCount > 0 && (
-                            <div className="text-sm text-gray-600">
-                              ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × {doubleCabinCount}
-                            </div>
-                          )}
                         </div>
                         <button
                           onClick={() => {
