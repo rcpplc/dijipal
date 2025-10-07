@@ -1753,19 +1753,20 @@ const TourDetailPage = () => {
                   const childPrice = selectedDate.child_price || 0;
                   if (!adultPrice && !childPrice) return 'Fiyat Yükleniyor...';
                   const totalPrice = (adultPrice * participants) + (childPrice * childCount);
-                  return totalPrice.toLocaleString('tr-TR') + ' TL';
+                  if (totalPrice === 0) return 'Katılımcı Seçin';
+                  return '₺' + totalPrice.toLocaleString('tr-TR');
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const price = selectedDate.total_reservation_price;
                   if (!price || isNaN(price)) return 'Fiyat Yükleniyor...';
-                  return price.toLocaleString('tr-TR') + ' TL';
+                  return '₺' + price.toLocaleString('tr-TR');
                 } else {
-                  // cabin_based
+                  // cabin_based - show selection-based pricing
                   const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
                   const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
                   const totalPrice = singleTotal + doubleTotal;
                   
                   if (totalPrice === 0) return 'Kabin Seçin';
-                  return totalPrice.toLocaleString('tr-TR') + ' TL';
+                  return '₺' + totalPrice.toLocaleString('tr-TR');
                 }
               })()}
             </div>
