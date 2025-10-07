@@ -646,11 +646,26 @@ const CartPage = () => {
                             } else if (item.reservation_type === 'reservation') {
                               return (item.total_reservation_price || 0).toLocaleString();
                             } else {
-                              // cabin_based
-                              const cabinPrice = item.cabinType === 'double' 
-                                ? (item.double_cabin_price || item.price || 0)
-                                : (item.single_cabin_price || item.price || 0);
-                              return (cabinPrice * item.participants).toLocaleString();
+                              // cabin_based - FİX: Aynı logic getTotalPrice ile
+                              let singleTotal = 0;
+                              let doubleTotal = 0;
+                              
+                              const singleCount = item.singleCabinCount || 0;
+                              const doubleCount = item.doubleCabinCount || 0;
+                              
+                              singleTotal = (item.single_cabin_price || 0) * singleCount;
+                              doubleTotal = (item.double_cabin_price || 0) * doubleCount;
+                              
+                              // Backward compatibility
+                              if (singleCount === 0 && doubleCount === 0 && item.participants > 0) {
+                                if (item.cabinType === 'single') {
+                                  singleTotal = (item.single_cabin_price || item.price || 0) * item.participants;
+                                } else if (item.cabinType === 'double') {
+                                  doubleTotal = (item.double_cabin_price || item.price || 0) * item.participants;
+                                }
+                              }
+                              
+                              return (singleTotal + doubleTotal).toLocaleString();
                             }
                           })()}
                         </div>
