@@ -1628,22 +1628,25 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Booking Buttons - Corporate Style */}
-              <div className="space-y-3">
+              {/* Desktop Booking Buttons - Grid Layout */}
+              <div className="grid grid-cols-12 gap-3">
+                {/* Rezervasyon Yap Butonu - 9 sütun */}
                 <button
                   onClick={handleBooking}
                   disabled={!selectedDate}
-                  className="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:cursor-not-allowed"
+                  className="col-span-9 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 text-white font-medium py-3 px-4 rounded-md transition-colors duration-200 disabled:cursor-not-allowed"
                 >
                   {user ? 'Rezervasyon Tamamla' : 'Giriş Yapın & Rezervasyon Yapın'}
                 </button>
                 
+                {/* Sepete Ekle Butonu - 3 sütun (Sadece İkon) */}
                 <button
                   onClick={() => addToCart()}
                   disabled={!selectedDate}
-                  className="w-full bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-4 rounded-md transition-colors duration-200 border border-gray-300 hover:border-blue-500 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed"
+                  className="col-span-3 bg-white hover:bg-gray-50 text-gray-700 font-medium py-3 px-3 rounded-md transition-colors duration-200 border border-gray-300 hover:border-blue-500 disabled:border-gray-200 disabled:text-gray-400 disabled:cursor-not-allowed flex items-center justify-center"
+                  title="Sepete Ekle"
                 >
-                  Sepete Ekle
+                  <ShoppingCart className="w-5 h-5" />
                 </button>
               </div>
 
