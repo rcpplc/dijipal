@@ -415,8 +415,13 @@ const CartPage = () => {
                                   } else if (item.reservation_type === 'reservation') {
                                     return `Toplam Rezervasyon`;
                                   } else {
-                                    // cabin_based
-                                    return `Kabin Tipi: ${item.cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
+                                    // cabin_based - Tek ve çift kabin gösterimi
+                                    const singleCount = item.singleCabinCount || 0;
+                                    const doubleCount = item.doubleCabinCount || 0;
+                                    const parts = [];
+                                    if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
+                                    if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
+                                    return parts.length > 0 ? parts.join(' + ') : 'Kabin Seçimi';
                                   }
                                 })()}
                               </span>
