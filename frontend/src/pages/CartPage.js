@@ -450,27 +450,54 @@ const CartPage = () => {
                             Rezervasyon: <span className="text-lg font-semibold text-gray-900 ml-2">1 × Toplam Rezervasyon</span>
                           </span>
                         ) : (
-                          // Kabin Bazlı - Eski Sistem
-                          <div className="flex items-center space-x-3">
-                            <span className="text-sm font-medium text-gray-700">Kabin Sayısı:</span>
-                            <div className="flex items-center space-x-2">
-                              <button
-                                onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
-                                disabled={item.participants <= 1}
-                                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                              >
-                                <Minus className="w-4 h-4" />
-                              </button>
-                              <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
-                                {item.participants}
-                              </span>
-                              <button
-                                onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
-                                disabled={item.participants >= (item.selectedDate?.available_cabins || 20)}
-                                className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                              >
-                                <Plus className="w-4 h-4" />
-                              </button>
+                          // Kabin Bazlı - Yeni 2x2 Grid Tasarım
+                          <div className="grid grid-cols-2 gap-4 w-full">
+                            {/* Tek Kişilik Kabin */}
+                            <div className="space-y-2">
+                              <span className="text-xs font-medium text-gray-600 block">Tek Kişilik</span>
+                              <div className="flex items-center justify-center space-x-2">
+                                <button
+                                  onClick={() => updateCabinQuantity(item.tourId, item.selectedDate?.date, 'single', (item.singleCabinCount || 0) - 1)}
+                                  disabled={(item.singleCabinCount || 0) <= 0}
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                                <span className="text-lg font-bold text-gray-900 min-w-[1.5rem] text-center">
+                                  {item.singleCabinCount || 0}
+                                </span>
+                                <button
+                                  onClick={() => updateCabinQuantity(item.tourId, item.selectedDate?.date, 'single', (item.singleCabinCount || 0) + 1)}
+                                  disabled={((item.singleCabinCount || 0) + (item.doubleCabinCount || 0)) >= (item.selectedDate?.available_cabins || 20)}
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </button>
+                              </div>
+                            </div>
+                            
+                            {/* Çift Kişilik Kabin */}
+                            <div className="space-y-2">
+                              <span className="text-xs font-medium text-gray-600 block">Çift Kişilik</span>
+                              <div className="flex items-center justify-center space-x-2">
+                                <button
+                                  onClick={() => updateCabinQuantity(item.tourId, item.selectedDate?.date, 'double', (item.doubleCabinCount || 0) - 1)}
+                                  disabled={(item.doubleCabinCount || 0) <= 0}
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                >
+                                  <Minus className="w-3 h-3" />
+                                </button>
+                                <span className="text-lg font-bold text-gray-900 min-w-[1.5rem] text-center">
+                                  {item.doubleCabinCount || 0}
+                                </span>
+                                <button
+                                  onClick={() => updateCabinQuantity(item.tourId, item.selectedDate?.date, 'double', (item.doubleCabinCount || 0) + 1)}
+                                  disabled={((item.singleCabinCount || 0) + (item.doubleCabinCount || 0)) >= (item.selectedDate?.available_cabins || 20)}
+                                  className="w-8 h-8 bg-blue-50 hover:bg-blue-100 disabled:bg-gray-100 disabled:text-gray-400 disabled:border-gray-300 text-blue-600 border border-blue-400 hover:border-blue-500 rounded-md flex items-center justify-center transition-all duration-200"
+                                >
+                                  <Plus className="w-3 h-3" />
+                                </button>
+                              </div>
                             </div>
                           </div>
                         )}
