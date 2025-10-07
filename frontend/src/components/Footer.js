@@ -179,7 +179,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-400 mb-4 md:mb-0">
-            © 2024 DijipalTour.com Tarafından ❤️ yapıldı
+            © 2026 DijipalTour.com Tarafından ❤️ yapıldı
           </div>
           <div className="flex space-x-6 text-sm">
             <Link 
