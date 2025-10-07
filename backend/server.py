@@ -2189,6 +2189,20 @@ async def reset_database():
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/update-tour-duration/{tour_id}")
+async def update_tour_duration(tour_id: str, duration: int = 4, duration_unit: str = "days"):
+    """Update tour duration for testing"""
+    
+    await db.tours.update_one(
+        {"id": tour_id},
+        {"$set": {
+            "duration": duration,
+            "duration_unit": duration_unit
+        }}
+    )
+    
+    return {"message": f"Tour {tour_id} duration updated to {duration} {duration_unit}"}
+
 @api_router.post("/make-tour-cabin-type/{tour_id}")
 async def make_tour_cabin_type(tour_id: str):
     """Convert tour back to cabin type"""
