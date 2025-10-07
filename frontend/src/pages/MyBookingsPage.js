@@ -266,9 +266,45 @@ const MyBookingsPage = () => {
                         <div>
                           <span className="font-medium text-gray-700">Rezervasyon Detayı:</span>
                           <div className="mt-1 text-gray-600">
-                            <p>Kabin Sayısı: {booking.participants} kabin</p>
-                            <p>Kabin Tipi: {booking.cabin_type === 'double' ? 'Çift Kişilik Kabin' : 'Tek Kişilik Kabin'}</p>
-                            <p>Toplam: ₺{booking.total_price?.toLocaleString()}</p>
+                            {(() => {
+                              if (booking.reservation_type === 'person_based') {
+                                const childCount = booking.child_count || 0;
+                                return (
+                                  <div>
+                                    <p>Katılımcı: {booking.participants || 0} Yetişkin{childCount > 0 ? ` + ${childCount} Çocuk` : ''}</p>
+                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
+                                  </div>
+                                );
+                              } else if (booking.reservation_type === 'reservation') {
+                                return (
+                                  <div>
+                                    <p>Tür: Tüm Tekne / Sabit Fiyat</p>
+                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
+                                  </div>
+                                );
+                              } else {
+                                // cabin_based - yeni format
+                                const singleCount = booking.single_cabin_count || 0;
+                                const doubleCount = booking.double_cabin_count || 0;
+                                
+                                if (singleCount > 0 || doubleCount > 0) {
+                                  return (
+                                    <div>
+                                      <p>Kabin: {singleCount > 0 ? `${singleCount} × Tek Kişilik` : ''}{singleCount > 0 && doubleCount > 0 ? ' + ' : ''}{doubleCount > 0 ? `${doubleCount} × Çift Kişilik` : ''}</p>
+                                      <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
+                                    </div>
+                                  );
+                                }
+                                
+                                // Fallback: eski format
+                                return (
+                                  <div>
+                                    <p>Kabin: {booking.participants} × {booking.cabin_type === 'double' ? 'Çift Kişilik' : 'Tek Kişilik'}</p>
+                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
+                                  </div>
+                                );
+                              }
+                            })()}
                             {booking.payment_status === 'success' && (
                               <span className="inline-flex items-center text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mt-1">
                                 <CheckCircle className="w-3 h-3 mr-1" />
