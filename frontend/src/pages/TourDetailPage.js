@@ -1504,11 +1504,107 @@ const TourDetailPage = () => {
 
               {/* Booking Summary section removed as requested */}
 
-              {/* Desktop Booking Summary - Dynamic Based on Selections */}
+              {/* Desktop Booking Summary - Sepet Formatında */}
               {selectedDate && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
-                  <div className="text-center">
-                    <div className="text-2xl font-bold text-blue-700 mb-2">
+                <div className="mb-6 space-y-3">
+                  {/* Seçilen Tarih */}
+                  <div className="p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <Calendar className="w-4 h-4 text-blue-600" />
+                      <span className="font-medium text-blue-800">
+                        Seçilen Tarih: {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
+                          day: 'numeric',
+                          month: 'long',
+                          year: 'numeric'
+                        })}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Rezervasyon Detayı */}
+                  <div className="p-3 bg-green-50 border border-green-200 rounded-lg">
+                    <div className="flex items-center space-x-2 text-sm">
+                      <span className="font-medium text-green-800">
+                        {(() => {
+                          if (!tour) return 'Yükleniyor...';
+                          
+                          if (tour.reservation_type === 'person_based') {
+                            return `${participants} Yetişkin${childCount > 0 ? ` + ${childCount} Çocuk` : ''}`;
+                          } else if (tour.reservation_type === 'reservation') {
+                            return `Toplam Rezervasyon`;
+                          } else {
+                            // cabin_based - sepet formatıyla aynı
+                            const parts = [];
+                            if (singleCabinCount > 0) parts.push(`${singleCabinCount} × Tek Kişilik`);
+                            if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} × Çift Kişilik`);
+                            return parts.length > 0 ? parts.join(' + ') : 'Kabin Seçimi';
+                          }
+                        })()}
+                      </span>
+                    </div>
+                  </div>
+                  
+                  {/* Fiyat Detayı */}
+                  <div className="text-sm text-gray-600 mb-3 space-y-1">
+                    {(() => {
+                      if (!tour) return null;
+                      
+                      if (tour.reservation_type === 'person_based') {
+                        const adultPrice = selectedDate.person_price || 0;
+                        const childPrice = selectedDate.child_price || 0;
+                        const adultTotal = adultPrice * participants;
+                        const childTotal = childPrice * childCount;
+                        return (
+                          <div>
+                            <div className="flex justify-between">
+                              <span>Yetişkin: ₺{adultPrice.toLocaleString('tr-TR')} × {participants}</span>
+                              <span>₺{adultTotal.toLocaleString('tr-TR')}</span>
+                            </div>
+                            {childCount > 0 && (
+                              <div className="flex justify-between">
+                                <span>Çocuk: ₺{childPrice.toLocaleString('tr-TR')} × {childCount}</span>
+                                <span>₺{childTotal.toLocaleString('tr-TR')}</span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      } else if (tour.reservation_type === 'reservation') {
+                        return (
+                          <div className="flex justify-between">
+                            <span>Toplam Rezervasyon</span>
+                            <span>₺{(selectedDate.total_reservation_price || 0).toLocaleString('tr-TR')}</span>
+                          </div>
+                        );
+                      } else {
+                        // cabin_based - sepet formatıyla aynı
+                        const singlePrice = selectedDate.single_cabin_price || 0;
+                        const doublePrice = selectedDate.double_cabin_price || 0;
+                        const singleTotal = singlePrice * singleCabinCount;
+                        const doubleTotal = doublePrice * doubleCabinCount;
+                        
+                        return (
+                          <div>
+                            {singleCabinCount > 0 && (
+                              <div className="flex justify-between">
+                                <span>Tek Kişilik: ₺{singlePrice.toLocaleString('tr-TR')} × {singleCabinCount}</span>
+                                <span>₺{singleTotal.toLocaleString('tr-TR')}</span>
+                              </div>
+                            )}
+                            {doubleCabinCount > 0 && (
+                              <div className="flex justify-between">
+                                <span>Çift Kişilik: ₺{doublePrice.toLocaleString('tr-TR')} × {doubleCabinCount}</span>
+                                <span>₺{doubleTotal.toLocaleString('tr-TR')}</span>
+                              </div>
+                            )}
+                          </div>
+                        );
+                      }
+                    })()}
+                  </div>
+                  
+                  {/* Toplam Fiyat */}
+                  <div className="text-center p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+                    <div className="text-2xl font-bold text-blue-700">
                       ₺{(() => {
                         if (!tour) return '0';
                         
@@ -1526,58 +1622,8 @@ const TourDetailPage = () => {
                         }
                       })()}
                     </div>
-                    
-                    <div className="text-sm text-gray-600 mb-1">
-                      {(() => {
-                        if (!tour) return 'Yükleniyor...';
-                        
-                        if (tour.reservation_type === 'person_based') {
-                          const total = participants + childCount;
-                          if (total === 0) return 'Katılımcı seçin';
-                          return `${participants} Yetişkin + ${childCount} Çocuk = ${total} kişi`;
-                        } else if (tour.reservation_type === 'reservation') {
-                          return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
-                        } else {
-                          // cabin_based - show selected cabins
-                          const totalCabins = singleCabinCount + doubleCabinCount;
-                          if (totalCabins === 0) return 'Kabin seçin';
-                          
-                          const parts = [];
-                          if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
-                          if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
-                          return parts.join(' + ') + ' kabin seçildi';
-                        }
-                      })()}
-                    </div>
-                    
-                    <div className="text-xs text-gray-500">
-                      {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long',
-                        year: 'numeric'
-                      })} • Vergiler dahil
-                    </div>
-                    
-                    {/* Selection Details */}
-                    <div className="mt-3 pt-2 border-t border-blue-200 text-xs text-gray-600">
-                      {(() => {
-                        if (tour && tour.reservation_type === 'person_based') {
-                          return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${participants}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
-                        } else if (tour && tour.reservation_type === 'reservation') {
-                          return `Sabit Fiyat Toplam Rezervasyon`;
-                        } else {
-                          // cabin_based
-                          const parts = [];
-                          if (singleCabinCount > 0) {
-                            parts.push(`Tek kabin: ₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')} × ${singleCabinCount}`);
-                          }
-                          if (doubleCabinCount > 0) {
-                            parts.push(`Çift kabin: ₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')} × ${doubleCabinCount}`);
-                          }
-                          return parts.length > 0 ? parts.join(' • ') : 'Seçim yapın';
-                        }
-                      })()}
+                  </div>
+                </div>
                     </div>
                   </div>
                 </div>
