@@ -343,9 +343,7 @@ const CartPage = () => {
                       {/* Quantity Controls */}
                       <div className="flex items-center space-x-3">
                         <span className="text-sm font-medium text-gray-700">
-                          {item.reservation_type === 'person_based' ? 'Kişi Sayısı:' : 
-                           item.reservation_type === 'reservation' ? 'Rezervasyon:' : 
-                           'Kabin Sayısı:'}
+                          Kişi Sayısı:
                         </span>
                         {item.reservation_type !== 'reservation' && (
                           <div className="flex items-center space-x-2">
