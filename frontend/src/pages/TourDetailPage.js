@@ -1468,11 +1468,6 @@ const TourDetailPage = () => {
                           <div className="text-lg font-bold text-gray-900">
                             {participants || 1} Yetişkin
                           </div>
-                          {selectedDate && selectedDate.person_price && (
-                            <div className="text-sm text-gray-600">
-                              ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')} kişi başı
-                            </div>
-                          )}
                         </div>
                         <button
                           onClick={() => {
