@@ -824,10 +824,11 @@ const BookingPage = () => {
                             // Fallback: eski format
                             return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                           }
-                        })()}
-                      </span>
+                          })()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 <div className="border-t border-gray-100 pt-4 space-y-2">
