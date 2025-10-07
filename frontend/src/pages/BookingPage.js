@@ -823,10 +823,11 @@ const BookingPage = () => {
                             // Fallback: eski format
                             return `${participants} × ${cabinType === 'single' ? 'Tek Kişilik Kabin' : 'Çift Kişilik Kabin'}`;
                           }
-                        })()}
-                      </span>
+                          })()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
 
                 {/* Fiyat detayları tamamen gizlendi */}
