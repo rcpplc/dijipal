@@ -79,7 +79,7 @@ const Footer = () => {
                   to="/last-minute" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
-                  Son Dakika Fırsatları
+                  Kabin Kiralama
                 </Link>
               </li>
               <li>
