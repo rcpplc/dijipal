@@ -2202,7 +2202,7 @@ async def create_admin_user():
     admin_user = {
         "id": str(uuid.uuid4()),
         "email": "admin@example.com",
-        "password": "admin123",  # In production, this should be hashed
+        "hashed_password": hash_password("admin123"),  # Properly hashed password
         "full_name": "Test Admin User",
         "phone": "05551234568",
         "role": "admin",
