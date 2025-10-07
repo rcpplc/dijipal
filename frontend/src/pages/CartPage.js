@@ -436,11 +436,20 @@ const CartPage = () => {
                                   } else if (item.reservation_type === 'reservation') {
                                     return `Toplam Rezervasyon`;
                                   } else {
-                                    // cabin_based - Yeni ve eski format desteği
-                                    if (item.singleCabinCount !== undefined || item.doubleCabinCount !== undefined) {
+                                    // cabin_based - DEBUG VE DOĞRU FORMAT KONTROLÜ
+                                    console.log('DEBUG - Kabin info display:', {
+                                      singleCabinCount: item.singleCabinCount,
+                                      doubleCabinCount: item.doubleCabinCount,
+                                      cabinType: item.cabinType,
+                                      reservation_type: item.reservation_type
+                                    });
+                                    
+                                    const singleCount = item.singleCabinCount || 0;
+                                    const doubleCount = item.doubleCabinCount || 0;
+                                    
+                                    // Yeni format kontrolü - ZORLA TEST
+                                    if (singleCount > 0 || doubleCount > 0) {
                                       // Yeni format: ayrı kabin sayıları
-                                      const singleCount = item.singleCabinCount || 0;
-                                      const doubleCount = item.doubleCabinCount || 0;
                                       const parts = [];
                                       if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
                                       if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
