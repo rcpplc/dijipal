@@ -445,6 +445,18 @@ frontend:
         agent: "testing"
         comment: "✅ CART FUNCTIONALITY COMPREHENSIVE TESTING COMPLETED - ALL REQUIREMENTS VERIFIED! Successfully tested CartPage.js price calculation fix for cabin-based reservations as requested in review. TESTING RESULTS: 1) CART ROUTING VERIFICATION: ✅ Both /cart and /sepet routes properly configured in App.js (lines 192-193), backend APIs supporting cart functionality fully accessible (tours list API, individual tour detail API), 2) PRICE CALCULATION LOGIC VERIFICATION: ✅ Found cabin-based tour 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu' with single cabin ₺25,000 + double cabin ₺30,000 = ₺55,000 total, price calculation matches expected ₺55,000 (not ₺25,000 bug), getTotalPrice function correctly sums single_cabin_price + double_cabin_price (lines 265-266), individual item display logic matches getTotalPrice function (lines 671-672), 3) BACKEND API VERIFICATION: ✅ GET /api/tours returns cabin-based tours with proper reservation_type='cabin_based', GET /api/tours/{id} returns complete tour data with tour_dates containing single_cabin_price and double_cabin_price fields, all pricing data properly structured and accessible, 4) CABIN-BASED TOUR DATA STRUCTURE: ✅ Database contains 1 cabin-based tour with valid data structure, all required fields present (id, title, reservation_type, tour_dates), tour dates contain proper cabin pricing fields (single_cabin_price: ₺25,000, double_cabin_price: ₺30,000), data structure supports cart price calculations perfectly. SPECIFIC SCENARIO VERIFICATION: ✅ Tested exact scenario from review (1 single + 1 double cabin), calculation shows ₺55,000 total (correct), confirms the price calculation fix is working properly. SUCCESS RATE: 100% (13/13 tests passed). Cart functionality is fully operational and the price calculation fix has resolved the ₺25,000 vs ₺55,000 issue."
 
+  - task: "Duration Unit Verification for Göcek-Fethiye Tour"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ DURATION UNIT MISMATCH IDENTIFIED - CRITICAL ISSUE FOUND! Successfully located and analyzed the tour 'gocek-fethiye-4-gece-5-gun-kabin-turu' as requested in review. FINDINGS: 1) TOUR IDENTIFICATION: ✅ Tour found with ID: 8abf357a-49d3-4141-98ae-aa444adbd003, Title: 'Göcek - Fethiye 4 Gece 5 Gün Kabin Turu', Location: 'Muğla, Göcek', 2) DURATION FIELD ANALYSIS: ❌ duration_days: 4 (correct), ❌ duration_unit: null/N/A (INCORRECT - should be 'days'), ❌ duration_hours: 0, 3) ROOT CAUSE IDENTIFIED: The tour is stored with duration_days=4 but duration_unit field is null/undefined instead of 'days'. This explains why the tour shows '4 Gün' on detail page but '4 Saat' in cart - frontend is defaulting to 'hours' when duration_unit is missing, 4) COMPLETE TOUR DATA STRUCTURE: ✅ Tour has proper cabin pricing (single_cabin_price: ₺25,000, double_cabin_price: ₺30,000), ✅ All other fields properly populated (description, images, services, etc.), ❌ Only duration_unit field is missing/null, 5) IMPACT ASSESSMENT: This affects display consistency between tour detail page and cart page, causing user confusion about tour duration. RECOMMENDATION: Update tour record to set duration_unit='days' for this 4-night tour. The issue is in the database record, not the frontend logic."
+
 metadata:
   created_by: "testing_agent"
   version: "1.2"
