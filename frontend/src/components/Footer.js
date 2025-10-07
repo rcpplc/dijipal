@@ -76,7 +76,7 @@ const Footer = () => {
               </li>
               <li>
                 <Link 
-                  to="/last-minute" 
+                  to="/kabin-kiralama" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
                   Kabin Kiralama
