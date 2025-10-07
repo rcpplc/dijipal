@@ -839,6 +839,7 @@ const BookingPage = () => {
                       </div>
                     </div>
                 </div>
+                </div>
 
                 {/* Fiyat detayları tamamen gizlendi */}
 
