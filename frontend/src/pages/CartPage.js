@@ -228,6 +228,14 @@ const CartPage = () => {
 
   const getTotalPrice = () => {
     return cartItems.reduce((total, item) => {
+      console.log('getTotalPrice DEBUG:', {
+        reservation_type: item.reservation_type,
+        single_cabin_price: item.single_cabin_price,
+        double_cabin_price: item.double_cabin_price,
+        singleCabinCount: item.singleCabinCount,
+        doubleCabinCount: item.doubleCabinCount
+      });
+      
       if (item.reservation_type === 'person_based') {
         // Kişi bazlı: Yetişkin + Çocuk fiyatları
         const adultTotal = (item.person_price || 0) * item.participants;
@@ -240,6 +248,7 @@ const CartPage = () => {
         // Kabin bazlı: tek ve çift kabin ayrı hesaplama
         const singleTotal = (item.single_cabin_price || 0) * (item.singleCabinCount || 0);
         const doubleTotal = (item.double_cabin_price || 0) * (item.doubleCabinCount || 0);
+        console.log('Kabin toplam hesaplama:', { singleTotal, doubleTotal, grandTotal: singleTotal + doubleTotal });
         return total + singleTotal + doubleTotal;
       }
     }, 0);
