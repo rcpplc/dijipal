@@ -1361,7 +1361,7 @@ const TourDetailPage = () => {
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-4">
                     {/* Tek Kişilik Kabin Sayısı */}
                     <div>
-                      <div className="text-sm font-medium text-gray-700 mb-2">Tek Kişilik / 1 Kişi</div>
+                      <div className="text-sm font-medium text-gray-700 mb-2">Tek Kişilik Kabin/ 1 Kişi</div>
                       <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <button
                           onClick={() => {
