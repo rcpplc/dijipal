@@ -607,8 +607,8 @@ const TourDetailPage = () => {
       tourId: tour.id,
       title: tour.title,
       location: tour.location,
-      duration: tour.duration_days,
-      duration_unit: tour.duration_unit, // Tur süresi birimi
+      duration: tour.duration || tour.duration_days,
+      duration_unit: tour.duration_unit || (tour.duration_days ? 'days' : 'hours'), // Fallback logic
       price: currentCabinPrice, // Seçilen kabin tipinin fiyatı
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
