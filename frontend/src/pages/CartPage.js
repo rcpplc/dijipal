@@ -578,15 +578,28 @@ const CartPage = () => {
                                 </div>
                               );
                             } else {
-                              // cabin_based
-                              const cabinPrice = item.cabinType === 'double' 
-                                ? (item.double_cabin_price || item.price || 0)
-                                : (item.single_cabin_price || item.price || 0);
-                              const cabinTotal = cabinPrice * item.participants;
+                              // cabin_based - Ayrı kabin fiyatları
+                              const singlePrice = item.single_cabin_price || 0;
+                              const doublePrice = item.double_cabin_price || 0;
+                              const singleCount = item.singleCabinCount || 0;
+                              const doubleCount = item.doubleCabinCount || 0;
+                              const singleTotal = singlePrice * singleCount;
+                              const doubleTotal = doublePrice * doubleCount;
+                              
                               return (
-                                <div className="flex justify-between">
-                                  <span>Kabin: ₺{cabinPrice.toLocaleString('tr-TR')} × {item.participants}</span>
-                                  <span>₺{cabinTotal.toLocaleString('tr-TR')}</span>
+                                <div>
+                                  {singleCount > 0 && (
+                                    <div className="flex justify-between">
+                                      <span>Tek Kişilik: ₺{singlePrice.toLocaleString('tr-TR')} × {singleCount}</span>
+                                      <span>₺{singleTotal.toLocaleString('tr-TR')}</span>
+                                    </div>
+                                  )}
+                                  {doubleCount > 0 && (
+                                    <div className="flex justify-between">
+                                      <span>Çift Kişilik: ₺{doublePrice.toLocaleString('tr-TR')} × {doubleCount}</span>
+                                      <span>₺{doubleTotal.toLocaleString('tr-TR')}</span>
+                                    </div>
+                                  )}
                                 </div>
                               );
                             }
