@@ -1636,8 +1636,8 @@ const TourDetailPage = () => {
                   disabled={!selectedDate}
                   className={`col-span-3 p-3 rounded-lg transition-colors duration-200 flex items-center justify-center ${
                     selectedDate
-                      ? 'bg-gray-100 hover:bg-gray-200 text-gray-700'
-                      : 'bg-gray-50 text-gray-400 cursor-not-allowed'
+                      ? 'bg-gray-200 hover:bg-gray-300 text-gray-700'
+                      : 'bg-gray-100 text-gray-400 cursor-not-allowed'
                   }`}
                   title="Sepete Ekle"
                 >
