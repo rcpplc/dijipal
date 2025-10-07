@@ -828,8 +828,8 @@ const BookingPage = () => {
                   </div>
                 </div>
 
-                {/* Fiyat detayları - rezervasyon tipi için gizle */}
-                {tour?.reservation_type !== 'reservation' && (
+                {/* Fiyat detayları - sadece kabin bazlı için göster */}
+                {tour?.reservation_type === 'cabin_based' && (
                   <div className="border-t border-gray-100 pt-4 space-y-2">
                     <div className="flex justify-between text-sm">
                       <span className="text-gray-600">
