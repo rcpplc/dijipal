@@ -601,7 +601,7 @@ const TourDetailPage = () => {
       }
     })();
     
-    saveSearchBehavior(tour.id, participants, currentCabinPrice);
+    saveSearchBehavior(tour.id, participantsParam, currentCabinPrice);
 
     const cartItem = {
       tourId: tour.id,
