@@ -2189,6 +2189,29 @@ async def reset_database():
     except Exception as e:
         return {"error": str(e)}
 
+@api_router.post("/make-tour-cabin-type/{tour_id}")
+async def make_tour_cabin_type(tour_id: str):
+    """Convert tour back to cabin type"""
+    
+    # Update tour to cabin type (remove reservation_type or set to null)
+    await db.tours.update_one(
+        {"id": tour_id},
+        {"$unset": {"reservation_type": ""}, 
+         "$set": {"title": "Fethiye – Göcek 3 Gece 4 Gün Kabin Turu"}}
+    )
+    
+    # Update tour dates back to cabin pricing
+    await db.tour_dates.update_many(
+        {"tour_id": tour_id},
+        {"$unset": {"total_reservation_price": ""},
+         "$set": {
+            "single_cabin_price": 25000.0,
+            "double_cabin_price": 30000.0
+         }}
+    )
+    
+    return {"message": f"Tour {tour_id} converted back to cabin type successfully"}
+
 @api_router.post("/make-tour-reservation-type/{tour_id}")
 async def make_tour_reservation_type(tour_id: str):
     """Convert existing tour to reservation type"""
