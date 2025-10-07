@@ -535,10 +535,8 @@ const CartPage = () => {
                             </div>
                           </div>
                         ) : item.reservation_type === 'reservation' ? (
-                          // Rezervasyon Bazlı - Sabit Gösterim
-                          <span className="text-sm font-medium text-gray-700">
-                            Rezervasyon: <span className="text-lg font-semibold text-gray-900 ml-2">1 × Toplam Rezervasyon</span>
-                          </span>
+                          // Rezervasyon Bazlı - Yazı kaldırıldı
+                          <div className="hidden"></div>
                         ) : (
                           // Kabin Bazlı - Yeni 2x2 Grid Tasarım
                           <div className="grid grid-cols-2 gap-4 w-full">
