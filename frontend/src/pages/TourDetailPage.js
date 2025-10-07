@@ -1594,7 +1594,7 @@ const TourDetailPage = () => {
                     className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
                   >
                     <Phone className="w-4 h-4" />
-                    <span>+90 (212) 555-0123</span>
+                    <span>0850 255 53 35</span>
                   </a>
                   <a
                     href="mailto:info@dijipaltour.com"

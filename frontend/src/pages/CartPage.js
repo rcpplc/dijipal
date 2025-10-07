@@ -188,7 +188,7 @@ const CartPage = () => {
     }
 
     if (cartItems.length === 0) {
-      toast.error('Sepetiniz boş');
+      toast.error('Planlanmış Rezervasyonunuz Yok');
       return;
     }
 
@@ -220,8 +220,7 @@ const CartPage = () => {
           <div className="text-center py-16">
             <ShoppingCart className="w-24 h-24 text-gray-300 mx-auto mb-6" />
             <h1 className="text-3xl font-bold text-gray-900 mb-4">
-              Sepetiniz Boş
-            </h1>
+              Planlanmış rezervasyonunuz yok            </h1>
             <p className="text-gray-600 mb-8 text-lg">
               Harika turlar keşfetmek ve sepete eklemek için turlarımıza göz atın
             </p>
