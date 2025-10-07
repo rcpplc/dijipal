@@ -378,7 +378,7 @@ const CartPage = () => {
                       {/* Quantity Controls */}
                       <div className="flex items-center space-x-3">
                         {item.reservation_type === 'person_based' ? (
-                          // Kişi Bazlı - Yetişkin ve Çocuk Ayrı Kontroller
+                          // Kişi Bazlı - Yetişkin ve Çocuk Ayrı Kontroller  
                           <div className="space-y-3">
                             {/* Yetişkin Sayısı */}
                             <div className="flex items-center justify-between">
