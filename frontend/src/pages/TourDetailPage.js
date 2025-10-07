@@ -645,21 +645,43 @@ const TourDetailPage = () => {
     const savedCart = localStorage.getItem('tour_cart');
     let cartItems = savedCart ? JSON.parse(savedCart) : [];
 
-    // Aynı tur, tarih ve kabin tipi kombinasyonu var mı kontrol et
-    const existingItemIndex = cartItems.findIndex(item => 
-      item.tourId === tour.id && 
-      item.selectedDate?.date === selectedDate.start_date &&
-      item.cabinType === cabinType
-    );
-    
-    if (existingItemIndex >= 0) {
-      // Varsa katılımcı sayısını güncelle
-      cartItems[existingItemIndex].participants = participantsParam;
-      toast.success('Sepetteki tur güncellendi');
+    if (tour?.reservation_type === 'cabin_based') {
+      // Kabin bazlı: Aynı tur ve tarih için tek item, kabin sayılarını birleştir
+      const existingItemIndex = cartItems.findIndex(item => 
+        item.tourId === tour.id && 
+        item.selectedDate?.date === selectedDate.start_date
+      );
+      
+      if (existingItemIndex >= 0) {
+        // Var olan item'ı güncelle - mevcut kabin sayılarını koru ve yenilerini ekle
+        cartItems[existingItemIndex] = {
+          ...cartItems[existingItemIndex],
+          singleCabinCount: singleCabinCount,
+          doubleCabinCount: doubleCabinCount,
+          participants: singleCabinCount + doubleCabinCount // Toplam kabin sayısı
+        };
+        toast.success('Sepetteki kabin seçimi güncellendi');
+      } else {
+        // Yeni kabin bazlı item ekle
+        cartItems.push(cartItem);
+        toast.success('Kabin seçimi sepete eklendi');
+      }
     } else {
-      // Yoksa sepete ekle
-      cartItems.push(cartItem);
-      toast.success('Tur sepete eklendi');
+      // Kişi bazlı ve rezervasyon bazlı için eski mantık
+      const existingItemIndex = cartItems.findIndex(item => 
+        item.tourId === tour.id && 
+        item.selectedDate?.date === selectedDate.start_date &&
+        item.cabinType === cabinType
+      );
+      
+      if (existingItemIndex >= 0) {
+        cartItems[existingItemIndex].participants = participantsParam;
+        cartItems[existingItemIndex].childCount = childCount;
+        toast.success('Sepetteki tur güncellendi');
+      } else {
+        cartItems.push(cartItem);
+        toast.success('Tur sepete eklendi');
+      }
     }
 
     // Sepeti kaydet
