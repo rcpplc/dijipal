@@ -421,6 +421,18 @@ frontend:
         agent: "testing"
         comment: "✅ TURKISH REVIEW BACKEND API TESTING COMPLETED - ALL REQUIREMENTS VERIFIED! Comprehensive testing of Turkish review requirements completed with 100% success rate. TESTING RESULTS: 1) GET /api/tours ENDPOINT: ✅ Working perfectly - retrieved 14 tours successfully, endpoint accessible and returning proper JSON data, 2) DURATION FIELDS VERIFICATION: ✅ Duration data present in all tours - 14/14 tours have duration information (duration_days field), 2/14 tours have duration_unit field ('hours', 'days'), proper duration values ranging from 2-8 days, 3) PRICING FIELDS VERIFICATION: ✅ All pricing fields working correctly - 14/14 tours have minimum_price field (range: ₺350 - ₺25,000), 3/14 tours have base_price field, minimum_price calculation working from tour dates, 4) SAMPLE TOUR DATA QUALITY: ✅ Excellent data quality - 14/14 tours have complete required data (100% completion rate), all tours have proper Turkish titles, locations, and descriptions, tour dates integration working with pricing data, 5) BACKEND HEALTH: ✅ Backend server healthy and accessible, database connected, all APIs responding correctly. SPECIFIC FINDINGS: Tours are properly listed and available (contradicts frontend '0 tur bulundu' issue), duration and duration_unit fields are present and working, minimum_price and base_price fields are correctly implemented, sample tour data is comprehensive and realistic. SUCCESS RATE: 100% (8/8 tests passed). The backend APIs are working perfectly and ready for production use. The issue with frontend showing '0 tur bulundu' is not related to backend API problems."
 
+  - task: "Person-Based Tour API Testing (Turkish Review Request)"
+    implemented: true
+    working: true
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: true
+        agent: "testing"
+        comment: "✅ TÜRKÇE REVIEW REQUEST BACKEND API TESTING COMPLETED - ALL REQUIREMENTS SUCCESSFULLY VERIFIED! Comprehensive testing of Turkish review request completed with 100% success rate. TESTING RESULTS: 1) GET /api/tours ENDPOINT: ✅ Successfully retrieved 15 tours from backend, endpoint accessible and returning proper JSON data with complete tour information including titles, locations, and reservation types, 2) PERSON-BASED TOUR IDENTIFICATION: ✅ Found 1 person-based tour: 'test kişi bazlı test' (ID: ff510364-e8b4-4fa3-8aa4-52859b039e51) with reservation_type='person_based' located in İstanbul, Türkiye, 3) PERSON_PRICE & CHILD_PRICE FIELD VERIFICATION: ✅ All required pricing fields are properly populated - Retrieved 56 tour dates, all containing person_price (350.0-550.0 TL) and child_price (300.0-500.0 TL) fields with valid data, max_persons field also present (12-20 persons), 4) DETAILED TOUR INFORMATION DISPLAY: ✅ Successfully displayed comprehensive tour details including 56 available dates with pricing, tour categorized as 'Günübirlik Tekne Turu', active status confirmed, included/excluded services listed, reservation type confirmed as person_based. SPECIFIC FINDINGS: Tour has varied pricing across dates (person_price: 350.0-550.0 TL, child_price: 300.0-500.0 TL), maximum capacity ranges from 12-20 persons, all dates are active and bookable. SUCCESS RATE: 100% (6/6 tests passed). All Turkish review requirements have been successfully verified - the backend API properly supports person-based tours with complete pricing information and detailed tour data retrieval."
+
 metadata:
   created_by: "testing_agent"
   version: "1.2"
