@@ -1698,7 +1698,8 @@ const TourDetailPage = () => {
                   const total = participants + childCount;
                   return `${participants} yetişkin + ${childCount} çocuk`;
                 } else if (tour && tour.reservation_type === 'reservation') {
-                  return 'Özel rezervasyon';
+                  const maxCapacity = selectedDate ? (selectedDate.max_persons || 0) : 0;
+                  return `Tüm tekne - Max ${maxCapacity} kişi`;
                 } else {
                   // cabin_based
                   const parts = [];
