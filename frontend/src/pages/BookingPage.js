@@ -658,10 +658,7 @@ const BookingPage = () => {
                           <span className="text-gray-600">Telefon:</span>
                           <p className="font-medium">{customerInfo.phone}</p>
                         </div>
-                        <div>
-                          <span className="text-gray-600">Katılımcı:</span>
-                          <p className="font-medium">{participants} kişi</p>
-                        </div>
+                        {/* Katılımcı bilgisi kaldırıldı */}
                       </div>
                     </div>
 
