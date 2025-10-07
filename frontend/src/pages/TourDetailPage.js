@@ -1515,7 +1515,7 @@ const TourDetailPage = () => {
                           -
                         </button>
                         <div className="flex-1 text-center">
-                          <div className="text-xl font-bold text-gray-900">
+                          <div className="text-lg font-bold text-gray-900">
                             {childCount} Çocuk
                           </div>
                           {selectedDate && selectedDate.child_price && (
