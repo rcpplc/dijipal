@@ -1310,7 +1310,7 @@ const TourDetailPage = () => {
 
                   {/* Çift Kişilik Kabin Sayısı */}
                   <div className="mb-4">
-                    <div className="text-sm font-medium text-gray-700 mb-2">Çift Kişilik Kabin Adedi</div>
+                    <div className="text-sm font-medium text-gray-700 mb-2">Çift Kişilik / 2 Kişi</div>
                     <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                       <button
                         onClick={() => {
