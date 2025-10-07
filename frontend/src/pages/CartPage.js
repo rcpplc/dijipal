@@ -256,12 +256,7 @@ const CartPage = () => {
           }
         }
         
-        console.log('Kabin toplam hesaplama:', { 
-          singleTotal, 
-          doubleTotal, 
-          grandTotal: singleTotal + doubleTotal,
-          itemFormat: item.singleCabinCount !== undefined ? 'new' : 'old'
-        });
+        // Debug log kaldırıldı
         return total + singleTotal + doubleTotal;
       }
     }, 0);
