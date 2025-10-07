@@ -1468,8 +1468,8 @@ const TourDetailPage = () => {
                         </button>
                         <div className="flex-1 text-center">
                           <div className="text-center">
-                            <span className="text-lg font-bold text-gray-900">{participants || 1}</span>
-                            <span className="text-sm text-gray-700 ml-1">Yetişkin</span>
+                            <div className="text-lg font-bold text-gray-900">{participants || 1}</div>
+                            <div className="text-sm text-gray-700">Yetişkin</div>
                           </div>
                         </div>
                         <button
