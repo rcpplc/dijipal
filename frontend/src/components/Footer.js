@@ -163,7 +163,7 @@ const Footer = () => {
               <Mail className="w-5 h-5 text-blue-400" />
               <div>
                 <p className="text-sm text-gray-400">E-posta</p>
-                <p className="font-medium">info@turplatform.com</p>
+                <p className="font-medium">info@dijipaltour.com</p>
               </div>
             </div>
             <div className="flex items-center space-x-3">

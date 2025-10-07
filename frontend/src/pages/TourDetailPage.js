@@ -1597,11 +1597,11 @@ const TourDetailPage = () => {
                     <span>+90 (212) 555-0123</span>
                   </a>
                   <a
-                    href="mailto:info@turplatform.com"
+                    href="mailto:info@dijipaltour.com"
                     className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
                   >
                     <Mail className="w-4 h-4" />
-                    <span>info@turplatform.com</span>
+                    <span>info@dijipaltour.com</span>
                   </a>
                 </div>
               </div>
