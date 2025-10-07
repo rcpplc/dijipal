@@ -249,8 +249,15 @@ const ToursPage = () => {
     return labels[category] || category.charAt(0).toUpperCase() + category.slice(1);
   };
 
-  const loadTours = async () => {
-    setLoading(true);
+  const loadTours = async (page = 1, append = false) => {
+    if (page === 1) {
+      setLoading(true);
+      setCurrentPage(1);
+      setHasMore(true);
+    } else {
+      setLoadingMore(true);
+    }
+    
     try {
       const params = new URLSearchParams();
       
@@ -265,13 +272,34 @@ const ToursPage = () => {
       if (filters.startDate) params.append('start_date', filters.startDate);
       if (filters.endDate) params.append('end_date', filters.endDate);
       
+      // Pagination parameters
+      params.append('limit', ITEMS_PER_PAGE.toString());
+      params.append('offset', ((page - 1) * ITEMS_PER_PAGE).toString());
+      
       const response = await axios.get(`${API}/tours?${params.toString()}`);
-      setTours(response.data);
+      const newTours = response.data;
+      
+      if (append) {
+        setTours(prevTours => [...prevTours, ...newTours]);
+      } else {
+        setTours(newTours);
+      }
+      
+      // Check if there are more items to load
+      setHasMore(newTours.length === ITEMS_PER_PAGE);
+      
     } catch (error) {
       console.error('Error loading tours:', error);
     } finally {
       setLoading(false);
+      setLoadingMore(false);
     }
+  };
+
+  const loadMoreTours = () => {
+    const nextPage = currentPage + 1;
+    setCurrentPage(nextPage);
+    loadTours(nextPage, true);
   };
 
   const handleFilterChange = (key, value) => {
