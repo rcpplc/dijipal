@@ -239,22 +239,51 @@ const BookingPage = () => {
     } else if (tour?.reservation_type === 'reservation') {
       return selectedDate?.total_reservation_price || 0;
     } else {
-      // Kabin bazlı - Sepetten gerçek kabin bilgilerini al
-      const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
-      const cartItem = cartItems.find(item => item.tourId === tour.id);
-      
-      if (cartItem && cartItem.reservation_type === 'cabin_based') {
-        const singleCount = cartItem.singleCabinCount || 0;
-        const doubleCount = cartItem.doubleCabinCount || 0;
-        const singlePrice = cartItem.single_cabin_price || 0;
-        const doublePrice = cartItem.double_cabin_price || 0;
+      // Kabin bazlı - Sepetten gerçek kabin bilgilerini al (gelişmiş kontrol)
+      try {
+        const cartItems = JSON.parse(localStorage.getItem('tour_cart') || '[]');
+        const cartItem = cartItems.find(item => 
+          item.tourId === tour.id || item.tourId === tourId
+        );
         
-        const singleTotal = singlePrice * singleCount;
-        const doubleTotal = doublePrice * doubleCount;
+        if (cartItem && cartItem.reservation_type === 'cabin_based') {
+          const singleCount = cartItem.singleCabinCount || 0;
+          const doubleCount = cartItem.doubleCabinCount || 0;
+          const singlePrice = cartItem.single_cabin_price || 0;
+          const doublePrice = cartItem.double_cabin_price || 0;
+          
+          const singleTotal = singlePrice * singleCount;
+          const doubleTotal = doublePrice * doubleCount;
+          const totalCabinPrice = singleTotal + doubleTotal;
+          
+          console.log('🧮 Booking Price Calculation:', {
+            singleCount, singlePrice, singleTotal,
+            doubleCount, doublePrice, doubleTotal, 
+            totalCabinPrice
+          });
+          
+          return totalCabinPrice;
+        }
         
-        // Debug temizlendi
-        
-        return singleTotal + doubleTotal;
+        // State'den gelen veri kontrolü
+        if (location.state && location.state.singleCabinCount !== undefined) {
+          const singleCount = location.state.singleCabinCount || 0;
+          const doubleCount = location.state.doubleCabinCount || 0;
+          const singlePrice = selectedDate?.single_cabin_price || 0;
+          const doublePrice = selectedDate?.double_cabin_price || 0;
+          
+          const singleTotal = singlePrice * singleCount;
+          const doubleTotal = doublePrice * doubleCount;
+          
+          console.log('🧮 State Price Calculation:', {
+            singleCount, singlePrice, singleTotal,
+            doubleCount, doublePrice, doubleTotal
+          });
+          
+          return singleTotal + doubleTotal;
+        }
+      } catch (error) {
+        console.error('❌ Price calculation error:', error);
       }
       
       // Fallback: eski sistem
