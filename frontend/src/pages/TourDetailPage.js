@@ -376,9 +376,33 @@ const TourDetailPage = () => {
   const loadAvailableDates = async (tourId) => {
     try {
       const response = await axios.get(`${API}/tours/${tourId}/dates`);
-      setAvailableDates(response.data);
-      if (response.data.length > 0) {
-        setSelectedDate(response.data[0]);
+      
+      // Sadece aktif tarihleri filtrele (geçmiş tarihler cron job ile pasif yapılıyor)
+      const activeDates = response.data.filter(date => {
+        // Status kontrolü
+        if (date.status && date.status !== 'active') {
+          return false;
+        }
+        
+        // Ek kontrol: tarih geçmişse client-side da filtrele
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        
+        const dateValue = date.date || date.start_date;
+        if (dateValue) {
+          const tourDate = new Date(dateValue);
+          tourDate.setHours(0, 0, 0, 0);
+          return tourDate >= today;
+        }
+        
+        return true; // Date parse edilemezse göster
+      });
+      
+      console.log(`🗓️  Filtered dates: ${response.data.length} → ${activeDates.length} active dates`);
+      
+      setAvailableDates(activeDates);
+      if (activeDates.length > 0) {
+        setSelectedDate(activeDates[0]);
       }
     } catch (error) {
       console.error('Error loading dates:', error);
