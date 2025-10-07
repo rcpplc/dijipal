@@ -787,6 +787,14 @@ const BookingPage = () => {
                                 item.tourId === tour.id || item.tourId === tourId
                               );
                               
+                              // State'den gelen veri kontrolü (öncelik ver)
+                              if (singleCabinCount > 0 || doubleCabinCount > 0) {
+                                const parts = [];
+                                if (singleCabinCount > 0) parts.push(`${singleCabinCount} × Tek Kişilik Kabin`);
+                                if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} × Çift Kişilik Kabin`);
+                                return parts.join(' + ');
+                              }
+                              
                               if (cartItem && cartItem.reservation_type === 'cabin_based') {
                                 const singleCount = cartItem.singleCabinCount || 0;
                                 const doubleCount = cartItem.doubleCabinCount || 0;
@@ -797,16 +805,6 @@ const BookingPage = () => {
                                   if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
                                   return parts.join(' + ');
                                 }
-                              }
-                              
-                              // State'den gelen veri kontrolü
-                              if (location.state && location.state.singleCabinCount !== undefined) {
-                                const singleCount = location.state.singleCabinCount || 0;
-                                const doubleCount = location.state.doubleCabinCount || 0;
-                                const parts = [];
-                                if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik Kabin`);
-                                if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik Kabin`);
-                                if (parts.length > 0) return parts.join(' + ');
                               }
                             } catch (error) {
                               console.error('Cart item parse error:', error);
