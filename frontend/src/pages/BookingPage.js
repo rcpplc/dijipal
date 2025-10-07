@@ -304,7 +304,7 @@ const BookingPage = () => {
           const doubleTotal = doublePrice * doubleCount;
           const totalCabinPrice = singleTotal + doubleTotal;
           
-          console.log('🧮 Booking Price Calculation:', {
+          console.log('🧮 Cart-based Price Calculation:', {
             singleCount, singlePrice, singleTotal,
             doubleCount, doublePrice, doubleTotal, 
             totalCabinPrice
@@ -313,19 +313,18 @@ const BookingPage = () => {
           return totalCabinPrice;
         }
         
-        // State'den gelen veri kontrolü
-        if (location.state && location.state.singleCabinCount !== undefined) {
-          const singleCount = location.state.singleCabinCount || 0;
-          const doubleCount = location.state.doubleCabinCount || 0;
+        // State'den gelen veri kontrolü (öncelik ver)
+        if (singleCabinCount > 0 || doubleCabinCount > 0) {
           const singlePrice = selectedDate?.single_cabin_price || 0;
           const doublePrice = selectedDate?.double_cabin_price || 0;
           
-          const singleTotal = singlePrice * singleCount;
-          const doubleTotal = doublePrice * doubleCount;
+          const singleTotal = singlePrice * singleCabinCount;
+          const doubleTotal = doublePrice * doubleCabinCount;
           
-          console.log('🧮 State Price Calculation:', {
-            singleCount, singlePrice, singleTotal,
-            doubleCount, doublePrice, doubleTotal
+          console.log('🧮 State-based Price Calculation:', {
+            singleCabinCount, singlePrice, singleTotal,
+            doubleCabinCount, doublePrice, doubleTotal,
+            total: singleTotal + doubleTotal
           });
           
           return singleTotal + doubleTotal;
