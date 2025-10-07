@@ -1650,7 +1650,7 @@ const TourDetailPage = () => {
                 </button>
               </div>
 
-              <p className="text-xs text-gray-500 text-center mb-4">
+              <p className="text-xs text-gray-500 text-center mb-4 mt-[10px]">
                 Ücretsiz iptal • 24 saat öncesine kadar
               </p>
 
