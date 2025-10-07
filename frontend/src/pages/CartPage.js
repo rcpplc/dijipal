@@ -342,7 +342,14 @@ const CartPage = () => {
                           </div>
                           <div className="flex items-center space-x-1">
                             <Calendar className="w-4 h-4" />
-                            <span>{item.duration} gün</span>
+                            <span>
+                              {item.duration || item.duration_days || 1}{' '}
+                              {(() => {
+                                if (item.duration_unit === 'hours') return 'Saat';
+                                if (item.duration_unit === 'days') return 'Gün';
+                                return item.duration_days ? 'Gün' : 'Saat'; // fallback
+                              })()}
+                            </span>
                           </div>
                         </div>
                         {/* Seçilen Tarih ve Kabin Tipi */}
