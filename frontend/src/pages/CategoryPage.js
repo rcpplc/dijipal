@@ -121,7 +121,7 @@ const CategoryPage = () => {
   ];
 
   useEffect(() => {
-    loadTours();
+    loadTours(1, false); // Reset to page 1 when category changes
   }, [category]);
 
   const loadTours = async (page = 1, append = false) => {
