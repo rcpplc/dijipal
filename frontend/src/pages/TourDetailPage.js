@@ -1773,16 +1773,20 @@ const TourDetailPage = () => {
               {(() => {
                 if (tour && tour.reservation_type === 'person_based') {
                   const total = participants + childCount;
-                  return `${participants} yetişkin + ${childCount} çocuk`;
+                  if (total === 0) return 'Katılımcı seçin';
+                  return `${participants} yetişkin + ${childCount} çocuk seçildi`;
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const maxCapacity = selectedDate ? (selectedDate.max_persons || 0) : 0;
-                  return `Tüm tekne - Max ${maxCapacity} kişi`;
+                  return `Tüm tekne rezervasyonu - Max ${maxCapacity} kişi`;
                 } else {
-                  // cabin_based
+                  // cabin_based - show selection status
+                  const totalCabins = singleCabinCount + doubleCabinCount;
+                  if (totalCabins === 0) return 'Kabin seçin';
+                  
                   const parts = [];
                   if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek`);
                   if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift`);
-                  return parts.length > 0 ? parts.join(' + ') + ' kabin' : 'Kabin seçin';
+                  return parts.join(' + ') + ' kabin seçildi';
                 }
               })()}
               {selectedDate && (
