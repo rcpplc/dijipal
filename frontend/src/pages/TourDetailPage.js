@@ -581,7 +581,7 @@ const TourDetailPage = () => {
     addToCart(selectedCabinType, cabinCount);
   };
 
-  const addToCart = (cabinType = selectedCabinType, participants = cabinCount) => {
+  const addToCart = (cabinType = selectedCabinType, participants = tour?.reservation_type === 'person_based' ? adultCount : cabinCount) => {
     if (!selectedDate) {
       toast.error('Lütfen önce bir tarih seçin');
       return;
