@@ -2193,10 +2193,13 @@ async def reset_database():
 async def make_tour_reservation_type(tour_id: str):
     """Convert existing tour to reservation type"""
     
-    # Update tour to reservation type
+    # Update tour to reservation type  
     await db.tours.update_one(
         {"id": tour_id},
-        {"$set": {"reservation_type": "reservation"}}
+        {"$set": {
+            "reservation_type": "reservation",
+            "title": "Özel Tekne Rezervasyonu - Fethiye Göcek"
+        }}
     )
     
     # Update tour dates to have reservation pricing
@@ -2208,7 +2211,10 @@ async def make_tour_reservation_type(tour_id: str):
         }}
     )
     
-    return {"message": f"Tour {tour_id} converted to reservation type successfully"}
+    return {
+        "message": f"Tour {tour_id} converted to reservation type successfully",
+        "test_url": f"https://travel-quest-3.preview.emergentagent.com/turlar/{tour_id}"
+    }
 
 @api_router.post("/create-reservation-tour")
 async def create_reservation_tour():
