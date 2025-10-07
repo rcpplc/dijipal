@@ -343,32 +343,55 @@ const CartPage = () => {
                     <div className="flex items-center justify-between">
                       {/* Quantity Controls */}
                       <div className="flex items-center space-x-3">
-                        <span className="text-sm font-medium text-gray-700">Kabin Sayısı:</span>
-                        <div className="flex items-center space-x-2">
-                          <button
-                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
-                            disabled={item.participants <= 1}
-                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                          >
-                            <Minus className="w-4 h-4" />
-                          </button>
-                          <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
-                            {item.participants}
-                          </span>
-                          <button
-                            onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
-                            disabled={item.participants >= (item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20)}
-                            className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
-                          >
-                            <Plus className="w-4 h-4" />
-                          </button>
-                        </div>
+                        <span className="text-sm font-medium text-gray-700">
+                          {(() => {
+                            if (item.reservation_type === 'person_based') {
+                              return 'Kişi Sayısı:';
+                            } else if (item.reservation_type === 'reservation') {
+                              return 'Rezervasyon:';
+                            } else {
+                              return 'Kabin Sayısı:';
+                            }
+                          })()}
+                        </span>
+                        {item.reservation_type !== 'reservation' && (
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
+                              disabled={item.participants <= 1}
+                              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                            >
+                              <Minus className="w-4 h-4" />
+                            </button>
+                            <span className="text-lg font-semibold text-gray-900 min-w-[2rem] text-center">
+                              {item.reservation_type === 'person_based' 
+                                ? `${item.participants}${item.childCount > 0 ? ` + ${item.childCount}` : ''}`
+                                : item.participants
+                              }
+                            </span>
+                            <button
+                              onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
+                              disabled={item.participants >= (item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20)}
+                              className="w-8 h-8 bg-gray-100 hover:bg-gray-200 disabled:bg-gray-50 disabled:text-gray-400 rounded-full flex items-center justify-center transition-colors duration-200"
+                            >
+                              <Plus className="w-4 h-4" />
+                            </button>
+                          </div>
+                        )}
+                        {item.reservation_type === 'reservation' && (
+                          <span className="text-lg font-semibold text-gray-900">1 × Toplam Rezervasyon</span>
+                        )}
                         <div className="text-xs text-gray-500 mt-1">
                           {(() => {
-                            const maxCapacity = item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20;
-                            const sameeDateItems = cartItems.filter(cartItem => cartItem.selectedDate?.date === item.selectedDate?.date);
-                            const totalUsedOnDate = sameeDateItems.reduce((total, cartItem) => total + cartItem.participants, 0);
-                            return `Toplam kullanılan: ${totalUsedOnDate}/${maxCapacity} kabin`;
+                            if (item.reservation_type === 'reservation') {
+                              return `Max ${item.selectedDate?.max_persons || 0} kişi kapasiteli`;
+                            } else {
+                              const maxCapacity = item.selectedDate?.capacity || item.selectedDate?.available_cabins || 20;
+                              const sameeDateItems = cartItems.filter(cartItem => cartItem.selectedDate?.date === item.selectedDate?.date);
+                              const totalUsedOnDate = sameeDateItems.reduce((total, cartItem) => total + cartItem.participants, 0);
+                              const unitLabel = item.reservation_type === 'person_based' ? 'kişi' : 'kabin';
+                              return `Toplam kullanılan: ${totalUsedOnDate}/${maxCapacity} ${unitLabel}`;
+                            }
                           })()}
                         </div>
                       </div>
