@@ -608,6 +608,7 @@ const TourDetailPage = () => {
       title: tour.title,
       location: tour.location,
       duration: tour.duration_days,
+      duration_unit: tour.duration_unit, // Tur süresi birimi
       price: currentCabinPrice, // Seçilen kabin tipinin fiyatı
       single_cabin_price: selectedDate.single_cabin_price,
       double_cabin_price: selectedDate.double_cabin_price,
@@ -617,6 +618,8 @@ const TourDetailPage = () => {
       cabinType: cabinType, // 'single' veya 'double'
       participants: participantsParam,
       childCount: childCount, // Çocuk sayısı
+      singleCabinCount: singleCabinCount, // Tek kişilik kabin sayısı
+      doubleCabinCount: doubleCabinCount, // Çift kişilik kabin sayısı
       reservation_type: tour.reservation_type, // Rezervasyon tipi
       image: tour.images[0] || '/placeholder-tour.jpg',
       selectedDate: {
