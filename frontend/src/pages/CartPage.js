@@ -403,7 +403,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants - 1)}
                                   disabled={item.participants <= 1}
-                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
@@ -413,7 +413,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateQuantity(item.tourId, item.selectedDate?.date, item.cabinType, item.participants + 1)}
                                   disabled={item.participants >= (item.selectedDate?.max_persons || 20)}
-                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Plus className="w-3 h-3" />
                                 </button>
@@ -427,7 +427,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) - 1)}
                                   disabled={(item.childCount || 0) <= 0}
-                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Minus className="w-3 h-3" />
                                 </button>
@@ -437,7 +437,7 @@ const CartPage = () => {
                                 <button
                                   onClick={() => updateChildQuantity(item.tourId, item.selectedDate?.date, (item.childCount || 0) + 1)}
                                   disabled={(item.participants + (item.childCount || 0)) >= (item.selectedDate?.max_persons || 20)}
-                                  className="w-8 h-8 bg-blue-600 hover:bg-blue-700 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
+                                  className="w-8 h-8 bg-blue-400 hover:bg-blue-500 disabled:bg-gray-300 disabled:text-gray-500 text-white rounded-md flex items-center justify-center transition-colors duration-200"
                                 >
                                   <Plus className="w-3 h-3" />
                                 </button>
