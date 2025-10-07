@@ -46,7 +46,7 @@ const HomePage = () => {
 
   const heroTitles = [
     {
-      main: "Kabin Kiralama ile",
+      main: " ile",
       subtitle: "Mavi Yolculuğun Keyfini Çıkarın"
     },
     {
