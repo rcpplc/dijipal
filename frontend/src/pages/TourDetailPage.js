@@ -1634,7 +1634,7 @@ const TourDetailPage = () => {
                 <button
                   onClick={() => addToCart()}
                   disabled={!selectedDate}
-                  className="col-span-3 bg-white hover:bg-gray-100 text-gray-400 hover:text-gray-600 font-medium py-3 px-3 rounded-md transition-colors duration-200 disabled:text-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
+                  className="col-span-3 bg-white hover:bg-gray-100 text-gray-600 hover:text-gray-800 font-medium py-3 px-3 rounded-md transition-colors duration-200 disabled:text-gray-300 disabled:cursor-not-allowed flex items-center justify-center"
                   title="Sepete Ekle"
                 >
                   <ShoppingCart className="w-5 h-5" />
