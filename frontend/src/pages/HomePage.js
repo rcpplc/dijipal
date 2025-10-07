@@ -306,7 +306,7 @@ const HomePage = () => {
                     <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 flex-shrink-0" />
                     <input
                       type="text"
-                      placeholder="Hangi koya yelken açmak istiyorsunuz?"
+                      placeholder="Ara, Keşfet & Rezervasyon Yap"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="flex-1 outline-none text-gray-800 placeholder-gray-500 text-sm sm:text-base"

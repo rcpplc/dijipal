@@ -62,6 +62,7 @@ const Footer = () => {
                 <Link 
                   to="/turlar" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Tüm turlar"  // 🏷️ Tooltip metni burada
                 >
                   Tüm Turlar
                 </Link>
@@ -96,7 +97,7 @@ const Footer = () => {
                   to="/become-vendor" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
-                  Operatör Ol
+                  
                 </Link>
               </li>
             </ul>
@@ -110,6 +111,7 @@ const Footer = () => {
                 <Link 
                   to="/help" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Yardım Merkezi"  // 🏷️ Tooltip metni burada
                 >
                   Yardım Merkezi
                 </Link>
@@ -118,6 +120,7 @@ const Footer = () => {
                 <Link 
                   to="/faq" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Sık Sorulan Sorular"  // 🏷️ Tooltip metni burada
                 >
                   Sık Sorulan Sorular
                 </Link>
@@ -126,6 +129,7 @@ const Footer = () => {
                 <Link 
                   to="/contact" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="İletişim"  // 🏷️ Tooltip metni burada
                 >
                   İletişim
                 </Link>
@@ -134,6 +138,7 @@ const Footer = () => {
                 <Link 
                   to="/cancellation-policy" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="İptal Politikası"  // 🏷️ Tooltip metni burada
                 >
                   İptal Politikası
                 </Link>
@@ -142,6 +147,7 @@ const Footer = () => {
                 <Link 
                   to="/terms" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Kullanım Koşulları"  // 🏷️ Tooltip metni burada
                 >
                   Kullanım Koşulları
                 </Link>
@@ -154,19 +160,30 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div className="flex items-center space-x-3">
-              <Phone className="w-5 h-5 text-blue-400" />
+              <Phone className="w-5 h-5 text-white" />
               <div>
-                <p className="text-sm text-gray-400">Müşteri Hizmetleri</p>
-                <p className="font-medium">0850 255 53 35</p>
+                <p className="text-sm text-white/70">Müşteri Hizmetleri</p>
+                <a
+                  href="tel:08502555335"
+                  className="font-medium text-white hover:underline"
+                >
+                  0850 255 53 35
+                </a>
               </div>
             </div>
             <div className="flex items-center space-x-3">
-              <Mail className="w-5 h-5 text-blue-400" />
+              <Mail className="w-5 h-5 text-white" />
               <div>
-                <p className="text-sm text-gray-400">E-posta</p>
-                <p className="font-medium">info@dijipaltour.com</p>
+                <p className="text-sm text-white/70">E-posta</p>
+                <a
+                  href="mailto:info@dijipaltour.com"
+                  className="font-medium text-white hover:underline"
+                >
+                  info@dijipaltour.com
+                </a>
               </div>
             </div>
+
             <div className="flex items-center space-x-3">
               <MapPin className="w-5 h-5 text-blue-400" />
               <div>
