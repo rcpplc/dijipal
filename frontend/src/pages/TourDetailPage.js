@@ -2087,7 +2087,78 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {/* Total Price Display removed as requested */}
+              {/* Mobile Modal Booking Summary */}
+              {selectedDate && (
+                <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 mb-4">
+                  <div className="text-center">
+                    <div className="text-xl font-bold text-blue-700 mb-2">
+                      ₺{(() => {
+                        if (!tour) return '0';
+                        
+                        if (tour.reservation_type === 'person_based') {
+                          const adultTotal = (selectedDate.person_price || 0) * participants;
+                          const childTotal = (selectedDate.child_price || 0) * childCount;
+                          return (adultTotal + childTotal).toLocaleString('tr-TR');
+                        } else if (tour.reservation_type === 'reservation') {
+                          return (selectedDate.total_reservation_price || 0).toLocaleString('tr-TR');
+                        } else {
+                          // cabin_based - show selected cabins only
+                          const singleTotal = (selectedDate.single_cabin_price || 0) * singleCabinCount;
+                          const doubleTotal = (selectedDate.double_cabin_price || 0) * doubleCabinCount;
+                          return (singleTotal + doubleTotal).toLocaleString('tr-TR');
+                        }
+                      })()}
+                    </div>
+                    
+                    <div className="text-sm text-gray-600 mb-2">
+                      {(() => {
+                        if (!tour) return 'Yükleniyor...';
+                        
+                        if (tour.reservation_type === 'person_based') {
+                          const total = participants + childCount;
+                          return `${participants} yetişkin + ${childCount} çocuk = ${total} kişi`;
+                        } else if (tour.reservation_type === 'reservation') {
+                          return `Özel rezervasyon - Max ${selectedDate.max_persons || 0} kişi`;
+                        } else {
+                          // cabin_based - show selected cabins
+                          const totalCabins = singleCabinCount + doubleCabinCount;
+                          if (totalCabins === 0) return 'Kabin seçin';
+                          
+                          const parts = [];
+                          if (singleCabinCount > 0) parts.push(`${singleCabinCount} tek kişilik`);
+                          if (doubleCabinCount > 0) parts.push(`${doubleCabinCount} çift kişilik`);
+                          return parts.join(' + ') + ' kabin seçildi';
+                        }
+                      })()}
+                    </div>
+                    
+                    <div className="text-xs text-gray-500">
+                      {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
+                        weekday: 'long',
+                        day: 'numeric',
+                        month: 'long'
+                      })} • 
+                      {(() => {
+                        if (tour && tour.reservation_type === 'person_based') {
+                          return `₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} yetişkin${childCount > 0 ? ` • ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} çocuk` : ''}`;
+                        } else if (tour && tour.reservation_type === 'reservation') {
+                          return `Sabit fiyat - Tüm tekne`;
+                        } else {
+                          // cabin_based
+                          const parts = [];
+                          if (singleCabinCount > 0) {
+                            parts.push(`₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}×${singleCabinCount}`);
+                          }
+                          if (doubleCabinCount > 0) {
+                            parts.push(`₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}×${doubleCabinCount}`);
+                          }
+                          return parts.length > 0 ? parts.join(' • ') + ' • Vergiler dahil' : 'Seçim yapın';
+                        }
+                      })()} • Vergiler dahil
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
             
             {/* Modal Footer with Action Buttons */}
