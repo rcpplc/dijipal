@@ -2256,33 +2256,6 @@ const TourDetailPage = () => {
                     </div>
                   </div>
                 </div>
-                    
-                    <div className="text-xs text-gray-500">
-                      {new Date(selectedDate.start_date || selectedDate.date).toLocaleDateString('tr-TR', {
-                        weekday: 'long',
-                        day: 'numeric',
-                        month: 'long'
-                      })} • 
-                      {(() => {
-                        if (tour && tour.reservation_type === 'person_based') {
-                          return `₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} Yetişkin${childCount > 0 ? ` • ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} Çocuk` : ''}`;
-                        } else if (tour && tour.reservation_type === 'reservation') {
-                          return `Sabit Fiyat Toplam Rezervasyon`;
-                        } else {
-                          // cabin_based
-                          const parts = [];
-                          if (singleCabinCount > 0) {
-                            parts.push(`₺${(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}×${singleCabinCount}`);
-                          }
-                          if (doubleCabinCount > 0) {
-                            parts.push(`₺${(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}×${doubleCabinCount}`);
-                          }
-                          return parts.length > 0 ? parts.join(' • ') + ' • Vergiler dahil' : 'Seçim yapın';
-                        }
-                      })()} • Vergiler dahil
-                    </div>
-                  </div>
-                </div>
               )}
             </div>
             
