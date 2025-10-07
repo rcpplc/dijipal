@@ -78,8 +78,23 @@ const CartPage = () => {
   const loadCartItems = () => {
     // Sepet verilerini localStorage'dan yükle
     const savedCart = localStorage.getItem('tour_cart');
+    console.log('🛒 Loading cart from localStorage:', savedCart);
+    
     if (savedCart) {
-      setCartItems(JSON.parse(savedCart));
+      try {
+        const parsedCart = JSON.parse(savedCart);
+        console.log('✅ Parsed cart items:', parsedCart);
+        setCartItems(parsedCart);
+      } catch (error) {
+        console.error('❌ Error parsing cart data:', error);
+        console.error('❌ Invalid cart data:', savedCart);
+        // Clear invalid data and reset cart
+        localStorage.removeItem('tour_cart');
+        setCartItems([]);
+      }
+    } else {
+      console.log('🔍 No cart data found in localStorage');
+      setCartItems([]);
     }
   };
 
