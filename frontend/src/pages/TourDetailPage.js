@@ -1456,29 +1456,7 @@ const TourDetailPage = () => {
                 </div>
               )}
 
-              {tour && tour.reservation_type === 'reservation' && (
-                <div className="mb-6">
-                  <label className="block text-sm font-medium text-gray-700 mb-3">
-                    Rezervasyon Bilgileri
-                  </label>
-                  
-                  <div className="p-4 border border-gray-200 rounded-lg bg-gray-50">
-                    <div className="text-center">
-                      <div className="text-lg font-semibold text-gray-800">Özel Rezervasyon</div>
-                      <div className="text-sm text-gray-600 mt-1">Tüm tekne / Sabit fiyat</div>
-                      
-                      {/* Price display removed for reservation type */}
-                    </div>
-                  </div>
-                  
-                  <p className="text-xs text-gray-500 mt-2 text-center">
-                    {selectedDate 
-                      ? `Maksimum ${selectedDate.max_persons || 0} kişi kapasiteli özel rezervasyon` 
-                      : 'Önce tarih seçin'
-                    }
-                  </p>
-                </div>
-              )}
+              {/* Desktop Rezervasyon Bilgileri section removed for all reservation types */}
 
               {/* Booking Summary section removed as requested */}
 
