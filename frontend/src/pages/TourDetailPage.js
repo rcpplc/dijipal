@@ -1741,6 +1741,10 @@ const TourDetailPage = () => {
 
       {/* Mobile Booking Summary - Above Bottom Bar */}
       {selectedDate && (
+        (tour && tour.reservation_type === 'person_based' && (participants > 1 || childCount > 0)) ||
+        (tour && tour.reservation_type === 'reservation') ||
+        ((!tour?.reservation_type || tour.reservation_type === 'cabin_based') && (singleCabinCount > 0 || doubleCabinCount > 0))
+      ) && (
         <div className="fixed bottom-20 left-2 right-2 lg:hidden z-40">
           <div className="bg-white rounded-lg shadow-lg border border-gray-200 p-3">
             <div className="text-center">
