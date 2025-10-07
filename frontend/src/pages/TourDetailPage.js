@@ -1764,7 +1764,7 @@ const TourDetailPage = () => {
                   return `${participants} yetişkin + ${childCount} çocuk seçildi`;
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const maxCapacity = selectedDate ? (selectedDate.max_persons || 0) : 0;
-                  return `Tüm tekne rezervasyonu - Max ${maxCapacity} kişi`;
+                  return `Sabit Fiyat Toplam Rezervasyon - Max ${maxCapacity} kişi`;
                 } else {
                   // cabin_based - show selection status
                   const totalCabins = singleCabinCount + doubleCabinCount;
