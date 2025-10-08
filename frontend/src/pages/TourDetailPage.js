@@ -2051,63 +2051,66 @@ const TourDetailPage = () => {
                     Katılımcı Sayısı
                   </h4>
                   
-                  {/* Yetişkin Sayısı */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Yetişkin Sayısı</span>
-                      {selectedDate && selectedDate.person_price && (
-                        <span className="text-sm text-blue-600 font-medium">
-                          ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')}
+                  {/* 2 Kolonlu Grid Yapısı */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Yetişkin Sayısı */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700">Yetişkin Sayısı</span>
+                        {selectedDate && selectedDate.person_price && (
+                          <span className="text-sm text-blue-600 font-medium">
+                            ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center space-x-4 py-2">
+                        <button
+                          onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          disabled={adultCount <= 1}
+                        >
+                          -
+                        </button>
+                        <span className="text-lg font-semibold min-w-[3rem] text-center">
+                          {adultCount}
                         </span>
-                      )}
+                        <button
+                          onClick={() => setAdultCount(adultCount + 1)}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-center space-x-4 py-2">
-                      <button
-                        onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                        disabled={adultCount <= 1}
-                      >
-                        -
-                      </button>
-                      <span className="text-lg font-semibold min-w-[3rem] text-center">
-                        {adultCount}
-                      </span>
-                      <button
-                        onClick={() => setAdultCount(adultCount + 1)}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
 
-                  {/* Çocuk Sayısı */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Çocuk Sayısı</span>
-                      {selectedDate && selectedDate.child_price && (
-                        <span className="text-sm text-blue-600 font-medium">
-                          ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')}
+                    {/* Çocuk Sayısı */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700">Çocuk Sayısı</span>
+                        {selectedDate && selectedDate.child_price && (
+                          <span className="text-sm text-blue-600 font-medium">
+                            ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center space-x-4 py-2">
+                        <button
+                          onClick={() => setChildCount(Math.max(0, childCount - 1))}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          disabled={childCount <= 0}
+                        >
+                          -
+                        </button>
+                        <span className="text-lg font-semibold min-w-[3rem] text-center">
+                          {childCount}
                         </span>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-center space-x-4 py-2">
-                      <button
-                        onClick={() => setChildCount(Math.max(0, childCount - 1))}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                        disabled={childCount <= 0}
-                      >
-                        -
-                      </button>
-                      <span className="text-lg font-semibold min-w-[3rem] text-center">
-                        {childCount}
-                      </span>
-                      <button
-                        onClick={() => setChildCount(childCount + 1)}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                      >
-                        +
-                      </button>
+                        <button
+                          onClick={() => setChildCount(childCount + 1)}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
