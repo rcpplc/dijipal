@@ -95,8 +95,8 @@ const LoginModal = ({ initialMode = 'login' }) => {
     <div 
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4 backdrop-blur-sm"
       onClick={(e) => {
-        // Prevent modal closing during loading (login/register process)
-        if (e.target === e.currentTarget && !loading) {
+        // Modal'ı sadece backdrop'e tıklanırsa kapat
+        if (e.target === e.currentTarget) {
           console.log('🔒 Closing modal via backdrop click');
           setShowLoginModal(false);
         }
