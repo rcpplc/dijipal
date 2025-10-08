@@ -2186,16 +2186,25 @@ const TourDetailPage = () => {
                 {/* Book Now Button */}
                 <button
                   onClick={() => {
-                    if (!selectedDate || !selectedCabinType) {
-                      toast.error('Lütfen tarih ve kabin tipi seçin');
+                    if (!selectedDate) {
+                      toast.error('Lütfen tarih seçin');
+                      return;
+                    }
+                    // YENİ SİSTEM: Rezervasyon tipine göre validation
+                    if (tour?.reservation_type === 'cabin_based' && singleCabinCount === 0 && doubleCabinCount === 0) {
+                      toast.error('Lütfen en az bir kabin seçin');
+                      return;
+                    }
+                    if (tour?.reservation_type === 'person_based' && adultCount === 0) {
+                      toast.error('En az 1 yetişkin gereklidir');
                       return;
                     }
                     setShowBookingModal(false);
                     handleBooking();
                   }}
-                  disabled={!selectedDate || !selectedCabinType}
+                  disabled={!selectedDate || (tour?.reservation_type === 'cabin_based' && singleCabinCount === 0 && doubleCabinCount === 0) || (tour?.reservation_type === 'person_based' && adultCount === 0)}
                   className={`flex-1 py-3 px-4 rounded-lg font-medium transition-colors duration-200 ${
-                    selectedDate && selectedCabinType
+                    selectedDate && ((tour?.reservation_type === 'cabin_based' && (singleCabinCount > 0 || doubleCabinCount > 0)) || (tour?.reservation_type === 'person_based' && adultCount > 0) || tour?.reservation_type === 'reservation')
                       ? 'bg-blue-600 hover:bg-blue-700 text-white'
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
