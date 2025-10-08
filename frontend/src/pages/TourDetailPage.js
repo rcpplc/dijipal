@@ -38,10 +38,7 @@ const TourDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [reviewsLoading, setReviewsLoading] = useState(false);
   const [selectedImage, setSelectedImage] = useState(0);
-  const [participants, setParticipants] = useState(1); // For person-based (adults)
-  const [childCount, setChildCount] = useState(0); // For person-based (children)
-  const [singleCabinCount, setSingleCabinCount] = useState(1); // For cabin-based (single cabins)
-  const [doubleCabinCount, setDoubleCabinCount] = useState(0); // For cabin-based (double cabins)
+  // ESKİ STATE'LER KALDIRILDI
   const [selectedDate, setSelectedDate] = useState(null);
   const [availableDates, setAvailableDates] = useState([]);
   const [isFavorited, setIsFavorited] = useState(false);
