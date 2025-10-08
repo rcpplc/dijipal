@@ -67,12 +67,21 @@ const BookingPage = () => {
     // User bilgilerini form'a doldur
     if (user) {
       console.log('👤 User data for auto-fill:', user);
+      console.log('👤 User keys:', Object.keys(user));
+      console.log('👤 Testing fields:', {
+        firstName: user.firstName,
+        first_name: user.first_name,
+        name: user.name,
+        email: user.email,
+        phone: user.phone
+      });
+      
       setFormData(prev => ({
         ...prev,
-        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || '',
-        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || '',
-        email: user.email || '',
-        phone: user.phone || user.phoneNumber || ''
+        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || '',
+        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || '',
+        email: user.email || user.emailAddress || '',
+        phone: user.phone || user.phoneNumber || user.mobile || user.tel || ''
       }));
     }
 
