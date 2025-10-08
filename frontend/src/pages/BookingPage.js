@@ -104,13 +104,19 @@ const BookingPage = () => {
   // User değişikliklerini izle ve form'u güncelle
   useEffect(() => {
     if (user) {
-      console.log('🔄 User changed, updating form with:', user);
+      console.log('🔄 USER CHANGED - Full object:', JSON.stringify(user, null, 2));
+      
+      const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
+      const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
+      
+      console.log('🔄 USER CHANGE - Extracted names:', { firstName, lastName });
+      
       setFormData(prev => ({
         ...prev,
-        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || '',
-        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || '',
-        email: user.email || user.emailAddress || '',
-        phone: user.phone || user.phoneNumber || user.mobile || user.tel || ''
+        firstName: firstName,
+        lastName: lastName, 
+        email: user.email || user.emailAddress || user.mail || '',
+        phone: user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || ''
       }));
     }
   }, [user]);
