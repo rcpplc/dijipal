@@ -1978,63 +1978,66 @@ const TourDetailPage = () => {
                     Kabin Seçimi
                   </h4>
                   
-                  {/* Tek Kişilik Kabin */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Tek Kişilik / 1 Kişi</span>
-                      {selectedDate && selectedDate.single_cabin_price && (
-                        <span className="text-sm text-blue-600 font-medium">
-                          ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}
+                  {/* 2 Kolonlu Grid Yapısı */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    {/* Tek Kişilik Kabin */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700">Tek Kişilik / 1 Kişi</span>
+                        {selectedDate && selectedDate.single_cabin_price && (
+                          <span className="text-sm text-blue-600 font-medium">
+                            ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center space-x-4 py-2">
+                        <button
+                          onClick={() => setSingleCabinCount(Math.max(0, singleCabinCount - 1))}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          disabled={singleCabinCount <= 0}
+                        >
+                          -
+                        </button>
+                        <span className="text-lg font-semibold min-w-[3rem] text-center">
+                          {singleCabinCount}
                         </span>
-                      )}
+                        <button
+                          onClick={() => setSingleCabinCount(singleCabinCount + 1)}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
-                    <div className="flex items-center justify-center space-x-4 py-2">
-                      <button
-                        onClick={() => setSingleCabinCount(Math.max(0, singleCabinCount - 1))}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                        disabled={singleCabinCount <= 0}
-                      >
-                        -
-                      </button>
-                      <span className="text-lg font-semibold min-w-[3rem] text-center">
-                        {singleCabinCount}
-                      </span>
-                      <button
-                        onClick={() => setSingleCabinCount(singleCabinCount + 1)}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
 
-                  {/* Çift Kişilik Kabin */}
-                  <div>
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-gray-700">Çift Kişilik / 2 Kişi</span>
-                      {selectedDate && selectedDate.double_cabin_price && (
-                        <span className="text-sm text-blue-600 font-medium">
-                          ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
+                    {/* Çift Kişilik Kabin */}
+                    <div>
+                      <div className="flex items-center justify-between mb-2">
+                        <span className="text-sm font-medium text-gray-700">Çift Kişilik / 2 Kişi</span>
+                        {selectedDate && selectedDate.double_cabin_price && (
+                          <span className="text-sm text-blue-600 font-medium">
+                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
+                          </span>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center space-x-4 py-2">
+                        <button
+                          onClick={() => setDoubleCabinCount(Math.max(0, doubleCabinCount - 1))}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          disabled={doubleCabinCount <= 0}
+                        >
+                          -
+                        </button>
+                        <span className="text-lg font-semibold min-w-[3rem] text-center">
+                          {doubleCabinCount}
                         </span>
-                      )}
-                    </div>
-                    <div className="flex items-center justify-center space-x-4 py-2">
-                      <button
-                        onClick={() => setDoubleCabinCount(Math.max(0, doubleCabinCount - 1))}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                        disabled={doubleCabinCount <= 0}
-                      >
-                        -
-                      </button>
-                      <span className="text-lg font-semibold min-w-[3rem] text-center">
-                        {doubleCabinCount}
-                      </span>
-                      <button
-                        onClick={() => setDoubleCabinCount(doubleCabinCount + 1)}
-                        className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                      >
-                        +
-                      </button>
+                        <button
+                          onClick={() => setDoubleCabinCount(doubleCabinCount + 1)}
+                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                        >
+                          +
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
