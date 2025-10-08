@@ -375,16 +375,69 @@ const BookingPage = () => {
                   </div>
                 </div>
                 
-                {/* Rezervasyon Detayları */}
+                {/* Rezervasyon Detayları - Ticket Format */}
                 <div className="bg-green-50 border border-green-200 rounded-lg p-4">
-                  <div className="text-sm font-medium text-green-800 mb-2">
-                    {reservationData.type === 'cabin_based' && '🏨 Kabin Bazlı Rezervasyon'}
-                    {reservationData.type === 'person_based' && '👥 Kişi Bazlı Rezervasyon'}
-                    {reservationData.type === 'reservation' && '🚢 Özel Rezervasyon'}
+                  <div className="text-sm font-medium text-green-800 mb-3">
+                    🎫 Rezervasyon Bileti
                   </div>
-                  <div className="text-sm text-green-700">
-                    {getReservationSummary()}
-                  </div>
+                  
+                  {/* SEPETTEN GELDİYSE TÜM ÖĞELERİ GÖSTER */}
+                  {location.state?.fromCart && location.state?.cartItems ? (
+                    <div className="space-y-2">
+                      {location.state.cartItems.map((item, index) => (
+                        <div key={index} className="bg-white border border-green-200 rounded-md p-3">
+                          <div className="text-xs font-medium text-gray-800 mb-1">
+                            🏷️ {item.title}
+                          </div>
+                          <div className="text-xs text-gray-600 mb-1">
+                            📅 {item.selectedDate?.formattedDate}
+                          </div>
+                          <div className="text-xs text-green-700">
+                            {item.reservation_type === 'cabin_based' && '🏨 Kabin: '}
+                            {item.reservation_type === 'person_based' && '👥 Kişi: '}
+                            {item.reservation_type === 'reservation' && '🚢 Özel: '}
+                            {item.reservation_type === 'cabin_based' && 
+                              `${item.singleCabinCount || 0} Tek + ${item.doubleCabinCount || 0} Çift`}
+                            {item.reservation_type === 'person_based' && 
+                              `${item.adultCount || 0} Yetişkin + ${item.childCount || 0} Çocuk`}
+                            {item.reservation_type === 'reservation' && 'Rezervasyon'}
+                          </div>
+                          <div className="text-xs font-medium text-blue-600 mt-1">
+                            ₺{(() => {
+                              if (item.reservation_type === 'cabin_based') {
+                                return ((item.selectedDate?.single_cabin_price || 0) * (item.singleCabinCount || 0)) + 
+                                       ((item.selectedDate?.double_cabin_price || 0) * (item.doubleCabinCount || 0));
+                              } else if (item.reservation_type === 'person_based') {
+                                return ((item.selectedDate?.person_price || 0) * (item.adultCount || 0)) + 
+                                       ((item.selectedDate?.child_price || 0) * (item.childCount || 0));
+                              } else {
+                                return item.selectedDate?.total_reservation_price || 0;
+                              }
+                            })().toLocaleString('tr-TR')}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    /* TEK ÜRÜN İÇİN ESKİ FORMAT */
+                    <div className="bg-white border border-green-200 rounded-md p-3">
+                      <div className="text-xs font-medium text-gray-800 mb-1">
+                        🏷️ {tour?.title}
+                      </div>
+                      <div className="text-xs text-gray-600 mb-1">
+                        📅 {selectedDate?.formattedDate}
+                      </div>
+                      <div className="text-xs text-green-700">
+                        {reservationData.type === 'cabin_based' && '🏨 Kabin: '}
+                        {reservationData.type === 'person_based' && '👥 Kişi: '}
+                        {reservationData.type === 'reservation' && '🚢 Özel: '}
+                        {getReservationSummary()}
+                      </div>
+                      <div className="text-xs font-medium text-blue-600 mt-1">
+                        ₺{calculateTotalPrice().toLocaleString('tr-TR')}
+                      </div>
+                    </div>
+                  )}
                 </div>
               </div>
 
