@@ -66,11 +66,13 @@ const BookingPage = () => {
 
     // User bilgilerini form'a doldur
     if (user) {
+      console.log('👤 User data for auto-fill:', user);
       setFormData(prev => ({
         ...prev,
-        firstName: user.firstName || '',
-        lastName: user.lastName || '',
-        email: user.email || ''
+        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || '',
+        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || '',
+        email: user.email || '',
+        phone: user.phone || user.phoneNumber || ''
       }));
     }
 
