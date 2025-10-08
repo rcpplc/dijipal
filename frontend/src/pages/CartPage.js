@@ -233,8 +233,8 @@ const CartPage = () => {
                             {/* Rezervasyon özeti */}
                             <div className="mt-3 p-3 bg-gray-50 rounded-lg">
                               <div className="text-sm font-medium text-gray-900 mb-1">
-                                {item.reservation_type === 'cabin_based' && '🏨 Kabin Bazlı'}
-                                {item.reservation_type === 'person_based' && '👥 Kişi Bazlı'}
+                                {item.reservation_type === 'cabin_based' && ''}
+                                {item.reservation_type === 'person_based' && ''}
                                 {item.reservation_type === 'reservation' && ''}
                               </div>
                               <div className="text-sm text-gray-600">
