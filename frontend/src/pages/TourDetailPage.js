@@ -492,80 +492,68 @@ const TourDetailPage = () => {
     }
   };
 
+  // YENİ REZERVASYON FONKSİYONU - SIFIRDAN
   const handleBooking = () => {
     if (!user) {
-      // Save current booking state before showing login modal
+      // Login gerekli - state kaydet
       const bookingState = {
         tourId: tour.id,
-        tourSlug: tourSlug, // Add slug for better matching
+        tourSlug: tourSlug,
         selectedDate: selectedDate,
-        selectedCabinType: selectedCabinType,
-        // Reservation type'a göre doğru veriyi kaydet
-        ...(tour.reservation_type === 'cabin_based' ? {
-          singleCabinCount: singleCabinCount,
-          doubleCabinCount: doubleCabinCount,
-          cabinCount: singleCabinCount + doubleCabinCount
-        } : tour.reservation_type === 'person_based' ? {
-          participants: participants,
-          childCount: childCount,
-          totalPersons: participants + childCount
-        } : {
-          participants: 1
+        reservation_type: tour.reservation_type,
+        ...(tour.reservation_type === 'cabin_based' && {
+          singleCabinCount,
+          doubleCabinCount
+        }),
+        ...(tour.reservation_type === 'person_based' && {
+          adultCount,
+          childCount
         }),
         timestamp: Date.now()
       };
       
       localStorage.setItem('pendingBookingState', JSON.stringify(bookingState));
-      console.log('💾 Saved booking state before login:', bookingState);
-      
       setShowLoginModal(true);
       return;
     }
     
-    if (!selectedDate || !selectedCabinType) {
-      toast.error('Lütfen tarih ve kabin tipi seçin');
+    if (!selectedDate) {
+      toast.error('Lütfen önce bir tarih seçin');
       return;
     }
 
-    // Save user behavior before booking
-    saveSearchBehavior(tour.id, cabinCount, selectedDate.single_cabin_price || selectedDate.price);
+    // Rezervasyon tipine göre validation
+    if (tour?.reservation_type === 'cabin_based') {
+      if (singleCabinCount === 0 && doubleCabinCount === 0) {
+        toast.error('Lütfen en az bir kabin seçin');
+        return;
+      }
+    } else if (tour?.reservation_type === 'person_based') {
+      if (adultCount === 0) {
+        toast.error('En az 1 yetişkin gereklidir');
+        return;
+      }
+    }
 
-    // Navigate to booking page with complete tour data (like cart does)
-    const bookingData = {
-      tourId: tour.id,
-      title: tour.title,
-      images: tour.images,
-      location: tour.location,
-      selectedDate: selectedDate,
-      cabinType: selectedCabinType,
-      participants: cabinCount,
-      single_cabin_price: selectedDate.single_cabin_price,
-      double_cabin_price: selectedDate.double_cabin_price,
-      // Add price calculation
-      price: selectedCabinType === 'double' 
-        ? selectedDate.double_cabin_price || selectedDate.price || 0
-        : selectedDate.single_cabin_price || selectedDate.price || 0
-    };
-
-    // Clear any pending booking state since we're proceeding
-    localStorage.removeItem('pendingBookingState');
-
+    // Booking sayfasına git
     navigate(`/booking/${tour.id}`, {
       state: {
-        tour: bookingData,
+        tour: {
+          id: tour.id,
+          title: tour.title,
+          location: tour.location,
+          images: tour.images,
+          reservation_type: tour.reservation_type
+        },
         selectedDate: selectedDate,
-        // Reservation type'a göre doğru veriyi gönder
-        ...(tour.reservation_type === 'cabin_based' ? {
-          cabinType: selectedCabinType,
-          singleCabinCount: singleCabinCount,
-          doubleCabinCount: doubleCabinCount,
-          participants: singleCabinCount + doubleCabinCount // Toplam kabin sayısı
-        } : tour.reservation_type === 'person_based' ? {
-          participants: participants,
-          childCount: childCount,
-          totalPersons: participants + childCount
-        } : {
-          participants: 1 // Reservation type için
+        // Rezervasyon tipine göre seçimler
+        ...(tour.reservation_type === 'cabin_based' && {
+          singleCabinCount,
+          doubleCabinCount
+        }),
+        ...(tour.reservation_type === 'person_based' && {
+          adultCount,
+          childCount
         })
       }
     });
