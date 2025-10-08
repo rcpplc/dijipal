@@ -117,6 +117,8 @@ const CartPage = () => {
 
     // İlk ürün üzerinden booking sayfasına git (multi-item booking henüz desteklenmiyor)
     const firstItem = cartItems[0];
+    const cartTotal = calculateTotalPrice(); // SEPET TOPLAMI
+    
     navigate(`/booking/${firstItem.tourId}`, {
       state: {
         tour: {
@@ -128,6 +130,8 @@ const CartPage = () => {
         },
         selectedDate: firstItem.selectedDate,
         fromCart: true,
+        cartTotal: cartTotal, // SEPET TOPLAMI AKTARILDI
+        cartItems: cartItems, // TÜM SEPET ÖĞELERİ
         // Rezervasyon tipine göre seçimler
         ...(firstItem.reservation_type === 'cabin_based' && {
           singleCabinCount: firstItem.singleCabinCount || 0,
