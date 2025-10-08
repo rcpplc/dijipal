@@ -2029,17 +2029,17 @@ const TourDetailPage = () => {
                     </div>
                     <div className="flex items-center justify-center space-x-4 py-2">
                       <button
-                        onClick={() => setParticipants(Math.max(1, participants - 1))}
+                        onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
                         className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                        disabled={participants <= 1}
+                        disabled={adultCount <= 1}
                       >
                         -
                       </button>
                       <span className="text-lg font-semibold min-w-[3rem] text-center">
-                        {participants}
+                        {adultCount}
                       </span>
                       <button
-                        onClick={() => setParticipants(participants + 1)}
+                        onClick={() => setAdultCount(adultCount + 1)}
                         className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                       >
                         +
