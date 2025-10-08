@@ -495,7 +495,14 @@ const TourDetailPage = () => {
       const bookingState = {
         tourId: tour.id,
         tourSlug: tourSlug,
-        selectedDate: selectedDate,
+        selectedDate: {
+          ...selectedDate,
+          formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        },
         reservation_type: tour.reservation_type,
         ...(tour.reservation_type === 'cabin_based' && {
           singleCabinCount,
