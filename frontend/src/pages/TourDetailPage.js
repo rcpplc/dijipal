@@ -1461,12 +1461,12 @@ const TourDetailPage = () => {
                         <button
                           onClick={() => {
                             const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
-                            if ((participants + childCount) < maxCapacity) {
+                            if ((adultCount + childCount) < maxCapacity) {
                               setChildCount(childCount + 1);
                             }
                           }}
                           className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                          disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                          disabled={(adultCount + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
                         >
                           +
                         </button>
