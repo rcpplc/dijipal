@@ -246,7 +246,7 @@ frontend:
     file: "frontend/src/pages/TourDetailPage.js, BookingPage.js, PaymentPage.js"
     stuck_count: 2
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: false
         agent: "testing"
