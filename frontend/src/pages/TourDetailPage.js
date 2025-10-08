@@ -119,47 +119,43 @@ const TourDetailPage = () => {
           });
           
           if (isCurrentTour && isRecent) {
-            // Restore the saved state
+            console.log('✅ Booking state restored successfully - redirecting immediately');
+            
+            // YENİ SİSTEMDE STATE RESTORE
             if (bookingState.selectedDate) {
               setSelectedDate(bookingState.selectedDate);
             }
-            if (bookingState.selectedCabinType) {
-              setSelectedCabinType(bookingState.selectedCabinType);
-              setCabinType(bookingState.selectedCabinType); // Also set for desktop
-            }
-            if (bookingState.cabinCount) {
-              setCabinCount(bookingState.cabinCount);
-            }
-            if (bookingState.participants) {
-              setAdultCount(bookingState.participants);
+            
+            // Rezervasyon tipine göre state restore
+            if (bookingState.reservation_type === 'cabin_based') {
+              setSingleCabinCount(bookingState.singleCabinCount || 0);
+              setDoubleCabinCount(bookingState.doubleCabinCount || 0);
+            } else if (bookingState.reservation_type === 'person_based') {
+              setAdultCount(bookingState.adultCount || 1);
+              setChildCount(bookingState.childCount || 0);
             }
             
-            console.log('✅ Booking state restored successfully - redirecting immediately');
-            
-            // Immediately redirect to booking page after successful state restoration (no alerts)
-            const bookingData = {
-              tourId: tour.id,
-              title: tour.title,
-              images: tour.images,
-              location: tour.location,
-              selectedDate: bookingState.selectedDate,
-              cabinType: bookingState.selectedCabinType,
-              participants: bookingState.cabinCount,
-              single_cabin_price: bookingState.selectedDate?.single_cabin_price,
-              double_cabin_price: bookingState.selectedDate?.double_cabin_price,
-              price: bookingState.selectedCabinType === 'double' 
-                ? bookingState.selectedDate?.double_cabin_price || bookingState.selectedDate?.price || 0
-                : bookingState.selectedDate?.single_cabin_price || bookingState.selectedDate?.price || 0
-            };
-
-            // Immediate redirect - no delay, no toast
+            // YENİ SİSTEM BOOKING SAYFASINA YÖNLENDİR
             navigate(`/booking/${tour.id}`, {
               state: {
-                tour: bookingData,
+                tour: {
+                  id: tour.id,
+                  title: tour.title,
+                  location: tour.location,
+                  images: tour.images,
+                  reservation_type: tour.reservation_type
+                },
                 selectedDate: bookingState.selectedDate,
-                cabinType: bookingState.selectedCabinType,
-                participants: bookingState.cabinCount,
-                fromLogin: true // Flag to indicate this came from login restoration
+                // Rezervasyon tipine göre seçimler
+                ...(bookingState.reservation_type === 'cabin_based' && {
+                  singleCabinCount: bookingState.singleCabinCount || 0,
+                  doubleCabinCount: bookingState.doubleCabinCount || 0
+                }),
+                ...(bookingState.reservation_type === 'person_based' && {
+                  adultCount: bookingState.adultCount || 1,
+                  childCount: bookingState.childCount || 0
+                }),
+                fromLogin: true
               }
             });
             
