@@ -619,74 +619,60 @@ const TourDetailPage = () => {
   };
 
   // Mobile booking bar add to cart handler
-  const handleAddToCart = () => {
-    if (!selectedDate || !selectedCabinType) {
-      toast.error('Lütfen tarih ve kabin tipi seçin');
-      return;
-    }
-    
-    // Add to cart with cabin count (not participant count)
-    addToCart(selectedCabinType, cabinCount);
-  };
-
-  const addToCart = (cabinType = selectedCabinType, participantsParam = tour?.reservation_type === 'person_based' ? participants : cabinCount) => {
+  // YENİ SEPETE EKLEME FONKSİYONU - SIFIRDAN
+  const addToCart = () => {
     if (!selectedDate) {
       toast.error('Lütfen önce bir tarih seçin');
       return;
     }
 
-    // Save user behavior before adding to cart
-    const currentCabinPrice = (() => {
-      if (tour?.reservation_type === 'person_based') {
-        return selectedDate.person_price || 0;
-      } else if (tour?.reservation_type === 'reservation') {
-        return selectedDate.total_reservation_price || 0;
-      } else {
-        // cabin_based
-        return cabinType === 'single' 
-          ? selectedDate.single_cabin_price
-          : selectedDate.double_cabin_price;
+    // Rezervasyon tipine göre validation
+    if (tour?.reservation_type === 'cabin_based') {
+      if (singleCabinCount === 0 && doubleCabinCount === 0) {
+        toast.error('Lütfen en az bir kabin seçin');
+        return;
       }
-    })();
-    
-    saveSearchBehavior(tour.id, participantsParam, currentCabinPrice);
+    } else if (tour?.reservation_type === 'person_based') {
+      if (adultCount === 0) {
+        toast.error('En az 1 yetişkin gereklidir');
+        return;
+      }
+    }
 
+    // Sepet öğesi oluştur
     const cartItem = {
+      id: `${tour.id}_${Date.now()}`, // Unique ID
       tourId: tour.id,
       title: tour.title,
       location: tour.location,
-      duration: tour.duration || tour.duration_days,
-      duration_unit: tour.duration_unit || (tour.duration_days ? 'days' : 'hours'), // Fallback logic
-      price: currentCabinPrice, // Seçilen kabin tipinin fiyatı
-      single_cabin_price: selectedDate.single_cabin_price,
-      double_cabin_price: selectedDate.double_cabin_price,
-      person_price: selectedDate.person_price, // Kişi bazlı fiyat
-      child_price: selectedDate.child_price, // Çocuk fiyatı
-      total_reservation_price: selectedDate.total_reservation_price, // Toplam rezervasyon fiyatı
-      cabinType: cabinType, // 'single' veya 'double'
-      participants: participantsParam,
-      childCount: childCount, // Çocuk sayısı
-      singleCabinCount: singleCabinCount, // Tek kişilik kabin sayısı
-      doubleCabinCount: doubleCabinCount, // Çift kişilik kabin sayısı
-      reservation_type: tour.reservation_type, // Rezervasyon tipi
       image: tour.images[0] || '/placeholder-tour.jpg',
+      duration: tour.duration || tour.duration_days,
+      duration_unit: tour.duration_unit || 'days',
+      reservation_type: tour.reservation_type,
       selectedDate: {
-        date: selectedDate.start_date, // API'den gelen field adı
-        single_cabin_price: selectedDate.single_cabin_price,
-        double_cabin_price: selectedDate.double_cabin_price,
-        person_price: selectedDate.person_price,
-        child_price: selectedDate.child_price,
-        total_reservation_price: selectedDate.total_reservation_price,
-        max_persons: selectedDate.max_persons,
-        capacity: selectedDate.capacity, // Kabin kapasitesi
-        available_cabins: selectedDate.available_cabins, // Mevcut kabin sayısı
-        childCount: childCount, // Çocuk sayısını selectedDate içinde de sakla
+        date: selectedDate.start_date,
         formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
           year: 'numeric',
           month: 'long',
           day: 'numeric'
-        })
-      }
+        }),
+        // Tüm fiyat bilgilerini sakla
+        single_cabin_price: selectedDate.single_cabin_price || 0,
+        double_cabin_price: selectedDate.double_cabin_price || 0,
+        person_price: selectedDate.person_price || 0,
+        child_price: selectedDate.child_price || 0,
+        total_reservation_price: selectedDate.total_reservation_price || 0
+      },
+      // Rezervasyon tipine göre seçimler
+      ...(tour.reservation_type === 'cabin_based' && {
+        singleCabinCount,
+        doubleCabinCount
+      }),
+      ...(tour.reservation_type === 'person_based' && {
+        adultCount,
+        childCount
+      }),
+      createdAt: new Date().toISOString()
     };
 
     // Mevcut sepeti al
