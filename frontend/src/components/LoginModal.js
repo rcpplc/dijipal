@@ -41,8 +41,13 @@ const LoginModal = ({ initialMode = 'login' }) => {
       }
 
       if (result.success) {
-        setShowLoginModal(false);
         toast.success(isLogin ? 'Başarıyla giriş yaptınız!' : 'Hesabınız oluşturuldu!');
+        
+        // User state'inin güncellenmesini bekle (React asenkron state update)
+        setTimeout(() => {
+          setShowLoginModal(false);
+          console.log('🔄 Login modal closed - user state should be updated now');
+        }, 100);
       } else {
         toast.error(result.error);
       }
