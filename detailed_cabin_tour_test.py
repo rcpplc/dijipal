@@ -3,7 +3,7 @@ import json
 
 def test_specific_cabin_tour():
     """Test a specific cabin-based tour for detailed pricing"""
-    base_url = "https://tourmasters.preview.emergentagent.com"
+    base_url = "https://tour-reserv.preview.emergentagent.com"
     api_url = f"{base_url}/api"
     
     # Test the first cabin-based tour from our results

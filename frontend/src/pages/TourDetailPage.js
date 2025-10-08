@@ -1319,7 +1319,7 @@ const TourDetailPage = () => {
                               setSingleCabinCount(singleCabinCount - 1);
                             }
                           }}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={singleCabinCount <= 0}
                         >
                           -
@@ -1336,7 +1336,7 @@ const TourDetailPage = () => {
                               setSingleCabinCount(singleCabinCount + 1);
                             }
                           }}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={singleCabinCount >= (selectedDate ? (selectedDate.single_cabin_count || 10) : 10)}
                         >
                           +
@@ -1354,7 +1354,7 @@ const TourDetailPage = () => {
                               setDoubleCabinCount(doubleCabinCount - 1);
                             }
                           }}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={doubleCabinCount <= 0}
                         >
                           -
@@ -1371,7 +1371,7 @@ const TourDetailPage = () => {
                               setDoubleCabinCount(doubleCabinCount + 1);
                             }
                           }}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={doubleCabinCount >= (selectedDate ? (selectedDate.double_cabin_count || 10) : 10)}
                         >
                           +
@@ -1487,7 +1487,7 @@ const TourDetailPage = () => {
 
               {/* Desktop Booking Summary - Dynamic Based on Selections */}
               {selectedDate && (
-                <div className="mb-6 p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200">
+                <div className="mb-6 p-4 bg-gradient-to-r from-gray-50 to-gray-100 rounded-lg border border-gray-200">
                   <div className="text-center">
                     <div className="text-2xl font-bold text-blue-700 mb-2">
                       ₺{(() => {
@@ -1541,7 +1541,7 @@ const TourDetailPage = () => {
                     </div>
                     
                     {/* Selection Details */}
-                    <div className="mt-3 pt-2 border-t border-blue-200 text-xs text-gray-600">
+                    <div className="mt-3 pt-2 border-t border-gray-200 text-xs text-gray-600">
                       {(() => {
                         if (tour && tour.reservation_type === 'person_based') {
                           return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${adultCount}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
@@ -1586,9 +1586,30 @@ const TourDetailPage = () => {
                 </button>
               </div>
 
-              <p className="text-xs text-gray-500 text-center mb-4 mt-[10px]">
-                Ücretsiz iptal • 24 saat öncesine kadar
-              </p>
+<div className="text-center mb-4 mt-[10px]">
+  <p className="text-xs text-gray-500">
+    Ücretsiz iptal • 24 saat öncesine kadar
+  </p>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    fill="none"
+    viewBox="0 0 24 24"
+    strokeWidth={1.5}
+    stroke="currentColor"
+    className="w-8 h-7 text-blue-500 mx-auto mt-2"
+  >
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 3l7 4v5c0 5-3.5 9-7 9s-7-4-7-9V7l7-4z"
+    />
+    <path
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M12 11v3m0-6h.01"
+    />
+  </svg>
+</div>
 
               {/* Sidebar değerlendirmeler kaldırıldı - Ana içerikteki kalıyor */}
 
@@ -1823,7 +1844,7 @@ const TourDetailPage = () => {
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 text-sm min-h-[44px] w-full flex items-center justify-center space-x-2"
             >
               <Calendar className="w-4 h-4" />
-              <span>Rezervasyon Yap</span>
+              <span>İşlem Yapın</span>
             </button>
           </div>
         </div>
@@ -2079,7 +2100,7 @@ const TourDetailPage = () => {
 
               {/* Mobile Modal Booking Summary */}
               {selectedDate && (
-                <div className="p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border border-blue-200 mb-4">
+                <div className="p-4 bg-gradient-to-r from-gray-50 to gray-100 rounded-lg border border-gray-200 mb-4">
                   <div className="text-center">
                     <div className="text-xl font-bold text-blue-700 mb-2">
                       ₺{(() => {
@@ -2209,7 +2230,7 @@ const TourDetailPage = () => {
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
-                  Rezervasyon Yap
+                  Rezervayson Tamamla
                 </button>
               </div>
             </div>
