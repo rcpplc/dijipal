@@ -88,6 +88,20 @@ const BookingPage = () => {
     setLoading(false);
   }, [location.state, user, navigate]);
 
+  // User değişikliklerini izle ve form'u güncelle
+  useEffect(() => {
+    if (user) {
+      console.log('🔄 User changed, updating form with:', user);
+      setFormData(prev => ({
+        ...prev,
+        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || '',
+        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || '',
+        email: user.email || user.emailAddress || '',
+        phone: user.phone || user.phoneNumber || user.mobile || user.tel || ''
+      }));
+    }
+  }, [user]);
+
   // Fiyat hesaplama
   const calculateTotalPrice = () => {
     // SEPETTEN GELİNDİYSE SEPET TOPLAMINI KULLAN
