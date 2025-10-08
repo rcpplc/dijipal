@@ -35,7 +35,7 @@ client = AsyncIOMotorClient(
     serverSelectionTimeoutMS=10000,
     maxPoolSize=10
 )
-db = client[os.environ.get('DB_NAME', 'tour_platform')]
+db = client[os.environ.get('DB_NAME', 'test_database')]
 
 # Security
 security = HTTPBearer()
