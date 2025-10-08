@@ -1770,7 +1770,7 @@ const TourDetailPage = () => {
                   const adultPrice = selectedDate.person_price || 0;
                   const childPrice = selectedDate.child_price || 0;
                   if (!adultPrice && !childPrice) return 'Fiyat Yükleniyor...';
-                  const totalPrice = (adultPrice * participants) + (childPrice * childCount);
+                  const totalPrice = (adultPrice * adultCount) + (childPrice * childCount);
                   if (totalPrice === 0) return 'Katılımcı Seçin';
                   return '₺' + totalPrice.toLocaleString('tr-TR');
                 } else if (tour && tour.reservation_type === 'reservation') {
