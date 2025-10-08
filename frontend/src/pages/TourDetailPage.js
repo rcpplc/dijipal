@@ -55,11 +55,17 @@ const TourDetailPage = () => {
   
   // Mobile bottom bar states
   const [showBookingModal, setShowBookingModal] = useState(false);
-  const [selectedCabinType, setSelectedCabinType] = useState('single'); // 'single' or 'double'
-  const [cabinCount, setCabinCount] = useState(1);
   
-  // Cabin system
-  const [cabinType, setCabinType] = useState('single'); // 'single' or 'double' - default to single
+  // YENİ REZERVASYON SİSTEMİ - 3 TİP
+  // 🏨 Kabin Bazlı
+  const [singleCabinCount, setSingleCabinCount] = useState(0);
+  const [doubleCabinCount, setDoubleCabinCount] = useState(0);
+  
+  // 👥 Kişi Bazlı  
+  const [adultCount, setAdultCount] = useState(1);
+  const [childCount, setChildCount] = useState(0);
+  
+  // 🚢 Rezervasyon tipi için ek state gerekmez
   
   // Accordion states
   const [showFullDescription, setShowFullDescription] = useState(false);
