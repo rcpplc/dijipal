@@ -1791,9 +1791,9 @@ const TourDetailPage = () => {
             <div className="text-xs text-gray-600 truncate">
               {(() => {
                 if (tour && tour.reservation_type === 'person_based') {
-                  const total = participants + childCount;
+                  const total = adultCount + childCount;
                   if (total === 0) return 'Katılımcı seçin';
-                  return `${participants} Yetişkin + ${childCount} Çocuk seçildi`;
+                  return `${adultCount} Yetişkin + ${childCount} Çocuk seçildi`;
                 } else if (tour && tour.reservation_type === 'reservation') {
                   const maxCapacity = selectedDate ? (selectedDate.max_persons || 0) : 0;
                   return `Sabit Fiyat Toplam Rezervasyon - Max ${maxCapacity} kişi`;
