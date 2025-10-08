@@ -1409,29 +1409,29 @@ const TourDetailPage = () => {
                       <div className="flex items-center space-x-4 p-4 border border-gray-200 rounded-lg bg-gray-50">
                         <button
                           onClick={() => {
-                            if (participants > 1) {
-                              setParticipants(participants - 1);
+                            if (adultCount > 1) {
+                              setAdultCount(adultCount - 1);
                             }
                           }}
                           className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                          disabled={participants <= 1}
+                          disabled={adultCount <= 1}
                         >
                           -
                         </button>
                         <div className="flex-1 text-center">
                           <div className="text-center">
-                            <div className="text-lg font-bold text-gray-900">{participants || 1}</div>
+                            <div className="text-lg font-bold text-gray-900">{adultCount}</div>
                           </div>
                         </div>
                         <button
                           onClick={() => {
                             const maxCapacity = selectedDate ? (selectedDate.max_persons || 50) : 50;
-                            if ((participants + childCount) < maxCapacity) {
-                              setParticipants((participants || 1) + 1);
+                            if ((adultCount + childCount) < maxCapacity) {
+                              setAdultCount(adultCount + 1);
                             }
                           }}
                           className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
-                          disabled={(participants + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
+                          disabled={(adultCount + childCount) >= (selectedDate ? (selectedDate.max_persons || 50) : 50)}
                         >
                           +
                         </button>
