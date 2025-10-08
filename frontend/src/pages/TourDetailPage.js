@@ -1548,7 +1548,7 @@ const TourDetailPage = () => {
                     <div className="mt-3 pt-2 border-t border-blue-200 text-xs text-gray-600">
                       {(() => {
                         if (tour && tour.reservation_type === 'person_based') {
-                          return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${participants}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
+                          return `Yetişkin: ₺${(selectedDate.person_price || 0).toLocaleString('tr-TR')} × ${adultCount}${childCount > 0 ? ` • Çocuk: ₺${(selectedDate.child_price || 0).toLocaleString('tr-TR')} × ${childCount}` : ''}`;
                         } else if (tour && tour.reservation_type === 'reservation') {
                           return `Sabit Fiyat Toplam Rezervasyon`;
                         } else {
