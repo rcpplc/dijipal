@@ -79,6 +79,12 @@ const BookingPage = () => {
 
   // Fiyat hesaplama
   const calculateTotalPrice = () => {
+    // SEPETTEN GELİNDİYSE SEPET TOPLAMINI KULLAN
+    if (location.state?.fromCart && location.state?.cartTotal) {
+      return location.state.cartTotal;
+    }
+    
+    // DOĞRUDAN ÜRÜN SAYFASINDAN GELİNDİYSE HESAPLA
     if (!selectedDate || !reservationData.type) return 0;
 
     if (reservationData.type === 'cabin_based') {
