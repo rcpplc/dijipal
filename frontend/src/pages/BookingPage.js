@@ -64,25 +64,38 @@ const BookingPage = () => {
       }
     }
 
-    // User bilgilerini form'a doldur
+    // User bilgilerini form'a doldur - ENHANCED DEBUG
     if (user) {
-      console.log('👤 User data for auto-fill:', user);
-      console.log('👤 User keys:', Object.keys(user));
-      console.log('👤 Testing fields:', {
+      console.log('🔍 FULL USER OBJECT:', JSON.stringify(user, null, 2));
+      console.log('👤 User keys available:', Object.keys(user));
+      console.log('📧 Email test:', user.email);
+      console.log('📱 Phone test:', user.phone);
+      console.log('👤 Name fields test:', {
         firstName: user.firstName,
-        first_name: user.first_name,
+        first_name: user.first_name, 
         name: user.name,
-        email: user.email,
-        phone: user.phone
+        username: user.username,
+        fullName: user.fullName,
+        displayName: user.displayName
       });
+      
+      // Try multiple field combinations
+      const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
+      const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
+      
+      console.log('✅ EXTRACTED VALUES:', { firstName, lastName });
       
       setFormData(prev => ({
         ...prev,
-        firstName: user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || '',
-        lastName: user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || '',
-        email: user.email || user.emailAddress || '',
-        phone: user.phone || user.phoneNumber || user.mobile || user.tel || ''
+        firstName: firstName,
+        lastName: lastName,
+        email: user.email || user.emailAddress || user.mail || '',
+        phone: user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || ''
       }));
+      
+      console.log('✅ Form updated with user data');
+    } else {
+      console.log('❌ NO USER DATA AVAILABLE');
     }
 
     setLoading(false);
