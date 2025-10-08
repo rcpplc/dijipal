@@ -177,7 +177,13 @@ const BookingPage = () => {
       }
 
       toast.success('Rezervasyonunuz başarıyla oluşturuldu!');
-      navigate('/profile?tab=bookings');
+      
+      // Ödeme sayfasına yönlendir
+      navigate('/payment', {
+        state: {
+          booking: newBooking
+        }
+      });
       
     } catch (error) {
       console.error('Rezervasyon hatası:', error);
