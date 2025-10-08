@@ -1498,7 +1498,7 @@ const TourDetailPage = () => {
                         if (!tour) return '0';
                         
                         if (tour.reservation_type === 'person_based') {
-                          const adultTotal = (selectedDate.person_price || 0) * participants;
+                          const adultTotal = (selectedDate.person_price || 0) * adultCount;
                           const childTotal = (selectedDate.child_price || 0) * childCount;
                           return (adultTotal + childTotal).toLocaleString('tr-TR');
                         } else if (tour.reservation_type === 'reservation') {
@@ -2090,7 +2090,7 @@ const TourDetailPage = () => {
                         if (!tour) return '0';
                         
                         if (tour.reservation_type === 'person_based') {
-                          const adultTotal = (selectedDate.person_price || 0) * participants;
+                          const adultTotal = (selectedDate.person_price || 0) * adultCount;
                           const childTotal = (selectedDate.child_price || 0) * childCount;
                           return (adultTotal + childTotal).toLocaleString('tr-TR');
                         } else if (tour.reservation_type === 'reservation') {
