@@ -541,7 +541,14 @@ const TourDetailPage = () => {
           images: tour.images,
           reservation_type: tour.reservation_type
         },
-        selectedDate: selectedDate,
+        selectedDate: {
+          ...selectedDate,
+          formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+          })
+        },
         // Rezervasyon tipine göre seçimler
         ...(tour.reservation_type === 'cabin_based' && {
           singleCabinCount,
