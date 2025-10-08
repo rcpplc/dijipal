@@ -96,15 +96,18 @@ const BookingPage = () => {
     return 0;
   };
 
-  // KDV hesaplama
+  // KDV hesaplama - Fiyatlar KDV DAHİL
   const calculateTax = () => {
-    const subtotal = calculateTotalPrice();
+    const totalWithTax = calculateTotalPrice(); // Bu zaten KDV dahil
     const taxRate = 0.20; // %20 KDV
+    const subtotal = totalWithTax / (1 + taxRate); // KDV hariç tutar
+    const taxAmount = totalWithTax - subtotal; // KDV tutarı
+    
     return {
-      subtotal,
-      taxAmount: subtotal * taxRate,
+      subtotal: Math.round(subtotal * 100) / 100,
+      taxAmount: Math.round(taxAmount * 100) / 100,
       taxRate: taxRate * 100,
-      total: subtotal + (subtotal * taxRate)
+      total: totalWithTax
     };
   };
 
