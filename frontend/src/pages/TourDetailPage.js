@@ -131,7 +131,7 @@ const TourDetailPage = () => {
               setCabinCount(bookingState.cabinCount);
             }
             if (bookingState.participants) {
-              setParticipants(bookingState.participants);
+              setAdultCount(bookingState.participants);
             }
             
             console.log('✅ Booking state restored successfully - redirecting immediately');
