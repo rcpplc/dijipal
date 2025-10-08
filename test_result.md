@@ -247,6 +247,10 @@ frontend:
     stuck_count: 1
     priority: "high"
     needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL E2E RESERVATION FLOW ISSUE IDENTIFIED - Comprehensive testing of Turkish review request completed with mixed results. WORKING COMPONENTS: 1) ✅ TOUR DETAIL PAGE: Successfully loads Fethiye – Göcek 3 Gece 4 Gün Kabin Turu with correct data, 2) ✅ DATE SELECTION: 1 Ocak 2026 Perşembe date available and selectable (₺5.000 base price), 3) ✅ CABIN SELECTION: Cabin selection UI working (2 tek kişilik + 1 çift kişilik kabin), 4) ✅ PRICE CALCULATION: Correct total price calculation (₺18.000 for 2 tek + 1 çift kabin), 5) ✅ BACKEND APIs: All backend APIs working correctly - tours API returns proper data, login API working (user@example.com/password123 returns valid JWT token), Stripe integration configured with test key (sk_test_mock_stripe_key_for_development). CRITICAL FAILURE POINT: 6) ❌ LOGIN TO BOOKING REDIRECT: After successful login modal interaction, user remains on tour detail page instead of being redirected to booking page (/booking/{tourId}). This breaks the entire reservation flow. ROOT CAUSE: Frontend login modal closes after credentials submission but booking redirect logic is not executing properly. The login appears successful (modal closes) but the expected navigation to booking page fails. IMPACT: Users cannot proceed beyond tour selection and login - complete reservation flow is blocked. RECOMMENDATION: Main agent needs to investigate and fix the post-login booking redirect logic in TourDetailPage.js. Success rate: 83% (5/6 major components working, but critical redirect failure blocks entire flow)."
 
   - task: "Booking State Preservation Backend Health Check"
     implemented: true
