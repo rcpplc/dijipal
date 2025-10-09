@@ -4692,11 +4692,12 @@ const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, loca
       
       const requestData = {
         parent_category_id: parentCategoryId,
-        location_name: formData.location_name,
-        title: formData.title || null, // Will be auto-generated if not provided
+        location_name: formData.location_name || null,
+        title: formData.title || null,
         description: formData.description,
         image: formData.image,
         faq: formData.faq,
+        custom_slug: formData.custom_slug || null,
         meta_title: formData.meta_title,
         meta_description: formData.meta_description,
         meta_keywords: formData.meta_keywords,
