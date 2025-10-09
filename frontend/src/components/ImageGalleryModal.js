@@ -197,18 +197,18 @@ const ImageGalleryModal = ({
       {/* Thumbnail Strip */}
       <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 z-10">
         <div className="bg-black bg-opacity-50 rounded-lg p-4">
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             {/* Left Scroll Arrow */}
-            {thumbnailStartIndex > 0 ? (
-              <button
-                onClick={() => scrollThumbnails('left')}
-                className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200"
-              >
-                <ChevronLeft className="w-5 h-5" />
-              </button>
-            ) : (
-              <div className="w-9 h-9"></div>
-            )}
+            <div className="flex-shrink-0 w-9 h-9 flex items-center justify-center">
+              {thumbnailStartIndex > 0 && (
+                <button
+                  onClick={() => scrollThumbnails('left')}
+                  className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200 w-full h-full flex items-center justify-center"
+                >
+                  <ChevronLeft className="w-5 h-5" />
+                </button>
+              )}
+            </div>
 
             {/* Thumbnails */}
             <div className="flex space-x-2 overflow-hidden scrollbar-hide">
@@ -238,16 +238,16 @@ const ImageGalleryModal = ({
             </div>
 
             {/* Right Scroll Arrow */}
-            {thumbnailStartIndex + 5 < images.length ? (
-              <button
-                onClick={() => scrollThumbnails('right')}
-                className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200"
-              >
-                <ChevronRight className="w-5 h-5" />
-              </button>
-            ) : (
-              <div className="w-9 h-9"></div>
-            )}
+            <div className="flex-shrink-0 w-9 h-9 flex items-center justify-center">
+              {thumbnailStartIndex + 5 < images.length && (
+                <button
+                  onClick={() => scrollThumbnails('right')}
+                  className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200 w-full h-full flex items-center justify-center"
+                >
+                  <ChevronRight className="w-5 h-5" />
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
