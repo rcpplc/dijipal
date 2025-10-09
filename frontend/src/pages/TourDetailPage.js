@@ -790,14 +790,12 @@ const TourDetailPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
-        {/* Back Button */}
-        <Link
-          to="/turlar"
-          className="inline-flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
-        >
-          <ArrowLeft className="w-5 h-5" />
-          <span>Turlar</span>
-        </Link>
+        {/* Breadcrumb Navigation */}
+        <StandardBreadcrumb
+          category={tour?.category}
+          product={tour?.title}
+          categorySlug={tour?.category ? createSlug(tour.category) : null}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main Content */}
