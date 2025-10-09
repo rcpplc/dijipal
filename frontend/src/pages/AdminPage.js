@@ -2546,6 +2546,11 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
   const [isUploading, setIsUploading] = useState(false);
   const [uploadedImages, setUploadedImages] = useState([]);
   
+  // Subcategory states
+  const [subcategories, setSubcategories] = useState([]);
+  const [selectedCategoryId, setSelectedCategoryId] = useState('');
+  const [selectedSubcategory, setSelectedSubcategory] = useState('');
+  
   const [newTourDate, setNewTourDate] = useState({
     date: '',
     // Date range fields for person-based
