@@ -613,52 +613,64 @@ const CategoryDetailPage = () => {
                 ))}
               </div>
             )}
-
-            {/* Description Section */}
-            {(isLocationPage ? categoryData.description : displayCategory.description) && (
-              <div className="bg-white rounded-xl shadow-lg p-8 mb-12">
-                <h2 className="text-2xl font-bold text-gray-900 mb-6">
-                  {isLocationPage ? categoryData.title : displayCategory.title} Hakkında
-                </h2>
-                <div className="text-gray-700 leading-relaxed">
-                  <p>{isLocationPage ? categoryData.description : displayCategory.description}</p>
-                </div>
-              </div>
-            )}
-
-            {/* FAQ Section */}
-            {displayCategory.faq && displayCategory.faq.length > 0 && (
-              <div className="bg-white rounded-xl shadow-lg p-8">
-                <div className="flex items-center space-x-3 mb-6">
-                  <div className="w-6 h-6 text-blue-600">❓</div>
-                  <h2 className="text-2xl font-bold text-gray-900">
-                    Sıkça Sorulan Sorular
-                  </h2>
-                </div>
-
-                <div className="space-y-4">
-                  {displayCategory.faq.map((faq, index) => (
-                    <details key={index} className="border border-gray-200 rounded-lg group">
-                      <summary className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200 cursor-pointer list-none">
-                        <span className="font-semibold text-gray-900">
-                          {faq.question}
-                        </span>
-                        <ChevronRight className="w-5 h-5 text-gray-500 group-open:rotate-90 transition-transform" />
-                      </summary>
-                      
-                      <div className="px-6 pb-4">
-                        <p className="text-gray-700 leading-relaxed">
-                          {faq.answer}
-                        </p>
-                      </div>
-                    </details>
-                  ))}
-                </div>
-              </div>
-            )}
           </div>
         </div>
       </div>
+
+      {/* Description Section - Full Width Below Tours */}
+      {(isLocationPage ? categoryData.description : displayCategory.description) && (
+        <div className="bg-white border-t border-gray-100">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="max-w-4xl mx-auto text-center">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+                {isLocationPage ? categoryData.title : displayCategory.title} Hakkında
+              </h2>
+              <div className="text-gray-700 leading-relaxed text-lg">
+                <p>{isLocationPage ? categoryData.description : displayCategory.description}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* FAQ Section - Full Width */}
+      {displayCategory.faq && displayCategory.faq.length > 0 && (
+        <div className="bg-gray-50">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center mb-12">
+                <div className="flex items-center justify-center space-x-3 mb-4">
+                  <div className="w-8 h-8 text-blue-600">❓</div>
+                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
+                    Sıkça Sorulan Sorular
+                  </h2>
+                </div>
+                <p className="text-xl text-gray-600">
+                  {isLocationPage ? categoryData.title : displayCategory.title} hakkında merak ettikleriniz
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                {displayCategory.faq.map((faq, index) => (
+                  <details key={index} className="bg-white border border-gray-200 rounded-xl shadow-sm group">
+                    <summary className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200 cursor-pointer list-none">
+                      <span className="font-semibold text-gray-900 text-lg">
+                        {faq.question}
+                      </span>
+                      <ChevronDown className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform duration-200 flex-shrink-0 ml-4" />
+                    </summary>
+                    <div className="px-6 pb-6">
+                      <p className="text-gray-700 leading-relaxed text-base">
+                        {faq.answer}
+                      </p>
+                    </div>
+                  </details>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
