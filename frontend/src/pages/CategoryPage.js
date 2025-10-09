@@ -198,16 +198,32 @@ const CategoryPage = () => {
     }
   };
 
+  // Map URL category to backend category format
+  const getCategoryForAPI = (categorySlug) => {
+    const categoryMapping = {
+      'mavi-yolculuk': 'Mavi yolculuk',
+      'gunubirlik-tekne': 'Günübirlik Tekne Turları', 
+      'kabin-turlari': 'Kabin Turları',
+      'balik-dalis': 'Balık & Dalış',
+      'yuzme-turlari': 'Yüzme Turları'
+    };
+    
+    return categoryMapping[categorySlug] || categorySlug;
+  };
+
   const loadTours = async () => {
     try {
       setLoading(true);
+      
+      // Convert category slug to proper category name
+      const apiCategory = getCategoryForAPI(category);
+      console.log(`🔄 Converting category: '${category}' -> '${apiCategory}'`);
+      
+      // Try backend filtering first
       const params = new URLSearchParams();
       
-      // Add category filter - try different parameter names
-      if (category) {
-        params.append('category', category);
-        params.append('category_slug', category);
-        params.append('type', category);
+      if (apiCategory) {
+        params.append('category', apiCategory);
       }
       
       // Add other filters
@@ -217,41 +233,52 @@ const CategoryPage = () => {
         }
       });
 
-      console.log('Loading tours with params:', params.toString());
-      const response = await axios.get(`${API}/tours?${params.toString()}`);
+      console.log('📡 Loading tours with params:', params.toString());
       
-      if (response.data) {
-        if (Array.isArray(response.data)) {
-          setTours(response.data);
-        } else if (response.data.tours && Array.isArray(response.data.tours)) {
-          setTours(response.data.tours);
-        } else {
-          setTours([]);
+      let response;
+      try {
+        response = await axios.get(`${API}/tours?${params.toString()}`);
+      } catch (error) {
+        console.log('⚠️ Backend filtering failed, trying fallback');
+        response = await axios.get(`${API}/tours`);
+      }
+      
+      if (response.data && Array.isArray(response.data)) {
+        let tours = response.data;
+        
+        // Apply frontend filtering if backend didn't filter properly
+        if (apiCategory) {
+          tours = tours.filter(tour => {
+            const tourCategory = tour.category || '';
+            return tourCategory.toLowerCase().includes(apiCategory.toLowerCase()) ||
+                   tourCategory === apiCategory ||
+                   (category === 'mavi-yolculuk' && tourCategory.toLowerCase().includes('mavi'));
+          });
         }
+        
+        // Apply other frontend filters
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value && value !== '') {
+            if (key === 'location') {
+              tours = tours.filter(tour => 
+                tour.location && tour.location.toLowerCase().includes(value.toLowerCase())
+              );
+            }
+            // Add other filter logic as needed
+          }
+        });
+        
+        console.log(`✅ Found ${tours.length} tours for category '${category}'`);
+        setTours(tours);
+        
       } else {
         setTours([]);
       }
 
     } catch (error) {
-      console.error('Error loading tours:', error);
-      // Load all tours as fallback to show something
-      try {
-        const fallbackResponse = await axios.get(`${API}/tours`);
-        if (fallbackResponse.data && Array.isArray(fallbackResponse.data)) {
-          // Filter tours by category on frontend if backend filtering failed
-          const filteredTours = fallbackResponse.data.filter(tour => 
-            !category || 
-            (tour.category && tour.category.toLowerCase().includes(category.toLowerCase())) ||
-            (tour.type && tour.type.toLowerCase().includes(category.toLowerCase()))
-          );
-          setTours(filteredTours);
-        } else {
-          setTours([]);
-        }
-      } catch (fallbackError) {
-        setTours([]);
-        toast.error('Turlar yüklenirken hata oluştu');
-      }
+      console.error('❌ Error loading tours:', error);
+      setTours([]);
+      toast.error('Turlar yüklenirken hata oluştu');
     } finally {
       setLoading(false);
     }
