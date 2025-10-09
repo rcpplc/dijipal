@@ -123,6 +123,26 @@ class ReservationType(str, Enum):
     PERSON_BASED = "person_based"
     RESERVATION = "reservation"
 
+# Media Library Model for improved image management
+class MediaLibraryItem(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    filename: str  # Original filename
+    stored_filename: str  # Stored filename (with WebP extension)
+    url: str  # Full URL to access the image
+    title: Optional[str] = None  # SEO title
+    description: Optional[str] = None  # Description for accessibility
+    alt_text: Optional[str] = None  # Alt text for SEO
+    tags: List[str] = []  # Comma-separated tags for filtering
+    tour_id: Optional[str] = None  # Related tour ID
+    tour_slug: Optional[str] = None  # Tour slug for URL organization
+    file_size: Optional[int] = None  # File size in bytes
+    width: Optional[int] = None  # Image width
+    height: Optional[int] = None  # Image height
+    is_primary: bool = False  # Primary image for homepage/listing
+    is_active: bool = True
+    created_at: datetime = Field(default_factory=datetime.utcnow)
+    updated_at: datetime = Field(default_factory=datetime.utcnow)
+
 class Tour(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
     vendor_id: str
@@ -136,7 +156,8 @@ class Tour(BaseModel):
     classification: Optional[str] = "standart"  # standart, lux, delux
     status: TourStatus = TourStatus.DRAFT
     reservation_type: ReservationType = ReservationType.CABIN_BASED
-    images: List[str] = []
+    images: List[str] = []  # Legacy image URLs for backward compatibility
+    media_library_ids: List[str] = []  # New: References to MediaLibraryItem IDs
     included_services: List[str] = []
     excluded_services: List[str] = []
     meeting_point: Optional[str] = None
