@@ -3390,26 +3390,26 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   </div>
                 </div>
 
-                {/* Enhanced Uploading Progress */}
+                {/* Optimized Uploading Progress */}
                 {uploadingImages && (
-                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+                  <div className="bg-gradient-to-r from-green-50 to-emerald-50 border border-green-200 rounded-lg p-6">
                     <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-6 w-6 border-4 border-blue-200 border-top-blue-600 mr-4"></div>
+                      <div className="animate-spin rounded-full h-6 w-6 border-4 border-green-200 border-top-green-600 mr-4"></div>
                       <div className="text-center">
-                        <div className="text-blue-800 font-medium mb-1">📤 Resimler Yükleniyor</div>
-                        <div className="text-sm text-blue-600">
-                          Dosyalar optimize ediliyor ve WebP formatına dönüştürülüyor...
+                        <div className="text-green-800 font-medium mb-1">🚀 Resimler Yükleniyor</div>
+                        <div className="text-sm text-green-600">
+                          Dosyalar optimize ediliyor • Orijinal format korunuyor
                         </div>
-                        <div className="text-xs text-blue-500 mt-2">
-                          ⚡ Büyük dosyalar otomatik olarak küçültülüyor • 🎯 Kalite optimize ediliyor
+                        <div className="text-xs text-green-500 mt-2">
+                          ⚡ Sadece boyut optimizasyonu • 📁 Format değişmiyor
                         </div>
                       </div>
                     </div>
                     
                     {/* Progress Tips */}
-                    <div className="mt-4 p-3 bg-white/50 rounded border-l-4 border-blue-400">
-                      <div className="text-xs text-blue-700">
-                        <span className="font-medium">💡 İpucu:</span> WebP dosyaları yükleme hızlı, diğer formatlar dönüştürülüyor
+                    <div className="mt-4 p-3 bg-white/50 rounded border-l-4 border-green-400">
+                      <div className="text-xs text-green-700">
+                        <span className="font-medium">✨ Hızlı İşlem:</span> Format dönüştürme yok, sadece kalite optimizasyonu
                       </div>
                     </div>
                   </div>
