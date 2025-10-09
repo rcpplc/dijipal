@@ -427,24 +427,12 @@ const CategoryDetailPage = () => {
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           {/* Breadcrumbs */}
-          <nav className="flex items-center space-x-2 text-gray-500 text-sm mb-6">
-            <button onClick={() => navigate('/')} className="hover:text-blue-600">Ana Sayfa</button>
-            <ChevronRight className="w-4 h-4" />
-            <button onClick={() => navigate('/turlar')} className="hover:text-blue-600">Turlar</button>
-            <ChevronRight className="w-4 h-4" />
-            <button 
-              onClick={() => navigate(`/categories/${categorySlug}`)} 
-              className="hover:text-blue-600"
-            >
-              {displayCategory?.title || categorySlug}
-            </button>
-            {isLocationPage && (
-              <>
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-gray-900">{categoryData?.location?.location_name || locationSlug}</span>
-              </>
-            )}
-          </nav>
+          <StandardBreadcrumb
+            category={displayCategory?.title || categorySlug}
+            subcategory={isLocationPage ? (categoryData?.location?.location_name || locationSlug) : null}
+            categorySlug={categorySlug}
+            subcategorySlug={isLocationPage ? locationSlug : null}
+          />
 
           {/* Page Title */}
           <div className="text-center mb-8">
