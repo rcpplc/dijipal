@@ -1461,6 +1461,140 @@ async def admin_create_new_category(category_data: NewCategoryCreate, current_us
     
     return NewCategory(**category)
 
+# SUB CATEGORY MANAGEMENT
+@api_router.post("/admin/new-categories/{category_id}/subcategories", response_model=SubCategory)
+async def admin_create_subcategory(category_id: str, subcategory_data: SubCategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Get parent category
+    parent_category = await db.new_categories.find_one({"id": category_id})
+    if not parent_category:
+        raise HTTPException(status_code=404, detail="Ana kategori bulunamadı")
+    
+    # Create location slug
+    location_slug = create_seo_slug(subcategory_data.location_name)
+    combined_slug = f"{parent_category['slug']}/{location_slug}"
+    
+    # Check if this location already exists for this category
+    existing_subcategory = await db.sub_categories.find_one({
+        "parent_category_id": category_id,
+        "location_slug": location_slug
+    })
+    if existing_subcategory:
+        raise HTTPException(status_code=400, detail="Bu kategori için bu lokasyon zaten mevcut")
+    
+    # Create title if not provided
+    title = subcategory_data.title or f"{parent_category['title']} - {subcategory_data.location_name}"
+    
+    # Create subcategory
+    subcategory = {
+        "id": str(uuid.uuid4()),
+        "parent_category_id": category_id,
+        "parent_category_title": parent_category["title"],
+        "parent_category_slug": parent_category["slug"],
+        "location_name": subcategory_data.location_name,
+        "location_slug": location_slug,
+        "title": title,
+        "slug": combined_slug,
+        "description": subcategory_data.description,
+        "image": subcategory_data.image,
+        "faq": subcategory_data.faq,
+        "meta_title": subcategory_data.meta_title or title,
+        "meta_description": subcategory_data.meta_description,
+        "meta_keywords": subcategory_data.meta_keywords,
+        "is_active": subcategory_data.is_active and parent_category["is_active"],  # Inherit parent status
+        "created_at": datetime.now(timezone.utc)
+    }
+    
+    # Insert subcategory
+    await db.sub_categories.insert_one(subcategory)
+    
+    return SubCategory(**subcategory)
+
+@api_router.get("/admin/subcategories")
+async def admin_get_subcategories(category_id: str = None, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Build query
+    query = {}
+    if category_id:
+        query["parent_category_id"] = category_id
+    
+    # Get subcategories
+    subcategories = await db.sub_categories.find(query).to_list(length=None)
+    
+    result = []
+    for subcategory in subcategories:
+        if "_id" in subcategory:
+            del subcategory["_id"]
+        result.append(SubCategory(**subcategory).dict())
+    
+    return result
+
+@api_router.put("/admin/subcategories/{subcategory_id}", response_model=SubCategory)
+async def admin_update_subcategory(subcategory_id: str, subcategory_data: SubCategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if subcategory exists
+    existing_subcategory = await db.sub_categories.find_one({"id": subcategory_id})
+    if not existing_subcategory:
+        raise HTTPException(status_code=404, detail="Alt kategori bulunamadı")
+    
+    # Get parent category
+    parent_category = await db.new_categories.find_one({"id": existing_subcategory["parent_category_id"]})
+    if not parent_category:
+        raise HTTPException(status_code=404, detail="Ana kategori bulunamadı")
+    
+    # Create new slugs
+    location_slug = create_seo_slug(subcategory_data.location_name)
+    combined_slug = f"{parent_category['slug']}/{location_slug}"
+    
+    # Create title if not provided
+    title = subcategory_data.title or f"{parent_category['title']} - {subcategory_data.location_name}"
+    
+    # Update subcategory
+    updated_data = {
+        "location_name": subcategory_data.location_name,
+        "location_slug": location_slug,
+        "title": title,
+        "slug": combined_slug,
+        "description": subcategory_data.description,
+        "image": subcategory_data.image,
+        "faq": subcategory_data.faq,
+        "meta_title": subcategory_data.meta_title or title,
+        "meta_description": subcategory_data.meta_description,
+        "meta_keywords": subcategory_data.meta_keywords,
+        "is_active": subcategory_data.is_active and parent_category["is_active"],  # Inherit parent status
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await db.sub_categories.update_one(
+        {"id": subcategory_id},
+        {"$set": updated_data}
+    )
+    
+    # Get updated subcategory
+    updated_subcategory = await db.sub_categories.find_one({"id": subcategory_id})
+    return SubCategory(**updated_subcategory)
+
+@api_router.delete("/admin/subcategories/{subcategory_id}")
+async def admin_delete_subcategory(subcategory_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if subcategory exists
+    subcategory = await db.sub_categories.find_one({"id": subcategory_id})
+    if not subcategory:
+        raise HTTPException(status_code=404, detail="Alt kategori bulunamadı")
+    
+    # Delete subcategory
+    await db.sub_categories.delete_one({"id": subcategory_id})
+    
+    return {"message": "Alt kategori başarıyla silindi"}
+
 @api_router.get("/admin/new-categories")
 async def admin_get_new_categories(current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.ADMIN:
