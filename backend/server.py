@@ -88,13 +88,31 @@ def ensure_upload_directory():
     
     return images_dir
 
-async def convert_to_webp(image_data: bytes, quality: int = 95) -> tuple[bytes, tuple[int, int]]:
-    """Convert image to WebP format with high quality"""
+async def convert_to_webp(image_data: bytes, filename: str, quality: int = 85) -> tuple[bytes, tuple[int, int], bool]:
+    """Convert image to WebP format with optimized quality and skip if already WebP"""
     try:
+        # Check if already WebP
+        if filename.lower().endswith('.webp'):
+            # Just get dimensions and return original
+            image = Image.open(io.BytesIO(image_data))
+            width, height = image.size
+            return image_data, (width, height), False  # False = no conversion needed
+        
         # Open image from bytes
         image = Image.open(io.BytesIO(image_data))
+        original_width, original_height = image.size
         
-        # Convert RGBA to RGB if necessary
+        # Optimize large images - resize if too big
+        max_dimension = 2048  # Max width or height
+        if original_width > max_dimension or original_height > max_dimension:
+            # Calculate new dimensions maintaining aspect ratio
+            ratio = min(max_dimension / original_width, max_dimension / original_height)
+            new_width = int(original_width * ratio)
+            new_height = int(original_height * ratio)
+            image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            print(f"Resized image from {original_width}x{original_height} to {new_width}x{new_height}")
+        
+        # Convert RGBA to RGB if necessary (faster method)
         if image.mode in ('RGBA', 'LA'):
             # Create a white background
             background = Image.new('RGB', image.size, (255, 255, 255))
@@ -103,17 +121,23 @@ async def convert_to_webp(image_data: bytes, quality: int = 95) -> tuple[bytes, 
             else:
                 background.paste(image)
             image = background
-        elif image.mode != 'RGB':
+        elif image.mode not in ('RGB', 'L'):  # Support grayscale too
             image = image.convert('RGB')
         
-        # Get dimensions
+        # Get final dimensions
         width, height = image.size
         
-        # Save as WebP
+        # Save as WebP with optimized settings
         output_buffer = io.BytesIO()
-        image.save(output_buffer, format='WEBP', quality=quality, optimize=True)
+        image.save(
+            output_buffer, 
+            format='WEBP', 
+            quality=quality,
+            optimize=True,
+            method=4  # Faster compression method
+        )
         
-        return output_buffer.getvalue(), (width, height)
+        return output_buffer.getvalue(), (width, height), True  # True = conversion done
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")
 
