@@ -220,28 +220,44 @@ const TourDetailPage = () => {
 
   const loadTour = async () => {
     try {
+      console.log('📈 Loading tour:', tourSlug);
+      const startTime = performance.now();
+      
+      // 1. Önce temel tour verisini yükle - bu hızlı olmalı
       const response = await axios.get(`${API}/tours/${tourSlug}`);
-      setTour(response.data);
-      
-      // SEO Optimizasyonu
       const tourData = response.data;
-      updateSEO(tourData);
+      setTour(tourData);
+      setLoading(false); // Tour yüklendikten hemen sonra loading'i kapat
       
-      // Tour yüklendikten sonra tarihleri, yorumları ve favori durumunu yükle
+      console.log(`⚡ Tour basic data loaded in ${performance.now() - startTime}ms`);
+      
+      // 2. SEO güncellemesini async yap - non-blocking
+      setTimeout(() => updateSEO(tourData), 0);
+      
+      // 3. Diğer veriyi paralel yükle - kullanıcı tour'u zaten görebiliyor
       if (tourData.id) {
-        await loadAvailableDates(tourData.id);
-        await loadReviews(tourData.id);
+        const parallelTasks = [
+          loadAvailableDates(tourData.id),
+          loadReviews(tourData.id)
+        ];
+        
+        // User varsa favori durumunu da ekle
         if (user) {
-          await checkIfFavorited(tourData.id);
+          parallelTasks.push(checkIfFavorited(tourData.id));
         }
+        
+        // Hataları catch et ama tour yüklemeyi engellemsin
+        Promise.all(parallelTasks).catch(error => {
+          console.warn('Secondary data loading error (non-critical):', error);
+        });
       }
+      
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
         navigate('/turlar');
         toast.error('Tur bulunamadı');
       }
-    } finally {
       setLoading(false);
     }
   };
