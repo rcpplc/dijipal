@@ -4647,6 +4647,7 @@ const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, loca
         description: subcategory.description || '',
         image: subcategory.image || '',
         faq: subcategory.faq || [],
+        custom_slug: subcategory.custom_slug || '',
         meta_title: subcategory.meta_title || '',
         meta_description: subcategory.meta_description || '',
         meta_keywords: subcategory.meta_keywords || '',
