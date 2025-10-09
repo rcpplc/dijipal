@@ -2427,7 +2427,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
   };
 
-  // Simple upload function
+  // Ultra simple upload function
   const handleSimpleUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
@@ -2441,27 +2441,27 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       });
       
       const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-      console.log('📤 Uploading files to:', `${API}/upload-images`);
+      console.log('📤 Simple upload to:', `${API}/simple-upload`);
       
-      const response = await axios.post(`${API}/upload-images`, formData, {
+      const response = await axios.post(`${API}/simple-upload`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
       
       if (response.data.success) {
-        setUploadedImages(prev => [...prev, ...response.data.files]);
+        // Images come as base64 data URLs - ready to display
+        setUploadedImages(prev => [...prev, ...response.data.images]);
         
-        // Add uploaded image URLs to formData.images as well
-        const imageUrls = response.data.files.map(file => `${process.env.REACT_APP_BACKEND_URL}${file.url}`);
+        // Add to formData as well
+        const imageUrls = response.data.images.map(img => img.url);
         setFormData(prev => ({
           ...prev,
           images: [...prev.images, ...imageUrls]
         }));
         
-        toast.success(`${response.data.count} resim yüklendi`);
-        console.log('✅ Upload success:', response.data.files);
-        console.log('🖼️ Image URLs created:', imageUrls);
+        toast.success(`${response.data.images.length} resim yüklendi`);
+        console.log('✅ Upload success:', response.data.images);
       }
       
     } catch (error) {
