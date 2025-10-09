@@ -3248,51 +3248,62 @@ async def update_expired_tour_dates():
             }
         }
 
+# Simple Test Endpoint
+@api_router.get("/test-upload")
+async def test_upload():
+    """Test if upload endpoint works"""
+    return {"message": "Upload endpoint is working", "success": True}
+
 # Simple Image Upload Endpoint
 @api_router.post("/upload-images")
 async def upload_images(files: List[UploadFile] = File(...)):
     """Ultra simple image upload - no authentication, no processing"""
+    import time
     
-    uploaded_files = []
-    
-    # Create uploads directory
-    upload_dir = Path("uploads")
-    upload_dir.mkdir(exist_ok=True)
-    
-    for file in files:
-        try:
-            # Simple filename with timestamp
-            import time
-            timestamp = int(time.time())
-            filename = f"{timestamp}_{file.filename}"
-            
-            # Save file directly
-            file_path = upload_dir / filename
-            
-            # Read and write file
-            content = await file.read()
-            
-            with open(file_path, 'wb') as f:
-                f.write(content)
-            
-            uploaded_files.append({
-                "filename": file.filename,
-                "stored_name": filename,
-                "url": f"/uploads/{filename}",
-                "size": len(content)
-            })
-            
-            print(f"✅ Uploaded: {filename}")
-            
-        except Exception as e:
-            print(f"❌ Error uploading {file.filename}: {e}")
-            continue
-    
-    return {
-        "success": True,
-        "files": uploaded_files,
-        "count": len(uploaded_files)
-    }
+    try:
+        uploaded_files = []
+        
+        # Create uploads directory
+        upload_dir = Path("uploads")
+        upload_dir.mkdir(exist_ok=True)
+        
+        for file in files:
+            try:
+                # Simple filename with timestamp
+                timestamp = int(time.time())
+                filename = f"{timestamp}_{file.filename}"
+                
+                # Save file directly
+                file_path = upload_dir / filename
+                
+                # Read and write file
+                content = await file.read()
+                
+                with open(file_path, 'wb') as f:
+                    f.write(content)
+                
+                uploaded_files.append({
+                    "filename": file.filename,
+                    "stored_name": filename,
+                    "url": f"/uploads/{filename}",
+                    "size": len(content)
+                })
+                
+                print(f"✅ Uploaded: {filename}")
+                
+            except Exception as e:
+                print(f"❌ Error uploading {file.filename}: {e}")
+                continue
+        
+        return {
+            "success": True,
+            "files": uploaded_files,
+            "count": len(uploaded_files)
+        }
+        
+    except Exception as e:
+        print(f"❌ Upload endpoint error: {e}")
+        return {"success": False, "error": str(e)}
 
 # Old media endpoints removed - using simple upload now
 
