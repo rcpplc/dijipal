@@ -593,12 +593,12 @@ const TourDetailPage = () => {
     });
   };
 
-  const handleShare = async () => {
+  const handleShare = useCallback(async () => {
     if (navigator.share) {
       try {
         await navigator.share({
-          title: tour.title,
-          text: tour.short_description,
+          title: tour?.title || '',
+          text: tour?.short_description || '',
           url: window.location.href,
         });
       } catch (error) {
@@ -609,7 +609,7 @@ const TourDetailPage = () => {
       navigator.clipboard.writeText(window.location.href);
       toast.success('Link panoya kopyalandı!');
     }
-  };
+  }, [tour?.title, tour?.short_description]);
 
   const toggleFavorite = async () => {
     if (!user) {
