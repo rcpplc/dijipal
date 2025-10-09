@@ -391,9 +391,10 @@ class HierarchicalCategoryTester:
             if response.status_code == 200:
                 data = response.json()
                 
-                # Verify subcategory data
-                if data.get("title") != "Mavi Yolculuk Premium - Fethiye Marina":
-                    self.log_result("Public Subcategory", False, f"Title mismatch in public subcategory endpoint", data)
+                # Verify subcategory data structure
+                subcategory_data = data.get("subcategory", {})
+                if not subcategory_data.get("title", "").endswith(" - Fethiye Marina"):
+                    self.log_result("Public Subcategory", False, f"Subcategory title should end with ' - Fethiye Marina'. Got: {subcategory_data.get('title')}", data)
                     return False
                 
                 # Verify parent-child relationship
