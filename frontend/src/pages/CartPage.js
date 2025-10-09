@@ -10,6 +10,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
+import StandardBreadcrumb from '../components/StandardBreadcrumb';
 
 const CartPage = () => {
   const { user, setShowLoginModal } = useAuth();
