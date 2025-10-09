@@ -162,6 +162,7 @@ const ImageGalleryModal = ({
         onTouchStart={onTouchStart}
         onTouchMove={onTouchMove}
         onTouchEnd={onTouchEnd}
+        onClick={(e) => e.stopPropagation()}
       >
         {/* Previous Button */}
         <button
