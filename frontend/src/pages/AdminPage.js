@@ -2461,6 +2461,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
         
         toast.success(`${response.data.count} resim yüklendi`);
         console.log('✅ Upload success:', response.data.files);
+        console.log('🖼️ Image URLs created:', imageUrls);
       }
       
     } catch (error) {
