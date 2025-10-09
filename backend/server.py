@@ -3153,8 +3153,8 @@ async def upload_images(files: List[UploadFile] = File(...)):
     
     try:
         uploaded_files = []
-        # Use the same directory as StaticFiles
-        upload_dir = Path("/tmp/uploads")
+        # Create uploads directory in current path
+        upload_dir = Path("uploads")
         upload_dir.mkdir(exist_ok=True)
         
         for file in files:
