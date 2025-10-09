@@ -18,12 +18,6 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import { createSlug } from '../utils/slug';
 
-// Import modal components from AdminPage_Old.js
-// TODO: These should be moved to separate component files
-const TourModal = React.lazy(() => import('./AdminPage_Old.js').then(module => ({ default: module.TourModal })));
-const LocationModal = React.lazy(() => import('./AdminPage_Old.js').then(module => ({ default: module.LocationModal })));
-const CategoryModal = React.lazy(() => import('./AdminPage_Old.js').then(module => ({ default: module.CategoryModal })));
-
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
