@@ -776,7 +776,7 @@ const TourDetailPage = () => {
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                 />
                 {/* Gallery Overlay Hint */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center pointer-events-none">
                   <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 px-4 py-2 rounded-lg text-sm font-medium text-gray-800 flex items-center space-x-2">
                     <span>📷</span>
                     <span>Galeriye tıklayın</span>
