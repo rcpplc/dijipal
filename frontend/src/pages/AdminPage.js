@@ -2623,12 +2623,10 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
   // Handle subcategory change
   const handleSubcategoryChange = (subcategoryTitle) => {
     setSelectedSubcategory(subcategoryTitle);
-    // Find the subcategory and set location from it
+    // Optional: Pre-fill location if subcategory has a location
     const subcategory = subcategories.find(sub => sub.title === subcategoryTitle);
-    if (subcategory && subcategory.location_name) {
-      setFormData({...formData, location: subcategory.location_name});
-    } else {
-      setFormData({...formData, location: subcategoryTitle}); // Use subcategory title as location for custom subcategories
+    if (subcategory && subcategory.location_name && !formData.location) {
+      setFormData(prev => ({...prev, location: subcategory.location_name}));
     }
   };
 
