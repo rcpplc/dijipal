@@ -643,39 +643,70 @@ const CategoryDetailPage = () => {
         </div>
       )}
 
-      {/* FAQ Section - Full Width */}
+      {/* FAQ Section - Sıkça Sorulan Sorular */}
       {displayCategory.faq && displayCategory.faq.length > 0 && (
-        <div className="bg-gray-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="max-w-4xl mx-auto">
-              <div className="text-center mb-12">
-                <div className="flex items-center justify-center space-x-3 mb-4">
-                  <div className="w-8 h-8 text-blue-600">❓</div>
-                  <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-                    Sıkça Sorulan Sorular
-                  </h2>
+        <div className="bg-gray-50 border-t border-gray-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="text-center mb-16">
+              <div className="flex items-center justify-center space-x-3 mb-6">
+                <div className="p-3 bg-blue-100 rounded-full">
+                  <HelpCircle className="w-8 h-8 text-blue-600" />
                 </div>
-                <p className="text-xl text-gray-600">
-                  {isLocationPage ? categoryData.title : displayCategory.title} hakkında merak ettikleriniz
-                </p>
+              </div>
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+                Sıkça Sorulan Sorular
+              </h2>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                {isLocationPage ? categoryData.title : displayCategory.title} hakkında en çok merak edilen sorular ve cevapları
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="space-y-6">
+                {displayCategory.faq.map((faq, index) => (
+                  <div 
+                    key={index} 
+                    className="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                  >
+                    <details className="group">
+                      <summary className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 rounded-2xl transition-colors duration-200 cursor-pointer list-none">
+                        <span className="font-semibold text-gray-900 text-lg pr-8">
+                          {faq.question}
+                        </span>
+                        <div className="flex-shrink-0 ml-4">
+                          <div className="p-2 bg-blue-50 rounded-full group-open:bg-blue-100 transition-colors duration-200">
+                            <ChevronDown className="w-5 h-5 text-blue-600 group-open:rotate-180 transition-transform duration-300" />
+                          </div>
+                        </div>
+                      </summary>
+                      <div className="px-8 pb-8">
+                        <div className="pt-4 border-t border-gray-100">
+                          <p className="text-gray-700 leading-relaxed text-base">
+                            {faq.answer}
+                          </p>
+                        </div>
+                      </div>
+                    </details>
+                  </div>
+                ))}
               </div>
 
-              <div className="space-y-4">
-                {displayCategory.faq.map((faq, index) => (
-                  <details key={index} className="bg-white border border-gray-200 rounded-xl shadow-sm group">
-                    <summary className="w-full px-6 py-6 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200 cursor-pointer list-none">
-                      <span className="font-semibold text-gray-900 text-lg">
-                        {faq.question}
-                      </span>
-                      <ChevronDown className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform duration-200 flex-shrink-0 ml-4" />
-                    </summary>
-                    <div className="px-6 pb-6">
-                      <p className="text-gray-700 leading-relaxed text-base">
-                        {faq.answer}
-                      </p>
-                    </div>
-                  </details>
-                ))}
+              {/* FAQ CTA Section */}
+              <div className="mt-12 text-center">
+                <div className="bg-blue-600 rounded-2xl p-8">
+                  <h3 className="text-2xl font-bold text-white mb-4">
+                    Başka sorunuz mu var?
+                  </h3>
+                  <p className="text-blue-100 mb-6">
+                    Aklınıza takılan başka sorular varsa bizimle iletişime geçin
+                  </p>
+                  <button
+                    onClick={() => navigate('/contact')}
+                    className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200"
+                  >
+                    İletişime Geç
+                  </button>
+                </div>
               </div>
             </div>
           </div>
