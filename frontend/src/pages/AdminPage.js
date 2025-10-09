@@ -2451,6 +2451,14 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       
       if (response.data.success) {
         setUploadedImages(prev => [...prev, ...response.data.files]);
+        
+        // Add uploaded image URLs to formData.images as well
+        const imageUrls = response.data.files.map(file => `${process.env.REACT_APP_BACKEND_URL}${file.url}`);
+        setFormData(prev => ({
+          ...prev,
+          images: [...prev.images, ...imageUrls]
+        }));
+        
         toast.success(`${response.data.count} resim yüklendi`);
         console.log('✅ Upload success:', response.data.files);
       }
