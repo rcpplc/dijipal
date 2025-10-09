@@ -395,7 +395,7 @@ const HomePage = () => {
           {/* View All Categories */}
           <div className="text-center mt-12">
             <Link
-              to="/tours"
+              to="/turlar"
               className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-semibold transition-colors duration-200"
             >
               <span>Tüm Turları Görüntüle</span>
