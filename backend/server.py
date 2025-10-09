@@ -1571,6 +1571,10 @@ async def admin_update_subcategory(subcategory_id: str, subcategory_data: SubCat
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
+    # Validate input - either location_name or title must be provided
+    if not subcategory_data.location_name and not subcategory_data.title:
+        raise HTTPException(status_code=400, detail="Lokasyon adı veya özel başlık belirtilmelidir")
+    
     # Check if subcategory exists
     existing_subcategory = await db.sub_categories.find_one({"id": subcategory_id})
     if not existing_subcategory:
@@ -1581,12 +1585,39 @@ async def admin_update_subcategory(subcategory_id: str, subcategory_data: SubCat
     if not parent_category:
         raise HTTPException(status_code=404, detail="Ana kategori bulunamadı")
     
-    # Create new slugs
-    location_slug = create_seo_slug(subcategory_data.location_name)
-    combined_slug = f"{parent_category['slug']}/{location_slug}"
+    # Create slug based on custom_slug or location/title
+    if subcategory_data.custom_slug:
+        # Use custom slug
+        sub_slug = subcategory_data.custom_slug.strip().lower()
+        if not re.match(r'^[a-z0-9-]+$', sub_slug):
+            raise HTTPException(status_code=400, detail="Özel URL sadece küçük harf, rakam ve tire içerebilir")
+        combined_slug = f"{parent_category['slug']}/{sub_slug}"
+        location_slug = None
+    elif subcategory_data.location_name:
+        # Use location-based slug
+        location_slug = create_seo_slug(subcategory_data.location_name)
+        combined_slug = f"{parent_category['slug']}/{location_slug}"
+    else:
+        # Use title-based slug
+        location_slug = create_seo_slug(subcategory_data.title)
+        combined_slug = f"{parent_category['slug']}/{location_slug}"
     
-    # Create title if not provided
-    title = subcategory_data.title or f"{parent_category['title']} - {subcategory_data.location_name}"
+    # Check if new slug conflicts with existing subcategories (excluding current)
+    if combined_slug != existing_subcategory["slug"]:
+        conflicting_subcategory = await db.sub_categories.find_one({
+            "slug": combined_slug,
+            "id": {"$ne": subcategory_id}
+        })
+        if conflicting_subcategory:
+            raise HTTPException(status_code=400, detail="Bu URL zaten kullanımda, farklı bir URL deneyin")
+    
+    # Create title
+    if subcategory_data.title:
+        title = subcategory_data.title
+    elif subcategory_data.location_name:
+        title = f"{parent_category['title']} - {subcategory_data.location_name}"
+    else:
+        title = parent_category['title']
     
     # Update subcategory
     updated_data = {
@@ -1594,6 +1625,7 @@ async def admin_update_subcategory(subcategory_id: str, subcategory_data: SubCat
         "location_slug": location_slug,
         "title": title,
         "slug": combined_slug,
+        "custom_slug": subcategory_data.custom_slug,
         "description": subcategory_data.description,
         "image": subcategory_data.image,
         "faq": subcategory_data.faq,
