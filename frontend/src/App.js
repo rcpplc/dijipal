@@ -252,6 +252,7 @@ function App() {
               <Route path="/privacy" element={<PrivacyPage />} />
               <Route path="/cookies" element={<CookiesPage />} />
               <Route path="/kvkk" element={<KVKKPage />} />
+              <Route path="/test-upload" element={<TestUploadPage />} />
             </Routes>
           </main>
           
