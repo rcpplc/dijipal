@@ -3301,28 +3301,7 @@ async def update_expired_tour_dates():
 
 # Old media endpoints removed - using simple upload now
 
-# File serve endpoint with different route
-@app.get("/api/serve/{filename}")
-async def serve_file(filename: str):
-    """Serve uploaded files with proper content type"""
-    file_path = Path("/tmp/uploads") / filename
-    
-    if not file_path.exists():
-        raise HTTPException(status_code=404, detail="File not found")
-    
-    # Determine proper content type
-    if filename.lower().endswith(('.jpg', '.jpeg')):
-        media_type = "image/jpeg"
-    elif filename.lower().endswith('.png'):
-        media_type = "image/png"
-    elif filename.lower().endswith('.gif'):
-        media_type = "image/gif"
-    elif filename.lower().endswith('.webp'):
-        media_type = "image/webp"
-    else:
-        media_type = "image/jpeg"  # Default
-    
-    return FileResponse(file_path, media_type=media_type)
+# Use StaticFiles for serving - simpler and more reliable
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
