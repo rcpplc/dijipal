@@ -1370,6 +1370,305 @@ async def admin_delete_category(category_id: str, current_user: User = Depends(g
     await db.categories.delete_one({"id": category_id})
     return {"message": "Category deleted successfully"}
 
+# New Category System with Location Combinations
+class NewCategoryCreate(BaseModel):
+    title: str
+    description: Optional[str] = None
+    image: Optional[str] = None
+    faq: List[Dict[str, str]] = []  # [{"question": "...", "answer": "..."}]
+    locations: List[str] = []  # Location names to associate with this category
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    meta_keywords: Optional[str] = None
+    is_active: bool = True
+
+class NewCategory(BaseModel):
+    id: str
+    title: str
+    description: Optional[str] = None
+    image: Optional[str] = None
+    faq: List[Dict[str, str]] = []
+    slug: str
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    meta_keywords: Optional[str] = None
+    is_active: bool = True
+    created_at: datetime
+    updated_at: Optional[datetime] = None
+
+class CategoryLocation(BaseModel):
+    id: str
+    category_id: str
+    location_name: str
+    location_slug: str
+    combined_slug: str  # category-slug/location-slug
+    is_active: bool = True
+    created_at: datetime
+
+@api_router.post("/admin/new-categories", response_model=NewCategory)
+async def admin_create_new_category(category_data: NewCategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Create category slug from title
+    category_slug = create_seo_slug(category_data.title)
+    
+    # Create new category
+    category = {
+        "id": str(uuid.uuid4()),
+        "title": category_data.title,
+        "description": category_data.description,
+        "image": category_data.image,
+        "faq": category_data.faq,
+        "slug": category_slug,
+        "meta_title": category_data.meta_title or category_data.title,
+        "meta_description": category_data.meta_description,
+        "meta_keywords": category_data.meta_keywords,
+        "is_active": category_data.is_active,
+        "created_at": datetime.now(timezone.utc)
+    }
+    
+    # Insert category
+    await db.new_categories.insert_one(category)
+    
+    # Create category-location combinations
+    for location_name in category_data.locations:
+        location_slug = create_seo_slug(location_name)
+        combined_slug = f"{category_slug}/{location_slug}"
+        
+        category_location = {
+            "id": str(uuid.uuid4()),
+            "category_id": category["id"],
+            "location_name": location_name,
+            "location_slug": location_slug,
+            "combined_slug": combined_slug,
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc)
+        }
+        
+        await db.category_locations.insert_one(category_location)
+    
+    return NewCategory(**category)
+
+@api_router.get("/admin/new-categories")
+async def admin_get_new_categories(current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Get all categories
+    categories = await db.new_categories.find().to_list(length=None)
+    
+    # Get location combinations for each category
+    result = []
+    for category in categories:
+        if "_id" in category:
+            del category["_id"]
+            
+        # Get associated locations
+        locations = await db.category_locations.find({"category_id": category["id"]}).to_list(length=None)
+        
+        category_data = NewCategory(**category).dict()
+        category_data["locations"] = []
+        
+        for loc in locations:
+            if "_id" in loc:
+                del loc["_id"]
+            category_data["locations"].append(CategoryLocation(**loc).dict())
+        
+        result.append(category_data)
+    
+    return result
+
+@api_router.put("/admin/new-categories/{category_id}", response_model=NewCategory)
+async def admin_update_new_category(category_id: str, category_data: NewCategoryCreate, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if category exists
+    existing_category = await db.new_categories.find_one({"id": category_id})
+    if not existing_category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    # Update category slug if title changed
+    new_slug = create_seo_slug(category_data.title)
+    
+    # Update category
+    updated_data = {
+        "title": category_data.title,
+        "description": category_data.description,
+        "image": category_data.image,
+        "faq": category_data.faq,
+        "slug": new_slug,
+        "meta_title": category_data.meta_title or category_data.title,
+        "meta_description": category_data.meta_description,
+        "meta_keywords": category_data.meta_keywords,
+        "is_active": category_data.is_active,
+        "updated_at": datetime.now(timezone.utc)
+    }
+    
+    await db.new_categories.update_one(
+        {"id": category_id},
+        {"$set": updated_data}
+    )
+    
+    # Delete existing location combinations
+    await db.category_locations.delete_many({"category_id": category_id})
+    
+    # Create new location combinations
+    for location_name in category_data.locations:
+        location_slug = create_seo_slug(location_name)
+        combined_slug = f"{new_slug}/{location_slug}"
+        
+        category_location = {
+            "id": str(uuid.uuid4()),
+            "category_id": category_id,
+            "location_name": location_name,
+            "location_slug": location_slug,
+            "combined_slug": combined_slug,
+            "is_active": True,
+            "created_at": datetime.now(timezone.utc)
+        }
+        
+        await db.category_locations.insert_one(category_location)
+    
+    # Get updated category
+    updated_category = await db.new_categories.find_one({"id": category_id})
+    return NewCategory(**updated_category)
+
+@api_router.delete("/admin/new-categories/{category_id}")
+async def admin_delete_new_category(category_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if category exists
+    category = await db.new_categories.find_one({"id": category_id})
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    # Delete category and its location combinations
+    await db.new_categories.delete_one({"id": category_id})
+    await db.category_locations.delete_many({"category_id": category_id})
+    
+    return {"message": "Category and all its location combinations deleted successfully"}
+
+# Frontend Category APIs
+@api_router.get("/categories/{category_slug}")
+async def get_category_by_slug(category_slug: str):
+    """Get category details by slug"""
+    category = await db.new_categories.find_one({"slug": category_slug, "is_active": True})
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    if "_id" in category:
+        del category["_id"]
+    
+    # Get related tours for this category
+    tours = await db.tours.find({
+        "category": {"$regex": category["title"], "$options": "i"},
+        "status": "active"
+    }).limit(20).to_list(length=None)
+    
+    # Add tour dates and pricing for each tour
+    for tour in tours:
+        if "_id" in tour:
+            del tour["_id"]
+            
+        tour_dates = await db.tour_dates.find({
+            "tour_id": tour["id"],
+            "is_active": True
+        }).to_list(length=None)
+        
+        if tour_dates:
+            prices = []
+            for td in tour_dates:
+                if td.get("single_cabin_price") and td["single_cabin_price"] > 0:
+                    prices.append(td["single_cabin_price"])
+                if td.get("person_price") and td["person_price"] > 0:
+                    prices.append(td["person_price"])
+                if td.get("total_reservation_price") and td["total_reservation_price"] > 0:
+                    prices.append(td["total_reservation_price"])
+            
+            tour["minimum_price"] = min(prices) if prices else 0
+        else:
+            tour["minimum_price"] = tour.get("base_price", 0)
+    
+    category_data = NewCategory(**category).dict()
+    category_data["tours"] = tours
+    
+    return category_data
+
+@api_router.get("/categories/{category_slug}/{location_slug}")
+async def get_category_location_page(category_slug: str, location_slug: str):
+    """Get category+location combination page"""
+    combined_slug = f"{category_slug}/{location_slug}"
+    
+    # Find the category-location combination
+    category_location = await db.category_locations.find_one({
+        "combined_slug": combined_slug,
+        "is_active": True
+    })
+    
+    if not category_location:
+        raise HTTPException(status_code=404, detail="Category location combination not found")
+    
+    # Get the category details
+    category = await db.new_categories.find_one({
+        "id": category_location["category_id"],
+        "is_active": True
+    })
+    
+    if not category:
+        raise HTTPException(status_code=404, detail="Category not found")
+    
+    if "_id" in category:
+        del category["_id"]
+    if "_id" in category_location:
+        del category_location["_id"]
+    
+    # Get related tours for this category and location
+    tours = await db.tours.find({
+        "category": {"$regex": category["title"], "$options": "i"},
+        "location": {"$regex": category_location["location_name"], "$options": "i"},
+        "status": "active"
+    }).limit(20).to_list(length=None)
+    
+    # Add tour dates and pricing for each tour
+    for tour in tours:
+        if "_id" in tour:
+            del tour["_id"]
+            
+        tour_dates = await db.tour_dates.find({
+            "tour_id": tour["id"],
+            "is_active": True
+        }).to_list(length=None)
+        
+        if tour_dates:
+            prices = []
+            for td in tour_dates:
+                if td.get("single_cabin_price") and td["single_cabin_price"] > 0:
+                    prices.append(td["single_cabin_price"])
+                if td.get("person_price") and td["person_price"] > 0:
+                    prices.append(td["person_price"])
+                if td.get("total_reservation_price") and td["total_reservation_price"] > 0:
+                    prices.append(td["total_reservation_price"])
+            
+            tour["minimum_price"] = min(prices) if prices else 0
+        else:
+            tour["minimum_price"] = tour.get("base_price", 0)
+    
+    # Combine category and location data
+    result = {
+        "category": NewCategory(**category).dict(),
+        "location": CategoryLocation(**category_location).dict(),
+        "page_title": f"{category['title']} - {category_location['location_name']}",
+        "page_description": f"{category_location['location_name']} bölgesindeki {category['title'].lower()} turları",
+        "meta_title": f"{category['title']} {category_location['location_name']} | TurPlatform",
+        "meta_description": f"{category_location['location_name']} bölgesindeki en iyi {category['title'].lower()} turlarını keşfedin",
+        "tours": tours
+    }
+    
+    return result
+
 # Admin Users Management
 @api_router.get("/admin/users", response_model=List[User])
 async def admin_get_users(current_user: User = Depends(get_current_user)):
