@@ -806,12 +806,25 @@ const TourDetailPage = () => {
                   {images.map((image, index) => (
                     <button
                       key={index}
-                      onClick={() => setSelectedImage(index)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        if (e.detail === 1) {
+                          // Single click - change main image
+                          setSelectedImage(index);
+                        }
+                      }}
+                      onDoubleClick={(e) => {
+                        e.stopPropagation();
+                        // Double click - open gallery
+                        setGalleryStartIndex(index);
+                        setIsGalleryOpen(true);
+                      }}
                       className={`flex-shrink-0 w-20 h-16 rounded-lg overflow-hidden transition-all duration-200 ${
                         selectedImage === index 
                           ? 'ring-2 ring-blue-500' 
-                          : 'hover:opacity-80'
+                          : 'hover:opacity-80 hover:scale-105'
                       }`}
+                      title="Tek tık: Ana resim değiştir | Çift tık: Galeri aç"
                     >
                       <img
                         src={image}
