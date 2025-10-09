@@ -586,10 +586,11 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Cron Job Endpoint for Tour Dates Status Update"
-  stuck_tasks: []
+    - "Complete E2E Reservation System Testing (Turkish Review Request)"
+  stuck_tasks:
+    - "Complete E2E Reservation System Testing (Turkish Review Request)"
   test_all: false
-  test_priority: "high_first"
+  test_priority: "stuck_first"
 
 agent_communication:
   - agent: "testing"
