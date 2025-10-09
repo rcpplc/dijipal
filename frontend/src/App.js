@@ -190,6 +190,10 @@ function App() {
               {/* New Categories Page */}
               <Route path="/tum-kategoriler" element={<TumKategorilerPage />} />
               
+              {/* New Category System Routes */}
+              <Route path="/:categorySlug" element={<CategoryDetailPage />} />
+              <Route path="/:categorySlug/:locationSlug" element={<CategoryDetailPage />} />
+              
               {/* Old Category Redirects - 301 SEO Redirect */}
               <Route path="/category/:category" element={<Navigate to="/tum-kategoriler" replace />} />
               <Route path="/category" element={<Navigate to="/tum-kategoriler" replace />} />
