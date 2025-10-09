@@ -2102,49 +2102,86 @@ const AdminPage = () => {
                               + Alt Kategori Ekle
                             </button>
                           </div>
-                          <div className="space-y-3">
+                          <div className="space-y-4">
                             {category.subcategories.map((subcategory) => (
-                              <div key={subcategory.id} className="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-200">
-                                <div className="flex items-start justify-between">
-                                  <div className="flex-1">
-                                    <div className="flex items-center space-x-2">
-                                      <h5 className="font-medium text-gray-900 text-sm">
-                                        {subcategory.location_name || 'Özel Başlık'}
-                                      </h5>
-                                      {!subcategory.location_name && (
-                                        <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs">
-                                          Özel
-                                        </span>
+                              <div key={subcategory.id} className="bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow duration-200">
+                                {/* Header */}
+                                <div className="p-4 border-b border-gray-100">
+                                  <div className="flex items-start justify-between">
+                                    <div className="flex-1">
+                                      <div className="flex items-center space-x-2 mb-2">
+                                        <h5 className="font-semibold text-gray-900 text-sm">
+                                          {subcategory.location_name || 'Özel Başlık'}
+                                        </h5>
+                                        {!subcategory.location_name && (
+                                          <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs font-medium">
+                                            Özel
+                                          </span>
+                                        )}
+                                        <span className={`w-2 h-2 rounded-full ${
+                                          subcategory.is_active ? 'bg-green-400' : 'bg-red-400'
+                                        }`}></span>
+                                      </div>
+                                      
+                                      {/* Title */}
+                                      <div className="mb-2">
+                                        <h6 className="text-sm font-medium text-gray-800 mb-1">Başlık:</h6>
+                                        <p className="text-sm text-gray-700">{subcategory.title}</p>
+                                      </div>
+
+                                      {/* Description */}
+                                      {subcategory.description && (
+                                        <div className="mb-2">
+                                          <h6 className="text-sm font-medium text-gray-800 mb-1">Açıklama:</h6>
+                                          <p className="text-sm text-gray-600 line-clamp-2">{subcategory.description}</p>
+                                        </div>
                                       )}
-                                      <span className={`w-2 h-2 rounded-full ${
-                                        subcategory.is_active ? 'bg-green-400' : 'bg-red-400'
-                                      }`}></span>
+
+                                      {/* URL */}
+                                      <div>
+                                        <h6 className="text-sm font-medium text-gray-800 mb-1">URL:</h6>
+                                        <code className="text-xs text-blue-600 bg-blue-50 px-2 py-1 rounded">
+                                          /{subcategory.slug}
+                                        </code>
+                                      </div>
                                     </div>
-                                    <p className="text-xs text-gray-600 mt-1">{subcategory.title}</p>
-                                    <code className="text-xs text-gray-500 bg-white px-2 py-0.5 rounded mt-1 inline-block">
-                                      /{subcategory.slug}
-                                    </code>
-                                  </div>
-                                  <div className="flex items-center space-x-1">
-                                    <button
-                                      onClick={() => openSubCategoryModal(category.id, subcategory)}
-                                      className="p-1 text-gray-400 hover:text-blue-600 rounded"
-                                      title="Düzenle"
-                                    >
-                                      <Edit className="w-3 h-3" />
-                                    </button>
-                                    <button
-                                      onClick={() => {
-                                        setSelectedSubCategory(subcategory);
-                                        setShowDeleteSubCategoryConfirm(true);
-                                      }}
-                                      className="p-1 text-gray-400 hover:text-red-600 rounded"
-                                      title="Sil"
-                                    >
-                                      <Trash2 className="w-3 h-3" />
-                                    </button>
+                                    
+                                    <div className="flex items-center space-x-2 ml-4">
+                                      <button
+                                        onClick={() => openSubCategoryModal(category.id, subcategory)}
+                                        className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                        title="Düzenle"
+                                      >
+                                        <Edit className="w-4 h-4" />
+                                      </button>
+                                      <button
+                                        onClick={() => {
+                                          setSelectedSubCategory(subcategory);
+                                          setShowDeleteSubCategoryConfirm(true);
+                                        }}
+                                        className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                                        title="Sil"
+                                      >
+                                        <Trash2 className="w-4 h-4" />
+                                      </button>
+                                    </div>
                                   </div>
                                 </div>
+
+                                {/* Meta Info Footer */}
+                                {(subcategory.meta_title || subcategory.meta_description) && (
+                                  <div className="px-4 py-3 bg-gray-50 rounded-b-lg">
+                                    <h6 className="text-xs font-medium text-gray-700 mb-2">SEO Bilgileri:</h6>
+                                    <div className="text-xs text-gray-600 space-y-1">
+                                      {subcategory.meta_title && (
+                                        <p><span className="font-medium">Title:</span> {subcategory.meta_title}</p>
+                                      )}
+                                      {subcategory.meta_description && (
+                                        <p><span className="font-medium">Description:</span> {subcategory.meta_description}</p>
+                                      )}
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             ))}
                           </div>
