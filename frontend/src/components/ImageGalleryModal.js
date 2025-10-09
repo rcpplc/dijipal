@@ -199,13 +199,15 @@ const ImageGalleryModal = ({
         <div className="bg-black bg-opacity-50 rounded-lg p-4">
           <div className="flex items-center space-x-2">
             {/* Left Scroll Arrow */}
-            {thumbnailStartIndex > 0 && (
+            {thumbnailStartIndex > 0 ? (
               <button
                 onClick={() => scrollThumbnails('left')}
-                className="text-white hover:text-gray-300 p-1"
+                className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200"
               >
-                <ChevronLeft className="w-4 h-4" />
+                <ChevronLeft className="w-5 h-5" />
               </button>
+            ) : (
+              <div className="w-9 h-9"></div>
             )}
 
             {/* Thumbnails */}
