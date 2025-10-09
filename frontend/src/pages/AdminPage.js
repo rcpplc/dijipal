@@ -4893,7 +4893,6 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
     description: '',
     image: '',
     faq: [],
-    locations: [],
     meta_title: '',
     meta_description: '',
     meta_keywords: '',
