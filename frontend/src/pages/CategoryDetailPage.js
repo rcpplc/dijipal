@@ -159,12 +159,15 @@ const CategoryDetailPage = () => {
     try {
       const params = new URLSearchParams();
       
-      // Add category/location filters
+      // Add category/location filters - try multiple parameter names
       if (categorySlug) {
         params.append('category', categorySlug);
+        params.append('category_slug', categorySlug);
+        params.append('type', categorySlug);
       }
       if (locationSlug) {
         params.append('location', locationSlug);
+        params.append('location_slug', locationSlug);
       }
       
       // Add user filters
@@ -174,17 +177,52 @@ const CategoryDetailPage = () => {
         }
       });
 
+      console.log('CategoryDetail - Loading tours with params:', params.toString());
       const response = await axios.get(`${API}/tours?${params.toString()}`);
       
-      if (response.data && Array.isArray(response.data)) {
-        setTours(response.data);
+      if (response.data) {
+        if (Array.isArray(response.data)) {
+          setTours(response.data);
+        } else if (response.data.tours && Array.isArray(response.data.tours)) {
+          setTours(response.data.tours);
+        } else {
+          setTours([]);
+        }
       } else {
         setTours([]);
       }
 
     } catch (error) {
       console.error('Error loading tours:', error);
-      setTours([]);
+      
+      // Fallback: Load all tours and filter on frontend
+      try {
+        const fallbackResponse = await axios.get(`${API}/tours`);
+        if (fallbackResponse.data && Array.isArray(fallbackResponse.data)) {
+          let filteredTours = fallbackResponse.data;
+          
+          // Filter by category on frontend
+          if (categorySlug) {
+            filteredTours = filteredTours.filter(tour => 
+              (tour.category && tour.category.toLowerCase().includes(categorySlug.toLowerCase())) ||
+              (tour.type && tour.type.toLowerCase().includes(categorySlug.toLowerCase()))
+            );
+          }
+          
+          // Filter by location on frontend
+          if (locationSlug) {
+            filteredTours = filteredTours.filter(tour => 
+              tour.location && tour.location.toLowerCase().includes(locationSlug.toLowerCase())
+            );
+          }
+          
+          setTours(filteredTours);
+        } else {
+          setTours([]);
+        }
+      } catch (fallbackError) {
+        setTours([]);
+      }
     }
   };
 
