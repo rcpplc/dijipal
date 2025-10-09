@@ -2262,16 +2262,6 @@ const AdminPage = () => {
         </div>
       )}
 
-      {/* Category Modal */}
-      {showCategoryModal && (
-        <CategoryModal
-          category={editingCategory}
-          isEdit={!!editingCategory}
-          onClose={closeCategoryModal}
-          onSave={handleCategorySaved}
-        />
-      )}
-
       {/* New Category System Modal */}
       <NewCategoryModal
         isOpen={showNewCategoryModal}
