@@ -1529,6 +1529,7 @@ async def admin_create_subcategory(category_id: str, subcategory_data: SubCatego
         "location_slug": location_slug,
         "title": title,
         "slug": combined_slug,
+        "custom_slug": subcategory_data.custom_slug,
         "description": subcategory_data.description,
         "image": subcategory_data.image,
         "faq": subcategory_data.faq,
