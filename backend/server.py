@@ -1427,6 +1427,7 @@ class SubCategory(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime] = None
 
+# MAIN CATEGORY MANAGEMENT
 @api_router.post("/admin/new-categories", response_model=NewCategory)
 async def admin_create_new_category(category_data: NewCategoryCreate, current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.ADMIN:
@@ -1435,7 +1436,12 @@ async def admin_create_new_category(category_data: NewCategoryCreate, current_us
     # Create category slug from title
     category_slug = create_seo_slug(category_data.title)
     
-    # Create new category
+    # Check if slug already exists
+    existing_category = await db.new_categories.find_one({"slug": category_slug})
+    if existing_category:
+        raise HTTPException(status_code=400, detail="Bu kategoriye ait slug zaten mevcut")
+    
+    # Create new main category
     category = {
         "id": str(uuid.uuid4()),
         "title": category_data.title,
@@ -1450,25 +1456,8 @@ async def admin_create_new_category(category_data: NewCategoryCreate, current_us
         "created_at": datetime.now(timezone.utc)
     }
     
-    # Insert category
+    # Insert main category
     await db.new_categories.insert_one(category)
-    
-    # Create category-location combinations
-    for location_name in category_data.locations:
-        location_slug = create_seo_slug(location_name)
-        combined_slug = f"{category_slug}/{location_slug}"
-        
-        category_location = {
-            "id": str(uuid.uuid4()),
-            "category_id": category["id"],
-            "location_name": location_name,
-            "location_slug": location_slug,
-            "combined_slug": combined_slug,
-            "is_active": True,
-            "created_at": datetime.now(timezone.utc)
-        }
-        
-        await db.category_locations.insert_one(category_location)
     
     return NewCategory(**category)
 
