@@ -1667,8 +1667,22 @@ async def admin_update_new_category(category_id: str, category_data: NewCategory
     if not existing_category:
         raise HTTPException(status_code=404, detail="Kategori bulunamadı")
     
-    # Update category slug if title changed
-    new_slug = create_seo_slug(category_data.title)
+    # Update category slug
+    if category_data.custom_slug:
+        new_slug = category_data.custom_slug.strip().lower()
+        if not re.match(r'^[a-z0-9-]+$', new_slug):
+            raise HTTPException(status_code=400, detail="Özel URL sadece küçük harf, rakam ve tire içerebilir")
+    else:
+        new_slug = create_seo_slug(category_data.title)
+    
+    # Check if new slug conflicts with existing categories (excluding current)
+    if new_slug != existing_category["slug"]:
+        conflicting_category = await db.new_categories.find_one({
+            "slug": new_slug,
+            "id": {"$ne": category_id}
+        })
+        if conflicting_category:
+            raise HTTPException(status_code=400, detail="Bu URL zaten kullanımda, farklı bir URL deneyin")
     
     # Update main category
     updated_data = {
