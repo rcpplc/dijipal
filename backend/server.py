@@ -78,29 +78,7 @@ def create_seo_slug(text: str) -> str:
     
     return text
 
-def ensure_upload_directory():
-    """Ensure upload directories exist"""
-    upload_dir = Path("uploads")
-    images_dir = upload_dir / "images"
-    
-    upload_dir.mkdir(exist_ok=True)
-    images_dir.mkdir(exist_ok=True)
-    
-    return images_dir
-
-def get_file_extension(filename: str) -> str:
-    """Simply get proper file extension - ZERO processing"""
-    # Determine proper file extension
-    if filename.lower().endswith(('.jpg', '.jpeg')):
-        return '.jpg'
-    elif filename.lower().endswith('.png'):
-        return '.png'
-    elif filename.lower().endswith('.webp'):
-        return '.webp'
-    elif filename.lower().endswith('.gif'):
-        return '.gif'
-    else:
-        return '.jpg'  # Default fallback
+# Removed complex utility functions - keeping it simple
 
 # Create the main app
 app = FastAPI(title="Paket Tur Satış Platformu", version="1.0.0")
