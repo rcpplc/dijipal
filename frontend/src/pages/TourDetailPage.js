@@ -784,7 +784,6 @@ const TourDetailPage = () => {
     );
   }
 
-  const images = tour?.images && tour.images.length > 0 ? tour.images : ['/placeholder-tour.jpg'];
   const currentPrice = selectedDate ? selectedDate.price : tour.base_price;
 
   return (
