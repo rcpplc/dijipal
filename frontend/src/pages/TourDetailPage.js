@@ -2278,6 +2278,14 @@ const TourDetailPage = () => {
 
       {/* Add bottom padding to prevent content overlap with fixed bar on mobile */}
       <div className="h-20 lg:hidden"></div>
+
+      {/* Image Gallery Modal */}
+      <ImageGalleryModal
+        images={images}
+        isOpen={isGalleryOpen}
+        onClose={() => setIsGalleryOpen(false)}
+        initialIndex={galleryStartIndex}
+      />
     </div>
   );
 };
