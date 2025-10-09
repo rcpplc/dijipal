@@ -794,6 +794,12 @@ const TourDetailPage = () => {
                   src={images[selectedImage]}
                   alt={tour.title}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                  loading="lazy"
+                  onLoad={() => console.log('📸 Main image loaded')}
+                  onError={(e) => {
+                    console.warn('📸 Main image failed to load');
+                    e.target.style.display = 'none';
+                  }}
                 />
                 {/* Gallery Overlay Hint */}
                 <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center pointer-events-none">
