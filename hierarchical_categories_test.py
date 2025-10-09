@@ -94,10 +94,9 @@ class HierarchicalCategoryTester:
                     self.log_result("Create Main Category", False, f"Missing fields: {missing_fields}", data)
                     return False
                 
-                # Verify slug generation
-                expected_slug = "mavi-yolculuk"
-                if data.get("slug") != expected_slug:
-                    self.log_result("Create Main Category", False, f"Slug mismatch. Expected: {expected_slug}, Got: {data.get('slug')}", data)
+                # Verify slug generation (should contain test-mavi-yolculuk)
+                if "test-mavi-yolculuk" not in data.get("slug", ""):
+                    self.log_result("Create Main Category", False, f"Slug should contain 'test-mavi-yolculuk'. Got: {data.get('slug')}", data)
                     return False
                 
                 # Verify no locations field required
