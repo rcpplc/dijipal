@@ -2551,6 +2551,16 @@ const AdminPage = () => {
         </div>
       )}
 
+      {/* Sub Category Modal */}
+      <SubCategoryModal
+        isOpen={showSubCategoryModal}
+        onClose={closeSubCategoryModal}
+        subcategory={editingSubCategory}
+        parentCategoryId={currentParentCategoryId}
+        locations={locations}
+        onSave={handleSubCategorySaved}
+      />
+
       {/* Category Delete Confirmation Modal */}
       {showDeleteCategoryConfirm && selectedCategory && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
