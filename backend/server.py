@@ -1437,13 +1437,19 @@ async def admin_create_new_category(category_data: NewCategoryCreate, current_us
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    # Create category slug from title
-    category_slug = create_seo_slug(category_data.title)
+    # Create category slug - use custom_slug if provided, otherwise generate from title
+    if category_data.custom_slug:
+        category_slug = category_data.custom_slug.strip().lower()
+        # Validate custom slug format
+        if not re.match(r'^[a-z0-9-]+$', category_slug):
+            raise HTTPException(status_code=400, detail="Özel URL sadece küçük harf, rakam ve tire içerebilir")
+    else:
+        category_slug = create_seo_slug(category_data.title)
     
     # Check if slug already exists
     existing_category = await db.new_categories.find_one({"slug": category_slug})
     if existing_category:
-        raise HTTPException(status_code=400, detail="Bu kategoriye ait slug zaten mevcut")
+        raise HTTPException(status_code=400, detail="Bu URL zaten kullanımda, farklı bir URL deneyin")
     
     # Create new main category
     category = {
