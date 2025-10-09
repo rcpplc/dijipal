@@ -3147,15 +3147,12 @@ app.include_router(api_router)
 # Upload endpoints - added after router
 @app.post("/api/upload-images")
 async def upload_images(files: List[UploadFile] = File(...)):
-    """Simple image upload endpoint"""
+    """Simple image upload endpoint with base64 embedding"""
     import time
-    import urllib.parse
+    import base64
     
     try:
         uploaded_files = []
-        # Create uploads directory in current path
-        upload_dir = Path("uploads")
-        upload_dir.mkdir(exist_ok=True)
         
         for file in files:
             timestamp = int(time.time())
@@ -3163,20 +3160,30 @@ async def upload_images(files: List[UploadFile] = File(...)):
             # Clean filename - remove special characters and spaces
             clean_filename = re.sub(r'[^a-zA-Z0-9._-]', '_', file.filename)
             filename = f"{timestamp}_{clean_filename}"
-            file_path = upload_dir / filename
             
+            # Read file content
             content = await file.read()
-            with open(file_path, 'wb') as f:
-                f.write(content)
+            
+            # Create base64 data URL for immediate display
+            content_type = "image/jpeg"  # Default
+            if filename.lower().endswith('.png'):
+                content_type = "image/png"
+            elif filename.lower().endswith('.gif'):
+                content_type = "image/gif"
+            elif filename.lower().endswith('.webp'):
+                content_type = "image/webp"
+            
+            base64_content = base64.b64encode(content).decode('utf-8')
+            data_url = f"data:{content_type};base64,{base64_content}"
             
             uploaded_files.append({
                 "filename": file.filename,
                 "stored_name": filename,
-                "url": f"/files/{filename}",
+                "url": data_url,  # Direct base64 data URL
                 "size": len(content)
             })
             
-            print(f"✅ Uploaded: {filename} to {file_path}")
+            print(f"✅ Uploaded: {filename} ({len(content)} bytes) as base64")
         
         return {
             "success": True,
