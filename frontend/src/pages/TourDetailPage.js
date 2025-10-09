@@ -763,12 +763,21 @@ const TourDetailPage = () => {
           <div className="lg:col-span-2">
             {/* Image Gallery */}
             <div className="relative mb-8">
-              <div className="aspect-video rounded-xl overflow-hidden">
+              <div className="aspect-video rounded-xl overflow-hidden cursor-pointer" onClick={() => {
+                setGalleryStartIndex(selectedImage);
+                setIsGalleryOpen(true);
+              }}>
                 <img
                   src={images[selectedImage]}
                   alt={tour.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
                 />
+                {/* Gallery Overlay Hint */}
+                <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center">
+                  <div className="opacity-0 hover:opacity-100 transition-opacity duration-300 bg-white/90 px-4 py-2 rounded-lg text-sm font-medium text-gray-800">
+                    📷 Galeriye tıkla
+                  </div>
+                </div>
               </div>
               
               {/* Action Buttons */}
