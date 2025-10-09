@@ -1715,10 +1715,10 @@ async def admin_delete_new_category(category_id: str, current_user: User = Depen
 # Frontend Category APIs
 @api_router.get("/categories/{category_slug}")
 async def get_category_by_slug(category_slug: str):
-    """Get category details by slug"""
+    """Get main category details by slug"""
     category = await db.new_categories.find_one({"slug": category_slug, "is_active": True})
     if not category:
-        raise HTTPException(status_code=404, detail="Category not found")
+        raise HTTPException(status_code=404, detail="Kategori bulunamadı")
     
     if "_id" in category:
         del category["_id"]
@@ -1753,43 +1753,56 @@ async def get_category_by_slug(category_slug: str):
         else:
             tour["minimum_price"] = tour.get("base_price", 0)
     
+    # Get subcategories for this category
+    subcategories = await db.sub_categories.find({
+        "parent_category_id": category["id"],
+        "is_active": True
+    }).to_list(length=None)
+    
+    subcategory_list = []
+    for sub in subcategories:
+        if "_id" in sub:
+            del sub["_id"]
+        subcategory_list.append(SubCategory(**sub).dict())
+    
     category_data = NewCategory(**category).dict()
     category_data["tours"] = tours
+    category_data["subcategories"] = subcategory_list
     
     return category_data
 
 @api_router.get("/categories/{category_slug}/{location_slug}")
-async def get_category_location_page(category_slug: str, location_slug: str):
-    """Get category+location combination page"""
+async def get_subcategory_page(category_slug: str, location_slug: str):
+    """Get subcategory (category+location) page"""
     combined_slug = f"{category_slug}/{location_slug}"
     
-    # Find the category-location combination
-    category_location = await db.category_locations.find_one({
-        "combined_slug": combined_slug,
+    # Find the subcategory
+    subcategory = await db.sub_categories.find_one({
+        "slug": combined_slug,
         "is_active": True
     })
     
-    if not category_location:
-        raise HTTPException(status_code=404, detail="Category location combination not found")
+    if not subcategory:
+        raise HTTPException(status_code=404, detail="Alt kategori bulunamadı")
     
-    # Get the category details
-    category = await db.new_categories.find_one({
-        "id": category_location["category_id"],
+    # Get the parent category details
+    parent_category = await db.new_categories.find_one({
+        "id": subcategory["parent_category_id"],
         "is_active": True
     })
     
-    if not category:
-        raise HTTPException(status_code=404, detail="Category not found")
+    if not parent_category:
+        raise HTTPException(status_code=404, detail="Ana kategori bulunamadı")
     
-    if "_id" in category:
-        del category["_id"]
-    if "_id" in category_location:
-        del category_location["_id"]
+    if "_id" in parent_category:
+        del parent_category["_id"]
+    if "_id" in subcategory:
+        del subcategory["_id"]
     
     # Get related tours for this category and location
     tours = await db.tours.find({
-        "category": {"$regex": category["title"], "$options": "i"},
-        "location": {"$regex": category_location["location_name"], "$options": "i"},
+        "category": {"$regex": parent_category["title"], "$options": "i"},
+        "location": {"$regex": subcategory["location_name"], "$options": "i"},
         "status": "active"
     }).limit(20).to_list(length=None)
     
@@ -1817,14 +1830,14 @@ async def get_category_location_page(category_slug: str, location_slug: str):
         else:
             tour["minimum_price"] = tour.get("base_price", 0)
     
-    # Combine category and location data
+    # Build response
     result = {
-        "category": NewCategory(**category).dict(),
-        "location": CategoryLocation(**category_location).dict(),
-        "page_title": f"{category['title']} - {category_location['location_name']}",
-        "page_description": f"{category_location['location_name']} bölgesindeki {category['title'].lower()} turları",
-        "meta_title": f"{category['title']} {category_location['location_name']} | TurPlatform",
-        "meta_description": f"{category_location['location_name']} bölgesindeki en iyi {category['title'].lower()} turlarını keşfedin",
+        "parent_category": NewCategory(**parent_category).dict(),
+        "subcategory": SubCategory(**subcategory).dict(),
+        "page_title": subcategory["title"],
+        "page_description": f"{subcategory['location_name']} bölgesindeki {parent_category['title'].lower()} turları",
+        "meta_title": subcategory["meta_title"] or f"{subcategory['title']} | TurPlatform",
+        "meta_description": subcategory["meta_description"] or f"{subcategory['location_name']} bölgesindeki en iyi {parent_category['title'].lower()} turlarını keşfedin",
         "tours": tours
     }
     
