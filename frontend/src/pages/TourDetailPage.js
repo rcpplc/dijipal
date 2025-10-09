@@ -778,8 +778,7 @@ const TourDetailPage = () => {
     );
   }
 
-  // Memoize images array to prevent unnecessary re-renders - MUST be before any conditional returns
-  const images = useMemo(() => tour?.images && tour.images.length > 0 ? tour.images : ['/placeholder-tour.jpg'], [tour?.images]);
+  const images = tour?.images && tour.images.length > 0 ? tour.images : ['/placeholder-tour.jpg'];
   const currentPrice = selectedDate ? selectedDate.price : tour.base_price;
 
   return (
