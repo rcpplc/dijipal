@@ -4771,43 +4771,46 @@ const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, loca
           </div>
           
           <div className="p-6 space-y-6">
+            {/* Validation Error */}
+            {errors.general && (
+              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+                <p className="text-red-700 text-sm">{errors.general}</p>
+              </div>
+            )}
+
             {/* Basic Information */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Lokasyon Adı <span className="text-red-500">*</span>
+                  Lokasyon Adı
                 </label>
                 <select
                   value={formData.location_name}
                   onChange={(e) => setFormData(prev => ({ ...prev, location_name: e.target.value }))}
-                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
-                    errors.location_name ? 'border-red-300' : 'border-gray-300'
-                  }`}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Lokasyon Seçin</option>
+                  <option value="">Lokasyon Seçin (Opsiyonel)</option>
                   {locations.map((location) => (
                     <option key={location.id} value={location.name}>
                       {location.name}
                     </option>
                   ))}
                 </select>
-                {errors.location_name && (
-                  <p className="text-red-500 text-sm mt-1">{errors.location_name}</p>
-                )}
+                <p className="text-xs text-gray-500 mt-1">Lokasyon seçilmezse özel başlık kullanılır</p>
               </div>
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Özel Başlık (Opsiyonel)
+                  Özel Başlık
                 </label>
                 <input
                   type="text"
                   value={formData.title}
                   onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  placeholder="Boş bırakılırsa otomatik oluşturulur"
+                  placeholder="Lokasyon seçilmezse zorunlu"
                 />
-                <p className="text-xs text-gray-500 mt-1">Örn: "Özel Fethiye Mavi Yolculuk"</p>
+                <p className="text-xs text-gray-500 mt-1">Örn: "Lüks Yacht Turları", "Premium Deneyim"</p>
               </div>
             </div>
             
