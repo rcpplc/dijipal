@@ -343,39 +343,38 @@ const CategoryDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-blue-600 text-white">
-        {displayCategory.image && (
-          <div 
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-30"
-            style={{ backgroundImage: `url(${displayCategory.image})` }}
-          ></div>
-        )}
-        <div className="relative max-w-7xl mx-auto px-4 py-16 sm:py-24">
-          {/* Breadcrumbs */}
-          <nav className="flex items-center space-x-2 text-blue-200 text-sm mb-8">
-            <button onClick={() => navigate('/')} className="hover:text-white">Ana Sayfa</button>
-            <ChevronRight className="w-4 h-4" />
-            <button onClick={() => navigate(`/${categorySlug}`)} className="hover:text-white">
-              {displayCategory.title}
-            </button>
-            {isLocationPage && (
-              <>
-                <ChevronRight className="w-4 h-4" />
-                <span className="text-white">{categoryData.location.location_name}</span>
-              </>
-            )}
-          </nav>
+      {/* Header - ToursPage Style */}
+      <div className="bg-white shadow-sm border-b border-gray-100">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+          {/* Page Title */}
+          <div className="text-center mb-8">
+            {/* Breadcrumbs */}
+            <nav className="flex items-center justify-center space-x-2 text-gray-500 text-sm mb-4">
+              <button onClick={() => navigate('/')} className="hover:text-blue-600">Ana Sayfa</button>
+              <ChevronRight className="w-4 h-4" />
+              <button onClick={() => navigate(`/categories/${categorySlug}`)} className="hover:text-blue-600">
+                {displayCategory.title}
+              </button>
+              {isLocationPage && (
+                <>
+                  <ChevronRight className="w-4 h-4" />
+                  <span className="text-gray-900">{categoryData.location.location_name}</span>
+                </>
+              )}
+            </nav>
 
-          <div className="max-w-4xl">
-            <div className="flex items-center space-x-4 mb-6">
-              <span className="text-4xl">{isLocationPage ? '📍' : '🏷️'}</span>
-              <h1 className="text-4xl md:text-5xl font-bold">
-                {isLocationPage ? categoryData.title : displayCategory.title}
-              </h1>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
+              {isLocationPage ? categoryData.title : displayCategory.title}
+            </h1>
+            <div className="w-full">
+              <p className="text-sm sm:text-base lg:text-lg text-gray-600">
+                {(isLocationPage ? categoryData.description : displayCategory.description) || 
+                 `${isLocationPage ? categoryData.title : displayCategory.title} kategorisindeki turları keşfedin`}
+              </p>
             </div>
-
-            <div className="flex flex-wrap items-center gap-6 text-blue-100">
+            
+            {/* Category Stats */}
+            <div className="flex flex-wrap items-center justify-center gap-6 text-gray-600 mt-4">
               <div className="flex items-center space-x-2">
                 <MapPin className="w-5 h-5" />
                 <span>
@@ -390,6 +389,18 @@ const CategoryDetailPage = () => {
                 <span>{tours.length} Tur</span>
               </div>
             </div>
+          </div>
+          
+          {/* Mobile Filter Button */}
+          <div className="flex justify-start mb-6 lg:hidden">
+            <button
+              onClick={() => setShowFilters(!showFilters)}
+              className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-200 border border-gray-300"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              <span>Filtreler</span>
+              <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
+            </button>
           </div>
         </div>
       </div>
