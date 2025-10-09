@@ -14,7 +14,8 @@ import {
   Waves,
   Building,
   Trees,
-  X
+  X,
+  ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
 import { useAuth } from '../App';
@@ -30,9 +31,7 @@ const ToursPage = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
-  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024); // Desktop default true, mobile false
-  const [showLocationDropdown, setShowLocationDropdown] = useState(false);
-  // Removed viewMode - only grid view now
+  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
@@ -41,7 +40,6 @@ const ToursPage = () => {
     maxPrice: '',
     duration: '',
     minRating: '',
-    max_rating: '',
     classification: '',
     startDate: searchParams.get('startDate') || '',
     endDate: searchParams.get('endDate') || ''
@@ -50,16 +48,14 @@ const ToursPage = () => {
   // Dynamic data states
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
-  const [priceRange, setPriceRange] = useState({ min: 0, max: 10000 });
-  const [durationRange, setDurationRange] = useState({ min: 1, max: 15 });
-  const [ratingRange, setRatingRange] = useState({ min: 1, max: 5 });
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const [hasMore, setHasMore] = useState(true);
   const [loadingMore, setLoadingMore] = useState(false);
   const ITEMS_PER_PAGE = 12;
-  // Static filter options for the new design
+
+  // Static filter options
   const classifications = [
     { value: '', label: 'Tüm Sınıflar' },
     { value: 'standart', label: 'Standart' },
@@ -88,6 +84,157 @@ const ToursPage = () => {
     { value: '5', label: '5 Yıldız' }
   ];
 
+  // Default categories and locations
+  const defaultCategories = [
+    { value: '', label: 'Tüm Kategoriler' },
+    { value: 'cultural', label: 'Kültürel Turlar' },
+    { value: 'nature', label: 'Doğa Turları' },
+    { value: 'adventure', label: 'Macera Turları' },
+    { value: 'city', label: 'Şehir Turları' },
+    { value: 'food', label: 'Gastronomi Turları' },
+    { value: 'cruise', label: 'Kabin Turları' }
+  ];
+
+  const defaultLocations = [
+    { value: '', label: 'Tüm Lokasyonlar' },
+    { value: 'Fethiye', label: 'Fethiye' },
+    { value: 'Marmaris', label: 'Marmaris' },
+    { value: 'Bodrum', label: 'Bodrum' },
+    { value: 'Göcek', label: 'Göcek' },
+    { value: 'Kaş', label: 'Kaş' },
+    { value: 'Antalya', label: 'Antalya' }
+  ];
+
+  useEffect(() => {
+    loadTours();
+    loadFilterData();
+  }, [searchParams]);
+
+  const loadFilterData = async () => {
+    try {
+      // Load categories
+      try {
+        const categoriesResponse = await axios.get(`${API}/categories`);
+        if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
+          const categoryOptions = [
+            { value: '', label: 'Tüm Kategoriler' },
+            ...categoriesResponse.data.map(cat => ({
+              value: cat.id || cat.slug,
+              label: cat.title || cat.name
+            }))
+          ];
+          setCategories(categoryOptions);
+        } else {
+          setCategories(defaultCategories);
+        }
+      } catch (error) {
+        console.log('Categories API not available, using defaults');
+        setCategories(defaultCategories);
+      }
+
+      // Load locations  
+      try {
+        const locationsResponse = await axios.get(`${API}/locations`);
+        if (locationsResponse.data && Array.isArray(locationsResponse.data)) {
+          const locationOptions = [
+            { value: '', label: 'Tüm Lokasyonlar' },
+            ...locationsResponse.data.map(loc => ({
+              value: loc.name || loc.location_name,
+              label: loc.name || loc.location_name
+            }))
+          ];
+          setLocations(locationOptions);
+        } else {
+          setLocations(defaultLocations);
+        }
+      } catch (error) {
+        console.log('Locations API not available, using defaults');
+        setLocations(defaultLocations);
+      }
+
+    } catch (error) {
+      console.error('Error loading filter data:', error);
+      setCategories(defaultCategories);
+      setLocations(defaultLocations);
+    }
+  };
+
+  const loadTours = async (page = 1, loadMore = false) => {
+    try {
+      if (!loadMore) {
+        setLoading(true);
+      } else {
+        setLoadingMore(true);
+      }
+
+      const params = new URLSearchParams();
+      
+      // Add search query
+      if (searchQuery.trim()) {
+        params.append('search', searchQuery.trim());
+      }
+      
+      // Add filters
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && value !== '') {
+          params.append(key, value);
+        }
+      });
+      
+      // Add pagination
+      params.append('page', page.toString());
+      params.append('limit', ITEMS_PER_PAGE.toString());
+
+      const response = await axios.get(`${API}/tours?${params.toString()}`);
+      
+      if (response.data && Array.isArray(response.data)) {
+        if (loadMore) {
+          setTours(prev => [...prev, ...response.data]);
+        } else {
+          setTours(response.data);
+        }
+        
+        setHasMore(response.data.length === ITEMS_PER_PAGE);
+        setCurrentPage(page);
+      } else {
+        setTours([]);
+        setHasMore(false);
+      }
+
+    } catch (error) {
+      console.error('Error loading tours:', error);
+      if (!loadMore) {
+        setTours([]);
+      }
+      toast.error('Turlar yüklenirken hata oluştu');
+    } finally {
+      setLoading(false);
+      setLoadingMore(false);
+    }
+  };
+
+  const loadMoreTours = () => {
+    if (!loadingMore && hasMore) {
+      loadTours(currentPage + 1, true);
+    }
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    
+    // Update URL params
+    const newParams = new URLSearchParams(searchParams);
+    if (searchQuery.trim()) {
+      newParams.set('search', searchQuery.trim());
+    } else {
+      newParams.delete('search');
+    }
+    
+    setSearchParams(newParams);
+    setCurrentPage(1);
+    loadTours(1);
+  };
+
   const clearFilters = () => {
     setFilters({
       category: '',
@@ -96,331 +243,126 @@ const ToursPage = () => {
       maxPrice: '',
       duration: '',
       minRating: '',
-      max_rating: '',
       classification: '',
       startDate: '',
       endDate: ''
     });
     setSearchQuery('');
+    
+    // Clear URL params
     setSearchParams(new URLSearchParams());
-  };
-
-  useEffect(() => {
-    // SEO Ayarları
-    document.title = "Günübirlik Tekne Kiralama, Kabin Kiralama & Etkinlik Turları Fiyatları";
-    
-    // Meta description güncelle
-    const metaDescription = document.querySelector('meta[name="description"]');
-    if (metaDescription) {
-      metaDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında Günübirlik Tur, Kabin Kiralama Fiyatları & Mavi Yolculuk Turları. Göcek, Marmaris, Bodrum koylarında profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
-    }
-    
-    // Open Graph meta etiketleri
-    const ogTitle = document.querySelector('meta[property="og:title"]');
-    if (ogTitle) {
-      ogTitle.setAttribute('content', 'Kabin Turları - Mavi Yolculuk | Mavibilet');
-    }
-    
-    const ogDescription = document.querySelector('meta[property="og:description"]');
-    if (ogDescription) {
-      ogDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında Günübirlik Tur, Kabin Kiralama Fiyatları & Mavi Yolculuk Turları deneyimi. Profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
-    }
-    
-    const ogImage = document.querySelector('meta[property="og:image"]');
-    if (ogImage) {
-      ogImage.setAttribute('content', 'https://blog.yachtdunyasi.com/wp-content/uploads/2022/10/marmaris-en-guzel-koylari-400x400.webp');
-    } else {
-      // Eğer yoksa yeni meta etiketi oluştur
-      const newOgImage = document.createElement('meta');
-      newOgImage.setAttribute('property', 'og:image');
-      newOgImage.setAttribute('content', 'https://blog.yachtdunyasi.com/wp-content/uploads/2022/10/marmaris-en-guzel-koylari-400x400.webp');
-      document.head.appendChild(newOgImage);
-    }
-    
-    loadFilterData();
-    loadTours();
-    if (user) {
-      loadFavorites();
-    }
-  }, []);
-
-  useEffect(() => {
-    loadTours(1, false); // Reset to page 1 when filters change
-  }, [filters, searchQuery]);
-
-  // Handle responsive filter visibility
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth >= 1024) {
-        setShowFilters(true); // Desktop: always show filters
-      } else {
-        // Mobile: keep current state (user can toggle)
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Close location dropdown when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (showLocationDropdown && !event.target.closest('.relative')) {
-        setShowLocationDropdown(false);
-      }
-    };
-
-    if (showLocationDropdown) {
-      document.addEventListener('mousedown', handleClickOutside);
-    }
-    
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, [showLocationDropdown]);
-
-  const loadFilterData = async () => {
-    try {
-      // Get all tours to calculate ranges
-      const toursResponse = await axios.get(`${API}/tours`);
-      const allTours = toursResponse.data;
-
-      // Extract unique categories
-      const uniqueCategories = [...new Set(allTours.map(tour => tour.category).filter(Boolean))];
-      setCategories([
-        { value: '', label: 'Tüm Kategoriler' },
-        ...uniqueCategories.map(cat => ({ 
-          value: cat, 
-          label: getCategoryLabel(cat) 
-        }))
-      ]);
-
-      // Extract unique locations
-      const uniqueLocations = [...new Set(allTours.map(tour => tour.location).filter(Boolean))];
-      setLocations([
-        { value: '', label: 'Tüm Lokasyonlar' },
-        ...uniqueLocations.map(loc => ({ value: loc, label: loc }))
-      ]);
-
-      // Calculate price ranges from tour dates
-      let minPrice = Infinity, maxPrice = 0;
-      allTours.forEach(tour => {
-        if (tour.tour_dates && tour.tour_dates.length > 0) {
-          tour.tour_dates.forEach(date => {
-            const singlePrice = date.single_cabin_price || date.price || 0;
-            const doublePrice = date.double_cabin_price || date.price || 0;
-            const minTourPrice = Math.min(singlePrice, doublePrice);
-            const maxTourPrice = Math.max(singlePrice, doublePrice);
-            
-            if (minTourPrice > 0 && minTourPrice < minPrice) minPrice = minTourPrice;
-            if (maxTourPrice > maxPrice) maxPrice = maxTourPrice;
-          });
-        }
-      });
-      
-      if (minPrice === Infinity) minPrice = 0;
-      setPriceRange({ min: Math.floor(minPrice), max: Math.ceil(maxPrice) });
-
-      // Calculate duration range
-      const durations = allTours.map(tour => tour.duration_days).filter(d => d > 0);
-      if (durations.length > 0) {
-        setDurationRange({ 
-          min: Math.min(...durations), 
-          max: Math.max(...durations) 
-        });
-      }
-
-      // Rating range is typically 1-5
-      setRatingRange({ min: 1, max: 5 });
-
-    } catch (error) {
-      console.error('Error loading filter data:', error);
-    }
-  };
-
-  const getCategoryLabel = (category) => {
-    const labels = {
-      'cultural': 'Kültürel Turlar',
-      'nature': 'Doğa Turları', 
-      'adventure': 'Macera Turları',
-      'city': 'Şehir Turları',
-      'historical': 'Tarihi Turlar',
-      'food': 'Gastronomi Turları',
-      'boat': 'Tekne Turları',
-      'diving': 'Dalış Turları'
-    };
-    return labels[category] || category.charAt(0).toUpperCase() + category.slice(1);
-  };
-
-  const loadTours = async (page = 1, append = false) => {
-    if (page === 1) {
-      setLoading(true);
-      setCurrentPage(1);
-      setHasMore(true);
-    } else {
-      setLoadingMore(true);
-    }
-    
-    try {
-      const params = new URLSearchParams();
-      
-      if (searchQuery) params.append('search', searchQuery);
-      if (filters.category) params.append('category', filters.category);
-      if (filters.location) params.append('location', filters.location);
-      if (filters.classification) params.append('classification', filters.classification);
-      if (filters.minPrice) params.append('min_price', filters.minPrice);
-      if (filters.maxPrice) params.append('max_price', filters.maxPrice);
-      if (filters.duration) params.append('duration_days', filters.duration);
-      if (filters.minRating) params.append('min_rating', filters.minRating);
-      if (filters.startDate) params.append('start_date', filters.startDate);
-      if (filters.endDate) params.append('end_date', filters.endDate);
-      
-      // Pagination parameters
-      params.append('limit', ITEMS_PER_PAGE.toString());
-      params.append('skip', ((page - 1) * ITEMS_PER_PAGE).toString());
-      
-      const response = await axios.get(`${API}/tours?${params.toString()}`);
-      const newTours = response.data;
-      
-      if (append) {
-        setTours(prevTours => [...prevTours, ...newTours]);
-      } else {
-        setTours(newTours);
-      }
-      
-      // Check if there are more items to load
-      setHasMore(newTours.length === ITEMS_PER_PAGE);
-      
-    } catch (error) {
-      console.error('Error loading tours:', error);
-    } finally {
-      setLoading(false);
-      setLoadingMore(false);
-    }
-  };
-
-  const loadMoreTours = () => {
-    const nextPage = currentPage + 1;
-    setCurrentPage(nextPage);
-    loadTours(nextPage, true);
+    setCurrentPage(1);
+    loadTours(1);
   };
 
   const handleFilterChange = (key, value) => {
     const newFilters = { ...filters, [key]: value };
     setFilters(newFilters);
     
-    const newSearchParams = new URLSearchParams();
-    Object.entries(newFilters).forEach(([k, v]) => {
-      if (v) newSearchParams.set(k, v);
-    });
-    
-    setSearchParams(newSearchParams);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    handleFilterChange('location', searchQuery);
-  };
-
-  const loadFavorites = async () => {
-    try {
-      const response = await axios.get(`${API}/favorites`);
-      const favoriteIds = new Set(response.data.map(tour => tour.id));
-      setFavorites(favoriteIds);
-    } catch (error) {
-      console.error('Error loading favorites:', error);
+    // Update URL params
+    const newParams = new URLSearchParams(searchParams);
+    if (value && value !== '') {
+      newParams.set(key, value);
+    } else {
+      newParams.delete(key);
     }
+    
+    setSearchParams(newParams);
+    setCurrentPage(1);
+    
+    // Apply filters
+    loadTours(1);
   };
 
-  const toggleFavorite = async (tourId) => {
+  const toggleFavorite = async (tourId, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
     if (!user) {
       setShowLoginModal(true);
       return;
     }
 
     try {
-      const isFavorited = favorites.has(tourId);
-      
-      if (isFavorited) {
-        await axios.delete(`${API}/favorites/${tourId}`);
-        setFavorites(prev => {
-          const newSet = new Set(prev);
-          newSet.delete(tourId);
-          return newSet;
+      if (favorites.has(tourId)) {
+        await axios.delete(`${API}/favorites/${tourId}`, {
+          headers: { Authorization: `Bearer ${user.token}` }
         });
-        toast.success('Favorilerden çıkarıldı');
+        setFavorites(prev => {
+          const newFavorites = new Set(prev);
+          newFavorites.delete(tourId);
+          return newFavorites;
+        });
+        toast.success('Favorilerden kaldırıldı');
       } else {
-        await axios.post(`${API}/favorites/${tourId}`);
-        setFavorites(prev => new Set([...prev, tourId]));
+        await axios.post(`${API}/favorites`, { tour_id: tourId }, {
+          headers: { Authorization: `Bearer ${user.token}` }
+        });
+        setFavorites(prev => new Set(prev).add(tourId));
         toast.success('Favorilere eklendi');
       }
     } catch (error) {
-      console.error('Error toggling favorite:', error);
       toast.error('Bir hata oluştu');
     }
   };
 
-  // YENİ TOUR CARD - SIFIRDAN TASARIM
+  // Tour Card Component
   const TourCard = ({ tour }) => (
     <Link 
-      to={`/turlar/${createSlug(tour.title)}`}
-      className="block bg-white rounded-xl shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-blue-200 transform hover:-translate-y-1"
+      to={`/turlar/${createSlug(tour.title)}`} 
+      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block group"
     >
-      {/* Resim Alanı */}
-      <div className="relative h-48 overflow-hidden">
+      {/* Image Section */}
+      <div className="relative">
         <img
-          src={tour.images[0] || '/placeholder-tour.jpg'}
+          src={tour.images?.[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
-        {/* Favoriye Ekleme Butonu */}
-        <button 
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-            toggleFavorite(tour.id);
-          }}
-          className="absolute top-3 right-3 bg-white/90 hover:bg-white p-2 rounded-full shadow-lg transition-all duration-200"
+        {/* Favorite Button */}
+        <button
+          onClick={(e) => toggleFavorite(tour.id, e)}
+          className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-10"
         >
           <Heart 
-            className={`w-4 h-4 transition-colors duration-200 ${
+            className={`w-5 h-5 ${
               favorites.has(tour.id) 
                 ? 'text-red-500 fill-current' 
-                : 'text-gray-600 hover:text-red-500'
-            }`} 
+                : 'text-gray-600'
+            }`}
           />
         </button>
 
-        {/* Kategori Badge */}
+        {/* Category Badge */}
         {tour.category && (
           <div className="absolute top-3 left-3">
-            <span className="bg-blue-600 text-white px-2 py-1 rounded text-xs font-medium">
+            <span className="bg-blue-600/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
               {tour.category}
             </span>
           </div>
         )}
       </div>
 
-      {/* İçerik Alanı */}
+      {/* Content Section */}
       <div className="p-4">
-        {/* Lokasyon */}
+        {/* Location */}
         <div className="flex items-center space-x-1 text-sm text-gray-500 mb-2">
           <MapPin className="w-4 h-4" />
           <span>{tour.location}</span>
         </div>
 
-        {/* Başlık */}
+        {/* Title */}
         <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
-        {/* Açıklama */}
+        {/* Description */}
         <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
-          {tour.short_description}
+          {tour.short_description || tour.description}
         </p>
 
-        {/* Rating ve Süre */}
+        {/* Rating and Duration */}
         <div className="flex items-center justify-between mb-3">
           <div className="flex items-center space-x-1">
             <div className="flex items-center">
@@ -456,7 +398,7 @@ const ToursPage = () => {
           </div>
         </div>
 
-        {/* Fiyat */}
+        {/* Price */}
         <div className="mb-4">
           <div className="text-xl font-bold text-blue-600">
             {(() => {
@@ -479,9 +421,10 @@ const ToursPage = () => {
           <div className="text-sm text-gray-500">den başlayan</div>
         </div>
 
-        {/* Detaylar Butonu */}
-        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200">
-          Detayları Görüntüle
+        {/* Details Button */}
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-2">
+          <span>Detayları Görüntüle</span>
+          <ArrowRight className="w-4 h-4" />
         </button>
       </div>
     </Link>
@@ -504,7 +447,29 @@ const ToursPage = () => {
             </div>
           </div>
           
-          {/* Mobile Filter Button - Only show on mobile */}
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mb-8">
+            <form onSubmit={handleSearch} className="flex">
+              <div className="flex-1 relative">
+                <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+                <input
+                  type="text"
+                  placeholder="Tur ara... (örn: Fethiye, Göcek, Kabin)"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-l-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-gray-900"
+                />
+              </div>
+              <button
+                type="submit"
+                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-r-lg font-medium transition-colors duration-200"
+              >
+                Ara
+              </button>
+            </form>
+          </div>
+          
+          {/* Mobile Filter Button */}
           <div className="flex justify-start mb-6 lg:hidden">
             <button
               onClick={() => setShowFilters(!showFilters)}
@@ -515,317 +480,8 @@ const ToursPage = () => {
               <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${showFilters ? 'rotate-180' : ''}`} />
             </button>
           </div>
-
-        {/* Old Filters - Removed for desktop */}
-        {false && showFilters && (
-          <div className="mb-8 bg-white rounded-lg p-6 shadow-sm border border-gray-200">
-            {/* Filtre Başlığı */}
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
-              <button
-                onClick={clearFilters}
-                className="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center space-x-1 text-sm"
-              >
-                <X className="w-4 h-4" />
-                <span>Temizle</span>
-              </button>
-            </div>
-            
-            {/* Filtreler - İki Kolon Layout */}
-            <div className="space-y-6">
-              {/* Üst Sıra Filtreler */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {/* Lokasyon */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
-                    Lokasyon
-                  </label>
-                  <select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    <option value="">Tüm Lokasyonlar</option>
-                    {locations.slice(1).map((location) => (
-                      <option key={location.value} value={location.value}>
-                        {location.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Kategori */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Mountain className="w-4 h-4 mr-2 text-gray-600" />
-                    Kategori
-                  </label>
-                  <select
-                    value={filters.category}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {categories.map(cat => (
-                      <option key={cat.value} value={cat.value}>{cat.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Sınıflandırma */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Building className="w-4 h-4 mr-2 text-gray-600" />
-                    Sınıf
-                  </label>
-                  <select
-                    value={filters.classification}
-                    onChange={(e) => handleFilterChange('classification', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {classifications.map((classification) => (
-                      <option key={classification.value} value={classification.value}>
-                        {classification.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Süre */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2 text-gray-600" />
-                    Süre
-                  </label>
-                  <select
-                    value={filters.duration}
-                    onChange={(e) => handleFilterChange('duration', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {durations.map(dur => (
-                      <option key={dur.value} value={dur.value}>{dur.label}</option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Minimum Puan - Yıldızlı */}
-                <div className="space-y-2 sm:col-span-2 md:col-span-1">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Star className="w-4 h-4 mr-2 text-gray-600 fill-current" />
-                    Min. Puan
-                  </label>
-                  <select
-                    value={filters.minRating}
-                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {minRatings.map((rating) => (
-                      <option key={rating.value} value={rating.value}>
-                        {rating.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              {/* Fiyat Aralığı - Alt Sıra */}
-              <div className="border-t pt-4 bg-blue-50 rounded-lg p-4">
-                <div className="flex items-center justify-between mb-4">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    💰 Fiyat Aralığı
-                  </label>
-                  <span className="text-sm font-semibold text-blue-600 bg-white px-3 py-1 rounded-full">
-                    ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
-                  </span>
-                </div>
-                
-                <div className="grid grid-cols-2 gap-4">
-                  <input
-                    type="number"
-                    value={filters.minPrice}
-                    onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                    placeholder="Min fiyat"
-                    className="w-full px-3 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium"
-                  />
-                  <input
-                    type="number"
-                    value={filters.maxPrice}
-                    onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                    placeholder="Max fiyat"
-                    className="w-full px-3 py-3 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm font-medium"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
         </div>
       </div>
-
-      {/* Mobile Filter Overlay - Full Screen */}
-      {showFilters && (
-        <div className="lg:hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-          <div className="bg-white w-full h-full overflow-y-auto">
-            <div className="p-6">
-              {/* Mobile Filter Header */}
-              <div className="flex items-center justify-between mb-6">
-                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="text-gray-500 hover:text-gray-700 transition-colors duration-200"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
-              
-              {/* Same filters as sidebar but in mobile format */}
-              <div className="space-y-6">
-                {/* Location Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
-                    Lokasyon
-                  </label>
-                  <select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    <option value="">Tüm Lokasyonlar</option>
-                    {locations.slice(1).map((location) => (
-                      <option key={location.value} value={location.value}>
-                        {location.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Category Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Mountain className="w-4 h-4 mr-2 text-gray-600" />
-                    Kategori
-                  </label>
-                  <select
-                    value={filters.category}
-                    onChange={(e) => handleFilterChange('category', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    <option value="">Tüm Kategoriler</option>
-                    {categories.slice(1).map((category) => (
-                      <option key={category.value} value={category.value}>
-                        {category.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Duration Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Calendar className="w-4 h-4 mr-2 text-gray-600" />
-                    Süre
-                  </label>
-                  <select
-                    value={filters.duration}
-                    onChange={(e) => handleFilterChange('duration', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {durations.map((duration) => (
-                      <option key={duration.value} value={duration.value}>
-                        {duration.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Classification Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Building className="w-4 h-4 mr-2 text-gray-600" />
-                    Sınıf
-                  </label>
-                  <select
-                    value={filters.classification}
-                    onChange={(e) => handleFilterChange('classification', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {classifications.map((classification) => (
-                      <option key={classification.value} value={classification.value}>
-                        {classification.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Rating Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <Star className="w-4 h-4 mr-2 text-yellow-500" />
-                    Min. Puan
-                  </label>
-                  <select
-                    value={filters.minRating}
-                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {minRatings.map((rating) => (
-                      <option key={rating.value} value={rating.value}>
-                        {rating.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Price Range Filter */}
-                <div className="border-t pt-4">
-                  <div className="space-y-2 mb-4">
-                    <label className="text-sm font-medium text-gray-700 flex items-center">
-                      💰 Fiyat Aralığı
-                    </label>
-                    <div className="text-xs text-gray-600 bg-gray-50 px-3 py-2 rounded">
-                      ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
-                    </div>
-                  </div>
-                  
-                  <div className="grid grid-cols-2 gap-3">
-                    <input
-                      type="number"
-                      value={filters.minPrice}
-                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                      placeholder="Min fiyat"
-                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    />
-                    <input
-                      type="number"
-                      value={filters.maxPrice}
-                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                      placeholder="Max fiyat"
-                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                    />
-                  </div>
-                </div>
-              </div>
-
-              {/* Mobile Filter Actions */}
-              <div className="flex space-x-4 pt-6 border-t mt-6">
-                <button
-                  onClick={clearFilters}
-                  className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-                >
-                  Temizle
-                </button>
-                <button
-                  onClick={() => setShowFilters(false)}
-                  className="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 px-4 rounded-lg font-medium transition-colors duration-200"
-                >
-                  Filtreleri Uygula
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* Main Content Area - 4 Column Grid Layout */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -833,7 +489,7 @@ const ToursPage = () => {
         {/* Desktop: 4-column grid (1 sidebar + 3 tours), Mobile: Stacked */}
         <div className="lg:grid lg:grid-cols-4 lg:gap-8">
           
-          {/* Left Sidebar - Filters (Desktop always visible, Mobile toggle) */}
+          {/* Left Sidebar - Filters */}
           <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden'} lg:block mb-8 lg:mb-0`}>
             <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 lg:sticky lg:top-6">
               {/* Filter Header */}
@@ -848,7 +504,7 @@ const ToursPage = () => {
                 </button>
               </div>
               
-              {/* Filters */}
+              {/* Filter Options */}
               <div className="space-y-6">
                 {/* Location Filter */}
                 <div className="space-y-2">
@@ -861,8 +517,7 @@ const ToursPage = () => {
                     onChange={(e) => handleFilterChange('location', e.target.value)}
                     className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
-                    <option value="">Tüm Lokasyonlar</option>
-                    {locations.slice(1).map((location) => (
+                    {locations.map((location) => (
                       <option key={location.value} value={location.value}>
                         {location.label}
                       </option>
@@ -881,8 +536,7 @@ const ToursPage = () => {
                     onChange={(e) => handleFilterChange('category', e.target.value)}
                     className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
                   >
-                    <option value="">Tüm Kategoriler</option>
-                    {categories.slice(1).map((category) => (
+                    {categories.map((category) => (
                       <option key={category.value} value={category.value}>
                         {category.label}
                       </option>
@@ -1017,11 +671,7 @@ const ToursPage = () => {
                   Farklı filtreler deneyerek arama yapmayı deneyin
                 </p>
                 <button
-                  onClick={() => {
-                    clearFilters();
-                    setSearchParams(new URLSearchParams());
-                    setSearchQuery('');
-                  }}
+                  onClick={clearFilters}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                 >
                   Filtreleri Temizle
@@ -1052,7 +702,10 @@ const ToursPage = () => {
                       <span>Yükleniyor...</span>
                     </>
                   ) : (
-                    <span>Daha Fazla Gör</span>
+                    <>
+                      <span>Daha Fazla Gör</span>
+                      <ArrowRight className="w-4 h-4" />
+                    </>
                   )}
                 </button>
               </div>
@@ -1062,7 +715,7 @@ const ToursPage = () => {
         </div>
       </div>
 
-      {/* Kabin Kiralama Sektörü Hakkında */}
+      {/* About Cabin Rental Section */}
       <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center mb-12">
@@ -1078,169 +731,58 @@ const ToursPage = () => {
             <div className="prose prose-lg max-w-none">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Kabin Kiralama Nedir?</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                Kabin kiralama, deniz tutkunlarının teknelerde özel kabinleri kiralayarak, günlük yaşamın stresinden uzaklaştığı eşsiz bir tatil deneyimidir. Bu konsept, özellikle Türkiye'nin Akdeniz ve Ege kıyılarında son yıllarda büyük popülerlik kazanmıştır. Geleneksel otel konaklamasından farklı olarak, misafirler denizin ortasında uyandığı, balık sesleri ve dalga seslerinin eşlik ettiği bir tatil geçirir.
+                Kabin kiralama, deniz tutkunlarının teknelerde özel kabinleri kiralayarak, günlük yaşamın stresinden uzaklaştığı eşsiz bir tatil deneyimidir. Bu konsept, özellikle Türkiye'nin Akdeniz ve Ege kıyılarında son yıllarda büyük popülerlik kazanmıştır.
               </p>
 
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Sektörün Gelişimi ve Önemi</h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Türkiye'de kabin kiralama sektörü, 2010'lu yıllardan itibaren hızla büyümeye başlamıştır. Özellikle pandemi sonrası dönemde, sosyal mesafeyi koruyarak tatil yapma ihtiyacı bu sektörü daha da öne çıkarmıştır. Fethiye, Marmaris, Bodrum, Kaş ve Antalya gibi destinasyonlar, kabin kiralama turizmi için Türkiye'nin öncü bölgeleri haline gelmiştir.
-              </p>
-              
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Sektör, yıllık %15-20 büyüme oranıyla Türk turizm ekonomisine önemli katkı sağlamaktadır. 2023 verilerine göre, kabin kiralama sektörü yaklaşık 2 milyar dolarlık bir ekonomik hacme ulaşmıştır ve bu rakamın 2025 yılında 3.5 milyar doları bulması beklenmektedir.
-              </p>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Kabin Türleri ve Özellikleri</h3>
-              <div className="space-y-4 mb-6">
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                  <h4 className="font-semibold text-gray-900 mb-2">Standart Kabinler</h4>
-                  <p className="text-gray-700 text-sm">Ekonomik seçenekler arayan misafirler için tasarlanmış, temel konfor unsurlarını içeren kabinler. Genellikle 2 kişilik yatak, dolap ve küçük banyo içerir.</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                  <h4 className="font-semibold text-gray-900 mb-2">Lüks Kabinler</h4>
-                  <p className="text-gray-700 text-sm">Daha geniş alan, panoramik pencereler, kaliteli mobilyalar ve ekstra konfora sahip kabinler. Klima, minibar ve çalışma masası gibi ek olanaklar sunar.</p>
-                </div>
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
-                  <h4 className="font-semibold text-gray-900 mb-2">Delüks Kabinler</h4>
-                  <p className="text-gray-700 text-sm">En üst düzey konfor ve lüks sunan kabinler. Geniş yatak odası, oturma alanı, özel banyo, balkon ve VIP hizmetler içerir.</p>
-                </div>
-              </div>
-            </div>
-
-            <div className="prose prose-lg max-w-none">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Neden Kabin Kiralama?</h3>
               <div className="space-y-4 mb-8">
                 <div className="flex items-start space-x-3">
                   <Waves className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900">Eşsiz Deneyim</h4>
-                    <p className="text-gray-700 text-sm">Her gün farklı bir koyu keşfetme, kristal berraklığındaki sularda yüzme ve balık tutma imkanı.</p>
+                    <p className="text-gray-700 text-sm">Her gün farklı bir koyu keşfetme, kristal berraklığındaki sularda yüzme imkanı.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <Heart className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900">Özel Alan</h4>
-                    <p className="text-gray-700 text-sm">Kalabalıktan uzak, sadece sizin grubunuzla paylaştığınız özel bir tatil alanı.</p>
+                    <p className="text-gray-700 text-sm">Kalabalıktan uzak, sadece sizin grubunuzla paylaştığınız özel tatil alanı.</p>
                   </div>
                 </div>
                 <div className="flex items-start space-x-3">
                   <Star className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
                   <div>
                     <h4 className="font-semibold text-gray-900">Kaliteli Hizmet</h4>
-                    <p className="text-gray-700 text-sm">Deneyimli mürettebat ile 7/24 hizmet, özel yemek menüleri ve kişiselleştirilmiş aktiviteler.</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <MapPin className="w-6 h-6 text-green-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Esnek Rotalar</h4>
-                    <p className="text-gray-700 text-sm">İstediğiniz destinasyonları ziyaret etme, program değişiklikleri yapabilme esnekliği.</p>
+                    <p className="text-gray-700 text-sm">Deneyimli mürettebat ile 7/24 hizmet ve kişiselleştirilmiş aktiviteler.</p>
                   </div>
                 </div>
               </div>
+            </div>
 
+            <div className="prose prose-lg max-w-none">
               <h3 className="text-2xl font-semibold text-gray-900 mb-4">Popüler Destinasyonlar</h3>
               <p className="text-gray-700 leading-relaxed mb-6">
-                Türkiye'nin 8.000 kilometrelik sahil şeridi, kabin kiralama için sayısız seçenek sunar. Fethiye-Göcek-Kaş üçgeni, berrak suları ve korumalı koylarıyla en popüler rotadır. Bodrum ve çevresindeki adalar, tarihi dokusu ve canlı gece hayatıyla farklı bir deneyim sunar. Antalya'dan başlayan rotalar ise antik şehirleri keşfetme fırsatı verir.
+                Türkiye'nin 8.000 kilometrelik sahil şeridi, kabin kiralama için sayısız seçenek sunar. Fethiye-Göcek-Kaş üçgeni, berrak suları ve korumalı koylarıyla en popüler rotadır.
               </p>
 
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Her destinasyon kendine özgü güzellikleri barındırır: Butterfly Valley'in eşsiz doğası, Kalkan'ın otantik balıkçı köyü atmosferi, Olympos'un tarihi kalıntıları ve Çıralı'nın yanmayan ateşi. Bu çeşitlilik, her turiste kendine uygun bir rota bulma imkanı sağlar.
-              </p>
-
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Sürdürülebilir Turizm</h3>
-              <p className="text-gray-700 leading-relaxed">
-                Modern kabin kiralama sektörü, çevre bilinci ve sürdürülebilir turizm anlayışını benimser. Deniz ekosistemlerinin korunması, atık yönetimi ve yerel toplulukların desteklenmesi sektörün temel değerleridir. Birçok işletme, karbon ayak izini azaltmak için güneş enerjisi kullanımı, su tasarrufu sistemleri ve geri dönüştürülmüş malzemeler kullanmaktadır.
-              </p>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { name: 'Fethiye', description: 'Doğal güzellikler' },
+                  { name: 'Göcek', description: 'Sakin koylar' },
+                  { name: 'Marmaris', description: 'Canlı atmosfer' },
+                  { name: 'Bodrum', description: 'Tarihi doku' }
+                ].map((destination) => (
+                  <div key={destination.name} className="bg-white p-4 rounded-lg shadow-sm border">
+                    <h4 className="font-semibold text-gray-900 mb-2">{destination.name}</h4>
+                    <p className="text-gray-600 text-sm">{destination.description}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
-
-      {/* SSS Bölümü */}
-      <div className="bg-white py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">Sıkça Sorulan Sorular</h2>
-            <p className="text-lg text-gray-600">Kabin kiralama hakkında merak ettikleriniz</p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Kabin kiralama maliyeti nasıl hesaplanır?</h3>
-              <p className="text-gray-700">
-                Kabin kiralama fiyatları; sezon, kabin türü, tur süresi ve dahil edilen hizmetlere göre değişir. Standart kabinler günlük 800-1500 TL, lüks kabinler 1500-2500 TL, delüks kabinler ise 2500-4000 TL arasında fiyatlandırılır. Fiyatlara genellikle yakıt, mürettebat, temel yemekler ve sigorta dahildir.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Rezervasyon yaparken nelere dikkat etmeliyim?</h3>
-              <p className="text-gray-700">
-                Rezervasyon öncesi teknenin lisans durumunu, sigorta belgelerini ve mürettebatın sertifikalarını kontrol edin. İptal politikalarını okuyun ve hava durumu nedeniyle değişiklik durumlarını öğrenin. Tur rotası, dahil olan yemekler ve ekstra ücretlendirmeler hakkında detaylı bilgi alın.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Hava durumu kötüyse ne olur?</h3>
-              <p className="text-gray-700">
-                Güvenlik nedeniyle seferin iptali durumunda, %100 iade veya alternatif tarih seçeneği sunulur. Hafif yağmur gibi durumlar için kapalı alanları olan tekneler tercih edilebilir. Meteoroloji raporları sürekli takip edilir ve misafirler önceden bilgilendirilir.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Tekneye getirilebilecek eşyalar konusunda kısıtlama var mı?</h3>
-              <p className="text-gray-700">
-                Alkol getirilmesine genellikle izin verilir ancak aşırı tüketimi engellemek için kısıtlamalar olabilir. Cam eşya yerine plastik tercih edilmesi tavsiye edilir. Büyük ve ağır eşyaların önceden bildirilmesi gerekir. Tehlikeli maddeler, silah ve uyuşturucu kesinlikle yasaktır.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Yemekler nasıl organize edilir?</h3>
-              <p className="text-gray-700">
-                Çoğu tur paketinde kahvaltı, öğle ve akşam yemeği dahildir. Menüler genellikle Türk ve Akdeniz mutfağından seçilir. Özel beslenme ihtiyaçları (vejeteryan, vegan, alerjiler) önceden bildirilmelidir. Bazı teknelerde canlı balık tutma ve pişirme deneyimi de sunulur.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Deniz tutması olanlar için önerileriniz nelerdir?</h3>
-              <p className="text-gray-700">
-                Deniz tutması yaşayanlar için büyük ve stabil tekneler tercih edilmelidir. Tur öncesi deniz tutması ilacı kullanımı ve hafif yemek tüketimi önerilir. Güvertede açık havada bulunmak, uzak noktalara odaklanmak ve mide boş durmayacak şekilde küçük atıştırmalıklar tüketmek faydalıdır.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Çocuklu aileler için güvenlik önlemleri nelerdir?</h3>
-              <p className="text-gray-700">
-                Tüm teknelerde çocuk can yelekleri bulunur ve kullanımı zorunludur. Güverte korkulukları çocuk güvenliği standartlarına uygun olmalıdır. Çocuk dostu teknelerde özel aktivite alanları ve güvenlik ekipmanları mevcuttur. 7 yaş altı çocuklar için sürekli yetişkin gözetimi şarttır.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Teknede internet erişimi mevcut mu?</h3>
-              <p className="text-gray-700">
-                Çoğu modern teknede WiFi bulunur ancak deniz ortasında sinyal gücü değişkenlik gösterebilir. Kıyıya yakın bölgelerde 4G bağlantısı genellikle sorunsuz çalışır. Bazı teknelerde uydu internet sistemi bulunur ancak bu hizmet için ekstra ücret talep edilebilir.
-              </p>
-            </div>
-
-            <div className="bg-gray-50 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-3">Özel kutlamalar için ek hizmetler var mı?</h3>
-              <p className="text-gray-700">
-                Doğum günü, evlilik teklifi, yıldönümü gibi özel günler için dekorasyon, özel menü, müzik sistemi ve fotoğraf hizmetleri sunulabilir. Bu hizmetler genellikle ek ücretlidir ve önceden rezervasyon gerektirir. Pasta, çiçek ve balon süslemesi gibi detaylar organize edilebilir.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-
-
-
-
-
-
-
     </div>
   );
 };
