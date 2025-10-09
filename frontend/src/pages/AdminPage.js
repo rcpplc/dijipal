@@ -3390,12 +3390,27 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   </div>
                 </div>
 
-                {/* Uploading Progress */}
+                {/* Enhanced Uploading Progress */}
                 {uploadingImages && (
-                  <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
-                    <div className="flex items-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-yellow-600 mr-3"></div>
-                      <span className="text-yellow-800">Resimler yükleniyor ve WebP formatına dönüştürülüyor...</span>
+                  <div className="bg-gradient-to-r from-blue-50 to-cyan-50 border border-blue-200 rounded-lg p-6">
+                    <div className="flex items-center justify-center">
+                      <div className="animate-spin rounded-full h-6 w-6 border-4 border-blue-200 border-top-blue-600 mr-4"></div>
+                      <div className="text-center">
+                        <div className="text-blue-800 font-medium mb-1">📤 Resimler Yükleniyor</div>
+                        <div className="text-sm text-blue-600">
+                          Dosyalar optimize ediliyor ve WebP formatına dönüştürülüyor...
+                        </div>
+                        <div className="text-xs text-blue-500 mt-2">
+                          ⚡ Büyük dosyalar otomatik olarak küçültülüyor • 🎯 Kalite optimize ediliyor
+                        </div>
+                      </div>
+                    </div>
+                    
+                    {/* Progress Tips */}
+                    <div className="mt-4 p-3 bg-white/50 rounded border-l-4 border-blue-400">
+                      <div className="text-xs text-blue-700">
+                        <span className="font-medium">💡 İpucu:</span> WebP dosyaları yükleme hızlı, diğer formatlar dönüştürülüyor
+                      </div>
                     </div>
                   </div>
                 )}
