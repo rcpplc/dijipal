@@ -4937,10 +4937,6 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
       newErrors.title = 'Kategori adı zorunludur';
     }
     
-    if (formData.locations.length === 0) {
-      newErrors.locations = 'En az bir lokasyon seçilmelidir';
-    }
-    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
