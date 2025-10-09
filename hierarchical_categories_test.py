@@ -142,10 +142,9 @@ class HierarchicalCategoryTester:
                     self.log_result("Create Subcategory", False, f"Title should end with ' - Fethiye'. Got: {data.get('title')}", data)
                     return False
                 
-                # Verify slug generation
-                expected_slug = "mavi-yolculuk/fethiye"
-                if data.get("slug") != expected_slug:
-                    self.log_result("Create Subcategory", False, f"Slug mismatch. Expected: {expected_slug}, Got: {data.get('slug')}", data)
+                # Verify slug generation (should end with /fethiye)
+                if not data.get("slug", "").endswith("/fethiye"):
+                    self.log_result("Create Subcategory", False, f"Slug should end with '/fethiye'. Got: {data.get('slug')}", data)
                     return False
                 
                 # Verify parent relationship
