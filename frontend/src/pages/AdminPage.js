@@ -4910,7 +4910,6 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
         description: category.description || '',
         image: category.image || '',
         faq: category.faq || [],
-        locations: category.locations?.map(loc => loc.location_name) || [],
         meta_title: category.meta_title || '',
         meta_description: category.meta_description || '',
         meta_keywords: category.meta_keywords || '',
