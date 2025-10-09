@@ -312,7 +312,7 @@ const HomePage = () => {
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
                     <input
                       type="text"
-                      placeholder="Nereye gitmek istiyorsunuz? (örn: Fethiye, Marmaris, Bodrum)"
+                      placeholder="Ara, Keşfet & Rezervasyon Yap"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-14 pr-4 py-4 text-lg rounded-l-2xl border-0 focus:ring-0 text-gray-900 placeholder-gray-500"
@@ -329,7 +329,7 @@ const HomePage = () => {
                 {/* Popular Search Terms */}
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
                   <span className="text-white/80 text-sm"></span>
-                  {['Fethiye', 'Göcek', 'Marmaris', 'Bodrum', 'Kaş'].map((term) => (
+                  {['Fethiye', 'Göcek', 'Marmaris', 'Bodrum'].map((term) => (
                     <button
                       key={term}
                       onClick={() => {
