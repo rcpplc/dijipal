@@ -31,7 +31,7 @@ const ToursPage = () => {
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState(searchParams.get('search') || '');
-  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
+  const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     category: searchParams.get('category') || '',
