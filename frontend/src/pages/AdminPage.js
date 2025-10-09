@@ -67,6 +67,14 @@ const AdminPage = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
   
+  // New Category System states
+  const [newCategories, setNewCategories] = useState([]);
+  const [showNewCategoryModal, setShowNewCategoryModal] = useState(false);
+  const [showDeleteNewCategoryConfirm, setShowDeleteNewCategoryConfirm] = useState(false);
+  const [selectedNewCategory, setSelectedNewCategory] = useState(null);
+  const [editingNewCategory, setEditingNewCategory] = useState(null);
+  const [newCategoriesLoading, setNewCategoriesLoading] = useState(false);
+  
   // Media Library states moved to modal scope
 
   // Load locations and categories immediately for tour modal
