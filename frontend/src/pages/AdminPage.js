@@ -2472,16 +2472,16 @@ const AdminPage = () => {
               Kategori Silme Onayı
             </h3>
             <p className="text-gray-600 mb-2">
-              <strong>"{selectedNewCategory.title}"</strong> kategorisini ve tüm lokasyon kombinasyonlarını silmek istediğinizden emin misiniz?
+              <strong>"{selectedNewCategory.title}"</strong> kategorisini ve tüm alt kategorilerini silmek istediğinizden emin misiniz?
             </p>
-            {selectedNewCategory.locations && selectedNewCategory.locations.length > 0 && (
+            {selectedNewCategory.subcategories && selectedNewCategory.subcategories.length > 0 && (
               <div className="mb-4">
                 <p className="text-sm text-gray-500 mb-2">Silinecek URL'ler:</p>
                 <div className="bg-gray-50 p-3 rounded-lg max-h-32 overflow-y-auto">
                   <ul className="text-xs text-gray-600 space-y-1">
                     <li>→ <code>/{selectedNewCategory.slug}</code></li>
-                    {selectedNewCategory.locations.map((location) => (
-                      <li key={location.id}>→ <code>/{location.combined_slug}</code></li>
+                    {selectedNewCategory.subcategories.map((subcategory) => (
+                      <li key={subcategory.id}>→ <code>/{subcategory.slug}</code></li>
                     ))}
                   </ul>
                 </div>
@@ -2502,6 +2502,46 @@ const AdminPage = () => {
               </button>
               <button
                 onClick={() => handleDeleteNewCategory(selectedNewCategory.id)}
+                className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
+              >
+                Sil
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Sub Category Delete Confirmation Modal */}
+      {showDeleteSubCategoryConfirm && selectedSubCategory && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+            <h3 className="text-lg font-semibold text-gray-900 mb-4">
+              Alt Kategori Silme Onayı
+            </h3>
+            <p className="text-gray-600 mb-4">
+              <strong>"{selectedSubCategory.title}"</strong> alt kategorisini silmek istediğinizden emin misiniz?
+            </p>
+            <div className="mb-4">
+              <p className="text-sm text-gray-500 mb-2">Silinecek URL:</p>
+              <div className="bg-gray-50 p-3 rounded-lg">
+                <code className="text-xs text-gray-600">/{selectedSubCategory.slug}</code>
+              </div>
+            </div>
+            <p className="text-red-600 text-sm mb-6">
+              ⚠️ Bu işlem geri alınamaz.
+            </p>
+            <div className="flex space-x-4">
+              <button
+                onClick={() => {
+                  setShowDeleteSubCategoryConfirm(false);
+                  setSelectedSubCategory(null);
+                }}
+                className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors duration-200"
+              >
+                İptal
+              </button>
+              <button
+                onClick={() => handleDeleteSubCategory(selectedSubCategory.id)}
                 className="flex-1 px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors duration-200"
               >
                 Sil
