@@ -1377,6 +1377,7 @@ class NewCategoryCreate(BaseModel):
     description: Optional[str] = None
     image: Optional[str] = None
     faq: List[Dict[str, str]] = []  # [{"question": "...", "answer": "..."}]
+    custom_slug: Optional[str] = None  # Manual URL override
     meta_title: Optional[str] = None
     meta_description: Optional[str] = None
     meta_keywords: Optional[str] = None
@@ -1389,6 +1390,7 @@ class NewCategory(BaseModel):
     image: Optional[str] = None
     faq: List[Dict[str, str]] = []
     slug: str
+    custom_slug: Optional[str] = None  # Manual URL if set
     meta_title: Optional[str] = None
     meta_description: Optional[str] = None
     meta_keywords: Optional[str] = None
