@@ -2379,6 +2379,7 @@ const AdminPage = () => {
           onSave={handleTourSaved}
           locations={locations}
           categories={categories}
+          newCategories={newCategories}
         />
       )}
 
