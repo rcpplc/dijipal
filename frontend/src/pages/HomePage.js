@@ -148,10 +148,10 @@ const HomePage = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       // Arama terimi varsa, arama sonuçlarıyla tours sayfasına git
-      navigate(`/tours?search=${encodeURIComponent(searchQuery.trim())}`);
+      navigate(`/turlar?search=${encodeURIComponent(searchQuery.trim())}`);
     } else {
-      // Arama kutusu boşsa, sadece tours sayfasına git
-      navigate('/tours');
+      // Arama kutusu boşsa, sadece turlar sayfasına git
+      navigate('/turlar');
     }
   };
 
