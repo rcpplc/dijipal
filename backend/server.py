@@ -3412,7 +3412,7 @@ async def upload_media(
             # Save file
             file_path = tour_images_dir / stored_filename
             async with aiofiles.open(file_path, 'wb') as f:
-                await f.write(webp_data)
+                await f.write(optimized_data)
             
             # Create media library entry
             media_item = MediaLibraryItem(
