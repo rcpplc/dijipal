@@ -2120,6 +2120,163 @@ const AdminPage = () => {
             )}
           </div>
         )}
+
+        {/* New Category System Tab */}
+        {activeTab === 'new-categories' && (
+          <div>
+            <div className="flex justify-between items-center mb-6">
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">Yeni Kategori Sistemi</h2>
+                <p className="text-gray-600 mt-2">Kategorileri lokasyonlarla birlikte yönetin ve SEO uyumlu URL'ler oluşturun</p>
+              </div>
+              <button
+                onClick={() => openNewCategoryModal()}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Yeni Kategori Oluştur</span>
+              </button>
+            </div>
+
+            {newCategoriesLoading ? (
+              <div className="space-y-4">
+                {[...Array(3)].map((_, i) => (
+                  <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow">
+                    <div className="flex items-start space-x-4">
+                      <div className="bg-gray-200 w-20 h-20 rounded-lg"></div>
+                      <div className="flex-1 space-y-3">
+                        <div className="bg-gray-200 h-5 w-1/3 rounded"></div>
+                        <div className="bg-gray-200 h-4 w-2/3 rounded"></div>
+                        <div className="bg-gray-200 h-3 w-1/2 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="space-y-6">
+                {newCategories.length === 0 ? (
+                  <div className="bg-white rounded-xl p-12 text-center shadow-sm">
+                    <div className="text-6xl mb-4">🏷️</div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                      Henüz kategori yok
+                    </h3>
+                    <p className="text-gray-600 mb-6 max-w-md mx-auto">
+                      İlk kategorinizi oluşturarak başlayın. Her kategori birden fazla lokasyonla ilişkilendirilebilir ve SEO uyumlu URL'ler oluşturur.
+                    </p>
+                    <button
+                      onClick={() => openNewCategoryModal()}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200 inline-flex items-center space-x-2"
+                    >
+                      <Plus className="w-5 h-5" />
+                      <span>İlk Kategorini Oluştur</span>
+                    </button>
+                  </div>
+                ) : (
+                  newCategories.map((category) => (
+                    <div key={category.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                      {/* Category Header */}
+                      <div className="p-6 border-b border-gray-100">
+                        <div className="flex items-start justify-between">
+                          <div className="flex items-start space-x-4">
+                            {category.image ? (
+                              <img 
+                                src={category.image} 
+                                alt={category.title}
+                                className="w-16 h-16 rounded-lg object-cover"
+                              />
+                            ) : (
+                              <div className="w-16 h-16 bg-gray-100 rounded-lg flex items-center justify-center">
+                                <span className="text-2xl">🏷️</span>
+                              </div>
+                            )}
+                            <div className="flex-1">
+                              <h3 className="text-lg font-semibold text-gray-900">{category.title}</h3>
+                              <p className="text-sm text-gray-600 mt-1">
+                                Slug: <code className="bg-gray-100 px-2 py-1 rounded text-xs">/{category.slug}</code>
+                              </p>
+                              {category.description && (
+                                <p className="text-gray-600 mt-2 line-clamp-2">{category.description}</p>
+                              )}
+                              <div className="flex items-center space-x-4 mt-2">
+                                <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                                  category.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                                }`}>
+                                  {category.is_active ? 'Aktif' : 'Pasif'}
+                                </span>
+                                <span className="text-xs text-gray-500">
+                                  {category.locations?.length || 0} lokasyon
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="flex items-center space-x-2">
+                            <button
+                              onClick={() => openNewCategoryModal(category)}
+                              className="p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
+                              title="Düzenle"
+                            >
+                              <Edit className="w-4 h-4" />
+                            </button>
+                            <button
+                              onClick={() => {
+                                setSelectedNewCategory(category);
+                                setShowDeleteNewCategoryConfirm(true);
+                              }}
+                              className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors duration-200"
+                              title="Sil"
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Location Combinations */}
+                      {category.locations && category.locations.length > 0 && (
+                        <div className="p-6">
+                          <h4 className="text-sm font-medium text-gray-900 mb-3">Lokasyon Kombinasyonları</h4>
+                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+                            {category.locations.map((location) => (
+                              <div key={location.id} className="bg-gray-50 rounded-lg p-3">
+                                <div className="flex items-center justify-between">
+                                  <div>
+                                    <p className="font-medium text-gray-900 text-sm">{location.location_name}</p>
+                                    <code className="text-xs text-gray-500 bg-white px-2 py-1 rounded mt-1 inline-block">
+                                      /{location.combined_slug}
+                                    </code>
+                                  </div>
+                                  <span className={`w-2 h-2 rounded-full ${
+                                    location.is_active ? 'bg-green-400' : 'bg-red-400'
+                                  }`}></span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* SEO Info */}
+                      {(category.meta_title || category.meta_description) && (
+                        <div className="px-6 pb-6">
+                          <h4 className="text-sm font-medium text-gray-900 mb-2">SEO Bilgileri</h4>
+                          <div className="bg-blue-50 rounded-lg p-3 text-sm">
+                            {category.meta_title && (
+                              <p><span className="font-medium">Title:</span> {category.meta_title}</p>
+                            )}
+                            {category.meta_description && (
+                              <p className="mt-1"><span className="font-medium">Description:</span> {category.meta_description}</p>
+                            )}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+        )}
       </div>
 
       {/* Tour Modal */}
