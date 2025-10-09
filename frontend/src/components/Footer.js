@@ -10,17 +10,19 @@ const Footer = () => {
           {/* Company Info */}
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-white" />
-              </div>
+              <img 
+                src="/mavibilet-logo.png" 
+                alt="mavibilet.com" 
+                className="h-10 w-auto"
+              />
               <div>
-                <h3 className="text-xl font-bold">TurPlatform</h3>
-                <p className="text-sm text-gray-400">Keşfet & Rezervasyon Yap</p>
+                <h3 className="text-xl font-bold">mavibilet.com</h3>
+                <p className="text-sm text-gray-400">Mavi Yolculuğun Keyfini Çıkarın</p>
               </div>
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
-              Türkiye'nin en kapsamlı tur platformu. Binlerce destinasyon, 
-              güvenilir operatörler ve unutulmaz deneyimler sizi bekliyor.
+              Türkiye'nin eşsiz koylarında kabin kiralama ile unutulmaz deniz tatili deneyimi. 
+              Akdeniz ve Ege'nin berrak sularında profesyonel mürettebat eşliğinde mavi yolculuk.
             </p>
             <div className="flex space-x-4">
               <a 
