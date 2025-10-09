@@ -3353,7 +3353,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                 <div>
                   <h3 className="text-xl font-semibold text-gray-900 mb-2">🖼️ Görsel & Medya</h3>
                   <p className="text-sm text-gray-600 mb-6">
-                    Görseller aynen yüklenir. Sadece SEO uyumlu dosya adları oluşturulur.
+                    ⚡ Hızlı yükleme: Resimler direkt kaydedilir, hiçbir işlem yapılmaz.
                   </p>
                 </div>
 
