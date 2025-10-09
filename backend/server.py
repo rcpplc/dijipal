@@ -3172,7 +3172,7 @@ async def upload_images(files: List[UploadFile] = File(...)):
             uploaded_files.append({
                 "filename": file.filename,
                 "stored_name": filename,
-                "url": f"/api/serve/{filename}",
+                "url": f"/uploads/{filename}",
                 "size": len(content)
             })
             
