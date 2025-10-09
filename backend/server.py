@@ -88,19 +88,33 @@ def ensure_upload_directory():
     
     return images_dir
 
-async def convert_to_webp(image_data: bytes, filename: str, quality: int = 85) -> tuple[bytes, tuple[int, int], bool]:
-    """Convert image to WebP format with optimized quality and skip if already WebP"""
+async def optimize_image(image_data: bytes, filename: str, quality: int = 90) -> tuple[bytes, tuple[int, int], str, bool]:
+    """Optimize image without format conversion - keep original format"""
     try:
-        # Check if already WebP
-        if filename.lower().endswith('.webp'):
-            # Just get dimensions and return original
-            image = Image.open(io.BytesIO(image_data))
-            width, height = image.size
-            return image_data, (width, height), False  # False = no conversion needed
-        
         # Open image from bytes
         image = Image.open(io.BytesIO(image_data))
         original_width, original_height = image.size
+        original_format = image.format or 'JPEG'
+        
+        # Determine output format based on original
+        if filename.lower().endswith(('.jpg', '.jpeg')):
+            output_format = 'JPEG'
+            file_extension = '.jpg'
+        elif filename.lower().endswith('.png'):
+            output_format = 'PNG'
+            file_extension = '.png'
+        elif filename.lower().endswith('.webp'):
+            output_format = 'WEBP'
+            file_extension = '.webp'
+        elif filename.lower().endswith('.gif'):
+            output_format = 'GIF'
+            file_extension = '.gif'
+        else:
+            # Default to JPEG for unknown formats
+            output_format = 'JPEG'
+            file_extension = '.jpg'
+        
+        resized = False
         
         # Optimize large images - resize if too big
         max_dimension = 2048  # Max width or height
@@ -110,34 +124,35 @@ async def convert_to_webp(image_data: bytes, filename: str, quality: int = 85) -
             new_width = int(original_width * ratio)
             new_height = int(original_height * ratio)
             image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
+            resized = True
             print(f"Resized image from {original_width}x{original_height} to {new_width}x{new_height}")
         
-        # Convert RGBA to RGB if necessary (faster method)
-        if image.mode in ('RGBA', 'LA'):
-            # Create a white background
+        # Handle transparency for JPEG (convert RGBA to RGB)
+        if output_format == 'JPEG' and image.mode in ('RGBA', 'LA'):
             background = Image.new('RGB', image.size, (255, 255, 255))
             if image.mode == 'RGBA':
                 background.paste(image, mask=image.split()[-1])
             else:
                 background.paste(image)
             image = background
-        elif image.mode not in ('RGB', 'L'):  # Support grayscale too
-            image = image.convert('RGB')
         
         # Get final dimensions
         width, height = image.size
         
-        # Save as WebP with optimized settings
+        # Save in original format with optimization
         output_buffer = io.BytesIO()
-        image.save(
-            output_buffer, 
-            format='WEBP', 
-            quality=quality,
-            optimize=True,
-            method=4  # Faster compression method
-        )
         
-        return output_buffer.getvalue(), (width, height), True  # True = conversion done
+        if output_format == 'JPEG':
+            image.save(output_buffer, format='JPEG', quality=quality, optimize=True)
+        elif output_format == 'PNG':
+            image.save(output_buffer, format='PNG', optimize=True)
+        elif output_format == 'WEBP':
+            image.save(output_buffer, format='WEBP', quality=quality, optimize=True, method=4)
+        elif output_format == 'GIF':
+            image.save(output_buffer, format='GIF', optimize=True)
+        
+        return output_buffer.getvalue(), (width, height), file_extension, resized
+        
     except Exception as e:
         raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")
 
