@@ -28,9 +28,22 @@ const API = `${BACKEND_URL}/api`;
 const CategoryDetailPage = () => {
   const { categorySlug, locationSlug } = useParams();
   const navigate = useNavigate();
+  const { user, setShowLoginModal } = useAuth();
   const [categoryData, setCategoryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tours, setTours] = useState([]);
+  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
+  const [favorites, setFavorites] = useState(new Set());
+  const [filters, setFilters] = useState({
+    location: '',
+    minPrice: '',
+    maxPrice: '',
+    duration: '',
+    minRating: '',
+    classification: '',
+    startDate: '',
+    endDate: ''
+  });
 
   useEffect(() => {
     loadCategoryData();
