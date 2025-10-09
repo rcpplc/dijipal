@@ -3195,6 +3195,40 @@ async def upload_images(files: List[UploadFile] = File(...)):
         print(f"❌ Upload error: {e}")
         return {"success": False, "error": str(e)}
 
+@app.post("/api/simple-upload") 
+async def simple_upload(files: List[UploadFile] = File(...)):
+    """Ultra simple upload - returns base64 data URLs"""
+    import base64
+    
+    result = []
+    
+    for file in files:
+        # Read file
+        content = await file.read()
+        
+        # Convert to base64
+        base64_str = base64.b64encode(content).decode()
+        
+        # Create data URL
+        if file.filename.lower().endswith(('.jpg', '.jpeg')):
+            mime = "image/jpeg"
+        elif file.filename.lower().endswith('.png'):
+            mime = "image/png"
+        elif file.filename.lower().endswith('.gif'):
+            mime = "image/gif"
+        else:
+            mime = "image/jpeg"
+        
+        data_url = f"data:{mime};base64,{base64_str}"
+        
+        result.append({
+            "name": file.filename,
+            "url": data_url,
+            "size": len(content)
+        })
+    
+    return {"success": True, "images": result}
+
 @app.get("/api/test-upload")
 async def test_upload():
     """Test endpoint"""
