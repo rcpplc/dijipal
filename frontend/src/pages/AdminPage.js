@@ -2120,19 +2120,6 @@ const AdminPage = () => {
                                         }`}></span>
                                       </div>
                                       
-                                      {/* Title */}
-                                      <div className="mb-2">
-                                        <h6 className="text-sm font-medium text-gray-800 mb-1">Başlık:</h6>
-                                        <p className="text-sm text-gray-700">{subcategory.title}</p>
-                                      </div>
-
-                                      {/* Description */}
-                                      {subcategory.description && (
-                                        <div className="mb-2">
-                                          <h6 className="text-sm font-medium text-gray-800 mb-1">Açıklama:</h6>
-                                          <p className="text-sm text-gray-600 line-clamp-2">{subcategory.description}</p>
-                                        </div>
-                                      )}
 
                                       {/* URL */}
                                       <div>
