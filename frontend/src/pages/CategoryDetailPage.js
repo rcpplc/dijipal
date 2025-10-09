@@ -630,7 +630,7 @@ const CategoryDetailPage = () => {
                       {categoryData.subcategories.map((subcategory) => (
                         <li key={subcategory.id}>
                           <button
-                            onClick={() => navigate(`/categories/${categorySlug}/${subcategory.location_slug}`)}
+                            onClick={() => navigate(`/${categorySlug}/${subcategory.location_slug}`)}
                             className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
                           >
                             <span>{subcategory.location_name}</span>
