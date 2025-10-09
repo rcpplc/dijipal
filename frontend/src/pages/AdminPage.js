@@ -2232,26 +2232,72 @@ const AdminPage = () => {
                         </div>
                       </div>
 
-                      {/* Location Combinations */}
-                      {category.locations && category.locations.length > 0 && (
-                        <div className="p-6">
-                          <h4 className="text-sm font-medium text-gray-900 mb-3">Lokasyon Kombinasyonları</h4>
-                          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
-                            {category.locations.map((location) => (
-                              <div key={location.id} className="bg-gray-50 rounded-lg p-3">
-                                <div className="flex items-center justify-between">
-                                  <div>
-                                    <p className="font-medium text-gray-900 text-sm">{location.location_name}</p>
-                                    <code className="text-xs text-gray-500 bg-white px-2 py-1 rounded mt-1 inline-block">
-                                      /{location.combined_slug}
+                      {/* Subcategories */}
+                      {category.subcategories && category.subcategories.length > 0 && (
+                        <div className="p-6 border-t border-gray-100">
+                          <div className="flex items-center justify-between mb-3">
+                            <h4 className="text-sm font-medium text-gray-900">Alt Kategoriler ({category.subcategories.length})</h4>
+                            <button
+                              onClick={() => openSubCategoryModal(category.id)}
+                              className="text-xs bg-green-100 text-green-700 hover:bg-green-200 px-2 py-1 rounded transition-colors"
+                            >
+                              + Alt Kategori Ekle
+                            </button>
+                          </div>
+                          <div className="space-y-3">
+                            {category.subcategories.map((subcategory) => (
+                              <div key={subcategory.id} className="bg-gray-50 rounded-lg p-3 border-l-4 border-blue-200">
+                                <div className="flex items-start justify-between">
+                                  <div className="flex-1">
+                                    <div className="flex items-center space-x-2">
+                                      <h5 className="font-medium text-gray-900 text-sm">{subcategory.location_name}</h5>
+                                      <span className={`w-2 h-2 rounded-full ${
+                                        subcategory.is_active ? 'bg-green-400' : 'bg-red-400'
+                                      }`}></span>
+                                    </div>
+                                    <p className="text-xs text-gray-600 mt-1">{subcategory.title}</p>
+                                    <code className="text-xs text-gray-500 bg-white px-2 py-0.5 rounded mt-1 inline-block">
+                                      /{subcategory.slug}
                                     </code>
                                   </div>
-                                  <span className={`w-2 h-2 rounded-full ${
-                                    location.is_active ? 'bg-green-400' : 'bg-red-400'
-                                  }`}></span>
+                                  <div className="flex items-center space-x-1">
+                                    <button
+                                      onClick={() => openSubCategoryModal(category.id, subcategory)}
+                                      className="p-1 text-gray-400 hover:text-blue-600 rounded"
+                                      title="Düzenle"
+                                    >
+                                      <Edit className="w-3 h-3" />
+                                    </button>
+                                    <button
+                                      onClick={() => {
+                                        setSelectedSubCategory(subcategory);
+                                        setShowDeleteSubCategoryConfirm(true);
+                                      }}
+                                      className="p-1 text-gray-400 hover:text-red-600 rounded"
+                                      title="Sil"
+                                    >
+                                      <Trash2 className="w-3 h-3" />
+                                    </button>
+                                  </div>
                                 </div>
                               </div>
                             ))}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Add subcategory button when no subcategories */}
+                      {(!category.subcategories || category.subcategories.length === 0) && (
+                        <div className="p-6 border-t border-gray-100">
+                          <div className="text-center py-4">
+                            <p className="text-sm text-gray-500 mb-3">Henüz alt kategori yok</p>
+                            <button
+                              onClick={() => openSubCategoryModal(category.id)}
+                              className="bg-green-100 text-green-700 hover:bg-green-200 px-4 py-2 rounded-lg text-sm transition-colors inline-flex items-center space-x-2"
+                            >
+                              <Plus className="w-4 h-4" />
+                              <span>İlk Alt Kategoriyi Ekle</span>
+                            </button>
                           </div>
                         </div>
                       )}
