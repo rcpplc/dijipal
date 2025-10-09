@@ -328,7 +328,7 @@ const HomePage = () => {
                 
                 {/* Popular Search Terms */}
                 <div className="mt-6 flex flex-wrap justify-center gap-3">
-                  <span className="text-white/80 text-sm">Popüler:</span>
+                  <span className="text-white/80 text-sm"></span>
                   {['Fethiye', 'Göcek', 'Marmaris', 'Bodrum', 'Kaş'].map((term) => (
                     <button
                       key={term}
