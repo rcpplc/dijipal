@@ -611,7 +611,7 @@ const TourDetailPage = () => {
     }
   }, [tour?.title, tour?.short_description]);
 
-  const toggleFavorite = async () => {
+  const toggleFavorite = useCallback(async () => {
     if (!user) {
       setShowLoginModal(true);
       return;
@@ -638,7 +638,7 @@ const TourDetailPage = () => {
       console.error('Error toggling favorite:', error);
       toast.error('Bir hata oluştu. Lütfen tekrar deneyin.');
     }
-  };
+  }, [user, tour?.id, isFavorited, API]);
 
   // Mobile booking bar add to cart handler
   // YENİ SEPETE EKLEME FONKSİYONU - SIFIRDAN
