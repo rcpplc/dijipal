@@ -29,9 +29,22 @@ const API = `${BACKEND_URL}/api`;
 
 const CategoryPage = () => {
   const { category } = useParams();
+  const navigate = useNavigate();
+  const { user, setShowLoginModal } = useAuth();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [expandedFaq, setExpandedFaq] = useState(null);
+  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
+  const [favorites, setFavorites] = useState(new Set());
+  const [filters, setFilters] = useState({
+    location: '',
+    minPrice: '',
+    maxPrice: '',
+    duration: '',
+    minRating: '',
+    classification: '',
+    startDate: '',
+    endDate: ''
+  });
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
