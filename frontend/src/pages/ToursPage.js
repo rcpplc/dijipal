@@ -116,72 +116,126 @@ const ToursPage = () => {
 
   const loadFilterData = async () => {
     try {
-      // Load categories - try different API endpoints
-      try {
-        let categoriesResponse;
-        try {
-          // Try new category system first
-          categoriesResponse = await axios.get(`${API}/admin/categories`);
-        } catch (error) {
-          // Fallback to regular categories endpoint
-          categoriesResponse = await axios.get(`${API}/categories`);
-        }
-        
-        if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
-          const categoryOptions = [
-            { value: '', label: 'Tüm Kategoriler' },
-            ...categoriesResponse.data.map(cat => ({
-              value: cat.slug || cat.id || cat.name,
-              label: cat.title || cat.name
-            }))
-          ];
-          setCategories(categoryOptions);
-        } else {
-          setCategories(defaultCategories);
-        }
-      } catch (error) {
-        console.log('Categories API not available, using defaults');
-        setCategories(defaultCategories);
-      }
+      console.log('🔍 Loading filter data from real tours...');
+      
+      // Get all tours first to extract real filter options
+      const toursResponse = await axios.get(`${API}/tours`);
+      const allTours = toursResponse.data && Array.isArray(toursResponse.data) ? toursResponse.data : [];
+      
+      console.log(`📊 Found ${allTours.length} tours for filter analysis`);
 
-      // Load locations - get unique locations from tours
-      try {
-        let locationsResponse;
-        try {
-          // Try to get tours to extract unique locations
-          locationsResponse = await axios.get(`${API}/tours`);
-          if (locationsResponse.data && Array.isArray(locationsResponse.data)) {
-            // Extract unique locations from tours
-            const uniqueLocations = [...new Set(
-              locationsResponse.data
-                .map(tour => tour.location)
-                .filter(location => location && location.trim() !== '')
-            )].sort();
-            
-            const locationOptions = [
-              { value: '', label: 'Tüm Lokasyonlar' },
-              ...uniqueLocations.map(location => ({
-                value: location,
-                label: location
-              }))
-            ];
-            setLocations(locationOptions);
-          } else {
-            setLocations(defaultLocations);
+      // Extract real categories from tours
+      const realCategories = [...new Set(
+        allTours
+          .map(tour => tour.category)
+          .filter(category => category && category.trim() !== '')
+      )].sort();
+      
+      const categoryOptions = [
+        { value: '', label: 'Tüm Kategoriler' },
+        ...realCategories.map(category => ({
+          value: category,
+          label: category
+        }))
+      ];
+      setCategories(categoryOptions);
+      console.log('📂 Categories loaded:', realCategories);
+
+      // Extract real locations from tours
+      const realLocations = [...new Set(
+        allTours
+          .map(tour => tour.location)
+          .filter(location => location && location.trim() !== '')
+      )].sort();
+      
+      const locationOptions = [
+        { value: '', label: 'Tüm Lokasyonlar' },
+        ...realLocations.map(location => ({
+          value: location,
+          label: location
+        }))
+      ];
+      setLocations(locationOptions);
+      console.log('📍 Locations loaded:', realLocations);
+
+      // Extract real durations from tours
+      const realDurations = [...new Set(
+        allTours.map(tour => {
+          // Handle different duration formats
+          if (tour.duration) {
+            return tour.duration;
           }
-        } catch (error) {
-          // Fallback to default locations
-          setLocations(defaultLocations);
-        }
-      } catch (error) {
-        console.log('Locations loading failed, using defaults');
-        setLocations(defaultLocations);
-      }
+          if (tour.duration_days) {
+            return `${tour.duration_days}_days`;
+          }
+          if (tour.duration_hours) {
+            return `${tour.duration_hours}_hours`;
+          }
+          return null;
+        }).filter(duration => duration)
+      )].sort();
+      
+      console.log('⏱️ Real durations found:', realDurations);
+
+      // Create duration options from real data
+      const durationOptions = [
+        { value: '', label: 'Tüm Süreler' },
+        ...realDurations.map(duration => {
+          if (duration.includes('_days')) {
+            const days = duration.replace('_days', '');
+            return { value: duration, label: `${days} Gün` };
+          } else if (duration.includes('_hours')) {
+            const hours = duration.replace('_hours', '');
+            return { value: duration, label: `${hours} Saat` };
+          } else {
+            return { value: duration, label: duration };
+          }
+        })
+      ];
+      setDurations(durationOptions);
+
+      // Extract real classifications from tours
+      const realClassifications = [...new Set(
+        allTours
+          .map(tour => tour.classification)
+          .filter(classification => classification && classification.trim() !== '')
+      )].sort();
+      
+      const classificationOptions = [
+        { value: '', label: 'Tüm Sınıflar' },
+        ...realClassifications.map(classification => ({
+          value: classification,
+          label: classification
+        }))
+      ];
+      setClassifications(classificationOptions);
+      console.log('🏷️ Classifications loaded:', realClassifications);
+
+      // Extract real ratings from tours for min rating filter
+      const realRatings = allTours
+        .map(tour => tour.rating)
+        .filter(rating => rating && !isNaN(rating))
+        .map(rating => Math.floor(rating));
+      
+      const uniqueRatings = [...new Set(realRatings)].sort();
+      const minRatingOptions = [
+        { value: '', label: 'Tüm Puanlar' },
+        ...uniqueRatings.map(rating => ({
+          value: rating.toString(),
+          label: `${rating}+ Yıldız`
+        }))
+      ];
+      setMinRatings(minRatingOptions);
+      console.log('⭐ Ratings loaded:', uniqueRatings);
 
     } catch (error) {
-      console.error('Error loading filter data:', error);
+      console.error('❌ Error loading filter data:', error);
+      // Fallback to defaults
       setCategories(defaultCategories);
       setLocations(defaultLocations);
+      setDurations(durations);
+      setClassifications(classifications);
+      setMinRatings(minRatings);
     }
   };
 
