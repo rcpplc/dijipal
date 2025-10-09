@@ -405,163 +405,214 @@ const CategoryDetailPage = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar */}
-          <div className="lg:col-span-1">
-            {/* Category Features */}
-            <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Bu Kategorinin Özellikleri
-              </h3>
-              {/* Show subcategories if main category */}
-              {!isLocationPage && categoryData.subcategories && categoryData.subcategories.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="text-sm font-medium text-gray-700 mb-3">Lokasyonlar:</h4>
-                  <ul className="space-y-2">
-                    {categoryData.subcategories.map((subcategory) => (
-                      <li key={subcategory.id}>
-                        <button
-                          onClick={() => navigate(`/${categorySlug}/${subcategory.location_slug}`)}
-                          className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
-                        >
-                          <span>{subcategory.location_name}</span>
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </li>
+      {/* Main Content Area - 4 Column Grid Layout */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        
+        {/* Desktop: 4-column grid (1 sidebar + 3 tours), Mobile: Stacked */}
+        <div className="lg:grid lg:grid-cols-4 lg:gap-8">
+          
+          {/* Left Sidebar - Filters */}
+          <div className={`lg:col-span-1 ${showFilters ? 'block' : 'hidden'} lg:block mb-8 lg:mb-0`}>
+            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-200 lg:sticky lg:top-6">
+              {/* Filter Header */}
+              <div className="flex items-center justify-between mb-6">
+                <h3 className="text-lg font-semibold text-gray-900">Filtreler</h3>
+                <button
+                  onClick={clearFilters}
+                  className="text-gray-500 hover:text-gray-700 transition-colors duration-200 flex items-center space-x-1 text-sm"
+                >
+                  <X className="w-4 h-4" />
+                  <span className="hidden sm:inline">Temizle</span>
+                </button>
+              </div>
+              
+              {/* Filter Options */}
+              <div className="space-y-6">
+                {/* Duration Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Calendar className="w-4 h-4 mr-2 text-gray-600" />
+                    Süre
+                  </label>
+                  <select
+                    value={filters.duration}
+                    onChange={(e) => handleFilterChange('duration', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {durations.map((duration) => (
+                      <option key={duration.value} value={duration.value}>
+                        {duration.label}
+                      </option>
                     ))}
-                  </ul>
+                  </select>
                 </div>
-              )}
-            </div>
 
-            {/* Quick Stats */}
-            <div className="bg-white rounded-xl shadow-lg p-6">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">
-                Kategori İstatistikleri
-              </h3>
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Toplam Tur:</span>
-                  <span className="font-semibold text-blue-600">{tours.length}</span>
+                {/* Classification Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Building className="w-4 h-4 mr-2 text-gray-600" />
+                    Sınıf
+                  </label>
+                  <select
+                    value={filters.classification}
+                    onChange={(e) => handleFilterChange('classification', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {classifications.map((classification) => (
+                      <option key={classification.value} value={classification.value}>
+                        {classification.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Ortalama Puan:</span>
-                  <span className="font-semibold text-yellow-600">4.8</span>
+
+                {/* Rating Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <Star className="w-4 h-4 mr-2 text-yellow-500" />
+                    Min. Puan
+                  </label>
+                  <select
+                    value={filters.minRating}
+                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {minRatings.map((rating) => (
+                      <option key={rating.value} value={rating.value}>
+                        {rating.label}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {tours.length > 0 && (
-                  <div className="flex justify-between">
-                    <span className="text-gray-600">Başlangıç Fiyatı:</span>
-                    <span className="font-semibold text-green-600">
-                      ₺{Math.min(...tours.map(t => t.minimum_price || 0).filter(p => p > 0)).toLocaleString('tr-TR')}
-                    </span>
+
+                {/* Price Range Filter */}
+                <div className="border-t pt-4">
+                  <div className="space-y-2 mb-4">
+                    <label className="text-sm font-medium text-gray-700 flex items-center">
+                      💰 Fiyat Aralığı
+                    </label>
+                    <div className="text-xs text-gray-600 bg-gray-50 px-3 py-2 rounded">
+                      ₺{filters.minPrice?.toLocaleString('tr-TR') || '0'} - ₺{filters.maxPrice?.toLocaleString('tr-TR') || '50.000'}
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <input
+                      type="number"
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      placeholder="Min fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                    <input
+                      type="number"
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      placeholder="Max fiyat"
+                      className="w-full px-3 py-2.5 bg-white border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                  </div>
+                </div>
+
+                {/* Category Stats */}
+                <div className="border-t pt-4">
+                  <h4 className="text-sm font-medium text-gray-700 mb-3">Kategori İstatistikleri</h4>
+                  <div className="space-y-2">
+                    <div className="flex justify-between text-sm">
+                      <span className="text-gray-600">Toplam Tur:</span>
+                      <span className="font-semibold text-blue-600">{tours.length}</span>
+                    </div>
+                    {tours.length > 0 && (
+                      <div className="flex justify-between text-sm">
+                        <span className="text-gray-600">Başlangıç:</span>
+                        <span className="font-semibold text-green-600">
+                          ₺{Math.min(...tours.map(t => t.minimum_price || 0).filter(p => p > 0)).toLocaleString('tr-TR')}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {/* Subcategories/Locations */}
+                {!isLocationPage && categoryData && categoryData.subcategories && categoryData.subcategories.length > 0 && (
+                  <div className="border-t pt-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Bu Kategori Lokasyonları:</h4>
+                    <ul className="space-y-2">
+                      {categoryData.subcategories.map((subcategory) => (
+                        <li key={subcategory.id}>
+                          <button
+                            onClick={() => navigate(`/categories/${categorySlug}/${subcategory.location_slug}`)}
+                            className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
+                          >
+                            <span>{subcategory.location_name}</span>
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Main Content */}
+          {/* Right Content - Tours (3 columns on desktop, responsive on mobile) */}
           <div className="lg:col-span-3">
-            {/* Tours Grid */}
-            <div className="mb-12">
-              <div className="flex justify-between items-center mb-6">
-                <h2 className="text-2xl font-bold text-gray-900">
-                  {isLocationPage ? categoryData.title : displayCategory.title} ({tours.length})
-                </h2>
-              </div>
+            
+            {/* Results Header */}
+            <div className="flex justify-between items-center mb-6">
+              <p className="text-gray-600">
+                {tours.length} tur bulundu
+              </p>
+            </div>
 
-              {tours.length > 0 ? (
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {tours.map((tour) => (
-                    <div
-                      key={tour.id}
-                      onClick={() => navigateToTour(tour)}
-                      className="bg-white rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 overflow-hidden cursor-pointer group"
-                    >
-                      <div className="relative">
-                        <img
-                          src={tour.images?.[0] || '/placeholder-tour.jpg'}
-                          alt={tour.title}
-                          className="w-full h-48 object-cover"
-                        />
-                        <div className="absolute top-4 left-4">
-                          <span className="bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-medium">
-                            {tour.category}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="p-6">
-                        <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
-                          <MapPin className="w-4 h-4" />
-                          <span>{tour.location}</span>
-                        </div>
-
-                        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2">
-                          {tour.title}
-                        </h3>
-
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                          {tour.description || tour.short_description}
-                        </p>
-
-                        <div className="flex items-center justify-between mb-4">
-                          <div className="flex items-center space-x-2">
-                            <div className="flex items-center">
-                              {[...Array(5)].map((_, i) => (
-                                <Star
-                                  key={i}
-                                  className={`w-4 h-4 ${
-                                    i < 4 ? 'text-yellow-400 fill-current' : 'text-gray-300'
-                                  }`}
-                                />
-                              ))}
-                            </div>
-                            <span className="text-sm text-gray-600">(24)</span>
-                          </div>
-
-                          <div className="flex items-center space-x-2 text-sm text-gray-600">
-                            <Calendar className="w-4 h-4" />
-                            <span>{tour.duration_days || 1} Gün</span>
-                          </div>
-                        </div>
-
-                        <div className="flex items-center justify-between">
-                          <div className="text-2xl font-bold text-blue-600">
-                            ₺{(tour.minimum_price || 0).toLocaleString('tr-TR')}
-                            <span className="text-sm font-normal text-gray-600 ml-1">/kişi</span>
-                          </div>
-
-                          <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-medium transition-colors duration-200">
-                            Detaylar
-                          </button>
-                        </div>
+            {/* Tours Grid - ToursPage Style */}
+            {loading ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {[...Array(6)].map((_, i) => (
+                  <div key={i} className="bg-white rounded-xl overflow-hidden shadow-lg animate-pulse">
+                    <div className="bg-gray-200 h-48"></div>
+                    <div className="p-6 space-y-4">
+                      <div className="bg-gray-200 h-4 rounded"></div>
+                      <div className="bg-gray-200 h-6 rounded"></div>
+                      <div className="bg-gray-200 h-4 rounded w-3/4"></div>
+                      <div className="flex justify-between">
+                        <div className="bg-gray-200 h-8 w-20 rounded"></div>
+                        <div className="bg-gray-200 h-8 w-16 rounded"></div>
                       </div>
                     </div>
-                  ))}
-                </div>
-              ) : (
-                <div className="text-center py-16">
-                  <div className="text-6xl mb-4">🔍</div>
-                  <h3 className="text-2xl font-semibold text-gray-900 mb-2">
-                    {isLocationPage 
-                      ? `${categoryData.location.location_name} bölgesinde henüz ${displayCategory.title.toLowerCase()} turu yok` 
-                      : `Bu kategoride henüz tur yok`
-                    }
-                  </h3>
-                  <p className="text-gray-600 mb-6">
-                    Yakında yeni turlar eklenecek
-                  </p>
-                  <button
-                    onClick={() => navigate('/tours')}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
-                  >
-                    Diğer Turları Keşfet
-                  </button>
-                </div>
-              )}
-            </div>
+                  </div>
+                ))}
+              </div>
+            ) : tours.length === 0 ? (
+              <div className="text-center py-16">
+                <div className="text-6xl mb-4">🔍</div>
+                <h3 className="text-2xl font-semibold text-gray-900 mb-2">
+                  {isLocationPage 
+                    ? `${categoryData.location.location_name} bölgesinde henüz ${displayCategory.title.toLowerCase()} turu yok` 
+                    : `Bu kategoride henüz tur yok`
+                  }
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Yakında yeni turlar eklenecek
+                </p>
+                <button
+                  onClick={() => navigate('/tours')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                >
+                  Diğer Turları Keşfet
+                </button>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {tours.map((tour) => (
+                  <TourCard 
+                    key={tour.id} 
+                    tour={tour} 
+                  />
+                ))}
+              </div>
+            )}
 
             {/* Description Section */}
             {(isLocationPage ? categoryData.description : displayCategory.description) && (
