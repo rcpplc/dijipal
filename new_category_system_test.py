@@ -12,7 +12,7 @@ from datetime import datetime
 # Configuration
 BASE_URL = "https://pakettur-2.preview.emergentagent.com/api"
 ADMIN_EMAIL = "admin@example.com"
-ADMIN_PASSWORD = "test123"  # Updated password from test_result.md
+ADMIN_PASSWORD = "admin123"  # Default admin password
 
 class NewCategorySystemTester:
     def __init__(self):
