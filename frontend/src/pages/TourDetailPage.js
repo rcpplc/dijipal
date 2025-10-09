@@ -338,7 +338,7 @@ const TourDetailPage = () => {
     meta.setAttribute('content', content);
   };
 
-  const loadReviews = async (tourId = null, page = 1, limit = 3) => {
+  const loadReviews = useCallback(async (tourId = null, page = 1, limit = 3) => {
     if (!tourId) return; // tourId olmadan çalıştırma
     
     setReviewsLoading(true);
@@ -365,7 +365,7 @@ const TourDetailPage = () => {
     } finally {
       setReviewsLoading(false);
     }
-  };
+  }, [API]);
 
   const loadModalReviews = async (page = 1) => {
     setModalLoading(true);
