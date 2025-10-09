@@ -421,42 +421,137 @@ const CategoryPage = () => {
                 </div>
               )}
             </div>
+          </div>
+        </div>
+      </div>
 
-            {/* FAQ Section */}
-            <div className="bg-white rounded-xl shadow-lg p-8">
-              <div className="flex items-center space-x-3 mb-6">
-                <HelpCircle className="w-6 h-6 text-blue-600" />
-                <h2 className="text-2xl font-bold text-gray-900">
-                  Sıkça Sorulan Sorular
-                </h2>
+      {/* Category Description Section - Full Width Below Tours */}
+      <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              {currentCategory.title} Hakkında
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {currentCategory.title} kategorisindeki turlar hakkında detaylı bilgi
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                <p className="text-lg mb-6">
+                  {currentCategory.description}
+                </p>
+                
+                {/* Category Features */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-8">
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                      Bu Kategorinin Özellikleri
+                    </h3>
+                    <ul className="space-y-3">
+                      {currentCategory.features.map((feature, index) => (
+                        <li key={index} className="flex items-start space-x-3">
+                          <div className="w-2 h-2 bg-blue-600 rounded-full mt-2 flex-shrink-0"></div>
+                          <span className="text-gray-700">{feature}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  
+                  <div>
+                    <h3 className="text-xl font-semibold text-gray-900 mb-4">
+                      Kategori İstatistikleri
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Toplam Tur:</span>
+                        <span className="font-semibold text-blue-600">{tours.length}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Ortalama Puan:</span>
+                        <span className="font-semibold text-yellow-600">4.8</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span className="text-gray-600">Başlangıç Fiyatı:</span>
+                        <span className="font-semibold text-green-600">
+                          ₺{tours.length > 0 ? Math.min(...tours.map(t => t.base_price || 0)).toLocaleString('tr-TR') : 0}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-              <div className="space-y-4">
-                {faqs.map((faq, index) => (
-                  <div key={index} className="border border-gray-200 rounded-lg">
-                    <button
-                      onClick={() => toggleFaq(index)}
-                      className="w-full px-6 py-4 text-left flex items-center justify-between hover:bg-gray-50 transition-colors duration-200"
+      {/* FAQ Section - Sıkça Sorulan Sorular */}
+      <div className="bg-gray-50 border-t border-gray-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          <div className="text-center mb-16">
+            <div className="flex items-center justify-center space-x-3 mb-6">
+              <div className="p-3 bg-blue-100 rounded-full">
+                <HelpCircle className="w-8 h-8 text-blue-600" />
+              </div>
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Sıkça Sorulan Sorular
+            </h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              {currentCategory.title} hakkında en çok merak edilen sorular ve cevapları
+            </p>
+          </div>
+
+          <div className="max-w-4xl mx-auto">
+            <div className="space-y-6">
+              {faqs.map((faq, index) => (
+                <div 
+                  key={index} 
+                  className="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+                >
+                  <details className="group">
+                    <summary 
+                      className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 rounded-2xl transition-colors duration-200 cursor-pointer list-none"
                     >
-                      <span className="font-semibold text-gray-900">
+                      <span className="font-semibold text-gray-900 text-lg pr-8">
                         {faq.question}
                       </span>
-                      {expandedFaq === index ? (
-                        <ChevronUp className="w-5 h-5 text-gray-500" />
-                      ) : (
-                        <ChevronDown className="w-5 h-5 text-gray-500" />
-                      )}
-                    </button>
-                    
-                    {expandedFaq === index && (
-                      <div className="px-6 pb-4">
-                        <p className="text-gray-700 leading-relaxed">
+                      <div className="flex-shrink-0 ml-4">
+                        <div className="p-2 bg-blue-50 rounded-full group-open:bg-blue-100 transition-colors duration-200">
+                          <ChevronDown className="w-5 h-5 text-blue-600 group-open:rotate-180 transition-transform duration-300" />
+                        </div>
+                      </div>
+                    </summary>
+                    <div className="px-8 pb-8">
+                      <div className="pt-4 border-t border-gray-100">
+                        <p className="text-gray-700 leading-relaxed text-base">
                           {faq.answer}
                         </p>
                       </div>
-                    )}
-                  </div>
-                ))}
+                    </div>
+                  </details>
+                </div>
+              ))}
+            </div>
+
+            {/* FAQ CTA Section */}
+            <div className="mt-12 text-center">
+              <div className="bg-blue-600 rounded-2xl p-8">
+                <h3 className="text-2xl font-bold text-white mb-4">
+                  Başka sorunuz mu var?
+                </h3>
+                <p className="text-blue-100 mb-6">
+                  Aklınıza takılan başka sorular varsa bizimle iletişime geçin
+                </p>
+                <Link
+                  to="/contact"
+                  className="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-50 transition-colors duration-200 inline-block"
+                >
+                  İletişime Geç
+                </Link>
               </div>
             </div>
           </div>
