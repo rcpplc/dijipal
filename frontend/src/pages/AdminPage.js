@@ -2361,9 +2361,9 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
   
-  // Media Library States (moved to modal scope)
-  const [mediaLibraryItems, setMediaLibraryItems] = useState([]);
-  const [uploadingImages, setUploadingImages] = useState(false);
+  // Simple upload states
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadedImages, setUploadedImages] = useState([]);
   
   const [newTourDate, setNewTourDate] = useState({
     date: '',
