@@ -2577,6 +2577,42 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
     }
   }, [isEdit, tour?.id]);
 
+  // Load subcategories when category changes
+  const loadSubcategories = async (categoryTitle) => {
+    try {
+      const selectedCategory = newCategories.find(cat => cat.title === categoryTitle);
+      if (selectedCategory && selectedCategory.subcategories) {
+        setSubcategories(selectedCategory.subcategories);
+        setSelectedCategoryId(selectedCategory.id);
+      } else {
+        setSubcategories([]);
+        setSelectedCategoryId('');
+      }
+    } catch (error) {
+      console.error('Error loading subcategories:', error);
+      setSubcategories([]);
+    }
+  };
+
+  // Handle category change
+  const handleCategoryChange = (categoryTitle) => {
+    setFormData({...formData, category: categoryTitle, location: ''}); // Clear location when category changes
+    setSelectedSubcategory('');
+    loadSubcategories(categoryTitle);
+  };
+
+  // Handle subcategory change
+  const handleSubcategoryChange = (subcategoryTitle) => {
+    setSelectedSubcategory(subcategoryTitle);
+    // Find the subcategory and set location from it
+    const subcategory = subcategories.find(sub => sub.title === subcategoryTitle);
+    if (subcategory && subcategory.location_name) {
+      setFormData({...formData, location: subcategory.location_name});
+    } else {
+      setFormData({...formData, location: subcategoryTitle}); // Use subcategory title as location for custom subcategories
+    }
+  };
+
   const loadTourDates = async () => {
     if (!tour?.id) return;
     
