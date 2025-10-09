@@ -1600,25 +1600,25 @@ async def admin_get_new_categories(current_user: User = Depends(get_current_user
     if current_user.role != UserRole.ADMIN:
         raise HTTPException(status_code=403, detail="Admin access required")
     
-    # Get all categories
+    # Get all main categories
     categories = await db.new_categories.find().to_list(length=None)
     
-    # Get location combinations for each category
+    # Build hierarchical structure
     result = []
     for category in categories:
         if "_id" in category:
             del category["_id"]
             
-        # Get associated locations
-        locations = await db.category_locations.find({"category_id": category["id"]}).to_list(length=None)
+        # Get subcategories for this category
+        subcategories = await db.sub_categories.find({"parent_category_id": category["id"]}).to_list(length=None)
         
         category_data = NewCategory(**category).dict()
-        category_data["locations"] = []
+        category_data["subcategories"] = []
         
-        for loc in locations:
-            if "_id" in loc:
-                del loc["_id"]
-            category_data["locations"].append(CategoryLocation(**loc).dict())
+        for subcategory in subcategories:
+            if "_id" in subcategory:
+                del subcategory["_id"]
+            category_data["subcategories"].append(SubCategory(**subcategory).dict())
         
         result.append(category_data)
     
