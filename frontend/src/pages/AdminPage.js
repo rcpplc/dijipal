@@ -441,6 +441,55 @@ const AdminPage = () => {
     }
   };
 
+  // New Category System Management Functions
+  const loadNewCategories = async () => {
+    setNewCategoriesLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API}/admin/new-categories`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setNewCategories(response.data);
+    } catch (error) {
+      console.error('Error loading new categories:', error);
+      toast.error('Kategoriler yüklenemedi');
+    } finally {
+      setNewCategoriesLoading(false);
+    }
+  };
+
+  const openNewCategoryModal = (category = null) => {
+    setEditingNewCategory(category);
+    setShowNewCategoryModal(true);
+  };
+
+  const closeNewCategoryModal = () => {
+    setEditingNewCategory(null);
+    setShowNewCategoryModal(false);
+  };
+
+  const handleNewCategorySaved = () => {
+    closeNewCategoryModal();
+    loadNewCategories();
+    toast.success(editingNewCategory ? 'Kategori güncellendi' : 'Kategori oluşturuldu');
+  };
+
+  const handleDeleteNewCategory = async (categoryId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API}/admin/new-categories/${categoryId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Kategori ve tüm lokasyon kombinasyonları silindi');
+      loadNewCategories();
+      setShowDeleteNewCategoryConfirm(false);
+      setSelectedNewCategory(null);
+    } catch (error) {
+      console.error('Error deleting new category:', error);
+      toast.error(error.response?.data?.detail || 'Kategori silinirken hata oluştu');
+    }
+  };
+
   // Helper function to get category name from admin categories
   const getCategoryDisplayName = (categoryValue) => {
     const category = categories.find(cat => 
