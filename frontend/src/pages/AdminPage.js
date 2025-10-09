@@ -2021,8 +2021,8 @@ const AdminPage = () => {
           <div>
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h2 className="text-2xl font-bold text-gray-900">Yeni Kategori Sistemi</h2>
-                <p className="text-gray-600 mt-2">Kategorileri lokasyonlarla birlikte yönetin ve SEO uyumlu URL'ler oluşturun</p>
+                <h2 className="text-2xl font-bold text-gray-900">Kategori Sistemi</h2>
+                <p className="text-gray-600 mt-2">Ana kategoriler ve alt kategoriler oluşturun, SEO uyumlu URL'ler yönetin</p>
               </div>
               <button
                 onClick={() => openNewCategoryModal()}
