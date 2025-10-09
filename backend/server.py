@@ -1371,13 +1371,12 @@ async def admin_delete_category(category_id: str, current_user: User = Depends(g
     await db.categories.delete_one({"id": category_id})
     return {"message": "Category deleted successfully"}
 
-# New Category System with Location Combinations
+# New Category System - Hierarchical Structure
 class NewCategoryCreate(BaseModel):
     title: str
     description: Optional[str] = None
     image: Optional[str] = None
     faq: List[Dict[str, str]] = []  # [{"question": "...", "answer": "..."}]
-    locations: List[str] = []  # Location names to associate with this category
     meta_title: Optional[str] = None
     meta_description: Optional[str] = None
     meta_keywords: Optional[str] = None
@@ -1397,14 +1396,36 @@ class NewCategory(BaseModel):
     created_at: datetime
     updated_at: Optional[datetime] = None
 
-class CategoryLocation(BaseModel):
+class SubCategoryCreate(BaseModel):
+    parent_category_id: str
+    location_name: str  # Only location name required
+    title: Optional[str] = None  # If different from "CategoryTitle - LocationName"
+    description: Optional[str] = None
+    image: Optional[str] = None
+    faq: List[Dict[str, str]] = []
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    meta_keywords: Optional[str] = None
+    is_active: bool = True
+
+class SubCategory(BaseModel):
     id: str
-    category_id: str
+    parent_category_id: str
+    parent_category_title: str
+    parent_category_slug: str
     location_name: str
     location_slug: str
-    combined_slug: str  # category-slug/location-slug
+    title: str  # Auto-generated or custom
+    slug: str  # parent-slug/location-slug
+    description: Optional[str] = None
+    image: Optional[str] = None
+    faq: List[Dict[str, str]] = []
+    meta_title: Optional[str] = None
+    meta_description: Optional[str] = None
+    meta_keywords: Optional[str] = None
     is_active: bool = True
     created_at: datetime
+    updated_at: Optional[datetime] = None
 
 @api_router.post("/admin/new-categories", response_model=NewCategory)
 async def admin_create_new_category(category_data: NewCategoryCreate, current_user: User = Depends(get_current_user)):
