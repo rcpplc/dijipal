@@ -505,7 +505,8 @@ const AdminPage = () => {
               { id: 'bookings', label: 'Rezervasyonlar', icon: Calendar },
               { id: 'messages', label: 'İletişim', icon: MessageCircle },
               { id: 'locations', label: 'Lokasyonlar', icon: MapPin },
-              { id: 'categories', label: 'Kategoriler', icon: Calendar }
+              { id: 'categories', label: 'Kategoriler', icon: Calendar },
+              { id: 'new-categories', label: 'Yeni Kategori Sistemi', icon: Calendar }
             ].map((tab) => {
               const Icon = tab.icon;
               return (
