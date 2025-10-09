@@ -202,27 +202,56 @@ const CategoryPage = () => {
     try {
       setLoading(true);
       const params = new URLSearchParams();
-      params.append('category', category);
       
-      // Add filters
+      // Add category filter - try different parameter names
+      if (category) {
+        params.append('category', category);
+        params.append('category_slug', category);
+        params.append('type', category);
+      }
+      
+      // Add other filters
       Object.entries(filters).forEach(([key, value]) => {
         if (value && value !== '') {
           params.append(key, value);
         }
       });
 
+      console.log('Loading tours with params:', params.toString());
       const response = await axios.get(`${API}/tours?${params.toString()}`);
       
-      if (response.data && Array.isArray(response.data)) {
-        setTours(response.data);
+      if (response.data) {
+        if (Array.isArray(response.data)) {
+          setTours(response.data);
+        } else if (response.data.tours && Array.isArray(response.data.tours)) {
+          setTours(response.data.tours);
+        } else {
+          setTours([]);
+        }
       } else {
         setTours([]);
       }
 
     } catch (error) {
       console.error('Error loading tours:', error);
-      setTours([]);
-      toast.error('Turlar yüklenirken hata oluştu');
+      // Load all tours as fallback to show something
+      try {
+        const fallbackResponse = await axios.get(`${API}/tours`);
+        if (fallbackResponse.data && Array.isArray(fallbackResponse.data)) {
+          // Filter tours by category on frontend if backend filtering failed
+          const filteredTours = fallbackResponse.data.filter(tour => 
+            !category || 
+            (tour.category && tour.category.toLowerCase().includes(category.toLowerCase())) ||
+            (tour.type && tour.type.toLowerCase().includes(category.toLowerCase()))
+          );
+          setTours(filteredTours);
+        } else {
+          setTours([]);
+        }
+      } catch (fallbackError) {
+        setTours([]);
+        toast.error('Turlar yüklenirken hata oluştu');
+      }
     } finally {
       setLoading(false);
     }
