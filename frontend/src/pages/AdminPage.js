@@ -2544,7 +2544,6 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
   
   // Simple upload states
   const [isUploading, setIsUploading] = useState(false);
-  const [uploadedImages, setUploadedImages] = useState([]);
   
   // Subcategory states
   const [subcategories, setSubcategories] = useState([]);
