@@ -4673,8 +4673,8 @@ const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, loca
   const validateForm = () => {
     const newErrors = {};
     
-    if (!formData.location_name.trim()) {
-      newErrors.location_name = 'Lokasyon adı zorunludur';
+    if (!formData.location_name.trim() && !formData.title.trim()) {
+      newErrors.general = 'Lokasyon adı veya özel başlık belirtilmelidir';
     }
     
     setErrors(newErrors);
