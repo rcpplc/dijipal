@@ -79,26 +79,7 @@ const ToursPage = () => {
     { value: 'Antalya', label: 'Antalya' }
   ];
 
-  // Default categories and locations
-  const defaultCategories = [
-    { value: '', label: 'Tüm Kategoriler' },
-    { value: 'cultural', label: 'Kültürel Turlar' },
-    { value: 'nature', label: 'Doğa Turları' },
-    { value: 'adventure', label: 'Macera Turları' },
-    { value: 'city', label: 'Şehir Turları' },
-    { value: 'food', label: 'Gastronomi Turları' },
-    { value: 'cruise', label: 'Kabin Turları' }
-  ];
-
-  const defaultLocations = [
-    { value: '', label: 'Tüm Lokasyonlar' },
-    { value: 'Fethiye', label: 'Fethiye' },
-    { value: 'Marmaris', label: 'Marmaris' },
-    { value: 'Bodrum', label: 'Bodrum' },
-    { value: 'Göcek', label: 'Göcek' },
-    { value: 'Kaş', label: 'Kaş' },
-    { value: 'Antalya', label: 'Antalya' }
-  ];
+  // Duplicate declarations removed
 
   useEffect(() => {
     loadTours();
