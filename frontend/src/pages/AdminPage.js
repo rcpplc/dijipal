@@ -3385,7 +3385,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     </label>
                     
                     <div className="mt-4 text-xs text-gray-500">
-                      Desteklenen formatlar: JPG, PNG, GIF, WEBP • Max boyut: 10MB per resim • Orijinal format korunur
+                      JPG, PNG, GIF, WEBP • Max 10MB • Hiçbir değişiklik yapılmaz
                     </div>
                   </div>
                 </div>
