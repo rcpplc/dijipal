@@ -2714,6 +2714,109 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }));
   };
 
+  // Enhanced Media Library Functions
+  const handleFileUpload = async (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+    
+    setUploadingImages(true);
+    
+    try {
+      const formData = new FormData();
+      files.forEach(file => {
+        formData.append('files', file);
+      });
+      
+      // Add tour title for slug generation
+      if (formData.title) {
+        formData.append('tour_title', formData.title);
+      }
+      
+      const response = await axios.post(`${API}/media/upload`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      });
+      
+      if (response.data.success) {
+        // Add uploaded items to media library state
+        setMediaLibraryItems(prev => [...prev, ...response.data.items]);
+        toast.success(`${response.data.uploaded_count} resim başarıyla yüklendi`);
+      }
+      
+    } catch (error) {
+      console.error('Upload error:', error);
+      toast.error('Resim yükleme hatası: ' + (error.response?.data?.detail || error.message));
+    } finally {
+      setUploadingImages(false);
+      // Reset input
+      e.target.value = '';
+    }
+  };
+  
+  const handleMediaUpdate = async (mediaId, metadata) => {
+    try {
+      const response = await axios.put(`${API}/media/${mediaId}`, metadata);
+      
+      if (response.data.success) {
+        // Update local state
+        setMediaLibraryItems(prev => 
+          prev.map(item => 
+            item.id === mediaId 
+              ? { ...item, ...metadata, updated_at: new Date().toISOString() }
+              : item
+          )
+        );
+        toast.success('Görsel bilgileri güncellendi');
+      }
+      
+    } catch (error) {
+      console.error('Media update error:', error);
+      toast.error('Güncelleme hatası: ' + (error.response?.data?.detail || error.message));
+    }
+  };
+  
+  const handleMediaDelete = async (mediaId) => {
+    if (!window.confirm('Bu görseli silmek istediğinizden emin misiniz?')) {
+      return;
+    }
+    
+    try {
+      const response = await axios.delete(`${API}/media/${mediaId}`);
+      
+      if (response.data.success) {
+        // Remove from local state
+        setMediaLibraryItems(prev => prev.filter(item => item.id !== mediaId));
+        toast.success('Görsel silindi');
+      }
+      
+    } catch (error) {
+      console.error('Media delete error:', error);
+      toast.error('Silme hatası: ' + (error.response?.data?.detail || error.message));
+    }
+  };
+  
+  const handleSetPrimary = async (mediaId) => {
+    try {
+      // Set as primary
+      await handleMediaUpdate(mediaId, { is_primary: true });
+      
+      // Update local state - unset other primaries
+      setMediaLibraryItems(prev => 
+        prev.map(item => ({
+          ...item,
+          is_primary: item.id === mediaId
+        }))
+      );
+      
+      toast.success('Ana sayfa resmi seçildi');
+      
+    } catch (error) {
+      console.error('Set primary error:', error);
+      toast.error('Ana resim seçme hatası: ' + (error.response?.data?.detail || error.message));
+    }
+  };
+
   const handleSubmit = async (e) => {
     if (e) e.preventDefault();
     
