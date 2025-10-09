@@ -209,7 +209,7 @@ const HomePage = () => {
         <div className="grid grid-cols-4">
           {/* Ana Sayfa */}
           <a
-            href="https://tour-reserv.preview.emergentagent.com/"
+            href="https://pakettur-2.preview.emergentagent.com/"
             className="flex flex-col items-center py-2 text-sm text-gray-500 hover:text-blue-600"
           >
             <Home className="w-6 h-6 mb-1" />
