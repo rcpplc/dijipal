@@ -89,8 +89,8 @@ const Header = () => {
           <Link to="/" className="flex items-center space-x-3">
             <img 
               src="/mavibilet-logo.png" 
-              alt="mavibilet.com" 
-              className="h-8 w-auto sm:h-10"
+              alt="." 
+              className="h-8 w-ato sm:h-10"
             />
             <div className="hidden sm:block">
               <h1 className="text-lg sm:text-xl font-bold text-gray-900">mavibilet.com</h1>
