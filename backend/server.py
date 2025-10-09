@@ -88,73 +88,29 @@ def ensure_upload_directory():
     
     return images_dir
 
-async def optimize_image(image_data: bytes, filename: str, quality: int = 90) -> tuple[bytes, tuple[int, int], str, bool]:
-    """Optimize image without format conversion - keep original format"""
+def get_image_dimensions_and_extension(image_data: bytes, filename: str) -> tuple[tuple[int, int], str]:
+    """Simply get image dimensions and proper extension - NO processing"""
     try:
-        # Open image from bytes
+        # Open image just to get dimensions
         image = Image.open(io.BytesIO(image_data))
-        original_width, original_height = image.size
-        original_format = image.format or 'JPEG'
-        
-        # Determine output format based on original
-        if filename.lower().endswith(('.jpg', '.jpeg')):
-            output_format = 'JPEG'
-            file_extension = '.jpg'
-        elif filename.lower().endswith('.png'):
-            output_format = 'PNG'
-            file_extension = '.png'
-        elif filename.lower().endswith('.webp'):
-            output_format = 'WEBP'
-            file_extension = '.webp'
-        elif filename.lower().endswith('.gif'):
-            output_format = 'GIF'
-            file_extension = '.gif'
-        else:
-            # Default to JPEG for unknown formats
-            output_format = 'JPEG'
-            file_extension = '.jpg'
-        
-        resized = False
-        
-        # Optimize large images - resize if too big
-        max_dimension = 2048  # Max width or height
-        if original_width > max_dimension or original_height > max_dimension:
-            # Calculate new dimensions maintaining aspect ratio
-            ratio = min(max_dimension / original_width, max_dimension / original_height)
-            new_width = int(original_width * ratio)
-            new_height = int(original_height * ratio)
-            image = image.resize((new_width, new_height), Image.Resampling.LANCZOS)
-            resized = True
-            print(f"Resized image from {original_width}x{original_height} to {new_width}x{new_height}")
-        
-        # Handle transparency for JPEG (convert RGBA to RGB)
-        if output_format == 'JPEG' and image.mode in ('RGBA', 'LA'):
-            background = Image.new('RGB', image.size, (255, 255, 255))
-            if image.mode == 'RGBA':
-                background.paste(image, mask=image.split()[-1])
-            else:
-                background.paste(image)
-            image = background
-        
-        # Get final dimensions
         width, height = image.size
         
-        # Save in original format with optimization
-        output_buffer = io.BytesIO()
+        # Determine proper file extension
+        if filename.lower().endswith(('.jpg', '.jpeg')):
+            file_extension = '.jpg'
+        elif filename.lower().endswith('.png'):
+            file_extension = '.png'
+        elif filename.lower().endswith('.webp'):
+            file_extension = '.webp'
+        elif filename.lower().endswith('.gif'):
+            file_extension = '.gif'
+        else:
+            file_extension = '.jpg'  # Default fallback
         
-        if output_format == 'JPEG':
-            image.save(output_buffer, format='JPEG', quality=quality, optimize=True)
-        elif output_format == 'PNG':
-            image.save(output_buffer, format='PNG', optimize=True)
-        elif output_format == 'WEBP':
-            image.save(output_buffer, format='WEBP', quality=quality, optimize=True, method=4)
-        elif output_format == 'GIF':
-            image.save(output_buffer, format='GIF', optimize=True)
-        
-        return output_buffer.getvalue(), (width, height), file_extension, resized
+        return (width, height), file_extension
         
     except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")
+        raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
 
 # Create the main app
 app = FastAPI(title="Paket Tur Satış Platformu", version="1.0.0")
