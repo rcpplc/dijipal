@@ -640,6 +640,12 @@ const TourDetailPage = () => {
     }
   }, [user, tour?.id, isFavorited, API]);
 
+  // Memoized values to prevent unnecessary re-renders
+  const images = useMemo(() => 
+    tour?.images && tour.images.length > 0 ? tour.images : ['/placeholder-tour.jpg'], 
+    [tour?.images]
+  );
+
   // Mobile booking bar add to cart handler
   // YENİ SEPETE EKLEME FONKSİYONU - SIFIRDAN
   const addToCart = () => {
