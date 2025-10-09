@@ -35,7 +35,7 @@ const CategoryDetailPage = () => {
   const [categoryData, setCategoryData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [tours, setTours] = useState([]);
-  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
+  const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     location: '',
