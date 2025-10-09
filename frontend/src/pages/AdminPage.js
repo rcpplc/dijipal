@@ -2427,101 +2427,45 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
   };
 
-  // Ultra Fast Media Library Functions (Modal scope)
-  const handleFileUpload = async (e) => {
+  // Simple upload function
+  const handleSimpleUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
     
-    // Validate file count
-    if (files.length > 5) {
-      toast.error('Maksimum 5 resim aynı anda yükleyebilirsiniz (hız için)');
-      return;
-    }
-    
-    // Validate file sizes
-    const maxSize = 5 * 1024 * 1024; // Reduced to 5MB for speed
-    const invalidFiles = files.filter(file => file.size > maxSize);
-    if (invalidFiles.length > 0) {
-      toast.error(`Bu dosyalar çok büyük (max 5MB): ${invalidFiles.map(f => f.name).join(', ')}`);
-      return;
-    }
-    
-    setUploadingImages(true);
+    setIsUploading(true);
     
     try {
-      const uploadFormData = new FormData();
-      
-      // Upload all files in one batch - but with smaller limit
+      const formData = new FormData();
       files.forEach(file => {
-        uploadFormData.append('files', file);
+        formData.append('files', file);
       });
       
-      // Add tour title for slug generation
-      if (formData.title) {
-        uploadFormData.append('tour_title', formData.title);
-      }
-      
       const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      console.log('📤 Uploading files to:', `${API}/upload-images`);
       
-      // Show detailed progress
-      const fileNames = files.map(f => f.name).join(', ');
-      const fileCount = files.length;
-      console.log(`⚡ Lightning upload ${fileCount} files: ${fileNames}`);
-      
-      const response = await axios.post(`${API}/media/upload`, uploadFormData, {
+      const response = await axios.post(`${API}/upload-images`, formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
-        },
-        timeout: 0, // No timeout - let it finish
-        onUploadProgress: (progressEvent) => {
-          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          console.log(`⚡ Upload: ${percentCompleted}%`);
         }
       });
       
       if (response.data.success) {
-        // Add uploaded items to media library state
-        setMediaLibraryItems(prev => [...prev, ...response.data.items]);
-        
-        // Update form data with media library IDs
-        const newMediaIds = response.data.items.map(item => item.id);
-        setFormData(prev => ({
-          ...prev,
-          media_library_ids: [...prev.media_library_ids, ...newMediaIds]
-        }));
-        
-        // Show success message
-        const successMsg = `🚀 ${response.data.uploaded_count} resim hızla yüklendi`;
-        if (response.data.errors && response.data.errors.length > 0) {
-          toast.warning(successMsg + ` (${response.data.errors.length} hata)`);
-          console.warn('Upload errors:', response.data.errors);
-        } else {
-          toast.success(successMsg);
-        }
-        
-        console.log(`🚀 Lightning upload complete:`, response.data.items);
-      } else {
-        throw new Error(response.data.message || 'Upload failed');
+        setUploadedImages(prev => [...prev, ...response.data.files]);
+        toast.success(`${response.data.count} resim yüklendi`);
+        console.log('✅ Upload success:', response.data.files);
       }
       
     } catch (error) {
       console.error('❌ Upload error:', error);
-      
-      if (error.code === 'ECONNABORTED') {
-        toast.error('⏰ Ağ bağlantısı çok yavaş. Daha küçük dosyalar deneyin.');
-      } else if (error.response?.status === 413) {
-        toast.error('📁 Dosya çok büyük. Max 5MB lütfen.');
-      } else if (error.response?.status === 502 || error.response?.status === 504) {
-        toast.error('🔄 Sunucu yoğun. Biraz bekleyip tekrar deneyin.');
-      } else {
-        const errorMsg = error.response?.data?.detail || error.message || 'Bilinmeyen hata';
-        toast.error('❌ Yükleme hatası: ' + errorMsg);
-      }
+      toast.error('Yükleme hatası: ' + (error.response?.data?.detail || error.message));
     } finally {
-      setUploadingImages(false);
-      // Reset input
+      setIsUploading(false);
       e.target.value = '';
     }
+  };
+  
+  const removeUploadedImage = (index) => {
+    setUploadedImages(prev => prev.filter((_, i) => i !== index));
   };
   
   const handleMediaUpdate = async (mediaId, metadata) => {
