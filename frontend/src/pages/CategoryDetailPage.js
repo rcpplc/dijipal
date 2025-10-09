@@ -630,7 +630,15 @@ const CategoryDetailPage = () => {
                       {categoryData.subcategories.map((subcategory) => (
                         <li key={subcategory.id}>
                           <button
-                            onClick={() => navigate(`/${categorySlug}/${subcategory.location_slug}`)}
+                            onClick={() => {
+                              // Create slug from location_name if location_slug is null/undefined  
+                              const locationSlug = subcategory.location_slug || 
+                                                 subcategory.slug || 
+                                                 createSlug(subcategory.location_name || subcategory.title || '');
+                              console.log(`🔗 CategoryDetail navigating to: /${categorySlug}/${locationSlug}`);
+                              console.log('📊 Subcategory data:', subcategory);
+                              navigate(`/${categorySlug}/${locationSlug}`);
+                            }}
                             className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
                           >
                             <span>{subcategory.location_name}</span>
