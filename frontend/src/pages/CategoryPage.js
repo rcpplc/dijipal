@@ -648,7 +648,7 @@ const CategoryPage = () => {
                   Yakında {categoryData.title.toLowerCase()} eklenecek
                 </p>
                 <button
-                  onClick={() => navigate('/tours')}
+                  onClick={() => navigate('/turlar')}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
                 >
                   Diğer Turları Keşfet
