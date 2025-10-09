@@ -100,6 +100,8 @@ const AdminPage = () => {
       // Already loaded on component mount
     } else if (activeTab === 'categories') {
       // Already loaded on component mount
+    } else if (activeTab === 'new-categories') {
+      loadNewCategories();
     }
   }, [activeTab]);
 
