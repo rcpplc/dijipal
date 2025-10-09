@@ -33,7 +33,7 @@ const CategoryPage = () => {
   const { user, setShowLoginModal } = useAuth();
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showFilters, setShowFilters] = useState(window.innerWidth >= 1024);
+  const [showFilters, setShowFilters] = useState(false);
   const [favorites, setFavorites] = useState(new Set());
   const [categoryData, setCategoryData] = useState(null);
   const [filters, setFilters] = useState({
