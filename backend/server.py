@@ -3149,15 +3149,20 @@ app.include_router(api_router)
 async def upload_images(files: List[UploadFile] = File(...)):
     """Simple image upload endpoint"""
     import time
+    import urllib.parse
     
     try:
         uploaded_files = []
-        upload_dir = Path("uploads")
+        # Use the same directory as StaticFiles
+        upload_dir = Path("/tmp/uploads")
         upload_dir.mkdir(exist_ok=True)
         
         for file in files:
             timestamp = int(time.time())
-            filename = f"{timestamp}_{file.filename}"
+            
+            # Clean filename - remove special characters and spaces
+            clean_filename = re.sub(r'[^a-zA-Z0-9._-]', '_', file.filename)
+            filename = f"{timestamp}_{clean_filename}"
             file_path = upload_dir / filename
             
             content = await file.read()
@@ -3171,7 +3176,7 @@ async def upload_images(files: List[UploadFile] = File(...)):
                 "size": len(content)
             })
             
-            print(f"✅ Uploaded: {filename}")
+            print(f"✅ Uploaded: {filename} to {file_path}")
         
         return {
             "success": True,
