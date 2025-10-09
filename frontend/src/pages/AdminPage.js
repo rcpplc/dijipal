@@ -2467,78 +2467,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const removeUploadedImage = (index) => {
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
   };
-  
-  const handleMediaUpdate = async (mediaId, metadata) => {
-    try {
-      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-      const response = await axios.put(`${API}/media/${mediaId}`, metadata);
-      
-      if (response.data.success) {
-        // Update local state
-        setMediaLibraryItems(prev => 
-          prev.map(item => 
-            item.id === mediaId 
-              ? { ...item, ...metadata, updated_at: new Date().toISOString() }
-              : item
-          )
-        );
-        toast.success('Görsel bilgileri güncellendi');
-      }
-      
-    } catch (error) {
-      console.error('Media update error:', error);
-      toast.error('Güncelleme hatası: ' + (error.response?.data?.detail || error.message));
-    }
-  };
-  
-  const handleMediaDelete = async (mediaId) => {
-    if (!window.confirm('Bu görseli silmek istediğinizden emin misiniz?')) {
-      return;
-    }
-    
-    try {
-      const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
-      const response = await axios.delete(`${API}/media/${mediaId}`);
-      
-      if (response.data.success) {
-        // Remove from local state
-        setMediaLibraryItems(prev => prev.filter(item => item.id !== mediaId));
-        
-        // Remove from form data
-        setFormData(prev => ({
-          ...prev,
-          media_library_ids: prev.media_library_ids.filter(id => id !== mediaId)
-        }));
-        
-        toast.success('Görsel silindi');
-      }
-      
-    } catch (error) {
-      console.error('Media delete error:', error);
-      toast.error('Silme hatası: ' + (error.response?.data?.detail || error.message));
-    }
-  };
-  
-  const handleSetPrimary = async (mediaId) => {
-    try {
-      // Set as primary
-      await handleMediaUpdate(mediaId, { is_primary: true });
-      
-      // Update local state - unset other primaries
-      setMediaLibraryItems(prev => 
-        prev.map(item => ({
-          ...item,
-          is_primary: item.id === mediaId
-        }))
-      );
-      
-      toast.success('Ana sayfa resmi seçildi');
-      
-    } catch (error) {
-      console.error('Set primary error:', error);
-      toast.error('Ana resim seçme hatası: ' + (error.response?.data?.detail || error.message));
-    }
-  };
+  // Old media functions removed - using simple upload now
 
   const steps = [
     { id: 1, title: 'Temel Bilgiler', icon: '●' },
