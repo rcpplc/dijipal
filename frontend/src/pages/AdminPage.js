@@ -3541,29 +3541,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
                   </div>
                 )}
 
-                {/* Uploaded Images */}
-                {uploadedImages.length > 0 && (
-                  <div>
-                    <h4 className="font-medium mb-3">Yüklenen Resimler ({uploadedImages.length})</h4>
-                    <div className="grid grid-cols-3 gap-4">
-                      {uploadedImages.map((img, index) => (
-                        <div key={index} className="relative">
-                          <img 
-                            src={`${process.env.REACT_APP_BACKEND_URL}${img.url}`}
-                            alt={img.filename}
-                            className="w-full h-24 object-cover rounded border"
-                          />
-                          <button
-                            onClick={() => removeUploadedImage(index)}
-                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
-                          >
-                            ×
-                          </button>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                )}
+                {/* Uploaded Images Preview Section Removed */}
 
                 {/* URL Input Fallback */}
                 <div className="border-t pt-4">
