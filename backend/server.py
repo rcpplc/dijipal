@@ -3392,9 +3392,8 @@ async def upload_media(
                 "filename": media_item.filename,
                 "stored_filename": stored_filename,
                 "dimensions": {"width": width, "height": height},
-                "file_size": final_size,
-                "resized": resized,
-                "original_format": file_extension
+                "file_size": file_size,  # Original file size
+                "format": file_extension
             })
             
             print(f"✅ Successfully processed: {file.filename}")
