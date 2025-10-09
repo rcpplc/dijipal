@@ -3394,20 +3394,20 @@ async def upload_media(
             
             print(f"Original file size: {file_size / 1024:.1f}KB")
             
-            # Convert to WebP with optimized quality
-            webp_data, (width, height), converted = await convert_to_webp(
+            # Optimize image while keeping original format
+            optimized_data, (width, height), file_extension, resized = await optimize_image(
                 file_content, 
                 file.filename,
-                quality=85  # Reduced from 95 for better performance
+                quality=90  # High quality since no format conversion
             )
             
-            final_size = len(webp_data)
-            print(f"Final WebP size: {final_size / 1024:.1f}KB ({'converted' if converted else 'original'})")
+            final_size = len(optimized_data)
+            print(f"Final size: {final_size / 1024:.1f}KB ({'resized' if resized else 'original size'})")
             
-            # Generate unique filename
+            # Generate unique filename with original extension
             base_name = Path(file.filename).stem
             safe_name = create_seo_slug(base_name) or f"image-{i+1}"
-            stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}.webp"
+            stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}{file_extension}"
             
             # Save file
             file_path = tour_images_dir / stored_filename
