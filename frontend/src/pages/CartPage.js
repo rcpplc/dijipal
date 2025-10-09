@@ -10,7 +10,6 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
-import { createSlug } from '../utils/slug';
 
 const CartPage = () => {
   const { user, setShowLoginModal } = useAuth();
@@ -18,7 +17,6 @@ const CartPage = () => {
   const [cartItems, setCartItems] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // YENİ SEPET SİSTEMİ - SIFIRDAN YAZILDI
   useEffect(() => {
     loadCartItems();
   }, []);
@@ -36,7 +34,6 @@ const CartPage = () => {
     }
   };
 
-  // Sepetten öğe kaldırma
   const removeFromCart = (itemId) => {
     const updatedItems = cartItems.filter(item => item.id !== itemId);
     setCartItems(updatedItems);
@@ -45,7 +42,6 @@ const CartPage = () => {
     toast.success('Ürün sepetten kaldırıldı');
   };
 
-  // Fiyat hesaplama fonksiyonu
   const calculateItemPrice = (item) => {
     if (!item.selectedDate) return 0;
 
@@ -64,12 +60,10 @@ const CartPage = () => {
     return 0;
   };
 
-  // Toplam fiyat hesaplama
   const calculateTotalPrice = () => {
     return cartItems.reduce((total, item) => total + calculateItemPrice(item), 0);
   };
 
-  // Rezervasyon özeti gösterimi
   const getReservationSummary = (item) => {
     if (item.reservation_type === 'cabin_based') {
       const parts = [];
@@ -96,10 +90,8 @@ const CartPage = () => {
     return 'Bilinmeyen rezervasyon tipi';
   };
 
-  // Checkout işlemi
   const handleCheckout = () => {
     if (!user) {
-      // Login gerekli
       const checkoutState = {
         cartItems: cartItems,
         totalPrice: calculateTotalPrice(),
@@ -115,9 +107,8 @@ const CartPage = () => {
       return;
     }
 
-    // İlk ürün üzerinden booking sayfasına git (multi-item booking henüz desteklenmiyor)
     const firstItem = cartItems[0];
-    const cartTotal = calculateTotalPrice(); // SEPET TOPLAMI
+    const cartTotal = calculateTotalPrice();
     
     navigate(`/booking/${firstItem.tourId}`, {
       state: {
@@ -130,9 +121,8 @@ const CartPage = () => {
         },
         selectedDate: firstItem.selectedDate,
         fromCart: true,
-        cartTotal: cartTotal, // SEPET TOPLAMI AKTARILDI
-        cartItems: cartItems, // TÜM SEPET ÖĞELERİ
-        // Rezervasyon tipine göre seçimler
+        cartTotal: cartTotal,
+        cartItems: cartItems,
         ...(firstItem.reservation_type === 'cabin_based' && {
           singleCabinCount: firstItem.singleCabinCount || 0,
           doubleCabinCount: firstItem.doubleCabinCount || 0
@@ -181,7 +171,6 @@ const CartPage = () => {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {cartItems.length === 0 ? (
-          // Boş sepet
           <div className="text-center py-16">
             <ShoppingCart className="w-24 h-24 text-gray-400 mx-auto mb-6" />
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Sepetiniz boş</h2>
@@ -195,7 +184,6 @@ const CartPage = () => {
             </Link>
           </div>
         ) : (
-          // Sepet içeriği
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Sepet öğeleri */}
             <div className="lg:col-span-2 space-y-4">
@@ -205,61 +193,54 @@ const CartPage = () => {
                   className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
                 >
                   <div className="p-6">
-                    <div className="flex items-start space-x-4">
+                    <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-4">
+                      
                       {/* Tur resmi */}
-                      <div className="flex-shrink-0">
+                      <div className="flex-shrink-0 mb-4 sm:mb-0">
                         <img
                           src={item.image}
                           alt={item.title}
-                          className="w-24 h-24 object-cover rounded-lg"
+                          className="w-full sm:w-32 h-32 object-cover rounded-lg"
                         />
                       </div>
 
                       {/* Tur bilgileri */}
                       <div className="flex-1 min-w-0">
-                        <div className="flex items-start justify-between">
-                          <div>
-                            <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                              {item.title}
-                            </h3>
-                            
-                            <div className="space-y-1 text-sm text-gray-600">
-                              <div className="flex items-center">
-                                <MapPin className="w-4 h-4 mr-1" />
-                                {item.location}
-                              </div>
-                              <div className="flex items-center">
-                                <Calendar className="w-4 h-4 mr-1" />
-                                {item.selectedDate?.formattedDate}
-                              </div>
-                            </div>
-
-                            {/* Rezervasyon özeti */}
-                            <div className="mt-3 p-3 bg-gray-50 rounded-lg">
-                              <div className="text-sm font-medium text-gray-900 mb-1">
-                                {item.reservation_type === 'cabin_based' && ''}
-                                {item.reservation_type === 'person_based' && ''}
-                                {item.reservation_type === 'reservation' && ''}
-                              </div>
-                              <div className="text-sm text-gray-600">
-                                {getReservationSummary(item)}
-                              </div>
-                            </div>
+                        <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                          {item.title}
+                        </h3>
+                        
+                        <div className="space-y-1 text-sm text-gray-600">
+                          <div className="flex items-center">
+                            <MapPin className="w-4 h-4 mr-1" />
+                            {item.location}
                           </div>
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-1" />
+                            {item.selectedDate?.formattedDate}
+                          </div>
+                        </div>
 
-                          {/* Fiyat ve sil butonu */}
+                        {/* Rezervasyon özeti */}
+                        <div className="mt-3 p-3 bg-gray-50 rounded-lg text-sm text-gray-700">
+                          {getReservationSummary(item)}
+                        </div>
+
+                        {/* Fiyat ve Sil */}
+                        <div className="mt-4 grid grid-cols-2 items-center">
+                          <div className="text-lg sm:text-xl font-bold text-blue-600">
+                            ₺{calculateItemPrice(item).toLocaleString('tr-TR')}
+                          </div>
                           <div className="text-right">
-                            <div className="text-xl font-bold text-blue-600 mb-2">
-                              ₺{calculateItemPrice(item).toLocaleString('tr-TR')}
-                            </div>
                             <button
                               onClick={() => removeFromCart(item.id)}
                               className="text-red-500 hover:text-red-700 transition-colors"
                             >
-                              <Trash2 className="w-5 h-5" />
+                              <Trash2 className="w-5 h-5 inline" />
                             </button>
                           </div>
                         </div>
+
                       </div>
                     </div>
                   </div>

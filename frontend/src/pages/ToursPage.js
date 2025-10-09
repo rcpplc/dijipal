@@ -107,23 +107,23 @@ const ToursPage = () => {
 
   useEffect(() => {
     // SEO Ayarları
-    document.title = "Kabin Turları - DijipalTour | Mavi Yolculuk Kabin Kiralama";
+    document.title = "Günübirlik Tekne Kiralama, Kabin Kiralama & Etkinlik Turları Fiyatları";
     
     // Meta description güncelle
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {
-      metaDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında kabin kiralama ile mavi yolculuk. Göcek, Marmaris, Bodrum koylarında profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
+      metaDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında Günübirlik Tur, Kabin Kiralama Fiyatları & Mavi Yolculuk Turları. Göcek, Marmaris, Bodrum koylarında profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
     }
     
     // Open Graph meta etiketleri
     const ogTitle = document.querySelector('meta[property="og:title"]');
     if (ogTitle) {
-      ogTitle.setAttribute('content', 'Kabin Turları - Mavi Yolculuk | DijipalTour');
+      ogTitle.setAttribute('content', 'Kabin Turları - Mavi Yolculuk | Mavibilet');
     }
     
     const ogDescription = document.querySelector('meta[property="og:description"]');
     if (ogDescription) {
-      ogDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında kabin kiralama ile mavi yolculuk deneyimi. Profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
+      ogDescription.setAttribute('content', 'Türkiye\'nin en güzel koylarında Günübirlik Tur, Kabin Kiralama Fiyatları & Mavi Yolculuk Turları deneyimi. Profesyonel kaptan eşliğinde unutulmaz deniz tatili.');
     }
     
     const ogImage = document.querySelector('meta[property="og:image"]');
@@ -1232,6 +1232,15 @@ const ToursPage = () => {
           </div>
         </div>
       </div>
+
+
+
+
+
+
+
+
+
     </div>
   );
 };

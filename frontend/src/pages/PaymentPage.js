@@ -5,7 +5,6 @@ import {
   ArrowLeft, 
   CreditCard, 
   CheckCircle,
-  AlertCircle,
   Shield,
   Lock
 } from 'lucide-react';
@@ -27,6 +26,34 @@ const PaymentPage = () => {
     cvv: '',
     cardHolder: ''
   });
+  const [isApproved, setIsApproved] = useState(false); // ✅ Onay durumu
+
+  // ✅ Footer'ı sadece mobilde gizle
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    const mq = window.matchMedia('(max-width: 768px)');
+
+    const apply = () => {
+      if (!footer) return;
+      footer.style.display = mq.matches ? 'none' : '';
+    };
+
+    apply();
+    if (mq.addEventListener) {
+      mq.addEventListener('change', apply);
+    } else {
+      mq.addListener(apply);
+    }
+
+    return () => {
+      if (footer) footer.style.display = '';
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', apply);
+      } else {
+        mq.removeListener(apply);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     if (!user) {
@@ -34,11 +61,9 @@ const PaymentPage = () => {
       return;
     }
 
-    // Booking verilerini al (state'den veya localStorage'dan)
     if (location.state?.booking) {
       setBooking(location.state.booking);
     } else {
-      // localStorage'dan son booking'i al
       const bookings = JSON.parse(localStorage.getItem('user_bookings') || '[]');
       const lastBooking = bookings[bookings.length - 1];
       if (lastBooking) {
@@ -52,6 +77,12 @@ const PaymentPage = () => {
 
   const handlePayment = async (e) => {
     e.preventDefault();
+
+    // ✅ Onay yapılmadıysa alert ver ve işlemi durdur
+    if (!isApproved) {
+      alert('Lütfen Mesafeli Satış Sözleşmesi ve KVKK metnini onaylayın.');
+      return;
+    }
     
     if (!cardData.cardNumber || !cardData.expiryMonth || !cardData.expiryYear || !cardData.cvv || !cardData.cardHolder) {
       toast.error('Lütfen tüm kart bilgilerini doldurun');
@@ -60,11 +91,9 @@ const PaymentPage = () => {
 
     setLoading(true);
 
-    // Simulate payment processing
     try {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
-      // Ödeme başarılı - booking'i güncelle
       if (booking) {
         const bookings = JSON.parse(localStorage.getItem('user_bookings') || '[]');
         const updatedBookings = bookings.map(b => 
@@ -77,7 +106,6 @@ const PaymentPage = () => {
 
       toast.success('Ödeme başarıyla tamamlandı!');
       
-      // Ödeme başarı sayfasına yönlendir
       navigate('/payment-success', {
         state: {
           booking: { ...booking, status: 'confirmed', paymentStatus: 'paid' },
@@ -102,7 +130,7 @@ const PaymentPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -252,11 +280,11 @@ const PaymentPage = () => {
                 </div>
               </div>
 
-              {/* Ödeme Butonu */}
+              {/* Masaüstü Butonu */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white font-medium py-4 px-6 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center text-lg"
+                className="hidden md:flex w-full bg-blue-600 text-white font-medium py-4 px-6 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors items-center justify-center text-lg"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-6 w-6 border-b-2 border-white"></div>
@@ -270,7 +298,7 @@ const PaymentPage = () => {
             </form>
           </div>
 
-          {/* Sipariş Özeti */}
+          {/* Sipariş Özeti + Onay */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Sipariş Özeti</h3>
@@ -308,13 +336,46 @@ const PaymentPage = () => {
                 </div>
               </div>
 
-              <div className="text-xs text-gray-500 text-center">
+              {/* ✅ Mesafeli Satış Sözleşmesi ve KVKK Onayı */}
+              <div className="border-t pt-4 mt-4">
+                <label className="flex items-start space-x-2 text-sm text-gray-700">
+                  <input
+                    type="checkbox"
+                    checked={isApproved}
+                    onChange={(e) => setIsApproved(e.target.checked)}
+                    className="mt-1 accent-blue-600"
+                  />
+                  <span>
+                    <strong>Mesafeli Satış Sözleşmesi</strong> ve <strong>KVKK Aydınlatma Metni</strong>'ni okudum ve onaylıyorum.
+                  </span>
+                </label>
+              </div>
+
+              <div className="text-xs text-gray-500 text-center mt-4">
                 <CheckCircle className="w-4 h-4 inline mr-1" />
                 Güvenli ödeme sistemi
               </div>
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 📱 Mobil Sabit Ödeme Butonu */}
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-2 md:hidden z-50">
+        <button
+          onClick={handlePayment}
+          disabled={loading}
+          className="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-md hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+        >
+          {loading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          ) : (
+            <>
+              <CreditCard className="w-5 h-5 mr-2" />
+              ₺{booking.totalPrice?.toLocaleString('tr-TR')} Öde
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

@@ -18,7 +18,6 @@ const BookingPage = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
   
-  // YENİ REZERVASYON SİSTEMİ - SIFIRDAN YAZILDI
   const [tour, setTour] = useState(null);
   const [selectedDate, setSelectedDate] = useState(null);
   const [reservationData, setReservationData] = useState({});
@@ -32,19 +31,45 @@ const BookingPage = () => {
     notes: ''
   });
 
+  // ✅ Sadece mobilde footer'ı gizle (sayfadan çıkınca geri getir)
+  useEffect(() => {
+    const footer = document.querySelector('footer');
+    const mq = window.matchMedia('(max-width: 768px)');
+
+    const apply = () => {
+      if (!footer) return;
+      footer.style.display = mq.matches ? 'none' : '';
+    };
+
+    apply();
+    if (mq.addEventListener) {
+      mq.addEventListener('change', apply);
+    } else {
+      // Safari/eski tarayıcılar
+      mq.addListener(apply);
+    }
+
+    return () => {
+      if (footer) footer.style.display = '';
+      if (mq.removeEventListener) {
+        mq.removeEventListener('change', apply);
+      } else {
+        mq.removeListener(apply);
+      }
+    };
+  }, []);
+
   useEffect(() => {
     if (!user) {
       navigate('/');
       return;
     }
 
-    // State'den gelen veriler
     const { state } = location;
     if (state) {
       setTour(state.tour);
       setSelectedDate(state.selectedDate);
       
-      // Rezervasyon tipine göre veriyi ayarla
       if (state.tour?.reservation_type === 'cabin_based') {
         setReservationData({
           type: 'cabin_based',
@@ -64,26 +89,9 @@ const BookingPage = () => {
       }
     }
 
-    // User bilgilerini form'a doldur - ENHANCED DEBUG
     if (user) {
-      console.log('🔍 FULL USER OBJECT:', JSON.stringify(user, null, 2));
-      console.log('👤 User keys available:', Object.keys(user));
-      console.log('📧 Email test:', user.email);
-      console.log('📱 Phone test:', user.phone);
-      console.log('👤 Name fields test:', {
-        firstName: user.firstName,
-        first_name: user.first_name, 
-        name: user.name,
-        username: user.username,
-        fullName: user.fullName,
-        displayName: user.displayName
-      });
-      
-      // Try multiple field combinations
       const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
       const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
-      
-      console.log('✅ EXTRACTED VALUES:', { firstName, lastName });
       
       setFormData(prev => ({
         ...prev,
@@ -92,24 +100,15 @@ const BookingPage = () => {
         email: user.email || user.emailAddress || user.mail || '',
         phone: user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || ''
       }));
-      
-      console.log('✅ Form updated with user data');
-    } else {
-      console.log('❌ NO USER DATA AVAILABLE');
     }
 
     setLoading(false);
   }, [location.state, user, navigate]);
 
-  // User değişikliklerini izle ve form'u güncelle
   useEffect(() => {
     if (user) {
-      console.log('🔄 USER CHANGED - Full object:', JSON.stringify(user, null, 2));
-      
       const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
       const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
-      
-      console.log('🔄 USER CHANGE - Extracted names:', { firstName, lastName });
       
       setFormData(prev => ({
         ...prev,
@@ -121,14 +120,11 @@ const BookingPage = () => {
     }
   }, [user]);
 
-  // Fiyat hesaplama
   const calculateTotalPrice = () => {
-    // SEPETTEN GELİNDİYSE SEPET TOPLAMINI KULLAN
     if (location.state?.fromCart && location.state?.cartTotal) {
       return location.state.cartTotal;
     }
     
-    // DOĞRUDAN ÜRÜN SAYFASINDAN GELİNDİYSE HESAPLA
     if (!selectedDate || !reservationData.type) return 0;
 
     if (reservationData.type === 'cabin_based') {
@@ -146,12 +142,11 @@ const BookingPage = () => {
     return 0;
   };
 
-  // KDV hesaplama - Fiyatlar KDV DAHİL
   const calculateTax = () => {
-    const totalWithTax = calculateTotalPrice(); // Bu zaten KDV dahil
-    const taxRate = 0.20; // %20 KDV
-    const subtotal = totalWithTax / (1 + taxRate); // KDV hariç tutar
-    const taxAmount = totalWithTax - subtotal; // KDV tutarı
+    const totalWithTax = calculateTotalPrice();
+    const taxRate = 0.20;
+    const subtotal = totalWithTax / (1 + taxRate);
+    const taxAmount = totalWithTax - subtotal;
     
     return {
       subtotal: Math.round(subtotal * 100) / 100,
@@ -161,34 +156,23 @@ const BookingPage = () => {
     };
   };
 
-  // Rezervasyon özeti metni
   const getReservationSummary = () => {
     if (reservationData.type === 'cabin_based') {
       const parts = [];
-      if (reservationData.singleCabinCount > 0) {
-        parts.push(`${reservationData.singleCabinCount} × Tek Kişilik Kabin`);
-      }
-      if (reservationData.doubleCabinCount > 0) {
-        parts.push(`${reservationData.doubleCabinCount} × Çift Kişilik Kabin`);
-      }
+      if (reservationData.singleCabinCount > 0) parts.push(`${reservationData.singleCabinCount} × Tek Kişilik Kabin`);
+      if (reservationData.doubleCabinCount > 0) parts.push(`${reservationData.doubleCabinCount} × Çift Kişilik Kabin`);
       return parts.join(' + ');
     } else if (reservationData.type === 'person_based') {
       const parts = [];
-      if (reservationData.adultCount > 0) {
-        parts.push(`${reservationData.adultCount} × Yetişkin`);
-      }
-      if (reservationData.childCount > 0) {
-        parts.push(`${reservationData.childCount} × Çocuk`);
-      }
+      if (reservationData.adultCount > 0) parts.push(`${reservationData.adultCount} × Yetişkin`);
+      if (reservationData.childCount > 0) parts.push(`${reservationData.childCount} × Çocuk`);
       return parts.join(' + ');
     } else if (reservationData.type === 'reservation') {
       return 'Özel Rezervasyon';
     }
-    
     return '';
   };
 
-  // Form submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -200,7 +184,6 @@ const BookingPage = () => {
     try {
       setLoading(true);
 
-      // Rezervasyon verisi hazırla
       const bookingData = {
         tourId: tour.id,
         userId: user.id,
@@ -214,7 +197,6 @@ const BookingPage = () => {
         createdAt: new Date().toISOString()
       };
 
-      // API'ye gönder (şimdilik localStorage'a kaydet)
       const existingBookings = JSON.parse(localStorage.getItem('user_bookings') || '[]');
       const newBooking = {
         id: Date.now().toString(),
@@ -223,20 +205,12 @@ const BookingPage = () => {
       existingBookings.push(newBooking);
       localStorage.setItem('user_bookings', JSON.stringify(existingBookings));
 
-      // Sepeti temizle (eğer sepetten gelmişse)
       if (location.state?.fromCart) {
         localStorage.removeItem('tour_cart');
         window.dispatchEvent(new Event('storage'));
       }
 
-      toast.success('Rezervasyonunuz başarıyla oluşturuldu!');
-      
-      // Ödeme sayfasına yönlendir
-      navigate('/payment', {
-        state: {
-          booking: newBooking
-        }
-      });
+      navigate('/payment', { state: { booking: newBooking } });
       
     } catch (error) {
       console.error('Rezervasyon hatası:', error);
@@ -292,7 +266,7 @@ const BookingPage = () => {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pb-24 md:pb-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Form Alanı */}
           <div className="lg:col-span-2">
@@ -369,18 +343,18 @@ const BookingPage = () => {
                 </div>
               </div>
 
-              {/* Submit Button */}
+              {/* Masaüstü Submit Butonu */}
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+                className="hidden md:flex w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors items-center justify-center"
               >
                 {loading ? (
                   <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
                 ) : (
                   <>
                     <CreditCard className="w-5 h-5 mr-2" />
-                    Rezervasyonu Tamamla
+                    Ödeme 
                   </>
                 )}
               </button>
@@ -391,24 +365,20 @@ const BookingPage = () => {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Rezervasyon Özetiniz</h3>
-                  <p className=" flex justify-between text-sm text-gray-600 mb-3">
-      Bilgilerinizi kontrol edin, ardından ödemeye geçin.</p>
-              {/* Tur Bilgileri */}
+              <p className=" flex justify-between text-sm text-gray-600 mb-3">
+                Bilgilerinizi kontrol edin, ardından ödemeye geçin.
+              </p>
+
               <div className="mb-6">
-                
-                
-                {/* Rezervasyon Detayları - Ticket Format */}
                 <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
                   <div className="text-sm font-medium text-gray-800 mb-3">
                     🎫 Rezervasyon Bileti
                   </div>
                   
-                  {/* SEPETTEN GELDİYSE TÜM ÖĞELERİ GÖSTER */}
                   {location.state?.fromCart && location.state?.cartItems ? (
                     <div className="space-y-2">
                       {location.state.cartItems.map((item, index) => (
-                        <div key={index} className="bg-white border border-gray-200 rounded-md p-3">
-
+                        <div key={index} className="bg-white border border-blue-200 rounded-md p-3">
                           <div className="text-xs font-medium text-gray-800 mb-1">
                             🏷️ {item.title}
                           </div>
@@ -442,7 +412,6 @@ const BookingPage = () => {
                       ))}
                     </div>
                   ) : (
-                    /* TEK ÜRÜN İÇİN ESKİ FORMAT */
                     <div className="bg-white border border-gray-200 rounded-md p-3">
                       <div className="text-xs font-medium text-gray-800 mb-1">
                         🏷️ {tour?.title}
@@ -464,7 +433,6 @@ const BookingPage = () => {
                 </div>
               </div>
 
-              {/* Fiyat Detayları */}
               <div className="space-y-3 mb-6">
                 <div className="flex justify-between text-sm">
                   <span className="text-gray-600">Ara Toplam:</span>
@@ -499,6 +467,24 @@ const BookingPage = () => {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* 📱 Mobil Sabit Rezervasyon Butonu */}
+      <div className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 p-4 md:hidden z-50">
+        <button
+          onClick={handleSubmit}
+          disabled={loading}
+          className="w-full bg-blue-600 text-white font-medium py-2 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center justify-center"
+        >
+          {loading ? (
+            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white"></div>
+          ) : (
+            <>
+              <CreditCard className="w-5 h-5 mr-2" />
+              Ödeme
+            </>
+          )}
+        </button>
       </div>
     </div>
   );

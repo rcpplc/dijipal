@@ -97,7 +97,7 @@ const TumKategorilerPage = () => {
 
   useEffect(() => {
     // SEO Meta Tags - Categories Page
-    document.title = 'Tüm Kategoriler - Kabin Kiralama Turları | DijipalTour';
+    document.title = 'Tüm Kategoriler - Kabin Kiralama Turları | Mavibilet';
     
     const metaDescription = document.querySelector('meta[name="description"]');
     if (metaDescription) {

@@ -1,373 +1,177 @@
-import React, { useState } from 'react';
-import { Shield, FileText, Mail, Phone, User, Clock, AlertCircle, CheckCircle, Download, Send } from 'lucide-react';
+import React from "react";
+import { Shield, FileText, Mail, CheckCircle, Info } from "lucide-react";
 
 const KVKKPage = () => {
-  const [applicationForm, setApplicationForm] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    idNumber: '',
-    requestType: '',
-    description: ''
-  });
-
-  const requestTypes = [
-    { value: 'access', label: 'Kişisel verilerinizin işlenip işlenmediğini öğrenme' },
-    { value: 'info', label: 'İşlenen kişisel verileriniz hakkında bilgi talep etme' },
-    { value: 'purpose', label: 'Kişisel verilerin işlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme' },
-    { value: 'third-party', label: 'Yurt içi/yurt dışı kişisel verilerin aktarıldığı üçüncü kişileri bilme' },
-    { value: 'correction', label: 'Kişisel verilerin eksik veya yanlış işlenmiş olması hâlinde bunların düzeltilmesini isteme' },
-    { value: 'deletion', label: 'Kişisel verilerin silinmesi veya yok edilmesini isteme' },
-    { value: 'notification', label: 'Düzeltme/silme işlemlerinin kişisel verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme' },
-    { value: 'objection', label: 'İşlenen verilerin münhasıran otomatik sistemler vasıtasıyla analiz edilmesi suretiyle kişinin aleyhine bir sonucun ortaya çıkmasına itiraz etme' },
-    { value: 'damage', label: 'Kişisel verilerin kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması hâlinde zararın giderilmesini talep etme' }
-  ];
-
-  const dataProcessingPurposes = [
-    {
-      category: 'Rezervasyon İşlemleri',
-      purposes: [
-        'Tur rezervasyonu yapma ve yönetme',
-        'Kabin tahsisi ve yerleştirme',
-        'Ödeme işlemlerini gerçekleştirme',
-        'Rezervasyon iptal/değişiklik işlemleri'
-      ]
-    },
-    {
-      category: 'Müşteri İlişkileri',
-      purposes: [
-        'Müşteri hizmetleri sunma',
-        'Şikayet ve talepleri değerlendirme',
-        'Müşteri memnuniyet araştırmaları',
-        'İletişim ve bilgilendirme faaliyetleri'
-      ]
-    },
-    {
-      category: 'Pazarlama Faaliyetleri',
-      purposes: [
-        'Kampanya ve promosyon bilgilendirmeleri (onaylı)',
-        'Kişiselleştirilmiş tur önerileri',
-        'Pazarlama etkinliği ölçümleri',
-        'Müşteri segmentasyon çalışmaları'
-      ]
-    },
-    {
-      category: 'Yasal Yükümlülükler',
-      purposes: [
-        'Vergi mevzuatı gereği kayıt tutma',
-        'Ticaret Kanunu zorunlulukları',
-        'Turizm mevzuatı gereklilikleri',
-        'Mali müşavir raporlama yükümlülükleri'
-      ]
-    }
-  ];
-
-  const handleInputChange = (e) => {
-    setApplicationForm({
-      ...applicationForm,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // In real app, this would send the application to backend
-    console.log('KVKK Application:', applicationForm);
-    alert('KVKK başvurunuz alındı. En kısa sürede değerlendirilecektir.');
-    setApplicationForm({
-      name: '',
-      email: '',
-      phone: '',
-      idNumber: '',
-      requestType: '',
-      description: ''
-    });
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
+    <div className="min-h-screen bg-gray-50 py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center mb-6">
-            <Shield className="w-16 h-16 text-blue-600" />
-          </div>
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-            KVKK Veri Sorumlusuna Başvuru
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
+            Kişisel Verilerin Korunması (KVKK) Politikası
           </h1>
-          <p className="text-xl text-gray-600 max-w-4xl mx-auto">
-            6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında haklarınızı kullanmak için başvuru yapabilirsiniz.
+          <p className="text-gray-700 leading-relaxed max-w-3xl mx-auto text-lg">
+            CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD.ŞTİ. olarak,
+            kişisel verilerinizin güvenliği bizim için son derece önemlidir. Bu politika, 6698
+            sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) kapsamında veri işleme süreçlerimizi
+            açıklar.
+          </p>
+          <div className="mt-4 text-sm text-gray-500">Yürürlük Tarihi: 09.10.2025</div>
+        </div>
+
+        {/* Section 1 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Info className="text-blue-600" /> 1. Veri Sorumlusu
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Veri Sorumlusu sıfatıyla hareket eden şirketimiz aşağıdaki bilgilere sahiptir:
+          </p>
+          <ul className="list-none space-y-2 text-gray-700 text-lg">
+            <li><strong>Şirket Adı:</strong> CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD.ŞTİ.</li>
+            <li><strong>Adres:</strong> İstiklal Mah. Kavaklidere Cad. Yalçın İş Hanı No: 3 İç Kapı No: 13 Ümraniye / İstanbul</li>
+            <li><strong>E-posta:</strong> info@mavibilet.com</li>
+            <li><strong>Acente Belge No:</strong> 8720</li>
+          </ul>
+        </div>
+
+        {/* Section 2 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            2. Kişisel Verilerin Toplanma Yöntemi ve Hukuki Sebebi
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Kişisel verileriniz, elektronik veya fiziksel ortamlarda; web sitemiz, çağrı merkezimiz,
+            mobil uygulamalar, e-posta veya müşteri hizmetleri aracılığıyla otomatik ya da manuel
+            yollarla toplanabilir.
+          </p>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            Bu veriler; kanunlarda öngörülen nedenlerle, sözleşmenin kurulması ve ifası, hukuki
+            yükümlülüklerin yerine getirilmesi, meşru menfaatin korunması veya açık rızanız
+            doğrultusunda işlenmektedir.
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-3 gap-8">
-          {/* Left Column - Info */}
-          <div className="lg:col-span-1 space-y-6">
-            
-            {/* Data Controller Info */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <FileText className="w-6 h-6 text-blue-600" />
-                <h2 className="text-xl font-bold text-gray-900">Veri Sorumlusu</h2>
-              </div>
-              <div className="space-y-3 text-sm">
-                <div>
-                  <p className="font-semibold text-gray-900">Şirket:</p>
-                  <p className="text-gray-600">CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD.ŞTİ.</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Adres:</p>
-                  <p className="text-gray-600">İstiklal Mah. Kavaklidere Cad. Yalçın İş Hanı No: 3 İç Kapı No: 13 Ümraniye / İstanbul</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">E-posta:</p>
-                  <p className="text-blue-600">crpgrup@gmail.com</p>
-                </div>
-                <div>
-                  <p className="font-semibold text-gray-900">Acente Belge No:</p>
-                  <p className="text-gray-600">8720</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Application Process */}
-            <div className="bg-white rounded-2xl shadow-lg p-6">
-              <div className="flex items-center space-x-3 mb-4">
-                <Clock className="w-6 h-6 text-green-600" />
-                <h2 className="text-xl font-bold text-gray-900">Başvuru Süreci</h2>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-start space-x-3">
-                  <div className="bg-blue-100 rounded-full p-1 mt-1">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">1. Başvuru Formu</p>
-                    <p className="text-gray-600 text-xs">Formu eksiksiz doldurun</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="bg-blue-100 rounded-full p-1 mt-1">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">2. Kimlik Doğrulama</p>
-                    <p className="text-gray-600 text-xs">Kimlik belgeniz kontrol edilir</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="bg-blue-100 rounded-full p-1 mt-1">
-                    <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">3. İnceleme</p>
-                    <p className="text-gray-600 text-xs">Talebiniz 30 gün içinde incelenir</p>
-                  </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <div className="bg-green-100 rounded-full p-1 mt-1">
-                    <div className="w-2 h-2 bg-green-600 rounded-full"></div>
-                  </div>
-                  <div>
-                    <p className="font-medium text-gray-900 text-sm">4. Sonuç</p>
-                    <p className="text-gray-600 text-xs">Size geri dönüş yapılır</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Important Notes */}
-            <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6">
-              <div className="flex items-start space-x-3">
-                <AlertCircle className="w-6 h-6 text-amber-600 mt-1" />
-                <div>
-                  <h3 className="font-semibold text-amber-900 mb-2">Önemli Notlar</h3>
-                  <ul className="space-y-1 text-amber-800 text-sm">
-                    <li>• Başvuru ücretsizdir</li>
-                    <li>• Kimlik doğrulama zorunludur</li>
-                    <li>• Cevap süresi maksimum 30 gündür</li>
-                    <li>• Eksik bilgi durumunda başvuru reddedilebilir</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Right Column - Application Form */}
-          <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl shadow-lg p-8">
-              <div className="flex items-center space-x-3 mb-6">
-                <Send className="w-8 h-8 text-purple-600" />
-                <h2 className="text-2xl font-bold text-gray-900">KVKK Başvuru Formu</h2>
-              </div>
-
-              <form onSubmit={handleSubmit} className="space-y-6">
-                {/* Personal Info */}
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Ad Soyad *
-                    </label>
-                    <div className="relative">
-                      <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                      <input
-                        type="text"
-                        name="name"
-                        value={applicationForm.name}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="Adınız ve soyadınız"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      TC Kimlik Numarası *
-                    </label>
-                    <div className="relative">
-                      <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                      <input
-                        type="text"
-                        name="idNumber"
-                        value={applicationForm.idNumber}
-                        onChange={handleInputChange}
-                        required
-                        maxLength={11}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="11 haneli TC kimlik numaranız"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      E-posta Adresi *
-                    </label>
-                    <div className="relative">
-                      <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                      <input
-                        type="email"
-                        name="email"
-                        value={applicationForm.email}
-                        onChange={handleInputChange}
-                        required
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="ornek@email.com"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Telefon Numarası
-                    </label>
-                    <div className="relative">
-                      <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                      <input
-                        type="tel"
-                        name="phone"
-                        value={applicationForm.phone}
-                        onChange={handleInputChange}
-                        className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                        placeholder="+90 5XX XXX XX XX"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Request Type */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Başvuru Türü *
-                  </label>
-                  <select
-                    name="requestType"
-                    value={applicationForm.requestType}
-                    onChange={handleInputChange}
-                    required
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                  >
-                    <option value="">Başvuru türünü seçiniz</option>
-                    {requestTypes.map((type) => (
-                      <option key={type.value} value={type.value}>
-                        {type.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
-                {/* Description */}
-                <div>
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    Talep Detayı *
-                  </label>
-                  <textarea
-                    name="description"
-                    value={applicationForm.description}
-                    onChange={handleInputChange}
-                    required
-                    rows={6}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    placeholder="Talebinizi detaylı olarak açıklayınız..."
-                  />
-                </div>
-
-                {/* Submit Button */}
-                <div className="pt-4">
-                  <button
-                    type="submit"
-                    className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center space-x-2"
-                  >
-                    <Send className="w-5 h-5" />
-                    <span>Başvuru Gönder</span>
-                  </button>
-                </div>
-              </form>
-            </div>
-          </div>
+        {/* Section 3 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            3. İşlenen Kişisel Veri Kategorileri
+          </h2>
+          <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
+            <li>Kimlik Bilgileri (Ad, soyad, T.C. kimlik numarası, doğum tarihi vb.)</li>
+            <li>İletişim Bilgileri (Telefon, e-posta, adres)</li>
+            <li>Rezervasyon Bilgileri (tur, tekne, tarih, ödeme bilgileri)</li>
+            <li>Finansal Bilgiler (fatura, IBAN, ödeme kayıtları)</li>
+            <li>Görsel ve İşitsel Veriler (profil fotoğrafı, çağrı kayıtları)</li>
+            <li>Elektronik Veri (IP adresi, cihaz bilgisi, çerez verileri)</li>
+          </ul>
         </div>
 
-        {/* Data Processing Purposes */}
-        <div className="mt-12 bg-white rounded-2xl shadow-lg p-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Veri İşleme Amaçlarımız</h2>
-          
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {dataProcessingPurposes.map((category, index) => (
-              <div key={index} className="border border-gray-200 rounded-xl p-6">
-                <h3 className="font-semibold text-gray-900 mb-4 text-center">{category.category}</h3>
-                <ul className="space-y-2">
-                  {category.purposes.map((purpose, purposeIndex) => (
-                    <li key={purposeIndex} className="flex items-start space-x-2">
-                      <CheckCircle className="w-4 h-4 text-green-600 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm text-gray-700">{purpose}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Download Section */}
-        <div className="mt-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-2xl p-8 text-white">
-          <h2 className="text-2xl font-bold mb-4 text-center">İlgili Belgeler</h2>
-          <p className="text-center text-purple-100 mb-6">
-            KVKK ile ilgili detaylı bilgilere aşağıdaki belgelerden ulaşabilirsiniz.
+        {/* Section 4 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            4. Kişisel Verilerin İşlenme Amaçları
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Şirketimiz kişisel verilerinizi aşağıdaki amaçlarla işlemektedir:
           </p>
-          <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-white text-purple-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors flex items-center space-x-2">
-              <Download className="w-4 h-4" />
-              <span>KVKK Aydınlatma Metni</span>
-            </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-purple-600 transition-colors flex items-center space-x-2">
-              <FileText className="w-4 h-4" />
-              <span>Veri İşleme Envanteri</span>
-            </button>
-          </div>
+          <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
+            <li>Rezervasyon ve satış işlemlerinin yürütülmesi</li>
+            <li>Tur, ulaşım ve konaklama hizmetlerinin planlanması</li>
+            <li>Müşteri memnuniyetinin ölçülmesi ve artırılması</li>
+            <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+            <li>Finansal kayıtların tutulması ve denetim faaliyetleri</li>
+            <li>Pazarlama faaliyetleri (onay alınmış olması halinde)</li>
+          </ul>
+        </div>
+
+        {/* Section 5 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            5. Kişisel Verilerin Aktarımı
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Kişisel verileriniz, sadece yukarıda belirtilen amaçların yerine getirilmesi için;
+          </p>
+          <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
+            <li>İş ortakları ve tedarikçilerimize,</li>
+            <li>Turizm, finans, bilişim hizmeti sağlayıcılarına,</li>
+            <li>Yasal zorunluluk halinde resmi kurum ve kuruluşlara,</li>
+            <li>Yurt dışı veri saklama sistemleri (bulut hizmetleri) sağlayıcılarına</li>
+          </ul>
+          <p className="text-gray-700 text-lg mt-4">
+            aktarılabilir. Tüm aktarım süreçlerinde KVKK madde 8 ve 9 hükümlerine uygun hareket edilir.
+          </p>
+        </div>
+
+        {/* Section 6 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            6. Veri Saklama Süreleri
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Kişisel verileriniz, ilgili mevzuatta öngörülen süreler boyunca veya işleme amacının
+            gerektirdiği süre kadar saklanır. Süre sonunda veriler, anonim hale getirilir veya
+            güvenli bir şekilde imha edilir.
+          </p>
+          <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
+            <li>Rezervasyon kayıtları: 10 yıl</li>
+            <li>Faturalama ve mali veriler: 5 yıl</li>
+            <li>Pazarlama onay verileri: 2 yıl</li>
+            <li>Çerez kayıtları: 1 yıl</li>
+          </ul>
+        </div>
+
+        {/* Section 7 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            7. Veri Sahibi Olarak Haklarınız
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            6698 sayılı Kanun’un 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:
+          </p>
+          <ul className="list-disc pl-6 text-gray-700 text-lg space-y-2">
+            <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme,</li>
+            <li>İşlenen veriler hakkında bilgi talep etme,</li>
+            <li>Verilerin işlenme amacını ve uygun kullanılıp kullanılmadığını öğrenme,</li>
+            <li>Yurt içi/yurt dışı veri aktarımı yapılan kişileri bilme,</li>
+            <li>Eksik veya yanlış işlenmiş verilerin düzeltilmesini talep etme,</li>
+            <li>Verilerin silinmesini veya yok edilmesini isteme,</li>
+            <li>İşleme sonuçlarına itiraz etme ve zararın giderilmesini talep etme.</li>
+          </ul>
+        </div>
+
+        {/* Section 8 */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            8. Başvuru Yöntemleri
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Haklarınızı kullanmak için aşağıdaki iletişim kanallarından bize başvurabilirsiniz:
+          </p>
+          <ul className="list-none text-gray-700 text-lg space-y-2">
+            <li> E-posta: <a href="mailto:info@mavibilet.com" className="text-blue-600 font-semibold">info@mavibilet.com</a></li>
+            <li> Adres: İstiklal Mah. Kavaklidere Cad. Yalçın İş Hanı No: 3 İç Kapı No: 13 Ümraniye / İstanbul</li>
+            <li> Telefon: +90 (850) 309 1969</li>
+          </ul>
+          <p className="text-gray-700 text-lg leading-relaxed mt-4">
+            Başvurularınız, en geç 30 gün içinde ücretsiz olarak sonuçlandırılır.
+          </p>
+        </div>
+
+        {/* Section 9 */}
+        <div className="bg-blue-600 rounded-xl p-10 text-center text-white">
+          <h2 className="text-3xl font-bold mb-4">Veri Güvenliği Taahhüdümüz</h2>
+          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            Tüm kişisel verileriniz, ulusal ve uluslararası güvenlik standartlarına uygun olarak
+            korunmaktadır. Şirketimiz, gizlilik ve güvenlik konusunda tam sorumluluk taşımaktadır.
+          </p>
+          <button
+            onClick={() => (window.location.href = "mailto:info@mavibilet.com")}
+            className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Bizimle İletişime Geçin
+          </button>
         </div>
       </div>
     </div>

@@ -34,7 +34,7 @@ export const extractIdFromSlug = (slug) => {
 };
 
 export const createSeoTitle = (tourTitle, location) => {
-  return `${tourTitle} | ${location} Kabin Kiralama - DijipalTour`;
+  return `${tourTitle} | ${location} Kabin Kiralama - Mavibilet`;
 };
 
 export const createSeoDescription = (tourTitle, location, shortDescription, price) => {

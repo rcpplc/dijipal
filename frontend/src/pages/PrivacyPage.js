@@ -1,278 +1,194 @@
-import React from 'react';
-import { Shield, Eye, Database, Lock, UserCheck, Settings, AlertTriangle, Mail } from 'lucide-react';
+import React from "react";
+import { Shield, Mail, Database, Lock, UserCheck, Settings } from "lucide-react";
 
 const PrivacyPage = () => {
-  const dataTypes = [
-    {
-      icon: UserCheck,
-      title: "Kimlik Bilgileri",
-      description: "Ad, soyad, TC kimlik numarası, doğum tarihi",
-      purpose: "Rezervasyon işlemleri ve yasal yükümlülükler"
-    },
-    {
-      icon: Mail,
-      title: "İletişim Bilgileri", 
-      description: "E-posta adresi, telefon numarası, adres bilgileri",
-      purpose: "İletişim kurma ve bilgilendirme amaçlı"
-    },
-    {
-      icon: Database,
-      title: "Ödeme Bilgileri",
-      description: "Kredi kartı bilgileri, fatura adresi",
-      purpose: "Ödeme işlemleri ve finansal kayıtlar"
-    },
-    {
-      icon: Settings,
-      title: "Teknik Bilgiler",
-      description: "IP adresi, tarayıcı bilgisi, çerezler",
-      purpose: "Site performansı ve güvenlik"
-    }
-  ];
-
-  const rights = [
-    "Kişisel verilerinizin işlenip işlenmediğini öğrenme",
-    "İşlenen verileriniz hakkında bilgi talep etme", 
-    "Verilerin işlenme amacını öğrenme",
-    "Yurt içi/dışı aktarım bilgisi alma",
-    "Verilerin düzeltilmesi veya silinmesini talep etme",
-    "İşleme faaliyetine itiraz etme",
-    "Otomatik sistemlerle analiz sonuçlarına itiraz etme"
-  ];
-
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-16">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-900 mb-6">
             Gizlilik Politikası
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Kişisel verilerinizin korunması bizim için önemlidir. Bu politika, verilerinizi nasıl topladığımız, kullandığımız ve koruduğumuzu açıklar.
+          <p className="text-gray-700 leading-relaxed max-w-3xl mx-auto text-lg">
+            Kişisel verilerinizin gizliliği ve güvenliği bizim için son derece önemlidir.
+            Bu Gizlilik Politikası, mavibilet.com üzerinden elde edilen verilerin hangi amaçlarla
+            işlendiğini, korunduğunu ve haklarınızı açıklar.
           </p>
           <div className="mt-4 text-sm text-gray-500">
-            Son Güncelleme: {new Date().toLocaleDateString('tr-TR')}
+            Yürürlük Tarihi: 09.10.2025
           </div>
         </div>
 
         {/* Data Controller */}
-        <div className="bg-blue-50 rounded-2xl p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-4">
-            <Shield className="w-8 h-8 text-blue-600" />
-            <h2 className="text-2xl font-bold text-blue-900">Veri Sorumlusu</h2>
-          </div>
-          <div className="text-blue-800">
-            <p className="font-semibold mb-2">
-              CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD.ŞTİ.
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Shield className="text-blue-600" /> Veri Sorumlusu
+          </h2>
+          <p className="text-gray-700 text-lg mb-4">
+            6698 sayılı Kişisel Verilerin Korunması Kanunu (“KVKK”) uyarınca kişisel verilerinizin
+            veri sorumlusu olarak;
+          </p>
+          <div className="space-y-2 text-gray-700 text-lg">
+            <p>
+              <strong>Şirket:</strong> CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM
+              E-TİCARET VE İTHALAT İHRACAT LTD. ŞTİ.
             </p>
-            <p className="text-sm">
-              İstiklal Mah. Kavaklidere Cad. Yalçın İş Hanı No: 3 İç Kapı No: 13 Ümraniye / İstanbul
+            <p>
+              <strong>Adres:</strong> İstiklal Mah. Kavaklıdere Cad. Yalçın İş Hanı No:3 İç Kapı No:13,
+              Ümraniye / İstanbul
             </p>
-            <p className="text-sm mt-2">
-              E-posta: crpgrup@gmail.com | Acente Belge No: 8720
+            <p>
+              <strong>E-posta:</strong> info@mavibilet.com
+            </p>
+            <p>
+              <strong>Acente Bilgileri:</strong> Dijital Turizm Seyahat Acentası – Belge No: 8720
             </p>
           </div>
         </div>
 
-        {/* Data Collection */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <Database className="w-8 h-8 text-green-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Toplanan Kişisel Veriler</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            {dataTypes.map((data, index) => (
-              <div key={index} className="border border-gray-200 rounded-xl p-6">
-                <div className="flex items-center space-x-3 mb-3">
-                  <data.icon className="w-6 h-6 text-blue-600" />
-                  <h3 className="font-semibold text-gray-900">{data.title}</h3>
-                </div>
-                <p className="text-gray-600 text-sm mb-3">{data.description}</p>
-                <div className="bg-blue-50 rounded-lg p-3">
-                  <p className="text-blue-800 text-sm font-medium">Kullanım Amacı:</p>
-                  <p className="text-blue-700 text-sm">{data.purpose}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+        {/* Collected Data */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Database className="text-blue-600" /> Toplanan Kişisel Veriler
+          </h2>
+          <p className="text-gray-700 text-lg mb-6">
+            Aşağıdaki kişisel verileriniz, sunulan hizmetlerden yararlanabilmeniz amacıyla toplanmaktadır:
+          </p>
+          <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg">
+            <li>Kimlik Bilgileri (Ad, soyad, doğum tarihi, TC kimlik numarası)</li>
+            <li>İletişim Bilgileri (Telefon, e-posta, adres)</li>
+            <li>Ödeme Bilgileri (Kredi kartı, fatura adresi)</li>
+            <li>Teknik Bilgiler (IP adresi, tarayıcı verileri, çerez kayıtları)</li>
+          </ul>
         </div>
 
         {/* Processing Purposes */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <Eye className="w-8 h-8 text-purple-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Veri İşleme Amaçları</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-4">Ana Amaçlar</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Rezervasyon işlemleri yapma</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Ödeme ve fatura işlemleri</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Müşteri hizmetleri sunma</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-purple-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Yasal yükümlülükleri yerine getirme</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div>
-              <h3 className="font-semibold text-gray-900 mb-4">İkincil Amaçlar</h3>
-              <ul className="space-y-3">
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Pazarlama faaliyetleri (onaylı)</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Site performansını iyileştirme</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">Güvenlik önlemlerini alma</span>
-                </li>
-                <li className="flex items-start space-x-2">
-                  <div className="w-2 h-2 bg-green-600 rounded-full mt-2"></div>
-                  <span className="text-gray-700">İstatistiksel analiz yapma</span>
-                </li>
-              </ul>
-            </div>
-          </div>
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Settings className="text-blue-600" /> Kişisel Verilerin İşlenme Amaçları
+          </h2>
+          <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg leading-relaxed">
+            <li>Rezervasyon ve ödeme işlemlerinin gerçekleştirilmesi</li>
+            <li>Müşteri hizmetleri ve destek faaliyetlerinin yürütülmesi</li>
+            <li>Yasal yükümlülüklerin yerine getirilmesi</li>
+            <li>Hizmet kalitesinin artırılması ve kullanıcı deneyiminin geliştirilmesi</li>
+            <li>Kampanya, duyuru ve bilgilendirme yapılması (onay verilmişse)</li>
+          </ul>
+        </div>
+
+        {/* Data Transfer */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Mail className="text-blue-600" /> Verilerin Aktarımı
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            Kişisel verileriniz yalnızca aşağıdaki durumlarda üçüncü kişilerle paylaşılabilir:
+          </p>
+          <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg leading-relaxed mt-4">
+            <li>Yasal zorunluluklar gereği resmi kurumlara bildirim yapılması</li>
+            <li>Rezervasyon sürecinde hizmet sağlayıcılarla gerekli bilgiler paylaşılması</li>
+            <li>Finansal işlemler için ödeme altyapısı sağlayıcılarıyla veri aktarımı</li>
+          </ul>
+          <p className="text-gray-700 text-lg leading-relaxed mt-4">
+            Şirket, verilerinizi yurt içinde veya yurt dışında güvenli sunucularda saklayabilir.
+          </p>
         </div>
 
         {/* Data Security */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <Lock className="w-8 h-8 text-red-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Veri Güvenliği</h2>
-          </div>
-          
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center p-6 bg-red-50 rounded-xl">
-              <Shield className="w-12 h-12 text-red-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">SSL Şifreleme</h3>
-              <p className="text-gray-600 text-sm">Tüm veri transferleri SSL sertifikası ile şifrelenir</p>
-            </div>
-            
-            <div className="text-center p-6 bg-blue-50 rounded-xl">
-              <Database className="w-12 h-12 text-blue-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Güvenli Depolama</h3>
-              <p className="text-gray-600 text-sm">Veriler güvenli sunucularda saklanır</p>
-            </div>
-            
-            <div className="text-center p-6 bg-green-50 rounded-xl">
-              <UserCheck className="w-12 h-12 text-green-600 mx-auto mb-3" />
-              <h3 className="font-semibold text-gray-900 mb-2">Erişim Kontrolü</h3>
-              <p className="text-gray-600 text-sm">Sadece yetkili personel erişebilir</p>
-            </div>
-          </div>
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Lock className="text-blue-600" /> Veri Güvenliği
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            Şirketimiz, kişisel verilerinizin gizliliğini korumak amacıyla gerekli teknik ve idari
+            tedbirleri almaktadır:
+          </p>
+          <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg leading-relaxed">
+            <li>SSL sertifikası ile şifreli veri aktarımı</li>
+            <li>Yetkisiz erişimlere karşı güvenlik duvarı koruması</li>
+            <li>Düzenli sistem güncellemeleri ve güvenlik testleri</li>
+            <li>Veri erişiminde yetkilendirme kontrolü</li>
+          </ul>
         </div>
 
         {/* Data Retention */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <AlertTriangle className="w-8 h-8 text-orange-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Veri Saklama Süreleri</h2>
-          </div>
-          
-          <div className="space-y-4">
-            <div className="flex justify-between items-center p-4 bg-orange-50 rounded-lg">
-              <span className="font-medium text-gray-900">Rezervasyon Kayıtları</span>
-              <span className="text-orange-600 font-semibold">10 Yıl</span>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-blue-50 rounded-lg">
-              <span className="font-medium text-gray-900">Ödeme Bilgileri</span>
-              <span className="text-blue-600 font-semibold">5 Yıl</span>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-green-50 rounded-lg">
-              <span className="font-medium text-gray-900">Pazarlama Verileri</span>
-              <span className="text-green-600 font-semibold">2 Yıl</span>
-            </div>
-            <div className="flex justify-between items-center p-4 bg-purple-50 rounded-lg">
-              <span className="font-medium text-gray-900">Log Kayıtları</span>
-              <span className="text-purple-600 font-semibold">1 Yıl</span>
-            </div>
-          </div>
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6">
+            Kişisel Verilerin Saklanma Süresi
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed">
+            Kişisel verileriniz, ilgili mevzuatta belirtilen süreler boyunca saklanır. Süre bitiminde
+            veya işleme amacı ortadan kalktığında, veriler güvenli şekilde imha edilir.
+          </p>
+          <ul className="list-disc pl-8 space-y-2 text-gray-700 text-lg mt-4">
+            <li>Rezervasyon ve ödeme kayıtları: 10 yıl</li>
+            <li>Fatura ve finansal belgeler: 5 yıl</li>
+            <li>Pazarlama izinleri: 2 yıl</li>
+            <li>Sunucu log kayıtları: 1 yıl</li>
+          </ul>
         </div>
 
         {/* User Rights */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <UserCheck className="w-8 h-8 text-indigo-600" />
-            <h2 className="text-2xl font-bold text-gray-900">KVKK Hakları</h2>
-          </div>
-          
-          <p className="text-gray-600 mb-6">
-            6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aşağıdaki haklarınız bulunmaktadır:
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <UserCheck className="text-blue-600" /> KVKK Kapsamındaki Haklarınız
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            6698 sayılı KVKK kapsamında aşağıdaki haklara sahipsiniz:
           </p>
-          
-          <div className="grid md:grid-cols-2 gap-4">
-            {rights.map((right, index) => (
-              <div key={index} className="flex items-start space-x-3 p-3 bg-indigo-50 rounded-lg">
-                <div className="w-2 h-2 bg-indigo-600 rounded-full mt-2"></div>
-                <span className="text-indigo-800 text-sm">{right}</span>
-              </div>
-            ))}
-          </div>
-          
-          <div className="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
-            <p className="text-yellow-800 text-sm">
-              <strong>Not:</strong> Haklarınızı kullanmak için crpgrup@gmail.com adresine kimlik belgenizle birlikte başvurabilirsiniz.
-            </p>
-          </div>
+          <ul className="list-disc pl-8 space-y-3 text-gray-700 text-lg leading-relaxed">
+            <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+            <li>İşlenen veriler hakkında bilgi talep etme</li>
+            <li>Verilerin işlenme amacını ve kullanımını öğrenme</li>
+            <li>Verilerin yurt içi veya yurt dışına aktarılıp aktarılmadığını öğrenme</li>
+            <li>Eksik veya yanlış işlenen verilerin düzeltilmesini talep etme</li>
+            <li>Verilerin silinmesini veya yok edilmesini isteme</li>
+            <li>Otomatik sistemlerce analiz sonucu aleyhinize sonuç doğurmasına itiraz etme</li>
+          </ul>
+          <p className="text-gray-700 text-lg leading-relaxed mt-6">
+            Bu haklarınızı kullanmak için kimliğinizi doğrulayan belgelerle birlikte{" "}
+            <a
+              href="mailto:mavibilet.com"
+              className="text-blue-600 font-semibold hover:underline"
+            >
+              mailto:mavibilet.com
+            </a>{" "}
+            adresine yazılı olarak başvurabilirsiniz.
+          </p>
         </div>
 
-        {/* Cookies */}
-        <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
-          <div className="flex items-center space-x-3 mb-6">
-            <Settings className="w-8 h-8 text-gray-600" />
-            <h2 className="text-2xl font-bold text-gray-900">Çerez (Cookie) Politikası</h2>
-          </div>
-          
-          <div className="space-y-4 text-gray-700">
-            <p>
-              Web sitemizde kullanıcı deneyimini iyileştirmek amacıyla çerezler kullanılmaktadır.
-            </p>
-            
-            <div className="grid md:grid-cols-2 gap-6">
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Gerekli Çerezler</h4>
-                <p className="text-sm text-gray-600">Sitenin temel işlevlerinin çalışması için gereklidir</p>
-              </div>
-              <div>
-                <h4 className="font-semibold text-gray-900 mb-2">Analitik Çerezler</h4>
-                <p className="text-sm text-gray-600">Site performansını analiz etmek için kullanılır</p>
-              </div>
-            </div>
-          </div>
+        {/* Cookie Policy */}
+        <div className="bg-white rounded-xl shadow-sm p-10 mb-12 text-left">
+          <h2 className="text-3xl font-bold text-gray-900 mb-6 flex items-center gap-3">
+            <Settings className="text-blue-600" /> Çerez (Cookie) Politikası
+          </h2>
+          <p className="text-gray-700 text-lg leading-relaxed mb-4">
+            mavibilet.com, kullanıcı deneyimini geliştirmek amacıyla çerezleri (“cookies”) kullanır.
+            Çerezler, tarayıcınız aracılığıyla cihazınıza kaydedilen küçük metin dosyalarıdır.
+          </p>
+          <ul className="list-disc pl-8 space-y-2 text-gray-700 text-lg">
+            <li><strong>Gerekli Çerezler:</strong> Sitenin temel işlevlerinin çalışması için zorunludur.</li>
+            <li><strong>Analitik Çerezler:</strong> Site performansını analiz etmek ve istatistik oluşturmak için kullanılır.</li>
+            <li><strong>Pazarlama Çerezleri:</strong> Onay vermeniz halinde reklam deneyiminizi kişiselleştirmek için kullanılır.</li>
+          </ul>
+          <p className="text-gray-700 text-lg leading-relaxed mt-4">
+            Tarayıcı ayarlarınızı değiştirerek çerezleri devre dışı bırakabilir veya silebilirsiniz.
+          </p>
         </div>
 
         {/* Contact */}
-        <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-8 text-white">
-          <h2 className="text-2xl font-bold mb-4 text-center">Gizlilik Hakkında Sorularınız</h2>
-          <p className="text-center text-indigo-100 mb-6">
-            Kişisel verileriniz veya bu politika hakkında sorularınız varsa, bizimle iletişime geçin.
+        <div className="bg-blue-600 rounded-xl p-10 text-center text-white">
+          <h2 className="text-3xl font-bold mb-4">Gizlilik Hakkında Sorularınız</h2>
+          <p className="text-xl text-blue-100 mb-8 max-w-3xl mx-auto">
+            Kişisel verilerinizin korunmasıyla ilgili tüm taleplerinizi bizimle paylaşabilirsiniz.
           </p>
-          <div className="text-center">
-            <button className="bg-white text-indigo-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors mr-4">
-              KVKK Başvurusu
-            </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-indigo-600 transition-colors">
-              İletişim
-            </button>
-          </div>
+          <button
+            onClick={() => (window.location.href = "/contact")}
+            className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
+          >
+            Bizimle İletişime Geçin
+          </button>
         </div>
       </div>
     </div>

@@ -260,7 +260,7 @@ const TourDetailPage = () => {
     }
     
     // Open Graph meta etiketleri
-    updateMetaTag('property', 'og:title', `${tourData.title} | DijipalTour`);
+    updateMetaTag('property', 'og:title', `${tourData.title} | Mavibilet`);
     updateMetaTag('property', 'og:description', tourData.short_description);
     updateMetaTag('property', 'og:image', tourData.images?.[0] || '');
     updateMetaTag('property', 'og:url', `${window.location.origin}/turlar/${createSlug(tourData.title)}`);
@@ -268,7 +268,7 @@ const TourDetailPage = () => {
     
     // Twitter Card
     updateMetaTag('name', 'twitter:card', 'summary_large_image');
-    updateMetaTag('name', 'twitter:title', `${tourData.title} | DijipalTour`);
+    updateMetaTag('name', 'twitter:title', `${tourData.title} | Mavibilet`);
     updateMetaTag('name', 'twitter:description', tourData.short_description);
     updateMetaTag('name', 'twitter:image', tourData.images?.[0] || '');
     
@@ -284,7 +284,7 @@ const TourDetailPage = () => {
       "image": tourData.images?.[0] || '',
       "brand": {
         "@type": "Brand",
-        "name": "DijipalTour"
+        "name": "Mavibilet"
       },
       "offers": {
         "@type": "Offer",
@@ -744,7 +744,7 @@ const TourDetailPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
         {/* Back Button */}
         <Link
           to="/turlar"
@@ -880,7 +880,7 @@ const TourDetailPage = () => {
                 <h3 className="text-xl font-semibold text-gray-900 mb-4">
                   Açıklama
                 </h3>
-                <div className="text-gray-700 leading-relaxed">
+                <div className="text-gray-700 leading-relaxed text-sm">
                   <div 
                     className={`whitespace-pre-wrap ${!showFullDescription && tour.description && tour.description.length > 200 ? 'line-clamp-3' : ''}`}
                     style={!showFullDescription && tour.description && tour.description.length > 200 ? {
@@ -906,6 +906,7 @@ const TourDetailPage = () => {
                   )}
                 </div>
               </div>
+
 
               {/* Included/Excluded Services */}
               <div className="py-6 grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -951,15 +952,23 @@ const TourDetailPage = () => {
                     <Calendar className="w-5 h-5 text-blue-500" />
                     <span>Tur Programı</span>
                   </h4>
-                  <div className="prose prose-sm max-w-none">
+                  <div className="prose max-w-none">
                     <div 
-                      className={`whitespace-pre-wrap text-gray-700 leading-relaxed ${!showFullProgram && tour.program_details && tour.program_details.length > 300 ? 'line-clamp-3' : ''}`}
-                      style={!showFullProgram && tour.program_details && tour.program_details.length > 300 ? {
-                        display: '-webkit-box',
-                        WebkitLineClamp: 3,
-                        WebkitBoxOrient: 'vertical',
-                        overflow: 'hidden'
-                      } : {}}
+                      className={`whitespace-pre-wrap text-gray-700 leading-relaxed text-sm ${
+                        !showFullProgram && tour.program_details && tour.program_details.length > 300
+                          ? 'line-clamp-3'
+                          : ''
+                      }`}
+                      style={
+                        !showFullProgram && tour.program_details && tour.program_details.length > 300
+                          ? {
+                              display: '-webkit-box',
+                              WebkitLineClamp: 3,
+                              WebkitBoxOrient: 'vertical',
+                              overflow: 'hidden',
+                            }
+                          : {}
+                      }
                     >
                       {tour.program_details}
                     </div>
@@ -969,15 +978,17 @@ const TourDetailPage = () => {
                         className="flex items-center space-x-1 text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors mt-3"
                       >
                         <span>{showFullProgram ? 'Daha az göster' : 'Detaylı programı görüntüle'}</span>
-                        {showFullProgram ? 
-                          <ChevronUp className="w-4 h-4" /> : 
+                        {showFullProgram ? (
+                          <ChevronUp className="w-4 h-4" />
+                        ) : (
                           <ChevronDown className="w-4 h-4" />
-                        }
+                        )}
                       </button>
                     )}
                   </div>
                 </div>
               )}
+
 
               {/* Additional Info */}
               {(tour.meeting_point || tour.languages || tour.pickup_time || tour.dropoff_time) && (
@@ -1641,11 +1652,11 @@ const TourDetailPage = () => {
                     <span>0850 255 53 35</span>
                   </a>
                   <a
-                    href="mailto:info@dijipaltour.com"
+                    href="mailto:info@mavibilet.com"
                     className="flex items-center space-x-2 text-sm text-gray-600 hover:text-blue-600 transition-colors duration-200"
                   >
                     <Mail className="w-4 h-4" />
-                    <span>info@dijipaltour.com</span>
+                    <span>info@mavibilet.com</span>
                   </a>
                 </div>
               </div>
@@ -1920,7 +1931,7 @@ const TourDetailPage = () => {
                 )}
 
                 {availableDates.length > 0 ? (
-                  <div className="space-y-2 max-h-40 overflow-y-auto">
+                  <div className="space-y-2 max-h-60 overflow-y-auto">
                     {availableDates
                       .filter(date => {
                         if (selectedMonth === 'all') return true;
@@ -1979,16 +1990,12 @@ const TourDetailPage = () => {
                   </h4>
                   
                   {/* 2 Kolonlu Grid Yapısı */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
                     {/* Tek Kişilik Kabin */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-700">Tek Kişilik / 1 Kişi</span>
-                        {selectedDate && selectedDate.single_cabin_price && (
-                          <span className="text-sm text-blue-600 font-medium">
-                            ₺{(selectedDate.single_cabin_price || 0).toLocaleString('tr-TR')}
-                          </span>
-                        )}
+
                       </div>
                       <div className="flex items-center justify-center space-x-4 py-2">
                         <button
@@ -2014,11 +2021,7 @@ const TourDetailPage = () => {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-700">Çift Kişilik / 2 Kişi</span>
-                        {selectedDate && selectedDate.double_cabin_price && (
-                          <span className="text-sm text-blue-600 font-medium">
-                            ₺{(selectedDate.double_cabin_price || 0).toLocaleString('tr-TR')}
-                          </span>
-                        )}
+
                       </div>
                       <div className="flex items-center justify-center space-x-4 py-2">
                         <button
@@ -2052,31 +2055,25 @@ const TourDetailPage = () => {
                   </h4>
                   
                   {/* 2 Kolonlu Grid Yapısı */}
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 sm:grid-cols-2 gap-4">
                     {/* Yetişkin Sayısı */}
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-700">Yetişkin Sayısı</span>
-                        {selectedDate && selectedDate.person_price && (
-                          <span className="text-sm text-blue-600 font-medium">
-                            ₺{(selectedDate.person_price || 0).toLocaleString('tr-TR')}
-                          </span>
-                        )}
                       </div>
                       <div className="flex items-center justify-center space-x-4 py-2">
                         <button
                           onClick={() => setAdultCount(Math.max(1, adultCount - 1))}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={adultCount <= 1}
                         >
-                          -
                         </button>
                         <span className="text-lg font-semibold min-w-[3rem] text-center">
                           {adultCount}
                         </span>
                         <button
                           onClick={() => setAdultCount(adultCount + 1)}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                         >
                           +
                         </button>
@@ -2087,16 +2084,11 @@ const TourDetailPage = () => {
                     <div>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-sm font-medium text-gray-700">Çocuk Sayısı</span>
-                        {selectedDate && selectedDate.child_price && (
-                          <span className="text-sm text-blue-600 font-medium">
-                            ₺{(selectedDate.child_price || 0).toLocaleString('tr-TR')}
-                          </span>
-                        )}
                       </div>
                       <div className="flex items-center justify-center space-x-4 py-2">
                         <button
                           onClick={() => setChildCount(Math.max(0, childCount - 1))}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                           disabled={childCount <= 0}
                         >
                           -
@@ -2106,7 +2098,7 @@ const TourDetailPage = () => {
                         </span>
                         <button
                           onClick={() => setChildCount(childCount + 1)}
-                          className="w-10 h-10 rounded-lg bg-white border-2 border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
+                          className="w-10 h-10 rounded-lg bg-white border border-gray-300 flex items-center justify-center hover:bg-gray-50 hover:border-gray-400 disabled:opacity-30 disabled:cursor-not-allowed font-bold text-gray-600 transition-all duration-200 shadow-sm"
                         >
                           +
                         </button>
@@ -2250,7 +2242,7 @@ const TourDetailPage = () => {
                       : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                   }`}
                 >
-                  Rezervayson Tamamla
+                  Rezervasyon Tamamla
                 </button>
               </div>
             </div>

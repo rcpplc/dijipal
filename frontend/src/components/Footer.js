@@ -147,9 +147,9 @@ const Footer = () => {
                 <Link 
                   to="/terms" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
-                  title="Kullanım Koşulları"  // 🏷️ Tooltip metni burada
+                  title="Kullanım Şartları Sözleşmesi"  // 🏷️ Tooltip metni burada
                 >
-                  Kullanım Koşulları
+                  Kullanım Şartları Sözleşmesi
                 </Link>
               </li>
             </ul>
@@ -176,10 +176,10 @@ const Footer = () => {
               <div>
                 <p className="text-sm text-white/70">E-posta</p>
                 <a
-                  href="mailto:info@dijipaltour.com"
+                  href="mailto:info@mavibilet.com"
                   className="font-medium text-white hover:underline"
                 >
-                  info@dijipaltour.com
+                  info@mavibilet.com
                 </a>
               </div>
             </div>
@@ -197,7 +197,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-400 mb-4 md:mb-0">
-            © 2026 DijipalTour.com Tarafından ❤️ yapıldı.
+            © 2026 Mavibilet.com Tarafından ❤️ yapıldı.
           </div>
           <div className="flex space-x-6 text-sm">
             <Link 

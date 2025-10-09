@@ -207,34 +207,44 @@ const HomePage = () => {
       {/* 📱 Mobil Alt Sabit Menü */}
       <nav className="fixed bottom-0 left-0 w-full bg-white border-t border-gray-200 md:hidden z-50">
         <div className="grid grid-cols-4">
-          {/* Ana Sayfa */}
-          <a
-            href="https://tour-reserv.preview.emergentagent.com/"
-            className="flex flex-col items-center py-2 text-sm text-gray-500 hover:text-blue-600"
+          <Link
+            to="https://tour-reserv.preview.emergentagent.com/"
+            className={`flex flex-col items-center py-2 text-sm ${
+              location.pathname === '/' ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'
+            }`}
           >
             <Home className="w-6 h-6 mb-1" />
-          </a>
-          {/* Rezervasyonlarım */}
-          <a
-            href="/bookings"
-            className="flex flex-col items-center py-2 text-sm text-gray-500 hover:text-blue-600"
+          </Link>
+          <Link
+            to="https://tour-reserv.preview.emergentagent.com/bookings"
+            className={`flex flex-col items-center py-2 text-sm ${
+              location.pathname.startsWith('/rezervasyon')
+                ? 'text-blue-600'
+                : 'text-gray-500 hover:text-blue-600'
+            }`}
           >
             <BookmarkCheck className="w-6 h-6 mb-1" />
-          </a>
-          {/* Favorilerim */}
-          <a
-            href="/favorites"
-            className="flex flex-col items-center py-2 text-sm text-gray-500 hover:text-blue-600"
+          </Link>
+          <Link
+            to="https://tour-reserv.preview.emergentagent.com/favorites"
+            className={`flex flex-col items-center py-2 text-sm ${
+              location.pathname.startsWith('/favori')
+                ? 'text-blue-600'
+                : 'text-gray-500 hover:text-blue-600'
+            }`}
           >
             <Heart className="w-6 h-6 mb-1" />
-          </a>
-          {/* Profilim */}
-          <a
-            href="/profile"
-            className="flex flex-col items-center py-2 text-sm text-gray-500 hover:text-blue-600"
+          </Link>
+          <Link
+            to="https://tour-reserv.preview.emergentagent.com/profile"
+            className={`flex flex-col items-center py-2 text-sm ${
+              location.pathname.startsWith('/profil')
+                ? 'text-blue-600'
+                : 'text-gray-500 hover:text-blue-600'
+            }`}
           >
-            <User className="w-6 h-6 mb-1" />
-          </a>
+            <User className="w-6 h-6 mb-1" /> 
+          </Link>
         </div>
       </nav>
     </div>

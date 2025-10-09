@@ -96,21 +96,48 @@ const HelpPage = () => {
           </div>
         </div>
 
-        {/* Quick Actions */}
-        <div className="grid md:grid-cols-3 gap-6 mb-16">
-          {quickActions.map((action, index) => (
-            <div key={index} className="bg-white rounded-xl p-6 text-center shadow-md hover:shadow-lg transition-shadow">
-              <div className={`w-16 h-16 ${action.color} rounded-full flex items-center justify-center mx-auto mb-4`}>
-                <action.icon className="w-8 h-8 text-white" />
+        {/* Popular Questions */}
+        <div className="bg-white rounded-xl p-8 shadow-md mb-16">
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Sık Sorulan Sorular</h2>
+          
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="space-y-6">
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Rezervasyon iptali nasıl yapılır?</h4>
+                <p className="text-gray-600 text-sm">Hesabınıza giriş yaparak rezervasyon geçmişinizden iptal edebilirsiniz.</p>
               </div>
-              <h3 className="text-xl font-bold text-gray-900 mb-2">{action.title}</h3>
-              <p className="text-gray-600 mb-4">{action.description}</p>
-              <button className="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-gray-800 transition-colors">
-                {action.action}
-              </button>
+              
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Kabin türleri arasındaki farklar nedir?</h4>
+                <p className="text-gray-600 text-sm">Standart, Lux ve Delux kabinlerimiz farklı konfor seviyelerinde hizmet sunar.</p>
+              </div>
+              
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Grup indirimleriniz var mı?</h4>
+                <p className="text-gray-600 text-sm">8 kişi ve üzeri gruplar için özel indirimlerimiz bulunmaktadır.</p>
+              </div>
             </div>
-          ))}
+            
+            <div className="space-y-6">
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Ödeme hangi yöntemlerle yapabilirim?</h4>
+                <p className="text-gray-600 text-sm">Kredi kartı, banka kartı ve havale ile ödeme yapabilirsiniz.</p>
+              </div>
+              
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Turlar hava durumundan etkilenir mi?</h4>
+                <p className="text-gray-600 text-sm">Güvenlik nedeniyle olumsuz hava şartlarında turlar ertelenebilir.</p>
+              </div>
+              
+              <div className="border-l-4 border-blue-600 pl-4">
+                <h4 className="font-semibold text-gray-900 mb-2">Yanımda neler getirmeliyim?</h4>
+                <p className="text-gray-600 text-sm">Kimlik belgesi, rahat kıyafetler ve kişisel ihtiyaçlarınızı getirin.</p>
+              </div>
+            </div>
+          </div>
         </div>
+
+
 
         {/* Help Topics */}
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
@@ -138,49 +165,8 @@ const HelpPage = () => {
           ))}
         </div>
 
-        {/* Popular Questions */}
-        <div className="bg-white rounded-xl p-8 shadow-md mb-16">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Sık Sorulan Sorular</h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="space-y-6">
-              <div className="border-l-4 border-gray-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Rezervasyon iptali nasıl yapılır?</h4>
-                <p className="text-gray-600 text-sm">Hesabınıza giriş yaparak rezervasyon geçmişinizden iptal edebilirsiniz.</p>
-              </div>
-              
-              <div className="border-l-4 border-gray-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Kabin türleri arasındaki farklar nedir?</h4>
-                <p className="text-gray-600 text-sm">Standart, Lux ve Delux kabinlerimiz farklı konfor seviyelerinde hizmet sunar.</p>
-              </div>
-              
-              <div className="border-l-4 border-gray-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Grup indirimleriniz var mı?</h4>
-                <p className="text-gray-600 text-sm">8 kişi ve üzeri gruplar için özel indirimlerimiz bulunmaktadır.</p>
-              </div>
-            </div>
-            
-            <div className="space-y-6">
-              <div className="border-l-4 border-green-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Ödeme hangi yöntemlerle yapabilirim?</h4>
-                <p className="text-gray-600 text-sm">Kredi kartı, banka kartı ve havale ile ödeme yapabilirsiniz.</p>
-              </div>
-              
-              <div className="border-l-4 border-green-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Turlar hava durumundan etkilenir mi?</h4>
-                <p className="text-gray-600 text-sm">Güvenlik nedeniyle olumsuz hava şartlarında turlar ertelenebilir.</p>
-              </div>
-              
-              <div className="border-l-4 border-green-600 pl-4">
-                <h4 className="font-semibold text-gray-900 mb-2">Yanımda neler getirmeliyim?</h4>
-                <p className="text-gray-600 text-sm">Kimlik belgesi, rahat kıyafetler ve kişisel ihtiyaçlarınızı getirin.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
         {/* Contact Section */}
-        <div className="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 text-center text-white">
+        <div className="bg-blue-600 rounded-xl p-8 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Hala yardıma mı ihtiyacınız var?</h2>
           <p className="text-blue-100 mb-6">
             Aradığınız cevabı bulamadıysanız, uzman ekibimizle iletişime geçin. Size yardımcı olmaktan memnuniyet duyarız.

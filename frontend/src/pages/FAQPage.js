@@ -1,165 +1,190 @@
-import React, { useState } from 'react';
-import { ChevronDown, ChevronUp, Search, MessageCircle } from 'lucide-react';
+import React, { useState } from "react";
+import { ChevronDown, ChevronUp, MessageCircle, Search } from "lucide-react";
 
 const FAQPage = () => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [openFAQ, setOpenFAQ] = useState(null);
+  const [openQuestion, setOpenQuestion] = useState(null);
+  const [searchTerm, setSearchTerm] = useState("");
 
-  const faqCategories = [
+  const faqs = [
     {
-      category: "Rezervasyon ve Booking",
-      faqs: [
+      category: "Rezervasyon İşlemleri",
+      questions: [
         {
-          question: "Nasıl rezervasyon yapabilirim?",
-          answer: "Web sitemizden istediğiniz turu seçip, müsait tarihleri kontrol ederek rezervasyon yapabilirsiniz. Ödeme işlemini tamamladıktan sonra e-posta ile rezervasyon onayınızı alacaksınız."
+          q: "Nasıl rezervasyon yapabilirim?",
+          a: "Web sitemiz üzerinden istediğiniz tekne veya turu seçip, müsait tarihleri görüntüleyebilir ve ödeme adımlarını tamamlayarak rezervasyonunuzu kolayca oluşturabilirsiniz."
         },
         {
-          question: "Rezervasyonumu iptal edebilir miyim?",
-          answer: "Evet, rezervasyon iptal şartlarımıza göre iptal edebilirsiniz. Tur başlangıcından 24 saat öncesine kadar ücretsiz iptal hakkınız bulunmaktadır."
+          q: "Rezervasyonumu nasıl iptal edebilirim?",
+          a: "Rezervasyonunuzu profilinizden veya bize e-posta göndererek iptal edebilirsiniz. İptal şartları seçilen iptal politikasına (esnek, orta, katı) göre değişiklik gösterir."
         },
         {
-          question: "Son dakika rezervasyonu yapabilir miyim?",
-          answer: "Kabin müsaitliği olması durumunda, tur başlangıcından 2 saat öncesine kadar rezervasyon yapabilirsiniz."
+          q: "Rezervasyon onayımı nasıl alırım?",
+          a: "Ödemeniz onaylandıktan sonra e-posta ve SMS yoluyla rezervasyon onay belgeniz tarafınıza iletilir."
         },
         {
-          question: "Grup rezervasyonu nasıl yapılır?",
-          answer: "8 kişi ve üzeri gruplar için özel fiyatlarımız bulunmaktadır. Grup rezervasyonu için lütfen bizimle direkt iletişime geçin."
+          q: "Grup rezervasyonları nasıl yapılır?",
+          a: "10 kişi ve üzeri grup talepleri için özel fiyatlar uygulanır. Grup rezervasyonu için bizimle doğrudan iletişime geçebilirsiniz."
         }
       ]
     },
     {
-      category: "Ödeme ve Fiyatlandırma",
-      faqs: [
+      category: "Ödeme ve Faturalandırma",
+      questions: [
         {
-          question: "Hangi ödeme yöntemlerini kabul ediyorsunuz?",
-          answer: "Kredi kartı (Visa, Mastercard), banka kartı ve havale ile ödeme yapabilirsiniz. Tüm ödemeler SSL güvenlik sertifikası ile korunmaktadır."
+          q: "Hangi ödeme yöntemlerini kabul ediyorsunuz?",
+          a: "Kredi kartı (Visa, Mastercard), banka kartı, havale ve EFT kabul edilmektedir. Tüm ödemeler SSL sertifikalı güvenli altyapı üzerinden alınır."
         },
         {
-          question: "Taksit seçeneği var mı?",
-          answer: "Evet, kredi kartı ile 2, 3, 6, 9 ve 12 ay taksit seçenekleri mevcuttur. Taksit faiz oranları bankanıza göre değişiklik gösterir."
+          q: "Taksit imkanı var mı?",
+          a: "Evet, anlaşmalı bankalar üzerinden 2, 3, 6 ve 9 taksit imkanı sunulmaktadır. Taksit koşulları bankanıza göre değişebilir."
         },
         {
-          question: "Fiyatlara ne dahil?",
-          answer: "Fiyatlara kabin konaklama, belirtilen öğünler, deneyimli rehber eşliği ve sigorta dahildir. Kişisel harcamalar dahil değildir."
+          q: "Fiyatlara neler dahil?",
+          a: "Fiyatlara konaklama, belirli öğünler, rehber hizmeti ve sigorta dahildir. Özel harcamalar, içecekler ve ekstra hizmetler dahil değildir."
         },
         {
-          question: "Çocuk indirimi var mı?",
-          answer: "0-2 yaş ücretsiz (koltuk hakkı olmadan), 3-12 yaş arası %50 indirim uygulanmaktadır."
+          q: "Fatura nasıl kesiliyor?",
+          a: "Rezervasyon işleminiz tamamlandıktan sonra fatura e-posta adresinize PDF olarak gönderilmektedir."
         }
       ]
     },
     {
-      category: "Tur Detayları",
-      faqs: [
+      category: "Tur ve Tekne Bilgileri",
+      questions: [
         {
-          question: "Kabin türleri nelerdir?",
-          answer: "Standart kabinler (2 kişilik yatak, temel konfur), Lux kabinler (çift kişilik yatak, minibar, klima) ve Delux kabinler (balkonlu, jakuzzi, premium hizmet) seçeneklerimiz bulunmaktadır."
+          q: "Teknelerde hangi kabin tipleri mevcut?",
+          a: "Standart, Lüks ve Delüks kabin seçenekleri bulunmaktadır. Her biri farklı konfor seviyeleri ve hizmet içerikleri sunar."
         },
         {
-          question: "Hava durumu turları etkiler mi?",
-          answer: "Güvenlik önceliğimiz nedeniyle, olumsuz hava şartlarında turlar ertelenebilir veya iptal edilebilir. Bu durumda tam iade yapılır."
+          q: "Turlar olumsuz hava koşullarında yapılır mı?",
+          a: "Misafir güvenliği önceliğimizdir. Olumsuz hava koşullarında turlar ertelenebilir veya iptal edilir, bu durumda ücret iadesi yapılır."
         },
         {
-          question: "Yemekler nasıl organize ediliyor?",
-          answer: "Turlarımızda genellikle açık büfe kahvaltı ve akşam yemeği dahildir. Özel diyet ihtiyaçlarınız varsa, rezervasyon sırasında belirtiniz."
+          q: "Yemek ve içecekler nasıl sağlanıyor?",
+          a: "Yemek hizmeti tur programına göre değişir. Bazı turlarımızda tam pansiyon (sabah, öğle, akşam) yemekler dahildir."
         },
         {
-          question: "Yanımda ne getirmeliyim?",
-          answer: "Kimlik belgesi, güneş kremi, şapka, rahat kıyafetler, mayosu ve kişisel ihtiyaçlarınızı getirmeniz yeterlidir. Havlu ve temel hijyen malzemeleri sağlanmaktadır."
+          q: "Evcil hayvan kabul ediliyor mu?",
+          a: "Bazı tekneler evcil hayvan kabul etmektedir. İlgili tekne sayfasında bu bilgi açıkça belirtilir."
+        }
+      ]
+    },
+    {
+      category: "İptal ve Değişiklik Koşulları",
+      questions: [
+        {
+          q: "İptal politikalarınız nelerdir?",
+          a: "Üç farklı iptal politikası uygulanır: Esnek (24 saat öncesine kadar ücretsiz), Orta (3 gün öncesine kadar %50 iade), Katı (7 gün öncesi %25 iade)."
+        },
+        {
+          q: "Rezervasyon tarihimi değiştirebilir miyim?",
+          a: "Evet, uygunluk durumuna göre tarih değişikliği yapabilirsiniz. Bazı durumlarda fiyat farkı oluşabilir."
+        },
+        {
+          q: "Hava şartları nedeniyle iptal edilirse ne olur?",
+          a: "Şirket kaynaklı veya hava koşullarına bağlı iptallerde tam ücret iadesi yapılır."
         }
       ]
     },
     {
       category: "Genel Bilgiler",
-      faqs: [
+      questions: [
         {
-          question: "Turlar ne kadar sürer?",
-          answer: "Turlarımız 1 gün ile 14 gün arasında değişmektedir. Her turun detay sayfasında süre bilgisi açıkça belirtilmiştir."
+          q: "Sigorta hizmeti var mı?",
+          a: "Tüm turlarımız seyahat sigortası kapsamındadır. Dilerseniz ek özel sigorta yaptırabilirsiniz."
         },
         {
-          question: "Sigorta dahil mi?",
-          answer: "Evet, tüm turlarımızda seyahat sigortası dahildir. Ayrıca özel sigorta yaptırmak isteyenler için önerilerde bulunabiliriz."
+          q: "Yurt dışı turlarda pasaport gerekli mi?",
+          a: "Evet, uluslararası turlarımızda geçerli pasaport veya kimlik belgesi zorunludur."
         },
         {
-          question: "Evcil hayvan götürebilir miyim?",
-          answer: "Maalesef hijyen ve diğer yolcuların rahatlığı açısından evcil hayvan kabul etmiyoruz."
+          q: "Tur fiyatları ne sıklıkla değişir?",
+          a: "Fiyatlar sezonluk olarak güncellenir. Kampanyalar veya erken rezervasyon indirimleri dönemsel olarak sunulur."
         },
         {
-          question: "Alkol tüketimi serbest mi?",
-          answer: "18 yaş üstü yolcular için kendi alkolleri tüketebilir, ancak gemide satış yapılmamaktadır. Aşırı alkol tüketimi durumunda güvenlik gereği müdahale edilebilir."
+          q: "Kiminle iletişime geçebilirim?",
+          a: "Destek ekibimiz 7/24 hizmet vermektedir. İletişim sayfası üzerinden veya info@mavibilet.com adresinden bize ulaşabilirsiniz."
         }
       ]
     }
   ];
 
-  const toggleFAQ = (index) => {
-    setOpenFAQ(openFAQ === index ? null : index);
+  const toggleQuestion = (index) => {
+    setOpenQuestion(openQuestion === index ? null : index);
   };
 
-  const filteredFAQs = faqCategories.map(category => ({
-    ...category,
-    faqs: category.faqs.filter(faq => 
-      faq.question.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      faq.answer.toLowerCase().includes(searchTerm.toLowerCase())
-    )
-  })).filter(category => category.faqs.length > 0);
+  const filteredFaqs = faqs
+    .map((cat) => ({
+      ...cat,
+      questions: cat.questions.filter(
+        (item) =>
+          item.q.toLowerCase().includes(searchTerm.toLowerCase()) ||
+          item.a.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    }))
+    .filter((cat) => cat.questions.length > 0);
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-100 py-16">
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h1 className="text-5xl font-bold text-gray-900 mb-4">
             Sıkça Sorulan Sorular
           </h1>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto mb-8">
-            En çok merak edilen soruların yanıtlarını burada bulabilirsiniz. Aradığınız soruyu bulamıyorsanız bizimle iletişime geçin.
+          <p className="text-lg text-gray-700 max-w-3xl mx-auto">
+            En çok merak edilen konulara dair soruların yanıtlarını aşağıda
+            bulabilirsiniz. Aradığınızı bulamazsanız bizimle iletişime geçin.
           </p>
-          
+
           {/* Search Bar */}
-          <div className="max-w-2xl mx-auto relative">
-            <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+          <div className="relative max-w-lg mx-auto mt-8">
+            <Search className="absolute left-4 top-3.5 text-gray-400 w-5 h-5" />
             <input
               type="text"
-              placeholder="Soruları arayın..."
+              placeholder="Soru ara..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full pl-12 pr-4 py-4 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+              className="w-full border border-gray-300 rounded-lg py-3 pl-12 pr-4 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             />
           </div>
         </div>
 
-        {/* FAQ Categories */}
-        <div className="space-y-8">
-          {filteredFAQs.map((category, categoryIndex) => (
-            <div key={categoryIndex} className="bg-white rounded-xl shadow-md overflow-hidden">
-              <div className="bg-gray-600 text-white px-6 py-4">
-                <h2 className="text-xl font-bold">{category.category}</h2>
-              </div>
-              
-              <div className="p-6">
-                <div className="space-y-4">
-                  {category.faqs.map((faq, faqIndex) => {
-                    const globalIndex = `${categoryIndex}-${faqIndex}`;
-                    const isOpen = openFAQ === globalIndex;
-                    
+        {/* FAQ Sections */}
+        {filteredFaqs.length > 0 ? (
+          <div className="space-y-10">
+            {filteredFaqs.map((cat, catIndex) => (
+              <div key={catIndex} className="bg-white rounded-xl shadow-sm overflow-hidden">
+                <div className="px-6 py-4 border-b border-gray-200 bg-white">
+                  <h2 className="text-xl font-semibold text-blue-600">
+                    {cat.category}
+                  </h2>
+                </div>
+                <div className="divide-y divide-gray-100">
+                  {cat.questions.map((item, qIndex) => {
+                    const isOpen = openQuestion === `${catIndex}-${qIndex}`;
                     return (
-                      <div key={faqIndex} className="border border-gray-200 rounded-lg">
+                      <div key={qIndex}>
                         <button
-                          onClick={() => toggleFAQ(globalIndex)}
-                          className="w-full flex justify-between items-center p-4 text-left hover:bg-gray-50 transition-colors"
+                          onClick={() =>
+                            toggleQuestion(`${catIndex}-${qIndex}`)
+                          }
+                          className="w-full flex justify-between items-center text-left px-6 py-4 hover:bg-gray-50 transition-colors"
                         >
-                          <span className="font-semibold text-gray-900 pr-4">{faq.question}</span>
+                          <span className="font-medium text-gray-900 pr-4">
+                            {item.q}
+                          </span>
                           {isOpen ? (
-                            <ChevronUp className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                            <ChevronUp className="w-5 h-5 text-gray-500" />
                           ) : (
-                            <ChevronDown className="w-5 h-5 text-gray-500 flex-shrink-0" />
+                            <ChevronDown className="w-5 h-5 text-gray-500" />
                           )}
                         </button>
-                        
                         {isOpen && (
-                          <div className="px-4 pb-4 border-t border-gray-100">
-                            <p className="text-gray-700 pt-4 leading-relaxed">{faq.answer}</p>
+                          <div className="px-6 pb-4 bg-gray-50">
+                            <p className="text-gray-700 leading-relaxed pt-2">
+                              {item.a}
+                            </p>
                           </div>
                         )}
                       </div>
@@ -167,21 +192,20 @@ const FAQPage = () => {
                   })}
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
-
-        {/* No Results */}
-        {filteredFAQs.length === 0 && searchTerm && (
-          <div className="text-center py-12">
-            <MessageCircle className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-gray-900 mb-2">Aradığınız soru bulunamadı</h3>
-            <p className="text-gray-600 mb-4">
-              "{searchTerm}" ile ilgili bir sonuç bulunamadı. Farklı anahtar kelimeler deneyebilir veya bizimle iletişime geçebilirsiniz.
+            ))}
+          </div>
+        ) : (
+          <div className="text-center py-20">
+            <MessageCircle className="w-14 h-14 text-gray-400 mx-auto mb-4" />
+            <h3 className="text-xl font-semibold text-gray-800 mb-2">
+              Sonuç bulunamadı
+            </h3>
+            <p className="text-gray-600 mb-6">
+              "{searchTerm}" ile ilgili bir sonuç bulunamadı. Farklı bir anahtar kelime deneyin.
             </p>
             <button
-              onClick={() => setSearchTerm('')}
-              className="bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors"
+              onClick={() => setSearchTerm("")}
+              className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 transition-colors"
             >
               Tüm Soruları Göster
             </button>
@@ -189,17 +213,21 @@ const FAQPage = () => {
         )}
 
         {/* Contact Section */}
-        <div className="mt-16 bg-gradient-to-r from-gray-600 to-gray-800 rounded-xl p-8 text-center text-white">
+        <div className="mt-16 bg-blue-600 rounded-xl p-10 text-center text-white">
           <h2 className="text-2xl font-bold mb-4">Sorunuz yanıtlanmadı mı?</h2>
-          <p className="text-gray-100 mb-6">
-            Aradığınız cevabı bulamadıysanız, uzman ekibimiz size yardımcı olmak için hazır bekliyor.
+          <p className="text-gray-200 max-w-2xl mx-auto mb-6">
+            Aradığınız cevabı bulamadıysanız, destek ekibimiz size yardımcı olmak için hazır.
+            Dilerseniz canlı destek veya e-posta yoluyla bizimle iletişime geçebilirsiniz.
           </p>
-          <div className="space-x-4">
-            <button className="bg-white text-gray-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+          <div className="flex flex-wrap justify-center gap-4">
+            <button className="bg-white text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
               Canlı Destek
             </button>
-            <button className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-600 transition-colors">
-              İletişime Geç
+            <button
+              onClick={() => (window.location.href = "mailto:info@mavibilet.com")}
+              className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-800 transition-colors"
+            >
+              E-posta Gönder
             </button>
           </div>
         </div>
