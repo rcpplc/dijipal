@@ -2363,6 +2363,11 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   const [newExcludedService, setNewExcludedService] = useState('');
   const [newTag, setNewTag] = useState('');
   const [newImage, setNewImage] = useState('');
+  
+  // Media Library States (moved to modal scope)
+  const [mediaLibraryItems, setMediaLibraryItems] = useState([]);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  
   const [newTourDate, setNewTourDate] = useState({
     date: '',
     // Date range fields for person-based
