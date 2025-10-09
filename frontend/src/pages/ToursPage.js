@@ -224,9 +224,9 @@ const ToursPage = () => {
       // Fallback to defaults
       setCategories(defaultCategories);
       setLocations(defaultLocations);
-      setDurations(durations);
-      setClassifications(classifications);
-      setMinRatings(minRatings);
+      setDurations([{ value: '', label: 'Tüm Süreler' }]);
+      setClassifications([{ value: '', label: 'Tüm Sınıflar' }]);
+      setMinRatings([{ value: '', label: 'Tüm Puanlar' }]);
     }
   };
 
