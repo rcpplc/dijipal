@@ -29,8 +29,8 @@ const TestUploadPage = () => {
       console.log('📥 Response:', response.data);
 
       if (response.data.success) {
-        setUploadedImages(prev => [...prev, ...response.data.files]);
-        console.log('✅ Upload success:', response.data.files);
+        setUploadedImages(prev => [...prev, ...response.data.images]);
+        console.log('✅ Upload success:', response.data.images);
       }
 
     } catch (error) {
