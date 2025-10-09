@@ -147,7 +147,11 @@ const HomePage = () => {
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
+      // Arama terimi varsa, arama sonuçlarıyla tours sayfasına git
       navigate(`/tours?search=${encodeURIComponent(searchQuery.trim())}`);
+    } else {
+      // Arama kutusu boşsa, sadece tours sayfasına git
+      navigate('/tours');
     }
   };
 
