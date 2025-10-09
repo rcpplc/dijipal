@@ -226,7 +226,7 @@ const FavoritesPage = () => {
                     </div>
 
                     <Link
-                      to={`/tours/${tour.id}`}
+                      to={`/turlar/${tour.slug || tour.id}`}
                       className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
                     >
                       Detayları Gör
