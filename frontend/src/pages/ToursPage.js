@@ -58,37 +58,25 @@ const ToursPage = () => {
   const [loadingMore, setLoadingMore] = useState(false);
   const ITEMS_PER_PAGE = 12;
 
-  // Static filter options
-  const classifications = [
-    { value: '', label: 'Tüm Sınıflar' },
-    { value: 'standart', label: 'Standart' },
-    { value: 'lux', label: 'Lux' },
-    { value: 'delux', label: 'Delux' }
+  // Default filter options (fallbacks)
+  const defaultCategories = [
+    { value: '', label: 'Tüm Kategoriler' },
+    { value: 'cultural', label: 'Kültürel Turlar' },
+    { value: 'nature', label: 'Doğa Turları' },
+    { value: 'adventure', label: 'Macera Turları' },
+    { value: 'city', label: 'Şehir Turları' },
+    { value: 'food', label: 'Gastronomi Turları' },
+    { value: 'cruise', label: 'Kabin Turları' }
   ];
 
-  const durations = [
-    { value: '', label: 'Tüm Süreler' },
-    { value: '2_hours', label: '2 Saat' },
-    { value: '4_hours', label: '4 Saat' },
-    { value: '6_hours', label: '6 Saat' },
-    { value: '8_hours', label: '8 Saat' },
-    { value: '1_day', label: '1 Gün' },
-    { value: '2_days', label: '2 Gün' },
-    { value: '3_days', label: '3 Gün' },
-    { value: '4_days', label: '4 Gün' },
-    { value: '5_days', label: '5 Gün' },
-    { value: '7_days', label: '7 Gün' },
-    { value: '10_days', label: '10 Gün' },
-    { value: '14_days', label: '14 Gün' }
-  ];
-
-  const minRatings = [
-    { value: '', label: 'Tüm Puanlar' },
-    { value: '1', label: '1+ Yıldız' },
-    { value: '2', label: '2+ Yıldız' },
-    { value: '3', label: '3+ Yıldız' },
-    { value: '4', label: '4+ Yıldız' },
-    { value: '5', label: '5 Yıldız' }
+  const defaultLocations = [
+    { value: '', label: 'Tüm Lokasyonlar' },
+    { value: 'Fethiye', label: 'Fethiye' },
+    { value: 'Marmaris', label: 'Marmaris' },
+    { value: 'Bodrum', label: 'Bodrum' },
+    { value: 'Göcek', label: 'Göcek' },
+    { value: 'Kaş', label: 'Kaş' },
+    { value: 'Antalya', label: 'Antalya' }
   ];
 
   // Default categories and locations
