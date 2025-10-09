@@ -631,16 +631,24 @@ const CategoryDetailPage = () => {
                         <li key={subcategory.id}>
                           <button
                             onClick={() => {
-                              // Create slug from location_name if location_slug is null/undefined  
-                              const locationSlug = subcategory.location_slug || 
-                                                 subcategory.slug || 
-                                                 createSlug(subcategory.location_name || subcategory.title || '');
+                              // Create slug from location_name ONLY (not including parent category)
+                              let locationSlug = subcategory.location_slug;
+                              
+                              // If location_slug is null/undefined, create from location_name
+                              if (!locationSlug) {
+                                locationSlug = createSlug(subcategory.location_name || subcategory.title || '');
+                              }
+                              
+                              // Remove any parent category prefix if it exists
+                              if (locationSlug && locationSlug.includes('/')) {
+                                locationSlug = locationSlug.split('/').pop(); // Take only the last part
+                              }
                               
                               // Debug logs
                               console.log('🔍 DEBUG - categorySlug:', categorySlug);
-                              console.log('🔍 DEBUG - locationSlug:', locationSlug);
+                              console.log('🔍 DEBUG - raw subcategory.location_slug:', subcategory.location_slug);
+                              console.log('🔍 DEBUG - processed locationSlug:', locationSlug);
                               console.log('🔍 DEBUG - Final URL:', `/${categorySlug}/${locationSlug}`);
-                              console.log('📊 Subcategory data:', subcategory);
                               
                               navigate(`/${categorySlug}/${locationSlug}`);
                             }}
