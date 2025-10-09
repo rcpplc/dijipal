@@ -1691,6 +1691,7 @@ async def admin_update_new_category(category_id: str, category_data: NewCategory
         "image": category_data.image,
         "faq": category_data.faq,
         "slug": new_slug,
+        "custom_slug": category_data.custom_slug,
         "meta_title": category_data.meta_title or category_data.title,
         "meta_description": category_data.meta_description,
         "meta_keywords": category_data.meta_keywords,
