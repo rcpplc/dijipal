@@ -633,6 +633,26 @@ const CategoryPage = () => {
                     ))}
                   </div>
                 </div>
+
+                {/* Bu Kategori Lokasyonları */}
+                {categoryData && categoryData.subcategories && categoryData.subcategories.length > 0 && (
+                  <div className="border-t pt-4">
+                    <h4 className="text-sm font-medium text-gray-700 mb-3">Bu Kategori Lokasyonları:</h4>
+                    <ul className="space-y-2">
+                      {categoryData.subcategories.map((subcategory) => (
+                        <li key={subcategory.id}>
+                          <button
+                            onClick={() => navigate(`/${category}/${subcategory.location_slug || subcategory.slug}`)}
+                            className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
+                          >
+                            <span>{subcategory.location_name || subcategory.title}</span>
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                )}
               </div>
             </div>
           </div>
