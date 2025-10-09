@@ -2108,7 +2108,14 @@ const AdminPage = () => {
                                 <div className="flex items-start justify-between">
                                   <div className="flex-1">
                                     <div className="flex items-center space-x-2">
-                                      <h5 className="font-medium text-gray-900 text-sm">{subcategory.location_name}</h5>
+                                      <h5 className="font-medium text-gray-900 text-sm">
+                                        {subcategory.location_name || 'Özel Başlık'}
+                                      </h5>
+                                      {!subcategory.location_name && (
+                                        <span className="bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full text-xs">
+                                          Özel
+                                        </span>
+                                      )}
                                       <span className={`w-2 h-2 rounded-full ${
                                         subcategory.is_active ? 'bg-green-400' : 'bg-red-400'
                                       }`}></span>
