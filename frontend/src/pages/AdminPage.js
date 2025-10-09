@@ -2688,10 +2688,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
       });
       
       if (response.data.success) {
-        // Images come as base64 data URLs - ready to display
-        setUploadedImages(prev => [...prev, ...response.data.images]);
-        
-        // Add to formData as well
+        // Add to formData directly (no preview needed)
         const imageUrls = response.data.images.map(img => img.url);
         setFormData(prev => ({
           ...prev,
