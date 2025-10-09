@@ -8,6 +8,7 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import re
+import unicodedata
 
 # Load environment variables from .env file
 load_dotenv()
