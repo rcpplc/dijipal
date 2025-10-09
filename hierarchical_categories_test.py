@@ -397,7 +397,8 @@ class HierarchicalCategoryTester:
                     return False
                 
                 # Verify parent-child relationship
-                if data.get("parent_category_title") != "Mavi Yolculuk Premium":
+                parent_category = data.get("parent_category", {})
+                if parent_category.get("title") != "Mavi Yolculuk Premium":
                     self.log_result("Public Subcategory", False, "Parent-child relationship not properly displayed", data)
                     return False
                 
