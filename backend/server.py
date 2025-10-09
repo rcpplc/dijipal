@@ -3135,11 +3135,11 @@ async def delete_contact_message(
 
 # Ensure uploads directory exists before mounting static files
 import os
-uploads_dir = "/tmp/uploads"
+uploads_dir = "uploads"
 os.makedirs(uploads_dir, exist_ok=True)
 
 # Mount static files for direct access
-app.mount("/uploads", StaticFiles(directory="/tmp/uploads"), name="uploads")
+app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 
 # Include router
 app.include_router(api_router)
