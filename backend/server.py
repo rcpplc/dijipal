@@ -3338,25 +3338,23 @@ async def upload_media(
                 errors.append(f"{file.filename}: File too large (max 10MB)")
                 continue
             
-            print(f"File size: {file_size / 1024:.1f}KB - uploading as-is")
+            print(f"File size: {file_size / 1024:.1f}KB - direct save")
             
-            # Get dimensions and extension - NO PROCESSING AT ALL
-            (width, height), file_extension = get_image_dimensions_and_extension(
-                file_content, 
-                file.filename
-            )
-            
-            print(f"Image dimensions: {width}x{height} - keeping original file")
+            # Get file extension only - ZERO processing
+            file_extension = get_file_extension(file.filename)
             
             # Generate SEO-friendly filename with original extension
             base_name = Path(file.filename).stem
             safe_name = create_seo_slug(base_name) or f"image-{i+1}"
             stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}{file_extension}"
             
-            # Save original file directly - NO CHANGES
+            # Save original file directly - INSTANT SAVE
             file_path = tour_images_dir / stored_filename
             async with aiofiles.open(file_path, 'wb') as f:
-                await f.write(file_content)  # Original file content, no changes
+                await f.write(file_content)  # Zero processing, direct write
+            
+            # Set default dimensions (will be updated later if needed)
+            width, height = 1920, 1080  # Default values, no image opening
             
             # Create media library entry
             media_item = MediaLibraryItem(
