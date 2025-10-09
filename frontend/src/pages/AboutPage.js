@@ -15,6 +15,24 @@ const AboutPage = () => {
           </p>
         </div>
 
+        {/* Mission & Vision */}
+        <div className="grid md:grid-cols-2 gap-8 mb-12">
+          <div className="bg-gray-50 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Misyonumuz</h3>
+            <p className="text-gray-800 leading-relaxed">
+              CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD. ŞTİ. olarak misyonumuz; Türkiye’nin eşsiz koylarını, kültürel mirasını ve doğal güzelliklerini konforlu, güvenli ve profesyonel bir hizmet anlayışıyla yerli ve yabancı misafirlerimize sunmaktır. Dijital Turizm Seyahat Acentası olarak hedefimiz, günübirlik tekne turları, özel tekne kiralama hizmetleri ve mavi yolculuk deneyimleri aracılığıyla deniz turizmini herkes için erişilebilir, keyifli ve sürdürülebilir hale getirmektir. Her yaştan seyahat severe, doğa ve denizle iç içe, unutulmaz bir yolculuk sunarken; ülkemizin turizm potansiyelini dijital altyapı ve yenilikçi çözümlerle güçlendirmeyi, yerel ekonomiye katkı sağlamayı ve sürdürülebilir turizmi desteklemeyi amaçlıyoruz. Müşteri memnuniyetini en ön planda tutarak; her misafirimizin yalnızca bir tatil değil, yaşam boyu hatırlayacağı bir deniz deneyimi yaşaması için çalışıyoruz.
+            </p>
+          </div>
+          
+          <div className="bg-gray-50 rounded-xl p-8">
+            <h3 className="text-2xl font-bold text-blue-900 mb-4">Vizyonumuz</h3>
+            <p className="text-gray-800 leading-relaxed">
+              Vizyonumuz; dijital dönüşümün gücünü kullanarak Türkiye’nin lider dijital deniz turizmi markası haline gelmek, günübirlik tekne turları, özel tekne kiralama ve mavi yolculuk alanlarında uluslararası ölçekte tanınan bir marka olmaktır. <br></br>CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD. ŞTİ. olarak, yenilikçi teknolojilerle desteklenen çevrimiçi rezervasyon sistemimiz, güçlü iş ortaklıklarımız ve yüksek hizmet standartlarımızla deniz turizmine modern bir bakış açısı kazandırmayı hedefliyoruz. Amacımız; sadece deniz üzerinde seyahat imkânı sunmak değil, her misafirimizin beklentilerini aşan bir deneyim yaratarak Türkiye’nin deniz turizmi markasını dünyaya tanıtmak, doğaya ve yerel değerlere saygılı bir şekilde sürdürülebilir turizmi geleceğe taşımaktır.
+            </p>
+          </div>
+        </div>
+
+
         {/* Values Section */}
         <div className="grid md:grid-cols-3 gap-8 mb-12">
           <div className="text-center bg-white rounded-xl p-8 shadow-md">
@@ -42,22 +60,7 @@ const AboutPage = () => {
           </div>
         </div>
 
-        {/* Mission & Vision */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-gray-50 rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-blue-900 mb-4">Misyonumuz</h3>
-            <p className="text-gray-800 leading-relaxed">
-              CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD. ŞTİ. olarak misyonumuz; Türkiye’nin eşsiz koylarını, kültürel mirasını ve doğal güzelliklerini konforlu, güvenli ve profesyonel bir hizmet anlayışıyla yerli ve yabancı misafirlerimize sunmaktır. Dijital Turizm Seyahat Acentası olarak hedefimiz, günübirlik tekne turları, özel tekne kiralama hizmetleri ve mavi yolculuk deneyimleri aracılığıyla deniz turizmini herkes için erişilebilir, keyifli ve sürdürülebilir hale getirmektir. Her yaştan seyahat severe, doğa ve denizle iç içe, unutulmaz bir yolculuk sunarken; ülkemizin turizm potansiyelini dijital altyapı ve yenilikçi çözümlerle güçlendirmeyi, yerel ekonomiye katkı sağlamayı ve sürdürülebilir turizmi desteklemeyi amaçlıyoruz. Müşteri memnuniyetini en ön planda tutarak; her misafirimizin yalnızca bir tatil değil, yaşam boyu hatırlayacağı bir deniz deneyimi yaşaması için çalışıyoruz.
-            </p>
-          </div>
-          
-          <div className="bg-gray-50 rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-blue-900 mb-4">Vizyonumuz</h3>
-            <p className="text-gray-800 leading-relaxed">
-              Vizyonumuz; dijital dönüşümün gücünü kullanarak Türkiye’nin lider dijital deniz turizmi markası haline gelmek, günübirlik tekne turları, özel tekne kiralama ve mavi yolculuk alanlarında uluslararası ölçekte tanınan bir marka olmaktır. <br></br>CRP TURİZM OTOMOTİV GIDA İNŞAAT REKLAM E-TİCARET VE İTHALAT İHRACAT LTD. ŞTİ. olarak, yenilikçi teknolojilerle desteklenen çevrimiçi rezervasyon sistemimiz, güçlü iş ortaklıklarımız ve yüksek hizmet standartlarımızla deniz turizmine modern bir bakış açısı kazandırmayı hedefliyoruz. Amacımız; sadece deniz üzerinde seyahat imkânı sunmak değil, her misafirimizin beklentilerini aşan bir deneyim yaratarak Türkiye’nin deniz turizmi markasını dünyaya tanıtmak, doğaya ve yerel değerlere saygılı bir şekilde sürdürülebilir turizmi geleceğe taşımaktır.
-            </p>
-          </div>
-        </div>
+
 
         {/* Company Info */}
         <div className="bg-white rounded-2xl shadow-lg p-8">

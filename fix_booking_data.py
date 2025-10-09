@@ -2,7 +2,7 @@ import requests
 import json
 
 class BookingDataFixer:
-    def __init__(self, base_url="https://tour-admin-hub.preview.emergentagent.com"):
+    def __init__(self, base_url="https://turlar-redesign.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None
