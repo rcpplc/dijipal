@@ -1632,12 +1632,12 @@ async def admin_update_new_category(category_id: str, category_data: NewCategory
     # Check if category exists
     existing_category = await db.new_categories.find_one({"id": category_id})
     if not existing_category:
-        raise HTTPException(status_code=404, detail="Category not found")
+        raise HTTPException(status_code=404, detail="Kategori bulunamadı")
     
     # Update category slug if title changed
     new_slug = create_seo_slug(category_data.title)
     
-    # Update category
+    # Update main category
     updated_data = {
         "title": category_data.title,
         "description": category_data.description,
@@ -1656,25 +1656,35 @@ async def admin_update_new_category(category_id: str, category_data: NewCategory
         {"$set": updated_data}
     )
     
-    # Delete existing location combinations
-    await db.category_locations.delete_many({"category_id": category_id})
+    # Update all subcategories with new parent info and cascade active status
+    if existing_category["slug"] != new_slug or existing_category["title"] != category_data.title:
+        # Update subcategory parent info and slugs
+        subcategories = await db.sub_categories.find({"parent_category_id": category_id}).to_list(length=None)
+        
+        for subcategory in subcategories:
+            new_combined_slug = f"{new_slug}/{subcategory['location_slug']}"
+            new_title = f"{category_data.title} - {subcategory['location_name']}"
+            
+            subcategory_update = {
+                "parent_category_title": category_data.title,
+                "parent_category_slug": new_slug,
+                "slug": new_combined_slug,
+                "title": new_title,
+                "is_active": subcategory["is_active"] and category_data.is_active,  # Cascade active status
+                "updated_at": datetime.now(timezone.utc)
+            }
+            
+            await db.sub_categories.update_one(
+                {"id": subcategory["id"]},
+                {"$set": subcategory_update}
+            )
     
-    # Create new location combinations
-    for location_name in category_data.locations:
-        location_slug = create_seo_slug(location_name)
-        combined_slug = f"{new_slug}/{location_slug}"
-        
-        category_location = {
-            "id": str(uuid.uuid4()),
-            "category_id": category_id,
-            "location_name": location_name,
-            "location_slug": location_slug,
-            "combined_slug": combined_slug,
-            "is_active": True,
-            "created_at": datetime.now(timezone.utc)
-        }
-        
-        await db.category_locations.insert_one(category_location)
+    # If parent category is deactivated, deactivate all subcategories
+    if not category_data.is_active:
+        await db.sub_categories.update_many(
+            {"parent_category_id": category_id},
+            {"$set": {"is_active": False, "updated_at": datetime.now(timezone.utc)}}
+        )
     
     # Get updated category
     updated_category = await db.new_categories.find_one({"id": category_id})
