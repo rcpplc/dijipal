@@ -11,6 +11,7 @@ import {
   AlertCircle
 } from 'lucide-react';
 import { toast } from 'sonner';
+import StandardBreadcrumb from '../components/StandardBreadcrumb';
 
 const BookingPage = () => {
   const { tourId } = useParams();
