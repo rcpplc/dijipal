@@ -3347,153 +3347,107 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
               </div>
             )}
 
-            {/* Step 2: Images & Media - Enhanced Version */}
+            {/* Step 2: Simple Image Upload */}
             {currentStep === 2 && (
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">🖼️ Görsel & Medya</h3>
-                  <p className="text-sm text-gray-600 mb-6">
-                    ⚡ Hızlı yükleme: Resimler direkt kaydedilir, hiçbir işlem yapılmaz.
-                  </p>
+              <div className="space-y-6">
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">🖼️ Resim Yükleme</h3>
+                
+                {/* Simple File Upload */}
+                <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center">
+                  <input
+                    type="file"
+                    id="simpleImageUpload"
+                    multiple
+                    accept="image/*"
+                    onChange={handleSimpleUpload}
+                    className="hidden"
+                  />
+                  <label htmlFor="simpleImageUpload" className="cursor-pointer">
+                    <div className="text-gray-600">
+                      📁 Resimleri Seç
+                    </div>
+                    <div className="text-sm text-gray-500 mt-2">
+                      JPG, PNG, GIF, WEBP desteklenir
+                    </div>
+                  </label>
                 </div>
 
-                {/* Enhanced File Upload Section */}
-                <div className="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl p-6 border border-blue-200">
-                  <div className="text-center">
-                    <div className="mx-auto w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center mb-4">
-                      <svg className="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h4 className="text-lg font-semibold text-gray-900 mb-2">Çoklu Resim Yükleme</h4>
-                    <p className="text-sm text-gray-600 mb-4">
-                      Birden fazla resim seçebilir, her birine özel metadata ekleyebilirsiniz
-                    </p>
-                    
-                    <input
-                      type="file"
-                      id="imageUpload"
-                      multiple
-                      accept="image/*"
-                      onChange={handleFileUpload}
-                      className="hidden"
-                    />
-                    <label
-                      htmlFor="imageUpload"
-                      className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors cursor-pointer"
-                    >
-                      <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-                      </svg>
-                      Resim Seç
-                    </label>
-                    
-                    <div className="mt-4 text-xs text-gray-500">
-                      JPG, PNG, GIF, WEBP • Max 5MB (hız için) • Max 5 dosya • Direkt kayıt
-                    </div>
-                  </div>
-                </div>
-
-                {/* Lightning Upload Progress */}
-                {uploadingImages && (
-                  <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg p-4">
-                    <div className="flex items-center justify-center">
-                      <div className="animate-pulse">⚡</div>
-                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-orange-400 border-top-orange-600 mx-3"></div>
-                      <div className="text-center">
-                        <div className="text-orange-800 font-medium">⚡ Hızlı Yükleme</div>
-                        <div className="text-xs text-orange-600 mt-1">
-                          Direkt kayıt • Hiçbir işlem yok
-                        </div>
-                      </div>
-                    </div>
+                {/* Upload Progress */}
+                {isUploading && (
+                  <div className="bg-blue-50 p-4 rounded">
+                    <div className="text-blue-800">Yükleniyor...</div>
                   </div>
                 )}
 
-                {/* Enhanced Images Grid */}
-                {mediaLibraryItems.length > 0 && (
+                {/* Uploaded Images */}
+                {uploadedImages.length > 0 && (
                   <div>
-                    <div className="flex items-center justify-between mb-4">
-                      <h4 className="text-lg font-semibold text-gray-900">
-                        Yüklenen Görseller ({mediaLibraryItems.length})
-                      </h4>
-                      <div className="text-sm text-gray-600">
-                        Ana sayfa resmi seçmeyi unutmayın
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {mediaLibraryItems.map((item, index) => (
-                        <MediaItemCard
-                          key={item.id}
-                          item={item}
-                          index={index}
-                          onUpdate={handleMediaUpdate}
-                          onDelete={handleMediaDelete}
-                          onSetPrimary={handleSetPrimary}
-                        />
+                    <h4 className="font-medium mb-3">Yüklenen Resimler ({uploadedImages.length})</h4>
+                    <div className="grid grid-cols-3 gap-4">
+                      {uploadedImages.map((img, index) => (
+                        <div key={index} className="relative">
+                          <img 
+                            src={`${process.env.REACT_APP_BACKEND_URL}${img.url}`}
+                            alt={img.filename}
+                            className="w-full h-24 object-cover rounded border"
+                          />
+                          <button
+                            onClick={() => removeUploadedImage(index)}
+                            className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs"
+                          >
+                            ×
+                          </button>
+                        </div>
                       ))}
                     </div>
                   </div>
                 )}
 
-                {/* Legacy URL Input (Backward Compatibility) */}
-                <div className="border-t pt-6">
-                  <details className="group">
-                    <summary className="flex items-center justify-between cursor-pointer text-sm font-medium text-gray-700 hover:text-gray-900">
-                      <span>🔗 URL ile Resim Ekle (Eski Yöntem)</span>
-                      <svg className="w-5 h-5 text-gray-500 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                      </svg>
-                    </summary>
-                    
-                    <div className="mt-4 p-4 bg-gray-50 rounded-lg">
-                      <div className="flex items-center space-x-2">
-                        <input
-                          type="url"
-                          value={newImage}
-                          onChange={(e) => setNewImage(e.target.value)}
-                          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
-                          placeholder="Resim URL'si girin..."
-                        />
-                        <button
-                          type="button"
-                          onClick={() => addToList('images', newImage, setNewImage)}
-                          className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 text-sm"
-                        >
-                          Ekle
-                        </button>
-                      </div>
-                      
-                      {/* Legacy Images List */}
-                      {formData.images.length > 0 && (
-                        <div className="mt-4">
-                          <h5 className="font-medium text-gray-700 mb-2">URL Resimleri ({formData.images.length})</h5>
-                          <div className="grid grid-cols-3 gap-2">
-                            {formData.images.map((image, index) => (
-                              <div key={index} className="relative">
-                                <img
-                                  src={image}
-                                  alt={`URL Image ${index + 1}`}
-                                  className="w-full h-20 object-cover rounded border"
-                                  onError={(e) => {
-                                    e.target.src = '/placeholder-tour.jpg';
-                                  }}
-                                />
-                                <button
-                                  type="button"
-                                  onClick={() => removeFromList('images', index)}
-                                  className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-red-600"
-                                >
-                                  ×
-                                </button>
-                              </div>
-                            ))}
+                {/* URL Input Fallback */}
+                <div className="border-t pt-4">
+                  <h4 className="font-medium text-gray-900 mb-3">URL ile Resim Ekle</h4>
+                  <div className="flex items-center space-x-2">
+                    <input
+                      type="url"
+                      value={newImage}
+                      onChange={(e) => setNewImage(e.target.value)}
+                      className="flex-1 px-3 py-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                      placeholder="Resim URL'si..."
+                    />
+                    <button
+                      type="button"
+                      onClick={() => addToList('images', newImage, setNewImage)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded"
+                    >
+                      Ekle
+                    </button>
+                  </div>
+                  
+                  {formData.images.length > 0 && (
+                    <div className="mt-4">
+                      <div className="grid grid-cols-3 gap-2">
+                        {formData.images.map((image, index) => (
+                          <div key={index} className="relative">
+                            <img
+                              src={image}
+                              alt={`Image ${index + 1}`}
+                              className="w-full h-20 object-cover rounded border"
+                              onError={(e) => {
+                                e.target.src = '/placeholder-tour.jpg';
+                              }}
+                            />
+                            <button
+                              type="button"
+                              onClick={() => removeFromList('images', index)}
+                              className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-4 h-4 flex items-center justify-center text-xs hover:bg-red-600"
+                            >
+                              ×
+                            </button>
                           </div>
-                        </div>
-                      )}
+                        ))}
+                      </div>
                     </div>
-                  </details>
+                  )}
                 </div>
               </div>
             )}
