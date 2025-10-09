@@ -2427,10 +2427,24 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
   };
 
-  // Media Library Functions (Modal scope)
+  // Enhanced Media Library Functions (Modal scope)
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
+    
+    // Validate file count
+    if (files.length > 10) {
+      toast.error('Maksimum 10 resim aynı anda yükleyebilirsiniz');
+      return;
+    }
+    
+    // Validate file sizes
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    const invalidFiles = files.filter(file => file.size > maxSize);
+    if (invalidFiles.length > 0) {
+      toast.error(`Bu dosyalar çok büyük (max 10MB): ${invalidFiles.map(f => f.name).join(', ')}`);
+      return;
+    }
     
     setUploadingImages(true);
     
@@ -2446,9 +2460,20 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       }
       
       const API = `${process.env.REACT_APP_BACKEND_URL}/api`;
+      
+      // Show detailed progress
+      const fileNames = files.map(f => f.name).join(', ');
+      const fileCount = files.length;
+      console.log(`🚀 Uploading ${fileCount} files: ${fileNames}`);
+      
       const response = await axios.post(`${API}/media/upload`, uploadFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
+        },
+        timeout: 60000, // 60 second timeout
+        onUploadProgress: (progressEvent) => {
+          const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
+          console.log(`📤 Upload progress: ${percentCompleted}%`);
         }
       });
       
@@ -2463,12 +2488,31 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
           media_library_ids: [...prev.media_library_ids, ...newMediaIds]
         }));
         
-        toast.success(`${response.data.uploaded_count} resim başarıyla yüklendi`);
+        // Show success message
+        const successMsg = `✅ ${response.data.uploaded_count} resim başarıyla yüklendi`;
+        if (response.data.errors && response.data.errors.length > 0) {
+          toast.warning(successMsg + ` (${response.data.errors.length} hata)`);
+          console.warn('Upload errors:', response.data.errors);
+        } else {
+          toast.success(successMsg);
+        }
+        
+        console.log(`✅ Upload complete:`, response.data.items);
+      } else {
+        throw new Error(response.data.message || 'Upload failed');
       }
       
     } catch (error) {
-      console.error('Upload error:', error);
-      toast.error('Resim yükleme hatası: ' + (error.response?.data?.detail || error.message));
+      console.error('❌ Upload error:', error);
+      
+      if (error.code === 'ECONNABORTED') {
+        toast.error('⏰ Upload zaman aşımına uğradı. Lütfen daha küçük dosyalar deneyin.');
+      } else if (error.response?.status === 413) {
+        toast.error('📁 Dosya çok büyük. Lütfen daha küçük resimler seçin.');
+      } else {
+        const errorMsg = error.response?.data?.detail || error.message || 'Bilinmeyen hata';
+        toast.error('❌ Yükleme hatası: ' + errorMsg);
+      }
     } finally {
       setUploadingImages(false);
       // Reset input
