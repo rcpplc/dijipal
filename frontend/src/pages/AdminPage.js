@@ -66,6 +66,11 @@ const AdminPage = () => {
   const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [editingCategory, setEditingCategory] = useState(null);
+  
+  // Media Library Management (Enhanced Step 2)
+  const [mediaLibraryItems, setMediaLibraryItems] = useState([]);
+  const [uploadingImages, setUploadingImages] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([]);
 
   // Load locations and categories immediately for tour modal
   useEffect(() => {
