@@ -2577,6 +2577,25 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
     }
   }, [isEdit, tour?.id]);
 
+  // Load subcategories for existing tour in edit mode
+  useEffect(() => {
+    if (isEdit && tour?.category && newCategories.length > 0) {
+      loadSubcategories(tour.category);
+      // Find matching subcategory based on location
+      setTimeout(() => {
+        const selectedCategory = newCategories.find(cat => cat.title === tour.category);
+        if (selectedCategory && selectedCategory.subcategories) {
+          const matchingSubcategory = selectedCategory.subcategories.find(sub => 
+            sub.location_name === tour.location || sub.title === tour.location
+          );
+          if (matchingSubcategory) {
+            setSelectedSubcategory(matchingSubcategory.title);
+          }
+        }
+      }, 100);
+    }
+  }, [isEdit, tour?.category, tour?.location, newCategories]);
+
   // Load subcategories when category changes
   const loadSubcategories = async (categoryTitle) => {
     try {
