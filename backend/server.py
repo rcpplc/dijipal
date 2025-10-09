@@ -3338,9 +3338,13 @@ async def upload_media(
     tour_title: Optional[str] = None,
     current_user: User = Depends(get_current_user)
 ):
-    """Upload multiple images with metadata support"""
+    """Upload multiple images with optimized WebP conversion"""
     if not files:
         raise HTTPException(status_code=400, detail="No files provided")
+    
+    # Validate file count and size
+    if len(files) > 10:  # Max 10 files per upload
+        raise HTTPException(status_code=400, detail="Maximum 10 files allowed per upload")
     
     # Create slug from tour title
     tour_slug = create_seo_slug(tour_title) if tour_title else "general"
@@ -3353,22 +3357,41 @@ async def upload_media(
     tour_images_dir.mkdir(exist_ok=True)
     
     uploaded_items = []
+    errors = []
     
-    for file in files:
+    for i, file in enumerate(files):
         try:
+            print(f"Processing file {i+1}/{len(files)}: {file.filename}")
+            
             # Validate file type
             if not file.content_type or not file.content_type.startswith('image/'):
+                errors.append(f"{file.filename}: Invalid file type")
                 continue
-                
-            # Read file content
-            file_content = await file.read()
             
-            # Convert to WebP with high quality
-            webp_data, (width, height) = await convert_to_webp(file_content, quality=95)
+            # Check file size (max 10MB)
+            file_size = 0
+            file_content = await file.read()
+            file_size = len(file_content)
+            
+            if file_size > 10 * 1024 * 1024:  # 10MB limit
+                errors.append(f"{file.filename}: File too large (max 10MB)")
+                continue
+            
+            print(f"Original file size: {file_size / 1024:.1f}KB")
+            
+            # Convert to WebP with optimized quality
+            webp_data, (width, height), converted = await convert_to_webp(
+                file_content, 
+                file.filename,
+                quality=85  # Reduced from 95 for better performance
+            )
+            
+            final_size = len(webp_data)
+            print(f"Final WebP size: {final_size / 1024:.1f}KB ({'converted' if converted else 'original'})")
             
             # Generate unique filename
             base_name = Path(file.filename).stem
-            safe_name = create_seo_slug(base_name)
+            safe_name = create_seo_slug(base_name) or f"image-{i+1}"
             stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}.webp"
             
             # Save file
@@ -3382,7 +3405,7 @@ async def upload_media(
                 stored_filename=stored_filename,
                 url=f"/uploads/images/{tour_slug}/{stored_filename}",
                 tour_slug=tour_slug,
-                file_size=len(webp_data),
+                file_size=final_size,
                 width=width,
                 height=height
             )
@@ -3400,17 +3423,23 @@ async def upload_media(
                 "filename": media_item.filename,
                 "stored_filename": stored_filename,
                 "dimensions": {"width": width, "height": height},
-                "file_size": len(webp_data)
+                "file_size": final_size,
+                "converted": converted
             })
             
+            print(f"✅ Successfully processed: {file.filename}")
+            
         except Exception as e:
-            print(f"Error processing file {file.filename}: {str(e)}")
+            error_msg = f"{file.filename}: {str(e)}"
+            print(f"❌ Error processing file: {error_msg}")
+            errors.append(error_msg)
             continue
     
     return {
-        "success": True,
+        "success": len(uploaded_items) > 0,
         "uploaded_count": len(uploaded_items),
-        "items": uploaded_items
+        "items": uploaded_items,
+        "errors": errors if errors else None
     }
 
 @api_router.put("/media/{media_id}")
