@@ -2053,7 +2053,10 @@ const AdminPage = () => {
                               <p className="text-sm text-gray-600 mt-1">
                                 Slug: <code className="bg-gray-100 px-2 py-1 rounded text-xs">/{category.slug}</code>
                               </p>
-                              <div className="flex items-center space-x-4 mt-3">
+                              {category.description && (
+                                <p className="text-gray-600 mt-2 line-clamp-2">{category.description}</p>
+                              )}
+                              <div className="flex items-center space-x-4 mt-2">
                                 <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
                                   category.is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
                                 }`}>
