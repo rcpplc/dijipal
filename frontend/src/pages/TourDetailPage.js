@@ -856,6 +856,8 @@ const TourDetailPage = () => {
                         src={image}
                         alt={`${tour.title} ${index + 1}`}
                         className="w-full h-full object-cover"
+                        loading="lazy"
+                        onError={(e) => e.target.style.opacity = '0.3'}
                       />
                     </button>
                   ))}
