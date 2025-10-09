@@ -3300,8 +3300,8 @@ async def update_expired_tour_dates():
 
 # Old media endpoints removed - using simple upload now
 
-# Override uploads serve to fix content-type
-@app.get("/uploads/{filename}")
+# File serve endpoint with different route
+@app.get("/api/serve/{filename}")
 async def serve_file(filename: str):
     """Serve uploaded files with proper content type"""
     file_path = Path("/tmp/uploads") / filename
