@@ -617,16 +617,26 @@ const CategoryDetailPage = () => {
         </div>
       </div>
 
-      {/* Description Section - Full Width Below Tours */}
+      {/* Category Description Section - Full Width Below Tours */}
       {(isLocationPage ? categoryData.description : displayCategory.description) && (
-        <div className="bg-white border-t border-gray-100">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-            <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-6">
+        <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 {isLocationPage ? categoryData.title : displayCategory.title} Hakkında
               </h2>
-              <div className="text-gray-700 leading-relaxed text-lg">
-                <p>{isLocationPage ? categoryData.description : displayCategory.description}</p>
+              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                {isLocationPage ? categoryData.title : displayCategory.title} kategorisindeki turlar hakkında detaylı bilgi
+              </p>
+            </div>
+
+            <div className="max-w-4xl mx-auto">
+              <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+                <div className="prose prose-lg max-w-none text-gray-700 leading-relaxed">
+                  <p className="text-lg">
+                    {isLocationPage ? categoryData.description : displayCategory.description}
+                  </p>
+                </div>
               </div>
             </div>
           </div>
