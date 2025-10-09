@@ -3307,6 +3307,194 @@ async def update_expired_tour_dates():
             }
         }
 
+# Media Library Endpoints
+@api_router.post("/media/upload")
+async def upload_media(
+    files: List[UploadFile] = File(...),
+    tour_title: Optional[str] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Upload multiple images with metadata support"""
+    if not files:
+        raise HTTPException(status_code=400, detail="No files provided")
+    
+    # Create slug from tour title
+    tour_slug = create_seo_slug(tour_title) if tour_title else "general"
+    
+    # Ensure upload directory exists
+    images_dir = ensure_upload_directory()
+    
+    # Create tour-specific directory
+    tour_images_dir = images_dir / tour_slug
+    tour_images_dir.mkdir(exist_ok=True)
+    
+    uploaded_items = []
+    
+    for file in files:
+        try:
+            # Validate file type
+            if not file.content_type or not file.content_type.startswith('image/'):
+                continue
+                
+            # Read file content
+            file_content = await file.read()
+            
+            # Convert to WebP with high quality
+            webp_data, (width, height) = await convert_to_webp(file_content, quality=95)
+            
+            # Generate unique filename
+            base_name = Path(file.filename).stem
+            safe_name = create_seo_slug(base_name)
+            stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}.webp"
+            
+            # Save file
+            file_path = tour_images_dir / stored_filename
+            async with aiofiles.open(file_path, 'wb') as f:
+                await f.write(webp_data)
+            
+            # Create media library entry
+            media_item = MediaLibraryItem(
+                filename=file.filename,
+                stored_filename=stored_filename,
+                url=f"/uploads/images/{tour_slug}/{stored_filename}",
+                tour_slug=tour_slug,
+                file_size=len(webp_data),
+                width=width,
+                height=height
+            )
+            
+            # Save to database
+            media_dict = media_item.dict()
+            media_dict["created_at"] = datetime.now(timezone.utc)
+            media_dict["updated_at"] = datetime.now(timezone.utc)
+            
+            await db.media_library.insert_one(media_dict)
+            
+            uploaded_items.append({
+                "id": media_item.id,
+                "url": media_item.url,
+                "filename": media_item.filename,
+                "stored_filename": stored_filename,
+                "dimensions": {"width": width, "height": height},
+                "file_size": len(webp_data)
+            })
+            
+        except Exception as e:
+            print(f"Error processing file {file.filename}: {str(e)}")
+            continue
+    
+    return {
+        "success": True,
+        "uploaded_count": len(uploaded_items),
+        "items": uploaded_items
+    }
+
+@api_router.put("/media/{media_id}")
+async def update_media_metadata(
+    media_id: str,
+    title: Optional[str] = None,
+    description: Optional[str] = None,
+    alt_text: Optional[str] = None,
+    tags: Optional[str] = None,
+    is_primary: Optional[bool] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Update media metadata"""
+    
+    update_data = {"updated_at": datetime.now(timezone.utc)}
+    
+    if title is not None:
+        update_data["title"] = title
+    if description is not None:
+        update_data["description"] = description
+    if alt_text is not None:
+        update_data["alt_text"] = alt_text
+    if tags is not None:
+        # Parse comma-separated tags
+        tag_list = [tag.strip() for tag in tags.split(",") if tag.strip()]
+        update_data["tags"] = tag_list
+    if is_primary is not None:
+        update_data["is_primary"] = is_primary
+        
+        # If setting as primary, unset all other primary images for this tour
+        if is_primary:
+            media_doc = await db.media_library.find_one({"id": media_id})
+            if media_doc and media_doc.get("tour_slug"):
+                await db.media_library.update_many(
+                    {
+                        "tour_slug": media_doc["tour_slug"],
+                        "id": {"$ne": media_id}
+                    },
+                    {"$set": {"is_primary": False}}
+                )
+    
+    result = await db.media_library.update_one(
+        {"id": media_id},
+        {"$set": update_data}
+    )
+    
+    if result.matched_count == 0:
+        raise HTTPException(status_code=404, detail="Media item not found")
+    
+    return {"success": True, "message": "Media metadata updated"}
+
+@api_router.get("/media")
+async def get_media_library(
+    tour_slug: Optional[str] = None,
+    skip: int = 0,
+    limit: int = 50
+):
+    """Get media library items with optional filtering"""
+    
+    filter_query = {"is_active": True}
+    if tour_slug:
+        filter_query["tour_slug"] = tour_slug
+    
+    cursor = db.media_library.find(filter_query).skip(skip).limit(limit).sort("created_at", -1)
+    items = await cursor.to_list(length=None)
+    
+    return {"items": items, "count": len(items)}
+
+@api_router.delete("/media/{media_id}")
+async def delete_media_item(
+    media_id: str,
+    current_user: User = Depends(get_current_user)
+):
+    """Delete media item"""
+    
+    # Get media item
+    media_doc = await db.media_library.find_one({"id": media_id})
+    if not media_doc:
+        raise HTTPException(status_code=404, detail="Media item not found")
+    
+    try:
+        # Delete physical file
+        file_path = Path("uploads") / "images" / media_doc["tour_slug"] / media_doc["stored_filename"]
+        if file_path.exists():
+            file_path.unlink()
+    except Exception as e:
+        print(f"Warning: Could not delete file {file_path}: {e}")
+    
+    # Delete from database
+    await db.media_library.delete_one({"id": media_id})
+    
+    return {"success": True, "message": "Media item deleted"}
+
+# Serve uploaded files
+@app.get("/uploads/{file_path:path}")
+async def serve_upload(file_path: str):
+    """Serve uploaded files"""
+    full_path = Path("uploads") / file_path
+    
+    if not full_path.exists() or not full_path.is_file():
+        raise HTTPException(status_code=404, detail="File not found")
+    
+    return FileResponse(
+        full_path,
+        media_type="image/webp",
+        headers={"Cache-Control": "public, max-age=31536000"}  # 1 year cache
+    )
+
 @app.on_event("shutdown")
 async def shutdown_db_client():
     client.close()
