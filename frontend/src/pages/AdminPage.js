@@ -293,16 +293,14 @@ const AdminPage = () => {
     }
   };
 
+  // Legacy categories loading (for tour compatibility)
   const loadCategories = async () => {
-    setLoading(true);
     try {
       const response = await axios.get(`${API}/admin/categories`);
-      setCategories(response.data);
+      setCategories(response.data || []);
     } catch (error) {
-      console.error('Error loading categories:', error);
-      toast.error('Kategoriler yüklenemedi');
-    } finally {
-      setLoading(false);
+      console.error('Error loading legacy categories:', error);
+      setCategories([]);
     }
   };
 
