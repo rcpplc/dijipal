@@ -68,11 +68,14 @@ class HierarchicalCategoryTester:
         """Test POST /api/admin/new-categories - Create main category"""
         print("📝 Testing Main Category Creation")
         
+        # Use timestamp to ensure unique category name
+        import time
+        timestamp = int(time.time())
         category_data = {
-            "title": "Mavi Yolculuk",
+            "title": f"Test Mavi Yolculuk {timestamp}",
             "description": "Türkiye'nin en güzel koylarında tekne turları",
-            "meta_title": "Mavi Yolculuk Turları",
-            "meta_description": "Mavi yolculuk turları ile Türkiye'nin cennet koylarını keşfedin",
+            "meta_title": "Test Mavi Yolculuk Turları",
+            "meta_description": "Test mavi yolculuk turları ile Türkiye'nin cennet koylarını keşfedin",
             "is_active": True
         }
         
