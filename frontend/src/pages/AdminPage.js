@@ -3353,18 +3353,17 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Alt Kategori *
+                      Alt Kategori
                     </label>
                     <select
                       value={selectedSubcategory}
                       onChange={(e) => handleSubcategoryChange(e.target.value)}
                       className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required
                       disabled={!formData.category || subcategories.length === 0}
                     >
                       <option value="">
                         {!formData.category ? "Önce kategori seçin..." : 
-                         subcategories.length === 0 ? "Alt kategori yükleniyor..." : "Alt kategori seçin..."}
+                         subcategories.length === 0 ? "Alt kategori yükleniyor..." : "Alt kategori seçin (opsiyonel)"}
                       </option>
                       {subcategories && subcategories.filter(sub => sub.is_active).map(sub => (
                         <option key={sub.id} value={sub.title}>
