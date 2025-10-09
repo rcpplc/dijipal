@@ -610,13 +610,15 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Complete E2E Reservation System Testing (Turkish Review Request)"
+    - "HomePage Search Functionality Testing"
   stuck_tasks:
     - "Complete E2E Reservation System Testing (Turkish Review Request)"
   test_all: false
-  test_priority: "stuck_first"
+  test_priority: "high_first"
 
 agent_communication:
+  - agent: "testing"
+    message: "✅ HOMEPAGE SEARCH FUNCTIONALITY TESTING COMPLETED SUCCESSFULLY - ALL REQUIREMENTS VERIFIED! Comprehensive testing of updated search functionality completed with 100% success rate. TESTING RESULTS: 1) EMPTY SEARCH: ✅ Correctly redirects to /tours without search parameters, 2) SEARCH WITH TEXT: ✅ All search terms (Fethiye, Marmaris, Bodrum, kabin) correctly redirect to /tours?search=term, 3) SEARCH BAR FUNCTIONALITY: ✅ Text input, 'Ara' button click, and Enter key submission all working perfectly, 4) URL ENCODING: ✅ Special characters and spaces properly encoded (Göcek → G%C3%B6cek, spaces → %20), 5) NAVIGATION: ✅ ToursPage loads correctly after redirects, empty search shows all tours, search with parameters shows filtered results, 6) POPULAR BUTTONS: ✅ Popular search term buttons working correctly. The new search behavior is working exactly as specified: empty search goes to /tours, searches with text go to /tours?search=term. All form submission methods, URL encoding, and navigation work correctly. SUCCESS RATE: 100% (10/10 test scenarios passed). The search functionality is production-ready and fully functional."
   - agent: "testing"
     message: "🚨 CRITICAL E2E RESERVATION FLOW BLOCKED - Turkish review request testing completed. MAJOR ISSUE FOUND: Login modal works correctly and backend authentication is successful, but post-login booking redirect is failing. Users get stuck on tour detail page after login instead of being redirected to booking page. All other components working perfectly: tour loading, date/cabin selection, price calculation (₺18.000), and Stripe integration ready. URGENT FIX NEEDED: Investigate TourDetailPage.js post-login redirect logic. The booking flow is 83% complete but completely blocked by this redirect issue."
   - agent: "testing"

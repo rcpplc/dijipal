@@ -527,7 +527,7 @@ const HomePage = () => {
               <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              to="/contact"
+              href="tel:+908502555335"
               className="border-2 border-white text-white px-8 py-4 rounded-2xl font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200 inline-flex items-center justify-center space-x-2"
             >
               <Phone className="w-5 h-5" />
