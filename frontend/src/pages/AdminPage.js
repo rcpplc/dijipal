@@ -2470,7 +2470,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        timeout: 60000, // 60 second timeout
+        timeout: 300000, // 5 minute timeout
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
           console.log(`📤 Upload progress: ${percentCompleted}%`);
