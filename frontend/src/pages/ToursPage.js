@@ -238,42 +238,133 @@ const ToursPage = () => {
         setLoadingMore(true);
       }
 
-      const params = new URLSearchParams();
-      
-      // Add search query
-      if (searchQuery.trim()) {
-        params.append('search', searchQuery.trim());
-      }
-      
-      // Add filters
-      Object.entries(filters).forEach(([key, value]) => {
-        if (value && value !== '') {
-          params.append(key, value);
-        }
-      });
-      
-      // Add pagination
-      params.append('page', page.toString());
-      params.append('limit', ITEMS_PER_PAGE.toString());
+      console.log('🔍 Loading tours with filters:', filters);
+      console.log('🔍 Search query:', searchQuery);
 
-      const response = await axios.get(`${API}/tours?${params.toString()}`);
-      
-      if (response.data && Array.isArray(response.data)) {
-        if (loadMore) {
-          setTours(prev => [...prev, ...response.data]);
-        } else {
-          setTours(response.data);
+      // Get all tours first (backend filtering may not work perfectly)
+      let response;
+      try {
+        // Try with backend filtering first
+        const params = new URLSearchParams();
+        
+        if (searchQuery.trim()) {
+          params.append('search', searchQuery.trim());
         }
         
-        setHasMore(response.data.length === ITEMS_PER_PAGE);
-        setCurrentPage(page);
-      } else {
-        setTours([]);
-        setHasMore(false);
+        // Add basic filters that backend might support
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value && value !== '') {
+            params.append(key, value);
+          }
+        });
+
+        const queryString = params.toString();
+        console.log('📡 Backend query:', queryString);
+        
+        response = await axios.get(`${API}/tours${queryString ? '?' + queryString : ''}`);
+      } catch (error) {
+        console.log('⚠️ Backend filtering failed, trying without filters');
+        response = await axios.get(`${API}/tours`);
+      }
+      
+      let allTours = response.data && Array.isArray(response.data) ? response.data : [];
+      console.log(`📊 Retrieved ${allTours.length} tours from backend`);
+
+      // Apply frontend filtering for precise results
+      let filteredTours = allTours;
+
+      // Search filter
+      if (searchQuery.trim()) {
+        const query = searchQuery.toLowerCase().trim();
+        filteredTours = filteredTours.filter(tour => 
+          (tour.title && tour.title.toLowerCase().includes(query)) ||
+          (tour.description && tour.description.toLowerCase().includes(query)) ||
+          (tour.location && tour.location.toLowerCase().includes(query)) ||
+          (tour.category && tour.category.toLowerCase().includes(query))
+        );
       }
 
+      // Category filter
+      if (filters.category) {
+        filteredTours = filteredTours.filter(tour => 
+          tour.category && tour.category.toLowerCase().includes(filters.category.toLowerCase())
+        );
+      }
+
+      // Location filter
+      if (filters.location) {
+        filteredTours = filteredTours.filter(tour => 
+          tour.location && tour.location.toLowerCase().includes(filters.location.toLowerCase())
+        );
+      }
+
+      // Duration filter
+      if (filters.duration) {
+        filteredTours = filteredTours.filter(tour => {
+          if (filters.duration.includes('_days')) {
+            const days = parseInt(filters.duration.replace('_days', ''));
+            return (tour.duration_days && tour.duration_days === days) ||
+                   (tour.duration && tour.duration.includes(days.toString()));
+          } else if (filters.duration.includes('_hours')) {
+            const hours = parseInt(filters.duration.replace('_hours', ''));
+            return (tour.duration_hours && tour.duration_hours === hours) ||
+                   (tour.duration && tour.duration.includes(hours.toString()));
+          } else {
+            return tour.duration && tour.duration.toLowerCase().includes(filters.duration.toLowerCase());
+          }
+        });
+      }
+
+      // Classification filter
+      if (filters.classification) {
+        filteredTours = filteredTours.filter(tour => 
+          tour.classification && tour.classification.toLowerCase().includes(filters.classification.toLowerCase())
+        );
+      }
+
+      // Min rating filter
+      if (filters.minRating) {
+        const minRating = parseFloat(filters.minRating);
+        filteredTours = filteredTours.filter(tour => 
+          tour.rating && tour.rating >= minRating
+        );
+      }
+
+      // Price range filter
+      if (filters.minPrice) {
+        const minPrice = parseFloat(filters.minPrice);
+        filteredTours = filteredTours.filter(tour => {
+          const price = tour.minimum_price || tour.base_price || 0;
+          return price >= minPrice;
+        });
+      }
+
+      if (filters.maxPrice) {
+        const maxPrice = parseFloat(filters.maxPrice);
+        filteredTours = filteredTours.filter(tour => {
+          const price = tour.minimum_price || tour.base_price || 999999;
+          return price <= maxPrice;
+        });
+      }
+
+      console.log(`✅ Filtered to ${filteredTours.length} tours`);
+
+      // Handle pagination
+      const startIndex = (page - 1) * ITEMS_PER_PAGE;
+      const endIndex = startIndex + ITEMS_PER_PAGE;
+      const paginatedTours = filteredTours.slice(startIndex, endIndex);
+
+      if (loadMore) {
+        setTours(prev => [...prev, ...paginatedTours]);
+      } else {
+        setTours(paginatedTours);
+      }
+      
+      setHasMore(endIndex < filteredTours.length);
+      setCurrentPage(page);
+
     } catch (error) {
-      console.error('Error loading tours:', error);
+      console.error('❌ Error loading tours:', error);
       if (!loadMore) {
         setTours([]);
       }
