@@ -3313,34 +3313,11 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
 
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-2">
-                      Lokasyon *
-                    </label>
-                    <select
-                      value={formData.location}
-                      onChange={(e) => setFormData({...formData, location: e.target.value})}
-                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                      required
-                      disabled={!locations || locations.length === 0}
-                    >
-                      <option value="">
-                        {!locations || locations.length === 0 ? "Lokasyonlar yükleniyor..." : "Lokasyon seçin..."}
-                      </option>
-                      {locations && locations.filter(loc => loc.is_active).map(loc => (
-                        <option key={loc.id} value={loc.name}>{loc.name}</option>
-                      ))}
-                    </select>
-                    {(!locations || locations.length === 0) && (
-                      <p className="text-sm text-gray-500 mt-1">Lokasyonlar yükleniyor...</p>
-                    )}
-                  </div>
-
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
                       Kategori *
                     </label>
                     <select
                       value={formData.category}
-                      onChange={(e) => setFormData({...formData, category: e.target.value})}
+                      onChange={(e) => handleCategoryChange(e.target.value)}
                       className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
                       required
                       disabled={!newCategories || newCategories.length === 0}
@@ -3354,6 +3331,35 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCa
                     </select>
                     {(!newCategories || newCategories.length === 0) && (
                       <p className="text-sm text-gray-500 mt-1">Ana kategoriler yükleniyor...</p>
+                    )}
+                  </div>
+
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Alt Kategori *
+                    </label>
+                    <select
+                      value={selectedSubcategory}
+                      onChange={(e) => handleSubcategoryChange(e.target.value)}
+                      className="w-full px-3 py-2.5 border border-gray-300 rounded-md focus:ring-1 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                      required
+                      disabled={!formData.category || subcategories.length === 0}
+                    >
+                      <option value="">
+                        {!formData.category ? "Önce kategori seçin..." : 
+                         subcategories.length === 0 ? "Alt kategori yükleniyor..." : "Alt kategori seçin..."}
+                      </option>
+                      {subcategories && subcategories.filter(sub => sub.is_active).map(sub => (
+                        <option key={sub.id} value={sub.title}>
+                          {sub.location_name ? `${sub.location_name}` : sub.title}
+                        </option>
+                      ))}
+                    </select>
+                    {formData.category && subcategories.length === 0 && (
+                      <p className="text-sm text-gray-500 mt-1">Bu kategoride alt kategori bulunamadı</p>
+                    )}
+                    {!formData.category && (
+                      <p className="text-sm text-gray-500 mt-1">Önce ana kategori seçin</p>
                     )}
                   </div>
 
