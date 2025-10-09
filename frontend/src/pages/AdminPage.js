@@ -5080,29 +5080,12 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
               />
             </div>
             
-            {/* Location Selection */}
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-3">
-                Lokasyonlar <span className="text-red-500">*</span>
-              </label>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-4">
-                {locations.map((location) => (
-                  <label key={location.id} className="flex items-center space-x-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.locations.includes(location.name)}
-                      onChange={() => toggleLocation(location.name)}
-                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
-                    />
-                    <span className="text-sm text-gray-700">{location.name}</span>
-                  </label>
-                ))}
-              </div>
-              {errors.locations && (
-                <p className="text-red-500 text-sm mt-1">{errors.locations}</p>
-              )}
-              <p className="text-sm text-gray-500 mt-2">
-                Seçilen lokasyonlar: {formData.locations.length} / {locations.length}
+            {/* Info about subcategories */}
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <h4 className="font-medium text-blue-900 mb-2">Alt Kategoriler Hakkında</h4>
+              <p className="text-sm text-blue-700">
+                Ana kategori oluşturduktan sonra, istediğiniz lokasyonlar için alt kategoriler ekleyebilirsiniz.
+                Alt kategoriler otomatik olarak "Kategori Adı - Lokasyon" formatında oluşturulur.
               </p>
             </div>
             
