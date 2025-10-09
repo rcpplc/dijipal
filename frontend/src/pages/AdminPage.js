@@ -2367,6 +2367,15 @@ const AdminPage = () => {
         />
       )}
 
+      {/* New Category System Modal */}
+      <NewCategoryModal
+        isOpen={showNewCategoryModal}
+        onClose={closeNewCategoryModal}
+        category={editingNewCategory}
+        locations={locations}
+        onSave={handleNewCategorySaved}
+      />
+
       {/* Category Delete Confirmation Modal */}
       {showDeleteCategoryConfirm && selectedCategory && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
