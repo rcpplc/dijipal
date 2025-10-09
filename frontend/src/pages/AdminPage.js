@@ -2473,7 +2473,20 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
   };
   
   const removeUploadedImage = (index) => {
+    // Get the image to remove
+    const imageToRemove = uploadedImages[index];
+    
+    // Remove from uploaded images
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
+    
+    // Also remove from formData.images
+    if (imageToRemove) {
+      const imageUrl = `${process.env.REACT_APP_BACKEND_URL}${imageToRemove.url}`;
+      setFormData(prev => ({
+        ...prev,
+        images: prev.images.filter(url => url !== imageUrl)
+      }));
+    }
   };
   // Old media functions removed - using simple upload now
 
