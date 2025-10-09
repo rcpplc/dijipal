@@ -3394,15 +3394,16 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                   </div>
                 </div>
 
-                {/* Simple Upload Progress */}
+                {/* Lightning Upload Progress */}
                 {uploadingImages && (
-                  <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
+                  <div className="bg-gradient-to-r from-orange-50 to-yellow-50 border border-orange-200 rounded-lg p-4">
                     <div className="flex items-center justify-center">
-                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-blue-200 border-top-blue-600 mr-3"></div>
+                      <div className="animate-pulse">⚡</div>
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-orange-400 border-top-orange-600 mx-3"></div>
                       <div className="text-center">
-                        <div className="text-blue-800 font-medium">📤 Resimler Yükleniyor</div>
-                        <div className="text-sm text-blue-600 mt-1">
-                          SEO dosya adları oluşturuluyor...
+                        <div className="text-orange-800 font-medium">⚡ Hızlı Yükleme</div>
+                        <div className="text-xs text-orange-600 mt-1">
+                          Direkt kayıt • Hiçbir işlem yok
                         </div>
                       </div>
                     </div>
