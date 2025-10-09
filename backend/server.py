@@ -2,10 +2,15 @@ from fastapi import FastAPI, APIRouter, HTTPException, Depends, Query, File, Upl
 from fastapi.staticfiles import StaticFiles
 from fastapi import Path as FastAPIPath
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
+from fastapi.responses import FileResponse
 from dotenv import load_dotenv
 from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
+import re
+import aiofiles
+from PIL import Image
+import io
 
 # Load environment variables from .env file
 load_dotenv()
