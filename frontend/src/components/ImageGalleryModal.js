@@ -161,9 +161,9 @@ const ImageGalleryModal = ({
         {/* Previous Button */}
         <button
           onClick={goToPrevious}
-          className="absolute left-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-3 rounded-full transition-all duration-200 hidden md:flex items-center justify-center"
+          className="absolute left-2 md:left-4 z-10 bg-black bg-opacity-50 hover:bg-opacity-70 text-white p-2 md:p-3 rounded-full transition-all duration-200 flex items-center justify-center"
         >
-          <ChevronLeft className="w-8 h-8" />
+          <ChevronLeft className="w-6 h-6 md:w-8 md:h-8" />
         </button>
 
         {/* Main Image */}
