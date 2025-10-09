@@ -32,6 +32,7 @@ const AdminPage = () => {
   const [tours, setTours] = useState([]);
   const [users, setUsers] = useState([]);
   const [locations, setLocations] = useState([]);
+  // Legacy categories (for tour compatibility only)
   const [categories, setCategories] = useState([]);
   const [tourLoading, setTourLoading] = useState(false);
   const [editingTour, setEditingTour] = useState(null);
