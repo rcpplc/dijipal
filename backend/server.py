@@ -3138,8 +3138,8 @@ import os
 uploads_dir = "uploads"
 os.makedirs(uploads_dir, exist_ok=True)
 
-# Mount static files for direct access
-app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+# Mount static files with different path to avoid cache
+app.mount("/files", StaticFiles(directory=uploads_dir), name="files")
 
 # Include router
 app.include_router(api_router)
