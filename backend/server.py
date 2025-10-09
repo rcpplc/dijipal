@@ -1698,13 +1698,19 @@ async def admin_delete_new_category(category_id: str, current_user: User = Depen
     # Check if category exists
     category = await db.new_categories.find_one({"id": category_id})
     if not category:
-        raise HTTPException(status_code=404, detail="Category not found")
+        raise HTTPException(status_code=404, detail="Kategori bulunamadı")
     
-    # Delete category and its location combinations
+    # Count subcategories
+    subcategory_count = await db.sub_categories.count_documents({"parent_category_id": category_id})
+    
+    # Delete main category and all its subcategories
     await db.new_categories.delete_one({"id": category_id})
-    await db.category_locations.delete_many({"category_id": category_id})
+    await db.sub_categories.delete_many({"parent_category_id": category_id})
     
-    return {"message": "Category and all its location combinations deleted successfully"}
+    return {
+        "message": f"Ana kategori ve {subcategory_count} alt kategorisi başarıyla silindi",
+        "deleted_subcategories": subcategory_count
+    }
 
 # Frontend Category APIs
 @api_router.get("/categories/{category_slug}")
