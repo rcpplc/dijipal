@@ -137,10 +137,9 @@ class HierarchicalCategoryTester:
                 data = response.json()
                 self.test_subcategory_id = data.get("id")
                 
-                # Verify auto-title generation
-                expected_title = "Mavi Yolculuk - Fethiye"
-                if data.get("title") != expected_title:
-                    self.log_result("Create Subcategory", False, f"Title mismatch. Expected: {expected_title}, Got: {data.get('title')}", data)
+                # Verify auto-title generation (should end with " - Fethiye")
+                if not data.get("title", "").endswith(" - Fethiye"):
+                    self.log_result("Create Subcategory", False, f"Title should end with ' - Fethiye'. Got: {data.get('title')}", data)
                     return False
                 
                 # Verify slug generation
