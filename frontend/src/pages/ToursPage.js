@@ -649,25 +649,6 @@ const ToursPage = () => {
               
               {/* Filter Options */}
               <div className="space-y-6">
-                {/* Location Filter */}
-                <div className="space-y-2">
-                  <label className="text-sm font-medium text-gray-700 flex items-center">
-                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
-                    Lokasyon
-                  </label>
-                  <select
-                    value={filters.location}
-                    onChange={(e) => handleFilterChange('location', e.target.value)}
-                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
-                  >
-                    {locations.map((location) => (
-                      <option key={location.value} value={location.value}>
-                        {location.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-
                 {/* Category Filter */}
                 <div className="space-y-2">
                   <label className="text-sm font-medium text-gray-700 flex items-center">
@@ -682,6 +663,25 @@ const ToursPage = () => {
                     {categories.map((category) => (
                       <option key={category.value} value={category.value}>
                         {category.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Location Filter */}
+                <div className="space-y-2">
+                  <label className="text-sm font-medium text-gray-700 flex items-center">
+                    <MapPin className="w-4 h-4 mr-2 text-gray-600" />
+                    Lokasyon
+                  </label>
+                  <select
+                    value={filters.location}
+                    onChange={(e) => handleFilterChange('location', e.target.value)}
+                    className="w-full px-3 py-3 bg-gray-50 border border-gray-300 rounded-lg focus:bg-white focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-sm"
+                  >
+                    {locations.map((location) => (
+                      <option key={location.value} value={location.value}>
+                        {location.label}
                       </option>
                     ))}
                   </select>
