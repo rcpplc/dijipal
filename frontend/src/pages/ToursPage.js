@@ -65,14 +65,18 @@ const ToursPage = () => {
 
   const durations = [
     { value: '', label: 'Tüm Süreler' },
-    { value: '1', label: '1 Gün' },
-    { value: '2', label: '2 Gün' },
-    { value: '3', label: '3 Gün' },
-    { value: '4', label: '4 Gün' },
-    { value: '5', label: '5 Gün' },
-    { value: '7', label: '7 Gün' },
-    { value: '10', label: '10 Gün' },
-    { value: '14', label: '14 Gün' }
+    { value: '2_hours', label: '2 Saat' },
+    { value: '4_hours', label: '4 Saat' },
+    { value: '6_hours', label: '6 Saat' },
+    { value: '8_hours', label: '8 Saat' },
+    { value: '1_day', label: '1 Gün' },
+    { value: '2_days', label: '2 Gün' },
+    { value: '3_days', label: '3 Gün' },
+    { value: '4_days', label: '4 Gün' },
+    { value: '5_days', label: '5 Gün' },
+    { value: '7_days', label: '7 Gün' },
+    { value: '10_days', label: '10 Gün' },
+    { value: '14_days', label: '14 Gün' }
   ];
 
   const minRatings = [
