@@ -2164,20 +2164,6 @@ const AdminPage = () => {
                         </div>
                       )}
 
-                      {/* SEO Info */}
-                      {(category.meta_title || category.meta_description) && (
-                        <div className="px-6 pb-6">
-                          <h4 className="text-sm font-medium text-gray-900 mb-2">SEO Bilgileri</h4>
-                          <div className="bg-blue-50 rounded-lg p-3 text-sm">
-                            {category.meta_title && (
-                              <p><span className="font-medium">Title:</span> {category.meta_title}</p>
-                            )}
-                            {category.meta_description && (
-                              <p className="mt-1"><span className="font-medium">Description:</span> {category.meta_description}</p>
-                            )}
-                          </div>
-                        </div>
-                      )}
                     </div>
                   ))
                 )}
