@@ -156,7 +156,7 @@ const HomePage = () => {
   };
 
   const navigateToCategory = (category) => {
-    navigate(`/tours?category=${category.id}`);
+    navigate(`/turlar?category=${category.id}`);
   };
 
   const navigateToTour = (tour) => {
