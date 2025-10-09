@@ -1,9 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { MapPin, Star, Clock, Users, Calendar, ChevronRight } from 'lucide-react';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { 
+  MapPin, 
+  Star, 
+  Clock, 
+  Users, 
+  Calendar, 
+  ChevronRight,
+  Filter,
+  SlidersHorizontal,
+  ChevronDown,
+  X,
+  Heart,
+  Mountain,
+  Waves,
+  Building,
+  Trees
+} from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
 import { createSlug } from '../utils/slug';
+import { useAuth } from '../App';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
