@@ -196,9 +196,7 @@ const CategoryPage = () => {
     features: []
   };
 
-  const toggleFaq = (index) => {
-    setExpandedFaq(expandedFaq === index ? null : index);
-  };
+  // toggleFaq function removed - using HTML details element instead
 
   return (
     <div className="min-h-screen bg-gray-50">
