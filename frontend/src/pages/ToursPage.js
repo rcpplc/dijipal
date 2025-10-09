@@ -116,14 +116,22 @@ const ToursPage = () => {
 
   const loadFilterData = async () => {
     try {
-      // Load categories
+      // Load categories - try different API endpoints
       try {
-        const categoriesResponse = await axios.get(`${API}/categories`);
+        let categoriesResponse;
+        try {
+          // Try new category system first
+          categoriesResponse = await axios.get(`${API}/admin/categories`);
+        } catch (error) {
+          // Fallback to regular categories endpoint
+          categoriesResponse = await axios.get(`${API}/categories`);
+        }
+        
         if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
           const categoryOptions = [
             { value: '', label: 'Tüm Kategoriler' },
             ...categoriesResponse.data.map(cat => ({
-              value: cat.id || cat.slug,
+              value: cat.slug || cat.id || cat.name,
               label: cat.title || cat.name
             }))
           ];
@@ -136,23 +144,37 @@ const ToursPage = () => {
         setCategories(defaultCategories);
       }
 
-      // Load locations  
+      // Load locations - get unique locations from tours
       try {
-        const locationsResponse = await axios.get(`${API}/locations`);
-        if (locationsResponse.data && Array.isArray(locationsResponse.data)) {
-          const locationOptions = [
-            { value: '', label: 'Tüm Lokasyonlar' },
-            ...locationsResponse.data.map(loc => ({
-              value: loc.name || loc.location_name,
-              label: loc.name || loc.location_name
-            }))
-          ];
-          setLocations(locationOptions);
-        } else {
+        let locationsResponse;
+        try {
+          // Try to get tours to extract unique locations
+          locationsResponse = await axios.get(`${API}/tours`);
+          if (locationsResponse.data && Array.isArray(locationsResponse.data)) {
+            // Extract unique locations from tours
+            const uniqueLocations = [...new Set(
+              locationsResponse.data
+                .map(tour => tour.location)
+                .filter(location => location && location.trim() !== '')
+            )].sort();
+            
+            const locationOptions = [
+              { value: '', label: 'Tüm Lokasyonlar' },
+              ...uniqueLocations.map(location => ({
+                value: location,
+                label: location
+              }))
+            ];
+            setLocations(locationOptions);
+          } else {
+            setLocations(defaultLocations);
+          }
+        } catch (error) {
+          // Fallback to default locations
           setLocations(defaultLocations);
         }
       } catch (error) {
-        console.log('Locations API not available, using defaults');
+        console.log('Locations loading failed, using defaults');
         setLocations(defaultLocations);
       }
 
