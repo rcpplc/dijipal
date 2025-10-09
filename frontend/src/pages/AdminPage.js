@@ -2464,7 +2464,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       // Show detailed progress
       const fileNames = files.map(f => f.name).join(', ');
       const fileCount = files.length;
-      console.log(`🚀 Uploading ${fileCount} files: ${fileNames}`);
+      console.log(`🚀 Uploading ${fileCount} files (original formats preserved): ${fileNames}`);
       
       const response = await axios.post(`${API}/media/upload`, uploadFormData, {
         headers: {
