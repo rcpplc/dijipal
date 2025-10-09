@@ -3292,111 +3292,50 @@ async def update_expired_tour_dates():
             }
         }
 
-# Media Library Endpoints
-@api_router.post("/media/upload")
-async def upload_media(
-    files: List[UploadFile] = File(...),
-    tour_title: Optional[str] = None,
-    current_user: User = Depends(get_current_user)
-):
-    """Upload multiple images with optimized WebP conversion"""
-    if not files:
-        raise HTTPException(status_code=400, detail="No files provided")
+# Simple Image Upload Endpoint
+@api_router.post("/upload-images")
+async def upload_images(files: List[UploadFile] = File(...)):
+    """Ultra simple image upload - no authentication, no processing"""
     
-    # Validate file count and size
-    if len(files) > 10:  # Max 10 files per upload
-        raise HTTPException(status_code=400, detail="Maximum 10 files allowed per upload")
+    uploaded_files = []
     
-    # Create slug from tour title
-    tour_slug = create_seo_slug(tour_title) if tour_title else "general"
+    # Create uploads directory
+    upload_dir = Path("uploads")
+    upload_dir.mkdir(exist_ok=True)
     
-    # Ensure upload directory exists
-    images_dir = ensure_upload_directory()
-    
-    # Create tour-specific directory
-    tour_images_dir = images_dir / tour_slug
-    tour_images_dir.mkdir(exist_ok=True)
-    
-    uploaded_items = []
-    errors = []
-    
-    for i, file in enumerate(files):
+    for file in files:
         try:
-            print(f"Processing file {i+1}/{len(files)}: {file.filename}")
+            # Simple filename with timestamp
+            import time
+            timestamp = int(time.time())
+            filename = f"{timestamp}_{file.filename}"
             
-            # Validate file type
-            if not file.content_type or not file.content_type.startswith('image/'):
-                errors.append(f"{file.filename}: Invalid file type")
-                continue
+            # Save file directly
+            file_path = upload_dir / filename
             
-            # Check file size (max 10MB)
-            file_size = 0
-            file_content = await file.read()
-            file_size = len(file_content)
+            # Read and write file
+            content = await file.read()
             
-            if file_size > 10 * 1024 * 1024:  # 10MB limit
-                errors.append(f"{file.filename}: File too large (max 10MB)")
-                continue
+            with open(file_path, 'wb') as f:
+                f.write(content)
             
-            print(f"File size: {file_size / 1024:.1f}KB - direct save")
-            
-            # Get file extension only - ZERO processing
-            file_extension = get_file_extension(file.filename)
-            
-            # Generate SEO-friendly filename with original extension
-            base_name = Path(file.filename).stem
-            safe_name = create_seo_slug(base_name) or f"image-{i+1}"
-            stored_filename = f"{safe_name}-{str(uuid.uuid4())[:8]}{file_extension}"
-            
-            # Save original file directly - INSTANT SAVE
-            file_path = tour_images_dir / stored_filename
-            async with aiofiles.open(file_path, 'wb') as f:
-                await f.write(file_content)  # Zero processing, direct write
-            
-            # Set default dimensions (will be updated later if needed)
-            width, height = 1920, 1080  # Default values, no image opening
-            
-            # Create media library entry
-            media_item = MediaLibraryItem(
-                filename=file.filename,
-                stored_filename=stored_filename,
-                url=f"/uploads/images/{tour_slug}/{stored_filename}",
-                tour_slug=tour_slug,
-                file_size=file_size,  # Original file size
-                width=width,
-                height=height
-            )
-            
-            # Save to database
-            media_dict = media_item.dict()
-            media_dict["created_at"] = datetime.now(timezone.utc)
-            media_dict["updated_at"] = datetime.now(timezone.utc)
-            
-            await db.media_library.insert_one(media_dict)
-            
-            uploaded_items.append({
-                "id": media_item.id,
-                "url": media_item.url,
-                "filename": media_item.filename,
-                "stored_filename": stored_filename,
-                "dimensions": {"width": width, "height": height},
-                "file_size": file_size,  # Original file size
-                "format": file_extension
+            uploaded_files.append({
+                "filename": file.filename,
+                "stored_name": filename,
+                "url": f"/uploads/{filename}",
+                "size": len(content)
             })
             
-            print(f"✅ Successfully processed: {file.filename}")
+            print(f"✅ Uploaded: {filename}")
             
         except Exception as e:
-            error_msg = f"{file.filename}: {str(e)}"
-            print(f"❌ Error processing file: {error_msg}")
-            errors.append(error_msg)
+            print(f"❌ Error uploading {file.filename}: {e}")
             continue
     
     return {
-        "success": len(uploaded_items) > 0,
-        "uploaded_count": len(uploaded_items),
-        "items": uploaded_items,
-        "errors": errors if errors else None
+        "success": True,
+        "files": uploaded_files,
+        "count": len(uploaded_files)
     }
 
 @api_router.put("/media/{media_id}")
