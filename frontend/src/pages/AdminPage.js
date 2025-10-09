@@ -406,44 +406,7 @@ const AdminPage = () => {
   };
 
   // Category Management Functions
-  const openCategoryModal = (category = null) => {
-    setEditingCategory(category);
-    setShowCategoryModal(true);
-  };
-
-  const closeCategoryModal = () => {
-    setEditingCategory(null);
-    setShowCategoryModal(false);
-  };
-
-  const handleCategorySaved = () => {
-    closeCategoryModal();
-    loadCategories();
-  };
-
-  const handleToggleCategoryStatus = async (categoryId) => {
-    try {
-      await axios.put(`${API}/admin/categories/${categoryId}/status`);
-      loadCategories();
-      toast.success('Kategori durumu güncellendi');
-    } catch (error) {
-      console.error('Error toggling category status:', error);
-      toast.error(error.response?.data?.detail || 'Kategori durumu güncellenirken hata oluştu');
-    }
-  };
-
-  const handleDeleteCategory = async (categoryId) => {
-    try {
-      await axios.delete(`${API}/admin/categories/${categoryId}`);
-      toast.success('Kategori başarıyla silindi');
-      loadCategories();
-      setShowDeleteCategoryConfirm(false);
-      setSelectedCategory(null);
-    } catch (error) {
-      console.error('Error deleting category:', error);
-      toast.error(error.response?.data?.detail || 'Kategori silinirken hata oluştu');
-    }
-  };
+  // Legacy category functions removed - using new hierarchical category system
 
   // New Category System Management Functions
   const loadNewCategories = async () => {
