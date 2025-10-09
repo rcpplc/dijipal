@@ -346,12 +346,15 @@ const AdminPage = () => {
   };
 
   const openTourModal = async (tour = null) => {
-    // Ensure locations and categories are loaded before opening modal
+    // Ensure locations and new categories are loaded before opening modal
     if (!locations || locations.length === 0) {
       await loadLocations();
     }
     if (!categories || categories.length === 0) {
       await loadCategories();
+    }
+    if (!newCategories || newCategories.length === 0) {
+      await loadNewCategories();
     }
     
     setEditingTour(tour);
