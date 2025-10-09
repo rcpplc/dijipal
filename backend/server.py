@@ -8,9 +8,6 @@ from starlette.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 import os
 import re
-import aiofiles
-from PIL import Image
-import io
 
 # Load environment variables from .env file
 load_dotenv()
