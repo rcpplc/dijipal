@@ -3144,6 +3144,50 @@ app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
 # Include router
 app.include_router(api_router)
 
+# Upload endpoints - added after router
+@app.post("/api/upload-images")
+async def upload_images(files: List[UploadFile] = File(...)):
+    """Simple image upload endpoint"""
+    import time
+    
+    try:
+        uploaded_files = []
+        upload_dir = Path("uploads")
+        upload_dir.mkdir(exist_ok=True)
+        
+        for file in files:
+            timestamp = int(time.time())
+            filename = f"{timestamp}_{file.filename}"
+            file_path = upload_dir / filename
+            
+            content = await file.read()
+            with open(file_path, 'wb') as f:
+                f.write(content)
+            
+            uploaded_files.append({
+                "filename": file.filename,
+                "stored_name": filename,
+                "url": f"/uploads/{filename}",
+                "size": len(content)
+            })
+            
+            print(f"✅ Uploaded: {filename}")
+        
+        return {
+            "success": True,
+            "files": uploaded_files,
+            "count": len(uploaded_files)
+        }
+        
+    except Exception as e:
+        print(f"❌ Upload error: {e}")
+        return {"success": False, "error": str(e)}
+
+@app.get("/api/test-upload")
+async def test_upload():
+    """Test endpoint"""
+    return {"message": "Upload endpoint is working", "success": True}
+
 # CORS
 app.add_middleware(
     CORSMiddleware,
