@@ -2427,22 +2427,22 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     }
   };
 
-  // Enhanced Media Library Functions (Modal scope)
+  // Ultra Fast Media Library Functions (Modal scope)
   const handleFileUpload = async (e) => {
     const files = Array.from(e.target.files);
     if (files.length === 0) return;
     
     // Validate file count
-    if (files.length > 10) {
-      toast.error('Maksimum 10 resim aynı anda yükleyebilirsiniz');
+    if (files.length > 5) {
+      toast.error('Maksimum 5 resim aynı anda yükleyebilirsiniz (hız için)');
       return;
     }
     
     // Validate file sizes
-    const maxSize = 10 * 1024 * 1024; // 10MB
+    const maxSize = 5 * 1024 * 1024; // Reduced to 5MB for speed
     const invalidFiles = files.filter(file => file.size > maxSize);
     if (invalidFiles.length > 0) {
-      toast.error(`Bu dosyalar çok büyük (max 10MB): ${invalidFiles.map(f => f.name).join(', ')}`);
+      toast.error(`Bu dosyalar çok büyük (max 5MB): ${invalidFiles.map(f => f.name).join(', ')}`);
       return;
     }
     
@@ -2450,6 +2450,8 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
     
     try {
       const uploadFormData = new FormData();
+      
+      // Upload all files in one batch - but with smaller limit
       files.forEach(file => {
         uploadFormData.append('files', file);
       });
@@ -2464,16 +2466,16 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       // Show detailed progress
       const fileNames = files.map(f => f.name).join(', ');
       const fileCount = files.length;
-      console.log(`📤 Direct upload ${fileCount} files (no processing): ${fileNames}`);
+      console.log(`⚡ Lightning upload ${fileCount} files: ${fileNames}`);
       
       const response = await axios.post(`${API}/media/upload`, uploadFormData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         },
-        timeout: 300000, // 5 minute timeout
+        timeout: 0, // No timeout - let it finish
         onUploadProgress: (progressEvent) => {
           const percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-          console.log(`📤 Upload progress: ${percentCompleted}%`);
+          console.log(`⚡ Upload: ${percentCompleted}%`);
         }
       });
       
@@ -2489,7 +2491,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
         }));
         
         // Show success message
-        const successMsg = `✅ ${response.data.uploaded_count} resim başarıyla yüklendi`;
+        const successMsg = `🚀 ${response.data.uploaded_count} resim hızla yüklendi`;
         if (response.data.errors && response.data.errors.length > 0) {
           toast.warning(successMsg + ` (${response.data.errors.length} hata)`);
           console.warn('Upload errors:', response.data.errors);
@@ -2497,7 +2499,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
           toast.success(successMsg);
         }
         
-        console.log(`✅ Upload complete:`, response.data.items);
+        console.log(`🚀 Lightning upload complete:`, response.data.items);
       } else {
         throw new Error(response.data.message || 'Upload failed');
       }
@@ -2506,9 +2508,11 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
       console.error('❌ Upload error:', error);
       
       if (error.code === 'ECONNABORTED') {
-        toast.error('⏰ Upload zaman aşımına uğradı. Lütfen daha küçük dosyalar deneyin.');
+        toast.error('⏰ Ağ bağlantısı çok yavaş. Daha küçük dosyalar deneyin.');
       } else if (error.response?.status === 413) {
-        toast.error('📁 Dosya çok büyük. Lütfen daha küçük resimler seçin.');
+        toast.error('📁 Dosya çok büyük. Max 5MB lütfen.');
+      } else if (error.response?.status === 502 || error.response?.status === 504) {
+        toast.error('🔄 Sunucu yoğun. Biraz bekleyip tekrar deneyin.');
       } else {
         const errorMsg = error.response?.data?.detail || error.message || 'Bilinmeyen hata';
         toast.error('❌ Yükleme hatası: ' + errorMsg);
