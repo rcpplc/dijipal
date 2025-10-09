@@ -62,10 +62,7 @@ const AdminPage = () => {
   const [messageFilter, setMessageFilter] = useState('all');
   const [selectedMessage, setSelectedMessage] = useState(null);
   const [replyText, setReplyText] = useState('');
-  const [showCategoryModal, setShowCategoryModal] = useState(false);
-  const [showDeleteCategoryConfirm, setShowDeleteCategoryConfirm] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [editingCategory, setEditingCategory] = useState(null);
+  // Legacy category states removed - using new category system
   
   // New Category System states
   const [newCategories, setNewCategories] = useState([]);
