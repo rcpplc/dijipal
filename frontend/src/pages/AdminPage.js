@@ -4830,4 +4830,367 @@ const MediaItemCard = ({ item, index, onUpdate, onDelete, onSetPrimary }) => {
   );
 };
 
+// New Category Modal Component
+const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
+  const [formData, setFormData] = useState({
+    title: '',
+    description: '',
+    image: '',
+    faq: [],
+    locations: [],
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: '',
+    is_active: true
+  });
+  
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [newFaqItem, setNewFaqItem] = useState({ question: '', answer: '' });
+  
+  useEffect(() => {
+    if (category) {
+      setFormData({
+        title: category.title || '',
+        description: category.description || '',
+        image: category.image || '',
+        faq: category.faq || [],
+        locations: category.locations?.map(loc => loc.location_name) || [],
+        meta_title: category.meta_title || '',
+        meta_description: category.meta_description || '',
+        meta_keywords: category.meta_keywords || '',
+        is_active: category.is_active !== undefined ? category.is_active : true
+      });
+    } else {
+      setFormData({
+        title: '',
+        description: '',
+        image: '',
+        faq: [],
+        locations: [],
+        meta_title: '',
+        meta_description: '',
+        meta_keywords: '',
+        is_active: true
+      });
+    }
+    setErrors({});
+  }, [category, isOpen]);
+  
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.title.trim()) {
+      newErrors.title = 'Kategori adı zorunludur';
+    }
+    
+    if (formData.locations.length === 0) {
+      newErrors.locations = 'En az bir lokasyon seçilmelidir';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      const endpoint = category 
+        ? `${process.env.REACT_APP_BACKEND_URL}/api/admin/new-categories/${category.id}`
+        : `${process.env.REACT_APP_BACKEND_URL}/api/admin/new-categories`;
+      
+      const method = category ? 'PUT' : 'POST';
+      
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(formData)
+      });
+      
+      if (response.ok) {
+        onSave();
+        onClose();
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Kategori kaydedilirken hata oluştu');
+      }
+    } catch (error) {
+      console.error('Error saving category:', error);
+      toast.error(error.message || 'Kategori kaydedilirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const addFaqItem = () => {
+    if (newFaqItem.question.trim() && newFaqItem.answer.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        faq: [...prev.faq, { ...newFaqItem }]
+      }));
+      setNewFaqItem({ question: '', answer: '' });
+    }
+  };
+  
+  const removeFaqItem = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      faq: prev.faq.filter((_, i) => i !== index)
+    }));
+  };
+  
+  const toggleLocation = (locationName) => {
+    setFormData(prev => ({
+      ...prev,
+      locations: prev.locations.includes(locationName)
+        ? prev.locations.filter(loc => loc !== locationName)
+        : [...prev.locations, locationName]
+    }));
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+        <form onSubmit={handleSubmit}>
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-900">
+              {category ? 'Kategori Düzenle' : 'Yeni Kategori Oluştur'}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <div className="p-6 space-y-6">
+            {/* Basic Information */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kategori Adı <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => {
+                    setFormData(prev => ({ 
+                      ...prev, 
+                      title: e.target.value,
+                      meta_title: prev.meta_title || e.target.value
+                    }));
+                  }}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.title ? 'border-red-300' : 'border-gray-300'
+                  }`}
+                  placeholder="Örn: Mavi Yolculuk"
+                />
+                {errors.title && (
+                  <p className="text-red-500 text-sm mt-1">{errors.title}</p>
+                )}
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Kategori Resmi URL
+                </label>
+                <input
+                  type="url"
+                  value={formData.image}
+                  onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="https://example.com/image.jpg"
+                />
+              </div>
+            </div>
+            
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Açıklama
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                rows={4}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Kategori hakkında detaylı açıklama..."
+              />
+            </div>
+            
+            {/* Location Selection */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                Lokasyonlar <span className="text-red-500">*</span>
+              </label>
+              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 max-h-48 overflow-y-auto border border-gray-200 rounded-lg p-4">
+                {locations.map((location) => (
+                  <label key={location.id} className="flex items-center space-x-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.locations.includes(location.name)}
+                      onChange={() => toggleLocation(location.name)}
+                      className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                    />
+                    <span className="text-sm text-gray-700">{location.name}</span>
+                  </label>
+                ))}
+              </div>
+              {errors.locations && (
+                <p className="text-red-500 text-sm mt-1">{errors.locations}</p>
+              )}
+              <p className="text-sm text-gray-500 mt-2">
+                Seçilen lokasyonlar: {formData.locations.length} / {locations.length}
+              </p>
+            </div>
+            
+            {/* FAQ Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                SSS (Sıkça Sorulan Sorular)
+              </label>
+              
+              {/* Existing FAQ Items */}
+              <div className="space-y-3 mb-4">
+                {formData.faq.map((item, index) => (
+                  <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                    <div className="flex justify-between items-start mb-2">
+                      <h4 className="font-medium text-gray-900">{item.question}</h4>
+                      <button
+                        type="button"
+                        onClick={() => removeFaqItem(index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                    <p className="text-gray-600 text-sm">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Add New FAQ */}
+              <div className="border border-dashed border-gray-300 rounded-lg p-4 space-y-3">
+                <input
+                  type="text"
+                  value={newFaqItem.question}
+                  onChange={(e) => setNewFaqItem(prev => ({ ...prev, question: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Soru..."
+                />
+                <textarea
+                  value={newFaqItem.answer}
+                  onChange={(e) => setNewFaqItem(prev => ({ ...prev, answer: e.target.value }))}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Cevap..."
+                />
+                <button
+                  type="button"
+                  onClick={addFaqItem}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm transition-colors"
+                >
+                  SSS Ekle
+                </button>
+              </div>
+            </div>
+            
+            {/* SEO Settings */}
+            <div className="bg-blue-50 p-4 rounded-lg space-y-4">
+              <h3 className="font-medium text-gray-900">SEO Ayarları</h3>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Meta Title
+                </label>
+                <input
+                  type="text"
+                  value={formData.meta_title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_title: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="SEO için özel başlık..."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Meta Description
+                </label>
+                <textarea
+                  value={formData.meta_description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_description: e.target.value }))}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Arama motorları için açıklama..."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Anahtar Kelimeler
+                </label>
+                <input
+                  type="text"
+                  value={formData.meta_keywords}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_keywords: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="anahtar, kelime, listesi"
+                />
+              </div>
+            </div>
+            
+            {/* Status */}
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="is_active"
+                checked={formData.is_active}
+                onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.checked }))}
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="is_active" className="text-sm font-medium text-gray-700">
+                Kategori aktif
+              </label>
+            </div>
+          </div>
+          
+          {/* Footer */}
+          <div className="flex justify-end space-x-3 p-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              İptal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors flex items-center space-x-2"
+            >
+              {loading && (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              )}
+              <span>{category ? 'Güncelle' : 'Oluştur'}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 export default AdminPage;
