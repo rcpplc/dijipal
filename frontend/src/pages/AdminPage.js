@@ -3389,7 +3389,7 @@ const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories }) => 
                     </label>
                     
                     <div className="mt-4 text-xs text-gray-500">
-                      JPG, PNG, GIF, WEBP • Max 10MB • Hiçbir değişiklik yapılmaz
+                      JPG, PNG, GIF, WEBP • Max 5MB (hız için) • Max 5 dosya • Direkt kayıt
                     </div>
                   </div>
                 </div>
