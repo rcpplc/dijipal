@@ -55,6 +55,68 @@ def verify_password(password: str, hashed: str) -> bool:
     """Verify password against hash"""
     return hash_password(password) == hashed
 
+# Utility functions for SEO-friendly URLs and file management
+def create_seo_slug(text: str) -> str:
+    """Create SEO-friendly URL slug from Turkish text"""
+    if not text:
+        return ""
+    
+    # Turkish character mapping
+    turkish_chars = {
+        'ı': 'i', 'İ': 'I', 'ğ': 'g', 'Ğ': 'G', 'ü': 'u', 'Ü': 'U',
+        'ş': 's', 'Ş': 'S', 'ö': 'o', 'Ö': 'O', 'ç': 'c', 'Ç': 'C'
+    }
+    
+    # Replace Turkish characters
+    for turkish, english in turkish_chars.items():
+        text = text.replace(turkish, english)
+    
+    # Convert to lowercase and replace spaces/special chars with hyphens
+    text = re.sub(r'[^a-zA-Z0-9\s-]', '', text.lower())
+    text = re.sub(r'[\s_-]+', '-', text)
+    text = text.strip('-')
+    
+    return text
+
+def ensure_upload_directory():
+    """Ensure upload directories exist"""
+    upload_dir = Path("uploads")
+    images_dir = upload_dir / "images"
+    
+    upload_dir.mkdir(exist_ok=True)
+    images_dir.mkdir(exist_ok=True)
+    
+    return images_dir
+
+async def convert_to_webp(image_data: bytes, quality: int = 95) -> tuple[bytes, tuple[int, int]]:
+    """Convert image to WebP format with high quality"""
+    try:
+        # Open image from bytes
+        image = Image.open(io.BytesIO(image_data))
+        
+        # Convert RGBA to RGB if necessary
+        if image.mode in ('RGBA', 'LA'):
+            # Create a white background
+            background = Image.new('RGB', image.size, (255, 255, 255))
+            if image.mode == 'RGBA':
+                background.paste(image, mask=image.split()[-1])
+            else:
+                background.paste(image)
+            image = background
+        elif image.mode != 'RGB':
+            image = image.convert('RGB')
+        
+        # Get dimensions
+        width, height = image.size
+        
+        # Save as WebP
+        output_buffer = io.BytesIO()
+        image.save(output_buffer, format='WEBP', quality=quality, optimize=True)
+        
+        return output_buffer.getvalue(), (width, height)
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error processing image: {str(e)}")
+
 # Create the main app
 app = FastAPI(title="Paket Tur Satış Platformu", version="1.0.0")
 api_router = APIRouter(prefix="/api")
