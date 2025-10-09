@@ -394,7 +394,7 @@ const CategoryDetailPage = () => {
           <nav className="flex items-center space-x-2 text-gray-500 text-sm mb-6">
             <button onClick={() => navigate('/')} className="hover:text-blue-600">Ana Sayfa</button>
             <ChevronRight className="w-4 h-4" />
-            <button onClick={() => navigate('/tours')} className="hover:text-blue-600">Turlar</button>
+            <button onClick={() => navigate('/turlar')} className="hover:text-blue-600">Turlar</button>
             <ChevronRight className="w-4 h-4" />
             <button 
               onClick={() => navigate(`/categories/${categorySlug}`)} 
