@@ -4475,4 +4475,218 @@ const CategoryModal = ({ category, isEdit, onClose, onSave }) => {
   );
 };
 
+// Enhanced Media Item Card Component
+const MediaItemCard = ({ item, index, onUpdate, onDelete, onSetPrimary }) => {
+  const [isEditing, setIsEditing] = useState(false);
+  const [metadata, setMetadata] = useState({
+    title: item.title || '',
+    description: item.description || '',
+    alt_text: item.alt_text || '',
+    tags: item.tags ? item.tags.join(', ') : '',
+    is_primary: item.is_primary || false
+  });
+
+  const handleSave = () => {
+    onUpdate(item.id, metadata);
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    setMetadata({
+      title: item.title || '',
+      description: item.description || '',
+      alt_text: item.alt_text || '',
+      tags: item.tags ? item.tags.join(', ') : '',
+      is_primary: item.is_primary || false
+    });
+    setIsEditing(false);
+  };
+
+  return (
+    <div className={`relative bg-white rounded-xl border-2 transition-all duration-300 ${
+      item.is_primary ? 'border-green-500 shadow-lg' : 'border-gray-200 hover:border-blue-300 shadow-md hover:shadow-lg'
+    }`}>
+      {/* Primary Badge */}
+      {item.is_primary && (
+        <div className="absolute -top-2 -right-2 z-10 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+          ⭐ ANA RESİM
+        </div>
+      )}
+      
+      {/* Image */}
+      <div className="relative">
+        <img
+          src={`${BACKEND_URL}${item.url}`}
+          alt={item.alt_text || `Image ${index + 1}`}
+          className="w-full h-40 object-cover rounded-t-xl"
+          onError={(e) => {
+            e.target.src = '/placeholder-tour.jpg';
+          }}
+        />
+        
+        {/* Quick Actions Overlay */}
+        <div className="absolute top-2 right-2 flex space-x-1">
+          <button
+            onClick={() => setIsEditing(!isEditing)}
+            className="bg-white/90 hover:bg-white text-gray-700 p-1.5 rounded-full shadow-md transition-all duration-200"
+            title="Düzenle"
+          >
+            <Edit className="w-3 h-3" />
+          </button>
+          <button
+            onClick={() => onDelete(item.id)}
+            className="bg-red-500/90 hover:bg-red-500 text-white p-1.5 rounded-full shadow-md transition-all duration-200"
+            title="Sil"
+          >
+            <Trash2 className="w-3 h-3" />
+          </button>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div className="p-4">
+        {!isEditing ? (
+          /* View Mode */
+          <div className="space-y-3">
+            <div>
+              <h5 className="font-medium text-gray-900 text-sm">
+                {item.title || item.filename}
+              </h5>
+              <p className="text-xs text-gray-500 mt-1">
+                {item.width}×{item.height} • {Math.round(item.file_size / 1024)}KB • WebP
+              </p>
+            </div>
+            
+            {item.description && (
+              <p className="text-xs text-gray-600 leading-relaxed">
+                {item.description}
+              </p>
+            )}
+            
+            {item.alt_text && (
+              <div className="text-xs">
+                <span className="font-medium text-gray-500">Alt:</span>
+                <span className="text-gray-600 ml-1">{item.alt_text}</span>
+              </div>
+            )}
+            
+            {item.tags && item.tags.length > 0 && (
+              <div className="flex flex-wrap gap-1">
+                {item.tags.slice(0, 3).map((tag, i) => (
+                  <span key={i} className="px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full">
+                    {tag}
+                  </span>
+                ))}
+                {item.tags.length > 3 && (
+                  <span className="text-xs text-gray-400">+{item.tags.length - 3}</span>
+                )}
+              </div>
+            )}
+            
+            {/* Primary Selection */}
+            <div className="flex items-center justify-between pt-2 border-t">
+              <label className="flex items-center space-x-2 cursor-pointer text-xs">
+                <input
+                  type="radio"
+                  name="primaryImage"
+                  checked={item.is_primary}
+                  onChange={() => onSetPrimary(item.id)}
+                  className="text-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-600">Ana sayfa resmi</span>
+              </label>
+              
+              <button
+                onClick={() => setIsEditing(true)}
+                className="text-blue-600 hover:text-blue-700 text-xs font-medium"
+              >
+                Düzenle
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Edit Mode */
+          <div className="space-y-3">
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Başlık</label>
+              <input
+                type="text"
+                value={metadata.title}
+                onChange={(e) => setMetadata({...metadata, title: e.target.value})}
+                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="SEO başlığı"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Açıklama</label>
+              <textarea
+                value={metadata.description}
+                onChange={(e) => setMetadata({...metadata, description: e.target.value})}
+                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                rows={2}
+                placeholder="Görsel açıklaması"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Alt Metin (SEO)</label>
+              <input
+                type="text"
+                value={metadata.alt_text}
+                onChange={(e) => setMetadata({...metadata, alt_text: e.target.value})}
+                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="Alternatif metin"
+              />
+            </div>
+            
+            <div>
+              <label className="block text-xs font-medium text-gray-700 mb-1">Etiketler</label>
+              <input
+                type="text"
+                value={metadata.tags}
+                onChange={(e) => setMetadata({...metadata, tags: e.target.value})}
+                className="w-full px-2 py-1 border border-gray-300 rounded text-xs focus:ring-1 focus:ring-blue-500 focus:border-blue-500"
+                placeholder="etiket1, etiket2, etiket3"
+              />
+            </div>
+            
+            <div className="flex items-center space-x-2 pt-2">
+              <label className="flex items-center space-x-2 cursor-pointer text-xs">
+                <input
+                  type="checkbox"
+                  checked={metadata.is_primary}
+                  onChange={(e) => {
+                    setMetadata({...metadata, is_primary: e.target.checked});
+                    if (e.target.checked) {
+                      onSetPrimary(item.id);
+                    }
+                  }}
+                  className="text-green-500 focus:ring-green-500"
+                />
+                <span className="text-gray-600">Ana sayfa resmi</span>
+              </label>
+            </div>
+            
+            <div className="flex space-x-2 pt-2">
+              <button
+                onClick={handleSave}
+                className="flex-1 bg-blue-600 hover:bg-blue-700 text-white text-xs py-1.5 rounded transition-colors"
+              >
+                Kaydet
+              </button>
+              <button
+                onClick={handleCancel}
+                className="flex-1 bg-gray-300 hover:bg-gray-400 text-gray-700 text-xs py-1.5 rounded transition-colors"
+              >
+                İptal
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
 export default AdminPage;
