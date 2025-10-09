@@ -839,69 +839,331 @@ const ToursPage = () => {
       </div>
 
       
-      {/* Açıklama */}
+      {/* Mavi Yolculuk ve Deniz Turları Rehberi */}
       <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              Kabin Kiralama: Denizde Özgürlüğün Adresi
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+          {/* Ana Başlık */}
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              Mavi Yolculuk ve Deniz Turları Rehberi
             </h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Turkiye'nin eşsiz kıyılarında unutulmaz anılar biriktirin. Kabin kiralama ile denizde geçireceğiniz tatil, size tamamen özgür bir deneyim sunar.
+            <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+              Ege ve Akdeniz'in büyüleyici kıyılarında; mavi yolculuk, kabin turları, balık turları, dalış turları, 
+              günübirlik tekne turları ve yüzme turları ile size özel planlanmış, güvenli ve konforlu bir deniz tatili deneyimi.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            <div className="prose prose-lg max-w-none">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Kabin Kiralama Nedir?</h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Kabin kiralama, deniz tutkunlarının teknelerde özel kabinleri kiralayarak, günlük yaşamın stresinden uzaklaştığı eşsiz bir tatil deneyimidir. Bu konsept, özellikle Türkiye'nin Akdeniz ve Ege kıyılarında son yıllarda büyük popülerlik kazanmıştır.
-              </p>
+          {/* 1-Column Grid Layout */}
+          <div className="space-y-16">
 
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Neden Kabin Kiralama?</h3>
-              <div className="space-y-4 mb-8">
-                <div className="flex items-start space-x-3">
-                  <Waves className="w-6 h-6 text-blue-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Eşsiz Deneyim</h4>
-                    <p className="text-gray-700 text-sm">Her gün farklı bir koyu keşfetme, kristal berraklığındaki sularda yüzme imkanı.</p>
+            {/* Mavi Yolculuk Deneyimi */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <span className="text-4xl mb-4 block">⛵</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Mavi Yolculuk Deneyimi</h3>
+              </div>
+              <div className="prose prose-lg max-w-none text-gray-700">
+                <p className="text-lg leading-relaxed mb-6">
+                  Klasik guletlerle 3–7 gece arası rotalarda; korunaklı koylarda demir atma, gün batımında 
+                  denize karşı akşam yemekleri, yıldızlı gökyüzünde konaklama. Yarım pansiyon/tam pansiyon 
+                  seçenekleri ve rota içi su sporlarıyla zenginleştirilmiş, konforlu bir deniz seyahati.
+                </p>
+              </div>
+            </div>
+
+            {/* Kabin Turları */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <span className="text-4xl mb-4 block">🛏️</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Kabin Turları</h3>
+              </div>
+              <div className="prose prose-lg max-w-none text-gray-700">
+                <p className="text-lg leading-relaxed mb-4">
+                  Tüm tekneyi kapatmadan, yalnızca bir kabin ayırtarak sabit güzergâh, belirli kalkış günleri 
+                  ve sosyal atmosfer; çiftler ve solo gezginler için idealdir.
+                </p>
+                <p className="text-lg leading-relaxed">
+                  Ayrıca sadece sizin grubunuza özel kiralama imkanıyla VIP deneyim.
+                </p>
+              </div>
+            </div>
+
+            {/* Günübirlik Tekne Turları */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <span className="text-4xl mb-4 block">🚤</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Günübirlik Tekne Turları</h3>
+              </div>
+              <div className="prose prose-lg max-w-none text-gray-700">
+                <p className="text-lg leading-relaxed">
+                  Sabah çıkış–akşam dönüş; 3–5 koyda yüzme molaları ve özel kiralama imkanıyla 
+                  VIP deneyim seçenekleri.
+                </p>
+              </div>
+            </div>
+
+            {/* Balık & Dalış Turları */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <span className="text-4xl mb-4 block">🐟</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Balık & Dalış Turları</h3>
+              </div>
+              <div className="prose prose-lg max-w-none text-gray-700">
+                <p className="text-lg leading-relaxed mb-4">
+                  Amatör balıkçılıktan profesyonel dalışlara kadar. Kaş–Kekova ve Datça çevresi 
+                  popüler dalış/balık noktalarıyla ön plana çıkar.
+                </p>
+                <p className="text-lg leading-relaxed">
+                  Ekipman, rehber ve güvenlik standartları her turda eksiksizdir.
+                </p>
+              </div>
+            </div>
+
+            {/* Yüzme Turları */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-8">
+                <span className="text-4xl mb-4 block">🏊‍♀️</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Yüzme Turları</h3>
+              </div>
+              <div className="prose prose-lg max-w-none text-gray-700">
+                <p className="text-lg leading-relaxed">
+                  Berrak koylarda uzun yüzme molaları için tasarlanmış rotalar. Şnorkel ve deniz gözlüğü 
+                  gibi ekipmanlarla gün boyu serinleme ve keşif imkanı.
+                </p>
+              </div>
+            </div>
+
+            {/* Bölgelere Göre Turlar */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-12">
+                <span className="text-4xl mb-4 block">🗺️</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Bölgelere Göre Turlar</h3>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div className="space-y-6">
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Bodrum</h4>
+                    <p className="text-gray-700">Mavi yolculuğun simgesi. Bodrum Kalesi, Akvaryum Koyu, Orak Adası ve Gökova Körfezi bağlantılı rotalar.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Marmaris</h4>
+                    <p className="text-gray-700">Canlı marina, İçmeler–Turunç–Kumlubük üçlüsü ve özel kiralama için zengin seçenekler.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Bozburun</h4>
+                    <p className="text-gray-700">Butik gulet yapımıyla ünlü; sakin, derin mavi koylar ve romantik akşamüstleri.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Datça</h4>
+                    <p className="text-gray-700">Knidos antik kenti, dalış ve balık turları için ideal sular.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-blue-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Dalyan</h4>
+                    <p className="text-gray-700">Kaya mezarları, İztuzu Plajı ve Caretta-caretta gözlemleri.</p>
                   </div>
                 </div>
-                <div className="flex items-start space-x-3">
-                  <Heart className="w-6 h-6 text-red-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Özel Alan</h4>
-                    <p className="text-gray-700 text-sm">Kalabalıktan uzak, sadece sizin grubunuzla paylaştığınız özel tatil alanı.</p>
+                
+                <div className="space-y-6">
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Göcek</h4>
+                    <p className="text-gray-700">12 Ada, Hamam Koyu, Bedri Rahmi Koyu – klasik mavi yolculuk güzergahı.</p>
                   </div>
-                </div>
-                <div className="flex items-start space-x-3">
-                  <Star className="w-6 h-6 text-yellow-500 mt-1 flex-shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-gray-900">Kaliteli Hizmet</h4>
-                    <p className="text-gray-700 text-sm">Deneyimli mürettebat ile 7/24 hizmet ve kişiselleştirilmiş aktiviteler.</p>
+                  
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Fethiye / Ölüdeniz</h4>
+                    <p className="text-gray-700">Kelebekler Vadisi, Mavi Mağara ve turkuaz sular.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Kaş</h4>
+                    <p className="text-gray-700">Dalış merkezleri, kaya oluşumları, antik kalıntılar.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Kekova</h4>
+                    <p className="text-gray-700">Batık Şehir, Simena–Kaleköy; kano ve şnorkelle keşif.</p>
+                  </div>
+                  
+                  <div className="border-l-4 border-green-500 pl-6">
+                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Akyaka</h4>
+                    <p className="text-gray-700">Azmak Nehri ve doğal yaşamla iç içe günübirlik turlar.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="prose prose-lg max-w-none">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">Popüler Destinasyonlar</h3>
-              <p className="text-gray-700 leading-relaxed mb-6">
-                Türkiye'nin 8.000 kilometrelik sahil şeridi, kabin kiralama için sayısız seçenek sunar. Fethiye-Göcek-Kaş üçgeni, berrak suları ve korumalı koylarıyla en popüler rotadır.
-              </p>
+            {/* Fiyat Bilgisi */}
+            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+              <div className="text-center mb-12">
+                <span className="text-4xl mb-4 block">💰</span>
+                <h3 className="text-3xl font-bold text-gray-900 mb-4">Fiyat Bilgisi</h3>
+                <p className="text-lg text-gray-600">Ortalama Aralıklar</p>
+              </div>
+              
+              <div className="overflow-x-auto">
+                <table className="w-full border-collapse border border-gray-300 text-left">
+                  <thead>
+                    <tr className="bg-blue-50">
+                      <th className="border border-gray-300 px-6 py-4 font-semibold text-gray-900">Tur Türü</th>
+                      <th className="border border-gray-300 px-6 py-4 font-semibold text-gray-900">Fiyat Aralığı</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Mavi Yolculuk</td>
+                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺24.000 – ₺42.000 / kişi haftalık</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Kabin Turu</td>
+                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺16.000 – ₺30.000 / kişi</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Günübirlik Tekne</td>
+                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺1.400 – ₺2.400 / kişi</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Özel Tekne Kiralama</td>
+                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺15.000 – ₺35.000 / gün</td>
+                    </tr>
+                    <tr className="hover:bg-gray-50">
+                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Balık / Dalış Turu</td>
+                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺1.100 – ₺3.600 / kişi</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {[
-                  { name: 'Fethiye', description: 'Doğal güzellikler' },
-                  { name: 'Göcek', description: 'Sakin koylar' },
-                  { name: 'Marmaris', description: 'Canlı atmosfer' },
-                  { name: 'Bodrum', description: 'Tarihi doku' }
-                ].map((destination) => (
-                  <div key={destination.name} className="bg-white p-4 rounded-lg shadow-sm border">
-                    <h4 className="font-semibold text-gray-900 mb-2">{destination.name}</h4>
-                    <p className="text-gray-600 text-sm">{destination.description}</p>
+            {/* Dahil Olanlar ve Hariç Olanlar */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+              <div className="bg-green-50 rounded-2xl shadow-lg p-8">
+                <div className="text-center mb-6">
+                  <span className="text-3xl mb-3 block">✅</span>
+                  <h4 className="text-2xl font-bold text-green-800">Dahil Olanlar</h4>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3">
+                    <span className="text-green-600 mt-1">•</span>
+                    <span className="text-gray-700">Mürettebat, yakıt, sigorta, güvenlik ekipmanları</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <span className="text-green-600 mt-1">•</span>
+                    <span className="text-gray-700">Yemek ve içecek hizmeti (pakete göre)</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <span className="text-green-600 mt-1">•</span>
+                    <span className="text-gray-700">Rehberlik ve rota planlaması</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div className="bg-red-50 rounded-2xl shadow-lg p-8">
+                <div className="text-center mb-6">
+                  <span className="text-3xl mb-3 block">❌</span>
+                  <h4 className="text-2xl font-bold text-red-800">Hariç Olanlar</h4>
+                </div>
+                <ul className="space-y-3">
+                  <li className="flex items-start space-x-3">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span className="text-gray-700">Özel menüler, marinada bağlama ücretleri</span>
+                  </li>
+                  <li className="flex items-start space-x-3">
+                    <span className="text-red-600 mt-1">•</span>
+                    <span className="text-gray-700">Kişisel harcamalar, kara transferleri</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      {/* Sıkça Sorulan Sorular (SSS) */}
+      <div className="bg-gray-50 py-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <span className="text-4xl mb-4 block">❓</span>
+            <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+              Sıkça Sorulan Sorular
+            </h3>
+            <p className="text-xl text-gray-600">
+              Mavi yolculuk ve deniz turları hakkında merak ettiğiniz her şey
+            </p>
+          </div>
+
+          <div className="space-y-6">
+            {[
+              {
+                question: "Kabin turu ile özel kiralama arasındaki fark nedir?",
+                answer: "Kabin turunda teknenin kabinleri farklı misafirlere satılır; özel kiralamada tüm tekne size aittir."
+              },
+              {
+                question: "Yemekler dahil mi?",
+                answer: "Paket türüne göre değişir; genellikle mavi yolculukta tam pansiyon hizmet sunulur."
+              },
+              {
+                question: "Hava muhalefetinde ne olur?",
+                answer: "Kaptan kararıyla rota değişikliği veya tarih erteleme yapılabilir; güvenlik önceliklidir."
+              },
+              {
+                question: "Balık / dalış ekipmanları sağlanıyor mu?",
+                answer: "Evet, tüm turlar ekipmanlıdır ve güvenlik brifingi verilir."
+              },
+              {
+                question: "Çocuklar için uygun mu?",
+                answer: "Evet. Aile dostu koylar ve ekipmanlar standarttır."
+              }
+            ].map((faq, index) => (
+              <div 
+                key={index} 
+                className="bg-white border border-gray-200 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300"
+              >
+                <details className="group">
+                  <summary className="w-full px-8 py-6 text-left flex items-center justify-between hover:bg-gray-50 rounded-2xl transition-colors duration-200 cursor-pointer list-none">
+                    <span className="font-semibold text-gray-900 text-lg pr-8">
+                      {faq.question}
+                    </span>
+                    <div className="flex-shrink-0 ml-4">
+                      <div className="p-2 bg-blue-50 rounded-full group-open:bg-blue-100 transition-colors duration-200">
+                        <ChevronDown className="w-5 h-5 text-blue-600 group-open:rotate-180 transition-transform duration-300" />
+                      </div>
+                    </div>
+                  </summary>
+                  <div className="px-8 pb-8">
+                    <div className="pt-4 border-t border-gray-100">
+                      <p className="text-gray-700 leading-relaxed text-base">
+                        {faq.answer}
+                      </p>
+                    </div>
                   </div>
-                ))}
+                </details>
+              </div>
+            ))}
+          </div>
+
+          {/* Sonuç CTA */}
+          <div className="mt-16 text-center">
+            <div className="bg-blue-600 rounded-2xl p-8 md:p-12">
+              <h4 className="text-2xl md:text-3xl font-bold text-white mb-6">
+                CRP Turizm Güvencesiyle Unutulmaz Bir Deneyim
+              </h4>
+              <p className="text-blue-100 text-lg mb-8 leading-relaxed">
+                Türkiye'nin en özel kıyılarında denizle yeniden buluşun. Mavi yolculuk, kabin turları, 
+                günübirlik tekne kiralama, balık ve dalış turlarıyla doğanın huzurunu keşfedin.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                  Hemen Rezervasyon Yap
+                </button>
+                <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200">
+                  Daha Fazla Bilgi Al
+                </button>
               </div>
             </div>
           </div>
