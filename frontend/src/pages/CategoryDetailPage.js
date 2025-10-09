@@ -155,19 +155,49 @@ const CategoryDetailPage = () => {
     }
   };
 
+  // Map URL category to backend category format
+  const getCategoryForAPI = (categorySlug) => {
+    const categoryMapping = {
+      'mavi-yolculuk': 'Mavi yolculuk',
+      'gunubirlik-tekne': 'Günübirlik Tekne Turları', 
+      'kabin-turlari': 'Kabin Turları',
+      'balik-dalis': 'Balık & Dalış',
+      'yuzme-turlari': 'Yüzme Turları'
+    };
+    
+    return categoryMapping[categorySlug] || categorySlug;
+  };
+
+  // Map URL location to proper format
+  const getLocationForAPI = (locationSlug) => {
+    const locationMapping = {
+      'fethiye': 'Fethiye',
+      'gocek': 'Göcek',
+      'bodrum': 'Bodrum',
+      'marmaris': 'Marmaris',
+      'kas': 'Kaş',
+      'istanbul': 'İstanbul'
+    };
+    
+    return locationMapping[locationSlug] || locationSlug;
+  };
+
   const loadTours = async () => {
     try {
+      // Convert slugs to proper API format
+      const apiCategory = categorySlug ? getCategoryForAPI(categorySlug) : null;
+      const apiLocation = locationSlug ? getLocationForAPI(locationSlug) : null;
+      
+      console.log(`🔄 CategoryDetail mapping: '${categorySlug}' -> '${apiCategory}', '${locationSlug}' -> '${apiLocation}'`);
+      
+      // Try backend filtering first
       const params = new URLSearchParams();
       
-      // Add category/location filters - try multiple parameter names
-      if (categorySlug) {
-        params.append('category', categorySlug);
-        params.append('category_slug', categorySlug);
-        params.append('type', categorySlug);
+      if (apiCategory) {
+        params.append('category', apiCategory);
       }
-      if (locationSlug) {
-        params.append('location', locationSlug);
-        params.append('location_slug', locationSlug);
+      if (apiLocation) {
+        params.append('location', apiLocation);
       }
       
       // Add user filters
@@ -177,52 +207,57 @@ const CategoryDetailPage = () => {
         }
       });
 
-      console.log('CategoryDetail - Loading tours with params:', params.toString());
-      const response = await axios.get(`${API}/tours?${params.toString()}`);
+      console.log('📡 CategoryDetail - Loading tours with params:', params.toString());
       
-      if (response.data) {
-        if (Array.isArray(response.data)) {
-          setTours(response.data);
-        } else if (response.data.tours && Array.isArray(response.data.tours)) {
-          setTours(response.data.tours);
-        } else {
-          setTours([]);
+      let response;
+      try {
+        response = await axios.get(`${API}/tours?${params.toString()}`);
+      } catch (error) {
+        console.log('⚠️ Backend filtering failed, trying fallback');
+        response = await axios.get(`${API}/tours`);
+      }
+      
+      if (response.data && Array.isArray(response.data)) {
+        let tours = response.data;
+        
+        // Apply frontend filtering if backend didn't filter properly
+        if (apiCategory) {
+          tours = tours.filter(tour => {
+            const tourCategory = tour.category || '';
+            return tourCategory.toLowerCase().includes(apiCategory.toLowerCase()) ||
+                   tourCategory === apiCategory ||
+                   (categorySlug === 'mavi-yolculuk' && tourCategory.toLowerCase().includes('mavi'));
+          });
         }
+        
+        if (apiLocation) {
+          tours = tours.filter(tour => {
+            const tourLocation = tour.location || '';
+            return tourLocation.toLowerCase().includes(apiLocation.toLowerCase()) ||
+                   tourLocation === apiLocation;
+          });
+        }
+        
+        // Apply other frontend filters
+        Object.entries(filters).forEach(([key, value]) => {
+          if (value && value !== '') {
+            if (key === 'duration') {
+              // Add duration filtering if needed
+            }
+            // Add other filter logic as needed
+          }
+        });
+        
+        console.log(`✅ Found ${tours.length} tours for category '${categorySlug}' location '${locationSlug}'`);
+        setTours(tours);
+        
       } else {
         setTours([]);
       }
 
     } catch (error) {
-      console.error('Error loading tours:', error);
-      
-      // Fallback: Load all tours and filter on frontend
-      try {
-        const fallbackResponse = await axios.get(`${API}/tours`);
-        if (fallbackResponse.data && Array.isArray(fallbackResponse.data)) {
-          let filteredTours = fallbackResponse.data;
-          
-          // Filter by category on frontend
-          if (categorySlug) {
-            filteredTours = filteredTours.filter(tour => 
-              (tour.category && tour.category.toLowerCase().includes(categorySlug.toLowerCase())) ||
-              (tour.type && tour.type.toLowerCase().includes(categorySlug.toLowerCase()))
-            );
-          }
-          
-          // Filter by location on frontend
-          if (locationSlug) {
-            filteredTours = filteredTours.filter(tour => 
-              tour.location && tour.location.toLowerCase().includes(locationSlug.toLowerCase())
-            );
-          }
-          
-          setTours(filteredTours);
-        } else {
-          setTours([]);
-        }
-      } catch (fallbackError) {
-        setTours([]);
-      }
+      console.error('❌ CategoryDetail error loading tours:', error);
+      setTours([]);
     }
   };
 
