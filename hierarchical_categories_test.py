@@ -483,8 +483,8 @@ class HierarchicalCategoryTester:
                 
                 # Verify deletion message includes count
                 message = data.get("message", "")
-                if "subcategories" not in message.lower():
-                    self.log_result("Delete Main Category", False, "Deletion message should mention subcategories", data)
+                if "alt kategori" not in message.lower() or "silindi" not in message.lower():
+                    self.log_result("Delete Main Category", False, "Deletion message should mention subcategories deletion", data)
                     return False
                 
                 # Verify main category is deleted
