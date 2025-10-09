@@ -11,7 +11,7 @@ from datetime import datetime
 
 class BackendHealthChecker:
     def __init__(self):
-        self.base_url = "https://pakettur-2.preview.emergentagent.com"
+        self.base_url = "https://tour-admin-hub.preview.emergentagent.com"
         self.api_url = f"{self.base_url}/api"
         self.tests_passed = 0
         self.tests_total = 0

@@ -5,7 +5,7 @@ from datetime import datetime, date, timedelta, timezone
 import time
 
 class CronJobTester:
-    def __init__(self, base_url="https://pakettur-2.preview.emergentagent.com"):
+    def __init__(self, base_url="https://tour-admin-hub.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.token = None
