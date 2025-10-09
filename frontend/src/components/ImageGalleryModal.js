@@ -136,7 +136,12 @@ const ImageGalleryModal = ({
   return (
     <div 
       className="fixed inset-0 bg-black bg-opacity-95 z-50 flex items-center justify-center"
-      onClick={(e) => e.target === e.currentTarget && onClose()}
+      onClick={(e) => {
+        // Close modal if clicking on background (not on image or buttons)
+        if (e.target === e.currentTarget) {
+          onClose();
+        }
+      }}
     >
       {/* Close Button */}
       <button
