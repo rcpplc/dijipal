@@ -238,13 +238,15 @@ const ImageGalleryModal = ({
             </div>
 
             {/* Right Scroll Arrow */}
-            {thumbnailStartIndex + 5 < images.length && (
+            {thumbnailStartIndex + 5 < images.length ? (
               <button
                 onClick={() => scrollThumbnails('right')}
-                className="text-white hover:text-gray-300 p-1"
+                className="text-white hover:text-gray-300 p-2 rounded-full bg-black bg-opacity-30 hover:bg-opacity-50 transition-all duration-200"
               >
-                <ChevronRight className="w-4 h-4" />
+                <ChevronRight className="w-5 h-5" />
               </button>
+            ) : (
+              <div className="w-9 h-9"></div>
             )}
           </div>
         </div>
