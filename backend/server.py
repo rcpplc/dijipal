@@ -3429,33 +3429,16 @@ async def delete_media_item(
     
     return {"success": True, "message": "Media item deleted"}
 
-# Serve uploaded files with proper MIME types
-@app.get("/uploads/{file_path:path}")
-async def serve_upload(file_path: str):
-    """Serve uploaded files with correct MIME type"""
-    full_path = Path("uploads") / file_path
+# Simple file serve
+@app.get("/uploads/{filename}")
+async def serve_file(filename: str):
+    """Serve uploaded files"""
+    file_path = Path("uploads") / filename
     
-    if not full_path.exists() or not full_path.is_file():
+    if not file_path.exists():
         raise HTTPException(status_code=404, detail="File not found")
     
-    # Determine MIME type based on file extension
-    file_ext = full_path.suffix.lower()
-    if file_ext == '.jpg' or file_ext == '.jpeg':
-        media_type = "image/jpeg"
-    elif file_ext == '.png':
-        media_type = "image/png"
-    elif file_ext == '.webp':
-        media_type = "image/webp"
-    elif file_ext == '.gif':
-        media_type = "image/gif"
-    else:
-        media_type = "image/jpeg"  # Default fallback
-    
-    return FileResponse(
-        full_path,
-        media_type=media_type,
-        headers={"Cache-Control": "public, max-age=31536000"}  # 1 year cache
-    )
+    return FileResponse(file_path)
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
