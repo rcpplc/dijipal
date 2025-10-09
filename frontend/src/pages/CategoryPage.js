@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { 
   MapPin, 
   Calendar, 
@@ -9,9 +9,20 @@ import {
   ArrowLeft,
   ChevronDown,
   ChevronUp,
-  HelpCircle
+  HelpCircle,
+  Filter,
+  SlidersHorizontal,
+  X,
+  Mountain,
+  Waves,
+  Building,
+  Trees,
+  ChevronRight
 } from 'lucide-react';
 import axios from 'axios';
+import { toast } from 'sonner';
+import { createSlug } from '../utils/slug';
+import { useAuth } from '../App';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
