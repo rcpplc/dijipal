@@ -5024,6 +5024,358 @@ const MediaItemCard = ({ item, index, onUpdate, onDelete, onSetPrimary }) => {
   );
 };
 
+// Sub Category Modal Component
+const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, locations, onSave }) => {
+  const [formData, setFormData] = useState({
+    location_name: '',
+    title: '',
+    description: '',
+    image: '',
+    faq: [],
+    meta_title: '',
+    meta_description: '',
+    meta_keywords: '',
+    is_active: true
+  });
+  
+  const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [newFaqItem, setNewFaqItem] = useState({ question: '', answer: '' });
+  
+  useEffect(() => {
+    if (subcategory) {
+      setFormData({
+        location_name: subcategory.location_name || '',
+        title: subcategory.title || '',
+        description: subcategory.description || '',
+        image: subcategory.image || '',
+        faq: subcategory.faq || [],
+        meta_title: subcategory.meta_title || '',
+        meta_description: subcategory.meta_description || '',
+        meta_keywords: subcategory.meta_keywords || '',
+        is_active: subcategory.is_active !== undefined ? subcategory.is_active : true
+      });
+    } else {
+      setFormData({
+        location_name: '',
+        title: '',
+        description: '',
+        image: '',
+        faq: [],
+        meta_title: '',
+        meta_description: '',
+        meta_keywords: '',
+        is_active: true
+      });
+    }
+    setErrors({});
+  }, [subcategory, isOpen]);
+  
+  const validateForm = () => {
+    const newErrors = {};
+    
+    if (!formData.location_name.trim()) {
+      newErrors.location_name = 'Lokasyon adı zorunludur';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+  
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    if (!validateForm()) return;
+    
+    setLoading(true);
+    try {
+      const token = localStorage.getItem('token');
+      
+      const requestData = {
+        parent_category_id: parentCategoryId,
+        location_name: formData.location_name,
+        title: formData.title || null, // Will be auto-generated if not provided
+        description: formData.description,
+        image: formData.image,
+        faq: formData.faq,
+        meta_title: formData.meta_title,
+        meta_description: formData.meta_description,
+        meta_keywords: formData.meta_keywords,
+        is_active: formData.is_active
+      };
+      
+      const endpoint = subcategory 
+        ? `${process.env.REACT_APP_BACKEND_URL}/api/admin/subcategories/${subcategory.id}`
+        : `${process.env.REACT_APP_BACKEND_URL}/api/admin/new-categories/${parentCategoryId}/subcategories`;
+      
+      const method = subcategory ? 'PUT' : 'POST';
+      
+      const response = await fetch(endpoint, {
+        method,
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(requestData)
+      });
+      
+      if (response.ok) {
+        onSave();
+        onClose();
+      } else {
+        const errorData = await response.json();
+        throw new Error(errorData.detail || 'Alt kategori kaydedilirken hata oluştu');
+      }
+    } catch (error) {
+      console.error('Error saving subcategory:', error);
+      toast.error(error.message || 'Alt kategori kaydedilirken hata oluştu');
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+  const addFaqItem = () => {
+    if (newFaqItem.question.trim() && newFaqItem.answer.trim()) {
+      setFormData(prev => ({
+        ...prev,
+        faq: [...prev.faq, { ...newFaqItem }]
+      }));
+      setNewFaqItem({ question: '', answer: '' });
+    }
+  };
+  
+  const removeFaqItem = (index) => {
+    setFormData(prev => ({
+      ...prev,
+      faq: prev.faq.filter((_, i) => i !== index)
+    }));
+  };
+  
+  if (!isOpen) return null;
+  
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+      <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
+        <form onSubmit={handleSubmit}>
+          {/* Header */}
+          <div className="flex items-center justify-between p-6 border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-900">
+              {subcategory ? 'Alt Kategori Düzenle' : 'Yeni Alt Kategori Oluştur'}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-2 text-gray-400 hover:text-gray-600 rounded-lg"
+            >
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <div className="p-6 space-y-6">
+            {/* Basic Information */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Lokasyon Adı <span className="text-red-500">*</span>
+                </label>
+                <select
+                  value={formData.location_name}
+                  onChange={(e) => setFormData(prev => ({ ...prev, location_name: e.target.value }))}
+                  className={`w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent ${
+                    errors.location_name ? 'border-red-300' : 'border-gray-300'
+                  }`}
+                >
+                  <option value="">Lokasyon Seçin</option>
+                  {locations.map((location) => (
+                    <option key={location.id} value={location.name}>
+                      {location.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.location_name && (
+                  <p className="text-red-500 text-sm mt-1">{errors.location_name}</p>
+                )}
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Özel Başlık (Opsiyonel)
+                </label>
+                <input
+                  type="text"
+                  value={formData.title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, title: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  placeholder="Boş bırakılırsa otomatik oluşturulur"
+                />
+                <p className="text-xs text-gray-500 mt-1">Örn: "Özel Fethiye Mavi Yolculuk"</p>
+              </div>
+            </div>
+            
+            {/* Description */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Açıklama
+              </label>
+              <textarea
+                value={formData.description}
+                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
+                rows={3}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="Alt kategori hakkında özel açıklama..."
+              />
+            </div>
+            
+            {/* Image */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Resim URL (Opsiyonel)
+              </label>
+              <input
+                type="url"
+                value={formData.image}
+                onChange={(e) => setFormData(prev => ({ ...prev, image: e.target.value }))}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="https://example.com/image.jpg"
+              />
+            </div>
+            
+            {/* FAQ Section */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                SSS (Sıkça Sorulan Sorular)
+              </label>
+              
+              {/* Existing FAQ Items */}
+              <div className="space-y-2 mb-4">
+                {formData.faq.map((item, index) => (
+                  <div key={index} className="bg-gray-50 p-3 rounded-lg">
+                    <div className="flex justify-between items-start mb-1">
+                      <h4 className="font-medium text-gray-900 text-sm">{item.question}</h4>
+                      <button
+                        type="button"
+                        onClick={() => removeFaqItem(index)}
+                        className="text-red-500 hover:text-red-700"
+                      >
+                        <X className="w-3 h-3" />
+                      </button>
+                    </div>
+                    <p className="text-gray-600 text-sm">{item.answer}</p>
+                  </div>
+                ))}
+              </div>
+              
+              {/* Add New FAQ */}
+              <div className="border border-dashed border-gray-300 rounded-lg p-3 space-y-2">
+                <input
+                  type="text"
+                  value={newFaqItem.question}
+                  onChange={(e) => setNewFaqItem(prev => ({ ...prev, question: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  placeholder="Soru..."
+                />
+                <textarea
+                  value={newFaqItem.answer}
+                  onChange={(e) => setNewFaqItem(prev => ({ ...prev, answer: e.target.value }))}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  placeholder="Cevap..."
+                />
+                <button
+                  type="button"
+                  onClick={addFaqItem}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded text-sm transition-colors"
+                >
+                  SSS Ekle
+                </button>
+              </div>
+            </div>
+            
+            {/* SEO Settings */}
+            <div className="bg-blue-50 p-4 rounded-lg space-y-4">
+              <h3 className="font-medium text-gray-900">SEO Ayarları</h3>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Meta Title
+                </label>
+                <input
+                  type="text"
+                  value={formData.meta_title}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_title: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  placeholder="SEO için özel başlık..."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Meta Description
+                </label>
+                <textarea
+                  value={formData.meta_description}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_description: e.target.value }))}
+                  rows={2}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  placeholder="Arama motorları için açıklama..."
+                />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Anahtar Kelimeler
+                </label>
+                <input
+                  type="text"
+                  value={formData.meta_keywords}
+                  onChange={(e) => setFormData(prev => ({ ...prev, meta_keywords: e.target.value }))}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
+                  placeholder="anahtar, kelime, listesi"
+                />
+              </div>
+            </div>
+            
+            {/* Status */}
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                id="sub_is_active"
+                checked={formData.is_active}
+                onChange={(e) => setFormData(prev => ({ ...prev, is_active: e.target.checked }))}
+                className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+              />
+              <label htmlFor="sub_is_active" className="text-sm font-medium text-gray-700">
+                Alt kategori aktif
+              </label>
+            </div>
+          </div>
+          
+          {/* Footer */}
+          <div className="flex justify-end space-x-3 p-6 border-t border-gray-200">
+            <button
+              type="button"
+              onClick={onClose}
+              className="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
+            >
+              İptal
+            </button>
+            <button
+              type="submit"
+              disabled={loading}
+              className="px-4 py-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded-lg transition-colors flex items-center space-x-2"
+            >
+              {loading && (
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+              )}
+              <span>{subcategory ? 'Güncelle' : 'Oluştur'}</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+};
+
 // New Category Modal Component
 const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
   const [formData, setFormData] = useState({
