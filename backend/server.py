@@ -88,29 +88,19 @@ def ensure_upload_directory():
     
     return images_dir
 
-def get_image_dimensions_and_extension(image_data: bytes, filename: str) -> tuple[tuple[int, int], str]:
-    """Simply get image dimensions and proper extension - NO processing"""
-    try:
-        # Open image just to get dimensions
-        image = Image.open(io.BytesIO(image_data))
-        width, height = image.size
-        
-        # Determine proper file extension
-        if filename.lower().endswith(('.jpg', '.jpeg')):
-            file_extension = '.jpg'
-        elif filename.lower().endswith('.png'):
-            file_extension = '.png'
-        elif filename.lower().endswith('.webp'):
-            file_extension = '.webp'
-        elif filename.lower().endswith('.gif'):
-            file_extension = '.gif'
-        else:
-            file_extension = '.jpg'  # Default fallback
-        
-        return (width, height), file_extension
-        
-    except Exception as e:
-        raise HTTPException(status_code=400, detail=f"Invalid image file: {str(e)}")
+def get_file_extension(filename: str) -> str:
+    """Simply get proper file extension - ZERO processing"""
+    # Determine proper file extension
+    if filename.lower().endswith(('.jpg', '.jpeg')):
+        return '.jpg'
+    elif filename.lower().endswith('.png'):
+        return '.png'
+    elif filename.lower().endswith('.webp'):
+        return '.webp'
+    elif filename.lower().endswith('.gif'):
+        return '.gif'
+    else:
+        return '.jpg'  # Default fallback
 
 # Create the main app
 app = FastAPI(title="Paket Tur Satış Platformu", version="1.0.0")
