@@ -209,14 +209,14 @@ const ImageGalleryModal = ({
             )}
 
             {/* Thumbnails */}
-            <div className="flex space-x-2">
+            <div className="flex space-x-2 overflow-hidden scrollbar-hide">
               {visibleThumbnails.map((image, index) => {
                 const actualIndex = thumbnailStartIndex + index;
                 return (
                   <button
                     key={actualIndex}
                     onClick={() => setCurrentIndex(actualIndex)}
-                    className={`relative overflow-hidden rounded-lg transition-all duration-200 ${
+                    className={`relative overflow-hidden rounded-lg transition-all duration-200 flex-shrink-0 ${
                       actualIndex === currentIndex
                         ? 'ring-2 ring-white scale-110'
                         : 'hover:scale-105 opacity-70 hover:opacity-100'
