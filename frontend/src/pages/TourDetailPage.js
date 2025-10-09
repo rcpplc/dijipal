@@ -85,10 +85,14 @@ const TourDetailPage = () => {
 
   useEffect(() => {
     loadTour();
-      
-    // Load user preferences and suggest participants
-    loadUserPreferences();
-  }, [tourSlug, user]);
+  }, [tourSlug]); // user dependency kaldırıldı - loadTour içinde handle ediliyor
+
+  // User preferences'i ayrı useEffect'te yükle
+  useEffect(() => {
+    if (user) {
+      loadUserPreferences();
+    }
+  }, [user]);
 
   // Restore booking state after login
   useEffect(() => {
