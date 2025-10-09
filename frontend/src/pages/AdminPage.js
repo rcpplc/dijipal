@@ -4643,7 +4643,7 @@ const MediaItemCard = ({ item, index, onUpdate, onDelete, onSetPrimary }) => {
       {/* Image */}
       <div className="relative">
         <img
-          src={`${BACKEND_URL}${item.url}`}
+          src={`${process.env.REACT_APP_BACKEND_URL}${item.url}`}
           alt={item.alt_text || `Image ${index + 1}`}
           className="w-full h-40 object-cover rounded-t-xl"
           onError={(e) => {
