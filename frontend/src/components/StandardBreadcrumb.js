@@ -39,7 +39,7 @@ const StandardBreadcrumb = ({
           <ChevronRight className="w-4 h-4" />
           {categorySlug ? (
             <button 
-              onClick={() => navigate(`/categories/${categorySlug}`)} 
+              onClick={() => navigate(`/${categorySlug}`)} 
               className="hover:text-blue-600 transition-colors"
             >
               {category}
@@ -56,7 +56,7 @@ const StandardBreadcrumb = ({
           <ChevronRight className="w-4 h-4" />
           {subcategorySlug && categorySlug ? (
             <button 
-              onClick={() => navigate(`/categories/${categorySlug}/${subcategorySlug}`)} 
+              onClick={() => navigate(`/${categorySlug}/${subcategorySlug}`)} 
               className="hover:text-blue-600 transition-colors"
             >
               {subcategory}
