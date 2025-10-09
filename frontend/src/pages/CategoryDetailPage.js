@@ -635,8 +635,13 @@ const CategoryDetailPage = () => {
                               const locationSlug = subcategory.location_slug || 
                                                  subcategory.slug || 
                                                  createSlug(subcategory.location_name || subcategory.title || '');
-                              console.log(`🔗 CategoryDetail navigating to: /${categorySlug}/${locationSlug}`);
+                              
+                              // Debug logs
+                              console.log('🔍 DEBUG - categorySlug:', categorySlug);
+                              console.log('🔍 DEBUG - locationSlug:', locationSlug);
+                              console.log('🔍 DEBUG - Final URL:', `/${categorySlug}/${locationSlug}`);
                               console.log('📊 Subcategory data:', subcategory);
+                              
                               navigate(`/${categorySlug}/${locationSlug}`);
                             }}
                             className="flex items-center justify-between w-full text-left text-sm text-blue-600 hover:text-blue-800 py-2 px-3 rounded-lg hover:bg-blue-50 transition-colors"
