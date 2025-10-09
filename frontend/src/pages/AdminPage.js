@@ -484,16 +484,51 @@ const AdminPage = () => {
   const handleDeleteNewCategory = async (categoryId) => {
     try {
       const token = localStorage.getItem('token');
-      await axios.delete(`${API}/admin/new-categories/${categoryId}`, {
+      const response = await axios.delete(`${API}/admin/new-categories/${categoryId}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      toast.success('Kategori ve tüm lokasyon kombinasyonları silindi');
+      toast.success(response.data.message);
       loadNewCategories();
       setShowDeleteNewCategoryConfirm(false);
       setSelectedNewCategory(null);
     } catch (error) {
       console.error('Error deleting new category:', error);
       toast.error(error.response?.data?.detail || 'Kategori silinirken hata oluştu');
+    }
+  };
+
+  // Sub Category Management Functions
+  const openSubCategoryModal = (parentCategoryId, subcategory = null) => {
+    setCurrentParentCategoryId(parentCategoryId);
+    setEditingSubCategory(subcategory);
+    setShowSubCategoryModal(true);
+  };
+
+  const closeSubCategoryModal = () => {
+    setCurrentParentCategoryId(null);
+    setEditingSubCategory(null);
+    setShowSubCategoryModal(false);
+  };
+
+  const handleSubCategorySaved = () => {
+    closeSubCategoryModal();
+    loadNewCategories();
+    toast.success(editingSubCategory ? 'Alt kategori güncellendi' : 'Alt kategori oluşturuldu');
+  };
+
+  const handleDeleteSubCategory = async (subcategoryId) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API}/admin/subcategories/${subcategoryId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Alt kategori başarıyla silindi');
+      loadNewCategories();
+      setShowDeleteSubCategoryConfirm(false);
+      setSelectedSubCategory(null);
+    } catch (error) {
+      console.error('Error deleting subcategory:', error);
+      toast.error(error.response?.data?.detail || 'Alt kategori silinirken hata oluştu');
     }
   };
 
