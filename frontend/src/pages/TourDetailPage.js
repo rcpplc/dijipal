@@ -805,9 +805,12 @@ const TourDetailPage = () => {
             <div className="relative mb-8">
               <div 
                 className="aspect-video rounded-xl overflow-hidden cursor-pointer group relative" 
-                onClick={() => {
-                  setGalleryStartIndex(selectedImage);
-                  setIsGalleryOpen(true);
+                onClick={(e) => {
+                  // Ana resme tıklanırsa galeriyi aç (butonlara tıklanmadığı sürece)
+                  if (!e.target.closest('.nav-button')) {
+                    setGalleryStartIndex(selectedImage);
+                    setIsGalleryOpen(true);
+                  }
                 }}
               >
                 <img
@@ -821,9 +824,47 @@ const TourDetailPage = () => {
                     e.target.style.display = 'none';
                   }}
                 />
+
+                {/* Previous Image Button */}
+                {images.length > 1 && (
+                  <button
+                    className="nav-button absolute left-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedImage(selectedImage === 0 ? images.length - 1 : selectedImage - 1);
+                    }}
+                  >
+                    <ChevronLeft className="w-5 h-5" />
+                  </button>
+                )}
+
+                {/* Next Image Button */}
+                {images.length > 1 && (
+                  <button
+                    className="nav-button absolute right-2 top-1/2 transform -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-all duration-300 z-10"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setSelectedImage(selectedImage === images.length - 1 ? 0 : selectedImage + 1);
+                    }}
+                  >
+                    <ChevronRight className="w-5 h-5" />
+                  </button>
+                )}
+
                 {/* Gallery Overlay Hint */}
-                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-20 transition-all duration-300 flex items-center justify-center pointer-events-none">
+                <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-10 transition-all duration-300 flex items-center justify-center pointer-events-none">
+                  <div className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 bg-white/90 px-4 py-2 rounded-lg text-sm font-medium text-gray-800 flex items-center space-x-2">
+                    <span>📷</span>
+                    <span>Galeriye tıklayın</span>
+                  </div>
                 </div>
+
+                {/* Image Counter */}
+                {images.length > 1 && (
+                  <div className="absolute bottom-2 left-2 bg-black/50 text-white px-2 py-1 rounded-full text-xs">
+                    {selectedImage + 1} / {images.length}
+                  </div>
+                )}
               </div>
               
               {/* Action Buttons */}
