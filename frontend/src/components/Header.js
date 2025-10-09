@@ -86,16 +86,18 @@ const Header = () => {
       <div className="max-w-7xl mx-auto px-3 sm:px-4 lg:px-6">
         <div className="flex justify-between items-center h-14 sm:h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <MapPin className="w-5 h-5 text-white" />
-            </div>
+          <Link to="/" className="flex items-center space-x-3">
+            <img 
+              src="/mavibilet-logo.png" 
+              alt="mavibilet.com" 
+              className="h-8 w-auto sm:h-10"
+            />
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold text-gray-900">TurPlatform</h1>
-              <p className="text-xs text-gray-500">Keşfet & Rezervasyon Yap</p>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900">mavibilet.com</h1>
+              <p className="text-xs text-gray-500">Mavi Yolculuğun Keyfini Çıkarın</p>
             </div>
             <div className="sm:hidden">
-              <h1 className="text-lg font-bold text-gray-900">TurPlatform</h1>
+              <h1 className="text-base font-bold text-gray-900">mavibilet.com</h1>
             </div>
           </Link>
 
