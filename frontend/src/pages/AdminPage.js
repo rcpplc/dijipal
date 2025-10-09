@@ -5235,6 +5235,29 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
               
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Manuel URL (Opsiyonel)
+                </label>
+                <div className="flex items-center space-x-2">
+                  <span className="text-sm text-gray-500">/{" "}</span>
+                  <input
+                    type="text"
+                    value={formData.custom_slug}
+                    onChange={(e) => {
+                      // Only allow lowercase letters, numbers, and hyphens
+                      const value = e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '');
+                      setFormData(prev => ({ ...prev, custom_slug: value }));
+                    }}
+                    className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="mavi-yolculuk"
+                  />
+                </div>
+                <p className="text-xs text-gray-500 mt-1">
+                  Boş bırakılırsa kategori adından otomatik oluşturulur. Sadece küçük harf, rakam ve tire kullanın.
+                </p>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
                   Meta Title
                 </label>
                 <input
