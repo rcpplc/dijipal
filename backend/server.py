@@ -1400,11 +1400,12 @@ class NewCategory(BaseModel):
 
 class SubCategoryCreate(BaseModel):
     parent_category_id: str
-    location_name: str  # Only location name required
-    title: Optional[str] = None  # If different from "CategoryTitle - LocationName"
+    location_name: Optional[str] = None  # Location name optional now
+    title: Optional[str] = None  # Required if no location
     description: Optional[str] = None
     image: Optional[str] = None
     faq: List[Dict[str, str]] = []
+    custom_slug: Optional[str] = None  # Manual URL override
     meta_title: Optional[str] = None
     meta_description: Optional[str] = None
     meta_keywords: Optional[str] = None
@@ -1415,10 +1416,11 @@ class SubCategory(BaseModel):
     parent_category_id: str
     parent_category_title: str
     parent_category_slug: str
-    location_name: str
-    location_slug: str
+    location_name: Optional[str] = None
+    location_slug: Optional[str] = None
     title: str  # Auto-generated or custom
-    slug: str  # parent-slug/location-slug
+    slug: str  # parent-slug/location-slug or parent-slug/custom-slug
+    custom_slug: Optional[str] = None  # Manual URL if set
     description: Optional[str] = None
     image: Optional[str] = None
     faq: List[Dict[str, str]] = []
