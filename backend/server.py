@@ -3374,7 +3374,7 @@ async def upload_media(
                 stored_filename=stored_filename,
                 url=f"/uploads/images/{tour_slug}/{stored_filename}",
                 tour_slug=tour_slug,
-                file_size=final_size,
+                file_size=file_size,  # Original file size
                 width=width,
                 height=height
             )
