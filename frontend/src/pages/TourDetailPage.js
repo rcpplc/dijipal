@@ -724,21 +724,36 @@ const TourDetailPage = () => {
     window.dispatchEvent(new Event('storage'));
   };
 
-  if (loading) {
+  // Optimized loading state - skeleton loader
+  if (loading || !tour) {
     return (
-      <div className="min-h-screen bg-gray-50 animate-pulse">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="bg-gray-200 h-8 w-32 mb-6 rounded"></div>
+      <div className="min-h-screen bg-gray-50">
+        <div className="container mx-auto px-4 py-8">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <div className="bg-gray-200 h-96 rounded-xl mb-6"></div>
-              <div className="space-y-4">
-                <div className="bg-gray-200 h-8 rounded"></div>
-                <div className="bg-gray-200 h-4 rounded w-3/4"></div>
-                <div className="bg-gray-200 h-32 rounded"></div>
+              {/* Image Skeleton */}
+              <div className="aspect-video bg-gray-200 rounded-xl animate-pulse mb-8"></div>
+              
+              {/* Title Skeleton */}
+              <div className="h-8 bg-gray-200 rounded animate-pulse mb-4"></div>
+              <div className="h-4 bg-gray-200 rounded animate-pulse w-3/4 mb-8"></div>
+              
+              {/* Description Skeleton */}
+              <div className="space-y-2 mb-8">
+                <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+                <div className="h-4 bg-gray-200 rounded animate-pulse w-5/6"></div>
+                <div className="h-4 bg-gray-200 rounded animate-pulse w-4/6"></div>
               </div>
             </div>
-            <div className="bg-gray-200 h-96 rounded-xl"></div>
+            
+            <div className="lg:col-span-1">
+              {/* Booking Card Skeleton */}
+              <div className="bg-white rounded-xl p-6 shadow-lg">
+                <div className="h-6 bg-gray-200 rounded animate-pulse mb-4"></div>
+                <div className="h-8 bg-gray-200 rounded animate-pulse mb-6"></div>
+                <div className="h-12 bg-gray-200 rounded animate-pulse"></div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
