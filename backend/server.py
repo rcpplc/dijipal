@@ -3138,8 +3138,7 @@ import os
 uploads_dir = "/tmp/uploads"
 os.makedirs(uploads_dir, exist_ok=True)
 
-# Mount static files for images
-app.mount("/uploads", StaticFiles(directory=uploads_dir), name="uploads")
+# Static files removed - using custom FileResponse for better control
 
 # Include router
 app.include_router(api_router)
