@@ -48,6 +48,9 @@ const ToursPage = () => {
   // Dynamic data states
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
+  const [durations, setDurations] = useState([]);
+  const [classifications, setClassifications] = useState([]);
+  const [minRatings, setMinRatings] = useState([]);
   
   // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
