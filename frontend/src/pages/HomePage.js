@@ -212,7 +212,7 @@ const HomePage = () => {
   };
 
   const navigateToTour = (tour) => {
-    navigate(`/${createSlug(tour.title)}`);
+    navigate(`/tur/${createSlug(tour.title)}`);
   };
 
   // Tour Card Component
