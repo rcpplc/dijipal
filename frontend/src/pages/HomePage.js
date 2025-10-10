@@ -27,6 +27,7 @@ import {
 import axios from 'axios';
 import { toast } from 'sonner';
 import { createSlug } from '../utils/slug';
+import { updateSEOTags, getSEOData } from '../utils/seo';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
