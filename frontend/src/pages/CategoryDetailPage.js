@@ -90,26 +90,48 @@ const CategoryDetailPage = () => {
     { value: 'Antalya', label: 'Antalya' }
   ];
 
-  // Default category data
+  // Default category data with FAQ
   const getDefaultCategoryData = () => {
+    const defaultFAQ = [
+      {
+        question: "Rezervasyon nasıl yapılır?",
+        answer: "Online rezervasyon sistemimizi kullanarak kolayca rezervasyon yapabilirsiniz. Tur tarihini seçin, kabin tipinizi belirleyin ve ödeme adımlarını tamamlayın."
+      },
+      {
+        question: "İptal ve değişiklik koşulları nelerdir?",
+        answer: "Turdan 7 gün öncesine kadar ücretsiz iptal yapabilirsiniz. 7 günden daha kısa sürede yapılan iptallerde %50 kesinti uygulanır."
+      },
+      {
+        question: "Fiyatlara neler dahildir?",
+        answer: "Fiyatlara kabin konaklama, öğünler, rehberlik hizmeti ve belirtilen aktiviteler dahildir. Kişisel harcamalar ve ekstra aktiviteler dahil değildir."
+      },
+      {
+        question: "Çocuklu ailelere indirim var mı?",
+        answer: "12 yaş altı çocuklar için %50 indirim uygulanır. 2 yaş altı çocuklar ücretsizdir."
+      }
+    ];
+
     if (isLocationPage) {
       return {
-        title: `${categorySlug} - ${locationSlug}`,
-        description: `${locationSlug} bölgesindeki ${categorySlug} turları`,
+        title: `${locationSlug} ${categorySlug} Turları`,
+        description: `${locationSlug} bölgesindeki en güzel ${categorySlug} turları. Profesyonel ekip, konforlu kabinler ve unutulmaz deneyimler.`,
+        custom_title: `${locationSlug} ${categorySlug} Turları - En İyi Fiyatlarla`,
         category: {
           title: categorySlug,
           description: `${categorySlug} kategorisindeki eşsiz deneyimler`,
-          faq: []
+          faq: defaultFAQ
         },
         location: {
-          location_name: locationSlug
-        }
+          location_name: locationSlug,
+          description: `${locationSlug} bölgesindeki en güzel ${categorySlug} turlarını keşfedin. Profesyonel rehberlik ve konforlu araçlarla unutulmaz tatil deneyimi yaşayın.`
+        },
+        faq: defaultFAQ
       };
     } else {
       return {
         title: categorySlug || 'Kategori',
-        description: `${categorySlug} kategorisindeki turları keşfedin`,
-        faq: [],
+        description: `${categorySlug} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`,
+        faq: defaultFAQ,
         subcategories: []
       };
     }
