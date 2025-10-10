@@ -46,11 +46,11 @@ const CategoryDetailPage = () => {
 
   useEffect(() => {
     loadCategoryData();
-  }, [actualCategorySlug, locationSlug]);
+  }, [categorySlug, locationSlug]);
 
   useEffect(() => {
     loadUserFavorites();
-  }, [actualCategorySlug, locationSlug, user, token]);
+  }, [categorySlug, locationSlug, user, token]);
 
   const loadCategoryData = async () => {
     try {
