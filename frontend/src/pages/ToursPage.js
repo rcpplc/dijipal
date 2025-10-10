@@ -493,7 +493,7 @@ const ToursPage = () => {
         });
         toast.success('Favorilerden kaldırıldı');
       } else {
-        await axios.post(`${API}/favorites`, { tour_id: tourId }, {
+        await axios.post(`${API}/favorites/${tourId}`, {}, {
           headers: { Authorization: `Bearer ${user.token}` }
         });
         setFavorites(prev => new Set(prev).add(tourId));
