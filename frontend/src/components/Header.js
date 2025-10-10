@@ -92,13 +92,7 @@ const Header = () => {
               alt="." 
               className="h-8 w-ato sm:h-10"
             />
-            <div className="hidden sm:block">
-              <h1 className="text-lg sm:text-xl font-bold text-gray-900">mavibilet.com</h1>
-              <p className="text-xs text-gray-500">Mavi Yolculuğun Keyfini Çıkarın</p>
-            </div>
-            <div className="sm:hidden">
-              <h1 className="text-base font-bold text-gray-900">mavibilet.com</h1>
-            </div>
+
           </Link>
 
           {/* Navigation - Desktop */}
