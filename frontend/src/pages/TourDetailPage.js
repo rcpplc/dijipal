@@ -266,7 +266,13 @@ const TourDetailPage = () => {
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
-        navigate('/turlar');
+        // Eğer 'from' parametresi varsa oraya dön, yoksa /turlar'a git
+        const fromPath = searchParams.get('from');
+        if (fromPath) {
+          navigate(fromPath);
+        } else {
+          navigate('/turlar');
+        }
         toast.error('Tur bulunamadı');
       }
       setLoading(false);
