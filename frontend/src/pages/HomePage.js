@@ -297,43 +297,60 @@ const HomePage = () => {
     return (
       <div
         onClick={() => navigateToCategory(category)}
-        className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
+        className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-blue-300 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
       >
-        {/* Category Image */}
-        <div className="relative h-48">
+        {/* Category Image with Gradient Overlay */}
+        <div className="relative h-56 overflow-hidden">
           {category.image ? (
-            <img
-              src={category.image}
-              alt={category.title}
-              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-            />
+            <>
+              <img
+                src={category.image}
+                alt={category.title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+            </>
           ) : (
-            <div className={`w-full h-full bg-gradient-to-br ${category.color} flex items-center justify-center`}>
-              <IconComponent className="w-16 h-16 text-white opacity-80" />
+            <div className={`w-full h-full bg-gradient-to-br ${category.color} flex items-center justify-center relative`}>
+              <IconComponent className="w-20 h-20 text-white opacity-30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
             </div>
           )}
-          <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
           
-          {/* Category badge */}
-          <div className="absolute top-4 left-4">
-            <span className="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
-              {category.tours_count || 0} tur
-            </span>
+          {/* Tour Count Badge - Modern Design */}
+          <div className="absolute top-4 right-4">
+            <div className="bg-white/95 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg">
+              <div className="flex items-center space-x-1.5">
+                <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-sm font-semibold text-gray-800">
+                  {category.tours_count || 0} Tur
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Title on Image */}
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-lg">
+              {category.title}
+            </h3>
           </div>
         </div>
         
-        {/* Category Info */}
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
-            {category.title}
-          </h3>
-          
-          <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-            {category.description || 'Kategori açıklaması bulunamadı'}
+        {/* Category Info - Cleaner Design */}
+        <div className="p-5">
+          <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2 min-h-[40px]">
+            {category.description || 'En güzel rotalar ve deneyimler sizi bekliyor'}
           </p>
           
-          <div className="flex items-center justify-end">
-            <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
+          {/* Action Button */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+            <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
+              Turları Keşfet
+            </span>
+            <div className="w-8 h-8 rounded-full bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-all duration-300">
+              <ArrowRight className="w-4 h-4 text-blue-600 group-hover:translate-x-0.5 transition-transform duration-300" />
+            </div>
           </div>
         </div>
       </div>
