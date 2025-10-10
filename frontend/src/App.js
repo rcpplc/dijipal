@@ -156,8 +156,16 @@ function App() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-16 w-16 border-4 border-blue-600 border-t-transparent mx-auto mb-4"></div>
-          <p className="text-gray-600 font-medium">Mavibilet yükleniyor</p>
+          <div className="relative">
+            {/* Rotating ship icon */}
+            <div className="animate-spin">
+              <Ship className="w-16 h-16 text-blue-600 mx-auto" strokeWidth={2} />
+            </div>
+            {/* Wave effect circles */}
+            <div className="absolute inset-0 animate-ping opacity-20">
+              <div className="w-20 h-20 border-4 border-blue-400 rounded-full mx-auto"></div>
+            </div>
+          </div>
         </div>
       </div>
     );
