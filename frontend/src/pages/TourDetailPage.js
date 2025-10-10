@@ -91,40 +91,27 @@ const TourDetailPage = () => {
     loadTour();
   }, [tourSlug]); // user dependency kaldırıldı - loadTour içinde handle ediliyor
 
-  // Smart back navigation - check where user came from
+  // Smart back navigation based on tour data
   useEffect(() => {
-    const referrer = document.referrer;
-    const currentDomain = window.location.origin;
-    
-    if (referrer && referrer.startsWith(currentDomain)) {
-      const referrerPath = referrer.replace(currentDomain, '');
+    if (tour && tour.category && tour.location) {
+      // Create subcategory URL from tour data
+      const categorySlug = createSlug(tour.category);
+      const locationSlug = createSlug(tour.location);
       
-      // Alt kategori sayfasından geldi (örn: /mavi-yolculuk/gocek)
-      if (referrerPath.match(/^\/[^\/]+\/[^\/]+$/)) {
-        setBackUrl(referrerPath);
-        setBackLabel('Alt Kategori');
-      }
-      // Ana kategori sayfasından geldi (örn: /mavi-yolculuk)
-      else if (referrerPath.match(/^\/[^\/]+$/) && referrerPath !== '/turlar' && referrerPath !== '/') {
-        setBackUrl(referrerPath);
-        setBackLabel('Ana Kategori');
-      }
-      // Turlar sayfasından geldi
-      else if (referrerPath === '/turlar') {
-        setBackUrl('/turlar');
-        setBackLabel('Turlar');
-      }
-      // Diğer durumlar - default turlar
-      else {
-        setBackUrl('/turlar');
-        setBackLabel('Turlar');
-      }
+      // Go to subcategory page: /category/location
+      setBackUrl(`/${categorySlug}/${locationSlug}`);
+      setBackLabel(tour.location); // Show location name as back button text
+    } else if (tour && tour.category) {
+      // If no location, go to main category
+      const categorySlug = createSlug(tour.category);
+      setBackUrl(`/${categorySlug}`);
+      setBackLabel(tour.category);
     } else {
-      // External referrer veya direct access - default turlar
+      // Default fallback to tours page
       setBackUrl('/turlar');
       setBackLabel('Turlar');
     }
-  }, []);
+  }, [tour]); // Trigger when tour data loads
 
   // User preferences'i ayrı useEffect'te yükle
   useEffect(() => {
