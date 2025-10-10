@@ -43,12 +43,11 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
 
-  // Hero carousel images - Kategorilere Uygun: Mavi Yolculuk, Günübirlik, Paraşüt, Dalış
+  // Hero carousel images - Fethiye, Göcek, Marmaris Koyları
   const heroImages = [
-    "https://images.unsplash.com/photo-1666601341917-0e089c1ff287?w=1920&q=85", // Mavi Yolculuk - Geleneksel süslü gulet + Türk bayrağı
-    "https://images.unsplash.com/photo-1571863817716-41ec71c5d1de?w=1920&q=85", // Günübirlik Tekne Turu - Hızlı tekne kristal mavi suda
-    "https://images.unsplash.com/photo-1647443321381-2a7b454079f7?w=1920&q=85", // Paraşüt deneyimi - Türkiye kıyı şehri üzerinde yamaç paraşütü
-    "https://images.unsplash.com/photo-1628371217613-714161455f6b?w=1920&q=85"  // Dalış Turları - Mercan resifleri sualtı
+    "https://images.unsplash.com/photo-1498222954553-93fc8d1941da?w=1920&q=85", // Fethiye Ölüdeniz - Mavi Lagün havadan
+    "https://images.unsplash.com/photo-1754212398287-753f400bd1ef?w=1920&q=85", // Göcek Koyu - Yelkenli tekne turkuaz suda
+    "https://images.unsplash.com/photo-1529528018027-2ee0409703af?w=1920&q=85"  // Marmaris Koyu - Koy manzarası tekne ve dağlar
   ];
 
   // Default categories with icons
