@@ -10,6 +10,7 @@ import {
   ArrowLeft
 } from 'lucide-react';
 import { toast } from 'sonner';
+import CartBottomBar from '../components/CartBottomBar';
 
 const CartPage = () => {
   const { user, setShowLoginModal } = useAuth();
