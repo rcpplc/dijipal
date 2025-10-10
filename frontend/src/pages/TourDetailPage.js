@@ -298,15 +298,6 @@ const TourDetailPage = () => {
     const seoData = getSEOData.tourDetail({ tour: tourData });
     updateSEOTags(seoData);
   };
-        "ratingValue": tourData.rating,
-        "reviewCount": tourData.review_count || 0
-      } : undefined
-    });
-    
-    if (!document.head.contains(schemaScript)) {
-      document.head.appendChild(schemaScript);
-    }
-  };
 
   const loadReviews = useCallback(async (tourId = null, page = 1, limit = 3) => {
     if (!tourId) return; // tourId olmadan çalıştırma
