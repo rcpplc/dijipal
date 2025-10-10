@@ -352,11 +352,13 @@ const CategoryPage = () => {
     } else {
       // Use default SEO template
       console.log('📍 Using default SEO template for category');
+      console.log('📍 Sending to template - categoryTitle:', categoryTitle);
       const seoData = getSEOData.category({
         categoryTitle,
         categorySlug: category,
         tourCount: toursArray.length
       });
+      console.log('📍 Generated SEO data:', seoData);
       updateSEOTags(seoData);
     }
   };
