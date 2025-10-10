@@ -516,6 +516,14 @@ const CategoryDetailPage = () => {
             faqData = categoryData?.faq;
           }
           
+          console.log('🔍 FAQ Debug:', { 
+            locationSlug, 
+            categoryDataFaq: categoryData?.faq, 
+            faqData, 
+            faqDataLength: faqData?.length,
+            categoryDataKeys: categoryData ? Object.keys(categoryData) : 'No categoryData'
+          });
+          
           return faqData && faqData.length > 0;
         })() && (
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
