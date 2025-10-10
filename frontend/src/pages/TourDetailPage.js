@@ -324,16 +324,6 @@ const TourDetailPage = () => {
     }
   };
 
-  const updateMetaTag = (attribute, value, content) => {
-    let meta = document.querySelector(`meta[${attribute}="${value}"]`);
-    if (!meta) {
-      meta = document.createElement('meta');
-      meta.setAttribute(attribute, value);
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute('content', content);
-  };
-
   const loadReviews = useCallback(async (tourId = null, page = 1, limit = 3) => {
     if (!tourId) return; // tourId olmadan çalıştırma
     
