@@ -92,14 +92,10 @@ const CategoryDetailPage = () => {
     } catch (error) {
       console.error('Kategori verileri yüklenirken hata:', error);
       
-      // ÖNEMLI FIX: Eğer 'fromBackButton' parametresi varsa, TurDetailPage olarak render ETME
-      const fromBackButton = searchParams.get('fromBackButton');
-      
-      // Eğer kategori bulunamadıysa ve location slug yoksa VE back button ile gelinmediyse,
-      // bu bir tur slug'ı olabilir
-      if (error.response?.status === 404 && !locationSlug && !fromBackButton) {
-        console.log('Kategori bulunamadı, tur sayfası olarak render edilecek:', actualCategorySlug);
-        setIsTourPage(true);
+      // Kategori bulunamadıysa hata göster (artık tur olarak render etmiyoruz)
+      if (error.response?.status === 404 && !locationSlug) {
+        console.log('Kategori bulunamadı:', actualCategorySlug);
+        // categoryData null kalacak ve "Kategori Bulunamadı" mesajı gösterilecek
       }
     } finally {
       setLoading(false);
