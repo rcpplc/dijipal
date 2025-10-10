@@ -294,7 +294,7 @@ const CategoryDetailPage = () => {
         <nav className="flex items-center space-x-2 text-sm text-gray-600 mb-6">
           <Link to="/" className="hover:text-blue-600">Ana Sayfa</Link>
           <ChevronRight className="w-4 h-4" />
-          <Link to={`/${categorySlug}`} className="hover:text-blue-600">
+          <Link to={`/${actualCategorySlug}`} className="hover:text-blue-600">
             {parentCategoryTitle}
           </Link>
           <ChevronRight className="w-4 h-4" />
