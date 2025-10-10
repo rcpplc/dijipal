@@ -89,11 +89,11 @@ const CategoryPage = () => {
     };
     
     return categoryMapping[category] || {
-      name: category,
-      title: category,
+      name: category || 'Kategori',
+      title: category || 'Kategori',
       icon: '🚢',
       color: 'gray',
-      description: `${category} kategorisindeki turlar`
+      description: `${category || 'Bu'} kategorisindeki turlar`
     };
   };
 
