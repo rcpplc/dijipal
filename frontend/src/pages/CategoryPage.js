@@ -313,7 +313,7 @@ const CategoryPage = () => {
     loadTours();
   };
 
-  // SEO update function
+  // SEO update function - uses admin SEO settings if available
   const updateSEO = (toursArray = []) => {
     // Get category title - always format properly from slug
     let categoryTitle = categoryData?.title || category;
@@ -335,15 +335,34 @@ const CategoryPage = () => {
     
     console.log(`🔍 SEO Update - Category: ${category} -> Title: ${categoryTitle}`);
     
-    // Create SEO data
-    const seoData = getSEOData.category({
-      categoryTitle,
-      categorySlug: category,
-      tourCount: toursArray.length
-    });
-    
-    // Update SEO tags
-    updateSEOTags(seoData);
+    // Check for admin-defined SEO settings first
+    if (categoryData && (categoryData.meta_title || categoryData.meta_description || categoryData.meta_keywords)) {
+      // Use admin SEO settings
+      console.log('📍 Using admin SEO settings for category');
+      updateSEOTags({
+        title: categoryData.meta_title || `${categoryTitle} Turları - Mavibilet`,
+        description: categoryData.meta_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${toursArray.length} farklı seçenek ile unutulmaz anılar biriktirin.`,
+        keywords: categoryData.meta_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
+        canonicalUrl: `${window.location.origin}/${category}`,
+        structuredData: {
+          "@context": "https://schema.org",
+          "@type": "ItemList",
+          "name": `${categoryTitle} Turları`,
+          "description": categoryData.meta_description || `${categoryTitle} kategorisindeki tekne turları`,
+          "url": `${window.location.origin}/${category}`,
+          "numberOfItems": toursArray.length
+        }
+      });
+    } else {
+      // Use default SEO template
+      console.log('📍 Using default SEO template for category');
+      const seoData = getSEOData.category({
+        categoryTitle,
+        categorySlug: category,
+        tourCount: toursArray.length
+      });
+      updateSEOTags(seoData);
+    }
   };
 
   const toggleFavorite = async (tourId, e) => {
