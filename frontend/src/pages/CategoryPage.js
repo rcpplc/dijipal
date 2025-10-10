@@ -348,7 +348,7 @@ const CategoryPage = () => {
           "@context": "https://schema.org",
           "@type": "ItemList",
           "name": `${categoryTitle} Turları`,
-          "description": categoryData.meta_description || `${categoryTitle} kategorisindeki tekne turları`,
+          "description": categoryData.seo_description || `${categoryTitle} kategorisindeki tekne turları`,
           "url": `${window.location.origin}/${category}`,
           "numberOfItems": toursArray.length
         }
