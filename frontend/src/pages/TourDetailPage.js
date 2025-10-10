@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { useParams, Link, useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../App';
 import { 
   MapPin, 
