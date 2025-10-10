@@ -158,20 +158,31 @@ const HomePage = () => {
         setPopularTours(toursResponse.data.slice(3, 6));
       }
 
-      // Try to load categories from admin API
+      // Try to load categories from search API
       try {
-        const categoriesResponse = await axios.get(`${API}/admin/new-categories`);
-        if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
-          const categoryCards = categoriesResponse.data.map(category => ({
-            id: category.id,
-            slug: category.slug,
-            title: category.title,
-            description: category.description,
-            image: category.image,
-            icon: Anchor, // Default icon, can be customized
-            color: 'from-blue-500 to-indigo-500', // Default gradient
-            tours_count: category.tours?.length || 0
-          }));
+        const categoriesResponse = await axios.get(`${API}/search/categories`);
+        if (categoriesResponse.data?.categories && Array.isArray(categoriesResponse.data.categories)) {
+          const categoryCards = categoriesResponse.data.categories.map(category => {
+            // Create slug from category name
+            const slug = category.name.toLowerCase()
+              .replace(/[ıİğĞüÜşŞöÖçÇ]/g, (match) => {
+                const map = { 'ı': 'i', 'İ': 'I', 'ğ': 'g', 'Ğ': 'G', 'ü': 'u', 'Ü': 'U', 'ş': 's', 'Ş': 'S', 'ö': 'o', 'Ö': 'O', 'ç': 'c', 'Ç': 'C' };
+                return map[match] || match;
+              })
+              .replace(/[^a-zA-Z0-9\s]/g, '')
+              .replace(/\s+/g, '-');
+              
+            return {
+              id: category.id,
+              slug: slug,
+              title: category.name,
+              description: `${category.name} kategorisindeki turları keşfedin`,
+              image: null,
+              icon: Anchor, // Default icon, can be customized
+              color: 'from-blue-500 to-indigo-500', // Default gradient
+              tours_count: category.tours || 0
+            };
+          });
           setCategories(categoryCards);
         } else {
           setCategories(defaultCategories);
