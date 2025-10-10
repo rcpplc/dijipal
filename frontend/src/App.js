@@ -157,13 +157,35 @@ function App() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100">
         <div className="text-center">
           <div className="relative">
-            {/* Rotating ship icon */}
+            {/* Rotating ship wheel (dümen) */}
             <div className="animate-spin">
-              <Ship className="w-16 h-16 text-blue-600 mx-auto" strokeWidth={2} />
+              <svg 
+                className="w-20 h-20 text-blue-600 mx-auto" 
+                viewBox="0 0 24 24" 
+                fill="none" 
+                stroke="currentColor" 
+                strokeWidth="2"
+                strokeLinecap="round" 
+                strokeLinejoin="round"
+              >
+                {/* Center circle */}
+                <circle cx="12" cy="12" r="3" />
+                {/* Outer circle */}
+                <circle cx="12" cy="12" r="9" />
+                {/* 8 spokes radiating from center */}
+                <line x1="12" y1="3" x2="12" y2="6" />
+                <line x1="12" y1="18" x2="12" y2="21" />
+                <line x1="3" y1="12" x2="6" y2="12" />
+                <line x1="18" y1="12" x2="21" y2="12" />
+                <line x1="5.64" y1="5.64" x2="7.76" y2="7.76" />
+                <line x1="16.24" y1="16.24" x2="18.36" y2="18.36" />
+                <line x1="18.36" y1="5.64" x2="16.24" y2="7.76" />
+                <line x1="7.76" y1="16.24" x2="5.64" y2="18.36" />
+              </svg>
             </div>
             {/* Wave effect circles */}
-            <div className="absolute inset-0 animate-ping opacity-20">
-              <div className="w-20 h-20 border-4 border-blue-400 rounded-full mx-auto"></div>
+            <div className="absolute inset-0 animate-ping opacity-10">
+              <div className="w-24 h-24 border-4 border-blue-400 rounded-full mx-auto"></div>
             </div>
           </div>
         </div>
