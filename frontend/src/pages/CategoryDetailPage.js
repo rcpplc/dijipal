@@ -12,7 +12,7 @@ import {
   X
 } from 'lucide-react';
 import axios from 'axios';
-import { updateSEOTags } from '../utils/seo';
+import { updateSEOTags, getSEOData } from '../utils/seo';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
