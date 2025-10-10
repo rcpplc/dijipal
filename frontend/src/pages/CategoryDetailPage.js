@@ -24,7 +24,9 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const CategoryDetailPage = () => {
-  const { categorySlug, locationSlug } = useParams();
+  const { categorySlug, locationSlug, slug } = useParams();
+  // Eğer sadece slug varsa (/:slug route'undan geliyorsa), onu categorySlug olarak kullan
+  const actualCategorySlug = categorySlug || slug;
   const navigate = useNavigate();
   const { user, token, setShowLoginModal } = useAuth();
   const [categoryData, setCategoryData] = useState(null);
