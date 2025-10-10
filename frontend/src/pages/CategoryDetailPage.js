@@ -42,7 +42,8 @@ const CategoryDetailPage = () => {
 
   useEffect(() => {
     loadCategoryData();
-  }, [categorySlug, locationSlug]);
+    loadUserFavorites();
+  }, [categorySlug, locationSlug, user]);
 
   const loadCategoryData = async () => {
     try {
