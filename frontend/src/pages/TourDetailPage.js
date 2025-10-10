@@ -298,12 +298,6 @@ const TourDetailPage = () => {
     const seoData = getSEOData.tourDetail({ tour: tourData });
     updateSEOTags(seoData);
   };
-        "price": tourData.minimum_price || 0,
-        "priceCurrency": "TRY",
-        "availability": "https://schema.org/InStock"
-      },
-      "aggregateRating": tourData.rating ? {
-        "@type": "AggregateRating", 
         "ratingValue": tourData.rating,
         "reviewCount": tourData.review_count || 0
       } : undefined
