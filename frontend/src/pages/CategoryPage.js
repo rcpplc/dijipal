@@ -197,6 +197,9 @@ const CategoryPage = () => {
       console.log('Category API not available, using default data');
       setCategoryData(getDefaultCategoryData(category));
     }
+    
+    // Update SEO after category data is loaded
+    setTimeout(() => updateSEO(tours), 50);
   };
 
   // Map URL category to backend category format
