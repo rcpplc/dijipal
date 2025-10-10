@@ -297,17 +297,7 @@ const TourDetailPage = () => {
     // Use new SEO system
     const seoData = getSEOData.tourDetail({ tour: tourData });
     updateSEOTags(seoData);
-      "@context": "https://schema.org",
-      "@type": "Product",
-      "name": tourData.title,
-      "description": tourData.short_description,
-      "image": tourData.images?.[0] || '',
-      "brand": {
-        "@type": "Brand",
-        "name": "Mavibilet"
-      },
-      "offers": {
-        "@type": "Offer",
+  };
         "price": tourData.minimum_price || 0,
         "priceCurrency": "TRY",
         "availability": "https://schema.org/InStock"
