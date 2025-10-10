@@ -261,11 +261,11 @@ const CategoryPage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
           {/* Hierarchical Back Button */}
           <button
-            onClick={() => navigate('/turlar')}
+            onClick={() => navigate('/kategoriler')}
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Turlar</span>
+            <span>Tüm Kategoriler</span>
           </button>
 
           {/* Page Header */}
