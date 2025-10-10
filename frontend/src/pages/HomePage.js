@@ -158,11 +158,21 @@ const HomePage = () => {
         setPopularTours(toursResponse.data.slice(3, 6));
       }
 
-      // Try to load categories
+      // Try to load categories from admin API
       try {
-        const categoriesResponse = await axios.get(`${API}/categories`);
+        const categoriesResponse = await axios.get(`${API}/admin/new-categories`);
         if (categoriesResponse.data && Array.isArray(categoriesResponse.data)) {
-          setCategories(categoriesResponse.data);
+          const categoryCards = categoriesResponse.data.map(category => ({
+            id: category.id,
+            slug: category.slug,
+            title: category.title,
+            description: category.description,
+            image: category.image,
+            icon: Anchor, // Default icon, can be customized
+            color: 'from-blue-500 to-indigo-500', // Default gradient
+            tours_count: category.tours?.length || 0
+          }));
+          setCategories(categoryCards);
         } else {
           setCategories(defaultCategories);
         }
