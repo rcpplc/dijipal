@@ -286,6 +286,14 @@ const CartPage = () => {
           </div>
         )}
       </div>
+
+      {/* Mobile Bottom Bar - Sepet Özeti */}
+      {cartItems.length > 0 && (
+        <CartBottomBar 
+          totalPrice={totalAmount} 
+          itemCount={cartItems.length}
+        />
+      )}
     </div>
   );
 };
