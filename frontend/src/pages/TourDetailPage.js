@@ -730,17 +730,19 @@ const TourDetailPage = () => {
   // Geri Git fonksiyonu - kategori sayfasından gelindiyse oraya dön
   const handleBackClick = () => {
     // URL'deki 'from' query parametresini kontrol et
-    const urlParams = new URLSearchParams(window.location.search);
-    const fromPath = urlParams.get('from');
+    const fromPath = searchParams.get('from');
     
     if (fromPath) {
       // Query parametresinden gelen path'e git
+      console.log('Navigating back to:', fromPath);
       navigate(fromPath);
     } else if (location.state?.from) {
       // Eğer location.state'de from bilgisi varsa
+      console.log('Navigating back via state:', location.state.from);
       navigate(location.state.from);
     } else {
       // Aksi halde normal history back
+      console.log('Navigating back with history');
       navigate(-1);
     }
   };
