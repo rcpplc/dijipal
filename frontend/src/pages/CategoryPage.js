@@ -272,14 +272,19 @@ const CategoryPage = () => {
         console.log(`✅ Found ${tours.length} tours for category '${category}'`);
         setTours(tours);
         
+        // Update SEO after tours are loaded
+        setTimeout(() => updateSEO(tours), 100);
+        
       } else {
         setTours([]);
+        setTimeout(() => updateSEO([]), 100);
       }
 
     } catch (error) {
       console.error('❌ Error loading tours:', error);
       setTours([]);
       toast.error('Turlar yüklenirken hata oluştu');
+      setTimeout(() => updateSEO([]), 100);
     } finally {
       setLoading(false);
     }
