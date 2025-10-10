@@ -83,6 +83,57 @@ const CategoryDetailPage = () => {
     }
   };
 
+  const loadUserFavorites = async () => {
+    if (!user) {
+      setFavorites(new Set());
+      return;
+    }
+
+    try {
+      const response = await axios.get(`${API}/favorites`, {
+        headers: { Authorization: `Bearer ${user.token}` }
+      });
+      const favoriteIds = response.data.map(fav => fav.tour_id);
+      setFavorites(new Set(favoriteIds));
+    } catch (error) {
+      console.log('Favoriler yüklenirken hata:', error);
+      setFavorites(new Set());
+    }
+  };
+
+  const toggleFavorite = async (tourId, e) => {
+    e.stopPropagation();
+    e.preventDefault();
+    
+    if (!user) {
+      setShowLoginModal(true);
+      return;
+    }
+
+    try {
+      if (favorites.has(tourId)) {
+        await axios.delete(`${API}/favorites/${tourId}`, {
+          headers: { Authorization: `Bearer ${user.token}` }
+        });
+        setFavorites(prev => {
+          const newFavorites = new Set(prev);
+          newFavorites.delete(tourId);
+          return newFavorites;
+        });
+        toast.success('Favorilerden kaldırıldı');
+      } else {
+        await axios.post(`${API}/favorites`, { tour_id: tourId }, {
+          headers: { Authorization: `Bearer ${user.token}` }
+        });
+        setFavorites(prev => new Set(prev).add(tourId));
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Favori işlemi hatası:', error);
+      toast.error('Bir hata oluştu');
+    }
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     if (searchQuery.trim()) {
