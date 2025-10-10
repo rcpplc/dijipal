@@ -184,11 +184,17 @@ const CategoryDetailPage = () => {
           <div className="flex items-start justify-between">
             <div className="flex-1">
               <h1 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-                {categoryData.title}
+                {locationSlug 
+                  ? (categoryData?.page_title || categoryData?.subcategory?.title || categoryData?.title)
+                  : categoryData?.title
+                }
               </h1>
-              {categoryData.description && (
+              {(categoryData.description || categoryData.page_description || categoryData.subcategory?.description) && (
                 <p className="text-lg text-gray-600 max-w-4xl">
-                  {categoryData.description}
+                  {locationSlug 
+                    ? (categoryData?.page_description || categoryData?.subcategory?.description || categoryData?.description)
+                    : categoryData?.description
+                  }
                 </p>
               )}
             </div>
