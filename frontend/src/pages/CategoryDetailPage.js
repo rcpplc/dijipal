@@ -113,7 +113,7 @@ const CategoryDetailPage = () => {
     try {
       if (favorites.has(tourId)) {
         await axios.delete(`${API}/favorites/${tourId}`, {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setFavorites(prev => {
           const newFavorites = new Set(prev);
@@ -123,7 +123,7 @@ const CategoryDetailPage = () => {
         toast.success('Favorilerden kaldırıldı');
       } else {
         await axios.post(`${API}/favorites`, { tour_id: tourId }, {
-          headers: { Authorization: `Bearer ${user.token}` }
+          headers: { Authorization: `Bearer ${token}` }
         });
         setFavorites(prev => new Set(prev).add(tourId));
         toast.success('Favorilere eklendi');
