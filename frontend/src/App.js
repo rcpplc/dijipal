@@ -294,6 +294,9 @@ function App() {
           
           <Footer />
           
+          {/* Mobile Bottom Navigation */}
+          <MobileBottomNav />
+          
           {showLoginModal && <LoginModal initialMode={loginMode} />}
           <Toaster 
             position="top-right"
