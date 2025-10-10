@@ -969,149 +969,36 @@ const ToursPage = () => {
 
             <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Bölgelere Göre Turlar</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 mb-6">
-              <div className="text-center mb-12">
-                <span className="text-4xl mb-4 block">🗺️</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Bölgelere Göre Turlar</h3>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div className="space-y-6">
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Bodrum</h4>
-                    <p className="text-gray-700">Mavi yolculuğun simgesi. Bodrum Kalesi, Akvaryum Koyu, Orak Adası ve Gökova Körfezi bağlantılı rotalar.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Marmaris</h4>
-                    <p className="text-gray-700">Canlı marina, İçmeler–Turunç–Kumlubük üçlüsü ve özel kiralama için zengin seçenekler.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Bozburun</h4>
-                    <p className="text-gray-700">Butik gulet yapımıyla ünlü; sakin, derin mavi koylar ve romantik akşamüstleri.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Datça</h4>
-                    <p className="text-gray-700">Knidos antik kenti, dalış ve balık turları için ideal sular.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-blue-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Dalyan</h4>
-                    <p className="text-gray-700">Kaya mezarları, İztuzu Plajı ve Caretta-caretta gözlemleri.</p>
-                  </div>
-                </div>
-                
-                <div className="space-y-6">
-                  <div className="border-l-4 border-green-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Göcek</h4>
-                    <p className="text-gray-700">12 Ada, Hamam Koyu, Bedri Rahmi Koyu – klasik mavi yolculuk güzergahı.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-green-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Fethiye / Ölüdeniz</h4>
-                    <p className="text-gray-700">Kelebekler Vadisi, Mavi Mağara ve turkuaz sular.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-green-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Kaş</h4>
-                    <p className="text-gray-700">Dalış merkezleri, kaya oluşumları, antik kalıntılar.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-green-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Kekova</h4>
-                    <p className="text-gray-700">Batık Şehir, Simena–Kaleköy; kano ve şnorkelle keşif.</p>
-                  </div>
-                  
-                  <div className="border-l-4 border-green-500 pl-6">
-                    <h4 className="text-xl font-semibold text-gray-900 mb-2">Akyaka</h4>
-                    <p className="text-gray-700">Azmak Nehri ve doğal yaşamla iç içe günübirlik turlar.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* Fiyat Bilgisi */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-12">
-                <span className="text-4xl mb-4 block">💰</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Fiyat Bilgisi</h3>
-                <p className="text-lg text-gray-600">Ortalama Aralıklar</p>
-              </div>
-              
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse border border-gray-300 text-left">
-                  <thead>
-                    <tr className="bg-blue-50">
-                      <th className="border border-gray-300 px-6 py-4 font-semibold text-gray-900">Tur Türü</th>
-                      <th className="border border-gray-300 px-6 py-4 font-semibold text-gray-900">Fiyat Aralığı</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Mavi Yolculuk</td>
-                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺24.000 – ₺42.000 / kişi haftalık</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Kabin Turu</td>
-                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺16.000 – ₺30.000 / kişi</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Günübirlik Tekne</td>
-                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺1.400 – ₺2.400 / kişi</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Özel Tekne Kiralama</td>
-                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺15.000 – ₺35.000 / gün</td>
-                    </tr>
-                    <tr className="hover:bg-gray-50">
-                      <td className="border border-gray-300 px-6 py-4 text-gray-700">Balık / Dalış Turu</td>
-                      <td className="border border-gray-300 px-6 py-4 font-semibold text-blue-600">₺1.100 – ₺3.600 / kişi</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-
-            {/* Dahil Olanlar ve Hariç Olanlar */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              <div className="bg-green-50 rounded-2xl shadow-lg p-8">
-                <div className="text-center mb-6">
-                  <span className="text-3xl mb-3 block">✅</span>
-                  <h4 className="text-2xl font-bold text-green-800">Dahil Olanlar</h4>
-                </div>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">Mürettebat, yakıt, sigorta, güvenlik ekipmanları</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">Yemek ve içecek hizmeti (pakete göre)</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-green-600 mt-1">•</span>
-                    <span className="text-gray-700">Rehberlik ve rota planlaması</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div className="bg-red-50 rounded-2xl shadow-lg p-8">
-                <div className="text-center mb-6">
-                  <span className="text-3xl mb-3 block">❌</span>
-                  <h4 className="text-2xl font-bold text-red-800">Hariç Olanlar</h4>
-                </div>
-                <ul className="space-y-3">
-                  <li className="flex items-start space-x-3">
-                    <span className="text-red-600 mt-1">•</span>
-                    <span className="text-gray-700">Özel menüler, marinada bağlama ücretleri</span>
-                  </li>
-                  <li className="flex items-start space-x-3">
-                    <span className="text-red-600 mt-1">•</span>
-                    <span className="text-gray-700">Kişisel harcamalar, kara transferleri</span>
-                  </li>
-                </ul>
-              </div>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Bodrum:</strong> Mavi yolculuğun simgesi. Bodrum Kalesi, Akvaryum Koyu, Orak Adası ve Gökova Körfezi bağlantılı rotalar.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Marmaris:</strong> Canlı marina, İçmeler–Turunç–Kumlubük üçlüsü ve özel kiralama için zengin seçenekler.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Bozburun:</strong> Butik gulet yapımıyla ünlü; sakin, derin mavi koylar ve romantik akşamüstleri.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Datça:</strong> Knidos antik kenti, dalış ve balık turları için ideal sular.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Dalyan:</strong> Kaya mezarları, İztuzu Plajı ve Caretta-caretta gözlemleri.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Göcek:</strong> 12 Ada, Hamam Koyu, Bedri Rahmi Koyu – klasik mavi yolculuk güzergahı.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Fethiye / Ölüdeniz:</strong> Kelebekler Vadisi, Mavi Mağara ve turkuaz sular.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Kaş:</strong> Dalış merkezleri, kaya oluşumları, antik kalıntılar.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-3">
+                <strong>Kekova:</strong> Batık Şehir, Simena–Kaleköy; kano ve şnorkelle keşif.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                <strong>Akyaka:</strong> Azmak Nehri ve doğal yaşamla iç içe günübirlik turlar.
+              </p>
             </div>
 
           </div>
