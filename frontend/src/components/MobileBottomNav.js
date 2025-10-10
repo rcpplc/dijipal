@@ -37,7 +37,8 @@ const MobileBottomNav = () => {
     
     // Login gerektiren sayfalar
     if (item.requiresAuth && !user) {
-      // Login modal'ını aç
+      // Hedef path'i sakla ve login modal'ını aç
+      setPendingPath(item.path);
       setShowLoginModal(true);
       return;
     }
