@@ -29,7 +29,7 @@ const CategoryDetailPage = () => {
   const actualCategorySlug = categorySlug || slug;
   const navigate = useNavigate();
   const { user, token, setShowLoginModal } = useAuth();
-  const [searchParams] = React.useState(() => new URLSearchParams(window.location.search));
+  const [searchParams] = useSearchParams();
   const [categoryData, setCategoryData] = useState(null);
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
