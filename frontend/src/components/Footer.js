@@ -11,11 +11,10 @@ const Footer = () => {
           <div className="col-span-1 md:col-span-2">
             <div className="flex items-center space-x-3 mb-4">
               <img 
-                src="/mavibilet-logo.png" 
+                src="/mavibilet-logo-beyaz.png" 
                 alt="mavibilet.com" 
-                className="h-10 w-auto"
+                className="h-12 w-auto"
               />
-
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               Türkiye'nin eşsiz koylarında kabin kiralama ile unutulmaz deniz tatili deneyimi. 
