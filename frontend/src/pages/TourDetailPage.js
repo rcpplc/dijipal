@@ -118,8 +118,8 @@ const TourDetailPage = () => {
           
           // Check if the saved state is for the current tour and not too old (5 minutes)
           const isCurrentTour = bookingState.tourId === tour.id || 
-                               (tourSlug && tour?.slug && tourSlug.includes(tour.slug)) ||
-                               (bookingState.tourSlug && bookingState.tourSlug === tourSlug);
+                               (actualTourSlug && tour?.slug && actualTourSlug.includes(tour.slug)) ||
+                               (bookingState.tourSlug && bookingState.tourSlug === actualTourSlug);
           const isRecent = (Date.now() - bookingState.timestamp) < 5 * 60 * 1000; // 5 minutes
           
           console.log('🔍 Tour matching check:', {
