@@ -173,21 +173,28 @@ export const getSEOData = {
     }
   }),
 
-  subcategory: ({ locationName, categoryTitle, categorySlug, locationSlug, tourCount = 0 }) => ({
-    title: `${locationName} ${categoryTitle} Turları - Mavibilet | ${locationName} Tekne Turları`,
-    description: `${locationName} bölgesindeki en güzel ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı seçenek ile ${locationName}'da unutulmaz mavi yolculuk deneyimi yaşayın.`,
-    keywords: `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, ${locationName} mavi yolculuk, ${locationName} kabin kiralama, ${categoryTitle.toLowerCase()} ${locationName}`,
+  subcategory: ({ locationName, categoryTitle, categorySlug, locationSlug, tourCount = 0 } = {}) => ({
+    title: `${locationName} ${categoryTitle} Turları - Mavibilet | ${tourCount} Tur Seçeneği`,
+    description: `${locationName} bölgesindeki premium ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı tur seçeneği, profesyonel rehberlik ve modern tekne filosu ile ${locationName}'da unutulmaz mavi yolculuk deneyimi.`,
+    keywords: `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, ${locationName} mavi yolculuk, ${locationName} kabin kiralama, ${categoryTitle.toLowerCase()} ${locationName}, ${locationName} deniz turu`,
     canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`,
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "ItemList",
+      "@type": "TouristDestination",
       "name": `${locationName} ${categoryTitle} Turları`,
-      "description": `${locationName} bölgesindeki ${categoryTitle.toLowerCase()} turları`,
+      "description": `${locationName} bölgesindeki ${categoryTitle.toLowerCase()} mavi yolculuk turları`,
       "url": `${window.location.origin}/${categorySlug}/${locationSlug}`,
-      "numberOfItems": tourCount,
       "geo": {
         "@type": "GeoCoordinates",
-        "name": locationName
+        "name": locationName,
+        "addressCountry": "TR"
+      },
+      "touristType": ["Deniz Tutkunları", "Tatil Severler"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": `${locationName} ${categoryTitle} Turları`,
+        "itemListElement": [],
+        "numberOfItems": tourCount
       }
     }
   }),
