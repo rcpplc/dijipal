@@ -461,8 +461,10 @@ const CategoryDetailPage = () => {
           <div className="text-center mb-8">
             <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
               {isLocationPage 
-                ? `${categoryData?.location?.location_name || locationSlug} - ${displayCategory?.title || categorySlug}`
-                : displayCategory?.title || categorySlug
+                ? (categoryData?.location?.custom_title || 
+                   categoryData?.custom_title || 
+                   `${categoryData?.location?.location_name || locationSlug} ${displayCategory?.title || categorySlug} Turları`)
+                : (displayCategory?.title || categorySlug)
               }
             </h1>
             <div className="w-full">
