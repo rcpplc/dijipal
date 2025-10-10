@@ -441,7 +441,10 @@ const CategoryDetailPage = () => {
             <ArrowLeft className="w-4 h-4" />
             <span>
               {isLocationPage 
-                ? (displayCategory?.title || categorySlug) // Alt kategori sayfasında ana kategori adı göster
+                ? (displayCategory?.title || 
+                   categorySlug.split('-').map(word => 
+                     word.charAt(0).toUpperCase() + word.slice(1)
+                   ).join(' ')) // Alt kategori sayfasında ana kategori adı göster
                 : 'Turlar' // Ana kategori sayfasında "Turlar" göster
               }
             </span>
