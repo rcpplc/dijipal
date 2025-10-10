@@ -104,6 +104,10 @@ const HomePage = () => {
   useEffect(() => {
     loadData();
     startHeroSlider();
+    
+    // Update SEO for homepage
+    const seoData = getSEOData.homepage();
+    updateSEOTags(seoData);
   }, []);
 
   const startHeroSlider = () => {
