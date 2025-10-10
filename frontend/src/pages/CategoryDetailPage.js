@@ -469,11 +469,12 @@ const CategoryDetailPage = () => {
             </h1>
             <div className="w-full">
               <p className="text-sm sm:text-base lg:text-lg text-gray-600">
-                {displayCategory?.description || 
-                 `${isLocationPage 
-                   ? `${categoryData?.location?.location_name || locationSlug} bölgesindeki ${displayCategory?.title || categorySlug} turları`
-                   : `${displayCategory?.title || categorySlug} kategorisindeki turları keşfedin`
-                 }`
+                {isLocationPage 
+                  ? (categoryData?.location?.description || 
+                     categoryData?.description || 
+                     `${categoryData?.location?.location_name || locationSlug} bölgesindeki en güzel ${displayCategory?.title || categorySlug} turlarını keşfedin. Profesyonel rehberlik ve konforlu araçlarla unutulmaz tatil deneyimi yaşayın.`)
+                  : (displayCategory?.description || 
+                     `${displayCategory?.title || categorySlug} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`)
                 }
               </p>
             </div>
