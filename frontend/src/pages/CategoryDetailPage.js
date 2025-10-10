@@ -169,10 +169,14 @@ const CategoryDetailPage = () => {
       // Load tours
       await loadTours();
 
+      // Update SEO after data is loaded
+      updateSEO();
+
     } catch (error) {
       console.error('Error loading data:', error);
       setCategoryData(getDefaultCategoryData());
       setTours([]);
+      updateSEO(); // Update SEO even with default data
     } finally {
       setLoading(false);
     }
