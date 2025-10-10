@@ -1793,6 +1793,32 @@ async def admin_delete_new_category(category_id: str, current_user: User = Depen
     }
 
 # Frontend Category APIs
+@api_router.get("/public/categories")
+async def get_public_categories():
+    """Get all public categories for homepage"""
+    categories = await db.new_categories.find({"is_active": True}).to_list(length=None)
+    
+    result = []
+    for category in categories:
+        if "_id" in category:
+            del category["_id"]
+        
+        # Count tours for this category
+        tour_count = await db.tours.count_documents({
+            "category": {"$regex": category["title"], "$options": "i"},
+            "status": "active"
+        })
+        
+        result.append({
+            "id": category["id"],
+            "title": category["title"],
+            "slug": category["slug"],
+            "description": category["description"],
+            "image": category.get("image"),
+            "tours_count": tour_count
+        })
+    
+    return {"categories": result}
 @api_router.get("/categories/{category_slug}")
 async def get_category_by_slug(category_slug: str):
     """Get main category details by slug"""
