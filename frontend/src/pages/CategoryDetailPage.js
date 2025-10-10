@@ -39,7 +39,14 @@ const CategoryDetailPage = () => {
   const [favorites, setFavorites] = useState(new Set());
   const [showMobileFilters, setShowMobileFilters] = useState(false);
   const [expandedFAQ, setExpandedFAQ] = useState({});
+  const [availableFilters, setAvailableFilters] = useState({
+    locations: [],
+    durations: [],
+    classifications: [],
+    priceRange: { min: 0, max: 10000 }
+  });
   const [filters, setFilters] = useState({
+    location: '',
     minPrice: '',
     maxPrice: '',
     duration: '',
@@ -50,7 +57,7 @@ const CategoryDetailPage = () => {
   });
 
   // Check if this is a location page (subcategory)
-  const isLocationPage = !!locationSlug;
+  const isLocationPage = !!(locationSlug && typeof locationSlug === 'string');
 
   // Category and location configuration
   const getCategoryConfig = () => {
@@ -72,12 +79,24 @@ const CategoryDetailPage = () => {
         title: 'Kabin Turları',
         icon: '🛥️',
         color: 'purple'
+      },
+      'balik-dalis': {
+        name: 'Balık & Dalış',
+        title: 'Balık & Dalış',
+        icon: '🐠',
+        color: 'teal'
+      },
+      'yuzme-turlari': {
+        name: 'Yüzme Turları',
+        title: 'Yüzme Turları',
+        icon: '🏊',
+        color: 'cyan'
       }
     };
     
     return categoryMapping[categorySlug] || {
-      name: categorySlug,
-      title: categorySlug.charAt(0).toUpperCase() + categorySlug.slice(1),
+      name: categorySlug || 'Kategori',
+      title: (categorySlug || 'Kategori').charAt(0).toUpperCase() + (categorySlug || 'kategori').slice(1),
       icon: '🚢',
       color: 'gray'
     };
@@ -93,118 +112,160 @@ const CategoryDetailPage = () => {
     };
   };
 
-  // Default content for categories/subcategories
-  const getDefaultContent = () => {
-    const category = getCategoryConfig();
-    const location = getLocationConfig();
-    
-    const defaultFAQ = [
-      {
-        question: "Rezervasyon nasıl yapılır?",
-        answer: "Online rezervasyon sistemimizi kullanarak kolayca rezervasyon yapabilirsiniz. Tur tarihini seçin, kişi sayısını belirleyin ve güvenli ödeme adımlarını tamamlayın."
-      },
-      {
-        question: "İptal ve değişiklik koşulları nelerdir?",
-        answer: "Turdan 7 gün öncesine kadar ücretsiz iptal yapabilirsiniz. 7 günden daha kısa sürede yapılan iptallerde %50 kesinti uygulanır."
-      },
-      {
-        question: "Fiyatlara neler dahildir?",
-        answer: "Fiyatlara rehberlik hizmeti, güvenlik ekipmanları ve belirtilen aktiviteler dahildir. Kişisel harcamalar ve ekstra aktiviteler dahil değildir."
-      },
-      {
-        question: "Çocuklu ailelere indirim var mı?",
-        answer: "12 yaş altı çocuklar için %50 indirim uygulanır. 2 yaş altı çocuklar ücretsizdir."
-      }
-    ];
-
-    if (isLocationPage) {
-      return {
-        title: `${location.name} ${category.title} Turları`,
-        custom_title: `${location.name} ${category.title} Turları - Premium Deneyim`,
-        description: `${location.name} bölgesindeki en güzel ${category.title.toLowerCase()} turlarını keşfedin. Profesyonel rehberlik, modern tekne filosu ve güvenli rezervasyon sistemi ile unutulmaz tatil deneyimi yaşayın.`,
-        faq: defaultFAQ,
-        category: {
-          title: category.title,
-          name: category.name
-        },
-        location: {
-          location_name: location.name,
-          description: `${location.name} bölgesindeki premium ${category.title.toLowerCase()} turları`,
-          seo_title: null,
-          seo_description: null,
-          seo_keywords: null
-        }
-      };
-    } else {
-      return {
-        title: category.title,
-        description: `${category.title} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`,
-        faq: defaultFAQ,
-        seo_title: null,
-        seo_description: null,
-        seo_keywords: null
-      };
-    }
-  };
-
   useEffect(() => {
-    loadData();
+    if (categorySlug) {
+      loadData();
+    }
   }, [categorySlug, locationSlug]);
 
   const loadData = async () => {
     try {
       setLoading(true);
       
-      // Load category/subcategory data
-      let categoryResponse = null;
+      // Load category/subcategory data from admin panel
+      let adminCategoryData = null;
       try {
-        const url = isLocationPage 
-          ? `${API}/categories/${categorySlug}/locations/${locationSlug}`
-          : `${API}/categories/${categorySlug}`;
-        categoryResponse = await axios.get(url);
+        if (isLocationPage) {
+          // Try to load subcategory data
+          const subcategoryResponse = await axios.get(`${API}/categories/${categorySlug}/locations/${locationSlug}`);
+          adminCategoryData = subcategoryResponse.data;
+        } else {
+          // Try to load main category data
+          const categoryResponse = await axios.get(`${API}/categories/${categorySlug}`);
+          adminCategoryData = categoryResponse.data;
+        }
       } catch (error) {
-        console.log('Category API not available, using default data');
+        console.log('Admin API not available, using default data');
       }
       
-      const data = categoryResponse?.data || getDefaultContent();
-      setCategoryData(data);
+      // Merge admin data with default configuration
+      const categoryConfig = getCategoryConfig();
+      const locationConfig = getLocationConfig();
       
-      // Load tours
+      if (adminCategoryData) {
+        // Use admin data
+        setCategoryData(adminCategoryData);
+      } else {
+        // Create default data structure compatible with admin format
+        const defaultData = {
+          id: categorySlug,
+          name: categoryConfig.name,
+          title: isLocationPage ? `${locationConfig?.name || ''} ${categoryConfig.title}` : categoryConfig.title,
+          description: isLocationPage 
+            ? `${locationConfig?.name || ''} bölgesindeki en güzel ${categoryConfig.title.toLowerCase()} turlarını keşfedin. Profesyonel rehberlik eşliğinde unutulmaz deneyimler yaşayın.`
+            : `${categoryConfig.title} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`,
+          seo_title: null,
+          seo_description: null,
+          seo_keywords: null,
+          faq: [
+            {
+              question: "Rezervasyon nasıl yapılır?",
+              answer: "Online rezervasyon sistemimizi kullanarak kolayca rezervasyon yapabilirsiniz. Tur tarihini seçin, kişi sayısını belirleyin ve güvenli ödeme adımlarını tamamlayın."
+            },
+            {
+              question: "İptal ve değişiklik koşulları nelerdir?",
+              answer: "Turdan 7 gün öncesine kadar ücretsiz iptal yapabilirsiniz. 7 günden daha kısa sürede yapılan iptallerde %50 kesinti uygulanır."
+            },
+            {
+              question: "Fiyatlara neler dahildir?",
+              answer: "Fiyatlara rehberlik hizmeti, güvenlik ekipmanları ve belirtilen aktiviteler dahildir. Kişisel harcamalar ve ekstra aktiviteler dahil değildir."
+            },
+            {
+              question: "Çocuklu ailelere indirim var mı?",
+              answer: "12 yaş altı çocuklar için %50 indirim uygulanır. 2 yaş altı çocuklar ücretsizdir."
+            }
+          ],
+          is_active: true
+        };
+        
+        if (isLocationPage) {
+          defaultData.location = {
+            location_name: locationConfig?.name || locationSlug,
+            description: `${locationConfig?.name || ''} bölgesindeki premium ${categoryConfig.title.toLowerCase()} turları`,
+            seo_title: null,
+            seo_description: null,
+            seo_keywords: null
+          };
+        }
+        
+        setCategoryData(defaultData);
+      }
+      
+      // Load tours and filters
       await loadTours();
+      await loadAvailableFilters();
       
-      // Update SEO after data is loaded
+      // Update SEO after all data is loaded
       updateSEO();
 
     } catch (error) {
       console.error('Error loading data:', error);
-      setCategoryData(getDefaultContent());
-      setTours([]);
-      updateSEO();
+      toast.error('Veriler yüklenirken hata oluştu');
     } finally {
       setLoading(false);
     }
   };
 
-  // Modern SEO update with admin settings priority
+  // Load available filter options from tour data
+  const loadAvailableFilters = async () => {
+    try {
+      const categoryConfig = getCategoryConfig();
+      const params = new URLSearchParams();
+      params.append('category', categoryConfig.name);
+      
+      if (isLocationPage) {
+        const locationConfig = getLocationConfig();
+        if (locationConfig) {
+          params.append('location', locationConfig.name);
+        }
+      }
+
+      const response = await axios.get(`${API}/tours?${params.toString()}`);
+      
+      if (response.data && Array.isArray(response.data)) {
+        const tours = response.data;
+        
+        // Extract unique filter values
+        const locations = [...new Set(tours.map(tour => tour.location).filter(Boolean))];
+        const durations = [...new Set(tours.map(tour => tour.duration).filter(Boolean))];
+        const classifications = [...new Set(tours.map(tour => tour.classification).filter(Boolean))];
+        const prices = tours.map(tour => tour.minimum_price).filter(price => price > 0);
+        
+        setAvailableFilters({
+          locations,
+          durations,
+          classifications,
+          priceRange: {
+            min: prices.length > 0 ? Math.min(...prices) : 0,
+            max: prices.length > 0 ? Math.max(...prices) : 10000
+          }
+        });
+      }
+    } catch (error) {
+      console.error('Error loading filter options:', error);
+    }
+  };
+
+  // SEO update with admin settings priority
   const updateSEO = () => {
-    const category = getCategoryConfig();
-    const location = getLocationConfig();
+    const categoryConfig = getCategoryConfig();
+    const locationConfig = getLocationConfig();
     const tourCount = tours.length;
     
     if (isLocationPage) {
-      // Subcategory SEO - check admin settings first
+      // Subcategory SEO - prioritize admin settings
       const adminSEO = categoryData?.location;
       if (adminSEO?.seo_title || adminSEO?.seo_description || adminSEO?.seo_keywords) {
         updateSEOTags({
-          title: adminSEO.seo_title || `${location.name} ${category.title} Turları - Mavibilet`,
-          description: adminSEO.seo_description || `${location.name} bölgesindeki premium ${category.title.toLowerCase()} turları. ${tourCount} farklı seçenek ile unutulmaz deneyimler.`,
-          keywords: adminSEO.seo_keywords || `${location.name} ${category.title.toLowerCase()}, ${location.name} tekne turu, mavi yolculuk ${location.name}`,
+          title: adminSEO.seo_title || `${locationConfig?.name || ''} ${categoryConfig.title} Turları - Mavibilet`,
+          description: adminSEO.seo_description || `${locationConfig?.name || ''} bölgesindeki premium ${categoryConfig.title.toLowerCase()} turları. ${tourCount} farklı seçenek ile unutulmaz deneyimler.`,
+          keywords: adminSEO.seo_keywords || `${locationConfig?.name || ''} ${categoryConfig.title.toLowerCase()}, ${locationConfig?.name || ''} tekne turu, mavi yolculuk`,
           canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`
         });
       } else {
         const seoData = getSEOData.subcategory({
-          locationName: location.name,
-          categoryTitle: category.title,
+          locationName: locationConfig?.name || locationSlug,
+          categoryTitle: categoryConfig.title,
           categorySlug,
           locationSlug,
           tourCount
@@ -212,17 +273,17 @@ const CategoryDetailPage = () => {
         updateSEOTags(seoData);
       }
     } else {
-      // Main category SEO - check admin settings first
+      // Main category SEO - prioritize admin settings
       if (categoryData?.seo_title || categoryData?.seo_description || categoryData?.seo_keywords) {
         updateSEOTags({
-          title: categoryData.seo_title || `${category.title} Turları - Mavibilet`,
-          description: categoryData.seo_description || `${category.title} kategorisindeki en iyi turları keşfedin. ${tourCount} farklı seçenek ile unutulmaz anılar biriktirin.`,
-          keywords: categoryData.seo_keywords || `${category.title.toLowerCase()} turları, tekne turu, mavi yolculuk`,
+          title: categoryData.seo_title || `${categoryConfig.title} Turları - Mavibilet`,
+          description: categoryData.seo_description || `${categoryConfig.title} kategorisindeki en iyi turları keşfedin. ${tourCount} farklı seçenek ile unutulmaz anılar biriktirin.`,
+          keywords: categoryData.seo_keywords || `${categoryConfig.title.toLowerCase()} turları, tekne turu, mavi yolculuk`,
           canonicalUrl: `${window.location.origin}/${categorySlug}`
         });
       } else {
         const seoData = getSEOData.category({
-          categoryTitle: category.title,
+          categoryTitle: categoryConfig.title,
           categorySlug,
           tourCount
         });
@@ -232,15 +293,15 @@ const CategoryDetailPage = () => {
   };
 
   const loadTours = async () => {
-    const category = getCategoryConfig();
-    const location = getLocationConfig();
+    const categoryConfig = getCategoryConfig();
+    const locationConfig = getLocationConfig();
     
     try {
       const params = new URLSearchParams();
-      params.append('category', category.name);
+      params.append('category', categoryConfig.name);
       
-      if (isLocationPage && location) {
-        params.append('location', location.name);
+      if (isLocationPage && locationConfig) {
+        params.append('location', locationConfig.name);
       }
       
       // Add filters
@@ -255,16 +316,18 @@ const CategoryDetailPage = () => {
       if (response.data && Array.isArray(response.data)) {
         let filteredTours = response.data;
         
-        // Additional filtering
+        // Additional filtering for better matching
         filteredTours = filteredTours.filter(tour => {
-          const tourCategory = tour.category || '';
-          const tourLocation = tour.location || '';
+          const tourCategory = (tour.category || '').toLowerCase();
+          const tourLocation = (tour.location || '').toLowerCase();
+          const configName = categoryConfig.name.toLowerCase();
           
-          const categoryMatch = tourCategory.toLowerCase().includes(category.name.toLowerCase()) ||
-                               tourCategory === category.name;
+          const categoryMatch = tourCategory.includes(configName) || 
+                               tourCategory === categoryConfig.name ||
+                               (categorySlug === 'mavi-yolculuk' && tourCategory.includes('mavi'));
           
-          if (isLocationPage && location) {
-            const locationMatch = tourLocation.toLowerCase().includes(location.name.toLowerCase());
+          if (isLocationPage && locationConfig) {
+            const locationMatch = tourLocation.includes(locationConfig.name.toLowerCase());
             return categoryMatch && locationMatch;
           }
           
@@ -279,6 +342,29 @@ const CategoryDetailPage = () => {
       console.error('Error loading tours:', error);
       setTours([]);
     }
+  };
+
+  const handleFilterChange = (key, value) => {
+    const newFilters = { ...filters, [key]: value };
+    setFilters(newFilters);
+    
+    // Reload tours with new filters
+    setTimeout(() => loadTours(), 100);
+  };
+
+  const clearFilters = () => {
+    setFilters({
+      location: '',
+      minPrice: '',
+      maxPrice: '',
+      duration: '',
+      minRating: '',
+      classification: '',
+      startDate: '',
+      endDate: ''
+    });
+    
+    setTimeout(() => loadTours(), 100);
   };
 
   const toggleFavorite = async (tourId, e) => {
@@ -320,9 +406,34 @@ const CategoryDetailPage = () => {
     }));
   };
 
-  const category = getCategoryConfig();
-  const location = getLocationConfig();
-  const displayCategory = isLocationPage ? categoryData?.category || categoryData : categoryData;
+  const categoryConfig = getCategoryConfig();
+  const locationConfig = getLocationConfig();
+
+  // Get display title from admin data or generate from config
+  const getDisplayTitle = () => {
+    if (categoryData?.title) {
+      return categoryData.title;
+    }
+    
+    if (isLocationPage && locationConfig) {
+      return `${locationConfig.name} ${categoryConfig.title} Turları`;
+    }
+    
+    return categoryConfig.title;
+  };
+
+  // Get display description from admin data or generate from config
+  const getDisplayDescription = () => {
+    if (categoryData?.description) {
+      return categoryData.description;
+    }
+    
+    if (isLocationPage && locationConfig) {
+      return `${locationConfig.name} bölgesindeki en güzel ${categoryConfig.title.toLowerCase()} turlarını keşfedin. Profesyonel rehberlik eşliğinde unutulmaz tatil deneyimi yaşayın.`;
+    }
+    
+    return `${categoryConfig.title} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`;
+  };
 
   if (loading) {
     return (
@@ -352,39 +463,18 @@ const CategoryDetailPage = () => {
           >
             <ArrowLeft className="w-4 h-4" />
             <span>
-              {isLocationPage 
-                ? (() => {
-                    // Alt kategori sayfasında ana kategori adını göster
-                    const categoryTitle = displayCategory?.title || categorySlug;
-                    if (categoryTitle.includes('-')) {
-                      return categoryTitle.split('-').map(word => 
-                        word.charAt(0).toUpperCase() + word.slice(1)
-                      ).join(' ');
-                    }
-                    return categoryTitle;
-                  })()
-                : 'Tüm Kategoriler' // Ana kategori sayfasında "Tüm Kategoriler" göster
-              }
+              {isLocationPage ? categoryConfig.title : 'Tüm Kategoriler'}
             </span>
           </button>
 
-          {/* Page Title */}
+          {/* Page Title - Using Admin Data */}
           <div className="flex items-center justify-between">
             <div className="w-full">
               <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-1">
-                {isLocationPage 
-                  ? (categoryData?.custom_title || 
-                     `${categoryData?.location?.location_name || location?.name} ${displayCategory?.title || category.title} Turları`)
-                  : (displayCategory?.title || category.title)
-                }
+                {getDisplayTitle()}
               </h1>
               <p className="text-sm sm:text-base lg:text-lg text-gray-600">
-                {isLocationPage 
-                  ? (categoryData?.location?.description || 
-                     `${categoryData?.location?.location_name || location?.name} bölgesindeki en güzel ${displayCategory?.title || category.title.toLowerCase()} turlarını keşfedin. Profesyonel rehberlik ve modern tekne filosu ile unutulmaz tatil deneyimi yaşayın.`)
-                  : (displayCategory?.description || 
-                     `${displayCategory?.title || category.title} kategorisindeki en iyi turları keşfedin ve unutulmaz anılar biriktirin.`)
-                }
+                {getDisplayDescription()}
               </p>
             </div>
           </div>
@@ -398,85 +488,209 @@ const CategoryDetailPage = () => {
 
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Tours Grid */}
-        {tours.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            {tours.map((tour) => (
-              <Link
-                key={tour.id}
-                to={`/turlar/${tour.slug || createSlug(tour.title)}`}
-                className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
-              >
-                <div className="relative">
-                  <img
-                    src={tour.images?.[0] || '/api/placeholder/400/250'}
-                    alt={tour.title}
-                    className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
-                  <button
-                    onClick={(e) => toggleFavorite(tour.id, e)}
-                    className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-200 ${
-                      favorites.has(tour.id)
-                        ? 'bg-red-500 text-white'
-                        : 'bg-white/90 text-gray-600 hover:bg-red-500 hover:text-white'
-                    }`}
-                  >
-                    <Heart className="w-4 h-4" />
-                  </button>
-                </div>
-                
-                <div className="p-4">
-                  <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
-                    {tour.title}
-                  </h3>
-                  
-                  <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
-                    <span className="flex items-center">
-                      <MapPin className="w-4 h-4 mr-1" />
-                      {tour.location}
-                    </span>
-                    {tour.rating && (
-                      <span className="flex items-center">
-                        <Star className="w-4 h-4 mr-1 text-yellow-400 fill-current" />
-                        {tour.rating}
-                      </span>
-                    )}
-                  </div>
-                  
-                  {tour.minimum_price && (
-                    <div className="text-right">
-                      <span className="text-2xl font-bold text-blue-600">
-                        ₺{tour.minimum_price.toLocaleString('tr-TR')}
-                      </span>
-                      <span className="text-gray-500 text-sm ml-1">/ kişi</span>
-                    </div>
-                  )}
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="text-center py-12 mb-12">
-            <div className={`w-24 h-24 bg-${category.color}-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl`}>
-              {category.icon}
-            </div>
-            <h3 className="text-xl font-medium text-gray-900 mb-2">
-              Henüz tur yok
-            </h3>
-            <p className="text-gray-600 mb-6">
-              Bu {isLocationPage ? 'bölgede' : 'kategoride'} henüz tur bulunmuyor. Diğer seçenekleri kontrol edebilirsiniz.
-            </p>
-            <Link
-              to="/turlar"
-              className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-            >
-              Tüm Turları Gör
-              <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
-          </div>
-        )}
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar - Filters */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-2xl shadow-lg p-6 sticky top-6">
+              <div className="flex items-center justify-between mb-6">
+                <h2 className="text-xl font-bold text-gray-900">Filtreler</h2>
+                <button
+                  onClick={clearFilters}
+                  className="text-blue-600 hover:text-blue-700 text-sm font-medium"
+                >
+                  Temizle
+                </button>
+              </div>
 
-        {/* FAQ Section */}
+              <div className="space-y-6">
+                {/* Location Filter */}
+                {availableFilters.locations.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Lokasyon
+                    </label>
+                    <select
+                      value={filters.location}
+                      onChange={(e) => handleFilterChange('location', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Tüm Lokasyonlar</option>
+                      {availableFilters.locations.map((location) => (
+                        <option key={location} value={location}>
+                          {location}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Duration Filter */}
+                {availableFilters.durations.length > 0 && (
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Süre
+                    </label>
+                    <select
+                      value={filters.duration}
+                      onChange={(e) => handleFilterChange('duration', e.target.value)}
+                      className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    >
+                      <option value="">Tüm Süreler</option>
+                      {availableFilters.durations.map((duration) => (
+                        <option key={duration} value={duration}>
+                          {duration}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                )}
+
+                {/* Price Range Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Fiyat Aralığı
+                  </label>
+                  <div className="grid grid-cols-2 gap-2">
+                    <input
+                      type="number"
+                      placeholder="Min"
+                      value={filters.minPrice}
+                      onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                    <input
+                      type="number"
+                      placeholder="Max"
+                      value={filters.maxPrice}
+                      onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                      className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+
+                {/* Rating Filter */}
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Minimum Puan
+                  </label>
+                  <select
+                    value={filters.minRating}
+                    onChange={(e) => handleFilterChange('minRating', e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="">Tüm Puanlar</option>
+                    <option value="4.5">4.5+ Yıldız</option>
+                    <option value="4.0">4.0+ Yıldız</option>
+                    <option value="3.5">3.5+ Yıldız</option>
+                    <option value="3.0">3.0+ Yıldız</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Main Content - Tours */}
+          <div className="lg:col-span-3">
+            {tours.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                {tours.map((tour) => (
+                  <Link
+                    key={tour.id}
+                    to={`/turlar/${tour.slug || createSlug(tour.title)}`}
+                    className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 overflow-hidden group"
+                  >
+                    <div className="relative">
+                      <img
+                        src={tour.images?.[0] || '/api/placeholder/400/250'}
+                        alt={tour.title}
+                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      />
+                      <button
+                        onClick={(e) => toggleFavorite(tour.id, e)}
+                        className={`absolute top-3 right-3 p-2 rounded-full transition-all duration-200 ${
+                          favorites.has(tour.id)
+                            ? 'bg-red-500 text-white'
+                            : 'bg-white/90 text-gray-600 hover:bg-red-500 hover:text-white'
+                        }`}
+                      >
+                        <Heart className="w-4 h-4" />
+                      </button>
+                      {tour.classification && (
+                        <div className="absolute bottom-3 left-3">
+                          <span className="bg-black/70 text-white px-2 py-1 rounded text-xs font-medium">
+                            {tour.classification}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="p-4">
+                      <h3 className="font-semibold text-gray-900 mb-2 line-clamp-2">
+                        {tour.title}
+                      </h3>
+                      
+                      <div className="flex items-center justify-between text-sm text-gray-500 mb-3">
+                        <span className="flex items-center">
+                          <MapPin className="w-4 h-4 mr-1" />
+                          {tour.location}
+                        </span>
+                        {tour.rating && (
+                          <span className="flex items-center">
+                            <Star className="w-4 h-4 mr-1 text-yellow-400 fill-current" />
+                            {tour.rating}
+                          </span>
+                        )}
+                      </div>
+                      
+                      {tour.duration && (
+                        <div className="flex items-center text-sm text-gray-500 mb-3">
+                          <Clock className="w-4 h-4 mr-1" />
+                          {tour.duration}
+                        </div>
+                      )}
+                      
+                      {tour.minimum_price && (
+                        <div className="text-right">
+                          <span className="text-2xl font-bold text-blue-600">
+                            ₺{tour.minimum_price.toLocaleString('tr-TR')}
+                          </span>
+                          <span className="text-gray-500 text-sm ml-1">/ kişi</span>
+                        </div>
+                      )}
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-12 mb-12">
+                <div className={`w-24 h-24 bg-${categoryConfig.color}-100 rounded-full flex items-center justify-center mx-auto mb-4 text-4xl`}>
+                  {categoryConfig.icon}
+                </div>
+                <h3 className="text-xl font-medium text-gray-900 mb-2">
+                  Henüz tur yok
+                </h3>
+                <p className="text-gray-600 mb-6">
+                  Bu {isLocationPage ? 'bölgede' : 'kategoride'} henüz tur bulunmuyor. Filtreleri temizleyebilir veya diğer seçenekleri kontrol edebilirsiniz.
+                </p>
+                <button
+                  onClick={clearFilters}
+                  className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors mr-4"
+                >
+                  Filtreleri Temizle
+                </button>
+                <Link
+                  to="/turlar"
+                  className="inline-flex items-center px-4 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
+                >
+                  Tüm Turları Gör
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* FAQ Section - Admin Data */}
         {categoryData?.faq && categoryData.faq.length > 0 && (
           <div className="bg-white rounded-2xl shadow-lg p-8 mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
