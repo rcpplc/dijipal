@@ -725,12 +725,27 @@ const TourDetailPage = () => {
 
   const currentPrice = selectedDate ? selectedDate.price : tour.base_price;
 
+  // Geri Git fonksiyonu - history sorununu çözmek için
+  const handleBackClick = () => {
+    // Eğer referrer varsa ve aynı domain'deyse oraya git
+    if (document.referrer && document.referrer.includes(window.location.hostname)) {
+      const referrerPath = new URL(document.referrer).pathname;
+      // Eğer referrer /turlar değilse (yani kategori sayfasıysa), oraya git
+      if (referrerPath !== '/turlar' && referrerPath !== '/') {
+        navigate(referrerPath);
+        return;
+      }
+    }
+    // Aksi halde normal history back
+    navigate(-1);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 pb-8">
         {/* Geri Git Button */}
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleBackClick}
           className="inline-flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
         >
           <ArrowLeft className="w-5 h-5" />
