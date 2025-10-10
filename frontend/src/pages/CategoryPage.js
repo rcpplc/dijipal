@@ -187,6 +187,7 @@ const CategoryPage = () => {
       console.error('Error loading tours:', error);
       setTours([]);
       toast.error('Turlar yüklenirken hata oluştu');
+      updateSEO(); // Update SEO even on error
     } finally {
       setLoading(false);
     }
