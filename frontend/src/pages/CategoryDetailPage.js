@@ -505,21 +505,42 @@ const CategoryDetailPage = () => {
         )}
 
         {/* FAQ Section */}
-        {((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq) && 
-         ((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq).length > 0 && (
+        {(() => {
+          let faqData = null;
+          
+          if (locationSlug) {
+            // Alt kategori için subcategory FAQ'ini kullan
+            faqData = categoryData?.subcategory?.faq || categoryData?.parent_category?.faq;
+          } else {
+            // Ana kategori için category FAQ'ini kullan
+            faqData = categoryData?.faq;
+          }
+          
+          return faqData && faqData.length > 0;
+        })() && (
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Sıkça Sorulan Sorular</h2>
             <div className="space-y-4">
-              {((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq || []).map((item, index) => (
-                <div key={index} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
-                    {item.question}
-                  </h3>
-                  <p className="text-gray-600">
-                    {item.answer}
-                  </p>
-                </div>
-              ))}
+              {(() => {
+                let faqData = null;
+                
+                if (locationSlug) {
+                  faqData = categoryData?.subcategory?.faq || categoryData?.parent_category?.faq || [];
+                } else {
+                  faqData = categoryData?.faq || [];
+                }
+                
+                return faqData.map((item, index) => (
+                  <div key={index} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      {item.question}
+                    </h3>
+                    <p className="text-gray-600">
+                      {item.answer}
+                    </p>
+                  </div>
+                ));
+              })()}
             </div>
           </div>
         )}
