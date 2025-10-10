@@ -142,7 +142,7 @@ const CategoryDetailPage = () => {
     loadData();
   }, [categorySlug, locationSlug]);
 
-  // SEO update function
+  // SEO update function - uses admin SEO settings if available
   const updateSEO = () => {
     const tourCount = tours.length;
     const currentDisplayCategory = isLocationPage 
@@ -150,30 +150,53 @@ const CategoryDetailPage = () => {
       : categoryData;
     
     if (isLocationPage) {
-      // Subcategory SEO
+      // Subcategory SEO - use admin SEO settings first
       const locationName = categoryData?.location?.location_name || locationSlug;
       const categoryTitle = currentDisplayCategory?.title || categorySlug;
       
-      const seoData = getSEOData.subcategory({
-        locationName,
-        categoryTitle,
-        categorySlug,
-        locationSlug,
-        tourCount
-      });
-      
-      updateSEOTags(seoData);
+      // Check for admin-defined SEO settings
+      const adminSEO = categoryData?.location;
+      if (adminSEO && (adminSEO.meta_title || adminSEO.meta_description || adminSEO.meta_keywords)) {
+        // Use admin SEO settings
+        updateSEOTags({
+          title: adminSEO.meta_title || `${locationName} ${categoryTitle} Turları - Mavibilet`,
+          description: adminSEO.meta_description || `${locationName} bölgesindeki en güzel ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı seçenek ile unutulmaz deneyimler.`,
+          keywords: adminSEO.meta_keywords || `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, mavi yolculuk ${locationName}`,
+          canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`
+        });
+      } else {
+        // Use default SEO template
+        const seoData = getSEOData.subcategory({
+          locationName,
+          categoryTitle,
+          categorySlug,
+          locationSlug,
+          tourCount
+        });
+        updateSEOTags(seoData);
+      }
     } else {
-      // Main category SEO
+      // Main category SEO - use admin SEO settings first
       const categoryTitle = currentDisplayCategory?.title || categorySlug;
       
-      const seoData = getSEOData.category({
-        categoryTitle,
-        categorySlug,
-        tourCount
-      });
-      
-      updateSEOTags(seoData);
+      // Check for admin-defined SEO settings
+      if (categoryData && (categoryData.meta_title || categoryData.meta_description || categoryData.meta_keywords)) {
+        // Use admin SEO settings
+        updateSEOTags({
+          title: categoryData.meta_title || `${categoryTitle} Turları - Mavibilet`,
+          description: categoryData.meta_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${tourCount} farklı seçenek ile unutulmaz anılar biriktirin.`,
+          keywords: categoryData.meta_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
+          canonicalUrl: `${window.location.origin}/${categorySlug}`
+        });
+      } else {
+        // Use default SEO template
+        const seoData = getSEOData.category({
+          categoryTitle,
+          categorySlug,
+          tourCount
+        });
+        updateSEOTags(seoData);
+      }
     }
   };
 
