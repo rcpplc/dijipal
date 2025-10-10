@@ -345,10 +345,7 @@ const CategoryDetailPage = () => {
     );
   };
 
-  // Eğer tur sayfası olduğu tespit edildiyse TourDetailPage render et
-  if (isTourPage) {
-    return <TourDetailPage />;
-  }
+  // Artık TourDetailPage conditional rendering yok - turlar /tur/:slug route'unda
 
   if (loading) {
     return (
