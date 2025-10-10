@@ -266,12 +266,10 @@ const TourDetailPage = () => {
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
-        // 404 durumunda sadece /turlar'a git
-        // 'from' parametresi varsa bile kullanma çünkü loop oluşturabilir
         toast.error('Tur bulunamadı');
         setLoading(false);
         navigate('/turlar', { replace: true });
-        return; // Early return to prevent setting loading false twice
+        return;
       }
       setLoading(false);
     }
