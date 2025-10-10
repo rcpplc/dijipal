@@ -10,7 +10,7 @@ import sys
 from urllib.parse import quote
 
 # Configuration
-BACKEND_URL = "https://seo-nav-rebuild.preview.emergentagent.com/api"
+BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
 
 def test_available_tours_and_categories():
     """Test 1: Check available tours and categories"""

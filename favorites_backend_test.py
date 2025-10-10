@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://seo-nav-rebuild.preview.emergentagent.com/api"
+BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
 
 class FavoritesAPITester:
     def __init__(self):
