@@ -105,16 +105,8 @@ const CategoryDetailPage = () => {
     e.stopPropagation();
     e.preventDefault();
     
-    console.log('toggleFavorite called:', { user, setShowLoginModal });
-    
     if (!user) {
-      if (setShowLoginModal) {
-        console.log('Opening login modal');
-        setShowLoginModal(true);
-      } else {
-        console.error('setShowLoginModal not available');
-        toast.error('Giriş yapmak için sayfayı yenileyin');
-      }
+      setShowLoginModal(true);
       return;
     }
 
