@@ -609,7 +609,6 @@ const HomePage = () => {
             {[
               {
                 name: 'Göcek',
-                slug: 'gocek',
                 description: '12 Ada ve kristal berraklığında koylar',
                 image: 'https://images.unsplash.com/photo-1664268406960-7dbe536f987e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxHJUMzJUI2Y2VrJTIwVHVya2V5JTIwbWFyaW5hfGVufDB8fHx8MTc2MDEwODEzOHww&ixlib=rb-4.1.0&q=85',
                 tours: 2,
@@ -617,7 +616,6 @@ const HomePage = () => {
               },
               {
                 name: 'Fethiye',
-                slug: 'fethiye',
                 description: 'Ölüdeniz ve Kelebek Vadisi',
                 image: 'https://images.unsplash.com/photo-1686465602845-868cebea024a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwyfHxGZXRoaXllJTIwJUMzJTk2bCVDMyVCQ2Rlbml6JTIwYmVhY2h8ZW58MHx8fHwxNzYwMTA4MTQ2fDA&ixlib=rb-4.1.0&q=85',
                 tours: 1,
@@ -625,7 +623,6 @@ const HomePage = () => {
               },
               {
                 name: 'Marmaris',
-                slug: 'marmaris',
                 description: 'Canlı marina ve turkuaz sular',
                 image: 'https://images.unsplash.com/photo-1529528018027-2ee0409703af?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwxfHxNYXJtYXJpcyUyMFR1cmtleSUyMGJheXxlbnwwfHx8fDE3NjAxMDgxNTN8MA&ixlib=rb-4.1.0&q=85',
                 tours: 0,
@@ -633,7 +630,6 @@ const HomePage = () => {
               },
               {
                 name: 'Bodrum',
-                slug: 'bodrum',
                 description: 'Gökova Körfezi ve Orak Adası',
                 image: 'https://images.unsplash.com/photo-1580492327426-62eaa87cdda4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxCb2RydW0lMjBUdXJrZXklMjBjYXN0bGV8ZW58MHx8fHwxNzYwMTA4MTYwfDA&ixlib=rb-4.1.0&q=85',
                 tours: 0,
@@ -641,8 +637,8 @@ const HomePage = () => {
               }
             ].map((location, index) => (
               <Link
-                key={location.slug}
-                to={`/turlar?location=${location.slug}`}
+                key={location.name}
+                to={`/turlar?location=${location.name}`}
                 className="group relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
                 style={{ animationDelay: `${index * 100}ms` }}
               >
