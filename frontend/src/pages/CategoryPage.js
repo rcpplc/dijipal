@@ -315,22 +315,16 @@ const CategoryPage = () => {
 
   // SEO update function - uses admin SEO settings if available
   const updateSEO = (toursArray = []) => {
-    // Get category title - always format properly from slug
-    let categoryTitle = categoryData?.title || category;
+    // Get proper category title using API mapping
+    const apiCategory = getCategoryForAPI(category);
+    let categoryTitle = categoryData?.title || apiCategory || category;
     
     // Always format the title properly, regardless of source
-    if (categoryTitle) {
-      if (categoryTitle.includes('-')) {
-        // Convert slug to proper format: mavi-yolculuk -> Mavi Yolculuk
-        categoryTitle = categoryTitle.split('-').map(word => 
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
-      } else if (categoryTitle.toLowerCase() === categoryTitle) {
-        // Convert lowercase to proper case: mavi yolculuk -> Mavi Yolculuk
-        categoryTitle = categoryTitle.split(' ').map(word => 
-          word.charAt(0).toUpperCase() + word.slice(1)
-        ).join(' ');
-      }
+    if (categoryTitle && categoryTitle.includes('-')) {
+      // Convert slug to proper format: mavi-yolculuk -> Mavi Yolculuk
+      categoryTitle = categoryTitle.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ');
     }
     
     console.log(`🔍 SEO Update - Category: ${category} -> Title: ${categoryTitle}`);
