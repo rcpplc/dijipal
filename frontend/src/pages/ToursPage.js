@@ -1227,6 +1227,70 @@ const ToursPage = () => {
           </div>
 
           {/* Sonuç CTA */}
+          {/* Description Section */}
+          <div className="mt-12 bg-white rounded-lg shadow-md p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Turlarımız Hakkında</h2>
+            <div className="prose prose-lg max-w-none">
+              <p className="text-gray-600 leading-relaxed mb-4">
+                Türkiye'nin eşsiz kıyılarında unutulmaz bir deneyim için özenle hazırlanmış turlarımızı keşfedin. 
+                Mavi yolculuktan günübirlik tekne turlarına, kabin turlarından özel organizasyonlara kadar geniş 
+                bir yelpazede hizmet sunuyoruz.
+              </p>
+              <p className="text-gray-600 leading-relaxed">
+                Profesyonel ekibimiz ve kaliteli teknelerimizle güvenli, konforlu ve keyifli bir tatil deneyimi 
+                yaşamanızı sağlıyoruz. Her bütçeye uygun seçeneklerimizle hayalinizdeki deniz tatilini 
+                gerçekleştirin.
+              </p>
+            </div>
+          </div>
+
+          {/* FAQ Section */}
+          <div className="mt-12 bg-white rounded-lg shadow-md p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">Sıkça Sorulan Sorular</h2>
+            <div className="space-y-4">
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Rezervasyon yapmak için ne kadar önceden başvurmalıyım?
+                </h3>
+                <p className="text-gray-600">
+                  Rezervasyonlarınızı en az 3-5 gün önceden yapmanızı öneriyoruz. Yoğun sezonlarda (Haziran-Eylül) 
+                  daha erken rezervasyon yapmanız avantajlı olacaktır.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  İptal ve iade koşulları nelerdir?
+                </h3>
+                <p className="text-gray-600">
+                  Tur tarihinden 7 gün öncesine kadar yapılan iptallerde %100 iade yapılır. 7 gün içinde yapılan 
+                  iptallerde iade koşulları turun özelliğine göre değişiklik gösterebilir.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-4">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Turlarda yemek dahil mi?
+                </h3>
+                <p className="text-gray-600">
+                  Yemek ve içecek dahiliyeti tur tipine göre değişmektedir. Her turun detay sayfasında 
+                  "Dahil Olan Hizmetler" bölümünde bu bilgiyi bulabilirsiniz.
+                </p>
+              </div>
+              
+              <div className="pb-4 last:border-0 last:pb-0">
+                <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  Hava koşulları turları etkiler mi?
+                </h3>
+                <p className="text-gray-600">
+                  Güvenliğiniz için kötü hava koşullarında turlar iptal edilebilir veya ertelenebilir. 
+                  Bu durumda tarafınıza önceden bilgilendirme yapılır ve alternatif tarih önerilir veya 
+                  tam iade yapılır.
+                </p>
+              </div>
+            </div>
+          </div>
+
           <div className="mt-16 text-center">
             <div className="bg-blue-600 rounded-2xl p-8 md:p-12">
               <h4 className="text-2xl md:text-3xl font-bold text-white mb-6">
