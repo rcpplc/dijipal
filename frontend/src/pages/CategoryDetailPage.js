@@ -23,7 +23,7 @@ const API = `${BACKEND_URL}/api`;
 const CategoryDetailPage = () => {
   const { categorySlug, locationSlug } = useParams();
   const navigate = useNavigate();
-  const { user, setShowLoginModal } = useAuth();
+  const { user, token, setShowLoginModal } = useAuth();
   const [categoryData, setCategoryData] = useState(null);
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
