@@ -89,7 +89,7 @@ const ToursPage = () => {
 
   useEffect(() => {
     loadUserFavorites();
-  }, [user]);
+  }, [user, token]);
 
   const loadUserFavorites = async () => {
     if (!user || !token) {
