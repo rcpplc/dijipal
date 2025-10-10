@@ -728,8 +728,15 @@ const TourDetailPage = () => {
 
   // Geri Git fonksiyonu - kategori sayfasından gelindiyse oraya dön
   const handleBackClick = () => {
-    // Eğer location.state'de from bilgisi varsa (kategori sayfasından gelindiyse)
-    if (location.state?.from) {
+    // URL'deki 'from' query parametresini kontrol et
+    const urlParams = new URLSearchParams(window.location.search);
+    const fromPath = urlParams.get('from');
+    
+    if (fromPath) {
+      // Query parametresinden gelen path'e git
+      navigate(fromPath);
+    } else if (location.state?.from) {
+      // Eğer location.state'de from bilgisi varsa
       navigate(location.state.from);
     } else {
       // Aksi halde normal history back
