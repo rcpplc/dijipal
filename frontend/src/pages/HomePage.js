@@ -458,8 +458,8 @@ const HomePage = () => {
           </div>
 
           {loading ? (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {[...Array(6)].map((_, i) => (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {[...Array(8)].map((_, i) => (
                 <div key={i} className="bg-white rounded-2xl p-6 shadow-lg animate-pulse">
                   <div className="w-16 h-16 bg-gray-200 rounded-2xl mb-4"></div>
                   <div className="h-6 bg-gray-200 rounded mb-2"></div>
@@ -469,7 +469,7 @@ const HomePage = () => {
               ))}
             </div>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {categories.map((category) => (
                 <CategoryCard key={category.id} category={category} />
               ))}
