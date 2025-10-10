@@ -5,7 +5,7 @@ from datetime import datetime
 import time
 
 class ToursAPITester:
-    def __init__(self, base_url="https://turlar-redesign.preview.emergentagent.com"):
+    def __init__(self, base_url="https://seo-nav-rebuild.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tests_run = 0
