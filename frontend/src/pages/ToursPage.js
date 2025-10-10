@@ -531,7 +531,7 @@ const ToursPage = () => {
   // Tour Card Component
   const TourCard = ({ tour }) => (
     <Link 
-      to={`/turlar/${createSlug(tour.title)}`} 
+      to={`/${createSlug(tour.title)}`} 
       className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block group"
     >
       {/* Image Section */}
