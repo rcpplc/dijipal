@@ -58,10 +58,6 @@ const CategoryDetailPage = () => {
       setLoading(true);
       let data;
       
-      // ÖNEMLI: Eğer 'fromBackButton' parametresi varsa, bu bir kategori sayfası
-      // TourDetailPage'den "Geri Git" ile gelindiyse, tur olarak algılama
-      const fromBackButton = searchParams.get('fromBackButton');
-      
       if (locationSlug) {
         // Alt kategori (lokasyon) sayfası
         const response = await axios.get(`${API}/categories/${actualCategorySlug}/${locationSlug}`);
