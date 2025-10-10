@@ -290,7 +290,7 @@ const CartPage = () => {
       {/* Mobile Bottom Bar - Sepet Özeti */}
       {cartItems.length > 0 && (
         <CartBottomBar 
-          totalPrice={totalAmount} 
+          totalPrice={calculateTotalPrice()} 
           itemCount={cartItems.length}
         />
       )}
