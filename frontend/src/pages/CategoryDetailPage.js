@@ -441,10 +441,17 @@ const CategoryDetailPage = () => {
             <ArrowLeft className="w-4 h-4" />
             <span>
               {isLocationPage 
-                ? (displayCategory?.title || 
-                   categorySlug.split('-').map(word => 
-                     word.charAt(0).toUpperCase() + word.slice(1)
-                   ).join(' ')) // Alt kategori sayfasında ana kategori adı göster
+                ? (() => {
+                    // Format category name properly
+                    const categoryTitle = displayCategory?.title || categorySlug;
+                    if (categoryTitle.includes('-')) {
+                      // Convert slug to proper name: mavi-yolculuk → Mavi Yolculuk
+                      return categoryTitle.split('-').map(word => 
+                        word.charAt(0).toUpperCase() + word.slice(1)
+                      ).join(' ');
+                    }
+                    return categoryTitle;
+                  })()
                 : 'Turlar' // Ana kategori sayfasında "Turlar" göster
               }
             </span>
