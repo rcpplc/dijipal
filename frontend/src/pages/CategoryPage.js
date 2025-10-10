@@ -310,6 +310,29 @@ const CategoryPage = () => {
     loadTours();
   };
 
+  // SEO update function
+  const updateSEO = (toursArray = []) => {
+    // Get category title - try from categoryData first, then format from slug
+    let categoryTitle = categoryData?.title || category;
+    
+    // Format category title properly if it's a slug
+    if (categoryTitle && categoryTitle.includes('-')) {
+      categoryTitle = categoryTitle.split('-').map(word => 
+        word.charAt(0).toUpperCase() + word.slice(1)
+      ).join(' ');
+    }
+    
+    // Create SEO data
+    const seoData = getSEOData.category({
+      categoryTitle,
+      categorySlug: category,
+      tourCount: toursArray.length
+    });
+    
+    // Update SEO tags
+    updateSEOTags(seoData);
+  };
+
   const toggleFavorite = async (tourId, e) => {
     e.stopPropagation();
     e.preventDefault();
