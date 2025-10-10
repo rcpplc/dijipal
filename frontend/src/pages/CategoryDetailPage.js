@@ -366,11 +366,12 @@ const CategoryDetailPage = () => {
         </div>
 
         {/* FAQ Section */}
-        {categoryData.faq && categoryData.faq.length > 0 && (
+        {((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq) && 
+         ((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq).length > 0 && (
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Sıkça Sorulan Sorular</h2>
             <div className="space-y-4">
-              {categoryData.faq.map((item, index) => (
+              {((locationSlug ? categoryData?.subcategory?.faq : categoryData?.faq) || categoryData?.parent_category?.faq || []).map((item, index) => (
                 <div key={index} className="border-b border-gray-200 pb-4 last:border-0 last:pb-0">
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     {item.question}
