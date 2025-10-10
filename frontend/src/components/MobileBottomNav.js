@@ -60,14 +60,13 @@ const MobileBottomNav = () => {
             <Link
               key={item.name}
               to={item.path}
-              className={`flex flex-col items-center justify-center space-y-1 transition-colors duration-200 ${
+              className={`flex items-center justify-center transition-colors duration-200 ${
                 isActive
                   ? 'text-blue-600'
-                  : 'text-gray-500 hover:text-blue-600'
+                  : 'text-gray-500 active:text-blue-600'
               }`}
             >
-              <Icon className="w-6 h-6" strokeWidth={2} />
-              <span className="text-xs font-medium">{item.name}</span>
+              <Icon className="w-7 h-7" strokeWidth={2} />
             </Link>
           );
         })}
