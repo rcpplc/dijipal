@@ -142,6 +142,38 @@ const CategoryDetailPage = () => {
     loadData();
   }, [categorySlug, locationSlug]);
 
+  // SEO update function
+  const updateSEO = () => {
+    const tourCount = tours.length;
+    
+    if (isLocationPage) {
+      // Subcategory SEO
+      const locationName = categoryData?.location?.location_name || locationSlug;
+      const categoryTitle = displayCategory?.title || categorySlug;
+      
+      const seoData = getSEOData.subcategory({
+        locationName,
+        categoryTitle,
+        categorySlug,
+        locationSlug,
+        tourCount
+      });
+      
+      updateSEOTags(seoData);
+    } else {
+      // Main category SEO
+      const categoryTitle = displayCategory?.title || categorySlug;
+      
+      const seoData = getSEOData.category({
+        categoryTitle,
+        categorySlug,
+        tourCount
+      });
+      
+      updateSEOTags(seoData);
+    }
+  };
+
   const loadData = async () => {
     try {
       setLoading(true);
