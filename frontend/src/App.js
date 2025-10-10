@@ -29,6 +29,7 @@ import PrivacyPage from './pages/PrivacyPage';
 import CookiesPage from './pages/CookiesPage';
 import KVKKPage from './pages/KVKKPage';
 import TestUploadPage from './pages/TestUploadPage';
+import CategoryDetailPage from './pages/CategoryDetailPage';
 import LoginModal from './components/LoginModal';
 import ScrollToTop from './components/ScrollToTop';
 
