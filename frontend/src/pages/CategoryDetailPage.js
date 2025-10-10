@@ -80,6 +80,13 @@ const CategoryDetailPage = () => {
       
     } catch (error) {
       console.error('Kategori verileri yüklenirken hata:', error);
+      
+      // Eğer kategori bulunamadıysa, bu bir tur slug'ı olabilir
+      if (error.response?.status === 404 && !locationSlug) {
+        // Kategori bulunamadı, TourDetailPage'e yönlendir
+        navigate(`/turlar/${categorySlug}`, { replace: true });
+        return;
+      }
     } finally {
       setLoading(false);
     }
