@@ -372,14 +372,6 @@ const CategoryDetailPage = () => {
                   : categoryData?.title
                 }
               </h1>
-              {(categoryData.description || categoryData.page_description || categoryData.subcategory?.description) && (
-                <p className="text-lg text-gray-600 max-w-4xl">
-                  {locationSlug 
-                    ? (categoryData?.page_description || categoryData?.subcategory?.description || categoryData?.description)
-                    : categoryData?.description
-                  }
-                </p>
-              )}
             </div>
           </div>
         </div>
