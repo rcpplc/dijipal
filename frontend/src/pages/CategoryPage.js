@@ -176,7 +176,6 @@ const CategoryPage = () => {
         });
         
         setTours(filteredTours);
-        setTimeout(() => updateSEO(), 100);
       } else {
         setTours([]);
       }
