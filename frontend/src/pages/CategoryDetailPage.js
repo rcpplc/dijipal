@@ -341,9 +341,11 @@ const CategoryDetailPage = () => {
           <button
             onClick={() => {
               if (isLocationPage) {
+                // Alt kategori sayfasındaysa ana kategoriye git
                 navigate(`/${categorySlug}`);
               } else {
-                navigate('/turlar');
+                // Ana kategori sayfasındaysa tüm kategorilere git
+                navigate('/kategoriler');
               }
             }}
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
@@ -352,6 +354,7 @@ const CategoryDetailPage = () => {
             <span>
               {isLocationPage 
                 ? (() => {
+                    // Alt kategori sayfasında ana kategori adını göster
                     const categoryTitle = displayCategory?.title || categorySlug;
                     if (categoryTitle.includes('-')) {
                       return categoryTitle.split('-').map(word => 
@@ -360,7 +363,7 @@ const CategoryDetailPage = () => {
                     }
                     return categoryTitle;
                   })()
-                : 'Turlar'
+                : 'Tüm Kategoriler' // Ana kategori sayfasında "Tüm Kategoriler" göster
               }
             </span>
           </button>
