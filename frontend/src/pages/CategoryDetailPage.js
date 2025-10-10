@@ -84,7 +84,7 @@ const CategoryDetailPage = () => {
   };
 
   const getLocationConfig = () => {
-    if (!locationSlug) return null;
+    if (!locationSlug || typeof locationSlug !== 'string') return null;
     
     return {
       name: locationSlug.charAt(0).toUpperCase() + locationSlug.slice(1),
