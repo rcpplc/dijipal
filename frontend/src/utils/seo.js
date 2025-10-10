@@ -152,18 +152,24 @@ export const getSEOData = {
     };
   },
 
-  category: ({ categoryTitle, categorySlug, tourCount = 0 }) => ({
-    title: `${categoryTitle} Turları - Mavibilet | En İyi ${categoryTitle} Tekne Turları`,
-    description: `${categoryTitle} kategorisinde ${tourCount} farklı tur seçeneği. Profesyonel rehberlik ve konforlu tekne ile ${categoryTitle.toLowerCase()} turlarında unutulmaz anılar biriktirin.`,
-    keywords: `${categoryTitle.toLowerCase()} turları, ${categoryTitle.toLowerCase()} tekne turu, mavi yolculuk ${categoryTitle.toLowerCase()}, kabin kiralama`,
+  category: ({ categoryTitle, categorySlug, tourCount = 0, categoryIcon = '🚢' } = {}) => ({
+    title: `${categoryTitle} Turları - Mavibilet | ${tourCount} ${categoryTitle} Turu ve Kabin Kiralama`,
+    description: `${categoryTitle} kategorisinde ${tourCount} farklı tur seçeneği. Profesyonel kaptan kadrosu, modern tekneler ve güvenli rezervasyon sistemi ile ${categoryTitle.toLowerCase()} turlarında unutulmaz deneyimler.`,
+    keywords: `${categoryTitle.toLowerCase()} turları, ${categoryTitle.toLowerCase()} tekne turu, mavi yolculuk ${categoryTitle.toLowerCase()}, ${categoryTitle.toLowerCase()} kabin kiralama, deniz tatili ${categoryTitle.toLowerCase()}`,
     canonicalUrl: `${window.location.origin}/${categorySlug}`,
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "ItemList",
+      "@type": "TouristDestination",
       "name": `${categoryTitle} Turları`,
-      "description": `${categoryTitle} kategorisindeki tekne turları`,
+      "description": `${categoryTitle} kategorisindeki mavi yolculuk turları`,
       "url": `${window.location.origin}/${categorySlug}`,
-      "numberOfItems": tourCount
+      "touristType": "Deniz Tutkunları",
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": `${categoryTitle} Turları`,
+        "itemListElement": [],
+        "numberOfItems": tourCount
+      }
     }
   }),
 
