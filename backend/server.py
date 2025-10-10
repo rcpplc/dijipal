@@ -3339,6 +3339,40 @@ async def get_available_locations():
     
     return {"locations": locations}
 
+@api_router.get("/categories/{category}")
+async def get_category_by_slug(category: str):
+    """Get category data by slug for public access"""
+    
+    # Map URL slug to category name
+    category_mapping = {
+        'mavi-yolculuk': 'Mavi yolculuk',
+        'gunubirlik-tekne': 'Günübirlik Tekne Turları',
+        'kabin-turlari': 'Kabin Turları',
+        'balik-dalis': 'Balık & Dalış',
+        'yuzme-turlari': 'Yüzme Turları'
+    }
+    
+    category_name = category_mapping.get(category, category)
+    
+    # Try to find category in categories collection
+    category_doc = await db.categories.find_one({"name": category_name})
+    
+    if not category_doc:
+        # Return default category data if not found
+        return {
+            "id": category,
+            "name": category_name,
+            "title": category_name,
+            "description": f"{category_name} kategorisindeki turları keşfedin",
+            "seo_title": None,
+            "seo_description": None,
+            "seo_keywords": None,
+            "faq": [],
+            "is_active": True
+        }
+    
+    return category_doc
+
 @api_router.get("/search/categories")
 async def get_available_categories():
     """Get all unique categories from tours with icons"""
