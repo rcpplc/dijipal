@@ -229,11 +229,11 @@ const TourDetailPage = () => {
 
   const loadTour = async () => {
     try {
-      console.log('📈 Loading tour:', tourSlug);
+      console.log('📈 Loading tour:', actualTourSlug);
       const startTime = performance.now();
       
       // 1. Önce temel tour verisini yükle - bu hızlı olmalı
-      const response = await axios.get(`${API}/tours/${tourSlug}`);
+      const response = await axios.get(`${API}/tours/${actualTourSlug}`);
       const tourData = response.data;
       setTour(tourData);
       setLoading(false); // Tour yüklendikten hemen sonra loading'i kapat
