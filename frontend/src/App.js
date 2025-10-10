@@ -186,8 +186,6 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
               <Route path="/turlar/:tourSlug" element={<TourDetailPage />} />
-              {/* New Categories Page */}
-              <Route path="/tum-kategoriler" element={<TumKategorilerPage />} />
               
               {/* New Category System Routes */}
               <Route path="/:categorySlug" element={<CategoryDetailPage />} />
