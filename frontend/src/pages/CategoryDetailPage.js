@@ -431,7 +431,7 @@ const CategoryDetailPage = () => {
                     {categoryData.subcategories.map((subcategory) => (
                       <Link
                         key={subcategory.id}
-                        to={`/${categorySlug}/${subcategory.location_slug}`}
+                        to={`/${actualCategorySlug}/${subcategory.location_slug}`}
                         className="block p-3 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
                       >
                         {subcategory.location_name}
