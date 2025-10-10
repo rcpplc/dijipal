@@ -731,26 +731,9 @@ const TourDetailPage = () => {
 
   const currentPrice = selectedDate ? selectedDate.price : tour.base_price;
 
-  // Geri Git fonksiyonu - kategori sayfasından gelindiyse oraya dön
+  // Geri Git fonksiyonu - basit history back
   const handleBackClick = () => {
-    // URL'deki 'from' query parametresini kontrol et
-    const fromPath = searchParams.get('from');
-    
-    if (fromPath) {
-      // Query parametresinden gelen path'e git
-      // ÖNEMLI: 'fromBackButton=true' parametresi ekleyerek CategoryDetailPage'e
-      // bunun back button ile gelindi�ini bildir (TourDetailPage render etmesin)
-      console.log('Navigating back to:', fromPath);
-      navigate(`${fromPath}?fromBackButton=true`, { replace: true });
-    } else if (location.state?.from) {
-      // Eğer location.state'de from bilgisi varsa
-      console.log('Navigating back via state:', location.state.from);
-      navigate(`${location.state.from}?fromBackButton=true`, { replace: true });
-    } else {
-      // Aksi halde normal history back
-      console.log('Navigating back with history');
-      navigate(-1);
-    }
+    navigate(-1);
   };
 
   return (
