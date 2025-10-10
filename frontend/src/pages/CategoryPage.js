@@ -336,13 +336,13 @@ const CategoryPage = () => {
     console.log(`🔍 SEO Update - Category: ${category} -> Title: ${categoryTitle}`);
     
     // Check for admin-defined SEO settings first
-    if (categoryData && (categoryData.meta_title || categoryData.meta_description || categoryData.meta_keywords)) {
+    if (categoryData && (categoryData.seo_title || categoryData.seo_description || categoryData.seo_keywords)) {
       // Use admin SEO settings
       console.log('📍 Using admin SEO settings for category');
       updateSEOTags({
-        title: categoryData.meta_title || `${categoryTitle} Turları - Mavibilet`,
-        description: categoryData.meta_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${toursArray.length} farklı seçenek ile unutulmaz anılar biriktirin.`,
-        keywords: categoryData.meta_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
+        title: categoryData.seo_title || `${categoryTitle} Turları - Mavibilet`,
+        description: categoryData.seo_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${toursArray.length} farklı seçenek ile unutulmaz anılar biriktirin.`,
+        keywords: categoryData.seo_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
         canonicalUrl: `${window.location.origin}/${category}`,
         structuredData: {
           "@context": "https://schema.org",
