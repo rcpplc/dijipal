@@ -315,15 +315,25 @@ const CategoryPage = () => {
 
   // SEO update function
   const updateSEO = (toursArray = []) => {
-    // Get category title - try from categoryData first, then format from slug
+    // Get category title - always format properly from slug
     let categoryTitle = categoryData?.title || category;
     
-    // Format category title properly if it's a slug
-    if (categoryTitle && categoryTitle.includes('-')) {
-      categoryTitle = categoryTitle.split('-').map(word => 
-        word.charAt(0).toUpperCase() + word.slice(1)
-      ).join(' ');
+    // Always format the title properly, regardless of source
+    if (categoryTitle) {
+      if (categoryTitle.includes('-')) {
+        // Convert slug to proper format: mavi-yolculuk -> Mavi Yolculuk
+        categoryTitle = categoryTitle.split('-').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+      } else if (categoryTitle.toLowerCase() === categoryTitle) {
+        // Convert lowercase to proper case: mavi yolculuk -> Mavi Yolculuk
+        categoryTitle = categoryTitle.split(' ').map(word => 
+          word.charAt(0).toUpperCase() + word.slice(1)
+        ).join(' ');
+      }
     }
+    
+    console.log(`🔍 SEO Update - Category: ${category} -> Title: ${categoryTitle}`);
     
     // Create SEO data
     const seoData = getSEOData.category({
