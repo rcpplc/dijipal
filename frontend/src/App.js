@@ -198,7 +198,7 @@ function App() {
               <Route path="/sepet" element={<CartPage />} />
               <Route path="/payment/:bookingId?" element={<PaymentPage />} />
               <Route path="/payment-success" element={<PaymentSuccessPage />} />
-              <Route path="/bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
+              <Route path="/my-bookings" element={user ? <MyBookingsPage /> : <Navigate to="/" replace />} />
               <Route path="/favorites" element={<FavoritesPage />} />
               <Route 
                 path="/booking/:tourId" 
