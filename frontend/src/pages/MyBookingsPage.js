@@ -2,9 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../App';
 import { 
   Calendar, 
-  MapPin, 
   Users, 
-  Clock,
   CheckCircle,
   XCircle,
   AlertCircle,
@@ -122,27 +120,27 @@ const MyBookingsPage = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gray-50 py-8 sm:py-12">
+      <div className="max-w-4xl mx-auto px-3 sm:px-6 lg:px-8">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
+        <div className="mb-8 text-center sm:text-left">
+          <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
             Rezervasyonlarım
           </h1>
-          <p className="text-gray-600">
+          <p className="text-gray-600 text-sm sm:text-base">
             Geçmiş ve mevcut rezervasyonlarınızı görüntüleyin
           </p>
         </div>
 
         {/* Filter Tabs */}
-        <div className="mb-8">
-          <div className="border-b border-gray-200">
-            <nav className="-mb-px flex space-x-8">
+        <div className="mb-8 overflow-x-auto">
+          <div className="border-b border-gray-200 min-w-max sm:min-w-0">
+            <nav className="-mb-px flex space-x-4 sm:space-x-8 px-2 sm:px-0">
               {filters.map(filterItem => (
                 <button
                   key={filterItem.key}
                   onClick={() => setFilter(filterItem.key)}
-                  className={`whitespace-nowrap py-2 px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
+                  className={`whitespace-nowrap py-2 px-2 sm:px-1 border-b-2 font-medium text-sm transition-colors duration-200 ${
                     filter === filterItem.key
                       ? 'border-blue-600 text-blue-600'
                       : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
@@ -183,70 +181,36 @@ const MyBookingsPage = () => {
           <div className="space-y-6">
             {filteredBookings.map((booking) => (
               <div key={booking.id} className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
-                <div className="p-6">
+                <div className="p-4 sm:p-6">
                   {/* Header */}
-                  <div className="flex justify-between items-start mb-4">
-                    <div>
-                      <div className="flex items-center space-x-3 mb-2">
-                        <h3 className="text-lg font-semibold text-gray-900">
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-start mb-4 gap-3 sm:gap-0">
+                    <div className="flex-1">
+                      <div className="flex flex-wrap items-center gap-2 mb-2">
+                        <h3 className="text-base sm:text-lg font-semibold text-gray-900">
                           {booking.tour_title || `Rezervasyon #${booking.booking_code}`}
                         </h3>
                         {booking.tour_title && (
-                          <p className="text-sm text-gray-500">#{booking.booking_code}</p>
+                          <p className="text-xs sm:text-sm text-gray-500">#{booking.booking_code}</p>
                         )}
                         {getStatusIcon(booking.booking_status)}
                       </div>
-                      <div className="flex items-center space-x-4 text-sm text-gray-600">
+                      <div className="flex flex-wrap items-center gap-2 text-xs sm:text-sm text-gray-600">
                         <div className="flex items-center space-x-1">
                           <Calendar className="w-4 h-4" />
-                          <span>
-                            {booking.tour_date ? new Date(booking.tour_date).toLocaleDateString('tr-TR') : new Date(booking.created_at).toLocaleDateString('tr-TR')}
-                            {/* Duration bilgisi */}
-                            {(booking.duration || booking.duration_days) && (
-                              <span className="ml-2 text-gray-400">• 
-                                {booking.duration || booking.duration_days || 1}{' '}
-                                {booking.duration_unit === 'hours' ? 'Saat' : 
-                                 booking.duration_unit === 'days' ? 'Gün' :
-                                 (booking.duration_days || booking.duration > 12) ? 'Gün' : 'Saat'}
-                              </span>
-                            )}
-                          </span>
+                          <span>{new Date(booking.created_at).toLocaleDateString('tr-TR')}</span>
                         </div>
                         <div className="flex items-center space-x-1">
                           <Users className="w-4 h-4" />
-                          <span>
-                            {(() => {
-                              if (booking.reservation_type === 'person_based') {
-                                const childCount = booking.child_count || 0;
-                                return `${booking.participants || 0} Yetişkin${childCount > 0 ? ` + ${childCount} Çocuk` : ''}`;
-                              } else if (booking.reservation_type === 'reservation') {
-                                return `Tüm Tekne / Sabit Fiyat`;
-                              } else {
-                                // cabin_based - yeni format
-                                const singleCount = booking.single_cabin_count || 0;
-                                const doubleCount = booking.double_cabin_count || 0;
-                                
-                                if (singleCount > 0 || doubleCount > 0) {
-                                  const parts = [];
-                                  if (singleCount > 0) parts.push(`${singleCount} × Tek Kişilik`);
-                                  if (doubleCount > 0) parts.push(`${doubleCount} × Çift Kişilik`);
-                                  return parts.join(' + ');
-                                }
-                                
-                                // Fallback: eski format
-                                return `${booking.participants} × ${booking.cabin_type === 'double' ? 'Çift Kişilik Kabin' : 'Tek Kişilik Kabin'}`;
-                              }
-                            })()}
-                          </span>
+                          <span>{booking.participants || 0} Kişi</span>
                         </div>
                       </div>
                     </div>
-                    
-                    <div className="text-right">
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(booking.booking_status)}`}>
+
+                    <div className="text-right sm:text-right">
+                      <span className={`px-3 py-1 rounded-full text-xs sm:text-sm font-medium ${getStatusColor(booking.booking_status)}`}>
                         {getStatusText(booking.booking_status)}
                       </span>
-                      <div className="mt-2 text-lg font-bold text-blue-600">
+                      <div className="mt-2 text-base sm:text-lg font-bold text-blue-600">
                         ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}
                       </div>
                     </div>
@@ -255,7 +219,7 @@ const MyBookingsPage = () => {
                   {/* Customer Info */}
                   {booking.customer_info && (
                     <div className="border-t border-gray-100 pt-4 mt-4">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
+                      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-sm">
                         <div>
                           <span className="font-medium text-gray-700">İletişim:</span>
                           <div className="mt-1 space-y-1">
@@ -276,80 +240,21 @@ const MyBookingsPage = () => {
                             )}
                           </div>
                         </div>
-                        
                         <div>
-                          <span className="font-medium text-gray-700">Rezervasyon Detayı:</span>
-                          <div className="mt-1 text-gray-600">
-                            {(() => {
-                              if (booking.reservation_type === 'person_based') {
-                                const childCount = booking.child_count || 0;
-                                return (
-                                  <div>
-                                    <p>Katılımcı: {booking.participants || 0} Yetişkin{childCount > 0 ? ` + ${childCount} Çocuk` : ''}</p>
-                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
-                                  </div>
-                                );
-                              } else if (booking.reservation_type === 'reservation') {
-                                return (
-                                  <div>
-                                    <p>Tür: Tüm Tekne / Sabit Fiyat</p>
-                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
-                                  </div>
-                                );
-                              } else {
-                                // cabin_based - yeni format
-                                const singleCount = booking.single_cabin_count || 0;
-                                const doubleCount = booking.double_cabin_count || 0;
-                                
-                                if (singleCount > 0 || doubleCount > 0) {
-                                  return (
-                                    <div>
-                                      <p>Kabin: {singleCount > 0 ? `${singleCount} × Tek Kişilik` : ''}{singleCount > 0 && doubleCount > 0 ? ' + ' : ''}{doubleCount > 0 ? `${doubleCount} × Çift Kişilik` : ''}</p>
-                                      <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
-                                    </div>
-                                  );
-                                }
-                                
-                                // Fallback: eski format
-                                return (
-                                  <div>
-                                    <p>Kabin: {booking.participants} × {booking.cabin_type === 'double' ? 'Çift Kişilik' : 'Tek Kişilik'}</p>
-                                    <p>Toplam: ₺{booking.total_price ? booking.total_price.toLocaleString('tr-TR') : '0'}</p>
-                                  </div>
-                                );
-                              }
-                            })()}
-                            {booking.payment_status === 'success' && (
-                              <span className="inline-flex items-center text-xs bg-green-100 text-green-800 px-2 py-1 rounded-full mt-1">
-                                <CheckCircle className="w-3 h-3 mr-1" />
-                                Ödeme Tamamlandı
-                              </span>
-                            )}
-                          </div>
+                          <span className="font-medium text-gray-700">Rezervasyon:</span>
+                          <p className="text-gray-600 mt-1">Katılımcı: {booking.participants}</p>
                         </div>
-
                         <div>
-                          <span className="font-medium text-gray-700">Tarihler:</span>
-                          <div className="mt-1 text-gray-600">
-                            <p>Oluşturulma: {new Date(booking.created_at).toLocaleDateString('tr-TR')}</p>
-                            <p>Güncelleme: {new Date(booking.updated_at).toLocaleDateString('tr-TR')}</p>
-                          </div>
+                          <span className="font-medium text-gray-700">Tarih:</span>
+                          <p className="text-gray-600 mt-1">{new Date(booking.updated_at).toLocaleDateString('tr-TR')}</p>
                         </div>
                       </div>
                     </div>
                   )}
 
-                  {/* Special Requests */}
-                  {booking.special_requests && (
-                    <div className="border-t border-gray-100 pt-4 mt-4">
-                      <span className="font-medium text-gray-700">Özel İstekler:</span>
-                      <p className="text-gray-600 mt-1">{booking.special_requests}</p>
-                    </div>
-                  )}
-
                   {/* Actions */}
-                  <div className="border-t border-gray-100 pt-4 mt-4 flex justify-between items-center">
-                    <div className="flex space-x-3">
+                  <div className="border-t border-gray-100 pt-4 mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
+                    <div className="flex flex-wrap gap-3">
                       {booking.booking_status === 'paid' && (
                         <button className="text-blue-600 hover:text-blue-700 font-medium text-sm transition-colors duration-200">
                           Detayları Görüntüle
@@ -361,7 +266,7 @@ const MyBookingsPage = () => {
                         </button>
                       )}
                     </div>
-                    
+
                     <div className="flex items-center space-x-2">
                       <button className="flex items-center space-x-1 text-gray-600 hover:text-gray-800 text-sm transition-colors duration-200">
                         <Download className="w-4 h-4" />

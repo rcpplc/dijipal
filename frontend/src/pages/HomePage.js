@@ -481,10 +481,10 @@ const HomePage = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div className="text-center text-white">
               <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6">
-                mavibilet.com
+                Bir tıkla özgürlüğe açıl!
               </h1>
               <p className="text-xl md:text-2xl lg:text-3xl mb-8 opacity-90">
-                Akdeniz ve Ege'nin eşsiz koylarında unutulmaz bir deniz tatili yapın
+                Günübirlik ve mavi tur satın almanın en kolay ve güvenli yolu.
               </p>
               
               {/* Search Bar */}
@@ -494,7 +494,7 @@ const HomePage = () => {
                     <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
                     <input
                       type="text"
-                      placeholder="Ara, Keşfet & Rezervasyon Yap"
+                      placeholder="Keşfet & Rezervasyon Yap"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
                       className="w-full pl-14 pr-4 py-4 text-lg rounded-l-2xl border-0 focus:ring-0 text-gray-900 placeholder-gray-500"
@@ -509,7 +509,7 @@ const HomePage = () => {
                 </form>
                 
                 {/* Popular Search Terms */}
-                <div className="mt-6 flex flex-wrap justify-center gap-3">
+                <div className="mt-6 flex flex-wrap justify-center gap-2">
                   <span className="text-white/80 text-sm"></span>
                   {['Fethiye', 'Göcek', 'Marmaris', 'Bodrum'].map((term) => (
                     <button
@@ -518,7 +518,7 @@ const HomePage = () => {
                         setSearchQuery(term);
                         navigate(`/turlar?search=${term}`);
                       }}
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-4 py-2 rounded-full text-sm transition-all duration-200 border border-white/20"
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-3 py-2 rounded-full text-sm transition-all duration-200 border border-white/20"
                     >
                       {term}
                     </button>
@@ -592,10 +592,6 @@ const HomePage = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-md rounded-full px-6 py-2 mb-6">
-              <MapPin className="w-5 h-5 text-white" />
-              <span className="text-white font-medium">Bölgelere Göre Keşfet</span>
-            </div>
             <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
               Popüler Destinasyonlar
             </h2>
@@ -689,7 +685,7 @@ const HomePage = () => {
           <div className="text-center">
             <Link
               to="/turlar"
-              className="inline-flex items-center space-x-3 bg-white hover:bg-gray-50 text-blue-600 px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+              className="inline-flex items-center space-x-3 bg-white hover:bg-gray-50 text-blue-500 px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
             >
               <span>Tüm Lokasyonları Keşfet</span>
               <ArrowRight className="w-5 h-5" />

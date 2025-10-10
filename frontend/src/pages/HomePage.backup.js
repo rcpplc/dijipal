@@ -213,7 +213,7 @@ const HomePage = () => {
               </span>
             </h1>
             <p className="text-lg sm:text-xl md:text-2xl mb-6 sm:mb-8 text-gray-100 px-2">
-              Akdeniz ve Ege'nin eşsiz koylarında unutulmaz bir deniz tatili yapın
+              Günübirlik ve mavi tur satın almanın en kolay ve güvenli yolu.
             </p>
 
             {/* Search Bar */}
@@ -223,7 +223,7 @@ const HomePage = () => {
                   <MapPin className="w-4 h-4 sm:w-5 sm:h-5 text-gray-400 mr-2 sm:mr-3 flex-shrink-0" />
                   <input
                     type="text"
-                    placeholder="Ara, Keşfet & Rezervasyon Yap"
+                    placeholder="Keşfet & Rezervasyon Yap"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                     className="flex-1 outline-none text-gray-800 placeholder-gray-500 text-sm sm:text-base"
