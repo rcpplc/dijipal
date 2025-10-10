@@ -173,37 +173,31 @@ export const getSEOData = {
     }
   }),
 
-  subcategory: ({ locationName, categoryTitle, categorySlug, locationSlug, tourCount = 0, adminDescription = '' } = {}) => {
-    // Admin panelden gelen açıklama varsa onu kullan, yoksa varsayılan açıklama oluştur
-    const description = adminDescription || 
-      `${locationName} bölgesindeki premium ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı tur seçeneği, profesyonel rehberlik ve modern tekne filosu ile ${locationName}'da unutulmaz mavi yolculuk deneyimi.`;
-    
-    return {
-      title: `${locationName} ${categoryTitle} Turları - Mavibilet | ${tourCount} Tur Seçeneği`,
-      description: description,
-      keywords: `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, ${locationName} mavi yolculuk, ${locationName} kabin kiralama, ${categoryTitle.toLowerCase()} ${locationName}, ${locationName} deniz turu`,
-      canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`,
-      structuredData: {
-        "@context": "https://schema.org",
-        "@type": "TouristDestination",
+  subcategory: ({ locationName, categoryTitle, categorySlug, locationSlug, tourCount = 0 } = {}) => ({
+    title: `${locationName} ${categoryTitle} Turları - Mavibilet | ${tourCount} Tur Seçeneği`,
+    description: `${locationName} bölgesindeki premium ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı tur seçeneği, profesyonel rehberlik ve modern tekne filosu ile ${locationName}'da unutulmaz mavi yolculuk deneyimi.`,
+    keywords: `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, ${locationName} mavi yolculuk, ${locationName} kabin kiralama, ${categoryTitle.toLowerCase()} ${locationName}, ${locationName} deniz turu`,
+    canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`,
+    structuredData: {
+      "@context": "https://schema.org",
+      "@type": "TouristDestination",
+      "name": `${locationName} ${categoryTitle} Turları`,
+      "description": `${locationName} bölgesindeki ${categoryTitle.toLowerCase()} mavi yolculuk turları`,
+      "url": `${window.location.origin}/${categorySlug}/${locationSlug}`,
+      "geo": {
+        "@type": "GeoCoordinates",
+        "name": locationName,
+        "addressCountry": "TR"
+      },
+      "touristType": ["Deniz Tutkunları", "Tatil Severler"],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
         "name": `${locationName} ${categoryTitle} Turları`,
-        "description": adminDescription || `${locationName} bölgesindeki ${categoryTitle.toLowerCase()} mavi yolculuk turları`,
-        "url": `${window.location.origin}/${categorySlug}/${locationSlug}`,
-        "geo": {
-          "@type": "GeoCoordinates",
-          "name": locationName,
-          "addressCountry": "TR"
-        },
-        "touristType": ["Deniz Tutkunları", "Tatil Severler"],
-        "hasOfferCatalog": {
-          "@type": "OfferCatalog",
-          "name": `${locationName} ${categoryTitle} Turları`,
-          "itemListElement": [],
-          "numberOfItems": tourCount
-        }
+        "itemListElement": [],
+        "numberOfItems": tourCount
       }
-    };
-  },
+    }
+  }),
 
   tourDetail: ({ tour }) => ({
     title: `${tour.title} - Mavibilet | ${tour.location} ${tour.category} Turu`,
