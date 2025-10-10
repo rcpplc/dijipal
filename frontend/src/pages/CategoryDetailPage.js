@@ -59,11 +59,11 @@ const CategoryDetailPage = () => {
       
       if (locationSlug) {
         // Alt kategori (lokasyon) sayfası
-        const response = await axios.get(`${API}/categories/${actualCategorySlug}/${locationSlug}`);
+        const response = await axios.get(`${API}/categories/${categorySlug}/${locationSlug}`);
         data = response.data;
       } else {
         // Ana kategori sayfası
-        const response = await axios.get(`${API}/categories/${actualCategorySlug}`);
+        const response = await axios.get(`${API}/categories/${categorySlug}`);
         data = response.data;
       }
       
