@@ -444,11 +444,14 @@ const CategoryPage = () => {
       {/* Header - ToursPage Style */}
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          {/* Breadcrumb Navigation */}
-          <StandardBreadcrumb
-            category={categoryData?.title}
-            categorySlug={categorySlug}
-          />
+          {/* Back Button */}
+          <button
+            onClick={() => navigate('/')}
+            className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            <span>Ana Sayfa</span>
+          </button>
 
           {/* Page Title */}
           <div className="text-center mb-8">
