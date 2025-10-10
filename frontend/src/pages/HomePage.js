@@ -43,11 +43,11 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
 
-  // Hero carousel images
+  // Hero carousel images - Mavi Yolculuk, Dalış, Tekne/Deniz
   const heroImages = [
-    "https://images.unsplash.com/photo-1506905925346-21bda4d32df4",
-    "https://images.unsplash.com/photo-1544551763-46a013bb70d5", 
-    "https://images.unsplash.com/photo-1520637836862-4d197d17c982"
+    "https://images.unsplash.com/photo-1701240616139-074b50aec7d4?w=1920&q=85", // Mavi yolculuk sunset
+    "https://images.pexels.com/photos/2363367/pexels-photo-2363367.jpeg?w=1920&q=85", // Dalış underwater
+    "https://images.unsplash.com/photo-1631991464137-74f089d6318f?w=1920&q=85" // Luxury yacht turquoise bay
   ];
 
   // Default categories with icons
