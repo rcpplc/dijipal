@@ -88,11 +88,10 @@ const Header = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3">
             <img 
-              src="/mavibilet-logo.png" 
-              alt="." 
-              className="h-8 w-ato sm:h-10"
+              src="/mavibilet-logo-mavi.png" 
+              alt="MaviBilet.com" 
+              className="h-8 w-auto sm:h-10"
             />
-
           </Link>
 
           {/* Navigation - Desktop */}
