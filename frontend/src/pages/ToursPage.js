@@ -87,6 +87,10 @@ const ToursPage = () => {
     loadFilterData();
   }, [searchParams]);
 
+  useEffect(() => {
+    loadUserFavorites();
+  }, [user]);
+
   const loadFilterData = async () => {
     try {
       console.log('🔍 Loading filter data from real tours...');
