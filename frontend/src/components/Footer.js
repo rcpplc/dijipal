@@ -15,10 +15,7 @@ const Footer = () => {
                 alt="mavibilet.com" 
                 className="h-10 w-auto"
               />
-              <div>
-                <h3 className="text-xl font-bold">mavibilet.com</h3>
-                <p className="text-sm text-gray-400">Mavi Yolculuğun Keyfini Çıkarın</p>
-              </div>
+
             </div>
             <p className="text-gray-300 mb-6 max-w-md">
               Türkiye'nin eşsiz koylarında kabin kiralama ile unutulmaz deniz tatili deneyimi. 
