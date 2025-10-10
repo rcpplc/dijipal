@@ -368,6 +368,15 @@ const ToursPage = () => {
     }
   };
 
+  // SEO update function
+  const updateSEO = () => {
+    const seoData = getSEOData.tours({
+      totalTours: tours.length
+    });
+    
+    updateSEOTags(seoData);
+  };
+
   const handleSearch = (e) => {
     e.preventDefault();
     
