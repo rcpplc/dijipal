@@ -491,13 +491,6 @@ const HomePage = () => {
 
       {/* Locations Section - Premium Design */}
       <div className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 relative overflow-hidden">
-        {/* Background Pattern */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-          }}></div>
-        </div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           {/* Section Header */}
           <div className="text-center mb-16">
@@ -520,32 +513,32 @@ const HomePage = () => {
                 name: 'Göcek',
                 slug: 'gocek',
                 description: '12 Ada ve kristal berraklığında koylar',
-                image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
-                tours: 33,
+                image: 'https://images.unsplash.com/photo-1664268406960-7dbe536f987e?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxHJUMzJUI2Y2VrJTIwVHVya2V5JTIwbWFyaW5hfGVufDB8fHx8MTc2MDEwODEzOHww&ixlib=rb-4.1.0&q=85',
+                tours: 2,
                 highlight: 'Mavi Yolculuk Başkenti'
               },
               {
                 name: 'Fethiye',
                 slug: 'fethiye',
                 description: 'Ölüdeniz ve Kelebek Vadisi',
-                image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=800',
-                tours: 21,
+                image: 'https://images.unsplash.com/photo-1686465602845-868cebea024a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwyfHxGZXRoaXllJTIwJUMzJTk2bCVDMyVCQ2Rlbml6JTIwYmVhY2h8ZW58MHx8fHwxNzYwMTA4MTQ2fDA&ixlib=rb-4.1.0&q=85',
+                tours: 1,
                 highlight: 'Doğa Harikası'
               },
               {
                 name: 'Marmaris',
                 slug: 'marmaris',
                 description: 'Canlı marina ve turkuaz sular',
-                image: 'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800',
-                tours: 18,
+                image: 'https://images.unsplash.com/photo-1529528018027-2ee0409703af?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2Njd8MHwxfHNlYXJjaHwxfHxNYXJtYXJpcyUyMFR1cmtleSUyMGJheXxlbnwwfHx8fDE3NjAxMDgxNTN8MA&ixlib=rb-4.1.0&q=85',
+                tours: 0,
                 highlight: 'Eğlence Merkezi'
               },
               {
                 name: 'Bodrum',
                 slug: 'bodrum',
                 description: 'Gökova Körfezi ve Orak Adası',
-                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
-                tours: 25,
+                image: 'https://images.unsplash.com/photo-1580492327426-62eaa87cdda4?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzR8MHwxfHNlYXJjaHwxfHxCb2RydW0lMjBUdXJrZXklMjBjYXN0bGV8ZW58MHx8fHwxNzYwMTA4MTYwfDA&ixlib=rb-4.1.0&q=85',
+                tours: 0,
                 highlight: 'Ege İncisi'
               }
             ].map((location, index) => (
