@@ -213,12 +213,13 @@ const Header = () => {
                 )}
               </div>
             ) : (
-              <div className="flex items-center">
+              <div className="hidden lg:flex items-center">
                 <button
                   onClick={() => setShowLoginModal(true)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg font-medium transition-all duration-200 text-sm min-h-[44px] flex items-center"
+                  className="text-gray-600 hover:text-blue-600 p-2 rounded-lg transition-colors duration-200"
+                  title="Giriş Yap"
                 >
-                  Giriş Yap
+                  <User className="w-6 h-6" strokeWidth={2} />
                 </button>
               </div>
             )}
