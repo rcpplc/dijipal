@@ -339,7 +339,7 @@ const CategoryDetailPage = () => {
                 {tours.map((tour) => (
                   <div key={tour.id} className="bg-white rounded-lg shadow-md overflow-hidden hover:shadow-lg transition-shadow duration-200">
                     {/* Tour Image */}
-                    <div className="aspect-w-16 aspect-h-9 bg-gray-200">
+                    <div className="aspect-w-16 aspect-h-9 bg-gray-200 relative">
                       {tour.images && tour.images[0] ? (
                         <img
                           src={tour.images[0]}
@@ -351,6 +351,20 @@ const CategoryDetailPage = () => {
                           <MapPin className="w-12 h-12 text-blue-400" />
                         </div>
                       )}
+                      
+                      {/* Favorite Button */}
+                      <button
+                        onClick={(e) => toggleFavorite(tour.id, e)}
+                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-10"
+                      >
+                        <Heart 
+                          className={`w-5 h-5 ${
+                            favorites.has(tour.id) 
+                              ? 'text-red-500 fill-current' 
+                              : 'text-gray-600'
+                          }`}
+                        />
+                      </button>
                     </div>
 
                     {/* Tour Info */}
