@@ -334,6 +334,8 @@ const CategoryPage = () => {
     }
     
     console.log(`🔍 SEO Update - Category: ${category} -> Title: ${categoryTitle}`);
+    console.log(`📊 Category Data:`, categoryData);
+    console.log(`📊 Tours Count:`, toursArray.length);
     
     // Check for admin-defined SEO settings first
     if (categoryData && (categoryData.seo_title || categoryData.seo_description || categoryData.seo_keywords)) {
