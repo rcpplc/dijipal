@@ -749,13 +749,13 @@ const TourDetailPage = () => {
     const fromPath = searchParams.get('from');
     
     if (fromPath) {
-      // Query parametresinden gelen path'e git
+      // Query parametresinden gelen path'e git (replace: true ile loop'u engelle)
       console.log('Navigating back to:', fromPath);
-      navigate(fromPath);
+      navigate(fromPath, { replace: true });
     } else if (location.state?.from) {
       // Eğer location.state'de from bilgisi varsa
       console.log('Navigating back via state:', location.state.from);
-      navigate(location.state.from);
+      navigate(location.state.from, { replace: true });
     } else {
       // Aksi halde normal history back
       console.log('Navigating back with history');
