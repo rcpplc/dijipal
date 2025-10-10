@@ -17,7 +17,6 @@ import CartPage from './pages/CartPage';
 import PaymentPage from './pages/PaymentPage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
 import CategoryPage from './pages/CategoryPage';
-import TumKategorilerPage from './pages/TumKategorilerPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FavoritesPage from './pages/FavoritesPage';
 import AboutPage from './pages/AboutPage';
