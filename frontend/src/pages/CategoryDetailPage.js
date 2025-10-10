@@ -409,6 +409,35 @@ const CategoryDetailPage = () => {
               
               <h3 className="text-lg font-semibold text-gray-900 mb-4 hidden lg:block">Filtreler</h3>
               
+              {/* Alt Kategoriler (sadece ana kategori sayfasında) - Arama kutusunun üstüne taşındı */}
+              {!locationSlug && categoryData.subcategories && categoryData.subcategories.length > 0 && (
+                <div className="mb-6 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-4 border border-gray-200">
+                  <h4 className="font-semibold text-gray-800 mb-4 flex items-center text-sm uppercase tracking-wide">
+                    <MapPin className="w-4 h-4 mr-2 text-gray-500" />
+                    Lokasyonlar
+                  </h4>
+                  <div className="grid grid-cols-1 gap-2">
+                    {categoryData.subcategories.map((subcategory) => (
+                      <Link
+                        key={subcategory.id}
+                        to={`/${actualCategorySlug}/${subcategory.location_slug}`}
+                        className="group flex items-center justify-between p-3 bg-white hover:bg-blue-50 rounded-lg border border-gray-200 hover:border-blue-300 transition-all duration-200 shadow-sm hover:shadow"
+                      >
+                        <div className="flex items-center space-x-3">
+                          <div className="w-8 h-8 rounded-full bg-gray-100 group-hover:bg-blue-100 flex items-center justify-center transition-colors duration-200">
+                            <MapPin className="w-4 h-4 text-gray-500 group-hover:text-blue-600" />
+                          </div>
+                          <span className="text-sm font-medium text-gray-700 group-hover:text-blue-600 transition-colors duration-200">
+                            {subcategory.location_name}
+                          </span>
+                        </div>
+                        <ArrowRight className="w-4 h-4 text-gray-400 group-hover:text-blue-600 transition-colors duration-200" />
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Search */}
               <form onSubmit={handleSearch} className="mb-6">
                 <div className="relative">
@@ -422,24 +451,6 @@ const CategoryDetailPage = () => {
                   <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
                 </div>
               </form>
-
-              {/* Alt Kategoriler (sadece ana kategori sayfasında) */}
-              {!locationSlug && categoryData.subcategories && categoryData.subcategories.length > 0 && (
-                <div className="mb-6">
-                  <h4 className="font-semibold text-gray-900 mb-3">Bu Kategori Lokasyonları:</h4>
-                  <div className="space-y-2">
-                    {categoryData.subcategories.map((subcategory) => (
-                      <Link
-                        key={subcategory.id}
-                        to={`/${actualCategorySlug}/${subcategory.location_slug}`}
-                        className="block p-3 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors duration-200"
-                      >
-                        {subcategory.location_name}
-                      </Link>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           </div>
 
