@@ -1,53 +1,124 @@
+#!/usr/bin/env python3
+"""
+Comprehensive Backend Testing for Category System
+Testing Turkish review request: Ana sayfa ve kategori sisteminin comprehensive backend testing'i
+"""
+
 import requests
-import sys
 import json
+import sys
 from datetime import datetime
-import time
 
-class TourPlatformAPITester:
-    def __init__(self, base_url="https://seo-nav-rebuild.preview.emergentagent.com"):
-        self.base_url = base_url
-        self.api_url = f"{base_url}/api"
-        self.token = None
-        self.user_id = None
-        self.tests_run = 0
-        self.tests_passed = 0
+# Configuration
+BACKEND_URL = "https://seo-nav-rebuild.preview.emergentagent.com/api"
+
+class CategorySystemTester:
+    def __init__(self):
+        self.backend_url = BACKEND_URL
         self.test_results = []
-
-    def log_test(self, name, success, details="", error=""):
-        """Log test result"""
-        self.tests_run += 1
-        if success:
-            self.tests_passed += 1
-            print(f"✅ {name} - PASSED")
-        else:
-            print(f"❌ {name} - FAILED: {error}")
+        self.total_tests = 0
+        self.passed_tests = 0
         
-        self.test_results.append({
-            "test_name": name,
+    def log_test(self, test_name, success, details="", response_data=None):
+        """Log test results"""
+        self.total_tests += 1
+        if success:
+            self.passed_tests += 1
+            status = "✅ PASS"
+        else:
+            status = "❌ FAIL"
+            
+        result = {
+            "test": test_name,
+            "status": status,
             "success": success,
             "details": details,
-            "error": error,
+            "response_data": response_data,
             "timestamp": datetime.now().isoformat()
-        })
+        }
+        self.test_results.append(result)
+        print(f"{status}: {test_name}")
+        if details:
+            print(f"   Details: {details}")
+        if not success and response_data:
+            print(f"   Response: {response_data}")
+        print()
 
-    def run_test(self, name, method, endpoint, expected_status, data=None, headers=None):
-        """Run a single API test"""
-        url = f"{self.api_url}/{endpoint}"
-        test_headers = {'Content-Type': 'application/json'}
-        
-        if self.token:
-            test_headers['Authorization'] = f'Bearer {self.token}'
-        
-        if headers:
-            test_headers.update(headers)
-
-        print(f"\n🔍 Testing {name}...")
-        print(f"   URL: {url}")
+    def test_public_categories_endpoint(self):
+        """Test 1: Public Categories Endpoint Testing"""
+        print("🔍 Testing Public Categories Endpoint...")
         
         try:
-            if method == 'GET':
-                response = requests.get(url, headers=test_headers, timeout=30)
+            response = requests.get(f"{self.backend_url}/public/categories", timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Check response format
+                if "categories" in data and isinstance(data["categories"], list):
+                    categories = data["categories"]
+                    
+                    if len(categories) > 0:
+                        # Check required fields in each category
+                        sample_category = categories[0]
+                        required_fields = ["id", "title", "slug", "description", "image", "tours_count"]
+                        missing_fields = [field for field in required_fields if field not in sample_category]
+                        
+                        if not missing_fields:
+                            self.log_test(
+                                "Public Categories Endpoint - Response Format",
+                                True,
+                                f"Found {len(categories)} categories with all required fields: {required_fields}",
+                                {"categories_count": len(categories), "sample_category": sample_category}
+                            )
+                            
+                            # Test each category has proper data
+                            valid_categories = 0
+                            for cat in categories:
+                                if all(field in cat for field in required_fields):
+                                    valid_categories += 1
+                            
+                            self.log_test(
+                                "Public Categories Endpoint - Data Validation",
+                                valid_categories == len(categories),
+                                f"All {valid_categories}/{len(categories)} categories have required fields",
+                                {"valid_categories": valid_categories, "total_categories": len(categories)}
+                            )
+                        else:
+                            self.log_test(
+                                "Public Categories Endpoint - Response Format",
+                                False,
+                                f"Missing required fields: {missing_fields}",
+                                sample_category
+                            )
+                    else:
+                        self.log_test(
+                            "Public Categories Endpoint - Response Format",
+                            False,
+                            "No categories found in response",
+                            data
+                        )
+                else:
+                    self.log_test(
+                        "Public Categories Endpoint - Response Format",
+                        False,
+                        "Response missing 'categories' array",
+                        data
+                    )
+            else:
+                self.log_test(
+                    "Public Categories Endpoint - HTTP Status",
+                    False,
+                    f"Expected 200, got {response.status_code}",
+                    response.text
+                )
+                
+        except Exception as e:
+            self.log_test(
+                "Public Categories Endpoint - Connection",
+                False,
+                f"Request failed: {str(e)}"
+            )
             elif method == 'POST':
                 response = requests.post(url, json=data, headers=test_headers, timeout=30)
             elif method == 'PUT':
