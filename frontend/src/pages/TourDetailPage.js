@@ -37,6 +37,7 @@ const TourDetailPage = () => {
   const { user, setShowLoginModal } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [tour, setTour] = useState(null);
   const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
