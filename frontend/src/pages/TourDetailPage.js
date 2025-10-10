@@ -87,7 +87,7 @@ const TourDetailPage = () => {
 
   useEffect(() => {
     loadTour();
-  }, [actualTourSlug]); // user dependency kaldırıldı - loadTour içinde handle ediliyor
+  }, [tourSlug]); // user dependency kaldırıldı - loadTour içinde handle ediliyor
 
   
 
