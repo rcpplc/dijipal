@@ -186,6 +186,7 @@ function App() {
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
+              <Route path="/kategoriler" element={<AllCategoriesPage />} />
               <Route path="/turlar/:tourSlug" element={<TourDetailPage />} />
               
               {/* New Category System Routes */}
