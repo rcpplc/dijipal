@@ -332,11 +332,6 @@ const CategoryDetailPage = () => {
     );
   };
 
-  // Eğer tur sayfası olduğu tespit edildiyse TourDetailPage render et
-  if (isTourPage) {
-    return <TourDetailPage />;
-  }
-
   if (loading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
