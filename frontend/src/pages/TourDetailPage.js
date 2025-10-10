@@ -106,7 +106,7 @@ const TourDetailPage = () => {
       hasTour: !!tour,
       userEmail: user?.email,
       tourId: tour?.id,
-      tourSlug: tourSlug
+      tourSlug: actualTourSlug
     });
     
     if (user && tour) {
@@ -457,7 +457,7 @@ const TourDetailPage = () => {
       // Login gerekli - state kaydet
       const bookingState = {
         tourId: tour.id,
-        tourSlug: tourSlug,
+        tourSlug: actualTourSlug,
         selectedDate: {
           ...selectedDate,
           formattedDate: new Date(selectedDate.start_date).toLocaleDateString('tr-TR', {
