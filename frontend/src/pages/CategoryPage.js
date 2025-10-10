@@ -179,6 +179,9 @@ const CategoryPage = () => {
       } else {
         setTours([]);
       }
+      
+      // Update SEO after tours are loaded
+      updateSEO();
 
     } catch (error) {
       console.error('Error loading tours:', error);
