@@ -363,7 +363,8 @@ const CategoryDetailPage = () => {
                       {/* Favorite Button */}
                       <button
                         onClick={(e) => toggleFavorite(tour.id, e)}
-                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-10 flex items-center justify-center"
+                        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-20 flex items-center justify-center w-10 h-10"
+                        style={{ pointerEvents: 'auto' }}
                       >
                         <Heart 
                           className={`w-5 h-5 ${
