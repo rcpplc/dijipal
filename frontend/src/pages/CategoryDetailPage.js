@@ -23,11 +23,13 @@ const API = `${BACKEND_URL}/api`;
 const CategoryDetailPage = () => {
   const { categorySlug, locationSlug } = useParams();
   const navigate = useNavigate();
+  const { user, setShowLoginModal } = useAuth();
   const [categoryData, setCategoryData] = useState(null);
   const [tours, setTours] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [favorites, setFavorites] = useState(new Set());
   const [filters, setFilters] = useState({
     location: '',
     category: '',
