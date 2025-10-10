@@ -297,27 +297,42 @@ const HomePage = () => {
     return (
       <div
         onClick={() => navigateToCategory(category)}
-        className="group relative bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer overflow-hidden"
+        className="group relative bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer"
       >
-        <div className={`absolute inset-0 bg-gradient-to-br ${category.color} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-        
-        <div className="relative z-10">
-          <div className={`w-16 h-16 bg-gradient-to-br ${category.color} rounded-2xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300`}>
-            <IconComponent className="w-8 h-8 text-white" />
-          </div>
+        {/* Category Image */}
+        <div className="relative h-48">
+          {category.image ? (
+            <img
+              src={category.image}
+              alt={category.title}
+              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+            />
+          ) : (
+            <div className={`w-full h-full bg-gradient-to-br ${category.color} flex items-center justify-center`}>
+              <IconComponent className="w-16 h-16 text-white opacity-80" />
+            </div>
+          )}
+          <div className="absolute inset-0 bg-black bg-opacity-20 group-hover:bg-opacity-10 transition-all duration-300"></div>
           
+          {/* Category badge */}
+          <div className="absolute top-4 left-4">
+            <span className="bg-white/90 backdrop-blur-sm text-gray-800 px-3 py-1 rounded-full text-sm font-medium">
+              {category.tours_count || 0} tur
+            </span>
+          </div>
+        </div>
+        
+        {/* Category Info */}
+        <div className="p-6">
           <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
             {category.title}
           </h3>
           
           <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-            {category.description}
+            {category.description || 'Kategori açıklaması bulunamadı'}
           </p>
           
-          <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">
-              {category.tours_count || 0} tur
-            </span>
+          <div className="flex items-center justify-end">
             <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 group-hover:translate-x-1 transition-all duration-300" />
           </div>
         </div>
