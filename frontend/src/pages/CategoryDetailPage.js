@@ -15,7 +15,7 @@ import {
 import axios from 'axios';
 import { updateSEOTags } from '../utils/seo';
 import { useAuth } from '../App';
-import { toast } from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
