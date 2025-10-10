@@ -32,8 +32,7 @@ const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
 const TourDetailPage = () => {
-  const { tourSlug, slug } = useParams();
-  const actualTourSlug = tourSlug || slug;
+  const { tourSlug } = useParams();
   const { user, setShowLoginModal } = useAuth();
   const navigate = useNavigate();
   const [tour, setTour] = useState(null);
