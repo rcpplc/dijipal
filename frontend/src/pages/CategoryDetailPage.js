@@ -122,14 +122,15 @@ const CategoryDetailPage = () => {
         // Alt kategoriden ana kategoriye dön
         navigate(`/${categorySlug}`);
       } else {
-        // Ana kategoriden tüm kategorilere dön
-        navigate('/kategoriler');
+        // Ana kategoriden ana sayfaya dön
+        navigate('/');
       }
     };
 
-    let backText = 'Tüm Kategoriler';
+    let backText = 'Ana Sayfa';
     if (locationSlug) {
-      backText = categoryData?.parent_category_title || 'Ana Kategori';
+      // Alt kategorideyse ana kategori adını göster
+      backText = categoryData?.parent_category_title || categoryData?.title || 'Ana Kategori';
     }
 
     return (
