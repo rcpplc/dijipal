@@ -918,102 +918,57 @@ const ToursPage = () => {
       </div>
 
       
-      {/* Mavi Yolculuk ve Deniz Turları Rehberi */}
-      <div className="mt-16 bg-gradient-to-b from-blue-50 to-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-          {/* Ana Başlık */}
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+      {/* Mavi Yolculuk ve Deniz Turları Rehberi - Sadece Yazı */}
+      <div className="mt-16">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="prose prose-lg max-w-none">
+            <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Mavi Yolculuk ve Deniz Turları Rehberi
             </h2>
-            <p className="text-xl text-gray-600 leading-relaxed max-w-3xl mx-auto">
+            <p className="text-gray-600 leading-relaxed mb-8">
               Ege ve Akdeniz'in büyüleyici kıyılarında; mavi yolculuk, kabin turları, balık turları, dalış turları, 
               günübirlik tekne turları ve yüzme turları ile size özel planlanmış, güvenli ve konforlu bir deniz tatili deneyimi.
             </p>
-          </div>
 
-          {/* 1-Column Grid Layout */}
-          <div className="space-y-16">
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Mavi Yolculuk Deneyimi</h3>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Klasik guletlerle 3–7 gece arası rotalarda; korunaklı koylarda demir atma, gün batımında 
+              denize karşı akşam yemekleri, yıldızlı gökyüzünde konaklama. Yarım pansiyon/tam pansiyon 
+              seçenekleri ve rota içi su sporlarıyla zenginleştirilmiş, konforlu bir deniz seyahati.
+            </p>
 
-            {/* Mavi Yolculuk Deneyimi */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <span className="text-4xl mb-4 block">⛵</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Mavi Yolculuk Deneyimi</h3>
-              </div>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p className="text-lg leading-relaxed mb-6">
-                  Klasik guletlerle 3–7 gece arası rotalarda; korunaklı koylarda demir atma, gün batımında 
-                  denize karşı akşam yemekleri, yıldızlı gökyüzünde konaklama. Yarım pansiyon/tam pansiyon 
-                  seçenekleri ve rota içi su sporlarıyla zenginleştirilmiş, konforlu bir deniz seyahati.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Kabin Turları</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Tüm tekneyi kapatmadan, yalnızca bir kabin ayırtarak sabit güzergâh, belirli kalkış günleri 
+              ve sosyal atmosfer; çiftler ve solo gezginler için idealdir.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Ayrıca sadece sizin grubunuza özel kiralama imkanıyla VIP deneyim.
+            </p>
 
-            {/* Kabin Turları */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <span className="text-4xl mb-4 block">🛏️</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Kabin Turları</h3>
-              </div>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p className="text-lg leading-relaxed mb-4">
-                  Tüm tekneyi kapatmadan, yalnızca bir kabin ayırtarak sabit güzergâh, belirli kalkış günleri 
-                  ve sosyal atmosfer; çiftler ve solo gezginler için idealdir.
-                </p>
-                <p className="text-lg leading-relaxed">
-                  Ayrıca sadece sizin grubunuza özel kiralama imkanıyla VIP deneyim.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Günübirlik Tekne Turları</h3>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Sabah çıkış–akşam dönüş; 3–5 koyda yüzme molaları ve özel kiralama imkanıyla 
+              VIP deneyim seçenekleri.
+            </p>
 
-            {/* Günübirlik Tekne Turları */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <span className="text-4xl mb-4 block">🚤</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Günübirlik Tekne Turları</h3>
-              </div>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p className="text-lg leading-relaxed">
-                  Sabah çıkış–akşam dönüş; 3–5 koyda yüzme molaları ve özel kiralama imkanıyla 
-                  VIP deneyim seçenekleri.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Balık & Dalış Turları</h3>
+            <p className="text-gray-600 leading-relaxed mb-4">
+              Amatör balıkçılıktan profesyonel dalışlara kadar. Kaş–Kekova ve Datça çevresi 
+              popüler dalış/balık noktalarıyla ön plana çıkar.
+            </p>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Ekipman, rehber ve güvenlik standartları her turda eksiksizdir.
+            </p>
 
-            {/* Balık & Dalış Turları */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <span className="text-4xl mb-4 block">🐟</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Balık & Dalış Turları</h3>
-              </div>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p className="text-lg leading-relaxed mb-4">
-                  Amatör balıkçılıktan profesyonel dalışlara kadar. Kaş–Kekova ve Datça çevresi 
-                  popüler dalış/balık noktalarıyla ön plana çıkar.
-                </p>
-                <p className="text-lg leading-relaxed">
-                  Ekipman, rehber ve güvenlik standartları her turda eksiksizdir.
-                </p>
-              </div>
-            </div>
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Yüzme Turları</h3>
+            <p className="text-gray-600 leading-relaxed mb-6">
+              Berrak koylarda uzun yüzme molaları için tasarlanmış rotalar. Şnorkel ve deniz gözlüğü 
+              gibi ekipmanlarla gün boyu serinleme ve keşif imkanı.
+            </p>
 
-            {/* Yüzme Turları */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
-              <div className="text-center mb-8">
-                <span className="text-4xl mb-4 block">🏊‍♀️</span>
-                <h3 className="text-3xl font-bold text-gray-900 mb-4">Yüzme Turları</h3>
-              </div>
-              <div className="prose prose-lg max-w-none text-gray-700">
-                <p className="text-lg leading-relaxed">
-                  Berrak koylarda uzun yüzme molaları için tasarlanmış rotalar. Şnorkel ve deniz gözlüğü 
-                  gibi ekipmanlarla gün boyu serinleme ve keşif imkanı.
-                </p>
-              </div>
-            </div>
-
-            {/* Bölgelere Göre Turlar */}
-            <div className="bg-white rounded-2xl shadow-xl p-8 md:p-12">
+            <h3 className="text-xl font-semibold text-gray-900 mt-8 mb-3">Bölgelere Göre Turlar</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-4 mb-6">
               <div className="text-center mb-12">
                 <span className="text-4xl mb-4 block">🗺️</span>
                 <h3 className="text-3xl font-bold text-gray-900 mb-4">Bölgelere Göre Turlar</h3>
