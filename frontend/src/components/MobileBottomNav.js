@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Home, Heart, Calendar, User } from 'lucide-react';
-import { useAuth } from '../components/ui/useAuth';
+import { useAuth } from '../App';
 
 const MobileBottomNav = () => {
   const location = useLocation();
