@@ -92,14 +92,14 @@ const ToursPage = () => {
   }, [user]);
 
   const loadUserFavorites = async () => {
-    if (!user) {
+    if (!user || !token) {
       setFavorites(new Set());
       return;
     }
 
     try {
       const response = await axios.get(`${API}/favorites`, {
-        headers: { Authorization: `Bearer ${user.token}` }
+        headers: { Authorization: `Bearer ${token}` }
       });
       const favoriteIds = response.data.map(fav => fav.id);
       setFavorites(new Set(favoriteIds));
