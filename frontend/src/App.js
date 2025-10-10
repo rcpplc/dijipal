@@ -186,11 +186,13 @@ function App() {
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
               <Route path="/kategoriler" element={<AllCategoriesPage />} />
-              <Route path="/turlar/:tourSlug" element={<TourDetailPage />} />
               
               {/* New Category System Routes */}
               <Route path="/:categorySlug" element={<CategoryDetailPage />} />
               <Route path="/:categorySlug/:locationSlug" element={<CategoryDetailPage />} />
+              
+              {/* Tour Detail Route - Must be after category routes */}
+              <Route path="/:tourSlug" element={<TourDetailPage />} />
               
               {/* Old Category Redirects - 301 SEO Redirect */}
               <Route path="/category/:category" element={<Navigate to="/tum-kategoriler" replace />} />
