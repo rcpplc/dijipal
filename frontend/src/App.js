@@ -16,7 +16,6 @@ import AdminPage from './pages/AdminPage';
 import CartPage from './pages/CartPage';
 import PaymentPage from './pages/PaymentPage';
 import PaymentSuccessPage from './pages/PaymentSuccessPage';
-import CategoryPage from './pages/CategoryPage';
 import AllCategoriesPage from './pages/AllCategoriesPage';
 import MyBookingsPage from './pages/MyBookingsPage';
 import FavoritesPage from './pages/FavoritesPage';
@@ -30,7 +29,6 @@ import PrivacyPage from './pages/PrivacyPage';
 import CookiesPage from './pages/CookiesPage';
 import KVKKPage from './pages/KVKKPage';
 import TestUploadPage from './pages/TestUploadPage';
-import CategoryDetailPage from './pages/CategoryDetailPage';
 import LoginModal from './components/LoginModal';
 import ScrollToTop from './components/ScrollToTop';
 
