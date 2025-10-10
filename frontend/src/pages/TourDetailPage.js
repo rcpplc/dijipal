@@ -58,9 +58,6 @@ const TourDetailPage = () => {
   // Mobile bottom bar states
   const [showBookingModal, setShowBookingModal] = useState(false);
   
-  // Smart back navigation
-  const [backUrl, setBackUrl] = useState('/turlar');
-  const [backLabel, setBackLabel] = useState('Turlar');
   
   // YENİ REZERVASYON SİSTEMİ - 3 TİP
   // 🏨 Kabin Bazlı
