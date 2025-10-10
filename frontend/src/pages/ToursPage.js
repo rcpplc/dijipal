@@ -503,6 +503,8 @@ const ToursPage = () => {
       return;
     }
 
+    console.log('🎯 toggleFavorite called:', { user: user?.id, token: user?.token ? 'Present' : 'Missing' });
+
     try {
       if (favorites.has(tourId)) {
         await axios.delete(`${API}/favorites/${tourId}`, {
