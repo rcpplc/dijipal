@@ -187,16 +187,9 @@ function App() {
               <Route path="/turlar" element={<ToursPage />} />
               <Route path="/kategoriler" element={<AllCategoriesPage />} />
               
-              {/* New Category System Routes - specific slugs first */}
-              <Route path="/mavi-yolculuk" element={<CategoryDetailPage />} />
-              <Route path="/gunubirlik-tekne-turu" element={<CategoryDetailPage />} />
-              <Route path="/parasut-deneyimi" element={<CategoryDetailPage />} />
-              <Route path="/mavi-yolculuk/:locationSlug" element={<CategoryDetailPage />} />
-              <Route path="/gunubirlik-tekne-turu/:locationSlug" element={<CategoryDetailPage />} />
-              <Route path="/parasut-deneyimi/:locationSlug" element={<CategoryDetailPage />} />
-              
-              {/* Tour Detail Route - catch all other slugs */}
-              <Route path="/:tourSlug" element={<TourDetailPage />} />
+              {/* Dynamic routing - CategoryDetailPage will determine if it's a category or tour */}
+              <Route path="/:slug" element={<CategoryDetailPage />} />
+              <Route path="/:categorySlug/:locationSlug" element={<CategoryDetailPage />} />
               
               {/* Old Category Redirects - 301 SEO Redirect */}
               <Route path="/category/:category" element={<Navigate to="/tum-kategoriler" replace />} />
