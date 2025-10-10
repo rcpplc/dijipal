@@ -104,11 +104,42 @@ const HomePage = () => {
   useEffect(() => {
     loadData();
     startHeroSlider();
-    
-    // Update SEO for homepage
+    initializeHomepageSEO();
+  }, []);
+
+  // Initialize modern homepage SEO
+  const initializeHomepageSEO = () => {
     const seoData = getSEOData.homepage();
     updateSEOTags(seoData);
-  }, []);
+    
+    // Add homepage-specific structured data
+    updateSEOTags({
+      ...seoData,
+      structuredData: {
+        ...seoData.structuredData,
+        "@graph": [
+          seoData.structuredData,
+          {
+            "@type": "WebSite",
+            "@id": `${window.location.origin}/#website`,
+            "url": window.location.origin,
+            "name": "Mavibilet",
+            "description": "Türkiye'nin en kapsamlı mavi yolculuk platformu",
+            "potentialAction": [
+              {
+                "@type": "SearchAction",
+                "target": {
+                  "@type": "EntryPoint",
+                  "urlTemplate": `${window.location.origin}/turlar?search={search_term_string}`
+                },
+                "query-input": "required name=search_term_string"
+              }
+            ]
+          }
+        ]
+      }
+    });
+  };
 
   const startHeroSlider = () => {
     setInterval(() => {
