@@ -489,6 +489,128 @@ const HomePage = () => {
         </div>
       </div>
 
+      {/* Locations Section - Premium Design */}
+      <div className="py-20 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute inset-0" style={{
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+          }}></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          {/* Section Header */}
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center space-x-2 bg-white/10 backdrop-blur-md rounded-full px-6 py-2 mb-6">
+              <MapPin className="w-5 h-5 text-white" />
+              <span className="text-white font-medium">Bölgelere Göre Keşfet</span>
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
+              Popüler Destinasyonlar
+            </h2>
+            <p className="text-xl text-blue-100 max-w-3xl mx-auto">
+              Türkiye'nin en güzel kıyılarında unutulmaz anılar biriktirin
+            </p>
+          </div>
+
+          {/* Location Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+            {[
+              {
+                name: 'Göcek',
+                slug: 'gocek',
+                description: '12 Ada ve kristal berraklığında koylar',
+                image: 'https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=800',
+                tours: 33,
+                highlight: 'Mavi Yolculuk Başkenti'
+              },
+              {
+                name: 'Fethiye',
+                slug: 'fethiye',
+                description: 'Ölüdeniz ve Kelebek Vadisi',
+                image: 'https://images.unsplash.com/photo-1605649487212-47bdab064df7?w=800',
+                tours: 21,
+                highlight: 'Doğa Harikası'
+              },
+              {
+                name: 'Marmaris',
+                slug: 'marmaris',
+                description: 'Canlı marina ve turkuaz sular',
+                image: 'https://images.unsplash.com/photo-1527004013197-933c4bb611b3?w=800',
+                tours: 18,
+                highlight: 'Eğlence Merkezi'
+              },
+              {
+                name: 'Bodrum',
+                slug: 'bodrum',
+                description: 'Gökova Körfezi ve Orak Adası',
+                image: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800',
+                tours: 25,
+                highlight: 'Ege İncisi'
+              }
+            ].map((location, index) => (
+              <Link
+                key={location.slug}
+                to={`/turlar?location=${location.slug}`}
+                className="group relative bg-white rounded-2xl overflow-hidden shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2"
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                {/* Location Image */}
+                <div className="relative h-64 overflow-hidden">
+                  <img
+                    src={location.image}
+                    alt={location.name}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
+                  
+                  {/* Highlight Badge */}
+                  <div className="absolute top-4 left-4">
+                    <div className="bg-yellow-400 text-gray-900 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wide shadow-lg">
+                      {location.highlight}
+                    </div>
+                  </div>
+
+                  {/* Location Name */}
+                  <div className="absolute bottom-0 left-0 right-0 p-6">
+                    <h3 className="text-3xl font-bold text-white mb-2">
+                      {location.name}
+                    </h3>
+                    <p className="text-blue-100 text-sm mb-3">
+                      {location.description}
+                    </p>
+                    <div className="flex items-center space-x-2">
+                      <div className="flex items-center space-x-1 bg-white/20 backdrop-blur-sm rounded-full px-3 py-1">
+                        <Compass className="w-4 h-4 text-white" />
+                        <span className="text-white text-sm font-medium">{location.tours} Tur</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hover Action */}
+                <div className="absolute inset-0 bg-blue-600/0 group-hover:bg-blue-600/10 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+                  <div className="bg-white rounded-full p-4 shadow-2xl transform scale-0 group-hover:scale-100 transition-transform duration-300">
+                    <ArrowRight className="w-6 h-6 text-blue-600" />
+                  </div>
+                </div>
+              </Link>
+            ))}
+          </div>
+
+          {/* Call to Action */}
+          <div className="text-center">
+            <Link
+              to="/turlar"
+              className="inline-flex items-center space-x-3 bg-white hover:bg-gray-50 text-blue-600 px-8 py-4 rounded-full font-semibold shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105"
+            >
+              <span>Tüm Lokasyonları Keşfet</span>
+              <ArrowRight className="w-5 h-5" />
+            </Link>
+          </div>
+        </div>
+      </div>
+
       {/* Featured Tours Section */}
       <div className="py-16 lg:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
