@@ -85,8 +85,9 @@ const CategoryDetailPage = () => {
       
       // Eğer kategori bulunamadıysa, bu bir tur slug'ı olabilir
       if (error.response?.status === 404 && !locationSlug) {
-        // Kategori bulunamadı, TourDetailPage'e yönlendir
-        navigate(`/turlar/${categorySlug}`, { replace: true });
+        // Kategori bulunamadı, bu bir tur slug'ı - TourDetailPage render et
+        setIsTourPage(true);
+        setLoading(false);
         return;
       }
     } finally {
