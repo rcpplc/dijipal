@@ -266,23 +266,11 @@ const TourDetailPage = () => {
     } catch (error) {
       console.error('Error loading tour:', error);
       if (error.response?.status === 404) {
-        // 404 durumunda otomatik redirect YAPMA
-        // Bunun yerine kullanıcının "Geri Git" butonunu kullanmasını sağla
-        // Çünkü bu slug bir kategori slug'ı olabilir
+        // 404 durumunda sadece /turlar'a git
+        // 'from' parametresi varsa bile kullanma çünkü loop oluşturabilir
         toast.error('Tur bulunamadı');
         setLoading(false);
-        // Eğer 'from' parametresi varsa, 1 saniye sonra oraya yönlendir
-        const fromPath = searchParams.get('from');
-        if (fromPath) {
-          setTimeout(() => {
-            navigate(fromPath, { replace: true });
-          }, 500);
-        } else {
-          // from yoksa /turlar'a git
-          setTimeout(() => {
-            navigate('/turlar', { replace: true });
-          }, 500);
-        }
+        navigate('/turlar', { replace: true });
         return; // Early return to prevent setting loading false twice
       }
       setLoading(false);
