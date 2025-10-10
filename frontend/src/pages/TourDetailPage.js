@@ -126,7 +126,7 @@ const TourDetailPage = () => {
             savedTourId: bookingState.tourId,
             currentTourId: tour.id,
             savedTourSlug: bookingState.tourSlug,
-            currentTourSlug: tourSlug,
+            currentTourSlug: actualTourSlug,
             isCurrentTour,
             isRecent
           });
