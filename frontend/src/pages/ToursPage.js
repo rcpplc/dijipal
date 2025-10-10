@@ -354,6 +354,11 @@ const ToursPage = () => {
     } finally {
       setLoading(false);
       setLoadingMore(false);
+      
+      // Update SEO after tours are loaded
+      if (!loadMore) {
+        updateSEO();
+      }
     }
   };
 
