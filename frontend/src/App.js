@@ -7,6 +7,7 @@ import './App.css';
 // Import components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import MobileBottomNav from './components/MobileBottomNav';
 import HomePage from './pages/HomePage';
 import ToursPage from './pages/ToursPage';
 import TourDetailPage from './pages/TourDetailPage';
