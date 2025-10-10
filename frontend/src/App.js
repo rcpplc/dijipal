@@ -187,7 +187,10 @@ function App() {
               <Route path="/turlar" element={<ToursPage />} />
               <Route path="/kategoriler" element={<AllCategoriesPage />} />
               
-              {/* Dynamic routing - CategoryDetailPage will determine if it's a category or tour */}
+              {/* Tour detail route - specific pattern to avoid conflict */}
+              <Route path="/tur/:slug" element={<TourDetailPage />} />
+              
+              {/* Dynamic routing - CategoryDetailPage for categories */}
               <Route path="/:slug" element={<CategoryDetailPage />} />
               <Route path="/:categorySlug/:locationSlug" element={<CategoryDetailPage />} />
               
