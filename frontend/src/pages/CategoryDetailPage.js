@@ -425,13 +425,26 @@ const CategoryDetailPage = () => {
       {/* Header - ToursPage Style */}
       <div className="bg-white shadow-sm border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-          {/* Back Button */}
+          {/* Smart Back Button */}
           <button
-            onClick={() => navigate('/turlar')}
+            onClick={() => {
+              if (isLocationPage) {
+                // Alt kategori sayfasındaysa ana kategoriye git
+                navigate(`/${categorySlug}`);
+              } else {
+                // Ana kategori sayfasındaysa turlar sayfasına git
+                navigate('/turlar');
+              }
+            }}
             className="flex items-center space-x-2 text-gray-600 hover:text-gray-800 mb-6 transition-colors duration-200"
           >
             <ArrowLeft className="w-4 h-4" />
-            <span>Turlar</span>
+            <span>
+              {isLocationPage 
+                ? (displayCategory?.title || categorySlug) // Alt kategori sayfasında ana kategori adı göster
+                : 'Turlar' // Ana kategori sayfasında "Turlar" göster
+              }
+            </span>
           </button>
 
           {/* Page Title */}
