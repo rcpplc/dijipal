@@ -180,12 +180,12 @@ const CategoryDetailPage = () => {
       const categoryTitle = currentDisplayCategory?.title || categorySlug;
       
       // Check for admin-defined SEO settings
-      if (categoryData && (categoryData.meta_title || categoryData.meta_description || categoryData.meta_keywords)) {
+      if (categoryData && (categoryData.seo_title || categoryData.seo_description || categoryData.seo_keywords)) {
         // Use admin SEO settings
         updateSEOTags({
-          title: categoryData.meta_title || `${categoryTitle} Turları - Mavibilet`,
-          description: categoryData.meta_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${tourCount} farklı seçenek ile unutulmaz anılar biriktirin.`,
-          keywords: categoryData.meta_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
+          title: categoryData.seo_title || `${categoryTitle} Turları - Mavibilet`,
+          description: categoryData.seo_description || `${categoryTitle} kategorisindeki en iyi turları keşfedin. ${tourCount} farklı seçenek ile unutulmaz anılar biriktirin.`,
+          keywords: categoryData.seo_keywords || `${categoryTitle.toLowerCase()} turları, tekne turu, mavi yolculuk`,
           canonicalUrl: `${window.location.origin}/${categorySlug}`
         });
       } else {
