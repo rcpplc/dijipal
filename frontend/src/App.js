@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import axios from 'axios';
 import { Toaster } from 'sonner';
+import { Ship } from 'lucide-react';
 import './App.css';
 
 // Import components
