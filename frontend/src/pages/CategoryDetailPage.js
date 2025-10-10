@@ -156,12 +156,12 @@ const CategoryDetailPage = () => {
       
       // Check for admin-defined SEO settings
       const adminSEO = categoryData?.location;
-      if (adminSEO && (adminSEO.meta_title || adminSEO.meta_description || adminSEO.meta_keywords)) {
+      if (adminSEO && (adminSEO.seo_title || adminSEO.seo_description || adminSEO.seo_keywords)) {
         // Use admin SEO settings
         updateSEOTags({
-          title: adminSEO.meta_title || `${locationName} ${categoryTitle} Turları - Mavibilet`,
-          description: adminSEO.meta_description || `${locationName} bölgesindeki en güzel ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı seçenek ile unutulmaz deneyimler.`,
-          keywords: adminSEO.meta_keywords || `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, mavi yolculuk ${locationName}`,
+          title: adminSEO.seo_title || `${locationName} ${categoryTitle} Turları - Mavibilet`,
+          description: adminSEO.seo_description || `${locationName} bölgesindeki en güzel ${categoryTitle.toLowerCase()} turları. ${tourCount} farklı seçenek ile unutulmaz deneyimler.`,
+          keywords: adminSEO.seo_keywords || `${locationName} ${categoryTitle.toLowerCase()}, ${locationName} tekne turu, mavi yolculuk ${locationName}`,
           canonicalUrl: `${window.location.origin}/${categorySlug}/${locationSlug}`
         });
       } else {
