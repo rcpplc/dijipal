@@ -212,7 +212,7 @@ const HomePage = () => {
   };
 
   const navigateToTour = (tour) => {
-    navigate(`/turlar/${createSlug(tour.title)}`);
+    navigate(`/${createSlug(tour.title)}`);
   };
 
   // Tour Card Component
