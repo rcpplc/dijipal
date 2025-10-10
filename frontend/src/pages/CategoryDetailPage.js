@@ -319,7 +319,7 @@ const CategoryDetailPage = () => {
     const handleBackClick = () => {
       if (locationSlug) {
         // Alt kategoriden ana kategoriye dön
-        navigate(`/${categorySlug}`);
+        navigate(`/${actualCategorySlug}`);
       } else {
         // Ana kategoriden ana sayfaya dön
         navigate('/');
