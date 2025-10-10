@@ -91,24 +91,43 @@ const updateStructuredData = (data) => {
   document.head.appendChild(script);
 };
 
-// SEO Templates for different page types
+// Modern SEO Templates - Hierarchical Structure Optimized
 export const getSEOData = {
   homepage: () => ({
-    title: 'Mavibilet - Mavi Yolculuk Turları | Kabin Kiralama ve Günübirlik Tekne Turları',
-    description: 'Türkiye\'nin en güzel koylarında mavi yolculuk turları, kabin kiralama ve günübirlik tekne turları. Profesyonel kaptan eşliğinde unutulmaz tatil deneyimi yaşayın.',
-    keywords: 'mavi yolculuk, kabin kiralama, tekne turu, günübirlik tur, bodrum tekne turu, göcek turu, marmaris tekne, yacht charter',
+    title: 'Mavibilet - Türkiye\'nin En İyi Mavi Yolculuk Platformu | Tekne Turları ve Kabin Kiralama',
+    description: 'Türkiye\'nin 4 denizindeki en güzel rotaları keşfedin. Mavi yolculuk turları, kabin kiralama ve günübirlik tekne turları. 500+ tur seçeneği, profesyonel kaptan kadrosu.',
+    keywords: 'mavi yolculuk, tekne turu, kabin kiralama, günübirlik tur, bodrum marmaris göcek antalya, yacht charter, deniz tatili, tekne kiralama',
     canonicalUrl: window.location.origin,
     structuredData: {
       "@context": "https://schema.org",
-      "@type": "Organization",
+      "@type": "TravelAgency",
       "name": "Mavibilet",
-      "description": "Mavi yolculuk turları ve kabin kiralama hizmetleri",
+      "alternateName": "Mavi Bilet",
+      "description": "Türkiye'nin en kapsamlı mavi yolculuk ve tekne turu platformu",
       "url": window.location.origin,
       "logo": `${window.location.origin}/mavibilet-logo.png`,
+      "address": {
+        "@type": "PostalAddress",
+        "addressCountry": "TR",
+        "addressLocality": "Türkiye"
+      },
       "sameAs": [
         "https://www.instagram.com/mavibilet",
         "https://www.facebook.com/mavibilet"
-      ]
+      ],
+      "hasOfferCatalog": {
+        "@type": "OfferCatalog",
+        "name": "Mavi Yolculuk Turları",
+        "itemListElement": [
+          {
+            "@type": "Offer",
+            "itemOffered": {
+              "@type": "TouristTrip",
+              "name": "Mavi Yolculuk Turları"
+            }
+          }
+        ]
+      }
     }
   }),
 
