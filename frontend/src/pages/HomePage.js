@@ -202,7 +202,13 @@ const HomePage = () => {
   };
 
   const navigateToCategory = (category) => {
-    navigate(`/turlar?category=${category.id}`);
+    // Eğer admin panelden gelen kategori ise slug'ına göre yönlendir
+    if (category.slug) {
+      navigate(`/${category.slug}`);
+    } else {
+      // Default kategoriler için turlar sayfasına filtre ile git
+      navigate(`/turlar?category=${category.id}`);
+    }
   };
 
   const navigateToTour = (tour) => {
