@@ -726,19 +726,15 @@ const TourDetailPage = () => {
 
   const currentPrice = selectedDate ? selectedDate.price : tour.base_price;
 
-  // Geri Git fonksiyonu - history sorununu çözmek için
+  // Geri Git fonksiyonu - kategori sayfasından gelindiyse oraya dön
   const handleBackClick = () => {
-    // Eğer referrer varsa ve aynı domain'deyse oraya git
-    if (document.referrer && document.referrer.includes(window.location.hostname)) {
-      const referrerPath = new URL(document.referrer).pathname;
-      // Eğer referrer /turlar değilse (yani kategori sayfasıysa), oraya git
-      if (referrerPath !== '/turlar' && referrerPath !== '/') {
-        navigate(referrerPath);
-        return;
-      }
+    // Eğer location.state'de from bilgisi varsa (kategori sayfasından gelindiyse)
+    if (location.state?.from) {
+      navigate(location.state.from);
+    } else {
+      // Aksi halde normal history back
+      navigate(-1);
     }
-    // Aksi halde normal history back
-    navigate(-1);
   };
 
   return (
