@@ -110,9 +110,6 @@ const CategoryPage = () => {
       // Use default category config if API fails
       setCategoryData(getCategoryConfig());
     }
-    
-    // Initialize SEO after category data is loaded
-    setTimeout(() => updateSEO(), 100);
   };
 
   // Modern SEO update with admin settings priority
