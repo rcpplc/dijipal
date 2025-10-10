@@ -212,7 +212,7 @@ function App() {
           <ScrollToTop />
           <Header />
           
-          <main className="flex-1">
+          <main className="flex-1 pb-16 lg:pb-0">
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/turlar" element={<ToursPage />} />
