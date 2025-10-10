@@ -368,13 +368,53 @@ const ToursPage = () => {
     }
   };
 
-  // SEO update function
+  // Modern SEO update with filter context
   const updateSEO = () => {
-    const seoData = getSEOData.tours({
-      totalTours: tours.length
+    // Get active filters for SEO context
+    const activeFilters = {};
+    Object.entries(filters).forEach(([key, value]) => {
+      if (value && value !== '') {
+        activeFilters[key] = value;
+      }
     });
     
-    updateSEOTags(seoData);
+    // Get search params for additional context
+    const searchQuery = searchParams.get('search') || '';
+    if (searchQuery) {
+      activeFilters.search = searchQuery;
+    }
+    
+    const seoData = getSEOData.tours({
+      totalTours: tours.length,
+      appliedFilters: activeFilters
+    });
+    
+    // Enhance with tour-specific structured data
+    if (tours.length > 0) {
+      const tourStructuredData = {
+        ...seoData.structuredData,
+        "itemListElement": tours.slice(0, 10).map((tour, index) => ({
+          "@type": "TouristTrip",
+          "position": index + 1,
+          "name": tour.title,
+          "description": tour.short_description,
+          "url": `${window.location.origin}/turlar/${tour.slug || createSlug(tour.title)}`,
+          "image": tour.images?.[0],
+          "offers": {
+            "@type": "Offer",
+            "price": tour.minimum_price,
+            "priceCurrency": "TRY"
+          }
+        }))
+      };
+      
+      updateSEOTags({
+        ...seoData,
+        structuredData: tourStructuredData
+      });
+    } else {
+      updateSEOTags(seoData);
+    }
   };
 
   const handleSearch = (e) => {
