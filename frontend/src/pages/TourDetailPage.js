@@ -91,6 +91,41 @@ const TourDetailPage = () => {
     loadTour();
   }, [tourSlug]); // user dependency kaldırıldı - loadTour içinde handle ediliyor
 
+  // Smart back navigation - check where user came from
+  useEffect(() => {
+    const referrer = document.referrer;
+    const currentDomain = window.location.origin;
+    
+    if (referrer && referrer.startsWith(currentDomain)) {
+      const referrerPath = referrer.replace(currentDomain, '');
+      
+      // Alt kategori sayfasından geldi (örn: /mavi-yolculuk/gocek)
+      if (referrerPath.match(/^\/[^\/]+\/[^\/]+$/)) {
+        setBackUrl(referrerPath);
+        setBackLabel('Alt Kategori');
+      }
+      // Ana kategori sayfasından geldi (örn: /mavi-yolculuk)
+      else if (referrerPath.match(/^\/[^\/]+$/) && referrerPath !== '/turlar' && referrerPath !== '/') {
+        setBackUrl(referrerPath);
+        setBackLabel('Ana Kategori');
+      }
+      // Turlar sayfasından geldi
+      else if (referrerPath === '/turlar') {
+        setBackUrl('/turlar');
+        setBackLabel('Turlar');
+      }
+      // Diğer durumlar - default turlar
+      else {
+        setBackUrl('/turlar');
+        setBackLabel('Turlar');
+      }
+    } else {
+      // External referrer veya direct access - default turlar
+      setBackUrl('/turlar');
+      setBackLabel('Turlar');
+    }
+  }, []);
+
   // User preferences'i ayrı useEffect'te yükle
   useEffect(() => {
     if (user) {
