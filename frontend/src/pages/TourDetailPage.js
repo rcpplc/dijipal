@@ -106,7 +106,7 @@ const TourDetailPage = () => {
       hasTour: !!tour,
       userEmail: user?.email,
       tourId: tour?.id,
-      tourSlug: tourSlug
+      tourSlug: actualTourSlug
     });
     
     if (user && tour) {
