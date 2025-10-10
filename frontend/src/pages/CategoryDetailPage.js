@@ -58,16 +58,58 @@ const CategoryDetailPage = () => {
       setTours(data.tours || []);
       
       // SEO güncellemeleri
-      const seoData = {
-        title: data.meta_title || data.title,
-        description: data.meta_description || data.description,
-        keywords: data.meta_keywords || '',
-        canonical: `${window.location.origin}${window.location.pathname}`,
-        ogTitle: data.meta_title || data.title,
-        ogDescription: data.meta_description || data.description,
-        ogImage: data.image || null
-      };
+      let seoData;
       
+      if (locationSlug) {
+        // Alt kategori SEO
+        const locationName = data?.subcategory?.location_name || data?.location_name || 'Lokasyon';
+        const categoryTitle = data?.parent_category?.title || data?.subcategory?.parent_category_title || 'Kategori';
+        const tourCount = data?.tours?.length || 0;
+        const adminDescription = data?.subcategory?.description || data?.page_description || '';
+        
+        seoData = getSEOData.subcategory({
+          locationName,
+          categoryTitle,
+          categorySlug,
+          locationSlug,
+          tourCount,
+          adminDescription
+        });
+        
+        // Admin panelden gelen meta bilgiler varsa onları kullan
+        if (data?.subcategory?.meta_title || data?.meta_title) {
+          seoData.title = data?.subcategory?.meta_title || data?.meta_title;
+        }
+        if (data?.subcategory?.meta_description || data?.meta_description) {
+          seoData.description = data?.subcategory?.meta_description || data?.meta_description;
+        }
+        if (data?.subcategory?.meta_keywords || data?.meta_keywords) {
+          seoData.keywords = data?.subcategory?.meta_keywords || data?.meta_keywords;
+        }
+      } else {
+        // Ana kategori SEO
+        const categoryTitle = data?.title || 'Kategori';
+        const tourCount = data?.tours?.length || 0;
+        
+        seoData = getSEOData.category({
+          categoryTitle,
+          categorySlug,
+          tourCount
+        });
+        
+        // Admin panelden gelen meta bilgiler varsa onları kullan
+        if (data?.meta_title) {
+          seoData.title = data.meta_title;
+        }
+        if (data?.meta_description) {
+          seoData.description = data.meta_description;
+        }
+        if (data?.meta_keywords) {
+          seoData.keywords = data.meta_keywords;
+        }
+      }
+      
+      seoData.ogImage = data?.image || data?.subcategory?.image || null;
       updateSEOTags(seoData);
       
     } catch (error) {
