@@ -172,7 +172,7 @@ const CategoryDetailPage = () => {
   // Tour Card Component (same as ToursPage)
   const TourCard = ({ tour }) => (
     <Link 
-      to={`/${createSlug(tour.title)}?from=${encodeURIComponent(window.location.pathname)}`}
+      to={`/tur/${createSlug(tour.title)}`}
       className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block group"
     >
       {/* Image Section */}
