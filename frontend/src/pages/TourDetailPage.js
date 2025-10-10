@@ -93,11 +93,19 @@ const TourDetailPage = () => {
 
   // Smart back navigation based on tour data
   useEffect(() => {
-    if (tour && tour.category) {
-      // Always go to main category page and show category name
+    if (tour && tour.category && tour.location) {
+      // Create subcategory URL from tour data
+      const categorySlug = createSlug(tour.category);
+      const locationSlug = createSlug(tour.location);
+      
+      // Go to subcategory page: /category/location
+      setBackUrl(`/${categorySlug}/${locationSlug}`);
+      setBackLabel(tour.location); // Show location name as back button text (gocek)
+    } else if (tour && tour.category) {
+      // If no location, go to main category
       const categorySlug = createSlug(tour.category);
       setBackUrl(`/${categorySlug}`);
-      setBackLabel(tour.category); // Show category name as back button text
+      setBackLabel(tour.category);
     } else {
       // Default fallback to tours page
       setBackUrl('/turlar');
