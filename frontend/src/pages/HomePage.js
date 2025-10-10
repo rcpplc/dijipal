@@ -43,11 +43,12 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
 
-  // Hero carousel images - Dalış, Tekne/Deniz, Gulet Turu
+  // Hero carousel images - Kategorilere Uygun: Mavi Yolculuk, Günübirlik, Paraşüt, Dalış
   const heroImages = [
-    "https://images.unsplash.com/photo-1583726933208-71489613d494?w=1920&q=85", // Dalış yapan diver + balık sürüsü
-    "https://images.unsplash.com/photo-1631991464137-74f089d6318f?w=1920&q=85", // Luxury yacht turquoise bay
-    "https://images.unsplash.com/photo-1690315996896-ac754c53ab1c?w=1920&q=85" // Geleneksel Türk gulet teknesi
+    "https://images.unsplash.com/photo-1666601341917-0e089c1ff287?w=1920&q=85", // Mavi Yolculuk - Geleneksel süslü gulet + Türk bayrağı
+    "https://images.unsplash.com/photo-1571863817716-41ec71c5d1de?w=1920&q=85", // Günübirlik Tekne Turu - Hızlı tekne kristal mavi suda
+    "https://images.unsplash.com/photo-1647443321381-2a7b454079f7?w=1920&q=85", // Paraşüt deneyimi - Türkiye kıyı şehri üzerinde yamaç paraşütü
+    "https://images.unsplash.com/photo-1628371217613-714161455f6b?w=1920&q=85"  // Dalış Turları - Mercan resifleri sualtı
   ];
 
   // Default categories with icons
