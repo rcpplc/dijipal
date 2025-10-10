@@ -131,7 +131,7 @@ const CategoryDetailPage = () => {
     let backText = 'Ana Sayfa';
     if (locationSlug) {
       // Alt kategorideyse ana kategori adını göster
-      backText = categoryData?.parent_category_title || categoryData?.title || 'Ana Kategori';
+      backText = categoryData?.parent_category?.title || categoryData?.subcategory?.parent_category_title || 'Ana Kategori';
     }
 
     return (
