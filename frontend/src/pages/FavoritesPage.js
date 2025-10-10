@@ -144,7 +144,7 @@ const FavoritesPage = () => {
               <div className="flex flex-col md:flex-row">
                 {/* Tour Image */}
                 <div className="md:w-80 flex-shrink-0">
-                  <Link to={`/turlar/${createSlug(tour.title)}`}>
+                  <Link to={`/tur/${createSlug(tour.title)}`}>
                     <img
                       src={tour.images[0] || '/placeholder-tour.jpg'}
                       alt={tour.title}
@@ -173,7 +173,7 @@ const FavoritesPage = () => {
                         </div>
                       </div>
 
-                      <Link to={`/turlar/${createSlug(tour.title)}`}>
+                      <Link to={`/tur/${createSlug(tour.title)}`}>
                         <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200">
                           {tour.title}
                         </h3>
