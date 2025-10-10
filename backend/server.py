@@ -922,7 +922,9 @@ async def get_user_favorites(current_user: User = Depends(get_current_user)):
             for td in tour_dates:
                 all_prices.append(td.get("single_cabin_price", 0))
                 all_prices.append(td.get("double_cabin_price", 0))
-            minimum_price = min([p for p in all_prices if p > 0]) if all_prices else 0
+            # Fix: Handle case where all prices are 0 or empty
+            valid_prices = [p for p in all_prices if p > 0]
+            minimum_price = min(valid_prices) if valid_prices else 0
         
         # Get review count and rating
         reviews = await db.reviews.find({"tour_id": tour["id"]}).to_list(length=None)
