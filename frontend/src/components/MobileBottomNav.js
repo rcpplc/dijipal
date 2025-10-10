@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Home, Heart, Calendar, User } from 'lucide-react';
 import { useAuth } from '../App';
@@ -7,6 +7,15 @@ const MobileBottomNav = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { user, setShowLoginModal } = useAuth();
+  const [pendingPath, setPendingPath] = useState(null);
+
+  // Login başarılı olduğunda bekleyen path'e git
+  useEffect(() => {
+    if (user && pendingPath) {
+      navigate(pendingPath);
+      setPendingPath(null);
+    }
+  }, [user, pendingPath, navigate]);
 
   // Sayfalarda bottom nav'i gizle
   const hiddenPaths = [

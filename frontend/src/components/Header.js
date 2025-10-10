@@ -178,7 +178,7 @@ const Header = () => {
                       <span>Profilim</span>
                     </Link>
                     <Link
-                      to="/bookings"
+                      to="/my-bookings"
                       className="flex items-center space-x-2 px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
                       onClick={() => setShowUserMenu(false)}
                     >
