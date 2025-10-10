@@ -33,6 +33,7 @@ const CategoryDetailPage = () => {
   const [filtersVisible, setFiltersVisible] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [favorites, setFavorites] = useState(new Set());
+  const [isTourPage, setIsTourPage] = useState(false);
   const [filters, setFilters] = useState({
     location: '',
     category: '',
