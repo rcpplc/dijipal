@@ -217,78 +217,175 @@ const HomePage = () => {
   };
 
   // Tour Card Component
-  const TourCard = ({ tour, featured = false }) => (
-    <div 
-      onClick={() => navigateToTour(tour)}
-      className={`bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 cursor-pointer group ${
-        featured ? 'lg:col-span-2' : ''
-      }`}
+  // Toggle favorite function
+  const toggleFavorite = async (tourId, e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!user) {
+      toast.error('Favorilere eklemek için giriş yapmalısınız');
+      return;
+    }
+
+    try {
+      if (favorites.has(tourId)) {
+        await axios.delete(`${API}/favorites/${tourId}`, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setFavorites(prev => {
+          const newFavorites = new Set(prev);
+          newFavorites.delete(tourId);
+          return newFavorites;
+        });
+        toast.success('Favorilerden çıkarıldı');
+      } else {
+        await axios.post(`${API}/favorites/${tourId}`, {}, {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+        setFavorites(prev => new Set([...prev, tourId]));
+        toast.success('Favorilere eklendi');
+      }
+    } catch (error) {
+      console.error('Favorite toggle error:', error);
+      toast.error('Bir hata oluştu');
+    }
+  };
+
+  // Load user favorites
+  useEffect(() => {
+    const loadFavorites = async () => {
+      if (user && token) {
+        try {
+          const response = await axios.get(`${API}/favorites`, {
+            headers: { Authorization: `Bearer ${token}` }
+          });
+          setFavorites(new Set(response.data.map(fav => fav.tour_id)));
+        } catch (error) {
+          console.error('Error loading favorites:', error);
+        }
+      }
+    };
+    loadFavorites();
+  }, [user, token]);
+
+  const TourCard = ({ tour }) => (
+    <Link 
+      to={`/tur/${createSlug(tour.title)}`} 
+      className="bg-white rounded-xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 block group"
     >
+      {/* Image Section */}
       <div className="relative">
         <img
           src={tour.images?.[0] || '/placeholder-tour.jpg'}
           alt={tour.title}
-          className={`w-full object-cover group-hover:scale-105 transition-transform duration-300 ${
-            featured ? 'h-64' : 'h-48'
-          }`}
+          className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
         />
-        <div className="absolute top-4 left-4">
-          <span className="bg-blue-600/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
-            {tour.category || 'Tur'}
-          </span>
-        </div>
-        <div className="absolute bottom-4 right-4">
-          <div className="flex items-center bg-white/90 backdrop-blur-sm rounded-full px-3 py-1">
-            <Star className="w-4 h-4 text-yellow-400 fill-current" />
-            <span className="text-sm font-medium ml-1">{tour.rating || '4.8'}</span>
+        
+        {/* Favorite Button */}
+        <button
+          onClick={(e) => toggleFavorite(tour.id, e)}
+          className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-10"
+        >
+          <Heart 
+            className={`w-5 h-5 ${
+              favorites.has(tour.id) 
+                ? 'text-red-500 fill-current' 
+                : 'text-gray-600'
+            }`}
+          />
+        </button>
+
+        {/* Category Badge */}
+        {tour.category && (
+          <div className="absolute top-3 left-3">
+            <span className="bg-blue-600/90 backdrop-blur-sm text-white px-3 py-1 rounded-full text-sm font-medium">
+              {tour.category}
+            </span>
           </div>
-        </div>
+        )}
       </div>
 
-      <div className="p-6">
-        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-3">
+      {/* Content Section */}
+      <div className="p-4">
+        {/* Location */}
+        <div className="flex items-center space-x-1 text-sm text-gray-500 mb-2">
           <MapPin className="w-4 h-4" />
           <span>{tour.location}</span>
         </div>
 
-        <h3 className={`font-bold text-gray-900 mb-3 line-clamp-2 leading-tight ${
-          featured ? 'text-xl' : 'text-lg'
-        }`}>
+        {/* Title */}
+        <h3 className="font-bold text-gray-900 text-base mb-2 line-clamp-2 leading-tight">
           {tour.title}
         </h3>
 
-        <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+        {/* Description */}
+        <p className="text-gray-600 text-sm mb-3 line-clamp-2 leading-relaxed">
           {tour.short_description || tour.description}
         </p>
 
-        <div className="flex items-center justify-between mb-4">
+        {/* Rating and Duration */}
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center space-x-1">
+            <div className="flex items-center">
+              {[...Array(5)].map((_, i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${
+                    i < Math.floor(tour.rating || 0)
+                      ? 'text-yellow-400 fill-current'
+                      : 'text-gray-300'
+                  }`}
+                />
+              ))}
+            </div>
+            <span className="text-sm text-gray-500">
+              ({tour.review_count || 0})
+            </span>
+          </div>
+
           <div className="flex items-center space-x-1 text-sm text-gray-500">
             <Calendar className="w-4 h-4" />
             <span>
               {tour.duration || tour.duration_days || 1}{' '}
-              {tour.duration_unit === 'hours' ? 'Saat' : 'Gün'}
+              {(() => {
+                if (tour.duration_unit === 'hours') return 'Saat';
+                if (tour.duration_unit === 'days') return 'Gün';
+                return 'Gün';
+              })()}
             </span>
-          </div>
-          <div className="flex items-center space-x-1 text-sm text-gray-500">
-            <Users className="w-4 h-4" />
-            <span>Max {tour.capacity || 12} kişi</span>
           </div>
         </div>
 
-        <div className="flex items-center justify-between">
-          <div>
-            <div className={`font-bold text-blue-600 ${featured ? 'text-2xl' : 'text-xl'}`}>
-              ₺{(tour.minimum_price || tour.base_price || 0).toLocaleString('tr-TR')}
-            </div>
-            <div className="text-sm text-gray-500">den başlayan</div>
+        {/* Price */}
+        <div className="mb-4">
+          <div className="text-xl font-bold text-blue-600">
+            {(() => {
+              if (tour.minimum_price) {
+                return `₺${(tour.minimum_price || 0).toLocaleString('tr-TR')}`;
+              } else if (tour.tour_dates && tour.tour_dates.length > 0) {
+                const allPrices = tour.tour_dates.flatMap(date => [
+                  date.single_cabin_price || 0,
+                  date.double_cabin_price || 0
+                ]).filter(price => price > 0);
+                
+                return allPrices.length > 0 
+                  ? `₺${Math.min(...allPrices).toLocaleString('tr-TR')}` 
+                  : `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              } else {
+                return `₺${(tour.base_price || 0).toLocaleString('tr-TR')}`;
+              }
+            })()}
           </div>
-          <button className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200 flex items-center space-x-2">
-            <span>İncele</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
+          <div className="text-sm text-gray-500">den başlayan</div>
         </div>
+
+        {/* Details Button */}
+        <button className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 px-4 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center justify-center space-x-2">
+          <span>Detayları Görüntüle</span>
+          <ArrowRight className="w-4 h-4" />
+        </button>
       </div>
-    </div>
+    </Link>
   );
 
   // Category Card Component
