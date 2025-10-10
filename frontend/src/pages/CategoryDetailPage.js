@@ -145,11 +145,14 @@ const CategoryDetailPage = () => {
   // SEO update function
   const updateSEO = () => {
     const tourCount = tours.length;
+    const currentDisplayCategory = isLocationPage 
+      ? categoryData?.category || categoryData 
+      : categoryData;
     
     if (isLocationPage) {
       // Subcategory SEO
       const locationName = categoryData?.location?.location_name || locationSlug;
-      const categoryTitle = displayCategory?.title || categorySlug;
+      const categoryTitle = currentDisplayCategory?.title || categorySlug;
       
       const seoData = getSEOData.subcategory({
         locationName,
@@ -162,7 +165,7 @@ const CategoryDetailPage = () => {
       updateSEOTags(seoData);
     } else {
       // Main category SEO
-      const categoryTitle = displayCategory?.title || categorySlug;
+      const categoryTitle = currentDisplayCategory?.title || categorySlug;
       
       const seoData = getSEOData.category({
         categoryTitle,
