@@ -43,11 +43,11 @@ const HomePage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [favorites, setFavorites] = useState(new Set());
 
-  // Hero carousel images - Dalış, Tekne/Deniz, Deniz Altı
+  // Hero carousel images - Dalış, Tekne/Deniz, Gulet Turu
   const heroImages = [
     "https://images.unsplash.com/photo-1583726933208-71489613d494?w=1920&q=85", // Dalış yapan diver + balık sürüsü
     "https://images.unsplash.com/photo-1631991464137-74f089d6318f?w=1920&q=85", // Luxury yacht turquoise bay
-    "https://images.pexels.com/photos/2363367/pexels-photo-2363367.jpeg?w=1920&q=85" // Underwater turkuaz su
+    "https://images.unsplash.com/photo-1690315996896-ac754c53ab1c?w=1920&q=85" // Geleneksel Türk gulet teknesi
   ];
 
   // Default categories with icons
