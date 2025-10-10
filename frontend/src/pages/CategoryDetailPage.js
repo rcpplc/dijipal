@@ -10,7 +10,8 @@ import {
   Search,
   SlidersHorizontal,
   X,
-  Heart
+  Heart,
+  ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
 import { updateSEOTags } from '../utils/seo';
