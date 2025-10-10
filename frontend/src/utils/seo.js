@@ -131,20 +131,26 @@ export const getSEOData = {
     }
   }),
 
-  tours: ({ totalTours = 0 } = {}) => ({
-    title: 'Tüm Turlar - Mavibilet | Mavi Yolculuk ve Tekne Turları Listesi',
-    description: `${totalTours} farklı mavi yolculuk turu seçeneği. Bodrum, Göcek, Marmaris, İstanbul ve daha fazla destinasyonda tekne turları ve kabin kiralama imkanları.`,
-    keywords: 'mavi yolculuk turları, tekne turu listesi, kabin kiralama, günübirlik tur, bodrum marmaris göcek turları',
-    canonicalUrl: `${window.location.origin}/turlar`,
-    structuredData: {
-      "@context": "https://schema.org",
-      "@type": "ItemList",
-      "name": "Mavi Yolculuk Turları",
-      "description": "Türkiye'nin en güzel destinasyonlarında tekne turları",
-      "url": `${window.location.origin}/turlar`,
-      "numberOfItems": totalTours
-    }
-  }),
+  tours: ({ totalTours = 0, appliedFilters = {} } = {}) => {
+    const filterText = Object.keys(appliedFilters).length > 0 ? ' - Filtrelenmiş Sonuçlar' : '';
+    const locationText = appliedFilters.location ? ` ${appliedFilters.location}` : '';
+    
+    return {
+      title: `Tüm Turlar${locationText} - Mavibilet | ${totalTours} Mavi Yolculuk Turu${filterText}`,
+      description: `${totalTours} farklı mavi yolculuk turu${locationText ? ` ${locationText} bölgesinde` : ''}. Kabin kiralama, günübirlik tekne turları ve özel rotalar. Anında rezervasyon, %100 güvenli ödeme.`,
+      keywords: `mavi yolculuk turları${locationText}, tekne turu listesi, kabin kiralama, günübirlik tur, bodrum marmaris göcek antalya turları, deniz tatili, yacht charter`,
+      canonicalUrl: `${window.location.origin}/turlar`,
+      structuredData: {
+        "@context": "https://schema.org",
+        "@type": "ItemList",
+        "name": `Mavi Yolculuk Turları${locationText}`,
+        "description": `Türkiye'nin en güzel destinasyonlarında ${totalTours} tekne turu`,
+        "url": `${window.location.origin}/turlar`,
+        "numberOfItems": totalTours,
+        "itemListElement": []
+      }
+    };
+  },
 
   category: ({ categoryTitle, categorySlug, tourCount = 0 }) => ({
     title: `${categoryTitle} Turları - Mavibilet | En İyi ${categoryTitle} Tekne Turları`,
