@@ -84,16 +84,16 @@ const CategoryDetailPage = () => {
   };
 
   const loadUserFavorites = async () => {
-    if (!user) {
+    if (!user || !token) {
       setFavorites(new Set());
       return;
     }
 
     try {
       const response = await axios.get(`${API}/favorites`, {
-        headers: { Authorization: `Bearer ${user.token}` }
+        headers: { Authorization: `Bearer ${token}` }
       });
-      const favoriteIds = response.data.map(fav => fav.tour_id);
+      const favoriteIds = response.data.map(fav => fav.id);
       setFavorites(new Set(favoriteIds));
     } catch (error) {
       console.log('Favoriler yüklenirken hata:', error);
