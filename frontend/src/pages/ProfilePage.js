@@ -1186,7 +1186,7 @@ const ProfilePage = () => {
                           <p className="text-sm text-red-700">Bu işlem geri alınamaz!</p>
                         </div>
                         <button 
-                          onClick={deleteAccount}
+                          onClick={() => setShowDeleteModal(true)}
                           className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
                         >
                           <Trash2 className="w-4 h-4" />
