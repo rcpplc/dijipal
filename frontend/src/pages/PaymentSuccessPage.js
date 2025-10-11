@@ -297,8 +297,19 @@ const PaymentSuccessPage = () => {
                     <div className="bg-gray-100 border-b border-gray-200 px-6 py-4">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                            {item?.title || item?.tourTitle || item?.tour?.title || booking?.tour?.title || booking?.tourTitle || 'Mavi Yolculuk Turu'}
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+                            {(() => {
+                              // Priority: Fresh tour data > item data > booking fallback
+                              const title = booking?.tour?.title || 
+                                          item?.title || 
+                                          item?.tourTitle || 
+                                          item?.tour?.title || 
+                                          booking?.tourTitle || 
+                                          'Mavi Yolculuk Turu';
+                              
+                              // Truncate very long titles for header
+                              return title.length > 80 ? `${title.substring(0, 80)}...` : title;
+                            })()}
                           </h3>
                           <p className="text-sm text-gray-600">
                             Bilet No: {generateBookingCode()}-{String(index + 1).padStart(3, '0')}
