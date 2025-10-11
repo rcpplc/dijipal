@@ -634,8 +634,7 @@ async def google_auth_callback(request: Request, response: Response, code: str, 
         # Get Google OAuth settings
         client_id = os.environ.get('GOOGLE_CLIENT_ID')
         client_secret = os.environ.get('GOOGLE_CLIENT_SECRET')
-        # Force HTTPS for production - Kubernetes proxy causes request.base_url to be HTTP
-        redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+        redirect_uri = os.environ.get('GOOGLE_REDIRECT_URI')
         
         if not client_id or not client_secret:
             raise HTTPException(status_code=500, detail="Google OAuth not configured")
