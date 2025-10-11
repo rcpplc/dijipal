@@ -36,8 +36,17 @@ const PaymentSuccessPage = () => {
     
     if (location.state?.booking) {
       console.log('Setting booking from location.state:', location.state.booking);
+      console.log('CartItems from location.state:', location.state.cartItems);
       console.log('Setting paymentAmount:', location.state.paymentAmount);
-      setBooking(location.state.booking);
+      
+      // Set the booking data with cartItems
+      const bookingWithCart = {
+        ...location.state.booking,
+        cartItems: location.state.cartItems,
+        fromCart: location.state.fromCart
+      };
+      
+      setBooking(bookingWithCart);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
       // For testing purposes, create mock data with multiple bookings
