@@ -235,10 +235,10 @@ const AllCategoriesPage = () => {
             </p>
             <Link
               to="/turlar"
-              className="inline-flex items-center px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors duration-200"
+              className="inline-flex items-center space-x-2 bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-semibold transition-colors duration-200"
             >
-              Tüm Turları Görüntüle
-              <ArrowRight className="w-5 h-5 ml-2" />
+              <span>Tüm Turları Görüntüle</span>
+              <ArrowRight className="w-5 h-5" />
             </Link>
           </div>
         </div>
