@@ -144,13 +144,11 @@ const PaymentSuccessPage = () => {
     
     // SEPETTEN GELME DURUMU: Çoklu tur rezervasyonu
     if (location.state?.fromCart && location.state?.cartItems && Array.isArray(location.state.cartItems)) {
-      console.log('✅ SEPET FLOW: Using cartItems for multiple tickets:', location.state.cartItems);
       return location.state.cartItems;
     }
     
     // DETAY SAYFASINDAN GELME DURUMU: Tek tur rezervasyonu  
     if (booking && booking.tour) {
-      console.log('✅ DETAY SAYFASI FLOW: Using single booking for 1 ticket');
       // Tek booking'i cartItems formatına çevir
       return [{
         id: booking.id || 'single-booking',
