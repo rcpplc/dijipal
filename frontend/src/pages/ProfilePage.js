@@ -204,6 +204,15 @@ const ProfilePage = () => {
         email: user.email || '',
         phone: user.phone || ''
       });
+      // Load notification settings from localStorage
+      const storedSettings = localStorage.getItem(`notification_settings_${user.id}`);
+      if (storedSettings) {
+        try {
+          setNotificationSettings(JSON.parse(storedSettings));
+        } catch (error) {
+          console.error('Error loading notification settings:', error);
+        }
+      }
     }
   }, [user]);
 
