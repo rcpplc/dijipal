@@ -433,7 +433,7 @@ const PaymentSuccessPage = () => {
                                   <span className="text-gray-700">Tek Kişilik Kabin:</span>
                                   <span className="font-medium">
                                     {item?.singleCabinCount || booking.reservationDetails?.singleCabinCount} × 
-                                    ₺{(item?.selectedDate?.single_cabin_price || 0).toLocaleString('tr-TR')}
+                                    ₺{(item?.selectedDate?.single_cabin_price || item?.singleCabinPrice || 4000).toLocaleString('tr-TR')}
                                   </span>
                                 </div>
                               )}
