@@ -668,8 +668,6 @@ const TourDetailPage = () => {
 
     // Sepeti kaydet
     localStorage.setItem('tour_cart', JSON.stringify(cartItems));
-    console.log('🔍 TourDetailPage - Cart saved to localStorage:', cartItems);
-    console.log('🔍 TourDetailPage - Cart length:', cartItems.length);
     
     // Storage event tetikle
     window.dispatchEvent(new Event('storage'));
