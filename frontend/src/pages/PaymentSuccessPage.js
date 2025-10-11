@@ -26,10 +26,11 @@ const PaymentSuccessPage = () => {
   const [paymentAmount, setPaymentAmount] = useState(0);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/');
-      return;
-    }
+    // Temporarily disabled for testing
+    // if (!user) {
+    //   navigate('/');
+    //   return;
+    // }
 
     if (location.state?.booking) {
       setBooking(location.state.booking);
