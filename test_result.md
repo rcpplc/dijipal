@@ -143,6 +143,18 @@ backend:
         agent: "testing"
         comment: "✅ ADD TEST REVIEWS API AND REVIEWS SYSTEM FULLY WORKING - Comprehensive testing completed for tour ID 3ded39ad-36a4-47d1-87b9-7baeb5f00f55: 1) POST /api/add-test-reviews successfully added 4 test reviews with realistic Turkish user data (Ahmet Yılmaz, Elif Kaya, Mehmet Demir, Ayşe Özkan), 2) GET /api/reviews?tour_id={id} correctly returns reviews with proper data structure including user_name enrichment, 3) Review filtering works perfectly (verified_only, limit parameters), 4) All required fields present (id, user_id, tour_id, rating, created_at) and optional fields enriched (title, comment, user_name, is_verified, images), 5) Pagination functionality working correctly, 6) Reviews display system ready for tour detail page integration. Success rate: 100% (9/9 tests passed). The new reviews system with pagination is fully functional and ready for production use."
 
+  - task: "PaymentSuccessPage Data Mapping Debug"
+    implemented: true
+    working: false
+    file: "backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: false
+    status_history:
+      - working: false
+        agent: "testing"
+        comment: "❌ PAYMENTSUCCESSPAGE DATA MAPPING ISSUE CONFIRMED - Comprehensive debug analysis completed for specific tour data mapping issue. ISSUE CONFIRMED: Found 2 tours with incorrect default values causing PaymentSuccessPage to display wrong information. SPECIFIC FINDINGS: 1) ✅ TARGET TOUR ANALYSIS: Tour 'tum-tekne-sabit-fiyat...' has CORRECT data (5 Saat, Delux, 12:00, 21:00), 2) ❌ PROBLEMATIC TOURS IDENTIFIED: Found 2 tours with default values (Kabin Bazlı, Kişi bazlı) showing 1 Gün, Standart, 09:00, 18:00, 3) ✅ BOOKING FLOW TESTED: Created actual booking with problematic tour (ID: f8277bc8-d166-483c-8cb7-54ea85fe95f4), confirmed PaymentSuccessPage would display incorrect data, 4) ❌ ROOT CAUSE: Tours created with default values (duration_unit='days', duration_days=1, classification='standart', pickup_time='09:00', dropoff_time='18:00') instead of user-specified values, 5) 🔍 BACKEND DATA STRUCTURE: All APIs working correctly, issue is in tour database records having wrong field values. IMPACT: Users booking certain tours see incorrect duration, classification, and times on PaymentSuccessPage. SUCCESS RATE: 84.6% (11/13 tests passed). URGENT FIX NEEDED: Update problematic tour records in database with correct field values or fix admin panel tour creation to prevent default value override."
+
   - task: "Booking Flow from Tour Detail to Booking Page"
     implemented: true
     working: true
