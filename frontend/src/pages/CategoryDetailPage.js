@@ -511,7 +511,7 @@ const CategoryDetailPage = () => {
             <h2 className="text-2xl font-bold text-gray-900 mb-6">Hakkında</h2>
             <div className="prose prose-lg max-w-none">
               <div 
-                className="text-gray-600 leading-relaxed"
+                className="rich-text-content text-gray-600 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: categoryData.description }}
               />
             </div>
