@@ -425,7 +425,7 @@ const PaymentPage = () => {
           {/* Sipariş Özeti + Onay */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-4">Sipariş Özeti</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Rezervasyon Özeti</h3>
               
               <div className="space-y-4 mb-6">
                 <div className="flex items-start space-x-3">
