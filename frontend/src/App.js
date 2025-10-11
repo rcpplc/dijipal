@@ -159,16 +159,33 @@ function App() {
       });
       
       console.log('📡 API Response:', response.status, response.data);
-      const { token: newToken, user: userData } = response.data;
       
-      console.log('Login Response - User Data:', userData);
-      console.log('User Role:', userData?.role);
-      
-      setToken(newToken);
-      setUser(userData);
-      localStorage.setItem('token', newToken);
-      localStorage.setItem('user', JSON.stringify(userData));
-      axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+      // Handle both JWT and cookie-based auth responses
+      if (response.data.token) {
+        // JWT-based authentication
+        const { token: newToken, user: userData } = response.data;
+        
+        console.log('Login Response - User Data:', userData);
+        console.log('User Role:', userData?.role);
+        
+        setToken(newToken);
+        setUser(userData);
+        localStorage.setItem('token', newToken);
+        localStorage.setItem('user', JSON.stringify(userData));
+        axios.defaults.headers.common['Authorization'] = `Bearer ${newToken}`;
+      } else {
+        // Cookie-based authentication - check session
+        try {
+          const userResponse = await axios.get(`${API}/auth/me`);
+          if (userResponse.data.user) {
+            setUser(userResponse.data.user);
+            console.log('✅ Cookie-based login successful:', userResponse.data.user);
+          }
+        } catch (sessionError) {
+          console.error('Failed to get user session after login:', sessionError);
+          throw new Error('Session creation failed');
+        }
+      }
       
       return { success: true };
     } catch (error) {
