@@ -2,7 +2,7 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
 
-const CartBottomBar = ({ totalPrice, itemCount }) => {
+const CartBottomBar = ({ totalPrice, itemCount, onCheckout }) => {
   const navigate = useNavigate();
 
   return (
