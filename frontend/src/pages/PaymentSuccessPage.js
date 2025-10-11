@@ -151,50 +151,39 @@ const PaymentSuccessPage = () => {
     console.log('🔍 location.state?.cartItems:', location.state?.cartItems);
     console.log('🔍 booking?.cartItems:', booking?.cartItems);
     
-    // BookingPage mantığı: Önce location.state?.fromCart && location.state?.cartItems kontrol et
-    if (location.state?.fromCart && location.state?.cartItems) {
-      console.log('✅ Using location.state.cartItems (from cart flow):', location.state.cartItems);
+    // SEPETTEN GELME DURUMU: Çoklu tur rezervasyonu
+    if (location.state?.fromCart && location.state?.cartItems && Array.isArray(location.state.cartItems)) {
+      console.log('✅ SEPET FLOW: Using cartItems for multiple tickets:', location.state.cartItems);
       return location.state.cartItems;
     }
     
-    // Tek booking fallback (direct booking flow)
+    // DETAY SAYFASINDAN GELME DURUMU: Tek tur rezervasyonu  
     if (booking && booking.tour) {
-      console.log('✅ Using single booking fallback (direct booking)');
-      return [booking];
+      console.log('✅ DETAY SAYFASI FLOW: Using single booking for 1 ticket');
+      // Tek booking'i cartItems formatına çevir
+      return [{
+        id: booking.id || 'single-booking',
+        tourId: booking.tourId,
+        title: booking.tour.title,
+        location: booking.tour.location,
+        duration: booking.tour.duration,
+        reservation_type: booking.reservationType || booking.tour.reservation_type,
+        selectedDate: booking.selectedDate,
+        // Reservation details'i item formatına çevir
+        ...(booking.reservationDetails?.type === 'cabin_based' && {
+          singleCabinCount: booking.reservationDetails.singleCabinCount || 0,
+          doubleCabinCount: booking.reservationDetails.doubleCabinCount || 0
+        }),
+        ...(booking.reservationDetails?.type === 'person_based' && {
+          adultCount: booking.reservationDetails.adultCount || 0,
+          childCount: booking.reservationDetails.childCount || 0
+        })
+      }];
     }
     
-    // Mock data for testing
-    console.log('⚠️ Using mock data fallback');
-    return [
-      {
-        id: 'mock-1',
-        title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
-        location: 'Muğla, Göcek',
-        duration: '4',
-        reservation_type: 'cabin_based',
-        singleCabinCount: 1,
-        doubleCabinCount: 1,
-        selectedDate: {
-          formattedDate: '15 Ocak 2025',
-          single_cabin_price: 4000,
-          double_cabin_price: 6000
-        }
-      },
-      {
-        id: 'mock-2',
-        title: 'Bodrum Günübirlik Tekne Turu',
-        location: 'Bodrum Marina', 
-        duration: '1',
-        reservation_type: 'person_based',
-        adultCount: 2,
-        childCount: 1,
-        selectedDate: {
-          formattedDate: '20 Ocak 2025',
-          person_price: 800,
-          child_price: 400
-        }
-      }
-    ];
+    // Veri bulunamadı
+    console.error('❌ PaymentSuccessPage: No valid booking data found for tickets');
+    return [];
   })();
   
   console.log('Final bookingItems:', bookingItems);
