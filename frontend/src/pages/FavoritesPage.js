@@ -271,104 +271,10 @@ const FavoritesPage = () => {
           </div>
         </div>
 
-        {/* Favorites List */}
-        <div className="space-y-6">
+        {/* Favorites Grid - Same as HomePage */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {favorites.map((tour) => (
-            <div key={tour.id} className="bg-white rounded-xl shadow-lg overflow-hidden border border-gray-100">
-              <div className="flex flex-col md:flex-row">
-                {/* Tour Image */}
-                <div className="md:w-80 flex-shrink-0">
-                  <Link to={`/tur/${createSlug(tour.title)}`}>
-                    <img
-                      src={tour.images[0] || '/placeholder-tour.jpg'}
-                      alt={tour.title}
-                      className="w-full h-48 md:h-full object-cover hover:scale-105 transition-transform duration-300"
-                    />
-                  </Link>
-                </div>
-
-                {/* Tour Details */}
-                <div className="flex-1 p-6">
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex-1">
-                      <div className="flex items-center space-x-2 text-sm text-gray-600 mb-2">
-                        <MapPin className="w-4 h-4" />
-                        <span>{tour.location}</span>
-                        <div className="flex items-center space-x-1 ml-4">
-                          <Calendar className="w-4 h-4" />
-                          <span>
-                            {tour.duration || tour.duration_days || 1}{' '}
-                            {(() => {
-                              if (tour.duration_unit === 'hours') return 'Saat';
-                              if (tour.duration_unit === 'days') return 'Gün';
-                              return 'Gün'; // fallback
-                            })()}
-                          </span>
-                        </div>
-                      </div>
-
-                      <Link to={`/tur/${createSlug(tour.title)}`}>
-                        <h3 className="text-xl font-bold text-gray-900 mb-2 hover:text-blue-600 transition-colors duration-200">
-                          {tour.title}
-                        </h3>
-                      </Link>
-
-                      <p className="text-gray-600 mb-4 line-clamp-2">
-                        {tour.short_description}
-                      </p>
-
-                      <div className="flex items-center space-x-4 mb-4">
-                        <div className="flex items-center">
-                          {[...Array(5)].map((_, i) => (
-                            <Star
-                              key={i}
-                              className={`w-4 h-4 ${
-                                i < Math.floor(tour.rating || 0)
-                                  ? 'text-yellow-400 fill-current'
-                                  : 'text-gray-300'
-                              }`}
-                            />
-                          ))}
-                          <span className="ml-2 text-sm text-gray-600">
-                            ({tour.reviews_count || 0})
-                          </span>
-                        </div>
-
-                        {tour.category && (
-                          <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm font-medium">
-                            {tour.category}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => removeFavorite(tour.id)}
-                      className="text-red-600 hover:text-red-700 p-2 rounded-lg hover:bg-red-50 transition-all duration-200 ml-4"
-                      title="Favorilerden çıkar"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  </div>
-
-                  <div className="flex items-center justify-between">
-                    <div className="text-right">
-                      <div className="text-2xl font-bold text-blue-600">
-                        ₺{tour.base_price}
-                        <span className="text-sm font-normal text-gray-600 ml-1">/kişi</span>
-                      </div>
-                    </div>
-
-                    <Link
-                      to={`/turlar/${tour.slug || tour.id}`}
-                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105"
-                    >
-                      Detayları Gör
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <TourCard key={tour.id} tour={tour} />
           ))}
         </div>
       </div>
