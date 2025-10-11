@@ -485,7 +485,7 @@ const PaymentSuccessPage = () => {
                               <div className="flex justify-between">
                                 <span className="text-gray-700">Tüm Tekne / Sabit Fiyat:</span>
                                 <span className="font-medium">
-                                  ₺{(item?.selectedDate?.total_reservation_price || itemPrice).toLocaleString('tr-TR')}
+                                  ₺{(item?.selectedDate?.total_reservation_price || item?.reservationPrice || itemPrice).toLocaleString('tr-TR')}
                                 </span>
                               </div>
                             </div>
