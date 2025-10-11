@@ -59,6 +59,9 @@ function App() {
 
   // Set up axios defaults
   useEffect(() => {
+    // Always include credentials for cookie-based auth
+    axios.defaults.withCredentials = true;
+    
     if (token) {
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
     } else {
