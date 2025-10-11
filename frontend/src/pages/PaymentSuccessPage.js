@@ -18,6 +18,8 @@ import {
   CreditCard
 } from 'lucide-react';
 
+const API = process.env.REACT_APP_API_URL || 'http://localhost:8000/api';
+
 const PaymentSuccessPage = () => {
   const location = useLocation();
   const navigate = useNavigate();
