@@ -38,6 +38,12 @@ const ProfilePage = () => {
     confirm_password: ''
   });
   const [passwordMode, setPasswordMode] = useState(false);
+  const [bookingFilter, setBookingFilter] = useState('all');
+  const [notificationSettings, setNotificationSettings] = useState({
+    email_notifications: true,
+    sms_notifications: true,
+    marketing_emails: false
+  });
 
   useEffect(() => {
     if (activeTab === 'bookings') {
