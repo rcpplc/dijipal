@@ -49,10 +49,42 @@ const PaymentSuccessPage = () => {
       setBooking(bookingWithCart);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
-      // No booking data found - redirect to home
-      console.error('❌ PaymentSuccessPage: No booking data found');
-      navigate('/');
-      return;
+      // Temporary: Create test booking for direct testing
+      const testBooking = {
+        id: 'test-booking-123',
+        tourId: 'test-tour-id',
+        tour: {
+          id: 'test-tour-id',
+          title: 'Test Fethiye Kabin Turu',
+          location: 'Muğla, Fethiye',
+          duration: '3',
+          reservation_type: 'cabin_based'
+        },
+        selectedDate: {
+          formattedDate: '15 Ocak 2025',
+          single_cabin_price: 5000,
+          double_cabin_price: 7500
+        },
+        reservationType: 'cabin_based',
+        reservationDetails: {
+          type: 'cabin_based',
+          singleCabinCount: 1,
+          doubleCabinCount: 1
+        },
+        customerInfo: {
+          firstName: 'Test',
+          lastName: 'User',
+          email: 'test@example.com',
+          phone: '0555 123 4567'
+        },
+        totalPrice: 15000,
+        fromCart: false,
+        cartItems: null
+      };
+      
+      console.log('⚠️ PaymentSuccessPage: Using test booking data for debugging');
+      setBooking(testBooking);
+      setPaymentAmount(15000);
     }
   }, [location.state, user, navigate]);
 
