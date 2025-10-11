@@ -43,6 +43,48 @@ const PaymentSuccessPage = () => {
 
   useEffect(() => {
     const initializeBookingData = async () => {
+      // Check for test data in URL params for testing purposes
+      const urlParams = new URLSearchParams(window.location.search);
+      const isTestMode = urlParams.get('test') === 'pdf';
+      
+      if (isTestMode) {
+        console.log('🧪 TEST MODE: Using mock data for PDF testing');
+        const mockBookingData = {
+          id: 'TR456770-001',
+          tourId: 'test-tour-456',
+          tour: {
+            title: 'Fethiye – Göcek Premium Kabin Turu',
+            location: 'Muğla, Fethiye',
+            pickup_time: '12:00',
+            dropoff_time: '21:00',
+            duration: 5,
+            duration_unit: 'hours',
+            classification: 'delux'
+          },
+          selectedDate: {
+            formattedDate: '13 Ekim 2025',
+            single_cabin_price: 1400,
+            double_cabin_price: 2100,
+            start_date: '2025-10-13'
+          },
+          reservationDetails: {
+            type: 'cabin_based',
+            singleCabinCount: 1,
+            doubleCabinCount: 0
+          },
+          customerInfo: {
+            firstName: 'Ahmet',
+            lastName: 'Yılmaz',
+            email: 'ahmet@example.com',
+            phone: '0533 123 45 67'
+          }
+        };
+        
+        setBooking(mockBookingData);
+        setPaymentAmount(1400);
+        return;
+      }
+      
       if (location.state?.booking) {
         const bookingWithCart = {
           ...location.state.booking,
