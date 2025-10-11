@@ -213,11 +213,11 @@ const PaymentSuccessPage = () => {
           </p>
         </div>
 
-        {/* Grid Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Vertical Layout - Alt Alta Dizilim */}
+        <div className="space-y-8">
           
-          {/* Sol Taraf - Kişi Bilgileri */}
-          <div className="lg:col-span-1">
+          {/* Kişi Bilgileri - Geniş */}
+          <div className="w-full">
             <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
               <h2 className="text-lg font-semibold text-gray-900 mb-4">Kişi Bilgileri</h2>
               
