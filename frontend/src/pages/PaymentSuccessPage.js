@@ -32,7 +32,11 @@ const PaymentSuccessPage = () => {
     //   return;
     // }
 
+    console.log('PaymentSuccessPage - location.state:', location.state);
+    
     if (location.state?.booking) {
+      console.log('Setting booking from location.state:', location.state.booking);
+      console.log('Setting paymentAmount:', location.state.paymentAmount);
       setBooking(location.state.booking);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
