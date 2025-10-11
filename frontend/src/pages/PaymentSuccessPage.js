@@ -71,7 +71,34 @@ const PaymentSuccessPage = () => {
   };
 
   const generateBookingCode = () => {
-    return booking?.id ? `TR${booking.id.slice(-6).toUpperCase()}` : 'TR000000';
+    return booking?.id ? `TR${booking.id.slice(-6).toUpperCase()}` : 'TR684824';
+  };
+
+  // Calculate tax breakdown
+  const calculatePriceBreakdown = (totalAmount) => {
+    const vatRate = 0.20; // %20 KDV
+    const subtotal = totalAmount / (1 + vatRate);
+    const vatAmount = totalAmount - subtotal;
+    
+    return {
+      subtotal: Math.round(subtotal),
+      vatAmount: Math.round(vatAmount),
+      total: totalAmount
+    };
+  };
+
+  const priceBreakdown = calculatePriceBreakdown(paymentAmount);
+
+  // Generate QR Code data for ticket
+  const generateQRData = (ticketId) => {
+    return `https://mavibilet.com/ticket/verify/${ticketId}`;
+  };
+
+  // Download ticket PDF (placeholder function)
+  const downloadTicketPDF = (ticketId) => {
+    // TODO: Implement actual PDF generation
+    console.log(`Downloading PDF for ticket: ${ticketId}`);
+    window.print(); // Temporary solution
   };
 
   if (!booking) {
