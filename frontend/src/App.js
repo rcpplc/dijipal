@@ -286,8 +286,15 @@ function App() {
     setLoginMode
   };
 
+  // Check Google OAuth configuration
+  const googleClientId = process.env.REACT_APP_GOOGLE_CLIENT_ID;
+  
+  if (!googleClientId) {
+    console.error('REACT_APP_GOOGLE_CLIENT_ID not configured');
+  }
+
   return (
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+    <GoogleOAuthProvider clientId={googleClientId || ""}>
       <AuthContext.Provider value={authValue}>
         <div className="App min-h-screen flex flex-col bg-gray-50">
           <BrowserRouter>
