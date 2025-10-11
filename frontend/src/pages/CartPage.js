@@ -235,7 +235,10 @@ const CartPage = () => {
                           </div>
                           <div className="text-right">
                             <button
-                              onClick={() => removeFromCart(item.id)}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                removeFromCart(item.id);
+                              }}
                               className="text-red-500 hover:text-red-700 transition-colors"
                             >
                               <Trash2 className="w-5 h-5 inline" />
