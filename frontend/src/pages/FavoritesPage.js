@@ -31,7 +31,10 @@ const FavoritesPage = () => {
 
   const loadFavorites = async () => {
     try {
-      const response = await axios.get(`${API}/favorites`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API}/favorites`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setFavorites(response.data);
     } catch (error) {
       console.error('Error loading favorites:', error);
