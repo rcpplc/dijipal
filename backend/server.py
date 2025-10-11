@@ -403,15 +403,46 @@ async def register(user_data: UserCreate):
     return {"message": "User created successfully", "token": token, "user": user}
 
 @api_router.post("/auth/login")
-async def login(login_data: UserLogin):
+async def login(login_data: UserLogin, response: Response):
     # Find user
     user_doc = await db.users.find_one({"email": login_data.email})
     if not user_doc or not verify_password(login_data.password, user_doc["hashed_password"]):
         raise HTTPException(status_code=401, detail="Invalid credentials")
     
     user = User(**user_doc)
+    
+    # Create both JWT token and session for compatibility
     token = create_access_token({"sub": user.id})
     
+    # Create session token for cookie-based auth
+    session_token = str(uuid.uuid4())
+    expires_at = datetime.now(timezone.utc) + timedelta(days=7)
+    
+    # Create session in database
+    session_doc = UserSession(
+        user_id=user.id,
+        session_token=session_token,
+        expires_at=expires_at
+    )
+    
+    # Remove existing sessions for this user (optional - single session per user)
+    await db.user_sessions.delete_many({"user_id": user.id})
+    
+    # Insert new session
+    await db.user_sessions.insert_one(session_doc.dict())
+    
+    # Set httpOnly cookie for session-based auth
+    response.set_cookie(
+        key="session_token",
+        value=session_token,
+        max_age=7*24*60*60,  # 7 days
+        path="/",
+        httponly=True,
+        secure=True,
+        samesite="none"
+    )
+    
+    # Return JWT token for backward compatibility
     return {"token": token, "user": user}
 
 @api_router.get("/users/me", response_model=User)
