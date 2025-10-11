@@ -60,6 +60,55 @@ const RichTextEditor = ({
     }
   }, [value]);
 
+  // Insert table function
+  const insertTable = useCallback(() => {
+    const rows = prompt('Satır sayısı:', '3');
+    const cols = prompt('Sütun sayısı:', '3');
+    
+    if (rows && cols) {
+      let tableHTML = '<table border="1" style="border-collapse: collapse; width: 100%; margin: 10px 0;">';
+      for (let i = 0; i < parseInt(rows); i++) {
+        tableHTML += '<tr>';
+        for (let j = 0; j < parseInt(cols); j++) {
+          tableHTML += '<td style="border: 1px solid #ddd; padding: 8px;">&nbsp;</td>';
+        }
+        tableHTML += '</tr>';
+      }
+      tableHTML += '</table>';
+      
+      document.execCommand('insertHTML', false, tableHTML);
+      if (editorRef.current && onChange) {
+        onChange(editorRef.current.innerHTML);
+      }
+    }
+  }, [onChange]);
+
+  // Insert image function
+  const insertImage = useCallback(() => {
+    const url = prompt('Resim URL giriniz:');
+    if (url) {
+      const alt = prompt('Alternatif metin (opsiyonel):', '') || 'Resim';
+      const imageHTML = `<img src="${url}" alt="${alt}" style="max-width: 100%; height: auto; margin: 10px 0;" />`;
+      document.execCommand('insertHTML', false, imageHTML);
+      if (editorRef.current && onChange) {
+        onChange(editorRef.current.innerHTML);
+      }
+    }
+  }, [onChange]);
+
+  // Insert horizontal line
+  const insertHR = useCallback(() => {
+    document.execCommand('insertHTML', false, '<hr style="margin: 10px 0; border: none; border-top: 2px solid #ddd;" />');
+    if (editorRef.current && onChange) {
+      onChange(editorRef.current.innerHTML);
+    }
+  }, [onChange]);
+
+  // Insert blockquote
+  const insertQuote = useCallback(() => {
+    executeCommand('formatBlock', 'blockquote');
+  }, [executeCommand]);
+
   const toolbarButtons = [
     {
       icon: Bold,
@@ -85,6 +134,60 @@ const RichTextEditor = ({
       icon: ListOrdered,
       command: 'insertOrderedList',
       title: 'Numaralı Liste'
+    },
+    {
+      icon: Quote,
+      command: insertQuote,
+      title: 'Alıntı'
+    }
+  ];
+
+  const alignmentButtons = [
+    {
+      icon: AlignLeft,
+      command: 'justifyLeft',
+      title: 'Sola Hizala'
+    },
+    {
+      icon: AlignCenter,
+      command: 'justifyCenter',
+      title: 'Ortaya Hizala'
+    },
+    {
+      icon: AlignRight,
+      command: 'justifyRight',
+      title: 'Sağa Hizala'
+    }
+  ];
+
+  const indentButtons = [
+    {
+      icon: Outdent,
+      command: 'outdent',
+      title: 'Girintiyi Azalt'
+    },
+    {
+      icon: Indent,
+      command: 'indent',
+      title: 'Girintiyi Artır'
+    }
+  ];
+
+  const insertButtons = [
+    {
+      icon: Minus,
+      command: insertHR,
+      title: 'Yatay Çizgi'
+    },
+    {
+      icon: Table,
+      command: insertTable,
+      title: 'Tablo Ekle'
+    },
+    {
+      icon: Image,
+      command: insertImage,
+      title: 'Resim Ekle'
     }
   ];
 
