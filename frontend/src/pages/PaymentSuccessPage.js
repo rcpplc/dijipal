@@ -319,7 +319,7 @@ const PaymentSuccessPage = () => {
                       <div className="flex justify-between items-start">
                         <div>
                           <h3 className="text-lg font-semibold text-gray-900 mb-1">
-                            {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
+                            {item?.title || item?.tourTitle || item?.tour?.title || booking?.tour?.title || booking?.tourTitle || 'Mavi Yolculuk Turu'}
                           </h3>
                           <p className="text-sm text-gray-600">
                             Bilet No: {generateBookingCode()}-{String(index + 1).padStart(3, '0')}
