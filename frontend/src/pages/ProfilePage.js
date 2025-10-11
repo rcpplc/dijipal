@@ -12,7 +12,13 @@ import {
   XCircle,
   Edit3,
   Save,
-  X
+  X,
+  Users,
+  AlertCircle,
+  Settings,
+  Bell,
+  Shield,
+  Trash2
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
