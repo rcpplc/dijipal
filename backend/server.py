@@ -1326,6 +1326,20 @@ async def admin_update_tour(tour_id: str, tour_data: TourCreate, current_user: U
     tour_dates_data = tour_dict.pop("tour_dates", [])
     print(f"📅 tour_dates data: {json.dumps(tour_dates_data, indent=2, default=str)}")
     
+    # Handle duration_unit to duration_hours conversion
+    duration_unit = tour_dict.get('duration_unit', 'days')
+    duration_days = tour_dict.get('duration_days', 0)
+    
+    if duration_unit == 'hours':
+        # If duration_unit is hours, duration_days actually contains hours
+        tour_dict['duration_hours'] = duration_days
+    elif duration_unit == 'days':
+        # If duration_unit is days, set duration_hours to 0 (or could be days * 24)
+        tour_dict['duration_hours'] = 0  # Business logic: 0 for day-based tours
+    else:
+        # Default fallback
+        tour_dict['duration_hours'] = 0
+    
     tour_dict["updated_at"] = datetime.utcnow()
     
     result = await db.tours.update_one(
