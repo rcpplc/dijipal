@@ -141,10 +141,6 @@ const PaymentSuccessPage = () => {
 
   // Handle multiple bookings - EXACT same logic as BookingPage
   const bookingItems = (() => {
-    console.log('🔍 PaymentSuccessPage - Determining bookingItems...');
-    console.log('🔍 location.state?.fromCart:', location.state?.fromCart);
-    console.log('🔍 location.state?.cartItems:', location.state?.cartItems);
-    console.log('🔍 booking?.cartItems:', booking?.cartItems);
     
     // SEPETTEN GELME DURUMU: Çoklu tur rezervasyonu
     if (location.state?.fromCart && location.state?.cartItems && Array.isArray(location.state.cartItems)) {
