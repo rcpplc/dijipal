@@ -176,8 +176,37 @@ const PaymentSuccessPage = () => {
     );
   }
 
-  // Mock multiple bookings for testing (sepetten 1'den fazla rezervasyon)
-  const bookingItems = booking?.cartItems || [booking].filter(Boolean);
+  // Handle multiple bookings from cart or single booking
+  const bookingItems = (() => {
+    // If coming from cart with multiple items
+    if (booking?.cartItems && Array.isArray(booking.cartItems) && booking.cartItems.length > 0) {
+      return booking.cartItems;
+    }
+    // If location state has cartItems (from cart flow)
+    if (location.state?.cartItems && Array.isArray(location.state.cartItems) && location.state.cartItems.length > 0) {
+      return location.state.cartItems;
+    }
+    // Single booking fallback
+    if (booking) {
+      return [booking];
+    }
+    // Fallback to mock data for testing
+    return [
+      {
+        title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
+        location: 'Muğla, Göcek',
+        duration: '4',
+        reservation_type: 'cabin_based',
+        singleCabinCount: 1,
+        doubleCabinCount: 1,
+        selectedDate: {
+          formattedDate: '15 Ocak 2025',
+          single_cabin_price: 4000,
+          double_cabin_price: 6000
+        }
+      }
+    ];
+  })();
 
   return (
     <div className="min-h-screen bg-gray-50">
