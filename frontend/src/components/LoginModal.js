@@ -70,14 +70,52 @@ const LoginModal = ({ initialMode = 'login' }) => {
     });
   };
 
-  const handleGoogleLogin = () => {
-    // Get current page URL for redirect after login
-    const currentUrl = window.location.href;
-    const redirectUrl = encodeURIComponent(currentUrl);
-    
-    // Redirect to Emergent Auth for Google OAuth
-    const authUrl = `https://auth.emergentagent.com/?redirect=${redirectUrl}`;
-    window.location.href = authUrl;
+  const handleGoogleSuccess = async (credentialResponse) => {
+    setLoading(true);
+    try {
+      // Send Google credential to our backend
+      const response = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google/token`, {
+        credential: credentialResponse.credential
+      });
+      
+      if (response.data.success) {
+        // Get user data from our backend
+        const userResponse = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/me`);
+        
+        if (userResponse.data.user) {
+          // Update auth context with user data
+          // Note: We use cookie-based auth, so no need to store token
+          window.location.reload(); // Reload to update auth state
+          
+          toast.success('Google ile giriş başarılı!');
+          setShowLoginModal(false);
+        }
+      }
+    } catch (error) {
+      console.error('Google login error:', error);
+      toast.error('Google giriş başarısız');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleGoogleError = () => {
+    toast.error('Google giriş iptal edildi');
+  };
+
+  const handleGoogleLoginRedirect = async () => {
+    try {
+      // Get Google auth URL from backend
+      const response = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/api/auth/google`);
+      
+      if (response.data.auth_url) {
+        // Redirect to Google OAuth
+        window.location.href = response.data.auth_url;
+      }
+    } catch (error) {
+      console.error('Google auth URL error:', error);
+      toast.error('Google giriş başlatılamadı');
+    }
   };
 
   return (
