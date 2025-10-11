@@ -52,13 +52,10 @@ const CartPage = () => {
   const loadCartItems = () => {
     try {
       const savedCart = localStorage.getItem('tour_cart');
-      console.log('🔍 CartPage - localStorage tour_cart:', savedCart);
       if (savedCart) {
         const items = JSON.parse(savedCart);
-        console.log('🔍 CartPage - Parsed cart items:', items);
         setCartItems(items);
       } else {
-        console.log('🔍 CartPage - No cart found in localStorage');
         setCartItems([]);
       }
     } catch (error) {
