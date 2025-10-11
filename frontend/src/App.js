@@ -306,7 +306,7 @@ function App() {
             position="top-right"
             closeButton
             toastOptions={{
-              duration: 3000,
+              duration: 1000,
               style: {
                 background: 'white',
                 color: '#1f2937',
