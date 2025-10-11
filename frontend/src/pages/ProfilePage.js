@@ -187,6 +187,7 @@ const ProfilePage = () => {
     sms_notifications: true,
     marketing_emails: false
   });
+  const [accountStatus, setAccountStatus] = useState('active'); // active, deactivated
 
   useEffect(() => {
     if (activeTab === 'bookings') {
