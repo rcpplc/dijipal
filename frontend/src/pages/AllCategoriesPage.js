@@ -203,78 +203,26 @@ const AllCategoriesPage = () => {
 
       {/* Categories Grid */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {categories.map((category) => (
-            <Link
-              key={category.slug}
-              to={`/${category.slug}`}
-              className="group relative bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
-            >
-              {/* Background Gradient */}
-              <div className={`absolute inset-0 bg-gradient-to-br ${category.gradient} opacity-0 group-hover:opacity-10 transition-opacity duration-300`}></div>
-              
-              {/* Content */}
-              <div className="relative p-8">
-                {/* Icon */}
-                <div className={`w-20 h-20 bg-${category.color}-100 rounded-2xl flex items-center justify-center text-4xl mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  {category.icon}
-                </div>
-                
-                {/* Title */}
-                <h2 className="text-2xl font-bold text-gray-900 mb-3 group-hover:text-gray-800">
-                  {category.title}
-                </h2>
-                
-                {/* Description */}
-                <p className="text-gray-600 mb-6 leading-relaxed">
-                  {category.description}
-                </p>
-                
-                {/* Stats */}
-                <div className="flex items-center justify-between text-sm text-gray-500 mb-6">
-                  <span className="flex items-center">
-                    <MapPin className="w-4 h-4 mr-1" />
-                    {category.locations.length} lokasyon
-                  </span>
-                  <span className="flex items-center">
-                    <Star className="w-4 h-4 mr-1" />
-                    {category.tourCount} tur
-                  </span>
-                </div>
-                
-                {/* Popular Locations */}
-                <div className="mb-6">
-                  <div className="flex flex-wrap gap-2">
-                    {category.locations.slice(0, 3).map((location, index) => (
-                      <span 
-                        key={index}
-                        className={`px-3 py-1 bg-${category.color}-50 text-${category.color}-700 text-xs font-medium rounded-full`}
-                      >
-                        {location}
-                      </span>
-                    ))}
-                    {category.locations.length > 3 && (
-                      <span className="px-3 py-1 bg-gray-100 text-gray-600 text-xs font-medium rounded-full">
-                        +{category.locations.length - 3} daha
-                      </span>
-                    )}
-                  </div>
-                </div>
-                
-                {/* Arrow */}
-                <div className="flex items-center justify-between">
-                  <span className={`text-${category.color}-600 font-medium group-hover:text-${category.color}-700 transition-colors`}>
-                    Turları Keşfet
-                  </span>
-                  <ArrowRight className={`w-5 h-5 text-${category.color}-600 group-hover:translate-x-1 transition-transform duration-300`} />
+        {loading ? (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
+                <div className="h-56 bg-gray-200"></div>
+                <div className="p-5">
+                  <div className="h-4 bg-gray-200 rounded mb-2"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4 mb-4"></div>
+                  <div className="h-3 bg-gray-200 rounded w-1/2"></div>
                 </div>
               </div>
-              
-              {/* Hover Effect Border */}
-              <div className={`absolute inset-0 border-2 border-transparent group-hover:border-${category.color}-200 rounded-2xl transition-colors duration-300`}></div>
-            </Link>
-          ))}
-        </div>
+            ))}
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {categories.map((category) => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
+        )}
         
         {/* Bottom CTA */}
         <div className="text-center mt-16">
