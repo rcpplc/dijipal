@@ -305,15 +305,19 @@ const ProfilePage = () => {
     }
   };
 
-  // Notification Settings
+  // Notification Settings - Temporary local storage solution
   const updateNotificationSettings = async (settings) => {
     try {
-      const token = localStorage.getItem('token');
-      await axios.put(`${API}/profile/notifications`, settings, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Store settings in localStorage temporarily until backend is implemented
+      localStorage.setItem(`notification_settings_${user.id}`, JSON.stringify(settings));
       setNotificationSettings(settings);
       toast.success('Bildirim tercihleri güncellendi');
+      
+      // TODO: Replace with actual API call when backend endpoint is implemented
+      // const token = localStorage.getItem('token');
+      // await axios.put(`${API}/profile/notifications`, settings, {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
     } catch (error) {
       console.error('Error updating notifications:', error);
       toast.error('Bildirim tercihleri güncellenemedi');
