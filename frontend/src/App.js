@@ -66,58 +66,53 @@ function App() {
     }
   }, [token]);
 
-  // Check for existing session or handle OAuth callback
+  // Check for existing session (supports both cookie-based and initial load)
   useEffect(() => {
-    const initializeAuth = async () => {
-      // First, always check for existing session (cookie-based)
+    const checkAuthSession = async () => {
       setLoading(true);
       try {
         const response = await axios.get(`${API}/auth/me`);
         if (response.data.user) {
           setUser(response.data.user);
-          console.log('✅ Existing session found:', response.data.user);
-          setLoading(false);
-          return; // Exit early if existing session found
-        }
-      } catch (error) {
-        console.log('No existing session, checking for OAuth callback');
-      }
-
-      // Check for session_id from Google OAuth redirect
-      const hash = window.location.hash;
-      if (hash.includes('session_id=')) {
-        try {
-          // Extract session_id from URL fragment
-          const sessionId = hash.split('session_id=')[1].split('&')[0];
-          console.log('🔑 Processing session_id:', sessionId);
+          console.log('✅ Session found:', response.data.user);
           
-          // Process session with backend
-          const response = await axios.post(`${API}/auth/session`, {}, {
-            headers: {
-              'X-Session-ID': sessionId
-            }
-          });
-          
-          if (response.data.success) {
-            setUser(response.data.user);
-            console.log('✅ Google auth successful:', response.data.user);
-            
-            // Clean up URL fragment
-            window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
-            
-            // Close login modal if open
+          // Close login modal if open (for Google OAuth redirects)
+          if (showLoginModal) {
             setShowLoginModal(false);
           }
-        } catch (error) {
-          console.error('❌ Session processing failed:', error);
         }
+      } catch (error) {
+        console.log('No active session');
+        setUser(null);
+      } finally {
+        setLoading(false);
       }
-      
-      setLoading(false);
     };
 
-    initializeAuth();
-  }, []);
+    checkAuthSession();
+  }, [showLoginModal]); // Re-check when login modal state changes
+
+  // Handle page focus (for OAuth redirects)
+  useEffect(() => {
+    const handleFocus = async () => {
+      // Check session when user returns from OAuth (page gets focus)
+      if (!user) {
+        console.log('🔄 Page focused - checking for new session...');
+        try {
+          const response = await axios.get(`${API}/auth/me`);
+          if (response.data.user) {
+            setUser(response.data.user);
+            console.log('✅ OAuth session established:', response.data.user);
+          }
+        } catch (error) {
+          console.log('No session found on focus');
+        }
+      }
+    };
+
+    window.addEventListener('focus', handleFocus);
+    return () => window.removeEventListener('focus', handleFocus);
+  }, [user]);
 
   // Removed checkExistingSession - now handled in initializeAuth
 
