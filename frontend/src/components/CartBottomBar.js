@@ -5,6 +5,22 @@ import { ShoppingCart } from 'lucide-react';
 const CartBottomBar = ({ totalPrice, itemCount, onCheckout }) => {
   const navigate = useNavigate();
 
+  // Calculate VAT breakdown
+  const calculatePriceBreakdown = (totalWithVAT) => {
+    const vatRate = 0.20; // %20 KDV
+    const totalWithoutVAT = totalWithVAT / (1 + vatRate);
+    const vatAmount = totalWithVAT - totalWithoutVAT;
+    
+    return {
+      totalWithoutVAT,
+      vatRate,
+      vatAmount,
+      totalWithVAT
+    };
+  };
+
+  const priceBreakdown = calculatePriceBreakdown(totalPrice);
+
   return (
     <div className="lg:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 shadow-lg z-50">
       <div className="h-14 px-4 flex items-center justify-between">
