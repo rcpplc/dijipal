@@ -178,6 +178,77 @@ class PaymentSuccessDebugTester:
                 self.log_test("Tour Search", False, "No tours found in database")
                 return False, None
 
+    def test_all_tours_data_analysis(self):
+        """Analyze all tours to find any with incorrect data mapping"""
+        print("🔍 Testing All Tours Data Analysis...")
+        
+        success, tours_response = self.run_test(
+            "Get All Tours for Analysis",
+            "GET",
+            "tours",
+            200
+        )
+        
+        if not success or not tours_response:
+            self.log_test("All Tours Analysis", False, "Could not retrieve tours list")
+            return False, []
+        
+        print(f"   ✅ Found {len(tours_response)} tours to analyze")
+        
+        problematic_tours = []
+        
+        for tour in tours_response:
+            tour_id = tour.get('id')
+            title = tour.get('title')
+            
+            # Check for potential mapping issues
+            duration_unit = tour.get('duration_unit')
+            duration_days = tour.get('duration_days')
+            duration_hours = tour.get('duration_hours')
+            classification = tour.get('classification')
+            pickup_time = tour.get('pickup_time')
+            dropoff_time = tour.get('dropoff_time')
+            
+            issues = []
+            
+            # Check duration mapping
+            if duration_unit == 'hours' and duration_hours != duration_days:
+                issues.append(f"duration mismatch: unit=hours, days={duration_days}, hours={duration_hours}")
+            
+            # Check for default values that might indicate incorrect data
+            if classification == 'standart' and pickup_time == '09:00' and dropoff_time == '18:00':
+                if duration_hours == 1 or (duration_unit == 'days' and duration_days == 1):
+                    issues.append("has default values: standart, 09:00-18:00, 1 hour/day")
+            
+            if issues:
+                problematic_tours.append({
+                    'id': tour_id,
+                    'title': title,
+                    'issues': issues,
+                    'data': {
+                        'duration_unit': duration_unit,
+                        'duration_days': duration_days,
+                        'duration_hours': duration_hours,
+                        'classification': classification,
+                        'pickup_time': pickup_time,
+                        'dropoff_time': dropoff_time
+                    }
+                })
+        
+        if problematic_tours:
+            print(f"   ⚠️  Found {len(problematic_tours)} tours with potential data issues:")
+            for tour in problematic_tours[:5]:  # Show first 5
+                print(f"      • {tour['title']}")
+                print(f"        ID: {tour['id']}")
+                for issue in tour['issues']:
+                    print(f"        Issue: {issue}")
+                print(f"        Data: {tour['data']}")
+                print()
+        else:
+            print("   ✅ No tours found with obvious data mapping issues")
+        
+        return True, problematic_tours
+
     def analyze_tour_data_structure(self, tour_data):
         """Analyze the tour data structure for field mapping issues"""
         print("🔍 Analyzing Tour Data Structure...")
