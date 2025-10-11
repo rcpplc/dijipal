@@ -73,7 +73,10 @@ const ProfilePage = () => {
   const loadBookings = async () => {
     setLoading(true);
     try {
-      const response = await axios.get(`${API}/bookings`);
+      const token = localStorage.getItem('token');
+      const response = await axios.get(`${API}/bookings`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       setBookings(response.data);
     } catch (error) {
       console.error('Error loading bookings:', error);
