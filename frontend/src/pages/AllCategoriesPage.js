@@ -58,17 +58,40 @@ const AllCategoriesPage = () => {
   ];
 
   useEffect(() => {
-    initializeCategories();
+    loadCategories();
     updateSEO();
   }, []);
 
-  const initializeCategories = () => {
-    const categoryList = Object.entries(categoryConfig).map(([slug, config]) => ({
-      slug,
-      ...config,
-      tourCount: Math.floor(Math.random() * 50) + 5 // Mock data
-    }));
-    setCategories(categoryList);
+  const loadCategories = async () => {
+    try {
+      setLoading(true);
+      
+      // Try to load categories from API
+      const categoriesResponse = await axios.get(`${API}/public/categories`);
+      if (categoriesResponse.data?.categories && Array.isArray(categoriesResponse.data.categories)) {
+        const categoryList = categoriesResponse.data.categories.map(category => ({
+          id: category.id,
+          slug: category.slug,
+          title: category.title,
+          description: category.description || `${category.title} kategorisindeki turları keşfedin`,
+          image: category.image,
+          color: 'from-blue-500 to-indigo-500', // Default gradient
+          tours_count: category.tours_count || 0
+        }));
+        setCategories(categoryList);
+      } else {
+        setCategories(defaultCategories);
+      }
+    } catch (error) {
+      console.log('Categories API not available, using default categories');
+      setCategories(defaultCategories);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const navigateToCategory = (category) => {
+    navigate(`/${category.slug}`);
   };
 
   const updateSEO = () => {
