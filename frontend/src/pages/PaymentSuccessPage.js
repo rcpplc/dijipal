@@ -280,8 +280,8 @@ const PaymentSuccessPage = () => {
             </div>
           </div>
 
-          {/* Sağ Taraf - Rezervasyon Kartları */}
-          <div className="lg:col-span-2">
+          {/* Rezervasyon Biletleri - Geniş */}
+          <div className="w-full">
             <h2 className="text-lg font-semibold text-gray-900 mb-4">
               Rezervasyon Biletleri ({bookingItems.length} Bilet)
             </h2>
