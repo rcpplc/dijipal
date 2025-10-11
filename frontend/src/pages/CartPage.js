@@ -309,12 +309,37 @@ const CartPage = () => {
                     <span className="font-medium">{cartItems.length}</span>
                   </div>
                   
-                  <div className="border-t pt-3">
-                    <div className="flex justify-between text-lg font-semibold">
-                      <span>Toplam:</span>
-                      <span className="text-blue-600">
-                        ₺{calculateTotalPrice().toLocaleString('tr-TR')}
-                      </span>
+                  <div className="border-t pt-3 space-y-3 text-sm text-gray-600">
+                    {/* Ara Toplam */}
+                    <div className="flex justify-between">
+                      <span>Ara Toplam:</span>
+                      <span>₺{calculatePriceBreakdown().totalWithoutVAT.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                    </div>
+
+                    {/* KDV Hariç Tutar */}
+                    <div className="flex justify-between">
+                      <span>KDV Hariç Tutar:</span>
+                      <span>₺{calculatePriceBreakdown().totalWithoutVAT.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                    </div>
+
+                    {/* KDV Oranı */}
+                    <div className="flex justify-between">
+                      <span>KDV Oranı:</span>
+                      <span>%{(calculatePriceBreakdown().vatRate * 100).toFixed(0)}</span>
+                    </div>
+
+                    {/* KDV Tutarı */}
+                    <div className="flex justify-between">
+                      <span>KDV Tutarı:</span>
+                      <span>₺{calculatePriceBreakdown().vatAmount.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
+                    </div>
+
+                    <div className="border-t border-gray-300 pt-3"></div>
+                    
+                    {/* Genel Toplam */}
+                    <div className="flex justify-between text-lg font-semibold text-gray-900">
+                      <span>Genel Toplam</span>
+                      <span>₺{calculateTotalPrice().toLocaleString('tr-TR')}</span>
                     </div>
                   </div>
                 </div>
