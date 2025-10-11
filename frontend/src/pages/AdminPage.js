@@ -158,15 +158,92 @@ const AdminPage = () => {
   };
 
   const loadUsers = async () => {
-    setLoading(true);
     try {
       const response = await axios.get(`${API}/admin/users`);
-      setUsers(response.data);
+      setUsers(response.data || []);
     } catch (error) {
       console.error('Error loading users:', error);
       toast.error('Kullanıcılar yüklenemedi');
+    }
+  };
+
+  // User CRUD functions
+  const openUserModal = (user = null) => {
+    setEditingUser(user);
+    setUserFormData(user ? {
+      email: user.email,
+      full_name: user.full_name,
+      phone: user.phone || '',
+      role: user.role,
+      password: '',
+      status: user.status || 'active'
+    } : {
+      email: '',
+      full_name: '',
+      phone: '',
+      role: 'customer',
+      password: '',
+      status: 'active'
+    });
+    setShowUserModal(true);
+  };
+
+  const handleUserSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    
+    try {
+      if (editingUser) {
+        // Update user
+        const updateData = { ...userFormData };
+        if (!updateData.password) delete updateData.password; // Don't update password if empty
+        
+        await axios.put(`${API}/admin/users/${editingUser.id}`, updateData);
+        toast.success('Kullanıcı güncellendi');
+      } else {
+        // Create user
+        await axios.post(`${API}/admin/users`, userFormData);
+        toast.success('Kullanıcı oluşturuldu');
+      }
+      
+      setShowUserModal(false);
+      loadUsers();
+    } catch (error) {
+      console.error('Error saving user:', error);
+      toast.error(error.response?.data?.detail || 'Kullanıcı kaydedilemedi');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDeleteUser = async () => {
+    if (!selectedUser) return;
+    
+    setLoading(true);
+    try {
+      await axios.delete(`${API}/admin/users/${selectedUser.id}`);
+      toast.success('Kullanıcı silindi');
+      setShowDeleteUserConfirm(false);
+      setSelectedUser(null);
+      loadUsers();
+    } catch (error) {
+      console.error('Error deleting user:', error);
+      toast.error('Kullanıcı silinemedi');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const toggleUserStatus = async (userId, currentStatus) => {
+    const newStatus = currentStatus === 'active' ? 'inactive' : 'active';
+    
+    try {
+      await axios.put(`${API}/admin/users/${userId}`, { status: newStatus });
+      toast.success(`Kullanıcı ${newStatus === 'active' ? 'aktif edildi' : 'pasif edildi'}`);
+      loadUsers();
+    } catch (error) {
+      console.error('Error updating user status:', error);
+      toast.error('Kullanıcı durumu güncellenemedi');
     }
   };
 
