@@ -330,15 +330,19 @@ async def get_current_user(request: Request, credentials: Optional[HTTPAuthoriza
     if user:
         return user
     
-    # Fallback to JWT auth
-    try:
-        payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=["HS256"])
-        user_doc = await db.users.find_one({"id": payload["sub"]})
-        if not user_doc:
-            raise HTTPException(status_code=404, detail="User not found")
-        return User(**user_doc)
-    except jwt.PyJWTError:
-        raise HTTPException(status_code=401, detail="Invalid token")
+    # Fallback to JWT auth if credentials provided
+    if credentials:
+        try:
+            payload = jwt.decode(credentials.credentials, SECRET_KEY, algorithms=["HS256"])
+            user_doc = await db.users.find_one({"id": payload["sub"]})
+            if not user_doc:
+                raise HTTPException(status_code=404, detail="User not found")
+            return User(**user_doc)
+        except jwt.PyJWTError:
+            raise HTTPException(status_code=401, detail="Invalid token")
+    
+    # No authentication found
+    raise HTTPException(status_code=401, detail="Authentication required")
 
 # Mock Services
 class MockPaymentService:
