@@ -611,8 +611,8 @@ async def google_auth_redirect(request: Request):
     client_id = os.environ.get('GOOGLE_CLIENT_ID')
     redirect_uri = os.environ.get('GOOGLE_REDIRECT_URI')
     
-    if not client_id:
-        raise HTTPException(status_code=500, detail="Google OAuth not configured")
+    if not client_id or not redirect_uri:
+        raise HTTPException(status_code=500, detail="Google OAuth not configured - missing client_id or redirect_uri")
     
     # Build Google OAuth URL
     auth_url = (
