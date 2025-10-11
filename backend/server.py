@@ -3054,8 +3054,8 @@ async def admin_get_bookings(current_user: User = Depends(get_current_user)):
     
     bookings = await db.bookings.find().sort("created_at", -1).to_list(length=None)
     
-    # Handle legacy bookings that may be missing required fields
-    valid_bookings = []
+    # Enhanced bookings with tour and user details
+    enhanced_bookings = []
     for booking in bookings:
         # Remove MongoDB _id to avoid serialization issues
         if "_id" in booking:
@@ -3077,15 +3077,55 @@ async def admin_get_bookings(current_user: User = Depends(get_current_user)):
         if "tour_date_id" not in booking:
             booking["tour_date_id"] = "legacy-booking"
         
+        # Fetch tour details
+        if booking.get("tour_id"):
+            tour = await db.tours.find_one({"id": booking["tour_id"]})
+            if tour:
+                booking["tour_details"] = {
+                    "title": tour.get("title", "Bilinmeyen Tur"),
+                    "location": tour.get("location", ""),
+                    "duration_days": tour.get("duration_days", 1),
+                    "duration_hours": tour.get("duration_hours", 0),
+                    "duration_unit": tour.get("duration_unit", "days"),
+                    "pickup_time": tour.get("pickup_time", ""),
+                    "dropoff_time": tour.get("dropoff_time", ""),
+                    "classification": tour.get("classification", "standart")
+                }
+        
+        # Fetch user details
+        if booking.get("user_id"):
+            user = await db.users.find_one({"id": booking["user_id"]})
+            if user:
+                booking["customer_details"] = {
+                    "name": user.get("full_name", "Bilinmeyen Kullanıcı"),
+                    "email": user.get("email", ""),
+                    "phone": user.get("phone", "")
+                }
+        
+        # Format booking date if exists
+        if booking.get("tour_date"):
+            try:
+                if isinstance(booking["tour_date"], str):
+                    tour_date = datetime.fromisoformat(booking["tour_date"].replace('Z', '+00:00'))
+                else:
+                    tour_date = booking["tour_date"]
+                
+                booking["formatted_tour_date"] = tour_date.strftime("%d %B %Y")
+                booking["tour_date_iso"] = tour_date.isoformat()
+            except:
+                booking["formatted_tour_date"] = "Belirtilmemiş"
+        
+        # Add special notes if exists
+        if not booking.get("special_notes"):
+            booking["special_notes"] = ""
+        
         try:
-            # Validate the booking can be serialized
-            valid_bookings.append(booking)
+            enhanced_bookings.append(booking)
         except Exception as e:
-            # Skip invalid bookings but log the error
             print(f"Skipping invalid booking {booking.get('id', 'unknown')}: {e}")
             continue
     
-    return valid_bookings
+    return enhanced_bookings
 
 @api_router.put("/admin/bookings/{booking_id}/status")
 async def admin_update_booking_status(
