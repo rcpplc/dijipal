@@ -429,12 +429,7 @@ const PaymentPage = () => {
               
               <div className="space-y-4 mb-6">
                 <div className="flex items-start space-x-3">
-
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-gray-900 text-sm">
-                      {booking.tour?.title || 'Rezervasyon'}
-                    </h4>
-
                   </div>
                 </div>
 
