@@ -63,6 +63,7 @@ const PaymentPage = () => {
     }
 
     if (location.state?.booking) {
+      console.log('🔍 PaymentPage - Received booking from BookingPage:', location.state.booking);
       setBooking(location.state.booking);
     } else {
       const bookings = JSON.parse(localStorage.getItem('user_bookings') || '[]');
