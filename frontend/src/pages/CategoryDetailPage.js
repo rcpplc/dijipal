@@ -521,11 +521,11 @@ const CategoryDetailPage = () => {
         {/* Admin Description Section - Only for subcategories */}
         {locationSlug && categoryData?.subcategory?.description && (
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
-
             <div className="prose prose-lg max-w-none">
-              <p className="text-gray-600 leading-relaxed">
-                {categoryData.subcategory.description}
-              </p>
+              <div 
+                className="text-gray-600 leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: categoryData.subcategory.description }}
+              />
             </div>
           </div>
         )}
