@@ -427,7 +427,7 @@ class AdminReservationsDirectTester:
                     print(f"      {i}. Code: {booking_code}")
                     print(f"         Status: {status} | Payment: {payment_status}")
                     print(f"         Price: {total_price} TL | Participants: {participants}")
-                    if 'TEST RESERVATION' in special_requests:
+                    if special_requests and 'TEST RESERVATION' in special_requests:
                         print(f"         ✅ Test Reservation: {special_requests[:100]}...")
                     print()
                 
