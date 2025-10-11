@@ -12,50 +12,50 @@ import axios from 'axios';
 const AllCategoriesPage = () => {
   const navigate = useNavigate();
   const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
 
-  // Category configuration with modern design
-  const categoryConfig = {
-    'mavi-yolculuk': {
+  // Backend URL'i al
+  const API = process.env.REACT_APP_BACKEND_URL || 'https://tourslug.preview.emergentagent.com/api';
+
+  // Fallback categories for when API is not available
+  const defaultCategories = [
+    {
+      id: 1,
+      slug: 'mavi-yolculuk',
       title: 'Mavi Yolculuk',
-      icon: '🌊',
-      color: 'blue',
-      description: 'Türkiye\'nin en güzel koylarında mavi yolculuk deneyimi',
-      gradient: 'from-blue-500 to-blue-600',
-      locations: ['Göcek', 'Marmaris', 'Bodrum', 'Antalya']
+      description: 'Türkiye\'nin en güzel koylarında mavi yolculuk deneyimi yaşayın',
+      image: 'https://images.unsplash.com/photo-1544551763-46a013bb70d5?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxtYXZpJTIweW9sY3VsdWt8ZW58MHx8fHwxNzYwMTA4MjIxfDA&ixlib=rb-4.1.0&q=85',
+      color: 'from-blue-500 to-indigo-500',
+      tours_count: 12
     },
-    'gunubirlik-tekne': {
+    {
+      id: 2,
+      slug: 'gunubirlik-tekne',
       title: 'Günübirlik Tekne Turları',
-      icon: '⛵',
-      color: 'green',
       description: 'Günübirlik tekne turları ile denize açılın',
-      gradient: 'from-green-500 to-green-600',
-      locations: ['İstanbul', 'İzmir', 'Çanakkale']
+      image: 'https://images.unsplash.com/photo-1565011523534-747a8601f10a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHx0ZWtuZSUyMHR1cnV8ZW58MHx8fHwxNzYwMTA4MjM2fDA&ixlib=rb-4.1.0&q=85',
+      color: 'from-green-500 to-emerald-500',
+      tours_count: 8
     },
-    'kabin-turlari': {
+    {
+      id: 3,
+      slug: 'kabin-turlari',
       title: 'Kabin Turları',
-      icon: '🛥️',
-      color: 'purple',
       description: 'Konforlu kabin turları ile tatil yapın',
-      gradient: 'from-purple-500 to-purple-600',
-      locations: ['Göcek', 'Marmaris', 'Bodrum']
+      image: 'https://images.unsplash.com/photo-1583245833604-51ae0fa4805a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxrYWJpbiUyMHlhdCUyMGludGVyaW9yfGVufDB8fHx8MTc2MDEwODI0MXww&ixlib=rb-4.1.0&q=85',
+      color: 'from-purple-500 to-pink-500',
+      tours_count: 15
     },
-    'balik-dalis': {
+    {
+      id: 4,
+      slug: 'balik-dalis',
       title: 'Balık & Dalış',
-      icon: '🐠',
-      color: 'teal',
-      description: 'Balık avı ve dalış turları',
-      gradient: 'from-teal-500 to-teal-600',
-      locations: ['Antalya', 'Muğla', 'İzmir']
-    },
-    'yuzme-turlari': {
-      title: 'Yüzme Turları',
-      icon: '🏊',
-      color: 'cyan',
-      description: 'Eşsiz koylarda yüzme turları',
-      gradient: 'from-cyan-500 to-cyan-600',
-      locations: ['Kaş', 'Kalkan', 'Olimpos']
+      description: 'Balık avı ve dalış turları keşfedin',
+      image: 'https://images.unsplash.com/photo-1583872263937-b3778da8d97f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2NzV8MHwxfHNlYXJjaHwxfHxkaXZpbmclMjBmaXNoaW5nfGVufDB8fHx8MTc2MDEwODI1NHww&ixlib=rb-4.1.0&q=85',
+      color: 'from-teal-500 to-cyan-500',
+      tours_count: 6
     }
-  };
+  ];
 
   useEffect(() => {
     initializeCategories();
