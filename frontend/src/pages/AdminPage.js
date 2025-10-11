@@ -774,7 +774,7 @@ const AdminPage = () => {
                             Toplam Gelir
                           </dt>
                           <dd className="text-lg font-medium text-gray-900">
-                            ₺{(dashboardData.total_revenue || 0).toLocaleString('tr-TR')}
+                            ${dashboardData.total_revenue}
                           </dd>
                         </dl>
                       </div>
