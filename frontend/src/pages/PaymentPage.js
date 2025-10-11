@@ -434,9 +434,7 @@ const PaymentPage = () => {
                     <h4 className="font-medium text-gray-900 text-sm">
                       {booking.tour?.title || 'Rezervasyon'}
                     </h4>
-                    <p className="text-xs text-gray-600">
-                      {booking.selectedDate?.formattedDate}
-                    </p>
+
                   </div>
                 </div>
 
