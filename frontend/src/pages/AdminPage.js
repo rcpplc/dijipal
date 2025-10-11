@@ -4856,20 +4856,11 @@ const SubCategoryModal = ({ isOpen, onClose, subcategory, parentCategoryId, loca
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Açıklama
               </label>
-              <ReactQuill
+              <RichTextEditor
                 value={formData.description}
                 onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                 placeholder="Alt kategori hakkında özel açıklama..."
-                modules={{
-                  toolbar: [
-                    [{ 'header': [1, 2, 3, false] }],
-                    ['bold', 'italic', 'underline'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                    ['link'],
-                    ['clean']
-                  ]
-                }}
-                style={{ backgroundColor: 'white', minHeight: '120px' }}
+                minHeight="120px"
               />
             </div>
             
