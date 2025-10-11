@@ -32,6 +32,7 @@ const CartBottomBar = ({ totalPrice, itemCount, onCheckout }) => {
             <div className="text-sm font-bold text-gray-900">
               ₺{totalPrice?.toLocaleString('tr-TR') || '0'}
             </div>
+            <div className="text-xs text-gray-400">KDV Dahil</div>
           </div>
         </div>
 
