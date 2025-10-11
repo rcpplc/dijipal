@@ -18,7 +18,9 @@ import {
   Settings,
   Bell,
   Shield,
-  Trash2
+  Trash2,
+  Heart,
+  ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
