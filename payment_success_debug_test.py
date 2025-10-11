@@ -441,6 +441,116 @@ class PaymentSuccessDebugTester:
             print("   ⚠️  User login failed, continuing without authentication")
             return False
 
+    def test_problematic_tour_booking(self, problematic_tours):
+        """Test booking flow with problematic tours to see actual PaymentSuccessPage data"""
+        if not problematic_tours or len(problematic_tours) == 0:
+            print("   ℹ️  No problematic tours to test booking flow")
+            return True, None
+        
+        print("🔍 Testing Booking Flow with Problematic Tour...")
+        
+        # Use the first problematic tour
+        problem_tour = problematic_tours[0]
+        tour_id = problem_tour['id']
+        tour_title = problem_tour['title']
+        
+        print(f"   📋 Testing booking with: {tour_title}")
+        print(f"   📋 Tour ID: {tour_id}")
+        print(f"   📋 Issues: {problem_tour['issues']}")
+        
+        # Get tour dates for this problematic tour
+        dates_success, tour_dates = self.test_tour_dates_data(tour_id)
+        
+        if not dates_success or not tour_dates:
+            print("   ❌ No tour dates available for booking test")
+            return False, None
+        
+        # Simulate booking creation
+        selected_date = tour_dates[0]
+        
+        booking_data = {
+            "tour_id": tour_id,
+            "tour_date_id": selected_date.get('id'),
+            "participants": 1,
+            "cabin_type": "single",
+            "customer_info": {
+                "full_name": "Test Customer",
+                "email": "test@example.com",
+                "phone": "+90 555 123 4567",
+                "id_number": "12345678901"
+            },
+            "special_requests": "Test booking for PaymentSuccessPage debug"
+        }
+        
+        # Create actual booking
+        success, booking_response = self.run_test(
+            f"Create Booking for Problematic Tour",
+            "POST",
+            "bookings",
+            200,
+            data=booking_data
+        )
+        
+        if success and booking_response:
+            booking_id = booking_response.get('id')
+            print(f"   ✅ Booking created successfully: {booking_id}")
+            
+            # Get the created booking to see what data structure it has
+            bookings_success, bookings_list = self.run_test(
+                "Get User Bookings",
+                "GET",
+                "bookings",
+                200
+            )
+            
+            if bookings_success and bookings_list:
+                # Find our booking
+                our_booking = None
+                for booking in bookings_list:
+                    if booking.get('id') == booking_id:
+                        our_booking = booking
+                        break
+                
+                if our_booking:
+                    print("   📋 Actual Booking Data Structure:")
+                    print(f"      • Booking ID: {our_booking.get('id')}")
+                    print(f"      • Tour ID: {our_booking.get('tour_id')}")
+                    print(f"      • Total Price: {our_booking.get('total_price')}")
+                    
+                    # Now get the tour data that would be used in PaymentSuccessPage
+                    tour_success, tour_data = self.run_test(
+                        f"Get Tour Data for PaymentSuccessPage",
+                        "GET",
+                        f"tours/{tour_id}",
+                        200
+                    )
+                    
+                    if tour_success and tour_data:
+                        print("   📋 PaymentSuccessPage Would Show:")
+                        duration_display = self.calculate_duration_display(tour_data)
+                        print(f"      • Tur Süresi: {duration_display}")
+                        print(f"      • Sınıf: {tour_data.get('classification', 'standart').title()}")
+                        print(f"      • Biniş saati: {tour_data.get('pickup_time', '09:00')}")
+                        print(f"      • İniş saati: {tour_data.get('dropoff_time', '18:00')}")
+                        
+                        # This is the actual data that would cause the reported issue
+                        if (duration_display == "1 Gün" and 
+                            tour_data.get('classification') == 'standart' and
+                            tour_data.get('pickup_time') == '09:00' and
+                            tour_data.get('dropoff_time') == '18:00'):
+                            print("   🎯 ISSUE CONFIRMED: This booking would show incorrect data!")
+                            self.log_test("Problematic Booking Test", False, 
+                                        "Booking would show: 1 Gün, Standart, 09:00, 18:00 instead of expected values")
+                            return False, our_booking
+                        else:
+                            print("   ✅ This booking data looks correct")
+                            return True, our_booking
+                    
+            return True, booking_response
+        else:
+            print("   ❌ Failed to create booking for testing")
+            return False, None
+
     def run_payment_success_debug_analysis(self):
         """Run comprehensive PaymentSuccessPage data mapping debug analysis"""
         print("🎯 PaymentSuccessPage Data Mapping Debug Analysis")
@@ -488,14 +598,18 @@ class PaymentSuccessDebugTester:
         print("\n📊 STEP 7: Analyze All Tours for Data Issues")
         all_tours_ok, problematic_tours = self.test_all_tours_data_analysis()
         
-        # Step 8: Root Cause Analysis
-        print("\n🔍 STEP 8: Root Cause Analysis")
+        # Step 8: Test Actual Booking Flow with Problematic Tours
+        print("\n🎯 STEP 8: Test Actual Booking Flow with Problematic Tours")
+        booking_test_ok, actual_booking = self.test_problematic_tour_booking(problematic_tours)
+        
+        # Step 9: Root Cause Analysis
+        print("\n🔍 STEP 9: Root Cause Analysis")
         self.perform_root_cause_analysis(tour_data, field_issues, problematic_tours)
         
         # Print final results
         self.print_final_results()
         
-        return fields_ok
+        return fields_ok and booking_test_ok
 
     def perform_root_cause_analysis(self, tour_data, field_issues, problematic_tours=None):
         """Perform root cause analysis of the field mapping issues"""
