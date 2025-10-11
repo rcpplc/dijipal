@@ -5203,12 +5203,20 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Açıklama
               </label>
-              <textarea
+              <ReactQuill
                 value={formData.description}
-                onChange={(e) => setFormData(prev => ({ ...prev, description: e.target.value }))}
-                rows={4}
-                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                onChange={(value) => setFormData(prev => ({ ...prev, description: value }))}
                 placeholder="Kategori hakkında detaylı açıklama..."
+                modules={{
+                  toolbar: [
+                    [{ 'header': [1, 2, 3, false] }],
+                    ['bold', 'italic', 'underline'],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    ['link'],
+                    ['clean']
+                  ]
+                }}
+                style={{ backgroundColor: 'white' }}
               />
             </div>
             
