@@ -10,6 +10,7 @@ import {
   Eye,
   MessageCircle,
   Edit,
+  Edit2,
   Trash2,
   Plus,
   X,
