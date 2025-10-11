@@ -3127,6 +3127,49 @@ async def admin_get_bookings(current_user: User = Depends(get_current_user)):
     
     return enhanced_bookings
 
+@api_router.put("/admin/bookings/{booking_id}")
+async def admin_update_booking(
+    booking_id: str, 
+    update_data: dict,
+    current_user: User = Depends(get_current_user)
+):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    booking = await db.bookings.find_one({"id": booking_id})
+    if not booking:
+        raise HTTPException(status_code=404, detail="Booking not found")
+    
+    # Prepare update fields
+    update_fields = {"updated_at": datetime.now(timezone.utc)}
+    
+    # Status update
+    if "booking_status" in update_data:
+        valid_statuses = ["draft", "pending", "confirmed", "completed", "cancelled"]
+        if update_data["booking_status"] not in valid_statuses:
+            raise HTTPException(status_code=400, detail=f"Invalid status. Valid statuses: {valid_statuses}")
+        update_fields["booking_status"] = update_data["booking_status"]
+    
+    # Special notes update
+    if "special_notes" in update_data:
+        update_fields["special_notes"] = update_data["special_notes"]
+    
+    # Tour date update
+    if "tour_date" in update_data:
+        try:
+            # Parse and validate date
+            tour_date = datetime.fromisoformat(update_data["tour_date"].replace('Z', '+00:00'))
+            update_fields["tour_date"] = tour_date
+        except:
+            raise HTTPException(status_code=400, detail="Invalid tour date format")
+    
+    await db.bookings.update_one(
+        {"id": booking_id},
+        {"$set": update_fields}
+    )
+    
+    return {"message": "Booking updated successfully"}
+
 @api_router.put("/admin/bookings/{booking_id}/status")
 async def admin_update_booking_status(
     booking_id: str, 
@@ -3141,7 +3184,7 @@ async def admin_update_booking_status(
         raise HTTPException(status_code=404, detail="Booking not found")
     
     new_status = status_data.get("status")
-    valid_statuses = ["draft", "pending", "confirmed", "paid", "completed", "cancelled"]
+    valid_statuses = ["draft", "pending", "confirmed", "completed", "cancelled"]
     if new_status not in valid_statuses:
         raise HTTPException(status_code=400, detail=f"Invalid status. Valid statuses: {valid_statuses}")
     
