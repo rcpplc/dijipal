@@ -32,12 +32,7 @@ const PaymentSuccessPage = () => {
     //   return;
     // }
 
-    console.log('PaymentSuccessPage - location.state:', location.state);
-    
     if (location.state?.booking) {
-      console.log('Setting booking from location.state:', location.state.booking);
-      console.log('CartItems from location.state:', location.state.cartItems);
-      console.log('Setting paymentAmount:', location.state.paymentAmount);
       
       // Set the booking data with cartItems
       const bookingWithCart = {
