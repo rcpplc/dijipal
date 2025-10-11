@@ -92,6 +92,20 @@ const CartPage = () => {
     return cartItems.reduce((total, item) => total + calculateItemPrice(item), 0);
   };
 
+  const calculatePriceBreakdown = () => {
+    const totalWithVAT = calculateTotalPrice();
+    const vatRate = 0.20; // %20 KDV
+    const totalWithoutVAT = totalWithVAT / (1 + vatRate);
+    const vatAmount = totalWithVAT - totalWithoutVAT;
+    
+    return {
+      totalWithoutVAT,
+      vatRate,
+      vatAmount,
+      totalWithVAT
+    };
+  };
+
   const proceedToBooking = (items = cartItems) => {
     if (items.length === 0) {
       toast.error('Sepetinizde ürün bulunmuyor');
