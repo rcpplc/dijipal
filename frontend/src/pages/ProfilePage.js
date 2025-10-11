@@ -57,6 +57,19 @@ const TourCard = ({ tour }) => (
         className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
       />
       
+      {/* Favorite Remove Button */}
+      <button
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          removeFavorite(tour.id);
+        }}
+        className="absolute top-3 right-3 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-lg hover:bg-white transition-all duration-200 z-10"
+        title="Favorilerden çıkar"
+      >
+        <Heart className="w-5 h-5 text-red-500 fill-current" />
+      </button>
+
       {/* Category Badge */}
       {tour.category && (
         <div className="absolute top-3 left-3">
