@@ -2302,6 +2302,91 @@ async def admin_get_users(current_user: User = Depends(get_current_user)):
     users = await db.users.find().to_list(length=None)
     return [User(**user) for user in users]
 
+# Admin User CRUD Endpoints
+@api_router.post("/admin/users", response_model=User)
+async def admin_create_user(user_data: dict, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Check if user exists
+    existing_user = await db.users.find_one({"email": user_data["email"]})
+    if existing_user:
+        raise HTTPException(status_code=400, detail="User with this email already exists")
+    
+    # Create new user
+    new_user = User(
+        email=user_data["email"],
+        full_name=user_data["full_name"],
+        phone=user_data.get("phone", ""),
+        role=UserRole(user_data.get("role", "customer"))
+    )
+    
+    new_user_dict = new_user.dict()
+    new_user_dict["hashed_password"] = hash_password(user_data["password"])
+    new_user_dict["status"] = user_data.get("status", "active")
+    new_user_dict["created_at"] = datetime.now(timezone.utc)
+    
+    await db.users.insert_one(new_user_dict)
+    return new_user
+
+@api_router.put("/admin/users/{user_id}", response_model=User)
+async def admin_update_user(user_id: str, user_data: dict, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Find user
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    # Update data
+    update_data = {}
+    if "email" in user_data:
+        # Check email uniqueness
+        existing_user = await db.users.find_one({"email": user_data["email"], "id": {"$ne": user_id}})
+        if existing_user:
+            raise HTTPException(status_code=400, detail="User with this email already exists")
+        update_data["email"] = user_data["email"]
+    
+    if "full_name" in user_data:
+        update_data["full_name"] = user_data["full_name"]
+    
+    if "phone" in user_data:
+        update_data["phone"] = user_data["phone"]
+    
+    if "role" in user_data:
+        update_data["role"] = user_data["role"]
+    
+    if "status" in user_data:
+        update_data["status"] = user_data["status"]
+    
+    if "password" in user_data and user_data["password"]:
+        update_data["hashed_password"] = hash_password(user_data["password"])
+    
+    update_data["updated_at"] = datetime.now(timezone.utc)
+    
+    await db.users.update_one({"id": user_id}, {"$set": update_data})
+    
+    # Return updated user
+    updated_user = await db.users.find_one({"id": user_id})
+    return User(**updated_user)
+
+@api_router.delete("/admin/users/{user_id}")
+async def admin_delete_user(user_id: str, current_user: User = Depends(get_current_user)):
+    if current_user.role != UserRole.ADMIN:
+        raise HTTPException(status_code=403, detail="Admin access required")
+    
+    # Don't allow deleting admin users
+    user = await db.users.find_one({"id": user_id})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+    
+    if user.get("role") == "admin":
+        raise HTTPException(status_code=400, detail="Cannot delete admin users")
+    
+    await db.users.delete_one({"id": user_id})
+    return {"message": "User deleted successfully"}
+
 @api_router.put("/admin/users/{user_id}/status")
 async def admin_toggle_user_status(user_id: str, current_user: User = Depends(get_current_user)):
     if current_user.role != UserRole.ADMIN:
@@ -2311,13 +2396,15 @@ async def admin_toggle_user_status(user_id: str, current_user: User = Depends(ge
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     
-    new_status = not user.get("is_active", True)
+    current_status = user.get("status", "active")
+    new_status = "inactive" if current_status == "active" else "active"
+    
     await db.users.update_one(
         {"id": user_id}, 
-        {"$set": {"is_active": new_status}}
+        {"$set": {"status": new_status}}
     )
     
-    return {"message": f"User {'activated' if new_status else 'deactivated'} successfully"}
+    return {"message": f"User {new_status} successfully"}
 
 # Sample data endpoint
 # @api_router.post("/seed-data") # TEMPORARILY DISABLED
