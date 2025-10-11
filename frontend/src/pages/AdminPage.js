@@ -1655,6 +1655,19 @@ const AdminPage = () => {
                         </div>
                       </div>
 
+                      {/* Özel Notlar */}
+                      {booking.special_notes && (
+                        <div className="mb-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                          <div className="flex items-start">
+                            <AlertCircle className="w-4 h-4 text-yellow-600 mt-0.5 mr-2 flex-shrink-0" />
+                            <div>
+                              <p className="text-xs font-medium text-yellow-800 mb-1">Özel Notlar</p>
+                              <p className="text-sm text-yellow-700">{booking.special_notes}</p>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+
                       <div className="flex flex-wrap gap-2">
                         {(booking.booking_status === 'confirmed' || booking.booking_status === 'paid') && (
                           <>
