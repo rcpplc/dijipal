@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { toast } from 'sonner';
 import CartBottomBar from '../components/CartBottomBar';
+import { createSlug } from '../utils/slug';
 
 const CartPage = () => {
   const { user, setShowLoginModal } = useAuth();
