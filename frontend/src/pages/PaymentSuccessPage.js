@@ -35,7 +35,7 @@ const PaymentSuccessPage = () => {
       setBooking(location.state.booking);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
-      // For testing purposes, create mock data if no state exists
+      // For testing purposes, create mock data with multiple bookings
       const mockBooking = {
         id: 'booking-test-684824',
         tour: {
@@ -56,11 +56,40 @@ const PaymentSuccessPage = () => {
           lastName: 'PALİÇ',
           email: 'admin@example.com',
           phone: '0533 413 53 35'
-        }
+        },
+        // Multiple cart items for testing
+        cartItems: [
+          {
+            title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
+            location: 'Muğla, Göcek',
+            duration: '4',
+            reservation_type: 'cabin_based',
+            singleCabinCount: 1,
+            doubleCabinCount: 1,
+            selectedDate: {
+              formattedDate: '15 Ocak 2025',
+              single_cabin_price: 4000,
+              double_cabin_price: 6000
+            }
+          },
+          {
+            title: 'Bodrum Günübirlik Tekne Turu',
+            location: 'Bodrum',
+            duration: '1',
+            reservation_type: 'person_based',
+            adultCount: 2,
+            childCount: 1,
+            selectedDate: {
+              formattedDate: '20 Ocak 2025',
+              person_price: 800,
+              child_price: 400
+            }
+          }
+        ]
       };
       
       setBooking(mockBooking);
-      setPaymentAmount(18000);
+      setPaymentAmount(22400); // Total for both bookings
       
       // Comment out redirect for testing
       // navigate('/profile?tab=bookings');
