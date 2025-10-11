@@ -1211,6 +1211,9 @@ const ProfilePage = () => {
           )}
         </div>
       </div>
+
+      {/* Delete Account Modal */}
+      <DeleteAccountModal />
     </div>
   );
 };
