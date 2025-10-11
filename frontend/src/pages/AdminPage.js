@@ -635,7 +635,7 @@ const AdminPage = () => {
     );
   }
 
-  return (
+  const renderContent = () => (
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <div className="bg-white shadow">
