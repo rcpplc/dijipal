@@ -374,7 +374,7 @@ const BookingPage = () => {
           {/* Rezervasyon Özeti */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 sticky top-4">
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Rezervasyon Özetiniz</h3>
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">Rezervasyon Özeti</h3>
               <p className=" flex justify-between text-sm text-gray-600 mb-3">
                 Bilgilerinizi kontrol edin, ardından ödemeye geçin.
               </p>
