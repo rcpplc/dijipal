@@ -768,18 +768,21 @@ const AdminPage = () => {
                             </div>
                           </div>
                         </td>
-                        <td className="py-4 px-4 text-gray-700">
+                        <td className="hidden md:table-cell py-4 px-4 text-gray-700">
                           {getLocationDisplayName(tour.location)}
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="hidden lg:table-cell py-4 px-4">
                           <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs font-medium">
                             {getCategoryDisplayName(tour.category)}
                           </span>
                         </td>
                         <td className="py-4 px-4 text-gray-700">
-                          {getMinimumPrice(tour)} <span className="text-xs text-gray-500">den başlayan</span>
+                          <div className="font-medium">
+                            ₺{getMinimumPrice(tour).toLocaleString('tr-TR')}
+                          </div>
+                          <div className="text-xs text-gray-500">den başlayan</div>
                         </td>
-                        <td className="py-4 px-4">
+                        <td className="hidden sm:table-cell py-4 px-4">
                           <span className={`px-2 py-1 rounded-full text-xs font-medium ${
                             tour.status === 'active' 
                               ? 'bg-green-100 text-green-800'
