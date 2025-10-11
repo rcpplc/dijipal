@@ -254,123 +254,215 @@ const PaymentSuccessPage = () => {
 
           {/* Sağ Taraf - Rezervasyon Kartları */}
           <div className="lg:col-span-2">
-            <h2 className="text-lg font-semibold text-gray-900 mb-4">Rezervasyon Biletleri</h2>
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">
+              Rezervasyon Biletleri ({bookingItems.length} Bilet)
+            </h2>
             
-            <div className="space-y-4">
-              {bookingItems.map((item, index) => (
-                <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
-                  
-                  {/* Bilet Header */}
-                  <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h3 className="font-semibold text-gray-900">
-                          {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
-                        </h3>
-                        <p className="text-sm text-gray-600 mt-1">
-                          Bilet No: {generateBookingCode()}-{String(index + 1).padStart(3, '0')}
-                        </p>
+            <div className="space-y-6">
+              {bookingItems.map((item, index) => {
+                const itemPrice = item ? (() => {
+                  if (item.reservation_type === 'cabin_based') {
+                    return ((item.selectedDate?.single_cabin_price || 0) * (item.singleCabinCount || 0)) + 
+                           ((item.selectedDate?.double_cabin_price || 0) * (item.doubleCabinCount || 0));
+                  } else if (item.reservation_type === 'person_based') {
+                    return ((item.selectedDate?.person_price || 0) * (item.adultCount || 0)) + 
+                           ((item.selectedDate?.child_price || 0) * (item.childCount || 0));
+                  } else {
+                    return item.selectedDate?.total_reservation_price || 0;
+                  }
+                })() : paymentAmount;
+                
+                return (
+                  <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                    
+                    {/* Bilet Header */}
+                    <div className="bg-gray-100 border-b border-gray-200 px-6 py-4">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1">
+                            {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
+                          </h3>
+                          <p className="text-sm text-gray-600">
+                            Bilet No: {generateBookingCode()}-{String(index + 1).padStart(3, '0')}
+                          </p>
+                        </div>
+                        <div className="text-right">
+                          <div className="text-lg font-bold text-green-600">
+                            ₺{itemPrice.toLocaleString('tr-TR')}
+                          </div>
+                          <div className="text-sm text-gray-600">Bilet Fiyatı</div>
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  
-                  {/* Bilet İçeriği - Booking Özeti Stili */}
-                  <div className="p-6">
-                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
-                      <div className="text-sm font-medium text-gray-800 mb-3">
-                        Rezervasyon Bileti
-                      </div>
+                    
+                    {/* Bilet İçeriği */}
+                    <div className="p-6">
                       
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
+                      {/* Temel Bilgiler Grid */}
+                      <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-6">
                         <div>
-                          <div className="text-gray-600">İşlem Tarihi</div>
-                          <div className="font-medium">{new Date().toLocaleDateString('tr-TR')}</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-600">Tur Tarihi</div>
-                          <div className="font-medium">
-                            {item?.selectedDate?.formattedDate || booking.selectedDate?.formattedDate || 
-                             new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR')}
+                          <div className="text-sm text-gray-600 mb-1">İşlem Tarihi</div>
+                          <div className="font-semibold text-gray-900">
+                            {new Date().toLocaleDateString('tr-TR', { 
+                              day: '2-digit', 
+                              month: '2-digit', 
+                              year: 'numeric' 
+                            })}
                           </div>
                         </div>
-                        <div>
-                          <div className="text-gray-600">Biniş Saati</div>
-                          <div className="font-medium">09:00</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-600">İniş Saati</div>
-                          <div className="font-medium">18:00</div>
-                        </div>
-                      </div>
-
-                      <div className="grid grid-cols-3 gap-4 text-sm mb-4">
-                        <div>
-                          <div className="text-gray-600">Tur Süresi</div>
-                          <div className="font-medium">{item?.duration || booking.tour?.duration || '1'} Gün</div>
-                        </div>
-                        <div>
-                          <div className="text-gray-600">Sınıf</div>
-                          <div className="font-medium">
-                            {(item?.reservation_type || booking.reservationDetails?.type) === 'cabin_based' ? 'Kabin' : 'Standart'}
-                          </div>
-                        </div>
-                        <div>
-                          <div className="text-gray-600">Lokasyon</div>
-                          <div className="font-medium">{item?.location || booking.tour?.location || 'Göcek'}</div>
-                        </div>
-                      </div>
-
-                      {/* Rezervasyon Detayı */}
-                      <div className="text-xs text-gray-700 mb-2">
-                        {item?.reservation_type === 'cabin_based' && 'Kabin: '}
-                        {item?.reservation_type === 'person_based' && 'Kişi: '}
-                        {item?.reservation_type === 'reservation' && 'Özel: '}
                         
-                        {item?.reservation_type === 'cabin_based' && 
-                          `${item.singleCabinCount || 0} Tek + ${item.doubleCabinCount || 0} Çift`}
-                        {item?.reservation_type === 'person_based' && 
-                          `${item.adultCount || 0} Yetişkin + ${item.childCount || 0} Çocuk`}
-                        {item?.reservation_type === 'reservation' && 'Rezervasyon'}
-                        {!item && getReservationSummary()}
-                      </div>
-                      
-                      <div className="text-sm font-medium text-blue-600">
-                        Fiyat: ₺{item ? 
-                          (() => {
-                            if (item.reservation_type === 'cabin_based') {
-                              return ((item.selectedDate?.single_cabin_price || 0) * (item.singleCabinCount || 0)) + 
-                                     ((item.selectedDate?.double_cabin_price || 0) * (item.doubleCabinCount || 0));
-                            } else if (item.reservation_type === 'person_based') {
-                              return ((item.selectedDate?.person_price || 0) * (item.adultCount || 0)) + 
-                                     ((item.selectedDate?.child_price || 0) * (item.childCount || 0));
-                            } else {
-                              return item.selectedDate?.total_reservation_price || paymentAmount;
-                            }
-                          })().toLocaleString('tr-TR') : 
-                          paymentAmount.toLocaleString('tr-TR')
-                        }
-                      </div>
-                    </div>
-
-                    {/* QR ve PDF */}
-                    <div className="flex justify-between items-center">
-                      <div className="text-center">
-                        <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mb-1">
-                          <span className="text-xs text-gray-500">QR</span>
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Tur Tarihi</div>
+                          <div className="font-semibold text-gray-900">
+                            {item?.selectedDate?.formattedDate || booking.selectedDate?.formattedDate || 
+                             new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR', {
+                               day: 'numeric',
+                               month: 'long', 
+                               year: 'numeric'
+                             })}
+                          </div>
                         </div>
-                        <p className="text-xs text-gray-600">Doğrulama</p>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Tur Başlığı</div>
+                          <div className="font-semibold text-gray-900 text-sm">
+                            {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Biniş Saati</div>
+                          <div className="font-semibold text-gray-900">09:00</div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">İniş Saati</div>
+                          <div className="font-semibold text-gray-900">18:00</div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Tur Süresi</div>
+                          <div className="font-semibold text-gray-900">
+                            {item?.duration || booking.tour?.duration || '1'} Gün
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Sınıf</div>
+                          <div className="font-semibold text-gray-900">
+                            {(item?.reservation_type || booking.reservationDetails?.type) === 'cabin_based' ? 'Kabin' : 
+                             (item?.reservation_type || booking.reservationDetails?.type) === 'person_based' ? 'Standart' : 'Premium'}
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <div className="text-sm text-gray-600 mb-1">Lokasyon</div>
+                          <div className="font-semibold text-gray-900">
+                            {item?.location || booking.tour?.location || 'Göcek'}
+                          </div>
+                        </div>
                       </div>
                       
-                      <button
-                        onClick={() => downloadTicketPDF(`${generateBookingCode()}-${index + 1}`)}
-                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
-                      >
-                        Bilet PDF İndir
-                      </button>
+                      {/* Rezervasyon Tipi ve Detayları */}
+                      <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                        <h4 className="text-sm font-semibold text-gray-900 mb-3">Rezervasyon Detayları</h4>
+                        
+                        {/* Kabin Bazlı */}
+                        {(item?.reservation_type || booking.reservationDetails?.type) === 'cabin_based' && (
+                          <div>
+                            <div className="text-sm font-medium text-gray-800 mb-2">Kabin Bazlı</div>
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                              {(item?.singleCabinCount || booking.reservationDetails?.singleCabinCount || 0) > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-gray-700">Tek Kişilik Kabin:</span>
+                                  <span className="font-medium">
+                                    {item?.singleCabinCount || booking.reservationDetails?.singleCabinCount} × 
+                                    ₺{(item?.selectedDate?.single_cabin_price || 0).toLocaleString('tr-TR')}
+                                  </span>
+                                </div>
+                              )}
+                              {(item?.doubleCabinCount || booking.reservationDetails?.doubleCabinCount || 0) > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-gray-700">Çift Kişilik Kabin:</span>
+                                  <span className="font-medium">
+                                    {item?.doubleCabinCount || booking.reservationDetails?.doubleCabinCount} × 
+                                    ₺{(item?.selectedDate?.double_cabin_price || 0).toLocaleString('tr-TR')}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Kişi Bazlı */}
+                        {(item?.reservation_type || booking.reservationDetails?.type) === 'person_based' && (
+                          <div>
+                            <div className="text-sm font-medium text-gray-800 mb-2">Kişi Bazlı</div>
+                            <div className="grid grid-cols-2 gap-4 text-sm">
+                              {(item?.adultCount || booking.reservationDetails?.adultCount || 0) > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-gray-700">Yetişkin:</span>
+                                  <span className="font-medium">
+                                    {item?.adultCount || booking.reservationDetails?.adultCount} × 
+                                    ₺{(item?.selectedDate?.person_price || 0).toLocaleString('tr-TR')}
+                                  </span>
+                                </div>
+                              )}
+                              {(item?.childCount || booking.reservationDetails?.childCount || 0) > 0 && (
+                                <div className="flex justify-between">
+                                  <span className="text-gray-700">Çocuk:</span>
+                                  <span className="font-medium">
+                                    {item?.childCount || booking.reservationDetails?.childCount} × 
+                                    ₺{(item?.selectedDate?.child_price || 0).toLocaleString('tr-TR')}
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        
+                        {/* Rezervasyon (Tüm Tekne) */}
+                        {(item?.reservation_type || booking.reservationDetails?.type) === 'reservation' && (
+                          <div>
+                            <div className="text-sm font-medium text-gray-800 mb-2">Rezervasyon</div>
+                            <div className="text-sm">
+                              <div className="flex justify-between">
+                                <span className="text-gray-700">Tüm Tekne / Sabit Fiyat:</span>
+                                <span className="font-medium">
+                                  ₺{(item?.selectedDate?.total_reservation_price || itemPrice).toLocaleString('tr-TR')}
+                                </span>
+                              </div>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+
+                      {/* QR ve PDF İndirme */}
+                      <div className="flex justify-between items-center pt-4 border-t border-gray-200">
+                        <div className="text-center">
+                          <div className="w-20 h-20 bg-gray-200 rounded-lg flex flex-col items-center justify-center mb-2">
+                            <div className="w-12 h-12 bg-gray-300 rounded"></div>
+                          </div>
+                          <p className="text-xs text-gray-600">QR Kod</p>
+                          <p className="text-xs text-gray-500">Bilet Doğrulama</p>
+                        </div>
+                        
+                        <div className="text-right">
+                          <button
+                            onClick={() => downloadTicketPDF(`${generateBookingCode()}-${index + 1}`)}
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+                          >
+                            Bilet PDF İndir
+                          </button>
+                          <p className="text-xs text-gray-600 mt-1">
+                            Bilet #{generateBookingCode()}-{String(index + 1).padStart(3, '0')}
+                          </p>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
 
             {/* Bilgilendirme */}
