@@ -1473,9 +1473,9 @@ const AdminPage = () => {
         {/* Bookings Tab */}
         {activeTab === 'bookings' && (
           <div>
-            <div className="flex justify-between items-center mb-6">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 space-y-4 md:space-y-0">
               <h2 className="text-2xl font-bold text-gray-900">Rezervasyon Yönetimi</h2>
-              <div className="flex space-x-2">
+              <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
                 <select
                   value={bookingFilter}
                   onChange={(e) => setBookingFilter(e.target.value)}
@@ -1484,11 +1484,17 @@ const AdminPage = () => {
                   <option value="all">Tüm Rezervasyonlar</option>
                   <option value="pending">Bekleyen</option>
                   <option value="confirmed">Onaylandı</option>
-                  <option value="paid">Ödendi</option>
                   <option value="completed">Tamamlandı</option>
                   <option value="cancelled">İptal Edildi</option>
                   <option value="draft">Taslak</option>
                 </select>
+                <button
+                  onClick={loadBookings}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+                >
+                  <Calendar className="w-4 h-4" />
+                  <span>Yenile</span>
+                </button>
               </div>
             </div>
 
