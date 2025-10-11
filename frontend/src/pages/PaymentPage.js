@@ -79,9 +79,27 @@ const PaymentPage = () => {
   const handlePayment = async (e) => {
     e.preventDefault();
 
-    // ✅ Onay yapılmadıysa alert ver ve işlemi durdur
+    // ✅ Onay yapılmadıysa özel uyarı sistemi
     if (!isApproved) {
-      alert('Lütfen Mesafeli Satış Sözleşmesi ve KVKK metnini onaylayın.');
+      // 1 saniyelik alert uyarısı
+      toast.error('Lütfen Mesafeli Satış Sözleşmesi ve KVKK metnini onaylayın!', {
+        duration: 1000
+      });
+
+      // Mobilde checkbox'a otomatik focus
+      setTimeout(() => {
+        const checkbox = document.getElementById('contract-checkbox');
+        if (checkbox && window.innerWidth <= 768) {
+          checkbox.focus();
+          checkbox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 1000);
+
+      // Modal'ı aç
+      setTimeout(() => {
+        setShowContractModal(true);
+      }, 1100);
+      
       return;
     }
     
