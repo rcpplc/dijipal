@@ -107,7 +107,7 @@ const PaymentSuccessPage = () => {
       };
       
       setBooking(mockBooking);
-      setPaymentAmount(34400); // Total: 10000 + 2000 + 12000 = 24000 + KDV
+      setPaymentAmount(14400); // Total: 10000 + 2000 = 12000 + KDV (%20) = 14400
       
       // Comment out redirect for testing
       // navigate('/profile?tab=bookings');
