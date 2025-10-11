@@ -460,7 +460,7 @@ const PaymentSuccessPage = () => {
                                   <span className="text-gray-700">Yetişkin:</span>
                                   <span className="font-medium">
                                     {item?.adultCount || booking.reservationDetails?.adultCount} × 
-                                    ₺{(item?.selectedDate?.person_price || 0).toLocaleString('tr-TR')}
+                                    ₺{(item?.selectedDate?.person_price || item?.personPrice || item?.adultPrice || 800).toLocaleString('tr-TR')}
                                   </span>
                                 </div>
                               )}
