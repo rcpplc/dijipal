@@ -91,6 +91,7 @@ const Header = () => {
               src="/mavibilet-logo-mavi.png" 
               alt="MaviBilet.com" 
               className="h-8 w-auto sm:h-10"
+              title="Mavibilet.com | Günübirlik ve mavi tur satın almanın en kolay ve güvenli yolu"  // 🏷️ Tooltip metni burada
             />
           </Link>
 
@@ -112,6 +113,7 @@ const Header = () => {
                 isActive('/turlar') 
                   ? 'text-blue-600 border-b-2 border-blue-600 pb-1' 
                   : 'text-gray-700 hover:text-blue-600'
+                  
               }`}
             >
               Turlar

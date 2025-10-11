@@ -675,7 +675,8 @@ const ToursPage = () => {
           <div className="flex justify-start mb-6 lg:hidden">
             <button
               onClick={() => setShowFilters(!showFilters)}
-              className="flex items-center space-x-2 bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors duration-200 border border-gray-300"
+                className="flex items-center space-x-1.5 bg-gray-100 hover:bg-gray-200 text-gray-700 px-3 py-1.5 text-sm rounded-md border border-gray-300"
+
             >
               <SlidersHorizontal className="w-4 h-4" />
               <span>Filtreler</span>
@@ -920,7 +921,7 @@ const ToursPage = () => {
       
       {/* Mavi Yolculuk ve Deniz Turları Rehberi - Sadece Yazı */}
       <div className="mt-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
           <div className="prose prose-lg max-w-none">
             <h2 className="text-3xl font-bold text-gray-900 mb-6">
               Mavi Yolculuk ve Deniz Turları Rehberi
@@ -979,7 +980,7 @@ const ToursPage = () => {
                 <strong>Bozburun:</strong> Butik gulet yapımıyla ünlü; sakin, derin mavi koylar ve romantik akşamüstleri.
               </p>
               <p className="text-gray-600 leading-relaxed mb-3">
-                <strong>Datça:</strong> Knidos antik kenti, dalış ve balık turları için ideal sular.
+                <strong>Datça:</strong> Knidos antik kenti, <p> Daha fazla bilgi için <a href="https://mavibilet.com/dalis-turları" title="Türkiye’nin en güzel mavi yolculuk rotalarını keşfedin" className="text-blue-600  hover:text-blue-800 " > dalış turları </a> inceleyebilirsiniz. </p> ve balık turları için ideal sular.
               </p>
               <p className="text-gray-600 leading-relaxed mb-3">
                 <strong>Dalyan:</strong> Kaya mezarları, İztuzu Plajı ve Caretta-caretta gözlemleri.
@@ -1007,9 +1008,9 @@ const ToursPage = () => {
 
       {/* Sıkça Sorulan Sorular (SSS) */}
       <div className="bg-gray-50 py-16">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto px-6 lg:px-12 py-8">
           <div className="text-center mb-16">
-            <span className="text-4xl mb-4 block">❓</span>
+
             <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Sıkça Sorulan Sorular
             </h3>
@@ -1068,27 +1069,10 @@ const ToursPage = () => {
             ))}
           </div>
 
-          {/* Sonuç CTA */}
-          {/* Description Section */}
-          <div className="mt-12 bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Turlarımız Hakkında</h2>
-            <div className="prose prose-lg max-w-none">
-              <p className="text-gray-600 leading-relaxed mb-4">
-                Türkiye'nin eşsiz kıyılarında unutulmaz bir deneyim için özenle hazırlanmış turlarımızı keşfedin. 
-                Mavi yolculuktan günübirlik tekne turlarına, kabin turlarından özel organizasyonlara kadar geniş 
-                bir yelpazede hizmet sunuyoruz.
-              </p>
-              <p className="text-gray-600 leading-relaxed">
-                Profesyonel ekibimiz ve kaliteli teknelerimizle güvenli, konforlu ve keyifli bir tatil deneyimi 
-                yaşamanızı sağlıyoruz. Her bütçeye uygun seçeneklerimizle hayalinizdeki deniz tatilini 
-                gerçekleştirin.
-              </p>
-            </div>
-          </div>
 
-          {/* FAQ Section */}
+          {/* Daha Fazla Detay */}
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold text-gray-900 mb-6">Sıkça Sorulan Sorular</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-6">En Çok Merak Edilenler</h2>
             <div className="space-y-4">
               <div className="border-b border-gray-200 pb-4">
                 <h3 className="text-lg font-semibold text-gray-900 mb-2">
@@ -1143,11 +1127,10 @@ const ToursPage = () => {
                 günübirlik tekne kiralama, balık ve dalış turlarıyla doğanın huzurunu keşfedin.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <button className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
-                  Hemen Rezervasyon Yap
-                </button>
-                <button className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-colors duration-200">
-                  Daha Fazla Bilgi Al
+                <button
+                  onClick={() => window.location.href = '/contact'}
+                  className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-colors duration-200">
+                  İletişime geç
                 </button>
               </div>
             </div>

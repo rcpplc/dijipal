@@ -175,12 +175,11 @@ const CookiesPage = () => {
             Çerez kullanımı, veri işleme veya gizlilikle ilgili tüm sorularınızı bizimle
             paylaşabilirsiniz.
           </p>
-          <button
-            onClick={() => (window.location.href = "mailto:info@mavibilet.com")}
-            className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
-          >
-            İletişime Geçin
-          </button>
+            <button
+              onClick={() => window.location.href = '/contact'}
+              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+              İletişime geç
+            </button>
         </div>
       </div>
     </div>

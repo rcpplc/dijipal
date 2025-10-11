@@ -29,18 +29,27 @@ const Footer = () => {
                 <Facebook className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
+                href="https://www.instagram.com/mavibiletcom/" 
                 className="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-lg flex items-center justify-center transition-colors duration-200"
                 aria-label="Instagram"
               >
                 <Instagram className="w-5 h-5" />
               </a>
               <a 
-                href="#" 
-                className="w-10 h-10 bg-gray-800 hover:bg-blue-400 rounded-lg flex items-center justify-center transition-colors duration-200"
-                aria-label="Twitter"
+                href="https://x.com/mavibiletcom" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-10 h-10 bg-gray-800 hover:bg-gray-600 rounded-lg flex items-center justify-center transition-colors duration-200"
+                aria-label="X (Twitter)"
               >
-                <Twitter className="w-5 h-5" />
+                <svg 
+                  xmlns="http://www.w3.org/2000/svg" 
+                  viewBox="0 0 24 24" 
+                  fill="currentColor" 
+                  className="w-5 h-5 text-white"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24h-6.657l-5.206-6.817L5.197 21.75H1.888l7.73-8.843L1.5 2.25h6.75l4.713 6.231L18.244 2.25zm-1.162 17.52h1.833L7.084 4.126H5.117l11.965 15.644z" />
+                </svg>
               </a>
               <a 
                 href="#" 
@@ -60,7 +69,7 @@ const Footer = () => {
                 <Link 
                   to="/turlar" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
-                  title="Tüm turlar"  // 🏷️ Tooltip metni burada
+                  title="Türkiye’nin En Güzel Turları | Mavibilet ile Keşfet"  // 🏷️ Tooltip metni burada
                 >
                   Tüm Turlar
                 </Link>
@@ -69,6 +78,7 @@ const Footer = () => {
                 <Link 
                   to="/popular" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Tüm turlar"  // 🏷️ Tooltip metni burada
                 >
                   Popüler Turlar
                 </Link>
@@ -77,22 +87,32 @@ const Footer = () => {
                 <Link 
                   to="/kabin-kiralama" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
-                  title="Kabin kiralama"  // 🏷️ Tooltip metni burada
+                  title="Kabin Kiralama Turları | Mavi Yolculuğun Keyfini Çıkarın"  // 🏷️ Tooltip metni burada
                 >
                   Kabin Kiralama
                 </Link>
               </li>
-              <li>
+                            <li>
                 <Link 
-                  to="/vendors" 
+                  to="/kabin-kiralama" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Fethiye Kabin Kiralama | Mavi Yolculuk ve Tatil Turları"  // 🏷️ Tooltip metni burada
                 >
-                  Operatörler
+                  Fethiye Kabin Kiralama
                 </Link>
               </li>
               <li>
                 <Link 
-                  to="/become-vendor" 
+                  to="/kabin-kiralama/fethiye" 
+                  className="text-gray-300 hover:text-white transition-colors duration-200"
+                  title="Günübirlik Tekne Turları | Ege ve Akdeniz’in En Güzel Koylarını Keşfedin"  // 🏷️ Tooltip metni burada
+                >
+                  Günübirlik Tekne Turu
+                </Link>
+              </li>
+              <li>
+                <Link 
+                  to="//gunubirlik-tekne-turu" 
                   className="text-gray-300 hover:text-white transition-colors duration-200"
                 >
                   
@@ -195,7 +215,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <div className="text-sm text-gray-400 mb-4 md:mb-0">
-            © 2026 Mavibilet.com Tarafından ❤️ yapıldı.
+            © 2026 Mavibilet.com Tarafından 💙 yapıldı.
           </div>
           <div className="flex space-x-6 text-sm">
             <Link 

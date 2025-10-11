@@ -166,12 +166,11 @@ const KVKKPage = () => {
             Tüm kişisel verileriniz, ulusal ve uluslararası güvenlik standartlarına uygun olarak
             korunmaktadır. Şirketimiz, gizlilik ve güvenlik konusunda tam sorumluluk taşımaktadır.
           </p>
-          <button
-            onClick={() => (window.location.href = "mailto:info@mavibilet.com")}
-            className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-colors shadow-lg"
-          >
-            Bizimle İletişime Geçin
-          </button>
+            <button
+              onClick={() => window.location.href = '/contact'}
+              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+              İletişime geç
+            </button>
         </div>
       </div>
     </div>

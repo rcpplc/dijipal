@@ -220,13 +220,14 @@ const FAQPage = () => {
             Dilerseniz canlı destek veya e-posta yoluyla bizimle iletişime geçebilirsiniz.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="bg-white text-gray-800 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
-              Canlı Destek
+            <button
+              onClick={() => window.location.href = '/contact'}
+              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
+              İletişime geç
             </button>
             <button
               onClick={() => (window.location.href = "mailto:info@mavibilet.com")}
-              className="border border-white text-white px-6 py-3 rounded-lg font-medium hover:bg-white hover:text-gray-800 transition-colors"
-            >
+              className="bg-white text-blue-600 px-6 py-3 rounded-lg font-medium hover:bg-gray-100 transition-colors">
               E-posta Gönder
             </button>
           </div>

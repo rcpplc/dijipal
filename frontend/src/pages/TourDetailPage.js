@@ -1127,7 +1127,7 @@ const TourDetailPage = () => {
 
             {/* Değerlendirmeler - En fazla 3 tane */}
             <div className="bg-white rounded-xl p-6 shadow-lg mt-8">
-              <h3 className="text-xl font-semibold text-gray-900 mb-6">
+              <h3 className="text-sm font-semibold text-gray-900 mb-6">
                 Değerlendirmeler ({totalReviews || reviews.length})
               </h3>
 
