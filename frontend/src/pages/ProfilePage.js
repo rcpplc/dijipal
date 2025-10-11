@@ -188,6 +188,7 @@ const ProfilePage = () => {
     marketing_emails: false
   });
   const [accountStatus, setAccountStatus] = useState('active'); // active, deactivated
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
   useEffect(() => {
     if (activeTab === 'bookings') {
