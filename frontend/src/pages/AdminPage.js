@@ -604,11 +604,12 @@ const AdminPage = () => {
               </div>
             ) : dashboardData && (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-md transition-shadow" 
+                     onClick={() => setActiveTab('tours')}>
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <MapPin className="h-6 w-6 text-gray-400" />
+                        <MapPin className="h-6 w-6 text-blue-600" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
@@ -624,11 +625,12 @@ const AdminPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-md transition-shadow" 
+                     onClick={() => setActiveTab('bookings')}>
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <Calendar className="h-6 w-6 text-gray-400" />
+                        <Calendar className="h-6 w-6 text-purple-600" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
@@ -644,11 +646,12 @@ const AdminPage = () => {
                   </div>
                 </div>
 
-                <div className="bg-white overflow-hidden shadow rounded-lg">
+                <div className="bg-white overflow-hidden shadow rounded-lg cursor-pointer hover:shadow-md transition-shadow" 
+                     onClick={() => setActiveTab('users')}>
                   <div className="p-5">
                     <div className="flex items-center">
                       <div className="flex-shrink-0">
-                        <Users className="h-6 w-6 text-gray-400" />
+                        <Users className="h-6 w-6 text-orange-600" />
                       </div>
                       <div className="ml-5 w-0 flex-1">
                         <dl>
