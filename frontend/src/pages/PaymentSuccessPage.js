@@ -9,7 +9,12 @@ import {
   Users,
   ArrowRight,
   Home,
-  User
+  User,
+  Clock,
+  Ship,
+  FileText,
+  Info,
+  CreditCard
 } from 'lucide-react';
 
 const PaymentSuccessPage = () => {
