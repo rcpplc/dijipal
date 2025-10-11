@@ -469,7 +469,7 @@ const PaymentSuccessPage = () => {
                                   <span className="text-gray-700">Çocuk:</span>
                                   <span className="font-medium">
                                     {item?.childCount || booking.reservationDetails?.childCount} × 
-                                    ₺{(item?.selectedDate?.child_price || 0).toLocaleString('tr-TR')}
+                                    ₺{(item?.selectedDate?.child_price || item?.childPrice || 400).toLocaleString('tr-TR')}
                                   </span>
                                 </div>
                               )}
