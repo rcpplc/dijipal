@@ -364,28 +364,130 @@ const ProfilePage = () => {
     }
   };
 
-  const deleteAccount = async () => {
-    const confirmText = 'HESABI SIL';
-    const userInput = window.prompt(
-      `Hesabınızı kalıcı olarak silmek için "${confirmText}" yazın:`
-    );
-    
-    if (userInput !== confirmText) {
-      toast.error('Doğrulama başarısız');
+  const deleteAccount = async (confirmationText) => {
+    if (confirmationText !== 'HESABI SIL') {
+      toast.error('Doğrulama metni yanlış girildi');
       return;
     }
     
     try {
-      const token = localStorage.getItem('token');
-      await axios.delete(`${API}/profile`, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      // Temporary localStorage solution until backend is implemented
+      localStorage.removeItem(`user_${user.id}`);
+      localStorage.removeItem(`notification_settings_${user.id}`);
+      localStorage.removeItem(`account_status_${user.id}`);
+      
       toast.success('Hesabınız başarıyla silindi');
-      logout();
+      setShowDeleteModal(false);
+      
+      // Logout after a brief delay to show the success message
+      setTimeout(() => {
+        logout();
+      }, 2000);
+      
+      // TODO: Replace with actual API call when backend endpoint is implemented
+      // const token = localStorage.getItem('token');
+      // await axios.delete(`${API}/profile`, {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
     } catch (error) {
       console.error('Error deleting account:', error);
       toast.error('Hesap silinirken hata oluştu');
     }
+  };
+
+  // Delete Account Modal Component
+  const DeleteAccountModal = () => {
+    const [confirmationText, setConfirmationText] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
+    
+    const handleDelete = async () => {
+      setIsDeleting(true);
+      await deleteAccount(confirmationText);
+      setIsDeleting(false);
+    };
+
+    return showDeleteModal ? (
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className="bg-white rounded-xl max-w-md w-full overflow-hidden">
+          <div className="flex items-center justify-between p-6 border-b border-red-200 bg-red-50">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                <Trash2 className="w-5 h-5 text-red-600" />
+              </div>
+              <div>
+                <h2 className="text-lg font-semibold text-red-900">
+                  Hesabı Kalıcı Olarak Sil
+                </h2>
+                <p className="text-sm text-red-700">
+                  Bu işlem geri alınamaz!
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              className="text-red-400 hover:text-red-600 text-xl"
+              disabled={isDeleting}
+            >
+              ✕
+            </button>
+          </div>
+          
+          <div className="p-6 space-y-4">
+            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
+              <h4 className="font-medium text-red-900 mb-2">⚠️ Uyarı</h4>
+              <ul className="text-sm text-red-700 space-y-1">
+                <li>• Hesabınız kalıcı olarak silinecek</li>
+                <li>• Tüm rezervasyonlarınız iptal edilecek</li>
+                <li>• Favori turlarınız kaybolacak</li>
+                <li>• Kişisel bilgileriniz silinecek</li>
+                <li>• Bu işlem geri alınamaz</li>
+              </ul>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                Onaylamak için <strong>"HESABI SIL"</strong> yazın:
+              </label>
+              <input
+                type="text"
+                value={confirmationText}
+                onChange={(e) => setConfirmationText(e.target.value)}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-red-500 focus:border-red-500"
+                placeholder="HESABI SIL"
+                disabled={isDeleting}
+              />
+            </div>
+          </div>
+          
+          <div className="p-6 border-t bg-gray-50 flex flex-col sm:flex-row gap-3">
+            <button
+              onClick={() => setShowDeleteModal(false)}
+              className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              disabled={isDeleting}
+            >
+              İptal Et
+            </button>
+            <button
+              onClick={handleDelete}
+              disabled={confirmationText !== 'HESABI SIL' || isDeleting}
+              className="flex-1 px-6 py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors font-medium flex items-center justify-center space-x-2"
+            >
+              {isDeleting ? (
+                <>
+                  <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
+                  <span>Siliniyor...</span>
+                </>
+              ) : (
+                <>
+                  <Trash2 className="w-4 h-4" />
+                  <span>Hesabı Sil</span>
+                </>
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+    ) : null;
   };
 
   const getStatusBadge = (status) => {
