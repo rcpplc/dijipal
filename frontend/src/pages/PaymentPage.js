@@ -76,6 +76,21 @@ const PaymentPage = () => {
     }
   }, [location.state, user, navigate]);
 
+  // Modal'da "Kabul Ediyorum" butonuna tıklanınca
+  const handleAcceptContract = () => {
+    setIsApproved(true); // Checkbox'ı otomatik işaretle
+    setShowContractModal(false); // Modal'ı kapat
+    toast.success('Mesafeli Satış Sözleşmesi ve KVKK Metni kabul edildi.');
+    
+    // İşlemi otomatik devam ettir
+    setTimeout(() => {
+      const paymentForm = document.querySelector('form');
+      if (paymentForm) {
+        paymentForm.requestSubmit();
+      }
+    }, 500);
+  };
+
   const handlePayment = async (e) => {
     e.preventDefault();
 
