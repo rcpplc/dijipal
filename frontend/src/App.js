@@ -287,7 +287,7 @@ function App() {
   };
 
   return (
-    <GoogleOAuthProvider clientId="412446824095-f83a2663p9logb15t88e25jnt79r9ep9.apps.googleusercontent.com">
+    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
       <AuthContext.Provider value={authValue}>
         <div className="App min-h-screen flex flex-col bg-gray-50">
           <BrowserRouter>
