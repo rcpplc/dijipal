@@ -1557,8 +1557,15 @@ const AdminPage = () => {
                       <div className="grid grid-cols-2 gap-4 mb-4">
                         <div>
                           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Müşteri</span>
-                          <p className="text-sm font-medium text-gray-900">{booking.customer_info?.full_name || 'N/A'}</p>
-                          <p className="text-xs text-gray-500">{booking.customer_info?.email || 'N/A'}</p>
+                          <p className="text-sm font-medium text-gray-900">
+                            {booking.customer_details?.name || booking.customer_info?.full_name || 'Bilinmeyen'}
+                          </p>
+                          <p className="text-xs text-gray-500">
+                            {booking.customer_details?.email || booking.customer_info?.email || 'E-posta yok'}
+                          </p>
+                          {booking.customer_details?.phone && (
+                            <p className="text-xs text-gray-500">{booking.customer_details.phone}</p>
+                          )}
                         </div>
                         <div>
                           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Rezervasyon</span>
