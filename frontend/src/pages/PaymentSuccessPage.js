@@ -171,11 +171,8 @@ const PaymentSuccessPage = () => {
     }
     
     // Veri bulunamadı
-    console.error('❌ PaymentSuccessPage: No valid booking data found for tickets');
     return [];
   })();
-  
-  console.log('Final bookingItems:', bookingItems);
 
   return (
     <div className="min-h-screen bg-gray-50">
