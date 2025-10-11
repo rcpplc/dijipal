@@ -204,7 +204,10 @@ const BookingPage = () => {
         totalPrice: calculateTotalPrice(),
         tax: calculateTax(),
         status: 'pending',
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        // Cart information for multiple bookings
+        fromCart: location.state?.fromCart || false,
+        cartItems: location.state?.cartItems || null
       };
 
       const existingBookings = JSON.parse(localStorage.getItem('user_bookings') || '[]');
