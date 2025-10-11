@@ -153,12 +153,73 @@ const ProfilePage = () => {
 
   const removeFavorite = async (tourId) => {
     try {
-      await axios.delete(`${API}/favorites/${tourId}`);
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API}/favorites/${tourId}`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
       toast.success('Favorilerden çıkarıldı');
       loadFavorites();
     } catch (error) {
       console.error('Error removing favorite:', error);
       toast.error('Favorilerden çıkarılırken hata oluştu');
+    }
+  };
+
+  // Notification Settings
+  const updateNotificationSettings = async (settings) => {
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`${API}/profile/notifications`, settings, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      setNotificationSettings(settings);
+      toast.success('Bildirim tercihleri güncellendi');
+    } catch (error) {
+      console.error('Error updating notifications:', error);
+      toast.error('Bildirim tercihleri güncellenemedi');
+    }
+  };
+
+  // Account Operations
+  const deactivateAccount = async () => {
+    if (!window.confirm('Hesabınızı gerçekten devre dışı bırakmak istiyor musunuz?')) {
+      return;
+    }
+    
+    try {
+      const token = localStorage.getItem('token');
+      await axios.put(`${API}/profile/deactivate`, {}, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Hesabınız devre dışı bırakıldı');
+      logout();
+    } catch (error) {
+      console.error('Error deactivating account:', error);
+      toast.error('Hesap devre dışı bırakılırken hata oluştu');
+    }
+  };
+
+  const deleteAccount = async () => {
+    const confirmText = 'HESABI SIL';
+    const userInput = window.prompt(
+      `Hesabınızı kalıcı olarak silmek için "${confirmText}" yazın:`
+    );
+    
+    if (userInput !== confirmText) {
+      toast.error('Doğrulama başarısız');
+      return;
+    }
+    
+    try {
+      const token = localStorage.getItem('token');
+      await axios.delete(`${API}/profile`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      toast.success('Hesabınız başarıyla silindi');
+      logout();
+    } catch (error) {
+      console.error('Error deleting account:', error);
+      toast.error('Hesap silinirken hata oluştu');
     }
   };
 
