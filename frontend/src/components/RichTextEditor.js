@@ -197,12 +197,37 @@ const RichTextEditor = ({
       style={style}
     >
       {/* Toolbar */}
-      <div className="border-b border-gray-200 bg-gray-50 px-3 py-2 flex items-center space-x-1">
+      <div className="border-b border-gray-200 bg-gray-50 px-3 py-2 flex items-center flex-wrap gap-1">
+        {/* Format Buttons */}
         {toolbarButtons.map((button, index) => {
           const Icon = button.icon;
           return (
             <button
               key={index}
+              type="button"
+              onClick={() => {
+                if (typeof button.command === 'function') {
+                  button.command();
+                } else {
+                  executeCommand(button.command);
+                }
+              }}
+              className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+              title={button.title}
+            >
+              <Icon className="w-4 h-4" />
+            </button>
+          );
+        })}
+        
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+        
+        {/* Alignment Buttons */}
+        {alignmentButtons.map((button, index) => {
+          const Icon = button.icon;
+          return (
+            <button
+              key={`align-${index}`}
               type="button"
               onClick={() => executeCommand(button.command)}
               className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
@@ -212,8 +237,26 @@ const RichTextEditor = ({
             </button>
           );
         })}
-        
-        <div className="w-px h-6 bg-gray-300 mx-2" />
+
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+
+        {/* Indent Buttons */}
+        {indentButtons.map((button, index) => {
+          const Icon = button.icon;
+          return (
+            <button
+              key={`indent-${index}`}
+              type="button"
+              onClick={() => executeCommand(button.command)}
+              className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+              title={button.title}
+            >
+              <Icon className="w-4 h-4" />
+            </button>
+          );
+        })}
+
+        <div className="w-px h-6 bg-gray-300 mx-1" />
         
         {/* Header dropdown */}
         <select 
@@ -223,7 +266,7 @@ const RichTextEditor = ({
               e.target.value = '';
             }
           }}
-          className="text-sm border-none bg-transparent text-gray-600 focus:outline-none"
+          className="text-sm border-none bg-transparent text-gray-600 focus:outline-none px-2 py-1"
           defaultValue=""
         >
           <option value="" disabled>Başlık</option>
@@ -233,7 +276,7 @@ const RichTextEditor = ({
           <option value="p">Paragraf</option>
         </select>
 
-        <div className="w-px h-6 bg-gray-300 mx-2" />
+        <div className="w-px h-6 bg-gray-300 mx-1" />
 
         {/* Link button */}
         <button
@@ -249,6 +292,30 @@ const RichTextEditor = ({
         >
           <Link className="w-4 h-4" />
         </button>
+
+        <div className="w-px h-6 bg-gray-300 mx-1" />
+
+        {/* Insert Buttons */}
+        {insertButtons.map((button, index) => {
+          const Icon = button.icon;
+          return (
+            <button
+              key={`insert-${index}`}
+              type="button"
+              onClick={() => {
+                if (typeof button.command === 'function') {
+                  button.command();
+                } else {
+                  executeCommand(button.command);
+                }
+              }}
+              className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+              title={button.title}
+            >
+              <Icon className="w-4 h-4" />
+            </button>
+          );
+        })}
       </div>
 
       {/* Editor Content */}
