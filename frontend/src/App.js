@@ -65,10 +65,67 @@ function App() {
     }
   }, [token]);
 
-  // Load user data on mount
+  // Handle session_id from Google OAuth redirect
+  useEffect(() => {
+    const handleSessionId = async () => {
+      const hash = window.location.hash;
+      if (hash.includes('session_id=')) {
+        setLoading(true);
+        try {
+          // Extract session_id from URL fragment
+          const sessionId = hash.split('session_id=')[1].split('&')[0];
+          console.log('🔑 Processing session_id:', sessionId);
+          
+          // Process session with backend
+          const response = await axios.post(`${API}/auth/session`, {}, {
+            headers: {
+              'X-Session-ID': sessionId
+            }
+          });
+          
+          if (response.data.success) {
+            setUser(response.data.user);
+            console.log('✅ Google auth successful:', response.data.user);
+            
+            // Clean up URL fragment
+            window.history.replaceState({}, document.title, window.location.pathname + window.location.search);
+            
+            // Close login modal if open
+            setShowLoginModal(false);
+          }
+        } catch (error) {
+          console.error('❌ Session processing failed:', error);
+        } finally {
+          setLoading(false);
+        }
+      } else {
+        // Check existing session if no session_id
+        checkExistingSession();
+      }
+    };
+
+    handleSessionId();
+  }, []);
+
+  // Check existing session from cookie
+  const checkExistingSession = async () => {
+    try {
+      const response = await axios.get(`${API}/auth/me`);
+      if (response.data.user) {
+        setUser(response.data.user);
+        console.log('✅ Existing session found:', response.data.user);
+      }
+    } catch (error) {
+      console.log('No existing session');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Load user data on mount (JWT token fallback)
   useEffect(() => {
     const loadUser = async () => {
-      if (token) {
+      if (token && !user) {
         try {
           // Önce localStorage'dan user verisini al
           const savedUser = localStorage.getItem('user');
@@ -88,11 +145,10 @@ function App() {
           logout();
         }
       }
-      setLoading(false);
     };
 
     loadUser();
-  }, [token]);
+  }, [token, user]);
 
   const login = async (email, password) => {
     console.log('🚀 Login function called with:', { email, API });
