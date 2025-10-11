@@ -92,6 +92,40 @@ const CartPage = () => {
     return cartItems.reduce((total, item) => total + calculateItemPrice(item), 0);
   };
 
+  const proceedToBooking = (items = cartItems) => {
+    if (items.length === 0) {
+      toast.error('Sepetinizde ürün bulunmuyor');
+      return;
+    }
+
+    const firstItem = items[0];
+    const cartTotal = items.reduce((total, item) => total + calculateItemPrice(item), 0);
+    
+    navigate(`/booking/${firstItem.tourId}`, {
+      state: {
+        tour: {
+          id: firstItem.tourId,
+          title: firstItem.title,
+          location: firstItem.location,
+          images: [firstItem.image],
+          reservation_type: firstItem.reservation_type
+        },
+        selectedDate: firstItem.selectedDate,
+        fromCart: true,
+        cartTotal: cartTotal,
+        cartItems: items,
+        ...(firstItem.reservation_type === 'cabin_based' && {
+          singleCabinCount: firstItem.singleCabinCount || 0,
+          doubleCabinCount: firstItem.doubleCabinCount || 0
+        }),
+        ...(firstItem.reservation_type === 'person_based' && {
+          adultCount: firstItem.adultCount || 0,
+          childCount: firstItem.childCount || 0
+        })
+      }
+    });
+  };
+
   const getReservationSummary = (item) => {
     if (item.reservation_type === 'cabin_based') {
       const parts = [];
