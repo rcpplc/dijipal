@@ -71,9 +71,11 @@ const PaymentSuccessPage = () => {
           email: 'admin@example.com',
           phone: '0533 413 53 35'
         },
-        // Multiple cart items for testing - different reservation types
+        // Multiple cart items for testing - matching CartPage structure
         cartItems: [
           {
+            id: 'item-1',
+            tourId: 'tour-1',
             title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
             location: 'Muğla, Göcek',
             duration: '4',
@@ -87,6 +89,8 @@ const PaymentSuccessPage = () => {
             }
           },
           {
+            id: 'item-2', 
+            tourId: 'tour-2',
             title: 'Bodrum Günübirlik Tekne Turu',
             location: 'Bodrum Marina',
             duration: '1',
@@ -97,16 +101,6 @@ const PaymentSuccessPage = () => {
               formattedDate: '20 Ocak 2025',
               person_price: 800,
               child_price: 400
-            }
-          },
-          {
-            title: 'Kaş Premium Özel Tekne Turu',
-            location: 'Kaş',
-            duration: '1',
-            reservation_type: 'reservation',
-            selectedDate: {
-              formattedDate: '25 Ocak 2025',
-              total_reservation_price: 12000
             }
           }
         ]
