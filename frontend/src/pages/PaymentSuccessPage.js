@@ -28,30 +28,50 @@ const PaymentSuccessPage = () => {
   const [booking, setBooking] = useState(null);
   const [paymentAmount, setPaymentAmount] = useState(0);
 
-  useEffect(() => {
-    // Temporarily disabled for testing
-    // if (!user) {
-    //   navigate('/');
-    //   return;
-    // }
-
-    if (location.state?.booking) {
-      
-      // Set the booking data with cartItems
-      const bookingWithCart = {
-        ...location.state.booking,
-        cartItems: location.state.cartItems,
-        fromCart: location.state.fromCart
-      };
-      
-      setBooking(bookingWithCart);
-      setPaymentAmount(location.state.paymentAmount || 0);
-    } else {
-      // No booking data found - redirect to home
-      console.error('❌ PaymentSuccessPage: No booking data found');
-      navigate('/');
-      return;
+  const fetchTourData = async (tourId) => {
+    try {
+      console.log('🔍 Fetching fresh tour data for ID:', tourId);
+      const response = await axios.get(`${API}/tours/${tourId}`);
+      console.log('📦 Fresh tour data received:', response.data);
+      return response.data;
+    } catch (error) {
+      console.error('❌ Error fetching tour data:', error);
+      return null;
     }
+  };
+
+  useEffect(() => {
+    const initializeBookingData = async () => {
+      if (location.state?.booking) {
+        const bookingWithCart = {
+          ...location.state.booking,
+          cartItems: location.state.cartItems,
+          fromCart: location.state.fromCart
+        };
+        
+        // Fetch fresh tour data if we have tourId
+        if (bookingWithCart.tourId || bookingWithCart.tour_id) {
+          const tourId = bookingWithCart.tourId || bookingWithCart.tour_id;
+          const freshTourData = await fetchTourData(tourId);
+          
+          if (freshTourData) {
+            // Update booking with fresh tour data
+            bookingWithCart.tour = freshTourData;
+            console.log('✅ Updated booking with fresh tour data');
+          }
+        }
+        
+        setBooking(bookingWithCart);
+        setPaymentAmount(location.state.paymentAmount || 0);
+      } else {
+        // No booking data found - redirect to home
+        console.error('❌ PaymentSuccessPage: No booking data found');
+        navigate('/');
+        return;
+      }
+    };
+
+    initializeBookingData();
   }, [location.state, user, navigate]);
 
   const getReservationSummary = () => {
