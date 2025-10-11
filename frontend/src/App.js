@@ -383,6 +383,7 @@ function App() {
         </BrowserRouter>
       </div>
     </AuthContext.Provider>
+    </GoogleOAuthProvider>
   );
 }
 
