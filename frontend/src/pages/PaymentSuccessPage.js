@@ -35,8 +35,35 @@ const PaymentSuccessPage = () => {
       setBooking(location.state.booking);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
-      // Eğer state yoksa profile'a yönlendir
-      navigate('/profile?tab=bookings');
+      // For testing purposes, create mock data if no state exists
+      const mockBooking = {
+        id: 'booking-test-684824',
+        tour: {
+          title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
+          duration: '4',
+          location: 'Muğla, Göcek'
+        },
+        selectedDate: {
+          formattedDate: '15 Ocak 2025'
+        },
+        reservationDetails: {
+          type: 'cabin_based',
+          singleCabinCount: 2,
+          doubleCabinCount: 1
+        },
+        customerInfo: {
+          firstName: 'Recep',
+          lastName: 'PALİÇ',
+          email: 'admin@example.com',
+          phone: '0533 413 53 35'
+        }
+      };
+      
+      setBooking(mockBooking);
+      setPaymentAmount(18000);
+      
+      // Comment out redirect for testing
+      // navigate('/profile?tab=bookings');
     }
   }, [location.state, user, navigate]);
 
