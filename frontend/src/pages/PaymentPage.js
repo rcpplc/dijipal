@@ -20,11 +20,11 @@ const PaymentPage = () => {
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('credit_card');
   const [cardData, setCardData] = useState({
-    cardNumber: '4242424242424242', // Test card for easier testing
-    expiryMonth: '12',
-    expiryYear: '2025',
-    cvv: '123',
-    cardHolder: 'Test User'
+    cardNumber: '',
+    expiryMonth: '',
+    expiryYear: '',
+    cvv: '',
+    cardHolder: ''
   });
   const [isApproved, setIsApproved] = useState(false); // ✅ Onay durumu
   const [showContractModal, setShowContractModal] = useState(false); // Modal durumu
