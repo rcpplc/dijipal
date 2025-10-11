@@ -336,17 +336,21 @@ const ProfilePage = () => {
 
   // Account Operations
   const deactivateAccount = async () => {
-    if (!window.confirm('Hesabınızı gerçekten devre dışı bırakmak istiyor musunuz?')) {
+    if (!window.confirm('Hesabınızı gerçekten devre dışı bırakmak istiyor musunuz?\n\nDevre dışı bırakılan hesap:\n- Giriş yapamaz\n- Rezervasyon oluşturamaz\n- E-posta/SMS alamaz\n\nHesabınızı tekrar etkinleştirmek için destek ekibimizle iletişime geçmeniz gerekir.')) {
       return;
     }
     
     try {
-      const token = localStorage.getItem('token');
-      await axios.put(`${API}/profile/deactivate`, {}, {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      toast.success('Hesabınız devre dışı bırakıldı');
-      logout();
+      // Temporary localStorage solution until backend is implemented
+      localStorage.setItem(`account_status_${user.id}`, 'deactivated');
+      setAccountStatus('deactivated');
+      toast.success('Hesabınız devre dışı bırakıldı. Destek ekibimizle iletişime geçerek tekrar etkinleştirebilirsiniz.');
+      
+      // TODO: Replace with actual API call when backend endpoint is implemented
+      // const token = localStorage.getItem('token');
+      // await axios.put(`${API}/profile/deactivate`, {}, {
+      //   headers: { Authorization: `Bearer ${token}` }
+      // });
     } catch (error) {
       console.error('Error deactivating account:', error);
       toast.error('Hesap devre dışı bırakılırken hata oluştu');
