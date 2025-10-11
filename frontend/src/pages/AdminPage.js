@@ -12,7 +12,9 @@ import {
   Edit,
   Trash2,
   Plus,
-  X
+  X,
+  UserCheck,
+  UserX
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
