@@ -7,7 +7,7 @@ import {
   Calendar, 
   Star, 
   ArrowLeft,
-  Trash2
+  ArrowRight
 } from 'lucide-react';
 import axios from 'axios';
 import { toast } from 'sonner';
