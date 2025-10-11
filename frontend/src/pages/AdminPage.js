@@ -1554,7 +1554,49 @@ const AdminPage = () => {
                         </span>
                       </div>
 
-                      <div className="grid grid-cols-2 gap-4 mb-4">
+                      {/* Tur Bilgileri */}
+                      <div className="mb-4 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex items-center mb-2">
+                          <MapPin className="w-4 h-4 text-blue-600 mr-2" />
+                          <span className="text-sm font-semibold text-gray-900">Tur Detayları</span>
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-sm font-medium text-gray-900">
+                            {booking.tour_details?.title || 'Tur başlığı bulunamadı'}
+                          </p>
+                          <div className="grid grid-cols-2 gap-4 text-xs">
+                            <div>
+                              <span className="text-gray-500">Tarih:</span>
+                              <span className="ml-1 font-medium">
+                                {booking.formatted_tour_date || 'Belirtilmemiş'}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Süre:</span>
+                              <span className="ml-1 font-medium">
+                                {booking.tour_details?.duration_unit === 'hours' 
+                                  ? `${booking.tour_details.duration_days || 1} Saat`
+                                  : `${booking.tour_details?.duration_days || 1} Gün`
+                                }
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">Biniş:</span>
+                              <span className="ml-1 font-medium">
+                                {booking.tour_details?.pickup_time || '-'}
+                              </span>
+                            </div>
+                            <div>
+                              <span className="text-gray-500">İniş:</span>
+                              <span className="ml-1 font-medium">
+                                {booking.tour_details?.dropoff_time || '-'}
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                         <div>
                           <span className="text-xs font-medium text-gray-500 uppercase tracking-wider">Müşteri</span>
                           <p className="text-sm font-medium text-gray-900">
