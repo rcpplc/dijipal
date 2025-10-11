@@ -196,6 +196,7 @@ const BookingPage = () => {
 
       const bookingData = {
         tourId: tour.id,
+        tour: tour, // ✅ PaymentSuccessPage için tour objesi eklendi
         userId: user.id,
         selectedDate: selectedDate,
         reservationType: reservationData.type,
