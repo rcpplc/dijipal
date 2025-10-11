@@ -313,6 +313,7 @@ const CartPage = () => {
         <CartBottomBar 
           totalPrice={calculateTotalPrice()} 
           itemCount={cartItems.length}
+          onCheckout={handleCheckout}
         />
       )}
     </div>
