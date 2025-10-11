@@ -6,7 +6,16 @@ import {
   List, 
   ListOrdered,
   Link,
-  Type
+  Type,
+  Quote,
+  AlignLeft,
+  AlignCenter,
+  AlignRight,
+  Minus,
+  Indent,
+  Outdent,
+  Table,
+  Image
 } from 'lucide-react';
 
 const RichTextEditor = ({ 
