@@ -331,34 +331,7 @@ const PaymentSuccessPage = () => {
             
             <div className="space-y-6">
               {bookingItems.map((item, index) => {
-                const itemPrice = item ? (() => {
-                  // Try multiple price calculation methods based on data structure
-                  let price = 0;
-                  
-                  // Method 1: Direct price field
-                  if (item.price) {
-                    price = item.price;
-                  }
-                  // Method 2: Total price field
-                  else if (item.totalPrice) {
-                    price = item.totalPrice;
-                  }
-                  // Method 3: Calculated price based on reservation type
-                  else if (item.reservation_type === 'cabin_based') {
-                    const singlePrice = (item.selectedDate?.single_cabin_price || item.singleCabinPrice || 0) * (item.singleCabinCount || 0);
-                    const doublePrice = (item.selectedDate?.double_cabin_price || item.doubleCabinPrice || 0) * (item.doubleCabinCount || 0);
-                    price = singlePrice + doublePrice;
-                  } else if (item.reservation_type === 'person_based') {
-                    const adultPrice = (item.selectedDate?.person_price || item.personPrice || item.adultPrice || 0) * (item.adultCount || 0);
-                    const childPrice = (item.selectedDate?.child_price || item.childPrice || 0) * (item.childCount || 0);
-                    price = adultPrice + childPrice;
-                  } else if (item.reservation_type === 'reservation') {
-                    price = item.selectedDate?.total_reservation_price || item.reservationPrice || 0;
-                  }
-                  
-                  // Fallback to a portion of total payment if no specific price found
-                  return price > 0 ? price : Math.floor(paymentAmount / bookingItems.length);
-                })() : paymentAmount;
+                const itemPrice = item ? calculateItemPrice(item) : Math.floor(paymentAmount / bookingItems.length);
                 
                 return (
                   <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
