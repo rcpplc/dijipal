@@ -523,7 +523,7 @@ const CategoryDetailPage = () => {
           <div className="mt-12 bg-white rounded-lg shadow-md p-8">
             <div className="prose prose-lg max-w-none">
               <div 
-                className="text-gray-600 leading-relaxed"
+                className="rich-text-content text-gray-600 leading-relaxed"
                 dangerouslySetInnerHTML={{ __html: categoryData.subcategory.description }}
               />
             </div>
