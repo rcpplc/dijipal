@@ -1099,9 +1099,7 @@ const AdminPage = () => {
                       Kullanıcı Ekle
                     </button>
                   </div>
-                    ))}
-                  </tbody>
-                </table>
+                )}
               </div>
             )}
           </div>
