@@ -722,29 +722,30 @@ const AdminPage = () => {
               </div>
             ) : (
               <div className="bg-white shadow rounded-lg overflow-hidden">
-                <table className="min-w-full divide-y divide-gray-200">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Tur
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Lokasyon
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Kategori
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Fiyat
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Durum
-                      </th>
-                      <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        İşlemler
-                      </th>
-                    </tr>
-                  </thead>
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead className="bg-gray-50">
+                      <tr>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Tur
+                        </th>
+                        <th className="hidden md:table-cell py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Lokasyon
+                        </th>
+                        <th className="hidden lg:table-cell py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Kategori
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Fiyat
+                        </th>
+                        <th className="hidden sm:table-cell py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          Durum
+                        </th>
+                        <th className="py-3 px-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                          İşlemler
+                        </th>
+                      </tr>
+                    </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {tours.map((tour) => (
                       <tr key={tour.id} className="hover:bg-gray-50">
