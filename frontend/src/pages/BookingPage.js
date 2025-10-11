@@ -89,33 +89,26 @@ const BookingPage = () => {
       }
     }
 
-    if (user) {
-      const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
-      const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
-      
-      setFormData(prev => ({
-        ...prev,
-        firstName: firstName,
-        lastName: lastName,
-        email: user.email || user.emailAddress || user.mail || '',
-        phone: user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || ''
-      }));
-    }
-
     setLoading(false);
   }, [location.state, user, navigate]);
 
+  // User bilgilerini form data'ya yükle
   useEffect(() => {
     if (user) {
+      // Farklı kullanıcı bilgi formatlarını destekle
       const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
-      const lastName = user.lastName || user.last_name || user.name?.split(' ')[1] || user.surname || user.displayName?.split(' ')[1] || '';
+      const lastName = user.lastName || user.last_name || user.name?.split(' ').slice(1).join(' ') || user.surname || user.displayName?.split(' ').slice(1).join(' ') || '';
+      const email = user.email || user.emailAddress || user.mail || '';
+      const phone = user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || '';
+      
+      console.log('User bilgileri yükleniyor:', { firstName, lastName, email, phone }); // Debug için
       
       setFormData(prev => ({
         ...prev,
         firstName: firstName,
         lastName: lastName, 
-        email: user.email || user.emailAddress || user.mail || '',
-        phone: user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || ''
+        email: email,
+        phone: phone
       }));
     }
   }, [user]);
