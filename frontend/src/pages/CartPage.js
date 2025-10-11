@@ -311,7 +311,6 @@ const CartPage = () => {
                   
                   <div className="border-t pt-3 space-y-3 text-sm text-gray-600">
 
-
                     {/* KDV Hariç Tutar */}
                     <div className="flex justify-between">
                       <span>KDV Hariç Tutar:</span>
