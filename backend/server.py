@@ -572,18 +572,141 @@ async def logout(request: Request, response: Response):
         print(f"Error during logout: {e}")
         return {"success": True, "message": "Logged out"}  # Always return success for logout
 
-@api_router.post("/auth/google")
-async def google_auth_redirect():
-    """Google OAuth authentication - Redirects to Emergent Auth"""
-    # This endpoint should redirect to Emergent Auth
-    # Frontend should handle the redirect directly
-    redirect_url = "https://payment-modal-fix.preview.emergentagent.com"  # Where user should land after auth
-    auth_url = f"https://auth.emergentagent.com/?redirect={redirect_url}"
+@api_router.get("/auth/google")
+async def google_auth_redirect(request: Request):
+    """Google OAuth authentication - Redirect to Google"""
     
-    return {
-        "auth_url": auth_url,
-        "message": "Redirect to this URL for Google authentication"
-    }
+    # Get Google OAuth settings from environment
+    client_id = os.environ.get('GOOGLE_CLIENT_ID')
+    redirect_uri = f"{request.base_url}api/auth/google/callback"
+    
+    if not client_id:
+        raise HTTPException(status_code=500, detail="Google OAuth not configured")
+    
+    # Build Google OAuth URL
+    auth_url = (
+        "https://accounts.google.com/o/oauth2/auth"
+        f"?client_id={client_id}"
+        f"&redirect_uri={redirect_uri}"
+        "&response_type=code"
+        "&scope=openid email profile"
+        "&state=random_state_token"
+    )
+    
+    return {"auth_url": auth_url}
+
+@api_router.get("/auth/google/callback")
+async def google_auth_callback(request: Request, response: Response, code: str, state: str):
+    """Handle Google OAuth callback"""
+    
+    try:
+        # Get Google OAuth settings
+        client_id = os.environ.get('GOOGLE_CLIENT_ID')
+        client_secret = os.environ.get('GOOGLE_CLIENT_SECRET')
+        redirect_uri = f"{request.base_url}api/auth/google/callback"
+        
+        if not client_id or not client_secret:
+            raise HTTPException(status_code=500, detail="Google OAuth not configured")
+        
+        # Exchange code for token
+        async with httpx.AsyncClient() as client:
+            token_response = await client.post(
+                "https://oauth2.googleapis.com/token",
+                data={
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "code": code,
+                    "grant_type": "authorization_code",
+                    "redirect_uri": redirect_uri,
+                }
+            )
+            
+            if token_response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Token exchange failed")
+            
+            tokens = token_response.json()
+            access_token = tokens.get("access_token")
+            
+            if not access_token:
+                raise HTTPException(status_code=400, detail="No access token received")
+            
+            # Get user info from Google
+            user_response = await client.get(
+                "https://www.googleapis.com/oauth2/v2/userinfo",
+                headers={"Authorization": f"Bearer {access_token}"}
+            )
+            
+            if user_response.status_code != 200:
+                raise HTTPException(status_code=400, detail="Failed to get user info")
+            
+            user_info = user_response.json()
+            
+            # Process user data
+            email = user_info.get("email")
+            name = user_info.get("name")
+            picture = user_info.get("picture")
+            
+            if not email:
+                raise HTTPException(status_code=400, detail="No email received from Google")
+            
+            # Check if user exists in our database
+            user_doc = await db.users.find_one({"email": email})
+            
+            if user_doc:
+                # User exists, use existing user
+                user_id = user_doc["id"]
+            else:
+                # Create new user
+                user = User(
+                    email=email,
+                    full_name=name or "Google User",
+                    role=UserRole.CUSTOMER,
+                    profile_image=picture
+                )
+                user_dict = user.dict()
+                user_dict["hashed_password"] = hash_password("google_oauth_user")  # Dummy password for OAuth users
+                await db.users.insert_one(user_dict)
+                user_id = user.id
+            
+            # Create session token
+            session_token = str(uuid.uuid4())
+            expires_at = datetime.now(timezone.utc) + timedelta(days=7)
+            
+            # Create session in our database
+            session_doc = UserSession(
+                user_id=user_id,
+                session_token=session_token,
+                expires_at=expires_at
+            )
+            
+            # Remove existing sessions for this user (optional - single session per user)
+            await db.user_sessions.delete_many({"user_id": user_id})
+            
+            # Insert new session
+            await db.user_sessions.insert_one(session_doc.dict())
+            
+            # Set httpOnly cookie
+            response.set_cookie(
+                key="session_token",
+                value=session_token,
+                max_age=7*24*60*60,  # 7 days
+                path="/",
+                httponly=True,
+                secure=True,
+                samesite="none"
+            )
+            
+            # Redirect to frontend with success
+            frontend_url = "https://payment-modal-fix.preview.emergentagent.com"
+            return {
+                "success": True,
+                "redirect_url": frontend_url,
+                "message": "Authentication successful"
+            }
+            
+    except Exception as e:
+        print(f"Google OAuth error: {e}")
+        raise HTTPException(status_code=500, detail="Authentication failed")
 
 # Tour endpoints
 @api_router.get("/tours")
