@@ -323,7 +323,7 @@ def verify_token(credentials: HTTPAuthorizationCredentials = Depends(security)):
     except jwt.PyJWTError:
         raise HTTPException(status_code=401, detail="Invalid token")
 
-async def get_current_user(request: Request, credentials: HTTPAuthorizationCredentials = Depends(security)):
+async def get_current_user(request: Request, credentials: Optional[HTTPAuthorizationCredentials] = Depends(security)):
     """Get current user - supports both JWT token and session token"""
     # Try session auth first (from cookie or Authorization header)
     user = await get_current_user_from_session(request)
