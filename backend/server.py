@@ -1415,6 +1415,20 @@ async def admin_create_tour(tour_data: TourCreate, current_user: User = Depends(
     tour_dict = tour_data.dict()
     tour_dates_data = tour_dict.pop('tour_dates', [])
     
+    # Handle duration_unit to duration_hours conversion
+    duration_unit = tour_dict.get('duration_unit', 'days')
+    duration_days = tour_dict.get('duration_days', 0)
+    
+    if duration_unit == 'hours':
+        # If duration_unit is hours, duration_days actually contains hours
+        tour_dict['duration_hours'] = duration_days
+    elif duration_unit == 'days':
+        # If duration_unit is days, set duration_hours to 0 (or could be days * 24)
+        tour_dict['duration_hours'] = 0  # Business logic: 0 for day-based tours
+    else:
+        # Default fallback
+        tour_dict['duration_hours'] = 0
+    
     # Create new tour
     tour = Tour(**tour_dict, vendor_id=current_user.id)
     await db.tours.insert_one(tour.dict())
