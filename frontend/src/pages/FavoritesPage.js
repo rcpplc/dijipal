@@ -58,18 +58,28 @@ const FavoritesPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 py-12">
+      <div className="min-h-screen bg-gray-50 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="space-y-6">
-            {[...Array(3)].map((_, i) => (
-              <div key={i} className="animate-pulse bg-white rounded-xl p-6 shadow-lg">
-                <div className="flex space-x-4">
-                  <div className="bg-gray-200 w-32 h-24 rounded-lg"></div>
-                  <div className="flex-1 space-y-2">
-                    <div className="bg-gray-200 h-5 w-3/4 rounded"></div>
-                    <div className="bg-gray-200 h-4 w-1/2 rounded"></div>
-                    <div className="bg-gray-200 h-4 w-1/4 rounded"></div>
-                  </div>
+          {/* Header Skeleton */}
+          <div className="flex items-center space-x-4 mb-8">
+            <div className="flex items-center space-x-2">
+              <ArrowLeft className="w-5 h-5 text-gray-300" />
+              <span className="text-gray-300">Turlar</span>
+            </div>
+            <div className="w-32 h-8 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+
+          {/* Card Grid Skeleton */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-lg animate-pulse">
+                <div className="h-48 bg-gray-200"></div>
+                <div className="p-4 space-y-3">
+                  <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                  <div className="h-5 bg-gray-200 rounded"></div>
+                  <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                  <div className="h-4 bg-gray-200 rounded w-1/3"></div>
+                  <div className="h-10 bg-gray-200 rounded"></div>
                 </div>
               </div>
             ))}
