@@ -309,12 +309,39 @@ const PaymentSuccessPage = () => {
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Tur Tarihi</div>
                           <div className="font-semibold text-gray-900">
-                            {item?.selectedDate?.formattedDate || booking.selectedDate?.formattedDate || 
-                             new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR', {
-                               day: 'numeric',
-                               month: 'long', 
-                               year: 'numeric'
-                             })}
+                            {(() => {
+                              // Try different date sources
+                              const date = item?.selectedDate?.formattedDate || 
+                                          booking.selectedDate?.formattedDate ||
+                                          item?.selectedDate?.date ||
+                                          booking.selectedDate?.date ||
+                                          item?.tour_date ||
+                                          booking.tour_date;
+                              
+                              if (date) {
+                                // If it's already formatted, use it
+                                if (typeof date === 'string' && date.includes(' ')) {
+                                  return date;
+                                }
+                                
+                                // Otherwise format it
+                                const dateObj = new Date(date);
+                                if (!isNaN(dateObj.getTime())) {
+                                  return dateObj.toLocaleDateString('tr-TR', {
+                                    day: 'numeric',
+                                    month: 'long', 
+                                    year: 'numeric'
+                                  });
+                                }
+                              }
+                              
+                              // Default fallback
+                              return new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR', {
+                                day: 'numeric',
+                                month: 'long', 
+                                year: 'numeric'
+                              });
+                            })()}
                           </div>
                         </div>
                         
