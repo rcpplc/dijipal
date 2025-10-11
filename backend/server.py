@@ -728,12 +728,9 @@ async def google_auth_callback(request: Request, response: Response, code: str, 
             )
             
             # Redirect to frontend with success
+            from fastapi.responses import RedirectResponse
             frontend_url = "https://payment-modal-fix.preview.emergentagent.com"
-            return {
-                "success": True,
-                "redirect_url": frontend_url,
-                "message": "Authentication successful"
-            }
+            return RedirectResponse(url=frontend_url, status_code=302)
             
     except Exception as e:
         print(f"Google OAuth error: {e}")
