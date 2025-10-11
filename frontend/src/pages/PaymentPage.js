@@ -165,6 +165,96 @@ const PaymentPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
+      {/* Sözleşme Modal */}
+      {showContractModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+            <div className="flex items-center justify-between p-6 border-b">
+              <h2 className="text-xl font-semibold text-gray-900">
+                Mesafeli Satış Sözleşmesi ve KVKK Aydınlatma Metni
+              </h2>
+              <button
+                onClick={() => setShowContractModal(false)}
+                className="text-gray-400 hover:text-gray-600 text-2xl"
+              >
+                ✕
+              </button>
+            </div>
+            
+            <div className="p-6 overflow-y-auto max-h-[60vh] space-y-6">
+              {/* Mesafeli Satış Sözleşmesi */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Mesafeli Satış Sözleşmesi
+                </h3>
+                <div className="text-sm text-gray-700 space-y-3">
+                  <p>
+                    <strong>Madde 1 - Taraflar:</strong> Bu sözleşme, Mavibilet şirketi ile müşteri arasında imzalanmıştır.
+                  </p>
+                  <p>
+                    <strong>Madde 2 - Sözleşme Konusu:</strong> Bu sözleşme, müşterinin elektronik ortamda sipariş verdiği ürün/hizmetin satış ve teslimat koşullarını düzenlemektedir.
+                  </p>
+                  <p>
+                    <strong>Madde 3 - Cayma Hakkı:</strong> Müşteri, 14 gün içerisinde herhangi bir gerekçe göstermeksizin ve cezai şart ödemeksizin sözleşmeden cayma hakkına sahiptir.
+                  </p>
+                  <p>
+                    <strong>Madde 4 - Teslimat:</strong> Ürün/hizmet, en geç 30 gün içerisinde teslim edilecektir.
+                  </p>
+                  <p>
+                    <strong>Madde 5 - Ödeme:</strong> Ödeme, güvenli ödeme sistemleri üzerinden gerçekleştirilecektir.
+                  </p>
+                  <p>
+                    <strong>Madde 6 - Yürürlük:</strong> Bu sözleşme, elektronik ortamda onaylandığı tarihten itibaren yürürlüğe girer.
+                  </p>
+                </div>
+              </div>
+
+              {/* KVKK Aydınlatma Metni */}
+              <div>
+                <h3 className="text-lg font-semibold text-gray-900 mb-4">
+                  Kişisel Verilerin Korunması Kanunu (KVKK) Aydınlatma Metni
+                </h3>
+                <div className="text-sm text-gray-700 space-y-3">
+                  <p>
+                    <strong>Veri Sorumlusu:</strong> Mavibilet, kişisel verilerinizin işlenme amacını ve yöntemini belirleyen, veri işleme sisteminin kurulmasından ve yönetilmesinden sorumlu olan gerçek veya tüzel kişidir.
+                  </p>
+                  <p>
+                    <strong>Kişisel Veri:</strong> Kimliği belirli veya belirlenebilir gerçek kişiye ilişkin her türlü bilgi kişisel veri olarak tanımlanmaktadır.
+                  </p>
+                  <p>
+                    <strong>İşleme Amaçları:</strong> Kişisel verileriniz; hizmet sunumu, iletişim kurulması, yasal yükümlülüklerin yerine getirilmesi amaçlarıyla işlenmektedir.
+                  </p>
+                  <p>
+                    <strong>Saklama Süresi:</strong> Kişisel verileriniz, işleme amacının ortadan kalkmasına kadar saklanacaktır.
+                  </p>
+                  <p>
+                    <strong>Haklarınız:</strong> KVKK kapsamında bilgi talep etme, düzeltme, silme, işleme sınırlandırılmasını talep etme haklarına sahipsiniz.
+                  </p>
+                  <p>
+                    <strong>İletişim:</strong> KVKK ile ilgili başvurularınızı info@mavibilet.com adresine iletebilirsiniz.
+                  </p>
+                </div>
+              </div>
+            </div>
+            
+            <div className="p-6 border-t bg-gray-50 flex flex-col sm:flex-row gap-3">
+              <button
+                onClick={() => setShowContractModal(false)}
+                className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+              >
+                İptal Et
+              </button>
+              <button
+                onClick={handleAcceptContract}
+                className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors font-medium"
+              >
+                Kabul Ediyorum ve Devam Et
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
