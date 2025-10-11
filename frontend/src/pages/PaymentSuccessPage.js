@@ -181,6 +181,25 @@ const PaymentSuccessPage = () => {
     window.print(); // Temporary solution
   };
 
+  // Calculate individual item price (same logic as CartPage)
+  const calculateItemPrice = (item) => {
+    if (!item.selectedDate) return 0;
+
+    if (item.reservation_type === 'cabin_based') {
+      const singleTotal = (item.selectedDate.single_cabin_price || 0) * (item.singleCabinCount || 0);
+      const doubleTotal = (item.selectedDate.double_cabin_price || 0) * (item.doubleCabinCount || 0);
+      return singleTotal + doubleTotal;
+    } else if (item.reservation_type === 'person_based') {
+      const adultTotal = (item.selectedDate.person_price || 0) * (item.adultCount || 0);
+      const childTotal = (item.selectedDate.child_price || 0) * (item.childCount || 0);
+      return adultTotal + childTotal;
+    } else if (item.reservation_type === 'reservation') {
+      return item.selectedDate.total_reservation_price || 0;
+    }
+    
+    return 0;
+  };
+
   if (!booking) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
