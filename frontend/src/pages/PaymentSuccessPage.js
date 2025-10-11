@@ -370,22 +370,33 @@ const PaymentSuccessPage = () => {
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Tur Başlığı</div>
-                          <div className="font-semibold text-gray-900 text-sm">
-                            {item?.title || item?.tourTitle || item?.tour?.title || booking?.tour?.title || booking?.tourTitle || 'Mavi Yolculuk Turu'}
+                          <div className="font-semibold text-gray-900 text-sm line-clamp-2">
+                            {(() => {
+                              // Priority: Fresh tour data > item data > booking fallback
+                              const title = booking?.tour?.title || 
+                                          item?.title || 
+                                          item?.tourTitle || 
+                                          item?.tour?.title || 
+                                          booking?.tourTitle || 
+                                          'Mavi Yolculuk Turu';
+                              
+                              // Truncate very long titles
+                              return title.length > 100 ? `${title.substring(0, 100)}...` : title;
+                            })()}
                           </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Biniş Saati</div>
                           <div className="font-semibold text-gray-900">
-                            {(item || booking.tour)?.pickup_time || '09:00'}
+                            {booking?.tour?.pickup_time || item?.pickup_time || '09:00'}
                           </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">İniş Saati</div>
                           <div className="font-semibold text-gray-900">
-                            {(item || booking.tour)?.dropoff_time || '18:00'}
+                            {booking?.tour?.dropoff_time || item?.dropoff_time || '18:00'}
                           </div>
                         </div>
                         
@@ -393,12 +404,36 @@ const PaymentSuccessPage = () => {
                           <div className="text-sm text-gray-600 mb-1">Tur Süresi</div>
                           <div className="font-semibold text-gray-900">
                             {(() => {
-                              const tour = item || booking.tour || {};
-                              const duration = tour.duration || tour.duration_days || 1;
+                              // Use fresh tour data primarily
+                              const tour = booking?.tour || item?.tour || item || {};
                               
-                              if (tour.duration_unit === 'hours') return `${duration} Saat`;
-                              if (tour.duration_unit === 'days') return `${duration} Gün`;
-                              return tour.duration_days ? `${duration} Gün` : `${duration} Saat`;
+                              console.log('🔍 Tour duration debug:', {
+                                duration: tour.duration,
+                                duration_days: tour.duration_days, 
+                                duration_hours: tour.duration_hours,
+                                duration_unit: tour.duration_unit
+                              });
+                              
+                              // First try duration + duration_unit (admin panel format)
+                              if (tour.duration && tour.duration_unit) {
+                                if (tour.duration_unit === 'hours') return `${tour.duration} Saat`;
+                                if (tour.duration_unit === 'days') return `${tour.duration} Gün`;
+                              }
+                              
+                              // Then try duration_days + duration_unit
+                              if (tour.duration_days && tour.duration_unit) {
+                                if (tour.duration_unit === 'hours') return `${tour.duration_days} Saat`;
+                                if (tour.duration_unit === 'days') return `${tour.duration_days} Gün`;
+                              }
+                              
+                              // Try duration_hours specifically
+                              if (tour.duration_hours && tour.duration_hours > 0) {
+                                return `${tour.duration_hours} Saat`;
+                              }
+                              
+                              // Fallback to duration_days
+                              const fallbackDays = tour.duration_days || tour.duration || 1;
+                              return tour.duration_days ? `${fallbackDays} Gün` : `${fallbackDays} Saat`;
                             })()}
                           </div>
                         </div>
@@ -407,11 +442,16 @@ const PaymentSuccessPage = () => {
                           <div className="text-sm text-gray-600 mb-1">Sınıf</div>
                           <div className="font-semibold text-gray-900">
                             {(() => {
-                              const tour = item || booking.tour || {};
+                              // Use fresh tour data primarily
+                              const tour = booking?.tour || item?.tour || item || {};
                               const classification = tour.classification;
-                              return classification ? 
-                                classification.charAt(0).toUpperCase() + classification.slice(1) : 
-                                'Standart';
+                              
+                              console.log('🔍 Classification debug:', classification);
+                              
+                              if (!classification || classification === 'standart') return 'Standart';
+                              
+                              // Capitalize first letter (delux -> Delux)
+                              return classification.charAt(0).toUpperCase() + classification.slice(1);
                             })()}
                           </div>
                         </div>
