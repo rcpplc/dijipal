@@ -202,33 +202,27 @@ const PaymentSuccessPage = () => {
     );
   }
 
-  // Handle multiple bookings - exact same logic as BookingPage
+  // Handle multiple bookings - EXACT same logic as BookingPage
   const bookingItems = (() => {
-    console.log('Determining bookingItems...');
-    console.log('location.state?.fromCart:', location.state?.fromCart);
-    console.log('location.state?.cartItems:', location.state?.cartItems);
-    console.log('booking?.cartItems:', booking?.cartItems);
+    console.log('🔍 PaymentSuccessPage - Determining bookingItems...');
+    console.log('🔍 location.state?.fromCart:', location.state?.fromCart);
+    console.log('🔍 location.state?.cartItems:', location.state?.cartItems);
+    console.log('🔍 booking?.cartItems:', booking?.cartItems);
     
-    // Priority 1: Check location.state.cartItems (from cart flow)
-    if (location.state?.fromCart && location.state?.cartItems && Array.isArray(location.state.cartItems)) {
-      console.log('Using location.state.cartItems:', location.state.cartItems);
+    // BookingPage mantığı: Önce location.state?.fromCart && location.state?.cartItems kontrol et
+    if (location.state?.fromCart && location.state?.cartItems) {
+      console.log('✅ Using location.state.cartItems (from cart flow):', location.state.cartItems);
       return location.state.cartItems;
     }
     
-    // Priority 2: Check booking.cartItems (from booking data)
-    if (booking?.cartItems && Array.isArray(booking.cartItems) && booking.cartItems.length > 0) {
-      console.log('Using booking.cartItems:', booking.cartItems);
-      return booking.cartItems;
-    }
-    
-    // Priority 3: Single booking fallback
+    // Tek booking fallback (direct booking flow)
     if (booking && booking.tour) {
-      console.log('Using single booking fallback');
+      console.log('✅ Using single booking fallback (direct booking)');
       return [booking];
     }
     
-    // Priority 4: Mock data for testing
-    console.log('Using mock data fallback');
+    // Mock data for testing
+    console.log('⚠️ Using mock data fallback');
     return [
       {
         id: 'mock-1',
