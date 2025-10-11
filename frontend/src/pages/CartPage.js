@@ -310,11 +310,7 @@ const CartPage = () => {
                   </div>
                   
                   <div className="border-t pt-3 space-y-3 text-sm text-gray-600">
-                    {/* Ara Toplam */}
-                    <div className="flex justify-between">
-                      <span>Ara Toplam:</span>
-                      <span>₺{calculatePriceBreakdown().totalWithoutVAT.toLocaleString('tr-TR', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</span>
-                    </div>
+
 
                     {/* KDV Hariç Tutar */}
                     <div className="flex justify-between">
