@@ -19,12 +19,12 @@ const CartBottomBar = ({ totalPrice, itemCount, onCheckout }) => {
           </div>
         </div>
 
-        {/* Devam Et Butonu */}
+        {/* Rezervasyon Tamamla Butonu */}
         <button
-          onClick={() => navigate('/booking')}
+          onClick={onCheckout}
           className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2.5 rounded-lg font-medium transition-colors duration-200 text-sm"
         >
-          Sepet Özeti
+          Rezervasyon Tamamla
         </button>
       </div>
     </div>
