@@ -484,9 +484,13 @@ class PaymentSuccessDebugTester:
         print("\n💳 STEP 6: Simulate Booking Data Structure")
         booking_ok, booking_data = self.simulate_booking_data_structure(tour_data, tour_dates)
         
-        # Step 7: Root Cause Analysis
-        print("\n🔍 STEP 7: Root Cause Analysis")
-        self.perform_root_cause_analysis(tour_data, field_issues)
+        # Step 7: Analyze All Tours for Data Issues
+        print("\n📊 STEP 7: Analyze All Tours for Data Issues")
+        all_tours_ok, problematic_tours = self.test_all_tours_data_analysis()
+        
+        # Step 8: Root Cause Analysis
+        print("\n🔍 STEP 8: Root Cause Analysis")
+        self.perform_root_cause_analysis(tour_data, field_issues, problematic_tours)
         
         # Print final results
         self.print_final_results()
