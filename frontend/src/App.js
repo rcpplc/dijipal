@@ -272,9 +272,10 @@ function App() {
   };
 
   return (
-    <AuthContext.Provider value={authValue}>
-      <div className="App min-h-screen flex flex-col bg-gray-50">
-        <BrowserRouter>
+    <GoogleOAuthProvider clientId="412446824095-f83a2663p9logb15t88e25jnt79r9ep9.apps.googleusercontent.com">
+      <AuthContext.Provider value={authValue}>
+        <div className="App min-h-screen flex flex-col bg-gray-50">
+          <BrowserRouter>
           <ScrollToTop />
           <Header />
           
