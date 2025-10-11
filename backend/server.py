@@ -578,7 +578,8 @@ async def google_auth_redirect(request: Request):
     
     # Get Google OAuth settings from environment
     client_id = os.environ.get('GOOGLE_CLIENT_ID')
-    redirect_uri = f"{request.base_url}api/auth/google/callback"
+    # Force HTTPS for production - Kubernetes proxy causes request.base_url to be HTTP
+    redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
     
     if not client_id:
         raise HTTPException(status_code=500, detail="Google OAuth not configured")
