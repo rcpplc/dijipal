@@ -327,33 +327,62 @@ const PaymentSuccessPage = () => {
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Biniş Saati</div>
-                          <div className="font-semibold text-gray-900">09:00</div>
+                          <div className="font-semibold text-gray-900">
+                            {item?.pickup_time || booking.tour?.pickup_time || '09:00'}
+                          </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">İniş Saati</div>
-                          <div className="font-semibold text-gray-900">18:00</div>
+                          <div className="font-semibold text-gray-900">
+                            {item?.dropoff_time || booking.tour?.dropoff_time || '18:00'}
+                          </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Tur Süresi</div>
                           <div className="font-semibold text-gray-900">
-                            {item?.duration || booking.tour?.duration || '1'} Gün
+                            {(() => {
+                              const days = item?.duration_days || booking.tour?.duration_days || 1;
+                              const hours = item?.duration_hours || booking.tour?.duration_hours || 0;
+                              
+                              if (days > 0 && hours > 0) {
+                                return `${days} Gün, ${hours} Saat`;
+                              } else if (days > 0) {
+                                return `${days} Gün`;
+                              } else if (hours > 0) {
+                                return `${hours} Saat`;
+                              } else {
+                                return '1 Gün';
+                              }
+                            })()}
                           </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Sınıf</div>
                           <div className="font-semibold text-gray-900">
-                            {(item?.reservation_type || booking.reservationDetails?.type) === 'cabin_based' ? 'Kabin' : 
-                             (item?.reservation_type || booking.reservationDetails?.type) === 'person_based' ? 'Standart' : 'Premium'}
+                            {(() => {
+                              const classification = item?.classification || booking.tour?.classification || 'standart';
+                              switch (classification.toLowerCase()) {
+                                case 'lux':
+                                  return 'Lüks';
+                                case 'delux':
+                                  return 'Delüks';
+                                case 'premium':
+                                  return 'Premium';
+                                case 'standart':
+                                default:
+                                  return 'Standart';
+                              }
+                            })()}
                           </div>
                         </div>
                         
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Lokasyon</div>
                           <div className="font-semibold text-gray-900">
-                            {item?.location || booking.tour?.location || 'Göcek'}
+                            {item?.location || booking.tour?.location || 'Belirtilmemiş'}
                           </div>
                         </div>
                       </div>
