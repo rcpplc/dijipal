@@ -214,6 +214,12 @@ const ProfilePage = () => {
           console.error('Error loading notification settings:', error);
         }
       }
+      
+      // Load account status from localStorage
+      const storedAccountStatus = localStorage.getItem(`account_status_${user.id}`);
+      if (storedAccountStatus) {
+        setAccountStatus(storedAccountStatus);
+      }
     }
   }, [user]);
 
