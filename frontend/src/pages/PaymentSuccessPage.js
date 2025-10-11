@@ -202,23 +202,36 @@ const PaymentSuccessPage = () => {
     );
   }
 
-  // Handle multiple bookings from cart or single booking
+  // Handle multiple bookings - exact same logic as BookingPage
   const bookingItems = (() => {
-    // If coming from cart with multiple items
-    if (booking?.cartItems && Array.isArray(booking.cartItems) && booking.cartItems.length > 0) {
-      return booking.cartItems;
-    }
-    // If location state has cartItems (from cart flow)
-    if (location.state?.cartItems && Array.isArray(location.state.cartItems) && location.state.cartItems.length > 0) {
+    console.log('Determining bookingItems...');
+    console.log('location.state?.fromCart:', location.state?.fromCart);
+    console.log('location.state?.cartItems:', location.state?.cartItems);
+    console.log('booking?.cartItems:', booking?.cartItems);
+    
+    // Priority 1: Check location.state.cartItems (from cart flow)
+    if (location.state?.fromCart && location.state?.cartItems && Array.isArray(location.state.cartItems)) {
+      console.log('Using location.state.cartItems:', location.state.cartItems);
       return location.state.cartItems;
     }
-    // Single booking fallback
-    if (booking) {
+    
+    // Priority 2: Check booking.cartItems (from booking data)
+    if (booking?.cartItems && Array.isArray(booking.cartItems) && booking.cartItems.length > 0) {
+      console.log('Using booking.cartItems:', booking.cartItems);
+      return booking.cartItems;
+    }
+    
+    // Priority 3: Single booking fallback
+    if (booking && booking.tour) {
+      console.log('Using single booking fallback');
       return [booking];
     }
-    // Fallback to mock data for testing
+    
+    // Priority 4: Mock data for testing
+    console.log('Using mock data fallback');
     return [
       {
+        id: 'mock-1',
         title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
         location: 'Muğla, Göcek',
         duration: '4',
@@ -230,9 +243,25 @@ const PaymentSuccessPage = () => {
           single_cabin_price: 4000,
           double_cabin_price: 6000
         }
+      },
+      {
+        id: 'mock-2',
+        title: 'Bodrum Günübirlik Tekne Turu',
+        location: 'Bodrum Marina', 
+        duration: '1',
+        reservation_type: 'person_based',
+        adultCount: 2,
+        childCount: 1,
+        selectedDate: {
+          formattedDate: '20 Ocak 2025',
+          person_price: 800,
+          child_price: 400
+        }
       }
     ];
   })();
+  
+  console.log('Final bookingItems:', bookingItems);
 
   return (
     <div className="min-h-screen bg-gray-50">
