@@ -993,51 +993,110 @@ const AdminPage = () => {
                         </th>
                       </tr>
                     </thead>
-                  <tbody className="bg-white divide-y divide-gray-200">
-                    {users.map((user) => (
-                      <tr key={user.id} className="hover:bg-gray-50">
-                        <td className="py-4 px-4">
-                          <div className="flex items-center">
-                            <div className="flex-shrink-0 w-10 h-10">
-                              <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
-                                <span className="text-blue-600 font-medium text-sm">
-                                  {user.full_name.charAt(0)}
-                                </span>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {users.map((user) => (
+                        <tr key={user.id} className="hover:bg-gray-50">
+                          <td className="py-4 px-4">
+                            <div className="flex items-center">
+                              <div className="flex-shrink-0 w-10 h-10">
+                                <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-400 to-purple-500 flex items-center justify-center">
+                                  <span className="text-white font-bold text-sm">
+                                    {(user.full_name || user.email)?.charAt(0)?.toUpperCase()}
+                                  </span>
+                                </div>
+                              </div>
+                              <div className="ml-4">
+                                <p className="font-medium text-gray-900">{user.full_name}</p>
+                                <p className="text-sm text-gray-600">{user.email}</p>
+                                <div className="md:hidden">
+                                  <span className={`inline-block mt-1 px-2 py-1 rounded-full text-xs font-medium ${
+                                    user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 'bg-gray-100 text-gray-800'
+                                  }`}>
+                                    {user.role === 'admin' ? 'Admin' : user.role === 'staff' ? 'Personel' : 'Müşteri'}
+                                  </span>
+                                </div>
                               </div>
                             </div>
-                            <div className="ml-4">
-                              <p className="font-medium text-gray-900">{user.full_name}</p>
-                              <p className="text-sm text-gray-600">{user.email}</p>
+                          </td>
+                          <td className="hidden md:table-cell py-4 px-4">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              user.role === 'admin' ? 'bg-purple-100 text-purple-800' : 
+                              user.role === 'staff' ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'
+                            }`}>
+                              {user.role === 'admin' ? 'Admin' : user.role === 'staff' ? 'Personel' : 'Müşteri'}
+                            </span>
+                          </td>
+                          <td className="hidden sm:table-cell py-4 px-4">
+                            <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              (user.status || 'active') === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+                            }`}>
+                              {(user.status || 'active') === 'active' ? 'Aktif' : 'Pasif'}
+                            </span>
+                          </td>
+                          <td className="hidden lg:table-cell py-4 px-4 text-gray-700">
+                            {user.created_at ? new Date(user.created_at).toLocaleDateString('tr-TR') : '-'}
+                          </td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center space-x-2">
+                              <button
+                                onClick={() => openUserModal(user)}
+                                className="text-blue-600 hover:text-blue-700 p-1 rounded transition-colors"
+                                title="Düzenle"
+                              >
+                                <Edit2 className="w-4 h-4" />
+                              </button>
+                              
+                              <button
+                                onClick={() => toggleUserStatus(user.id, user.status || 'active')}
+                                className={`p-1 rounded transition-colors ${
+                                  (user.status || 'active') === 'active' 
+                                    ? 'text-orange-600 hover:text-orange-700' 
+                                    : 'text-green-600 hover:text-green-700'
+                                }`}
+                                title={(user.status || 'active') === 'active' ? 'Pasif Et' : 'Aktif Et'}
+                              >
+                                {(user.status || 'active') === 'active' ? 
+                                  <UserX className="w-4 h-4" /> : 
+                                  <UserCheck className="w-4 h-4" />
+                                }
+                              </button>
+                              
+                              {user.role !== 'admin' && (
+                                <button
+                                  onClick={() => {
+                                    setSelectedUser(user);
+                                    setShowDeleteUserConfirm(true);
+                                  }}
+                                  className="text-red-600 hover:text-red-700 p-1 rounded transition-colors"
+                                  title="Sil"
+                                >
+                                  <Trash2 className="w-4 h-4" />
+                                </button>
+                              )}
                             </div>
-                          </div>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            user.role === 'admin'
-                              ? 'bg-purple-100 text-purple-800'
-                              : 'bg-gray-100 text-gray-800'
-                          }`}>
-                            {user.role === 'admin' ? 'Admin' : 'Kullanıcı'}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            user.is_active
-                              ? 'bg-green-100 text-green-800'
-                              : 'bg-red-100 text-red-800'
-                          }`}>
-                            {user.is_active ? 'Aktif' : 'Pasif'}
-                          </span>
-                        </td>
-                        <td className="py-4 px-4 text-gray-700">
-                          {new Date(user.created_at).toLocaleDateString('tr-TR')}
-                        </td>
-                        <td className="py-4 px-4">
-                          {user.role !== 'admin' && (
-                            <button
-                              onClick={() => handleToggleUserStatus(user.id)}
-                              className={`px-3 py-1 rounded text-sm font-medium transition-colors duration-200 ${
-                                user.is_active
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+                
+                {users.length === 0 && (
+                  <div className="text-center py-16">
+                    <div className="text-4xl mb-4">👥</div>
+                    <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                      Henüz kullanıcı yok
+                    </h3>
+                    <p className="text-gray-600 mb-4">
+                      İlk kullanıcıyı ekleyerek başlayın
+                    </p>
+                    <button
+                      onClick={() => setShowUserModal(true)}
+                      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg transition-colors duration-200"
+                    >
+                      Kullanıcı Ekle
+                    </button>
+                  </div>
                                   ? 'bg-red-100 text-red-800 hover:bg-red-200'
                                   : 'bg-green-100 text-green-800 hover:bg-green-200'
                               }`}
