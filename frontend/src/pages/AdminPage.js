@@ -5512,6 +5512,198 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
       </div>
     </div>
   );
+
+  // User Modal Component
+  const UserModal = () => {
+    if (!showUserModal) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg shadow-xl max-w-md w-full max-h-[90vh] overflow-y-auto">
+          <div className="p-6 border-b border-gray-200">
+            <div className="flex justify-between items-center">
+              <h3 className="text-lg font-semibold text-gray-900">
+                {editingUser ? 'Kullanıcı Düzenle' : 'Yeni Kullanıcı Ekle'}
+              </h3>
+              <button
+                onClick={() => setShowUserModal(false)}
+                className="text-gray-400 hover:text-gray-600"
+              >
+                <X className="w-6 h-6" />
+              </button>
+            </div>
+          </div>
+          
+          <form onSubmit={handleUserSubmit} className="p-6">
+            <div className="space-y-4">
+              {/* Ad Soyad */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Ad Soyad *
+                </label>
+                <input
+                  type="text"
+                  value={userFormData.full_name}
+                  onChange={(e) => setUserFormData({...userFormData, full_name: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* E-posta */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  E-posta *
+                </label>
+                <input
+                  type="email"
+                  value={userFormData.email}
+                  onChange={(e) => setUserFormData({...userFormData, email: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required
+                />
+              </div>
+
+              {/* Telefon */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Telefon
+                </label>
+                <input
+                  type="tel"
+                  value={userFormData.phone}
+                  onChange={(e) => setUserFormData({...userFormData, phone: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  placeholder="05XX XXX XX XX"
+                />
+              </div>
+
+              {/* Yetkilendirme */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Yetkilendirme *
+                </label>
+                <select
+                  value={userFormData.role}
+                  onChange={(e) => setUserFormData({...userFormData, role: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="customer">Müşteri</option>
+                  <option value="staff">Personel</option>
+                  <option value="admin">Admin</option>
+                </select>
+              </div>
+
+              {/* Şifre */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Şifre {editingUser && '*'}
+                </label>
+                <input
+                  type="password"
+                  value={userFormData.password}
+                  onChange={(e) => setUserFormData({...userFormData, password: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  required={!editingUser}
+                  placeholder={editingUser ? 'Değiştirmek için yeni şifre girin' : 'Şifre belirleyin'}
+                />
+              </div>
+
+              {/* Durum */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Durum
+                </label>
+                <select
+                  value={userFormData.status}
+                  onChange={(e) => setUserFormData({...userFormData, status: e.target.value})}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  <option value="active">Aktif</option>
+                  <option value="inactive">Pasif</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="flex justify-end space-x-3 mt-6">
+              <button
+                type="button"
+                onClick={() => setShowUserModal(false)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                İptal
+              </button>
+              <button
+                type="submit"
+                disabled={loading}
+                className="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white px-6 py-2 rounded-lg transition-colors flex items-center space-x-2"
+              >
+                {loading && (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                )}
+                <span>{editingUser ? 'Güncelle' : 'Oluştur'}</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    );
+  };
+
+  // Delete User Confirmation Modal
+  const DeleteUserConfirmModal = () => {
+    if (!showDeleteUserConfirm) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+        <div className="bg-white rounded-lg shadow-xl max-w-md w-full">
+          <div className="p-6">
+            <div className="flex items-center mb-4">
+              <AlertCircle className="w-6 h-6 text-red-600 mr-3" />
+              <h3 className="text-lg font-semibold text-gray-900">
+                Kullanıcı Silme Onayı
+              </h3>
+            </div>
+            
+            <p className="text-gray-600 mb-4">
+              <span className="font-medium">{selectedUser?.full_name}</span> kullanıcısını silmek istediğinizden emin misiniz? 
+              Bu işlem geri alınamaz.
+            </p>
+            
+            <div className="flex justify-end space-x-3">
+              <button
+                onClick={() => setShowDeleteUserConfirm(false)}
+                className="px-4 py-2 text-gray-600 hover:text-gray-800 transition-colors"
+              >
+                İptal
+              </button>
+              <button
+                onClick={handleDeleteUser}
+                disabled={loading}
+                className="bg-red-600 hover:bg-red-700 disabled:bg-red-400 text-white px-4 py-2 rounded-lg transition-colors flex items-center space-x-2"
+              >
+                {loading && (
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                )}
+                <span>Sil</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Content */}
+      {renderContent()}
+      
+      {/* Modals */}
+      <UserModal />
+      <DeleteUserConfirmModal />
+    </div>
+  );
 };
 
 export default AdminPage;
