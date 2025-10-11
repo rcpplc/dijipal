@@ -497,18 +497,33 @@ class PaymentSuccessDebugTester:
         
         return fields_ok
 
-    def perform_root_cause_analysis(self, tour_data, field_issues):
+    def perform_root_cause_analysis(self, tour_data, field_issues, problematic_tours=None):
         """Perform root cause analysis of the field mapping issues"""
         print("🔍 Root Cause Analysis...")
         
-        if not field_issues:
-            print("   ✅ No field mapping issues found - data is correct")
-            self.log_test("Root Cause Analysis", True, "No issues found in tour data mapping")
+        if not field_issues and (not problematic_tours or len(problematic_tours) == 0):
+            print("   ✅ No field mapping issues found in specific tour")
+            if problematic_tours is not None:
+                print("   ✅ No problematic tours found in database")
+            print("   💡 CONCLUSION: The reported issue might be:")
+            print("      • Frontend data handling problem")
+            print("      • Different tour than the one analyzed")
+            print("      • Caching issue showing old data")
+            print("      • User testing with different booking data")
+            self.log_test("Root Cause Analysis", True, "No backend data issues found - likely frontend issue")
             return
         
-        print("   📋 Issues Found:")
-        for issue in field_issues:
-            print(f"      • {issue}")
+        if field_issues:
+            print("   📋 Issues Found in Specific Tour:")
+            for issue in field_issues:
+                print(f"      • {issue}")
+        
+        if problematic_tours and len(problematic_tours) > 0:
+            print(f"   📋 Found {len(problematic_tours)} tours with potential data issues:")
+            for tour in problematic_tours[:3]:  # Show first 3
+                print(f"      • Tour: {tour['title']}")
+                for issue in tour['issues']:
+                    print(f"        - {issue}")
         
         # Analyze potential causes
         duration_unit = tour_data.get('duration_unit')
@@ -547,7 +562,19 @@ class PaymentSuccessDebugTester:
             print(f"         • Current dropoff_time: {dropoff_time}")
             print("      💡 FIX: Tour times should be updated to pickup_time='12:00', dropoff_time='21:00'")
         
-        self.log_test("Root Cause Analysis", False, f"Found {len(field_issues)} field mapping issues", field_issues)
+        # General database issues
+        if problematic_tours and len(problematic_tours) > 0:
+            print("      🔍 DATABASE CONSISTENCY ISSUES:")
+            print("      💡 RECOMMENDATIONS:")
+            print("         • Review tour data creation/update logic")
+            print("         • Ensure duration_unit conversion is working properly")
+            print("         • Check admin panel field mapping")
+            print("         • Verify default values are not overriding user input")
+        
+        has_issues = bool(field_issues) or (problematic_tours and len(problematic_tours) > 0)
+        self.log_test("Root Cause Analysis", not has_issues, 
+                     f"Found issues in {len(field_issues)} specific fields and {len(problematic_tours) if problematic_tours else 0} tours", 
+                     {"field_issues": field_issues, "problematic_tours_count": len(problematic_tours) if problematic_tours else 0})
 
     def print_final_results(self):
         """Print comprehensive test results"""
