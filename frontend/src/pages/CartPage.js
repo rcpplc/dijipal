@@ -273,7 +273,7 @@ const CartPage = () => {
                 <button
                   onClick={handleCheckout}
                   disabled={cartItems.length === 0}
-                  className="w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
+                  className="hidden lg:block w-full bg-blue-600 text-white font-medium py-3 px-4 rounded-lg hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition-colors"
                 >
                   {!user ? 'Giriş Yap & Rezervasyon Tamamla' : 'Rezervasyon Tamamla'}
                 </button>
