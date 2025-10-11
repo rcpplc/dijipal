@@ -739,40 +739,109 @@ const ProfilePage = () => {
               <h2 className="text-xl font-bold text-gray-900 mb-6">Ayarlar</h2>
               
               <div className="space-y-6">
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">Bildirim Tercihleri</h3>
-                  <div className="space-y-3">
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded" defaultChecked />
-                      <span className="text-sm text-gray-700">E-posta bildirimleri</span>
+                {/* Bildirim Tercihleri */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center">
+                      <Bell className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Bildirim Tercihleri</h3>
+                      <p className="text-sm text-gray-600">Hangi bildirimleri almak istediğinizi seçin</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <label className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <Mail className="w-5 h-5 text-gray-400" />
+                        <div>
+                          <span className="font-medium text-gray-900">E-posta bildirimleri</span>
+                          <p className="text-sm text-gray-600">Rezervasyon onayları ve güncellemeleri</p>
+                        </div>
+                      </div>
+                      <input 
+                        type="checkbox" 
+                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                        checked={notificationSettings.email_notifications}
+                        onChange={(e) => updateNotificationSettings({
+                          ...notificationSettings,
+                          email_notifications: e.target.checked
+                        })}
+                      />
                     </label>
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded" defaultChecked />
-                      <span className="text-sm text-gray-700">SMS bildirimleri</span>
+                    
+                    <label className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <Phone className="w-5 h-5 text-gray-400" />
+                        <div>
+                          <span className="font-medium text-gray-900">SMS bildirimleri</span>
+                          <p className="text-sm text-gray-600">Acil bildirimler ve hatırlatmalar</p>
+                        </div>
+                      </div>
+                      <input 
+                        type="checkbox" 
+                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                        checked={notificationSettings.sms_notifications}
+                        onChange={(e) => updateNotificationSettings({
+                          ...notificationSettings,
+                          sms_notifications: e.target.checked
+                        })}
+                      />
                     </label>
-                    <label className="flex items-center space-x-3">
-                      <input type="checkbox" className="rounded" />
-                      <span className="text-sm text-gray-700">Pazarlama e-postaları</span>
+                    
+                    <label className="flex items-center justify-between p-3 bg-white rounded-lg border border-gray-200 cursor-pointer hover:bg-gray-50 transition-colors">
+                      <div className="flex items-center space-x-3">
+                        <Star className="w-5 h-5 text-gray-400" />
+                        <div>
+                          <span className="font-medium text-gray-900">Pazarlama e-postaları</span>
+                          <p className="text-sm text-gray-600">Özel teklifler ve kampanyalar</p>
+                        </div>
+                      </div>
+                      <input 
+                        type="checkbox" 
+                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500" 
+                        checked={notificationSettings.marketing_emails}
+                        onChange={(e) => updateNotificationSettings({
+                          ...notificationSettings,
+                          marketing_emails: e.target.checked
+                        })}
+                      />
                     </label>
                   </div>
                 </div>
 
-                <div className="bg-gray-50 rounded-lg p-6">
-                  <h3 className="font-semibold text-gray-900 mb-3">Güvenlik</h3>
+                {/* Güvenlik */}
+                <div className="bg-gray-50 rounded-xl p-6 border border-gray-200">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center">
+                      <Shield className="w-5 h-5 text-green-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-gray-900">Güvenlik</h3>
+                      <p className="text-sm text-gray-600">Hesap güvenliğinizi yönetin</p>
+                    </div>
+                  </div>
                   
                   {!passwordMode ? (
-                    <div className="space-y-3">
-                      <button 
-                        onClick={() => setPasswordMode(true)}
-                        className="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors duration-200"
-                      >
-                        Şifre Değiştir
-                      </button>
+                    <div className="bg-white rounded-lg border border-gray-200 p-4">
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <h4 className="font-medium text-gray-900">Şifre</h4>
+                          <p className="text-sm text-gray-600">Son değiştirme: 2 ay önce</p>
+                        </div>
+                        <button 
+                          onClick={() => setPasswordMode(true)}
+                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                        >
+                          Şifre Değiştir
+                        </button>
+                      </div>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="bg-white rounded-lg border border-gray-200 p-4 space-y-4">
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
                           Mevcut Şifre
                         </label>
                         <input
@@ -783,11 +852,12 @@ const ProfilePage = () => {
                             current_password: e.target.value
                           }))}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Mevcut şifrenizi girin"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
                           Yeni Şifre
                         </label>
                         <input
@@ -798,11 +868,12 @@ const ProfilePage = () => {
                             new_password: e.target.value
                           }))}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Yeni şifrenizi girin (min. 6 karakter)"
                         />
                       </div>
                       
                       <div>
-                        <label className="block text-sm font-medium text-gray-700 mb-1">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
                           Yeni Şifre Tekrar
                         </label>
                         <input
@@ -813,13 +884,14 @@ const ProfilePage = () => {
                             confirm_password: e.target.value
                           }))}
                           className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                          placeholder="Yeni şifrenizi tekrar girin"
                         />
                       </div>
                       
-                      <div className="flex space-x-3">
+                      <div className="flex space-x-3 pt-2">
                         <button
                           onClick={handlePasswordChange}
-                          className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                          className="flex-1 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
                         >
                           Şifreyi Değiştir
                         </button>
@@ -832,7 +904,7 @@ const ProfilePage = () => {
                               confirm_password: ''
                             });
                           }}
-                          className="bg-gray-300 hover:bg-gray-400 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                          className="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
                         >
                           İptal
                         </button>
@@ -841,25 +913,59 @@ const ProfilePage = () => {
                   )}
                 </div>
 
-                <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-                  <h3 className="font-semibold text-red-900 mb-3">Hesap İşlemleri</h3>
+                {/* Hesap İşlemleri */}
+                <div className="bg-red-50 border border-red-200 rounded-xl p-6">
+                  <div className="flex items-center space-x-3 mb-4">
+                    <div className="w-10 h-10 bg-red-100 rounded-lg flex items-center justify-center">
+                      <Settings className="w-5 h-5 text-red-600" />
+                    </div>
+                    <div>
+                      <h3 className="font-semibold text-red-900">Hesap İşlemleri</h3>
+                      <p className="text-sm text-red-700">Hesabınızla ilgili önemli işlemler</p>
+                    </div>
+                  </div>
+                  
                   <div className="space-y-3">
-                    <button className="text-red-600 hover:text-red-700 text-sm font-medium transition-colors duration-200">
-                      Hesabı Devre Dışı Bırak
-                    </button>
-                    <br />
-                    <button className="text-red-600 hover:text-red-700 text-sm font-medium transition-colors duration-200">
-                      Hesabı Sil
-                    </button>
+                    <div className="bg-white rounded-lg border border-red-200 p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h4 className="font-medium text-red-900">Hesabı Devre Dışı Bırak</h4>
+                          <p className="text-sm text-red-700">Hesabınızı geçici olarak devre dışı bırakın</p>
+                        </div>
+                        <button 
+                          onClick={deactivateAccount}
+                          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200"
+                        >
+                          Devre Dışı Bırak
+                        </button>
+                      </div>
+                    </div>
+                    
+                    <div className="bg-white rounded-lg border border-red-200 p-4">
+                      <div className="flex items-center justify-between mb-2">
+                        <div>
+                          <h4 className="font-medium text-red-900">Hesabı Kalıcı Olarak Sil</h4>
+                          <p className="text-sm text-red-700">Bu işlem geri alınamaz!</p>
+                        </div>
+                        <button 
+                          onClick={deleteAccount}
+                          className="bg-red-700 hover:bg-red-800 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors duration-200 flex items-center space-x-2"
+                        >
+                          <Trash2 className="w-4 h-4" />
+                          <span>Hesabı Sil</span>
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
 
-                <div className="pt-6 border-t border-gray-100">
+                {/* Çıkış Yap */}
+                <div className="pt-6 border-t border-gray-200">
                   <button
                     onClick={logout}
-                    className="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200"
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white px-6 py-3 rounded-lg font-medium transition-colors duration-200 flex items-center justify-center space-x-2"
                   >
-                    Çıkış Yap
+                    <span>Çıkış Yap</span>
                   </button>
                 </div>
               </div>
