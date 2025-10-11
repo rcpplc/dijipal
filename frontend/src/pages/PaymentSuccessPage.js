@@ -49,68 +49,10 @@ const PaymentSuccessPage = () => {
       setBooking(bookingWithCart);
       setPaymentAmount(location.state.paymentAmount || 0);
     } else {
-      // For testing purposes, create mock data with multiple bookings
-      const mockBooking = {
-        id: 'booking-test-684824',
-        tour: {
-          title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
-          duration: '4',
-          location: 'Muğla, Göcek'
-        },
-        selectedDate: {
-          formattedDate: '15 Ocak 2025'
-        },
-        reservationDetails: {
-          type: 'cabin_based',
-          singleCabinCount: 2,
-          doubleCabinCount: 1
-        },
-        customerInfo: {
-          firstName: 'Recep',
-          lastName: 'PALİÇ',
-          email: 'admin@example.com',
-          phone: '0533 413 53 35'
-        },
-        // Multiple cart items for testing - matching CartPage structure
-        cartItems: [
-          {
-            id: 'item-1',
-            tourId: 'tour-1',
-            title: 'Fethiye – Göcek 3 Gece 4 Gün Kabin Turu',
-            location: 'Muğla, Göcek',
-            duration: '4',
-            reservation_type: 'cabin_based',
-            singleCabinCount: 1,
-            doubleCabinCount: 1,
-            selectedDate: {
-              formattedDate: '15 Ocak 2025',
-              single_cabin_price: 4000,
-              double_cabin_price: 6000
-            }
-          },
-          {
-            id: 'item-2', 
-            tourId: 'tour-2',
-            title: 'Bodrum Günübirlik Tekne Turu',
-            location: 'Bodrum Marina',
-            duration: '1',
-            reservation_type: 'person_based',
-            adultCount: 2,
-            childCount: 1,
-            selectedDate: {
-              formattedDate: '20 Ocak 2025',
-              person_price: 800,
-              child_price: 400
-            }
-          }
-        ]
-      };
-      
-      setBooking(mockBooking);
-      setPaymentAmount(14400); // Total: 10000 + 2000 = 12000 + KDV (%20) = 14400
-      
-      // Comment out redirect for testing
-      // navigate('/profile?tab=bookings');
+      // No booking data found - redirect to home
+      console.error('❌ PaymentSuccessPage: No booking data found');
+      navigate('/');
+      return;
     }
   }, [location.state, user, navigate]);
 
