@@ -66,12 +66,26 @@ function App() {
     }
   }, [token]);
 
-  // Handle session_id from Google OAuth redirect
+  // Check for existing session or handle OAuth callback
   useEffect(() => {
-    const handleSessionId = async () => {
+    const initializeAuth = async () => {
+      // First, always check for existing session (cookie-based)
+      setLoading(true);
+      try {
+        const response = await axios.get(`${API}/auth/me`);
+        if (response.data.user) {
+          setUser(response.data.user);
+          console.log('✅ Existing session found:', response.data.user);
+          setLoading(false);
+          return; // Exit early if existing session found
+        }
+      } catch (error) {
+        console.log('No existing session, checking for OAuth callback');
+      }
+
+      // Check for session_id from Google OAuth redirect
       const hash = window.location.hash;
       if (hash.includes('session_id=')) {
-        setLoading(true);
         try {
           // Extract session_id from URL fragment
           const sessionId = hash.split('session_id=')[1].split('&')[0];
@@ -96,16 +110,13 @@ function App() {
           }
         } catch (error) {
           console.error('❌ Session processing failed:', error);
-        } finally {
-          setLoading(false);
         }
-      } else {
-        // Check existing session if no session_id
-        checkExistingSession();
       }
+      
+      setLoading(false);
     };
 
-    handleSessionId();
+    initializeAuth();
   }, []);
 
   // Check existing session from cookie
