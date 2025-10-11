@@ -143,7 +143,9 @@ const PaymentPage = () => {
       navigate('/payment-success', {
         state: {
           booking: { ...booking, status: 'confirmed', paymentStatus: 'paid' },
-          paymentAmount: booking?.totalPrice || 0
+          paymentAmount: booking?.totalPrice || 0,
+          cartItems: booking?.cartItems || (location.state?.cartItems ? location.state.cartItems : null),
+          fromCart: booking?.fromCart || location.state?.fromCart || false
         }
       });
       
