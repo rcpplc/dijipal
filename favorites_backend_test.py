@@ -11,7 +11,7 @@ import time
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://reservation-system-2.preview.emergentagent.com/api"
+BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
 
 class FavoritesAPITester:
     def __init__(self):
