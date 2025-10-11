@@ -878,7 +878,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "HomePage Search Functionality Testing"
+    - "Admin Panel Complete CRUD Frontend Test"
   stuck_tasks:
     - "Complete E2E Reservation System Testing (Turkish Review Request)"
   test_all: false
