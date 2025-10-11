@@ -345,34 +345,96 @@ const RichTextEditor = ({
           font-size: 1.5em;
           font-weight: bold;
           margin: 0.5em 0;
+          line-height: 1.3;
         }
         [contenteditable] h2 {
           font-size: 1.3em;
           font-weight: bold;
           margin: 0.4em 0;
+          line-height: 1.3;
         }
         [contenteditable] h3 {
           font-size: 1.1em;
           font-weight: bold;
           margin: 0.3em 0;
+          line-height: 1.3;
         }
         [contenteditable] p {
           margin: 0.5em 0;
+          line-height: 1.6;
         }
         [contenteditable] ul,
         [contenteditable] ol {
           margin: 0.5em 0;
           padding-left: 2em;
         }
+        [contenteditable] li {
+          margin: 0.2em 0;
+          line-height: 1.5;
+        }
+        [contenteditable] blockquote {
+          margin: 1em 0;
+          padding: 0.75em 1.25em;
+          border-left: 4px solid #3B82F6;
+          background-color: #F8FAFC;
+          font-style: italic;
+          color: #475569;
+        }
+        [contenteditable] table {
+          border-collapse: collapse;
+          width: 100%;
+          margin: 1em 0;
+          border: 1px solid #E2E8F0;
+        }
+        [contenteditable] table td,
+        [contenteditable] table th {
+          border: 1px solid #E2E8F0;
+          padding: 0.5em;
+          text-align: left;
+          vertical-align: top;
+        }
+        [contenteditable] table th {
+          background-color: #F1F5F9;
+          font-weight: bold;
+        }
+        [contenteditable] table tr:nth-child(even) {
+          background-color: #F8FAFC;
+        }
+        [contenteditable] hr {
+          margin: 1em 0;
+          border: none;
+          border-top: 2px solid #E2E8F0;
+        }
+        [contenteditable] img {
+          max-width: 100%;
+          height: auto;
+          margin: 0.5em 0;
+          border-radius: 4px;
+        }
         [contenteditable] a {
           color: #3B82F6;
           text-decoration: underline;
+        }
+        [contenteditable] a:hover {
+          color: #1D4ED8;
         }
         [contenteditable] strong {
           font-weight: bold;
         }
         [contenteditable] em {
           font-style: italic;
+        }
+        [contenteditable] u {
+          text-decoration: underline;
+        }
+        [contenteditable][style*="text-align: center"] {
+          text-align: center;
+        }
+        [contenteditable][style*="text-align: right"] {
+          text-align: right;
+        }
+        [contenteditable][style*="text-align: left"] {
+          text-align: left;
         }
       `}</style>
     </div>
