@@ -290,6 +290,9 @@ function App() {
               <Route path="/cookies" element={<CookiesPage />} />
               <Route path="/kvkk" element={<KVKKPage />} />
               <Route path="/test-upload" element={<TestUploadPage />} />
+              
+              {/* 404 - Catch all unmatched routes */}
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </main>
           
