@@ -23,6 +23,32 @@ const CartPage = () => {
     loadCartItems();
   }, []);
 
+  // Handle post-login redirect to checkout
+  useEffect(() => {
+    if (user) {
+      const pendingCheckout = localStorage.getItem('pendingCartCheckout');
+      if (pendingCheckout) {
+        try {
+          const checkoutData = JSON.parse(pendingCheckout);
+          // Clear the pending state
+          localStorage.removeItem('pendingCartCheckout');
+          
+          // Check if the checkout data is still valid (not too old)
+          const maxAge = 10 * 60 * 1000; // 10 minutes
+          if (Date.now() - checkoutData.timestamp < maxAge && checkoutData.cartItems.length > 0) {
+            // Proceed with checkout after a short delay to ensure UI is ready
+            setTimeout(() => {
+              proceedToBooking(checkoutData.cartItems);
+            }, 100);
+          }
+        } catch (error) {
+          console.error('Error processing pending checkout:', error);
+          localStorage.removeItem('pendingCartCheckout');
+        }
+      }
+    }
+  }, [user]);
+
   const loadCartItems = () => {
     try {
       const savedCart = localStorage.getItem('tour_cart');
