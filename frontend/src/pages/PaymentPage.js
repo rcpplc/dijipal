@@ -27,6 +27,7 @@ const PaymentPage = () => {
     cardHolder: ''
   });
   const [isApproved, setIsApproved] = useState(false); // ✅ Onay durumu
+  const [showContractModal, setShowContractModal] = useState(false); // Modal durumu
 
   // ✅ Footer'ı sadece mobilde gizle
   useEffect(() => {
