@@ -21,7 +21,7 @@ import os
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class GoogleOAuthCallbackDebugger:
     def __init__(self):
@@ -359,7 +359,7 @@ class GoogleOAuthCallbackDebugger:
             client_id = oauth_analysis.get('client_id', '')
             
             # Expected configuration based on environment
-            expected_redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+            expected_redirect_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
             expected_client_id_format = client_id.endswith('.apps.googleusercontent.com')
             
             compatibility_check = {

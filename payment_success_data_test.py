@@ -17,7 +17,7 @@ from datetime import datetime
 import time
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class PaymentSuccessDataTester:
     def __init__(self):

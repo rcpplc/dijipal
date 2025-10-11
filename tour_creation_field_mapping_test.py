@@ -16,7 +16,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class TourCreationFieldMappingTester:
     def __init__(self):

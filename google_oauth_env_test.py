@@ -17,7 +17,7 @@ import urllib.parse
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class GoogleOAuthEnvTester:
     def __init__(self):
@@ -160,7 +160,7 @@ class GoogleOAuthEnvTester:
             
             # Expected values from backend/.env
             expected_client_id = "412446824095-f83a2663p9logb15t88e25jnt79r9ep9.apps.googleusercontent.com"
-            expected_redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+            expected_redirect_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
             
             # Test GOOGLE_CLIENT_ID
             if client_id == expected_client_id:
@@ -330,7 +330,7 @@ class GoogleOAuthEnvTester:
             return False
         
         # Expected redirect URI that should be registered in Google Console
-        expected_redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+        expected_redirect_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
         
         # Check exact match
         if redirect_uri == expected_redirect_uri:

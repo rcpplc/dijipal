@@ -8,7 +8,7 @@ import json
 import sys
 from datetime import datetime
 
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 def print_test_header(test_name):
     print(f"\n{'='*60}")

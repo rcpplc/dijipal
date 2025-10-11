@@ -728,7 +728,7 @@ async def google_auth_callback(request: Request, response: Response, code: str, 
             )
             
             # Redirect to frontend with success
-            frontend_url = "https://payment-modal-fix.preview.emergentagent.com"
+            frontend_url = "https://mavibilet.preview.emergentagent.com"
             return RedirectResponse(url=frontend_url, status_code=302)
             
     except Exception as e:
@@ -3372,7 +3372,7 @@ async def make_tour_reservation_type(tour_id: str):
     
     return {
         "message": f"Tour {tour_id} converted to reservation type successfully",
-        "test_url": f"https://payment-modal-fix.preview.emergentagent.com/turlar/{tour_id}"
+        "test_url": f"https://mavibilet.preview.emergentagent.com/turlar/{tour_id}"
     }
 
 @api_router.post("/create-reservation-tour")

@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class CategorySystemTester:
     def __init__(self):
@@ -2349,7 +2349,7 @@ class CategorySystemTester:
 def main():
     """Main test execution"""
     print("🇹🇷 Turkish Tour Platform - Backend API Testing")
-    print("Testing URL: https://payment-modal-fix.preview.emergentagent.com")
+    print("Testing URL: https://mavibilet.preview.emergentagent.com")
     
     tester = TourPlatformAPITester()
     

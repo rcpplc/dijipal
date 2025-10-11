@@ -3,7 +3,7 @@
 Google OAuth 403 Fix Test - Turkish Review Request
 Test edilecek özellikler:
 1. GET /api/auth/google endpoint'i test et ve generated OAuth URL'i kontrol et
-2. redirect_uri parametresi HTTPS olmalı: https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback
+2. redirect_uri parametresi HTTPS olmalı: https://mavibilet.preview.emergentagent.com/api/auth/google/callback
 3. HTTP değil HTTPS scheme kullanmalı
 4. OAuth URL Analysis: client_id, redirect_uri, scope, response_type parametreleri doğru mu?
 5. Google OAuth Flow validation (1 step only) - 403 error'a sebep olan scheme mismatch fix oldu mu?
@@ -17,7 +17,7 @@ from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 def print_test_header(test_name):
     print(f"\n{'='*70}")
@@ -133,7 +133,7 @@ def analyze_oauth_url(auth_url):
         
         # Check redirect_uri - THIS IS THE CRITICAL TEST
         redirect_uri = query_params.get('redirect_uri', [None])[0]
-        expected_redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+        expected_redirect_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
         
         if redirect_uri:
             print_info(f"redirect_uri found: {redirect_uri}")
@@ -266,7 +266,7 @@ def test_google_oauth_403_fix_validation():
         print_info(f"Generated redirect_uri: {redirect_uri}")
         
         # Critical validation
-        expected_https_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+        expected_https_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
         
         if redirect_uri == expected_https_uri:
             print_success("🎉 GOOGLE OAUTH 403 FIX VERIFIED!")

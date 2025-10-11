@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 import uuid
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def print_test_header(test_name):
@@ -189,8 +189,8 @@ def test_session_cookie_attributes():
         
         # Test with cross-origin headers
         headers = {
-            'Origin': 'https://payment-modal-fix.preview.emergentagent.com',
-            'Referer': 'https://payment-modal-fix.preview.emergentagent.com/',
+            'Origin': 'https://mavibilet.preview.emergentagent.com',
+            'Referer': 'https://mavibilet.preview.emergentagent.com/',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
         }
         

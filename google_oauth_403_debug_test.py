@@ -17,7 +17,7 @@ Test edilecek:
    - request.base_url doğru değer veriyor mu?
    - Redirect URI'si Google Console'daki ile match ediyor mu?
 
-Expected redirect URI: https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback
+Expected redirect URI: https://mavibilet.preview.emergentagent.com/api/auth/google/callback
 """
 
 import requests
@@ -28,8 +28,8 @@ from datetime import datetime
 from urllib.parse import urlparse, parse_qs
 
 # Backend URL configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
-EXPECTED_REDIRECT_URI = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
+EXPECTED_REDIRECT_URI = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
 
 def print_test_header(test_name):
     print(f"\n{'='*80}")

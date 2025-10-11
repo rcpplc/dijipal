@@ -24,7 +24,7 @@ from datetime import datetime
 import uuid
 
 # Backend URL configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 def print_test_header(test_name):
     print(f"\n{'='*70}")

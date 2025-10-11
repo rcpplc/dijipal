@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 import uuid
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com"
 API_BASE = f"{BACKEND_URL}/api"
 
 def print_test_header(test_name):
@@ -56,7 +56,7 @@ def test_google_oauth_flow_analysis():
             else:
                 print_error("❌ Google Client ID missing or incorrect")
                 
-            if 'redirect_uri=https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback' in auth_url:
+            if 'redirect_uri=https://mavibilet.preview.emergentagent.com/api/auth/google/callback' in auth_url:
                 print_success("✅ Correct HTTPS redirect URI found in URL")
             else:
                 print_error("❌ Redirect URI missing or incorrect")
@@ -219,8 +219,8 @@ def test_cross_origin_cookie_handling():
         
         # Simulate browser request from frontend domain
         headers = {
-            'Origin': 'https://payment-modal-fix.preview.emergentagent.com',
-            'Referer': 'https://payment-modal-fix.preview.emergentagent.com/',
+            'Origin': 'https://mavibilet.preview.emergentagent.com',
+            'Referer': 'https://mavibilet.preview.emergentagent.com/',
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
             'Accept': 'application/json, text/plain, */*',
             'Accept-Language': 'en-US,en;q=0.9,tr;q=0.8',

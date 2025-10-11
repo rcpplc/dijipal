@@ -11,7 +11,7 @@ from datetime import datetime, timezone, timedelta
 import time
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class AdminReservationsDirectTester:
     def __init__(self):

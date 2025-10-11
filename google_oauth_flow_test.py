@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://payment-modal-fix.preview.emergentagent.com/api"
+BACKEND_URL = "https://mavibilet.preview.emergentagent.com/api"
 
 class GoogleOAuthFlowTester:
     def __init__(self):
@@ -197,7 +197,7 @@ class GoogleOAuthFlowTester:
                 params = urllib.parse.parse_qs(parsed_url.query)
                 redirect_uri = params.get('redirect_uri', [''])[0]
                 
-                expected_redirect_uri = "https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback"
+                expected_redirect_uri = "https://mavibilet.preview.emergentagent.com/api/auth/google/callback"
                 
                 if redirect_uri == expected_redirect_uri:
                     self.log_test(
