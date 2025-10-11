@@ -48,6 +48,20 @@ const AdminPage = () => {
   // Location management
   const [showLocationModal, setShowLocationModal] = useState(false);
   const [showDeleteLocationConfirm, setShowDeleteLocationConfirm] = useState(false);
+  
+  // User management states
+  const [showUserModal, setShowUserModal] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [showDeleteUserConfirm, setShowDeleteUserConfirm] = useState(false);
+  const [selectedUser, setSelectedUser] = useState(null);
+  const [userFormData, setUserFormData] = useState({
+    email: '',
+    full_name: '',
+    phone: '',
+    role: 'customer',
+    password: '',
+    status: 'active'
+  });
   const [selectedLocation, setSelectedLocation] = useState(null);
   const [editingLocation, setEditingLocation] = useState(null);
   
