@@ -431,6 +431,30 @@ const ProfilePage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        {/* Account Deactivated Warning Banner */}
+        {accountStatus === 'deactivated' && (
+          <div className="mb-6 bg-red-50 border-l-4 border-red-400 p-4 rounded-lg">
+            <div className="flex items-center">
+              <div className="flex-shrink-0">
+                <XCircle className="h-5 w-5 text-red-400" />
+              </div>
+              <div className="ml-3">
+                <h3 className="text-sm font-medium text-red-800">
+                  Hesabınız Devre Dışı
+                </h3>
+                <div className="mt-1 text-sm text-red-700">
+                  <p>
+                    Hesabınız devre dışı bırakılmıştır. Yeni rezervasyon yapamaz ve bildirim alamazsınız. 
+                    Hesabınızı tekrar etkinleştirmek için 
+                    <a href="mailto:destek@mavibilet.com" className="font-medium underline hover:text-red-900">
+                      {' '}destek ekibimizle iletişime geçin
+                    </a>.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
         {/* Header */}
         <div className="bg-white rounded-xl shadow-lg p-6 mb-8">
           <div className="flex items-center space-x-4">
