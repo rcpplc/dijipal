@@ -95,13 +95,30 @@ const BookingPage = () => {
   // User bilgilerini form data'ya yükle
   useEffect(() => {
     if (user) {
-      // Farklı kullanıcı bilgi formatlarını destekle
-      const firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
-      const lastName = user.lastName || user.last_name || user.name?.split(' ').slice(1).join(' ') || user.surname || user.displayName?.split(' ').slice(1).join(' ') || '';
+      // full_name field'ından ad/soyad parse et
+      let firstName = '';
+      let lastName = '';
+      
+      if (user.full_name) {
+        const nameParts = user.full_name.trim().split(' ');
+        firstName = nameParts[0] || '';
+        lastName = nameParts.slice(1).join(' ') || '';
+      } else {
+        // Fallback options
+        firstName = user.firstName || user.first_name || user.name?.split(' ')[0] || user.username || user.displayName?.split(' ')[0] || '';
+        lastName = user.lastName || user.last_name || user.name?.split(' ').slice(1).join(' ') || user.surname || user.displayName?.split(' ').slice(1).join(' ') || '';
+      }
+      
       const email = user.email || user.emailAddress || user.mail || '';
       const phone = user.phone || user.phoneNumber || user.mobile || user.tel || user.telephone || '';
       
-      console.log('User bilgileri yükleniyor:', { firstName, lastName, email, phone }); // Debug için
+      console.log('User bilgileri yükleniyor:', { 
+        fullName: user.full_name, 
+        firstName, 
+        lastName, 
+        email, 
+        phone 
+      }); // Debug için
       
       setFormData(prev => ({
         ...prev,
