@@ -1,0 +1,203 @@
+import React, { useRef, useCallback } from 'react';
+import { 
+  Bold, 
+  Italic, 
+  Underline, 
+  List, 
+  ListOrdered,
+  Link,
+  Type
+} from 'lucide-react';
+
+const RichTextEditor = ({ 
+  value = '', 
+  onChange, 
+  placeholder = 'Açıklama yazın...', 
+  minHeight = '120px',
+  style = {} 
+}) => {
+  const editorRef = useRef(null);
+
+  // Command execution function
+  const executeCommand = useCallback((command, value = null) => {
+    document.execCommand(command, false, value);
+    // Update parent component with new content
+    if (editorRef.current && onChange) {
+      onChange(editorRef.current.innerHTML);
+    }
+  }, [onChange]);
+
+  // Handle input changes
+  const handleInput = useCallback((e) => {
+    if (onChange) {
+      onChange(e.target.innerHTML);
+    }
+  }, [onChange]);
+
+  // Handle paste to clean up formatting
+  const handlePaste = useCallback((e) => {
+    e.preventDefault();
+    const text = e.clipboardData.getData('text/plain');
+    document.execCommand('insertText', false, text);
+    if (onChange && editorRef.current) {
+      onChange(editorRef.current.innerHTML);
+    }
+  }, [onChange]);
+
+  // Initialize content
+  React.useEffect(() => {
+    if (editorRef.current && editorRef.current.innerHTML !== value) {
+      editorRef.current.innerHTML = value || '';
+    }
+  }, [value]);
+
+  const toolbarButtons = [
+    {
+      icon: Bold,
+      command: 'bold',
+      title: 'Kalın (Ctrl+B)'
+    },
+    {
+      icon: Italic,
+      command: 'italic',
+      title: 'İtalik (Ctrl+I)'
+    },
+    {
+      icon: Underline,
+      command: 'underline',
+      title: 'Altı Çizili (Ctrl+U)'
+    },
+    {
+      icon: List,
+      command: 'insertUnorderedList',
+      title: 'Madde İşareti'
+    },
+    {
+      icon: ListOrdered,
+      command: 'insertOrderedList',
+      title: 'Numaralı Liste'
+    }
+  ];
+
+  return (
+    <div 
+      className="border border-gray-300 rounded-lg overflow-hidden focus-within:ring-2 focus-within:ring-blue-500 focus-within:border-transparent bg-white"
+      style={style}
+    >
+      {/* Toolbar */}
+      <div className="border-b border-gray-200 bg-gray-50 px-3 py-2 flex items-center space-x-1">
+        {toolbarButtons.map((button, index) => {
+          const Icon = button.icon;
+          return (
+            <button
+              key={index}
+              type="button"
+              onClick={() => executeCommand(button.command)}
+              className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+              title={button.title}
+            >
+              <Icon className="w-4 h-4" />
+            </button>
+          );
+        })}
+        
+        <div className="w-px h-6 bg-gray-300 mx-2" />
+        
+        {/* Header dropdown */}
+        <select 
+          onChange={(e) => {
+            if (e.target.value) {
+              executeCommand('formatBlock', e.target.value);
+              e.target.value = '';
+            }
+          }}
+          className="text-sm border-none bg-transparent text-gray-600 focus:outline-none"
+          defaultValue=""
+        >
+          <option value="" disabled>Başlık</option>
+          <option value="h1">Başlık 1</option>
+          <option value="h2">Başlık 2</option>
+          <option value="h3">Başlık 3</option>
+          <option value="p">Paragraf</option>
+        </select>
+
+        <div className="w-px h-6 bg-gray-300 mx-2" />
+
+        {/* Link button */}
+        <button
+          type="button"
+          onClick={() => {
+            const url = prompt('Link URL giriniz:');
+            if (url) {
+              executeCommand('createLink', url);
+            }
+          }}
+          className="p-1.5 text-gray-600 hover:text-gray-900 hover:bg-gray-200 rounded transition-colors"
+          title="Link Ekle"
+        >
+          <Link className="w-4 h-4" />
+        </button>
+      </div>
+
+      {/* Editor Content */}
+      <div
+        ref={editorRef}
+        contentEditable
+        onInput={handleInput}
+        onPaste={handlePaste}
+        className="px-4 py-3 focus:outline-none text-gray-700 leading-relaxed"
+        style={{ 
+          minHeight: minHeight,
+          maxHeight: '300px',
+          overflowY: 'auto'
+        }}
+        data-placeholder={placeholder}
+        suppressContentEditableWarning={true}
+      />
+
+      {/* Custom styles for placeholder and content */}
+      <style jsx>{`
+        [contenteditable]:empty:before {
+          content: attr(data-placeholder);
+          color: #9CA3AF;
+          font-style: italic;
+        }
+        [contenteditable] h1 {
+          font-size: 1.5em;
+          font-weight: bold;
+          margin: 0.5em 0;
+        }
+        [contenteditable] h2 {
+          font-size: 1.3em;
+          font-weight: bold;
+          margin: 0.4em 0;
+        }
+        [contenteditable] h3 {
+          font-size: 1.1em;
+          font-weight: bold;
+          margin: 0.3em 0;
+        }
+        [contenteditable] p {
+          margin: 0.5em 0;
+        }
+        [contenteditable] ul,
+        [contenteditable] ol {
+          margin: 0.5em 0;
+          padding-left: 2em;
+        }
+        [contenteditable] a {
+          color: #3B82F6;
+          text-decoration: underline;
+        }
+        [contenteditable] strong {
+          font-weight: bold;
+        }
+        [contenteditable] em {
+          font-style: italic;
+        }
+      `}</style>
+    </div>
+  );
+};
+
+export default RichTextEditor;
