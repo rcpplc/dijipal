@@ -136,282 +136,246 @@ const PaymentSuccessPage = () => {
     );
   }
 
+  // Mock multiple bookings for testing (sepetten 1'den fazla rezervasyon)
+  const bookingItems = booking?.cartItems || [booking].filter(Boolean);
+
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Başarı Mesajı */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-green-100 rounded-full mb-4">
-            <CheckCircle className="w-12 h-12 text-green-600" />
+          <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <div className="w-8 h-8 bg-green-600 rounded-full"></div>
           </div>
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Ödemeniz Başarıyla Tamamlandı!
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">
+            Ödemeniz Başarıyla Tamamlandı
           </h1>
-          <p className="text-lg text-gray-600">
+          <p className="text-gray-600">
             Rezervasyonunuz onaylandı ve biletleriniz hazır.
           </p>
         </div>
 
-        {/* 1. Kişi Bilgileri Bölümü */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mb-8">
-          <div className="bg-blue-600 px-6 py-4">
-            <h2 className="text-xl font-bold text-white">Kişi Bilgileri</h2>
-          </div>
+        {/* Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          <div className="p-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-              {/* Rezervasyon Durumu */}
-              <div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-6">
-                  <div className="flex items-center space-x-3">
-                    <CheckCircle className="w-8 h-8 text-green-600" />
-                    <div>
-                      <h3 className="text-lg font-semibold text-green-800">
-                        Rezervasyon Durumu: Rezervasyon Onaylandı
-                      </h3>
-                      <p className="text-green-600 font-mono text-lg">
-                        Rezervasyon Kodu: {generateBookingCode()}
-                      </p>
-                    </div>
+          {/* Sol Taraf - Kişi Bilgileri */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-lg border border-gray-200 p-6 mb-6">
+              <h2 className="text-lg font-semibold text-gray-900 mb-4">Kişi Bilgileri</h2>
+              
+              <div className="space-y-4">
+                <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+                  <div className="text-sm font-medium text-green-800 mb-1">
+                    Rezervasyon Durumu
+                  </div>
+                  <div className="text-green-900 font-semibold">Rezervasyon Onaylandı</div>
+                  <div className="text-green-700 text-sm font-mono mt-1">
+                    Rezervasyon Kodu: {generateBookingCode()}
                   </div>
                 </div>
-              </div>
 
-              {/* Müşteri Bilgileri */}
-              <div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-4">Müşteri Bilgileri</h3>
-                <div className="space-y-3 bg-gray-50 rounded-lg p-4">
-                  <div className="flex items-center space-x-3">
-                    <User className="w-5 h-5 text-gray-400" />
+                <div className="space-y-3">
+                  <h3 className="font-medium text-gray-900">Müşteri Bilgileri</h3>
+                  <div className="text-sm space-y-2">
                     <div>
-                      <p className="text-sm text-gray-600">Ad Soyad</p>
-                      <p className="font-semibold text-gray-900">
+                      <div className="text-gray-600">Ad Soyad:</div>
+                      <div className="font-medium">
                         {user?.full_name || `${booking.customerInfo?.firstName || 'Recep'} ${booking.customerInfo?.lastName || 'PALİÇ'}`}
-                      </p>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3">
-                    <FileText className="w-5 h-5 text-gray-400" />
                     <div>
-                      <p className="text-sm text-gray-600">E-posta</p>
-                      <p className="font-semibold text-gray-900">
+                      <div className="text-gray-600">E-posta:</div>
+                      <div className="font-medium">
                         {user?.email || booking.customerInfo?.email || 'admin@example.com'}
-                      </p>
+                      </div>
                     </div>
-                  </div>
-                  
-                  <div className="flex items-center space-x-3">
-                    <CreditCard className="w-5 h-5 text-gray-400" />
                     <div>
-                      <p className="text-sm text-gray-600">Telefon</p>
-                      <p className="font-semibold text-gray-900">
+                      <div className="text-gray-600">Telefon:</div>
+                      <div className="font-medium">
                         {user?.phone || booking.customerInfo?.phone || '0533 413 53 35'}
-                      </p>
+                      </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Ödeme Detayları */}
+            <div className="bg-white rounded-lg border border-gray-200 p-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-4">Ödeme Detayları</h3>
+              <div className="space-y-3">
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">Ara Toplam:</span>
+                  <span className="font-medium">₺{priceBreakdown.subtotal.toLocaleString('tr-TR')}</span>
+                </div>
+                <div className="flex justify-between text-sm">
+                  <span className="text-gray-600">KDV (%20):</span>
+                  <span className="font-medium">₺{priceBreakdown.vatAmount.toLocaleString('tr-TR')}</span>
+                </div>
+                <div className="border-t border-gray-200 pt-3">
+                  <div className="flex justify-between font-semibold">
+                    <span>Toplam Ödenen:</span>
+                    <span className="text-green-600">₺{priceBreakdown.total.toLocaleString('tr-TR')}</span>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* 2. Rezervasyon Kartları ve Bilet Oluşturma */}
-        <div className="space-y-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900">Biletleriniz</h2>
-          
-          {/* Bilet Kartı - Her rezervasyon için ayrı kart */}
-          <div className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden">
-            {/* Bilet Header */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
-              <div className="flex justify-between items-start text-white">
-                <div>
-                  <h3 className="text-xl font-bold">
-                    {booking.tour?.title || 'Mavi Yolculuk Turu'}
-                  </h3>
-                  <p className="text-blue-100">
-                    Bilet No: {generateBookingCode()}-001
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="w-16 h-16 bg-white/20 rounded-lg flex items-center justify-center">
-                    <Ship className="w-8 h-8 text-white" />
-                  </div>
-                </div>
-              </div>
-            </div>
+          {/* Sağ Taraf - Rezervasyon Kartları */}
+          <div className="lg:col-span-2">
+            <h2 className="text-lg font-semibold text-gray-900 mb-4">Rezervasyon Biletleri</h2>
             
-            {/* Bilet İçeriği */}
-            <div className="p-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-                <div className="text-center">
-                  <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600">İşlem Tarihi</p>
-                  <p className="font-semibold">{new Date().toLocaleDateString('tr-TR')}</p>
-                </div>
-                
-                <div className="text-center">
-                  <Calendar className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600">Tur Tarihi</p>
-                  <p className="font-semibold">
-                    {booking.selectedDate?.formattedDate || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR')}
-                  </p>
-                </div>
-                
-                <div className="text-center">
-                  <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600">Biniş Saati</p>
-                  <p className="font-semibold">09:00</p>
-                </div>
-                
-                <div className="text-center">
-                  <Clock className="w-8 h-8 text-blue-600 mx-auto mb-2" />
-                  <p className="text-sm text-gray-600">İniş Saati</p>
-                  <p className="font-semibold">18:00</p>
-                </div>
-              </div>
-              
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-6 bg-gray-50 rounded-lg p-4">
-                <div>
-                  <p className="text-sm text-gray-600">Tur Süresi</p>
-                  <p className="font-semibold">{booking.tour?.duration || '1'} Gün</p>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-gray-600">Sınıf</p>
-                  <p className="font-semibold">
-                    {booking.reservationDetails?.type === 'cabin_based' ? 'Kabin' : 'Standart'}
-                  </p>
-                </div>
-                
-                <div>
-                  <p className="text-sm text-gray-600">Lokasyon</p>
-                  <p className="font-semibold">{booking.tour?.location || 'Göcek'}</p>
-                </div>
-              </div>
-              
-              {/* Kabin Bilgisi */}
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
-                <h4 className="font-semibold text-blue-900 mb-2">Rezervasyon Detayı</h4>
-                <p className="text-blue-800">{getReservationSummary()}</p>
-                
-                {booking.reservationDetails?.type === 'cabin_based' && (
-                  <div className="mt-3 grid grid-cols-2 gap-4 text-sm">
-                    {booking.reservationDetails.singleCabinCount > 0 && (
+            <div className="space-y-4">
+              {bookingItems.map((item, index) => (
+                <div key={index} className="bg-white rounded-lg border border-gray-200 overflow-hidden">
+                  
+                  {/* Bilet Header */}
+                  <div className="bg-gray-50 border-b border-gray-200 px-6 py-4">
+                    <div className="flex justify-between items-start">
                       <div>
-                        <p className="text-blue-700">Tek Kişilik Kabin</p>
-                        <p className="font-semibold text-blue-900">{booking.reservationDetails.singleCabinCount} Adet</p>
+                        <h3 className="font-semibold text-gray-900">
+                          {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
+                        </h3>
+                        <p className="text-sm text-gray-600 mt-1">
+                          Bilet No: {generateBookingCode()}-{String(index + 1).padStart(3, '0')}
+                        </p>
                       </div>
-                    )}
-                    {booking.reservationDetails.doubleCabinCount > 0 && (
-                      <div>
-                        <p className="text-blue-700">2 Kişilik Kabin</p>
-                        <p className="font-semibold text-blue-900">{booking.reservationDetails.doubleCabinCount} Adet</p>
-                      </div>
-                    )}
-                  </div>
-                )}
-              </div>
-              
-              {/* Fiyat ve Aksiyonlar */}
-              <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                <div>
-                  <p className="text-sm text-gray-600">Bilet Fiyatı</p>
-                  <p className="text-2xl font-bold text-green-600">
-                    ₺{paymentAmount.toLocaleString('tr-TR')}
-                  </p>
-                </div>
-                
-                <div className="flex flex-col sm:flex-row gap-3">
-                  <div className="text-center">
-                    <div className="w-20 h-20 bg-gray-200 rounded-lg flex items-center justify-center mb-2">
-                      <span className="text-xs text-gray-500">QR Kod</span>
                     </div>
-                    <p className="text-xs text-gray-600">Bilet Doğrulama</p>
                   </div>
                   
-                  <button
-                    onClick={() => downloadTicketPDF(generateBookingCode())}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors flex items-center space-x-2"
-                  >
-                    <Download className="w-5 h-5" />
-                    <span>Bilet PDF İndir</span>
-                  </button>
+                  {/* Bilet İçeriği - Booking Özeti Stili */}
+                  <div className="p-6">
+                    <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-4">
+                      <div className="text-sm font-medium text-gray-800 mb-3">
+                        Rezervasyon Bileti
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm mb-4">
+                        <div>
+                          <div className="text-gray-600">İşlem Tarihi</div>
+                          <div className="font-medium">{new Date().toLocaleDateString('tr-TR')}</div>
+                        </div>
+                        <div>
+                          <div className="text-gray-600">Tur Tarihi</div>
+                          <div className="font-medium">
+                            {item?.selectedDate?.formattedDate || booking.selectedDate?.formattedDate || 
+                             new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toLocaleDateString('tr-TR')}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-gray-600">Biniş Saati</div>
+                          <div className="font-medium">09:00</div>
+                        </div>
+                        <div>
+                          <div className="text-gray-600">İniş Saati</div>
+                          <div className="font-medium">18:00</div>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-3 gap-4 text-sm mb-4">
+                        <div>
+                          <div className="text-gray-600">Tur Süresi</div>
+                          <div className="font-medium">{item?.duration || booking.tour?.duration || '1'} Gün</div>
+                        </div>
+                        <div>
+                          <div className="text-gray-600">Sınıf</div>
+                          <div className="font-medium">
+                            {(item?.reservation_type || booking.reservationDetails?.type) === 'cabin_based' ? 'Kabin' : 'Standart'}
+                          </div>
+                        </div>
+                        <div>
+                          <div className="text-gray-600">Lokasyon</div>
+                          <div className="font-medium">{item?.location || booking.tour?.location || 'Göcek'}</div>
+                        </div>
+                      </div>
+
+                      {/* Rezervasyon Detayı */}
+                      <div className="text-xs text-gray-700 mb-2">
+                        {item?.reservation_type === 'cabin_based' && 'Kabin: '}
+                        {item?.reservation_type === 'person_based' && 'Kişi: '}
+                        {item?.reservation_type === 'reservation' && 'Özel: '}
+                        
+                        {item?.reservation_type === 'cabin_based' && 
+                          `${item.singleCabinCount || 0} Tek + ${item.doubleCabinCount || 0} Çift`}
+                        {item?.reservation_type === 'person_based' && 
+                          `${item.adultCount || 0} Yetişkin + ${item.childCount || 0} Çocuk`}
+                        {item?.reservation_type === 'reservation' && 'Rezervasyon'}
+                        {!item && getReservationSummary()}
+                      </div>
+                      
+                      <div className="text-sm font-medium text-blue-600">
+                        Fiyat: ₺{item ? 
+                          (() => {
+                            if (item.reservation_type === 'cabin_based') {
+                              return ((item.selectedDate?.single_cabin_price || 0) * (item.singleCabinCount || 0)) + 
+                                     ((item.selectedDate?.double_cabin_price || 0) * (item.doubleCabinCount || 0));
+                            } else if (item.reservation_type === 'person_based') {
+                              return ((item.selectedDate?.person_price || 0) * (item.adultCount || 0)) + 
+                                     ((item.selectedDate?.child_price || 0) * (item.childCount || 0));
+                            } else {
+                              return item.selectedDate?.total_reservation_price || paymentAmount;
+                            }
+                          })().toLocaleString('tr-TR') : 
+                          paymentAmount.toLocaleString('tr-TR')
+                        }
+                      </div>
+                    </div>
+
+                    {/* QR ve PDF */}
+                    <div className="flex justify-between items-center">
+                      <div className="text-center">
+                        <div className="w-16 h-16 bg-gray-200 rounded-lg flex items-center justify-center mb-1">
+                          <span className="text-xs text-gray-500">QR</span>
+                        </div>
+                        <p className="text-xs text-gray-600">Doğrulama</p>
+                      </div>
+                      
+                      <button
+                        onClick={() => downloadTicketPDF(`${generateBookingCode()}-${index + 1}`)}
+                        className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                      >
+                        Bilet PDF İndir
+                      </button>
+                    </div>
+                  </div>
                 </div>
+              ))}
+            </div>
+
+            {/* Bilgilendirme */}
+            <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
+              <h3 className="font-semibold text-blue-900 mb-3">Önemli Bilgiler</h3>
+              <div className="text-sm text-blue-800 space-y-2">
+                <p>• Rezervasyonunuz onaylandı ve e-posta gönderildi</p>
+                <p>• Tur öncesi WhatsApp ile bilgilendirme yapılacak</p>
+                <p>• Tur gününde 30 dakika önce buluşma noktasında olun</p>
+                <p>• İptal/değişiklik için 48 saat önceden başvurun</p>
               </div>
             </div>
           </div>
         </div>
 
-        {/* 3. Ödeme Detayları */}
-        <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-6 mb-8">
-          <h2 className="text-2xl font-bold text-gray-900 mb-6">Ödeme Detayları</h2>
-          <div className="bg-gray-50 rounded-lg p-6">
-            <div className="space-y-4">
-              <div className="flex justify-between text-lg">
-                <span className="text-gray-700">Ara Toplam:</span>
-                <span className="font-semibold">₺{priceBreakdown.subtotal.toLocaleString('tr-TR')}</span>
-              </div>
-              <div className="flex justify-between text-lg">
-                <span className="text-gray-700">KDV (%20):</span>
-                <span className="font-semibold">₺{priceBreakdown.vatAmount.toLocaleString('tr-TR')}</span>
-              </div>
-              <div className="border-t border-gray-300 pt-4">
-                <div className="flex justify-between text-xl font-bold">
-                  <span className="text-gray-900">Toplam Ödenen:</span>
-                  <span className="text-green-600">₺{priceBreakdown.total.toLocaleString('tr-TR')}</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* 4. Bilgilendirme Kutucuğu */}
-        <div className="bg-gradient-to-r from-blue-50 to-green-50 border border-blue-200 rounded-xl p-6 mb-8">
-          <div className="flex items-start space-x-4">
-            <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center flex-shrink-0">
-              <Info className="w-6 h-6 text-white" />
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-gray-900 mb-3">Teşekkür Ederiz!</h3>
-              <div className="space-y-2 text-gray-700">
-                <p>• Rezervasyonunuz başarıyla tamamlanmıştır ve onay e-postanız gönderilmiştir.</p>
-                <p>• Tur öncesi size WhatsApp üzerinden detaylı bilgilendirme yapılacaktır.</p>
-                <p>• Herhangi bir sorunuz için 7/24 müşteri hizmetlerimizle iletişime geçebilirsiniz.</p>
-                <p>• <strong>Önemli:</strong> Tur gününde lütfen 30 dakika önce buluşma noktasında hazır olunuz.</p>
-              </div>
-              <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
-                <p className="text-yellow-800 text-sm">
-                  <strong>İptal ve Değişiklik:</strong> Rezervasyon iptal ve değişiklik işlemleri için tur tarihinden en az 48 saat önce başvurmanız gerekmektedir.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Aksiyon Butonları */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+        {/* Alt Butonlar */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
           <Link
             to="/profile?tab=bookings"
-            className="flex items-center justify-center px-8 py-4 bg-blue-600 text-white font-semibold rounded-xl hover:bg-blue-700 transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition-colors text-center"
           >
-            <User className="w-5 h-5 mr-2" />
             Rezervasyonlarım
           </Link>
           
           <Link
             to="/turlar"
-            className="flex items-center justify-center px-8 py-4 bg-green-600 text-white font-semibold rounded-xl hover:bg-green-700 transition-colors"
+            className="bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg font-medium transition-colors text-center"
           >
-            <Ship className="w-5 h-5 mr-2" />
             Diğer Turlar
           </Link>
           
           <Link
             to="/"
-            className="flex items-center justify-center px-8 py-4 bg-gray-200 text-gray-700 font-semibold rounded-xl hover:bg-gray-300 transition-colors"
+            className="bg-gray-200 hover:bg-gray-300 text-gray-700 px-6 py-3 rounded-lg font-medium transition-colors text-center"
           >
-            <Home className="w-5 h-5 mr-2" />
             Ana Sayfa
           </Link>
         </div>
