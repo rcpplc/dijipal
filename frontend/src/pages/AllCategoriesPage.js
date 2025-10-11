@@ -4,11 +4,10 @@ import {
   ArrowLeft,
   ArrowRight,
   MapPin,
-  Calendar,
-  Users,
-  Star
+  Compass
 } from 'lucide-react';
 import { updateSEOTags } from '../utils/seo';
+import axios from 'axios';
 
 const AllCategoriesPage = () => {
   const navigate = useNavigate();
