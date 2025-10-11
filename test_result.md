@@ -886,11 +886,11 @@ test_plan:
 
   - task: "PaymentSuccessPage Single Tour Ticket Display Verification"
     implemented: true
-    working: "NA"
+    working: false
     file: "frontend/src/pages/PaymentSuccessPage.js"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "testing"
