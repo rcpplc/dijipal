@@ -52,9 +52,9 @@ backend:
 
   - task: "Google Login and Session Management System"
     implemented: true
-    working: true
+    working: false
     file: "backend/server.py"
-    stuck_count: 0
+    stuck_count: 1
     priority: "high"
     needs_retesting: false
     status_history:
@@ -67,6 +67,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ GOOGLE OAUTH 403 FIX VERIFIED - HTTPS REDIRECT URI FIX SUCCESSFUL! Comprehensive testing of Turkish review request completed with excellent results. CRITICAL FIX CONFIRMED: 1) ✅ Backend Health: Backend server healthy and accessible (200 OK), 2) ✅ Environment Variables: GOOGLE_CLIENT_ID (412446824095-f83a2663p9logb15t88e25jnt79r9ep9.apps.googleusercontent.com) and GOOGLE_CLIENT_SECRET properly configured, 3) ✅ HTTPS REDIRECT URI FIX: Backend now correctly generates 'https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback' instead of HTTP version, 4) ✅ OAuth URL Analysis: All parameters correct - client_id present and valid (Google OAuth format), response_type=code, scope='openid email profile', state parameter included, 5) ✅ Callback Endpoint: /api/auth/google/callback exists and processes requests correctly (expected failure with mock data confirms functionality), 6) ✅ SCHEME MISMATCH RESOLVED: No more HTTP vs HTTPS conflict - redirect_uri matches Google Console configuration exactly. ROOT CAUSE FIXED: The hardcoded HTTPS scheme in backend/server.py lines 582 and 608 successfully resolves the reverse proxy issue that was causing request.base_url to return HTTP. Google OAuth 403 errors should now be completely resolved. SUCCESS RATE: 100% (5/5 tests passed). The Google OAuth integration is now production-ready and fully functional."
+      - working: false
+        agent: "testing"
+        comment: "❌ CRITICAL GOOGLE OAUTH ERROR 400: REDIRECT_URI_MISMATCH - Comprehensive Google Login flow testing completed as requested in Turkish review. DETAILED TESTING RESULTS: 1) ✅ HOMEPAGE LOAD: Homepage loads correctly on desktop (1920x800) with proper title and elements, 2) ✅ LOGIN MODAL: Login button found in header (user icon), modal opens successfully, 3) ✅ GOOGLE LOGIN BUTTON: Google Login button visible and clickable in modal, 4) ✅ BACKEND API: /api/auth/google endpoint working (200 status), correctly generates HTTPS redirect URI, 5) ✅ OAUTH REDIRECT: Successfully redirects to Google OAuth page (accounts.google.com), 6) ❌ CRITICAL FAILURE: Google OAuth returns 'Error 400: redirect_uri_mismatch' - the redirect URI 'https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback' is not registered in Google Cloud Console. ROOT CAUSE: This is NOT the previous HTTP vs HTTPS issue (that was fixed). This is a Google Cloud Console configuration issue where the redirect URI needs to be properly registered. The backend is correctly generating HTTPS URLs, but Google Console doesn't have this redirect URI whitelisted. IMPACT: Complete Google Login flow blocked - users can click button and reach Google, but Google rejects the OAuth request. URGENT ACTION REQUIRED: Main agent must register the redirect URI 'https://payment-modal-fix.preview.emergentagent.com/api/auth/google/callback' in Google Cloud Console OAuth 2.0 credentials. SUCCESS RATE: 83% (5/6 components working, but Google Console configuration blocks entire flow)."
 
   - task: "Tour Creation API with Cabin Pricing System"
     implemented: true
