@@ -140,17 +140,13 @@ const PaymentPage = () => {
 
       toast.success('Ödeme başarıyla tamamlandı!');
       
-      const paymentSuccessData = {
-        booking: { ...booking, status: 'confirmed', paymentStatus: 'paid' },
-        paymentAmount: booking?.totalPrice || 0,
-        cartItems: booking?.cartItems || null,
-        fromCart: booking?.fromCart || false
-      };
-      
-      console.log('🔍 PaymentPage - Navigating to PaymentSuccessPage with data:', paymentSuccessData);
-      
       navigate('/payment-success', {
-        state: paymentSuccessData
+        state: {
+          booking: { ...booking, status: 'confirmed', paymentStatus: 'paid' },
+          paymentAmount: booking?.totalPrice || 0,
+          cartItems: booking?.cartItems || null,
+          fromCart: booking?.fromCart || false
+        }
       });
       
     } catch (error) {
