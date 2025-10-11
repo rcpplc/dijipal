@@ -196,14 +196,80 @@ class AdminReservationsTester:
         
         return False, 0
 
+    def get_available_tours(self):
+        """Get available tours from the backend"""
+        success, response = self.run_test(
+            "Get Available Tours",
+            "GET",
+            "tours",
+            200
+        )
+        
+        if success and response:
+            return response
+        return []
+
+    def get_tour_dates(self, tour_id):
+        """Get available dates for a specific tour"""
+        success, response = self.run_test(
+            f"Get Tour Dates for {tour_id}",
+            "GET",
+            f"tours/{tour_id}/dates",
+            200
+        )
+        
+        if success and response:
+            return response
+        return []
+
     def create_test_reservation(self, reservation_data):
-        """Create a single test reservation"""
+        """Create a single test reservation using real tour data"""
         booking_code = reservation_data['booking_code']
         print(f"📝 Creating reservation: {booking_code}")
         
-        # Create booking data structure
-        booking_data = {
+        # First, get available tours
+        tours = self.get_available_tours()
+        if not tours:
+            print(f"   ❌ No tours available for booking")
+            return False, None
+        
+        # Select appropriate tour based on reservation type
+        selected_tour = None
+        for tour in tours:
+            tour_title = tour.get('title', '').lower()
+            if reservation_data['reservation_type'] == 'cabin_based' and 'kabin' in tour_title:
+                selected_tour = tour
+                break
+            elif reservation_data['reservation_type'] == 'person_based' and 'kişi' in tour_title:
+                selected_tour = tour
+                break
+        
+        # If no specific tour found, use the first available
+        if not selected_tour and tours:
+            selected_tour = tours[0]
+        
+        if not selected_tour:
+            print(f"   ❌ No suitable tour found for {booking_code}")
+            return False, None
+        
+        tour_id = selected_tour['id']
+        print(f"   🎯 Using tour: {selected_tour.get('title', 'Unknown')} (ID: {tour_id})")
+        
+        # Get tour dates
+        tour_dates = self.get_tour_dates(tour_id)
+        if not tour_dates:
+            print(f"   ❌ No tour dates available for tour {tour_id}")
+            return False, None
+        
+        # Use the first available date
+        tour_date_id = tour_dates[0]['id']
+        print(f"   📅 Using tour date: {tour_dates[0].get('start_date', 'Unknown')} (ID: {tour_date_id})")
+        
+        # Try POST /api/admin/bookings first (even though it might not exist)
+        admin_booking_data = {
             "user_id": self.admin_user_id,
+            "tour_id": tour_id,
+            "tour_date_id": tour_date_id,
             "tour_title": reservation_data['tour_title'],
             "booking_code": reservation_data['booking_code'],
             "booking_status": reservation_data['status'],
@@ -220,59 +286,48 @@ class AdminReservationsTester:
             }
         }
         
-        # Add reservation type specific fields
-        if reservation_data['reservation_type'] == 'cabin_based':
-            booking_data.update({
-                "cabin_type": "single",
-                "single_cabin_count": reservation_data.get('single_cabin_count', 0),
-                "double_cabin_count": reservation_data.get('double_cabin_count', 0)
-            })
-        elif reservation_data['reservation_type'] == 'person_based':
-            booking_data.update({
-                "adult_count": reservation_data.get('adult_count', 0),
-                "child_count": reservation_data.get('child_count', 0)
-            })
-        
-        # Try POST /api/admin/bookings first
         print(f"   🔄 Trying POST /api/admin/bookings for {booking_code}...")
         success, response = self.run_test(
             f"Create Admin Booking - {booking_code}",
             "POST",
             "admin/bookings",
             200,  # or 201
-            data=booking_data
+            data=admin_booking_data
         )
         
         if success:
             print(f"   ✅ Reservation {booking_code} created successfully via admin endpoint!")
             return True, response
         else:
-            print(f"   ⚠️  Admin bookings endpoint not available, trying direct database insert simulation...")
+            print(f"   ⚠️  Admin bookings endpoint not available (expected), using regular booking endpoint...")
             
-            # Simulate direct database insert by using regular bookings endpoint
-            # but with admin privileges (we're already authenticated as admin)
-            
-            # We need tour_id and tour_date_id for regular booking endpoint
-            # Let's create a mock booking structure
-            mock_booking_data = {
-                "tour_id": "mock-tour-id-" + booking_code.lower(),
-                "tour_date_id": "mock-date-id-" + booking_code.lower(),
+            # Use regular booking endpoint with real tour data
+            regular_booking_data = {
+                "tour_id": tour_id,
+                "tour_date_id": tour_date_id,
                 "participants": reservation_data['participants'],
-                "cabin_type": "single" if reservation_data['reservation_type'] == 'cabin_based' else "person",
-                "customer_info": booking_data["customer_info"],
-                "special_requests": f"Test reservation: {reservation_data['tour_title']}"
+                "cabin_type": "single" if reservation_data['reservation_type'] == 'cabin_based' else "single",
+                "customer_info": {
+                    "full_name": f"Test Admin User - {reservation_data['tour_title']}",
+                    "email": "admin@example.com",
+                    "phone": "05551234568",
+                    "id_number": "12345678901"
+                },
+                "special_requests": f"TEST RESERVATION: {reservation_data['booking_code']} - {reservation_data['tour_title']} - Status: {reservation_data['status']} - Payment: {reservation_data['payment_status']} - Price: {reservation_data['total_price']} TL"
             }
             
             success2, response2 = self.run_test(
-                f"Create Mock Booking - {booking_code}",
+                f"Create Regular Booking - {booking_code}",
                 "POST",
                 "bookings",
                 200,
-                data=mock_booking_data
+                data=regular_booking_data
             )
             
             if success2:
-                print(f"   ✅ Mock reservation {booking_code} created via regular booking endpoint!")
+                print(f"   ✅ Reservation {booking_code} created via regular booking endpoint!")
+                print(f"   📝 Booking ID: {response2.get('id', 'Unknown')}")
+                print(f"   📝 Booking Code: {response2.get('booking_code', 'Unknown')}")
                 return True, response2
             else:
                 print(f"   ❌ Failed to create reservation {booking_code}")
