@@ -56,6 +56,20 @@ const PaymentPage = () => {
     };
   }, []);
 
+  // ✅ Modal açıkken MobileBottomNav'ı gizle
+  useEffect(() => {
+    const mobileNav = document.querySelector('nav.lg\\:hidden');
+    if (mobileNav) {
+      mobileNav.style.display = showContractModal ? 'none' : '';
+    }
+
+    return () => {
+      if (mobileNav) {
+        mobileNav.style.display = '';
+      }
+    };
+  }, [showContractModal]);
+
   useEffect(() => {
     if (!user) {
       navigate('/');
