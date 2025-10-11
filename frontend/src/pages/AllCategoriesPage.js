@@ -97,23 +97,81 @@ const AllCategoriesPage = () => {
   const updateSEO = () => {
     updateSEOTags({
       title: 'Tüm Kategoriler - Mavibilet | Mavi Yolculuk, Tekne Turu ve Kabin Kiralama',
-      description: 'Mavibilet\'te 5 farklı kategoride yüzlerce tur seçeneği. Mavi yolculuk, günübirlik tekne turları, kabin kiralama ve daha fazlası. Hemen keşfedin!',
+      description: 'Mavibilet\'te farklı kategorilerde yüzlerce tur seçeneği. Mavi yolculuk, günübirlik tekne turları, kabin kiralama ve daha fazlası. Hemen keşfedin!',
       keywords: 'mavi yolculuk kategoriler, tekne turu türleri, kabin kiralama, günübirlik tur, balık dalış, yüzme turları',
       canonicalUrl: `${window.location.origin}/kategoriler`,
-      structuredData: {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        "name": "Tüm Tur Kategorileri",
-        "description": "Mavibilet'te bulunan tüm tur kategorileri",
-        "url": `${window.location.origin}/kategoriler`,
-        "hasPart": Object.entries(categoryConfig).map(([slug, config]) => ({
-          "@type": "TouristDestination",
-          "name": config.title,
-          "description": config.description,
-          "url": `${window.location.origin}/${slug}`
-        }))
-      }
     });
+  };
+
+  // Category Card Component - Same as HomePage design
+  const CategoryCard = ({ category }) => {
+    const IconComponent = Compass; // Default icon
+    
+    return (
+      <div
+        onClick={() => navigateToCategory(category)}
+        className="group relative bg-white rounded-2xl overflow-hidden border border-gray-200 hover:border-blue-300 shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer"
+      >
+        {/* Category Image with Gradient Overlay */}
+        <div className="relative h-56 overflow-hidden">
+          {category.image ? (
+            <>
+              <img
+                src={category.image}
+                alt={category.title}
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                onError={(e) => {
+                  // Fallback to gradient background if image fails to load
+                  e.target.style.display = 'none';
+                }}
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent"></div>
+            </>
+          ) : (
+            <div className={`w-full h-full bg-gradient-to-br ${category.color} flex items-center justify-center relative`}>
+              <IconComponent className="w-20 h-20 text-white opacity-30" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
+            </div>
+          )}
+          
+          {/* Tour Count Badge - Modern Design */}
+          <div className="absolute top-4 right-4">
+            <div className="bg-white/95 backdrop-blur-md rounded-lg px-3 py-1.5 shadow-lg">
+              <div className="flex items-center space-x-1.5">
+                <MapPin className="w-3.5 h-3.5 text-blue-600" />
+                <span className="text-sm font-semibold text-gray-800">
+                  {category.tours_count || 0} Tur
+                </span>
+              </div>
+            </div>
+          </div>
+
+          {/* Category Title on Image */}
+          <div className="absolute bottom-0 left-0 right-0 p-5">
+            <h3 className="text-2xl font-bold text-white mb-1 drop-shadow-lg">
+              {category.title}
+            </h3>
+          </div>
+        </div>
+        
+        {/* Category Info - Cleaner Design */}
+        <div className="p-5">
+          <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2 min-h-[40px]">
+            {category.description || 'En güzel rotalar ve deneyimler sizi bekliyor'}
+          </p>
+          
+          {/* Action Button */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-100">
+            <span className="text-sm font-medium text-blue-600 group-hover:text-blue-700 transition-colors">
+              Turları Keşfet
+            </span>
+            <div className="w-8 h-8 rounded-full bg-blue-50 group-hover:bg-blue-100 flex items-center justify-center transition-all duration-300">
+              <ArrowRight className="w-4 h-4 text-blue-600 group-hover:translate-x-0.5 transition-transform duration-300" />
+            </div>
+          </div>
+        </div>
+      </div>
+    );
   };
 
   return (
