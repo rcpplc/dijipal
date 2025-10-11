@@ -365,7 +365,7 @@ const PaymentSuccessPage = () => {
                         <div>
                           <div className="text-sm text-gray-600 mb-1">Tur Başlığı</div>
                           <div className="font-semibold text-gray-900 text-sm">
-                            {item?.title || booking.tour?.title || 'Mavi Yolculuk Turu'}
+                            {item?.title || item?.tourTitle || item?.tour?.title || booking?.tour?.title || booking?.tourTitle || 'Mavi Yolculuk Turu'}
                           </div>
                         </div>
                         
