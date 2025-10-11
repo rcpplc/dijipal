@@ -491,26 +491,26 @@ const HomePage = () => {
               <div className="max-w-3xl mx-auto">
                 <form onSubmit={handleSearch} className="flex">
                   <div className="flex-1 relative">
-                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+                    <Search className="absolute left-3 md:left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5 md:w-6 md:h-6" />
                     <input
                       type="text"
                       placeholder="Keşfet & Rezervasyon Yap"
                       value={searchQuery}
                       onChange={(e) => setSearchQuery(e.target.value)}
-                      className="w-full pl-14 pr-4 py-4 text-lg rounded-l-2xl border-0 focus:ring-0 text-gray-900 placeholder-gray-500"
+                      className="w-full pl-10 md:pl-14 pr-3 md:pr-4 py-3 md:py-4 text-base md:text-lg rounded-l-xl md:rounded-l-2xl border-0 focus:ring-0 text-gray-900 placeholder-gray-500"
                     />
                   </div>
                   <button
                     type="submit"
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-r-2xl font-semibold text-lg transition-colors duration-200"
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-4 md:px-8 py-3 md:py-4 rounded-r-xl md:rounded-r-2xl font-semibold text-base md:text-lg transition-colors duration-200"
                   >
                     Ara
                   </button>
                 </form>
                 
                 {/* Popular Search Terms */}
-                <div className="mt-6 flex flex-wrap justify-center gap-2">
-                  <span className="text-white/80 text-sm"></span>
+                <div className="mt-4 md:mt-6 flex flex-wrap justify-center gap-1.5 md:gap-2">
+                  <span className="text-white/80 text-sm hidden md:inline"></span>
                   {['Fethiye', 'Göcek', 'Marmaris', 'Bodrum'].map((term) => (
                     <button
                       key={term}
@@ -518,7 +518,7 @@ const HomePage = () => {
                         setSearchQuery(term);
                         navigate(`/turlar?search=${term}`);
                       }}
-                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-3 py-2 rounded-full text-sm transition-all duration-200 border border-white/20"
+                      className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white px-2.5 md:px-3 py-1.5 md:py-2 rounded-full text-xs md:text-sm transition-all duration-200 border border-white/20"
                     >
                       {term}
                     </button>
