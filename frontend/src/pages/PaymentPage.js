@@ -169,8 +169,8 @@ const PaymentPage = () => {
     <div className="min-h-screen bg-gray-50 pb-20 md:pb-0">
       {/* Sözleşme Modal */}
       {showContractModal && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-60 flex items-center justify-center p-4">
-          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[90vh] overflow-hidden">
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-60 flex items-center justify-center p-4 pb-20 md:pb-4">
+          <div className="bg-white rounded-xl max-w-4xl w-full max-h-[85vh] md:max-h-[90vh] overflow-hidden">
             <div className="flex items-center justify-between p-6 border-b">
               <h2 className="text-xl font-semibold text-gray-900">
                 Mesafeli Satış Sözleşmesi ve KVKK Aydınlatma Metni
