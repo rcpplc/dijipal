@@ -201,7 +201,15 @@ function App() {
     }
   };
 
-  const logout = () => {
+  const logout = async () => {
+    try {
+      // Call backend logout to clear session
+      await axios.post(`${API}/auth/logout`);
+    } catch (error) {
+      console.log('Logout request failed, continuing with local cleanup');
+    }
+    
+    // Clear local state
     setToken(null);
     setUser(null);
     localStorage.removeItem('token');
