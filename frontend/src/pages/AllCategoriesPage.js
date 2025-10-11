@@ -15,7 +15,7 @@ const AllCategoriesPage = () => {
   const [loading, setLoading] = useState(true);
 
   // Backend URL'i al
-  const API = process.env.REACT_APP_BACKEND_URL || 'https://tourslug.preview.emergentagent.com/api';
+  const API = process.env.REACT_APP_BACKEND_URL || 'https://reservation-system-2.preview.emergentagent.com/api';
 
   // Fallback categories for when API is not available
   const defaultCategories = [

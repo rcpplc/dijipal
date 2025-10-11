@@ -4,7 +4,7 @@ from datetime import datetime
 
 def test_admin_bookings_comprehensive():
     """Final comprehensive test of admin bookings endpoint"""
-    base_url = "https://tourslug.preview.emergentagent.com"
+    base_url = "https://reservation-system-2.preview.emergentagent.com"
     api_url = f"{base_url}/api"
     
     print("🎯 FINAL ADMIN BOOKINGS COMPREHENSIVE TEST")

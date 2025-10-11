@@ -11,7 +11,7 @@ from datetime import datetime
 import time
 
 class ReviewsSystemTester:
-    def __init__(self, base_url="https://tourslug.preview.emergentagent.com"):
+    def __init__(self, base_url="https://reservation-system-2.preview.emergentagent.com"):
         self.base_url = base_url
         self.api_url = f"{base_url}/api"
         self.tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
