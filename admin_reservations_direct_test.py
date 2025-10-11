@@ -436,7 +436,7 @@ class AdminReservationsDirectTester:
                 found_targets = []
                 
                 for booking in bookings:
-                    special_requests = booking.get('special_requests', '')
+                    special_requests = booking.get('special_requests', '') or ''
                     for code in target_codes:
                         if code in special_requests:
                             found_targets.append(code)
