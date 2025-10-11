@@ -119,20 +119,7 @@ function App() {
     initializeAuth();
   }, []);
 
-  // Check existing session from cookie
-  const checkExistingSession = async () => {
-    try {
-      const response = await axios.get(`${API}/auth/me`);
-      if (response.data.user) {
-        setUser(response.data.user);
-        console.log('✅ Existing session found:', response.data.user);
-      }
-    } catch (error) {
-      console.log('No existing session');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Removed checkExistingSession - now handled in initializeAuth
 
   // Load user data on mount (JWT token fallback)
   useEffect(() => {
