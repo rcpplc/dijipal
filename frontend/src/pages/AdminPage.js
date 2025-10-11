@@ -951,7 +951,7 @@ const AdminPage = () => {
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 space-y-4 sm:space-y-0">
               <h2 className="text-2xl font-bold text-gray-900">Kullanıcı Yönetimi</h2>
               <button
-                onClick={() => setShowUserModal(true)}
+                onClick={() => openUserModal()}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center space-x-2"
               >
                 <Plus className="w-4 h-4" />
