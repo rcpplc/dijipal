@@ -191,7 +191,8 @@ const CartPage = () => {
               {cartItems.map((item, index) => (
                 <div
                   key={item.id || index}
-                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+                  onClick={() => navigate(`/tur/${item.tourSlug || item.title?.toLowerCase().replace(/[^a-zA-Z0-9]/g, '-')}`)}
                 >
                   <div className="p-6">
                     <div className="flex flex-col sm:flex-row sm:items-start sm:space-x-4">
