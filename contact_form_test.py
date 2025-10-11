@@ -15,7 +15,7 @@ import time
 from datetime import datetime
 
 # Backend URL from frontend/.env
-BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://tourslug.preview.emergentagent.com/api"
 
 # Test credentials
 ADMIN_EMAIL = "admin@example.com"

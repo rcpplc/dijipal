@@ -2860,7 +2860,7 @@ async def make_tour_reservation_type(tour_id: str):
     
     return {
         "message": f"Tour {tour_id} converted to reservation type successfully",
-        "test_url": f"https://travel-portal-6.preview.emergentagent.com/turlar/{tour_id}"
+        "test_url": f"https://tourslug.preview.emergentagent.com/turlar/{tour_id}"
     }
 
 @api_router.post("/create-reservation-tour")

@@ -26,7 +26,7 @@ def test_booking_navigation_state():
     try:
         # Initialize Chrome driver
         driver = webdriver.Chrome(options=chrome_options)
-        base_url = "https://travel-portal-6.preview.emergentagent.com"
+        base_url = "https://tourslug.preview.emergentagent.com"
         
         print("🌐 Opening tour detail page...")
         tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
@@ -160,7 +160,7 @@ def test_direct_booking_page_access():
     print("\n🔍 Testing Direct Booking Page Access")
     print("=" * 50)
     
-    base_url = "https://travel-portal-6.preview.emergentagent.com"
+    base_url = "https://tourslug.preview.emergentagent.com"
     tour_id = "3ded39ad-36a4-47d1-87b9-7baeb5f00f55"
     
     # Test direct access to booking page

@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BASE_URL = "https://travel-portal-6.preview.emergentagent.com/api"
+BASE_URL = "https://tourslug.preview.emergentagent.com/api"
 ADMIN_EMAIL = "admin@example.com"
 ADMIN_PASSWORD = "admin123"  # Default admin password
 

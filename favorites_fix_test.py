@@ -6,7 +6,7 @@ Quick test to verify favorites API fixes
 import requests
 import json
 
-BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://tourslug.preview.emergentagent.com/api"
 
 def test_admin_favorites_fix():
     """Test the admin favorites 500 error fix"""

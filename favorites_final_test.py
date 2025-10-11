@@ -6,7 +6,7 @@ Final comprehensive test of Favorites API after fixes
 import requests
 import json
 
-BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://tourslug.preview.emergentagent.com/api"
 
 def run_final_favorites_test():
     """Run final comprehensive favorites test"""

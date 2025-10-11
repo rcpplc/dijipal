@@ -10,7 +10,7 @@ import sys
 from datetime import datetime
 
 # Configuration
-BACKEND_URL = "https://travel-portal-6.preview.emergentagent.com/api"
+BACKEND_URL = "https://tourslug.preview.emergentagent.com/api"
 
 class CategorySystemTester:
     def __init__(self):
