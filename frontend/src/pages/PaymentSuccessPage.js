@@ -171,7 +171,7 @@ const PaymentSuccessPage = () => {
     return `https://mavibilet.com/ticket/verify/${ticketId}`;
   };
 
-  // Generate and download ticket PDF with modern festival-style design
+  // Generate clean, properly formatted PDF ticket
   const downloadTicketPDF = (ticketId, itemIndex = 0) => {
     try {
       console.log(`🎫 Generating PDF for ticket: ${ticketId}`);
@@ -189,216 +189,189 @@ const PaymentSuccessPage = () => {
       // Calculate pricing
       const itemPrice = calculateItemPrice(ticketItem);
       
-      // Colors (Black and white minimalist design)
+      // Colors (Simple black and white)
       const blackColor = [0, 0, 0];
-      const whiteColor = [255, 255, 255];
-      const grayColor = [128, 128, 128];
+      const lightGrayColor = [230, 230, 230];
+      const darkGrayColor = [100, 100, 100];
       
-      // Set background to white
-      pdf.setFillColor(...whiteColor);
+      // Clear background
+      pdf.setFillColor(255, 255, 255);
       pdf.rect(0, 0, pageWidth, pageHeight, 'F');
       
-      // Main ticket area with border
+      // Main border
       pdf.setDrawColor(...blackColor);
-      pdf.setLineWidth(0.8);
-      pdf.rect(20, 30, pageWidth - 40, pageHeight - 80);
+      pdf.setLineWidth(1.2);
+      pdf.rect(15, 20, pageWidth - 30, pageHeight - 50);
       
-      // Ticket header - Large title
+      let currentY = 35;
+      
+      // Header
       pdf.setTextColor(...blackColor);
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(32);
-      pdf.text('REZERVASYON BİLETİ', pageWidth/2, 55, { align: 'center' });
-      
-      let currentY = 75;
-      
-      // Date and Time - Top right corner style
-      const tourDate = selectedDate.formattedDate || new Date(Date.now() + 2*24*60*60*1000).toLocaleDateString('tr-TR', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      });
-      
-      const currentDate = new Date().toLocaleDateString('tr-TR', {
-        day: '2-digit',
-        month: '2-digit', 
-        year: 'numeric'
-      });
-      
-      // Tour date and pickup time (large, prominent)
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(20);
-      pdf.text(tourDate, pageWidth - 25, currentY, { align: 'right' });
       pdf.setFontSize(24);
-      pdf.text(tour.pickup_time || '09:00', pageWidth - 25, currentY + 12, { align: 'right' });
+      pdf.text('REZERVASYON BILETI', pageWidth/2, currentY, { align: 'center' });
       
-      // Venue/Location (large, bold)
+      currentY += 20;
+      
+      // Date and time in top right
+      const tourDate = selectedDate.formattedDate || '13 Ekim 2025';
+      const pickupTime = tour.pickup_time || '12:00';
+      
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(28);
-      const location = tour.location || 'FETHİYE';
-      pdf.text(location.toUpperCase(), 25, currentY + 20);
+      pdf.setFontSize(16);
+      pdf.text(tourDate.toUpperCase(), pageWidth - 20, currentY, { align: 'right' });
+      pdf.setFontSize(20);
+      pdf.text(pickupTime, pageWidth - 20, currentY + 8, { align: 'right' });
       
-      currentY += 45;
+      // Location on left
+      const location = tour.location || 'FETHIYE';
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(22);
+      pdf.text(location.toUpperCase(), 20, currentY + 8);
       
-      // Ticket details section
-      pdf.setDrawColor(...grayColor);
-      pdf.setLineWidth(0.3);
-      pdf.line(25, currentY, pageWidth - 25, currentY);
+      currentY += 30;
+      
+      // Separator line
+      pdf.setDrawColor(...darkGrayColor);
+      pdf.setLineWidth(0.5);
+      pdf.line(20, currentY, pageWidth - 20, currentY);
       
       currentY += 15;
       
-      // Left column - Customer and ticket info
+      // Customer Info Section
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(12);
-      pdf.text('MÜŞTERİ BİLGİLERİ', 25, currentY);
+      pdf.text('MUSTERI BILGILERI', 20, currentY);
       
-      currentY += 8;
+      currentY += 10;
       
-      // Customer info
+      // Customer details
       const customerName = `${customerInfo.firstName || ''} ${customerInfo.lastName || ''}`.trim() || 
-                          customerInfo.full_name || 'Recep PALİÇ';
+                          customerInfo.full_name || 'Recep PALIC';
       const customerEmail = customerInfo.email || 'admin@example.com';
       const customerPhone = customerInfo.phone || '05334135335';
       
       pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.text('Ad Soyad:', 20, currentY);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text(customerName, 20, currentY + 5);
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.text('E-posta:', 20, currentY + 15);
+      pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(10);
-      pdf.text('Ad Soyad:', 25, currentY);
+      pdf.text(customerEmail, 20, currentY + 20);
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.text('Telefon:', 20, currentY + 30);
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(10);
+      pdf.text(customerPhone, 20, currentY + 35);
+      
+      // Right side - Ticket info
+      const rightX = pageWidth/2 + 5;
+      
+      pdf.setFont('helvetica', 'normal');
+      pdf.setFontSize(9);
+      pdf.text('Bilet No:', rightX, currentY);
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(12);
-      pdf.text(customerName, 25, currentY + 6);
+      pdf.text(ticketId, rightX, currentY + 5);
       
       pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('E-posta:', 25, currentY + 18);
+      pdf.setFontSize(9);
+      pdf.text('Bilet Fiyati:', rightX, currentY + 18);
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text(customerEmail, 25, currentY + 24);
+      pdf.setFontSize(16);
+      const priceText = `TL${itemPrice.toLocaleString('tr-TR')}`;
+      pdf.text(priceText, rightX, currentY + 26);
       
+      const currentDate = new Date().toLocaleDateString('tr-TR');
       pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Telefon:', 25, currentY + 36);
+      pdf.setFontSize(9);
+      pdf.text('Islem Tarihi:', rightX, currentY + 38);
       pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text(customerPhone, 25, currentY + 42);
-      
-      // Right column - Ticket details
-      const rightColX = pageWidth/2 + 10;
-      
-      // Bilet No
-      pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(10);
-      pdf.text('Bilet No:', rightColX, currentY);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(14);
-      pdf.text(ticketId, rightColX, currentY + 8);
+      pdf.text(currentDate, rightX, currentY + 43);
       
-      // Bilet Fiyatı
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Bilet Fiyatı:', rightColX, currentY + 22);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(18);
-      pdf.text(`₺${itemPrice.toLocaleString('tr-TR').replace('.', ',')}`, rightColX, currentY + 32);
+      currentY += 55;
       
-      // İşlem Tarihi
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('İşlem Tarihi:', rightColX, currentY + 46);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(11);
-      pdf.text(currentDate, rightColX, currentY + 52);
-      
-      currentY += 70;
-      
-      // Tour details section
-      pdf.setDrawColor(...grayColor);
-      pdf.line(25, currentY, pageWidth - 25, currentY);
+      // Separator line
+      pdf.line(20, currentY, pageWidth - 20, currentY);
       
       currentY += 12;
       
       // Tour title
-      const tourTitle = tour.title || 'Kişi bazlı Kişi bazlı Kişi bazlı Kişi bazlı Kişi bazlı';
+      const tourTitle = tour.title || 'Kisi bazli Kisi bazli Kisi bazli Kisi bazli Kisi bazli';
       pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Tur Başlığı:', 25, currentY);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      const titleLines = pdf.splitTextToSize(tourTitle, pageWidth - 60);
-      pdf.text(titleLines, 25, currentY + 6);
-      
-      currentY += titleLines.length * 6 + 15;
-      
-      // Tour info in columns
-      const leftCol = 25;
-      const rightCol = rightColX;
-      
-      // Left column details
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Biniş Saati:', leftCol, currentY);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      pdf.text(tour.pickup_time || '09:00', leftCol, currentY + 6);
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('İniş Saati:', leftCol, currentY + 20);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      pdf.text(tour.dropoff_time || '18:00', leftCol, currentY + 26);
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Tur Süresi:', leftCol, currentY + 40);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      const duration = (() => {
-        if (tour.duration_unit === 'hours') return `${tour.duration || tour.duration_days || 1} Saat`;
-        if (tour.duration_unit === 'days') return `${tour.duration || tour.duration_days || 1} Gün`;
-        return tour.duration_days ? `${tour.duration_days} Gün` : `${tour.duration || 1} Saat`;
-      })();
-      pdf.text(duration, leftCol, currentY + 46);
-      
-      // Right column details
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Sınıf:', rightCol, currentY);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      const classification = tour.classification ? 
-        tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1) : 'Standart';
-      pdf.text(classification, rightCol, currentY + 6);
-      
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(10);
-      pdf.text('Lokasyon:', rightCol, currentY + 20);
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      pdf.text(tour.location || 'Fethiye', rightCol, currentY + 26);
-      
-      currentY += 65;
-      
-      // Reservation details
-      pdf.setDrawColor(...grayColor);
-      pdf.line(25, currentY, pageWidth - 25, currentY);
-      
-      currentY += 12;
-      
-      pdf.setFont('helvetica', 'bold');
-      pdf.setFontSize(12);
-      pdf.text('Rezervasyon Detayları', 25, currentY);
-      
-      currentY += 10;
-      
-      const reservationType = ticketItem?.reservation_type || booking?.reservationDetails?.type || 'person_based';
-      
+      pdf.setFontSize(9);
+      pdf.text('Tur Basligi:', 20, currentY);
       pdf.setFont('helvetica', 'bold');
       pdf.setFontSize(11);
       
+      // Split long title properly
+      const maxTitleWidth = pageWidth - 50;
+      const titleLines = pdf.splitTextToSize(tourTitle, maxTitleWidth);
+      let titleY = currentY + 5;
+      titleLines.forEach(line => {
+        pdf.text(line, 20, titleY);
+        titleY += 5;
+      });
+      
+      currentY = titleY + 10;
+      
+      // Tour details in clean format
+      const tourDetails = [
+        { label: 'Binis Saati:', value: tour.pickup_time || '12:00' },
+        { label: 'Inis Saati:', value: tour.dropoff_time || '21:00' },
+        { label: 'Tur Suresi:', value: (() => {
+          if (tour.duration_unit === 'hours') return `${tour.duration || 5} Saat`;
+          if (tour.duration_unit === 'days') return `${tour.duration || 1} Gun`;
+          return `${tour.duration || 5} Saat`;
+        })() },
+        { label: 'Sinif:', value: tour.classification ? 
+          tour.classification.charAt(0).toUpperCase() + tour.classification.slice(1) : 'Standart' },
+        { label: 'Lokasyon:', value: tour.location || 'Fethiye' }
+      ];
+      
+      tourDetails.forEach((detail, index) => {
+        const x = index % 2 === 0 ? 20 : rightX;
+        const y = currentY + Math.floor(index / 2) * 15;
+        
+        pdf.setFont('helvetica', 'normal');
+        pdf.setFontSize(9);
+        pdf.text(detail.label, x, y);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(10);
+        pdf.text(detail.value, x, y + 5);
+      });
+      
+      currentY += Math.ceil(tourDetails.length / 2) * 15 + 10;
+      
+      // Separator line
+      pdf.line(20, currentY, pageWidth - 20, currentY);
+      
+      currentY += 12;
+      
+      // Reservation details
+      pdf.setFont('helvetica', 'bold');
+      pdf.setFontSize(11);
+      pdf.text('Rezervasyon Detaylari', 20, currentY);
+      
+      currentY += 8;
+      
+      const reservationType = ticketItem?.reservation_type || booking?.reservationDetails?.type || 'person_based';
+      
       if (reservationType === 'person_based') {
-        pdf.text('Kişi Bazlı', 25, currentY);
+        pdf.setFont('helvetica', 'bold');
+        pdf.setFontSize(10);
+        pdf.text('Kisi Bazli', 20, currentY);
         currentY += 8;
         
-        // Yetişkin ve çocuk detayları
         const adultCount = ticketItem?.adultCount || booking?.reservationDetails?.adultCount || 3;
         const childCount = ticketItem?.childCount || booking?.reservationDetails?.childCount || 2;
         const adultPrice = selectedDate.person_price || 300;
@@ -406,87 +379,34 @@ const PaymentSuccessPage = () => {
         
         if (adultCount > 0) {
           pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(10);
-          pdf.text('Yetişkin:', 30, currentY);
+          pdf.setFontSize(9);
+          pdf.text('Yetiskin:', 25, currentY);
           pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(11);
-          pdf.text(`${adultCount} × ₺${adultPrice.toLocaleString('tr-TR').replace('.', ',')}`, 80, currentY);
+          pdf.setFontSize(10);
+          pdf.text(`${adultCount} x TL${adultPrice.toLocaleString('tr-TR')}`, 65, currentY);
           currentY += 8;
         }
         
         if (childCount > 0) {
           pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(10);
-          pdf.text('Çocuk:', 30, currentY);
+          pdf.setFontSize(9);
+          pdf.text('Cocuk:', 25, currentY);
           pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(11);
-          pdf.text(`${childCount} × ₺${childPrice.toLocaleString('tr-TR').replace('.', ',')}`, 80, currentY);
+          pdf.setFontSize(10);
+          pdf.text(`${childCount} x TL${childPrice.toLocaleString('tr-TR')}`, 65, currentY);
           currentY += 8;
         }
-      } else if (reservationType === 'cabin_based') {
-        pdf.text('Kabin Bazlı', 25, currentY);
-        currentY += 8;
-        
-        const singleCount = ticketItem?.singleCabinCount || booking?.reservationDetails?.singleCabinCount || 0;
-        const doubleCount = ticketItem?.doubleCabinCount || booking?.reservationDetails?.doubleCabinCount || 0;
-        const singlePrice = selectedDate.single_cabin_price || 4000;
-        const doublePrice = selectedDate.double_cabin_price || 6000;
-        
-        if (singleCount > 0) {
-          pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(10);
-          pdf.text('Tek Kişilik Kabin:', 30, currentY);
-          pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(11);
-          pdf.text(`${singleCount} × ₺${singlePrice.toLocaleString('tr-TR').replace('.', ',')}`, 100, currentY);
-          currentY += 8;
-        }
-        
-        if (doubleCount > 0) {
-          pdf.setFont('helvetica', 'normal');
-          pdf.setFontSize(10);
-          pdf.text('Çift Kişilik Kabin:', 30, currentY);
-          pdf.setFont('helvetica', 'bold');
-          pdf.setFontSize(11);
-          pdf.text(`${doubleCount} × ₺${doublePrice.toLocaleString('tr-TR').replace('.', ',')}`, 100, currentY);
-          currentY += 8;
-        }
-      } else {
-        pdf.text('Tüm Tekne / Sabit Fiyat', 25, currentY);
-        currentY += 8;
-        
-        pdf.setFont('helvetica', 'normal');
-        pdf.setFontSize(10);
-        pdf.text('Rezervasyon:', 30, currentY);
-        pdf.setFont('helvetica', 'bold');
-        pdf.setFontSize(11);
-        pdf.text(`₺${itemPrice.toLocaleString('tr-TR').replace('.', ',')}`, 100, currentY);
       }
       
-      // Bottom section with barcode area (simulated)
-      const barcodeY = pageHeight - 70;
-      
-      // Simulated barcode
-      pdf.setDrawColor(...blackColor);
-      pdf.setLineWidth(0.5);
-      for (let i = 0; i < 40; i++) {
-        const lineHeight = Math.random() > 0.5 ? 15 : 8;
-        pdf.line(25 + i * 2, barcodeY, 25 + i * 2, barcodeY + lineHeight);
-      }
-      
-      // Barcode number
+      // Footer
+      const footerY = pageHeight - 25;
       pdf.setFont('helvetica', 'normal');
       pdf.setFontSize(8);
-      pdf.text(`#${ticketId.replace('-', '')}`, 25, barcodeY + 25);
+      pdf.setTextColor(...darkGrayColor);
+      pdf.text('MaviBilet - Deneyimli Yolculuklar', 20, footerY);
+      pdf.text('info@mavibilet.com | www.mavibilet.com', pageWidth - 20, footerY, { align: 'right' });
       
-      // Bottom info
-      pdf.setFont('helvetica', 'normal');
-      pdf.setFontSize(8);
-      pdf.setTextColor(...grayColor);
-      pdf.text('MaviBilet - Deneyimli Yolculuklar', 25, pageHeight - 20);
-      pdf.text('info@mavibilet.com | www.mavibilet.com', pageWidth - 25, pageHeight - 20, { align: 'right' });
-      
-      // Save PDF with Turkish characters support
+      // Save PDF
       const fileName = `MaviBilet_${ticketId}.pdf`;
       pdf.save(fileName);
       
