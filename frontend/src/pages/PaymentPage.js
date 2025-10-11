@@ -372,15 +372,24 @@ const PaymentPage = () => {
 
               {/* ✅ Mesafeli Satış Sözleşmesi ve KVKK Onayı */}
               <div className="border-t pt-4 mt-4">
-                <label className="flex items-start space-x-2 text-sm text-gray-700">
+                <label className="flex items-start space-x-2 text-sm text-gray-700 cursor-pointer">
                   <input
+                    id="contract-checkbox"
                     type="checkbox"
                     checked={isApproved}
                     onChange={(e) => setIsApproved(e.target.checked)}
-                    className="mt-1 accent-blue-600"
+                    className="mt-1 accent-blue-600 w-4 h-4"
                   />
                   <span>
                     <strong>Mesafeli Satış Sözleşmesi</strong> ve <strong>KVKK Aydınlatma Metni</strong>'ni okudum ve onaylıyorum.
+                    <br />
+                    <button
+                      type="button"
+                      onClick={() => setShowContractModal(true)}
+                      className="text-blue-600 hover:text-blue-800 underline text-xs mt-1 inline-block"
+                    >
+                      Metinleri okumak için tıklayınız
+                    </button>
                   </span>
                 </label>
               </div>
