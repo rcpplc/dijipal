@@ -297,7 +297,12 @@ const PaymentSuccessPage = () => {
                     <div className="bg-gray-100 border-b border-gray-200 px-6 py-4">
                       <div className="flex justify-between items-start">
                         <div>
-                          <h3 className="text-lg font-semibold text-gray-900 mb-1 line-clamp-2">
+                          <h3 className="text-lg font-semibold text-gray-900 mb-1" style={{
+                            display: '-webkit-box',
+                            WebkitLineClamp: 2, 
+                            WebkitBoxOrient: 'vertical',
+                            overflow: 'hidden'
+                          }}>
                             {(() => {
                               // Priority: Fresh tour data > item data > booking fallback
                               const title = booking?.tour?.title || 
