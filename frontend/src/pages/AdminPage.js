@@ -5761,7 +5761,7 @@ const NewCategoryModal = ({ isOpen, onClose, category, locations, onSave }) => {
         </div>
       </div>
     );
-  };
+  );
 
   return (
     <div className="min-h-screen bg-gray-50">
