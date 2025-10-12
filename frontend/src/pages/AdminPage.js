@@ -2734,9 +2734,8 @@ const AdminPage = () => {
       )}
     </div>
   );
-};
 
-// Tour Modal Component
+  // Tour Modal Component
 const TourModal = ({ tour, isEdit, onClose, onSave, locations, categories, newCategories }) => {
   console.log('TourModal Debug - Locations:', locations?.length || 0, locations);
   console.log('TourModal Debug - Categories:', categories?.length || 0, categories);
