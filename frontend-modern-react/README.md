@@ -1,73 +1,146 @@
-# React + TypeScript + Vite
+# Modern React Frontend - TurSat
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Modern ve performanslı bir tur rezervasyon platformu frontend'i.
 
-Currently, two official plugins are available:
+## 🚀 Teknolojiler
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **React 18** - UI kütüphanesi
+- **TypeScript** - Tip güvenliği
+- **Vite** - Hızlı geliştirme ortamı
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Query** - Server state yönetimi
+- **Zustand** - Client state yönetimi
+- **React Router v6** - Sayfa yönlendirme
+- **Axios** - HTTP client
+- **Lucide React** - Modern ikonlar
+- **React Hot Toast** - Bildirimlerm
 
-## React Compiler
+## 📦 Kurulum
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+```bash
+# Bağımlılıkları yükle
+npm install
 
-## Expanding the ESLint configuration
+# Geliştirme sunucusunu başlat
+npm run dev
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+# Production build
+npm run build
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# Build'i önizle
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 🌐 Ortam Değişkenleri
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+`.env` dosyasını oluşturun:
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```env
+VITE_API_BASE_URL=http://localhost:8000/api
 ```
+
+## 📁 Proje Yapısı
+
+```
+src/
+├── components/          # React componentleri
+│   ├── ui/             # Temel UI componentleri
+│   └── Layout.tsx      # Ana layout
+├── pages/              # Sayfa componentleri
+│   ├── HomePage.tsx
+│   ├── ToursPage.tsx
+│   └── TourDetailPage.tsx
+├── lib/
+│   ├── api/           # API servisleri
+│   │   ├── client.ts  # Axios client
+│   │   └── services.ts
+│   ├── hooks/         # Custom hooks
+│   │   ├── useAuth.ts
+│   │   ├── useTours.ts
+│   │   └── useBookings.ts
+│   ├── store/         # Zustand stores
+│   │   ├── authStore.ts
+│   │   └── cartStore.ts
+│   └── utils.ts       # Yardımcı fonksiyonlar
+├── types/             # TypeScript tipleri
+│   └── index.ts
+├── App.tsx            # Ana uygulama
+└── main.tsx           # Giriş noktası
+```
+
+## ✨ Özellikler
+
+### Mevcut Özellikler
+- 🏠 Ana sayfa ile öne çıkan turlar
+- 📋 Tur listeleme ve filtreleme
+- 🔍 Tur detay sayfası
+- 🎨 Modern ve responsive tasarım
+- 🌙 Dark mode desteği (CSS variables ile)
+- 📱 Mobil uyumlu
+- ⚡ Hızlı ve performanslı
+
+### Geliştirilecek Özellikler
+- 🔐 Kullanıcı girişi ve kaydı
+- 🛒 Sepet sistemi
+- ❤️ Favori turlar
+- 📅 Rezervasyon sistemi
+- 💳 Ödeme entegrasyonu
+- 👤 Kullanıcı profili
+- 🔔 Bildirimler
+- 📊 Admin paneli
+
+## 🎨 Tasarım Sistemi
+
+Proje shadcn/ui tasarım sistemini kullanır:
+- Tailwind CSS ile özelleştirilebilir
+- Radix UI primitives ile erişilebilir
+- Modern ve temiz arayüz
+
+## 🔧 Geliştirme
+
+### Yeni Bir Sayfa Eklemek
+
+1. `src/pages/` altında yeni component oluşturun
+2. `src/App.tsx` içinde route ekleyin
+3. Gerekirse API servislerini `src/lib/api/services.ts` içine ekleyin
+
+### Yeni Bir API Servisi Eklemek
+
+```typescript
+// src/lib/api/services.ts
+export const myService = {
+  getData: () => apiClient.get<MyType>('/my-endpoint'),
+}
+
+// src/lib/hooks/useMyData.ts
+export function useMyData() {
+  return useQuery({
+    queryKey: ['my-data'],
+    queryFn: () => myService.getData(),
+  })
+}
+```
+
+## 🚀 Deployment
+
+### Vercel
+```bash
+npm run build
+# Vercel dashboard'dan deploy edin
+```
+
+### Netlify
+```bash
+npm run build
+# dist/ klasörünü deploy edin
+```
+
+### Docker
+```bash
+docker build -t frontend-modern-react .
+docker run -p 3000:3000 frontend-modern-react
+```
+
+## 📝 Lisans
+
+MIT

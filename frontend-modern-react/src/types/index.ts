@@ -1,9 +1,5 @@
 // User Types
-export enum UserRole {
-  CUSTOMER = "customer",
-  VENDOR = "vendor",
-  ADMIN = "admin",
-}
+export type UserRole = "customer" | "vendor" | "admin"
 
 export interface User {
   id: string
@@ -29,18 +25,9 @@ export interface UserRegister {
 }
 
 // Tour Types
-export enum TourStatus {
-  DRAFT = "draft",
-  ACTIVE = "active",
-  INACTIVE = "inactive",
-  ARCHIVED = "archived",
-}
+export type TourStatus = "draft" | "active" | "inactive" | "archived"
 
-export enum ReservationType {
-  CABIN_BASED = "cabin_based",
-  PERSON_BASED = "person_based",
-  RESERVATION = "reservation",
-}
+export type ReservationType = "cabin_based" | "person_based" | "reservation"
 
 export interface Tour {
   id: string
@@ -90,21 +77,9 @@ export interface TourDate {
 }
 
 // Booking Types
-export enum BookingStatus {
-  DRAFT = "draft",
-  PENDING = "pending",
-  CONFIRMED = "confirmed",
-  PAID = "paid",
-  COMPLETED = "completed",
-  CANCELLED = "cancelled",
-}
+export type BookingStatus = "draft" | "pending" | "confirmed" | "paid" | "completed" | "cancelled"
 
-export enum PaymentStatus {
-  PENDING = "pending",
-  SUCCESS = "success",
-  FAILED = "failed",
-  REFUNDED = "refunded",
-}
+export type PaymentStatus = "pending" | "success" | "failed" | "refunded"
 
 export interface Booking {
   id: string
